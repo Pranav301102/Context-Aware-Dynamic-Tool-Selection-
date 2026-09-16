@@ -1,0 +1,42 @@
+# Lint, type-check and test on every push and pull request (workbook Table 9: uv, ruff, pyright, pytest).
+name: ci
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: "3.12"
+          enable-cache: true
+      - name: Install (locked)
+        run: uv sync --locked --extra dev --extra lint --extra platform --extra langfuse --extra tokenize --extra embed --extra mcp --extra agents
+      - name: Ruff
+        run: uv run ruff check src tests scripts
+      - name: Pyright
+        run: uv run pyright
+      - name: Pytest
+        run: uv run pytest -q
+
+  deploy-config:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate docker-compose.yml
+        run: docker compose config --quiet
+      - name: Build the cats-api image
+        run: docker build --tag cats-api:ci .

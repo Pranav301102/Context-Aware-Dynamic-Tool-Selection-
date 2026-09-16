@@ -1,0 +1,83 @@
+[project]
+name = "cats"
+version = "0.1.0"
+description = "CATS: Context-Aware Tool Selection with calibrated hierarchical routing for LLM agents"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "Apache-2.0" }
+dependencies = [
+    "numpy>=1.26",
+    "pydantic>=2.6",
+    "scikit-learn>=1.4",
+]
+
+[project.optional-dependencies]
+# Real tokenizer and a small offline embedding model. Each one is optional;
+# cats.tokens and cats.index.dense fall back to built-in approximations.
+tokenize = ["tokenizers>=0.19", "tiktoken>=0.7"]
+embed = ["wordllama>=0.3"]
+mcp = ["mcp>=2.2"]
+llm = ["anthropic>=0.40", "httpx>=0.27"]
+dev = ["pytest>=8", "ruff>=0.5"]
+# Platform layer (docs/components/platform.md): REST/SSE gateway, OpenTelemetry export,
+# Parquet metrics store and Hydra runner; `platform` installs all four.
+api = ["fastapi>=0.110", "uvicorn>=0.29", "httpx>=0.27"]
+tracing = ["opentelemetry-sdk>=1.25", "opentelemetry-exporter-otlp>=1.25"]
+langfuse = ["langfuse>=3"]
+metrics = ["pyarrow>=15"]
+runner = ["hydra-core>=1.3"]
+platform = ["cats[api,tracing,metrics,runner]"]
+# What the Docker image installs (Dockerfile, docker-compose.yml).
+deploy = ["cats[platform,langfuse,tokenize,embed]", "psycopg[binary]>=3.1"]
+lint = ["pyright>=1.1.380"]
+# Sub-agent graph (cats.agents.langgraph_graph) and the LiteLLM model backend (cats.llm.extra).
+agents = ["langgraph>=1.0"]
+providers = ["litellm>=1.40"]
+
+[project.scripts]
+cats = "cats.cli:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.ruff]
+line-length = 110
+target-version = "py311"
+
+[tool.ruff.lint]
+ignore = ["SIM905", "PYI034"]  # word lists via str.split are clearer; __iadd__ returns self
+
+[tool.pyright]
+include = ["src/cats"]
+exclude = ["**/__pycache__"]
+pythonVersion = "3.12"
+typeCheckingMode = "standard"
+# Optional extras (faiss, qdrant-client, langgraph, sentence-transformers, ...) may be absent.
+reportMissingImports = "warning"
+reportMissingModuleSource = "warning"
+# The core modules keep attributes Optional until fit()/build() has run, which pyright cannot
+# follow; these categories are warnings there. The platform modules below keep them as errors.
+reportOptionalMemberAccess = "warning"
+reportOptionalSubscript = "warning"
+reportOptionalOperand = "warning"
+reportArgumentType = "warning"
+reportCallIssue = "warning"
+reportAttributeAccessIssue = "warning"
+reportReturnType = "warning"
+reportOperatorIssue = "warning"
+reportIncompatibleMethodOverride = "warning"
+executionEnvironments = [
+    { root = "src/cats/api.py", reportOptionalMemberAccess = "error", reportOptionalSubscript = "error", reportOptionalOperand = "error", reportArgumentType = "error", reportCallIssue = "error", reportAttributeAccessIssue = "error", reportReturnType = "error", reportOperatorIssue = "error", reportMissingImports = "error" },
+    { root = "src/cats/tracing.py", reportOptionalMemberAccess = "error", reportOptionalSubscript = "error", reportOptionalOperand = "error", reportArgumentType = "error", reportCallIssue = "error", reportAttributeAccessIssue = "error", reportReturnType = "error", reportOperatorIssue = "error", reportMissingImports = "error" },
+    { root = "src/cats/manifest.py", reportOptionalMemberAccess = "error", reportOptionalSubscript = "error", reportOptionalOperand = "error", reportArgumentType = "error", reportCallIssue = "error", reportAttributeAccessIssue = "error", reportReturnType = "error", reportOperatorIssue = "error", reportMissingImports = "error" },
+    { root = "src/cats/metrics_store.py", reportOptionalMemberAccess = "error", reportOptionalSubscript = "error", reportOptionalOperand = "error", reportArgumentType = "error", reportCallIssue = "error", reportAttributeAccessIssue = "error", reportReturnType = "error", reportOperatorIssue = "error", reportMissingImports = "error" },
+    { root = "src/cats/runner.py", reportOptionalMemberAccess = "error", reportOptionalSubscript = "error", reportOptionalOperand = "error", reportArgumentType = "error", reportCallIssue = "error", reportAttributeAccessIssue = "error", reportReturnType = "error", reportOperatorIssue = "error", reportMissingImports = "error" },
+]
