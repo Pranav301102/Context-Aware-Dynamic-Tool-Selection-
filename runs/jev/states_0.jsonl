@@ -1,0 +1,120 @@
+{"key": "da15be34dc5de601", "state": "[user] get logs from pod payment-api-7d9f8c-x2kqp in namespace prod, last 200 lines"}
+{"key": "bd9c5f559b4c0de2", "state": "[user] what blob storage do we have in our amazon account"}
+{"key": "9ae40226ad575c5e", "state": "[user] what's in s3://acme-ml/models/ ?\n[assistant] 3 objects: models/model-v3.pt (412 MB), models/model-v4.pt (430 MB), models/config.json (2 KB).\n[user] grab config.json for me"}
+{"key": "ddc3bc341f1a7aaa", "state": "[user] run this: import statistics; print(statistics.median([3, 9, 1, 7, 4]))\n[assistant] Output: 4\n[user] now try the equivalent in javascript"}
+{"key": "1503626c47a24eec", "state": "[user] which of our node deps have known security holes"}
+{"key": "d856e23a7dd31835", "state": "[user] catch me up on what's been said in the slack #incidents channel recently"}
+{"key": "211ec9d216f655c7", "state": "[user] find the emails from hr@company.com about open enrollment and post the deadlines in the #benefits channel on teams"}
+{"key": "51aae924a82c3b36", "state": "[user] refund order 1123 and reply on Zendesk ticket 90211 letting them know the refund went through"}
+{"key": "1b6e44266fc9c4d5", "state": "[user] someone just emailed saying checkout keeps failing for them - log it for the support team, it's from linda@example.org"}
+{"key": "0efa44d646d76198", "state": "[user] my python virtualenv for the reporting project is at ~/proj/.venv\n[assistant] Got it \u2014 I'll install into ~/proj/.venv for that project.\n[user] install pandas there, run ~/proj/scripts/report.py and email whatever it prints to me@acme.io"}
+{"key": "5631f4bff5f84879", "state": "[user] I'm in Berlin until Friday, staying near Alexanderplatz\n[assistant] Nice \u2014 Alexanderplatz is very central. Anything you want to plan while you're there?\n[user] find me a decent ramen spot nearby and put dinner there at 8 on my calendar"}
+{"key": "b87fd9ad8238e6c1", "state": "[user] run a select on the sqlite signups table for daily counts this month, then compute a 7-day moving average in python"}
+{"key": "148780d57aaab3e7", "state": "[user] list the objects under s3://acme-reports/2026/09/, download the september vendor invoice PDF and extract the tables from it"}
+{"key": "72c263dc4ed520bb", "state": "[user] list all tables in the SQLite database"}
+{"key": "aa0d8bee7d4007da", "state": "[user] lookups by email on the mongo users collection in the app db are crawling, can you speed that up"}
+{"key": "7deae9b12578edd9", "state": "[user] create a Linear issue for the Mobile team: 'Crash on Android 15 when opening settings'"}
+{"key": "b072e82526d83107", "state": "[user] tell me everything about CORE-1290 in jira, comments included"}
+{"key": "e435e97fd3f7331a", "state": "[user] move the file ~/Desktop/report_draft.docx to ~/Documents/archive/"}
+{"key": "4b4481600c3b1ee0", "state": "[user] pull the contents of confluence page 884213 so I can summarize it"}
+{"key": "4bafe74f98b1f7cf", "state": "[user] query our notion OKR database for objectives owned by the platform team\n[assistant] 3 results: 'Cut p95 API latency 30%' (page 9a1...), 'Migrate CI to ARC runners' (page 9b2...), 'Zero-downtime Postgres upgrades' (page 9c3...).\n[user] leave a comment on the second one asking for a status update"}
+{"key": "8de4eda683f2c353", "state": "[user] whats the ticker for that danish company that makes ozempic"}
+{"key": "f39d5e543213e69c", "state": "[user] I'm doing month-end close in QuickBooks, gonna need a hand entering stuff\n[assistant] Happy to help. What should we record first?\n[user] start with the team lunch, $212 at Nopa on the Chase card, put it under meals"}
+{"key": "53bb8c9ec8a0b86d", "state": "[user] translate 'Where is the train station?' into Japanese"}
+{"key": "e5c64c10a302d5a5", "state": "[user] I need a voiceover reading this paragraph out loud, calm female voice: 'Our mission is to make clean water accessible to every family.'"}
+{"key": "306707c4432ed468", "state": "[user] am I free thursday arvo?"}
+{"key": "e89e83ac97c1db86", "state": "[user] what's on my google calendar today? append it as a bullet list to the end of Journal/2026-10-06.md in obsidian"}
+{"key": "f9494ce1d0f48514", "state": "[user] how is the photosynthesis wiki page organized? what headings does it have"}
+{"key": "030f61fc89fd3b77", "state": "[user] I'm going to Lisbon next week, staying at a hotel in Alfama\n[assistant] Nice! Alfama is a great neighborhood \u2014 lots of steep streets and viewpoints. Anything I can help you plan?\n[user] any good pastelarias walking distance from there?"}
+{"key": "b2ed90aec48c6159", "state": "[user] get Google Maps place details for place_id ChIJN1t_tDeuEmsRUsoyG83frY4"}
+{"key": "499e6357589fdd6b", "state": "[user] list all active weather alerts for the state of Florida"}
+{"key": "48de12d17256ba62", "state": "[user] scale the deployment web-frontend to 6 replicas in staging"}
+{"key": "4e5add14c7d64e35", "state": "[user] show me what's in infra/prod/terraform.tfstate from acme-tf-state"}
+{"key": "4c26892f7fad464e", "state": "[user] what instances are running in us-east-2?\n[assistant] 2 running: i-0a1b2c3d4e5f6a7b8 (api-1, t3.large) and i-0b2c3d4e5f6a7b8c9 (worker-1, c6i.xlarge, status check failing).\n[user] reboot the second one"}
+{"key": "1b4896f68463c26f", "state": "[user] only rerun the python tests that blew up on the previous run"}
+{"key": "8924ee6e8b6438aa", "state": "[user] collect the tests in tests/integration without running them"}
+{"key": "465299aa1ab9ab0a", "state": "[user] did anyone ever bring up the 'orion' migration on slack? no idea which channel it was in"}
+{"key": "6ccffc356cb28545", "state": "[user] sms +13105550111 that their order shipped, then check if it was delivered"}
+{"key": "36535d42241926a6", "state": "[user] create a new Salesforce lead: Tom Becker, company Becker Logistics, tom@beckerlog.de, lead source Web"}
+{"key": "8be02280a65d25fe", "state": "[user] set up a Mailchimp campaign to the VIP audience with subject 'Early access starts now', put this HTML in it, and schedule it for Friday 10am: <html><body>...</body></html>"}
+{"key": "ab7363d8ebff0408", "state": "[user] pull last month's failed stripe payments and post a summary in #finance on slack"}
+{"key": "e54f5d7f543a8d3b", "state": "[user] query salesforce for opportunities in 'Closed Won' this quarter and create a confluence page 'Q3 Wins' in the SALES space with them"}
+{"key": "8602ec1aec68ea0e", "state": "[user] pull down the CSV at https://data.cityofchicago.org/api/views/divvy-trips.csv and crunch the average ride length with a bit of python"}
+{"key": "42f19cd02de580cf", "state": "[user] query the orders table in postgres for yesterday's revenue by region and post the numbers to the #sales-daily slack channel"}
+{"key": "f0b12619a8e5280b", "state": "[user] how many ppl signed up yesterday? it's the users table in the local sqlite file, created_at column"}
+{"key": "f9eee8f3f655b9ed", "state": "[user] set promo:banner to 'FALL25' in redis\n[assistant] OK \u2014 promo:banner = 'FALL25' (no expiration).\n[user] oh wait, that should go away on its own after the weekend, like 48h"}
+{"key": "55e4771ab243a7bf", "state": "[user] list the current cycle for the Platform team in Linear"}
+{"key": "ff1e385668558e79", "state": "[user] spit out the console output of job 77812 in gitlab project 31, the deploy step keeps dying"}
+{"key": "0c62c8012549ca89", "state": "[user] create a directory build/artifacts/linux-x64"}
+{"key": "46d1b472ab1ee875", "state": "[user] leave a note on the deploy runbook in confluence (page 77120) that step 4 is outdated since the argo migration"}
+{"key": "bd751c4ac413db58", "state": "[user] read ~/drafts/blogpost.md\n[assistant] # Why we moved off Heroku\n\nTeh short version: teh bill tripled ... (412 words)\n[user] fix the 'teh' typos in it"}
+{"key": "460be68f62d13456", "state": "[user] how big is nvidia valuation-wise and what multiple of earnings is it trading at"}
+{"key": "aa67c81ba53ba629", "state": "[user] make a stripe customer for Tom Reyes, tom@reyes.dev\n[assistant] Created customer cus_R2Tom9xQ for Tom Reyes.\n[user] great, now open a draft invoice for him, due in 30 days"}
+{"key": "ac0e190917d30781", "state": "[user] make my recording (line_read.mp3) sound like a deep movie-trailer guy said it instead of me"}
+{"key": "04e5ca61dfa892d1", "state": "[user] my uncle sent me a voice memo in Hindi, memo.m4a\n[assistant] Got it. What would you like me to do with it?\n[user] just tell me in English what he's saying"}
+{"key": "9a7238697549e454", "state": "[user] what's on my plate tomorrow? going off my google cal"}
+{"key": "b59b3148f07f03cd", "state": "[user] find the todoist task about the passport renewal and tick it off"}
+{"key": "1aa3aba2668cc1f3", "state": "[user] remind me what the Peace of Augsburg was? just the short encyclopedia version"}
+{"key": "e3b10eab6075f452", "state": "[user] what are ppl recommending as a budget mechanical keyboard these days"}
+{"key": "5fcc34cfa8abd4bd", "state": "[user] geocode 221B Baker Street, London\n[assistant] 51.5238, -0.1586 (Marylebone, London NW1 6XE).\n[user] cool - find me a pub within walking distance of that"}
+{"key": "53223a76c2fcd978", "state": "[user] how do I get from Kings Cross to Heathrow T5 on the tube?"}
+{"key": "83efa114fc74868e", "state": "[user] restart the rollout for deployment orders-svc in namespace shop"}
+{"key": "5441fd340a92226b", "state": "[user] drop this csv into s3://acme-reports at monthly/2026-10/signups.csv\n\ndate,signups\n2026-10-01,412\n2026-10-02,388"}
+{"key": "fb4351804572be14", "state": "[user] what's the 5xx rate on the api over the last hour in prometheus?\n[assistant] Peaked at 23 req/s at 14:10 UTC, otherwise under 0.5 req/s.\n[user] and what do the actual log lines from that minute say? we ship everything to loki"}
+{"key": "6394bd09457d3494", "state": "[user] figure out what's eating all the memory and kill it"}
+{"key": "4fece43f787e537a", "state": "[user] restart the kernel for the analysis notebook"}
+{"key": "738ee0f38328283e", "state": "[user] who all is in our slack? need a roster of everyone"}
+{"key": "5347b85b832d375a", "state": "[user] list the teams im in, then show me the channels in the Finance one"}
+{"key": "09e9aba4ce1eec5e", "state": "[user] create a HubSpot company 'Bluefin Labs' and a $12k deal 'Bluefin pilot' linked to it"}
+{"key": "93cd5c19536538d6", "state": "[user] describe the Salesforce Opportunity object - I need all its fields and relationships"}
+{"key": "8e48e0ee60f92f08", "state": "[user] check if the api pods in the prod namespace are crashlooping and open a jira ticket in PLAT if so"}
+{"key": "f69da713592be4d1", "state": "[user] anyone who raised an urgent help-desk complaint in zendesk today \u2014 make me a to-do for each so I remember to follow up"}
+{"key": "959ee50b51d5ba85", "state": "[user] OCR the receipt photo ~/Pictures/receipt_0912.jpg, find the shopify order number printed on it and refund that order"}
+{"key": "bfa15077b84611b5", "state": "[user] list my mailchimp audiences, add jane.doe@gmail.com to the 'Newsletter' one, then send her a welcome SMS at +447700900123"}
+{"key": "0f77cd221178108f", "state": "[user] check the structure of the pg events table, then count how many rows came in last week"}
+{"key": "f03a904f6aa86717", "state": "[user] mark invoice 1042 as paid in the local sqlite db"}
+{"key": "50fd4d5b17762c34", "state": "[user] get sentry issue details for FRONTEND-3KQ in org acme"}
+{"key": "cde92bc6f5d7b53b", "state": "[user] find the failing github actions run of ci.yml on acme/api main, pull the logs for the failed jobs, then rerun them"}
+{"key": "b1071502161ceae6", "state": "[user] get file info for /var/log/syslog, I need the size and last modified time"}
+{"key": "4312a1a433ae8ecd", "state": "[user] what does this scanned lease actually say? ~/docs/lease_scan.pdf, it's just images of pages"}
+{"key": "b249ed3a1c0352e7", "state": "[user] Get the latest global quote for MSFT from Alpha Vantage"}
+{"key": "1789c90ca9e180c9", "state": "[user] how much did costco bring in vs spend last fiscal year? top line to bottom line"}
+{"key": "fcfefd4f29693a94", "state": "[user] looking at shopify stock, where's it at\n[assistant] SHOP is at $112.80, down 0.6% today.\n[user] what do the analysts think, any downgrades lately?"}
+{"key": "c5d879e5a70938c0", "state": "[user] give me one frame every 2 seconds from the bodycam footage so I can skim through it"}
+{"key": "055a173448f76dc6", "state": "[user] Clone my voice using these 3 recordings, call it 'Priya narrator'\n[assistant] Created voice 'Priya narrator' (voice_id 9xkTq2LmA7).\n[user] ok use it to read the welcome script: 'Hi, and welcome to the course.'"}
+{"key": "da9e0b8ffcf1e486", "state": "[user] block off 2-4 on friday for heads-down work on my gcal so nobody books me"}
+{"key": "8c00dca51556c3be", "state": "[user] create a todoist project called 'Wedding' and add: book venue, send save-the-dates, cake tasting"}
+{"key": "eb13026909234438", "state": "[user] give me the wiki summary of CRISPR and then find recent research papers on base editing"}
+{"key": "b233526589617b7a", "state": "[user] find the semantic scholar entry for the BERT paper\n[assistant] Found it: 'BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding' (Devlin et al., NAACL 2019). Paper ID: df2b0e26d0599ce3e70df8a9da02e51594e0e992, ~90k citations.\n[user] find me other stuff similar to that one"}
+{"key": "e54c873062307248", "state": "[user] roughly how long is the drive from Austin to San Antonio"}
+{"key": "13a24ad0eb422b6a", "state": "[user] geocode 1600 Amphitheatre Parkway, Mountain View, CA"}
+{"key": "0a72a4ae8fa3f745", "state": "[user] kubectl get pods -n kube-system -o wide"}
+{"key": "2b47b71857229898", "state": "[user] what serverless functions have we got deployed in us-west-2"}
+{"key": "e84695e013e87a42", "state": "[user] I just shipped v2.4.1 of search-indexer to prod, how's it going?\n[assistant] Rollout in progress: 2/5 replicas updated, 1 new pod in CrashLoopBackOff (exit code 137).\n[user] ugh. revert it"}
+{"key": "ef6092786749d3ab", "state": "[user] format src/**/*.tsx with prettier"}
+{"key": "dcebccd17d5d471c", "state": "[user] open notebooks/churn.ipynb and show me what's in it"}
+{"key": "f3d2697d387741b6", "state": "[user] dig up that email from my accountant about the 1099s"}
+{"key": "736b5888b6c11201", "state": "[user] add \ud83d\udc40 to the slack message at 1720000000.550000 in C0OPS and reply in the thread that i'm on it"}
+{"key": "e4bf3a4a0e50dc97", "state": "[user] get all comments for Zendesk ticket 48213"}
+{"key": "86d63f0358142903", "state": "[user] which people are tied to the Globex expansion deal (id 1928374) in hubspot?"}
+{"key": "f31a7622f57f83e1", "state": "[user] search google drive for the 'Offsite Agenda' doc, share it with team@acme.com and post the link in #offsite on slack"}
+{"key": "65efd0baa4b47ce5", "state": "[user] who's holding the pager this week? set up a 15-minute handoff with them on my outlook calendar for friday"}
+{"key": "644f18c431fd879a", "state": "[user] what time is it over in Tokyo right now, and is it raining there?"}
+{"key": "1cd44c98117e5536", "state": "[user] what's the internet saying about the Pixel 11's battery life? jot the gist into my Apple Notes"}
+{"key": "d77b5aa91dc3c73e", "state": "[user] list our pinecone indexes and give me record counts for each namespace of the biggest one"}
+{"key": "9124e86a6008c150", "state": "[user] apply a migration named add_last_login_to_users that adds a last_login timestamptz column to users"}
+{"key": "d84400da767cdac7", "state": "[user] update the sentry issue BACKEND-9A2 status to resolved"}
+{"key": "7525f9a0f45c2e4b", "state": "[user] look at sentry issue WEB-5C2 and then open a github issue in acme/web describing it"}
+{"key": "db5721cad19a7aae", "state": "[user] show me the directory tree of ./src, excluding node_modules"}
+{"key": "b1268c9423cd23b9", "state": "[user] how many pages is thesis_final.pdf and who's listed as the author"}
+{"key": "f540424b7362b6cc", "state": "[user] get historical stock prices for TSLA, daily, last 6 months"}
+{"key": "16da9ec40826b6fb", "state": "[user] are we actually making money this year? need the numbers out of our books jan through sept"}
+{"key": "220bc657fb0902d5", "state": "[user] show me tesla's annual income statement\n[assistant] Here is TSLA's annual income statement for the last four fiscal years: total revenue $97.7B in FY2024...\n[user] now the balance sheet pls"}
+{"key": "89714c65ea5fa9bb", "state": "[user] how long is wedding_final.mov and is it actually 4k?"}
+{"key": "c15ee0058101f7ba", "state": "[user] search my ElevenLabs voice library for a British male narrator"}
+{"key": "33baeef0e41c0ee6", "state": "[user] set up a recurring standup every weekday at 9:30 on my outlook calendar, invite eng-team@contoso.com, teams link pls"}
+{"key": "6a376a085083a563", "state": "[user] pull my obsidian daily note and turn any unchecked items in it into todoist tasks"}
+{"key": "979cd699cb1fedcf", "state": "[user] who runs growth at Linear (the issue tracker co)? want to cold-message them"}
+{"key": "6812ab33c445c115", "state": "[user] what pages even exist on vercel.com/docs? just the links, I don't need what's on them"}
+{"key": "4753c85c7d3f0b97", "state": "[user] how many metres above sea level is the top of Ben Nevis? 56.7969, -5.0036"}
+{"key": "8ac3a13a95fad318", "state": "[user] geocode our new office at 500 Boylston St, Boston and work out everywhere within a 30 min drive of it"}

@@ -1,0 +1,240 @@
+{"key": "da15be34dc5de601", "state": "[user] get logs from pod payment-api-7d9f8c-x2kqp in namespace prod, last 200 lines"}
+{"key": "2215e76797914e08", "state": "[user] list all running docker containers"}
+{"key": "1d28236a5d51f300", "state": "[user] list objects in the S3 bucket acme-backups under prefix db/2026/"}
+{"key": "7c3f54cb4d73b600", "state": "[user] search grafana dashboards for kafka"}
+{"key": "19492eb543ad240c", "state": "[user] acknowledge pagerduty incident Q3X9ABCD1"}
+{"key": "48938d4b80511ee6", "state": "[user] the new billing-worker image we shipped to the cluster is busted, put the previous version back pls"}
+{"key": "ffc004a491d924d2", "state": "[user] nuke the stuck job migrate-2026-10 in the batch namespace"}
+{"key": "b29241816ef0e83c", "state": "[user] kill the local mongo thing, it's hogging 27017"}
+{"key": "bd9c5f559b4c0de2", "state": "[user] what blob storage do we have in our amazon account"}
+{"key": "370975725ea78446", "state": "[user] how hot has the prod RDS box (orders-db-prod) been running over the past day?"}
+{"key": "b8f5266a9fcee1dd", "state": "[user] wake up whoever owns payments, card auth is failing for basically everyone"}
+{"key": "2c2842c73302525c", "state": "[user] check which pods are crashlooping in prod and then pull logs for whichever one it is"}
+{"key": "2f8a6db37232e1d4", "state": "[user] grab the latest postgres image and start it with ./pgdata mounted at /var/lib/postgresql/data"}
+{"key": "59df2676b488122a", "state": "[user] anything in ALARM in cloudwatch? if it's the etl lambda, search its log group for errors in the last 30 min"}
+{"key": "37856e0a75d283b6", "state": "[user] page the database on-call about replication lag on orders-db and add a note to the incident with the grafana link https://grafana.acme.io/d/pg-repl"}
+{"key": "e4cc1e379dd12f92", "state": "[user] anything triggered in pagerduty for my team?\n[assistant] Two triggered incidents: P7K2LQ9 'checkout-api 5xx > 5%' (high, 4 min ago) and P9M3XA1 'disk 90% on log-indexer-2' (low, 31 min ago).\n[user] i've got the first one, mark it"}
+{"key": "9ae40226ad575c5e", "state": "[user] what's in s3://acme-ml/models/ ?\n[assistant] 3 objects: models/model-v3.pt (412 MB), models/model-v4.pt (430 MB), models/config.json (2 KB).\n[user] grab config.json for me"}
+{"key": "ebf9a677a2d2b456", "state": "[user] did the nightly etl lambda have errors last night? check cloudwatch\n[assistant] Errors metric for etl-nightly spiked 03:00-03:20 UTC (14 errors); the 03:00 run never completed.\n[user] kick it off again manually, async is fine"}
+{"key": "de82f8df2bd00c09", "state": "[user] see which python packages are outdated and upgrade requests to latest"}
+{"key": "7603f471ee19e077", "state": "[user] pid 48213 is some orphaned node thing I didn't start, nuke it"}
+{"key": "53ca7fe5f448ac44", "state": "[user] get rid of tensorflow from the env, we dont use it anymore"}
+{"key": "9e17aea7e17bc30f", "state": "[user] list all running processes with their CPU and memory usage"}
+{"key": "0aa432c0f3d34306", "state": "[user] start the vite dev server for the dashboard\n[assistant] Started `npm run dev` with start_process \u2014 PID 5521. Vite is serving on http://localhost:5173.\n[user] ok shut it down"}
+{"key": "a94561d4fb4a3b80", "state": "[user] open a python repl for me\n[assistant] Started `python3 -i` in a terminal session (PID 7712). It's waiting at the >>> prompt.\n[user] type len(sys.modules) into it \u2014 oh and import sys first"}
+{"key": "ddc3bc341f1a7aaa", "state": "[user] run this: import statistics; print(statistics.median([3, 9, 1, 7, 4]))\n[assistant] Output: 4\n[user] now try the equivalent in javascript"}
+{"key": "d6e57fafd3612d33", "state": "[user] pip install httpx and tenacity\n[assistant] Installed httpx 0.27.2 and tenacity 9.0.0 into .venv.\n[user] do the same thing for the node project but with axios and zod"}
+{"key": "067f6c163eb747b5", "state": "[user] rerun cell 7, the plotting one"}
+{"key": "1f28e5a95297d9a8", "state": "[user] we just sprinkled annotations everywhere, are any of the signatures inconsistent now?"}
+{"key": "0c796e5944dde48b", "state": "[user] format the python code in app/ with ruff format"}
+{"key": "c56ec369b02d5764", "state": "[user] catch me up on the notebook \u2014 what's been written so far and what came out of it"}
+{"key": "45d2a238b2b38ebe", "state": "[user] add a cell that loads the csv into df\n[assistant] Inserted and ran cell 5: `df = pd.read_csvv('data/train.csv')` \u2014 it raised AttributeError: module 'pandas' has no attribute 'read_csvv'.\n[user] lol typo, fix that cell"}
+{"key": "a3bc66213b1968e1", "state": "[user] what version of numpy is installed in the venv rn"}
+{"key": "1503626c47a24eec", "state": "[user] which of our node deps have known security holes"}
+{"key": "f9b77a29054db757", "state": "[user] run npm audit, only report high and critical vulnerabilities"}
+{"key": "88143e6e50004dda", "state": "[user] do the react component specs still pass?"}
+{"key": "7d55eff6131df8be", "state": "[user] post a message to the #releases slack channel (C05REL01) saying v4.2 is live"}
+{"key": "56473a72605442f5", "state": "[user] Send an email to priya@northwind.com, subject 'Q4 roadmap', body: deck attached, lmk if questions. attach ~/decks/q4.pdf"}
+{"key": "9a6790cfec5d2384", "state": "[user] create a new gmail label called Receipts/2026"}
+{"key": "821437342df20e72", "state": "[user] read the last 20 messages from discord channel 998877665544"}
+{"key": "2393d8c80d5d2eb4", "state": "[user] get the slack user profile for U07QWERTY"}
+{"key": "d856e23a7dd31835", "state": "[user] catch me up on what's been said in the slack #incidents channel recently"}
+{"key": "fe058cef42b7f720", "state": "[user] tag message 18c2f9a7b as 'Reading' and get it out of my inbox"}
+{"key": "d50766f3ffb01793", "state": "[user] open up email 18f3a2d and tell me what it says"}
+{"key": "b8e706a01f709ba5", "state": "[user] did the customer's text actually land on their phone? twilio sid SMa1b2c3d4e5"}
+{"key": "39c06e9a74abab0f", "state": "[user] ping sarah privately on teams that i'm running 5 min late (our chat is 19:abc123@thread.v2)"}
+{"key": "f42e67162e7e22a8", "state": "[user] what's mike's job title and time zone? his slack id is U03MIKE9"}
+{"key": "e416edfd2c18dabb", "state": "[user] find the slack channel id for #design-crit and then post 'crit moved to 3pm' there"}
+{"key": "1e8131c2ee4ad978", "state": "[user] who is U04ZZTOP on slack? if they're on the platform team DM them 'can you review my PR?'"}
+{"key": "211ec9d216f655c7", "state": "[user] find the emails from hr@company.com about open enrollment and post the deadlines in the #benefits channel on teams"}
+{"key": "da554d251dedf85c", "state": "[user] create a #bug-reports channel on discord server 777000 and post the bug template in it"}
+{"key": "57c988da188393ec", "state": "[user] search my inbox for the lease renewal email\n[assistant] Found it: 'Lease renewal - Unit 4B' from Brightwater Properties (id 18c55e1).\n[user] what does it say exactly"}
+{"key": "f21886e7efe7e1e3", "state": "[user] need to get hold of our plumber, +1 646 555 0102\n[assistant] Want me to text him, or message him another way?\n[user] whatsapp is better, tell him the leak under the sink is back"}
+{"key": "2ae36d801a822f07", "state": "[user] find the email from acme about the contract\n[assistant] Found it: 'Contract v3 - final' from bob@acme.com (id 18d9aa0).\n[user] label it 'Acme' and archive it"}
+{"key": "2ee51431043dd0f4", "state": "[user] did Kevin Malone ever buy anything from the shop? kmalone@dunder.com"}
+{"key": "34e388c88ada7c90", "state": "[user] show unfulfilled orders from this week\n[assistant] 5 orders: #2201, #2202, #2205, #2207, #2210.\n[user] ship #2201 with royal mail, tracking RM123456789GB"}
+{"key": "76653d6dc396832e", "state": "[user] give 15% off to the cart abandoners - make something they can type in at checkout"}
+{"key": "51aae924a82c3b36", "state": "[user] refund order 1123 and reply on Zendesk ticket 90211 letting them know the refund went through"}
+{"key": "738a54e09f381506", "state": "[user] what fields are required on a Salesforce Lead? then create one for Hannah Cole at Cole & Sons"}
+{"key": "1680c73f17ecaf83", "state": "[user] can you check who's on deal 4455 in hubspot\n[assistant] Contacts: Jim Halpert, Pam Beesly. Company: Dunder Mifflin.\n[user] drop a note on the deal that pam is out on leave til november"}
+{"key": "33380643aa4d2199", "state": "[user] schedule Mailchimp campaign a1b2c3d4 for delivery Tuesday 9am Eastern"}
+{"key": "60c15c6318a45faf", "state": "[user] put jane.doe@gmail.com on the newsletter list (list id 4ca5b2e1f0)"}
+{"key": "e819b3c8792bddf7", "state": "[user] create the product 'Trail Runner X' at $129 and a launch code TRAILX10 for 10% off"}
+{"key": "0d4504dea6812d44", "state": "[user] check stock on the ceramic mugs and if we're under 20 add 50 at the main warehouse"}
+{"key": "0202e19f26159e8a", "state": "[user] the guy from order 1042 wants it gift wrapped, can you jot that on the order so the packers see it"}
+{"key": "1b6e44266fc9c4d5", "state": "[user] someone just emailed saying checkout keeps failing for them - log it for the support team, it's from linda@example.org"}
+{"key": "033ce38e655057ad", "state": "[user] pull up zendesk ticket 51877\n[assistant] Ticket #51877 'Can't reset password' - status open, priority normal, requester mike@foo.com.\n[user] bump it to urgent and give it to the tier 2 group (id 360001)"}
+{"key": "ca13d683f4269720", "state": "[user] create a new Zendesk ticket: subject 'Login broken on Android app', priority high, requester sam@clientco.com"}
+{"key": "7cf96f6a77bb4ec4", "state": "[user] make a record in hubspot that we spoke to the Initech folks today, they want pricing for 200 seats"}
+{"key": "a53db996b9c6446f", "state": "[user] draft a Mailchimp campaign for the holiday sale to the main list\n[assistant] Created draft campaign 'Holiday Sale' (id 8d7c6b5a).\n[user] here's the html for it: <html><body><h1>Holiday Sale</h1><p>Up to 40% off</p></body></html>"}
+{"key": "4779bae75d248dc0", "state": "[user] how did the September newsletter do?\n[assistant] Campaign 'Sept Roundup': 42% opens, 6.1% clicks, 0.3% unsubscribes.\n[user] nice. what about august's? id 3f9e0aa1"}
+{"key": "616d9838eb814fb8", "state": "[user] am I going to need an umbrella in Seattle on Thursday? if yes, nudge me Wednesday night to pack one"}
+{"key": "6a000386b16f7ec0", "state": "[user] run the pytest suite and if anything fails create a github issue in acme/api listing the failing tests"}
+{"key": "0efa44d646d76198", "state": "[user] my python virtualenv for the reporting project is at ~/proj/.venv\n[assistant] Got it \u2014 I'll install into ~/proj/.venv for that project.\n[user] install pandas there, run ~/proj/scripts/report.py and email whatever it prints to me@acme.io"}
+{"key": "96199c6e844fdc90", "state": "[user] extract the tables from ~/Downloads/amex_sept.pdf and create a quickbooks purchase for each expense line"}
+{"key": "4c572e41428fcd73", "state": "[user] fetch https://www.lemonde.fr/economie/article/2026/10/05/budget-2027.html and translate the article into English"}
+{"key": "5d33cd86b7602a5f", "state": "[user] what's on my plate tomorrow schedule-wise? write it up as a plain list in ~/notes/tomorrow.txt"}
+{"key": "f4394ea2a2c5fbd8", "state": "[user] crawl docs.pinecone.io with tavily and upsert the pages into our pinecone index 'docs-kb'"}
+{"key": "2671d3397a976482", "state": "[user] we're running the october promo \u2014 code FALL20, 20% off everything, Oct 10-20\n[assistant] Nice! Want me to help set it up?\n[user] set it up in the store and announce it in #marketing on slack"}
+{"key": "02e199fa2bbffd1e", "state": "[user] get the NWS weather alerts for Virginia and, if there's a severe one, describe our EC2 instances in us-east-1"}
+{"key": "b6994f191f7a4d66", "state": "[user] fetch https://status.openai.com/history and post anything from the last 24h to our #eng-alerts discord channel"}
+{"key": "5631f4bff5f84879", "state": "[user] I'm in Berlin until Friday, staying near Alexanderplatz\n[assistant] Nice \u2014 Alexanderplatz is very central. Anything you want to plan while you're there?\n[user] find me a decent ramen spot nearby and put dinner there at 8 on my calendar"}
+{"key": "bd8986ca39c08394", "state": "[user] extract the text from ~/contracts/nda_acme.pdf and translate the termination clause into Japanese"}
+{"key": "b98901fd2529675a", "state": "[user] list my calendar events for tomorrow and post a summary in the #exec-assist slack channel"}
+{"key": "117b7a04878f2a6e", "state": "[user] run the jest tests and if they pass, build the docker image from ./web tagged web:1.4.0"}
+{"key": "ee57c664d37bec6d", "state": "[user] the lead list from the trade show is in ~/Downloads/expo_leads.xlsx\n[assistant] I see it \u2014 one sheet, 'Leads', with name, email and company columns.\n[user] add all of them to the mailchimp 'Prospects' audience"}
+{"key": "58138c2cfb8ddbd4", "state": "[user] list the stripe subscriptions for customer cus_N2k4Lp and log the plan as a note on HubSpot contact 90112"}
+{"key": "06f347ac6682d9de", "state": "[user] turn the audio of yesterday's all-hands (~/rec/allhands.mp3) into words and stash it as a page in our Notion"}
+{"key": "9c06014ddc6bd1dd", "state": "[user] the analytics db is the MySQL one, database 'warehouse'\n[assistant] Noted \u2014 I'll query MySQL 'warehouse' for analytics questions.\n[user] what were the top 10 skus by revenue last week? chart it in my open jupyter notebook"}
+{"key": "b87fd9ad8238e6c1", "state": "[user] run a select on the sqlite signups table for daily counts this month, then compute a 7-day moving average in python"}
+{"key": "844fc6393a855d8d", "state": "[user] this scanned lease (~/docs/lease_scan.pdf) is just pictures of pages \u2014 get the words out of it and give me a Spanish version"}
+{"key": "784a98aab5457b5f", "state": "[user] search hotels in Paris (city code PAR) with room offers for Dec 3-6 for 2 adults and write the shortlist to ~/trips/paris.md"}
+{"key": "c8924f626f6bcff9", "state": "[user] anything assigned to me in jira that's past its due date? put each one on my todoist for today"}
+{"key": "bc59cccb40adfcaf", "state": "[user] is there scholarly work on momentum effects in crypto markets? and where is bitcoin sitting right now"}
+{"key": "48093e3c7c92ab0f", "state": "[user] did last night's circleci build for acme/app on main fall over? if so give the mobile crew a heads-up in their Teams channel"}
+{"key": "ec805948681fbb33", "state": "[user] the grafana alert 'HighLatency-checkout' just fired\n[assistant] I see it \u2014 p99 latency on checkout is 2.3s, over the 800ms threshold for the last 10 minutes.\n[user] who's on call for that? text them the details"}
+{"key": "4aefa401fa7905ab", "state": "[user] run npm audit in ./web and write the findings to ~/reports/audit-2026-10-06.md"}
+{"key": "148780d57aaab3e7", "state": "[user] list the objects under s3://acme-reports/2026/09/, download the september vendor invoice PDF and extract the tables from it"}
+{"key": "d8dfdbd18076c80c", "state": "[user] search the web for what's deprecated in Kubernetes 1.32 and create a Linear issue for the platform team to review it"}
+{"key": "0b5da6e2980a4228", "state": "[user] what's one share of microsoft going for at the moment \u2014 say it out loud for me as an audio clip"}
+{"key": "ee9d97355b7b0ca9", "state": "[user] what's in our sqlite file and how is each table laid out? document all of it in the Confluence ENG space"}
+{"key": "4bc4081b81e914f2", "state": "[user] how big is the kb index in pinecone?\n[assistant] kb has 48,210 records: namespace 'prod' 41,900, namespace 'staging' 6,310.\n[user] ok, pull the 5 closest matches for 'shipping to canada' from prod"}
+{"key": "2f145414874f6175", "state": "[user] list the tables in the public schema of our postgres db"}
+{"key": "a49318595a15e672", "state": "[user] rerank these documents against the query 'refund policy' using bge-reranker-v2-m3: [\"Refunds are issued within 14 days...\", \"Shipping takes 3-5 days...\", \"Contact support via chat...\"]"}
+{"key": "0c750e0aefca3a9e", "state": "[user] create a new table in sqlite: CREATE TABLE notes (id INTEGER PRIMARY KEY, body TEXT, created_at TEXT)"}
+{"key": "72c263dc4ed520bb", "state": "[user] list all tables in the SQLite database"}
+{"key": "dd62b2e0a951d144", "state": "[user] what fields does the products table have over on the mysql side"}
+{"key": "283b99891e5b5703", "state": "[user] describe the schema of the invoices table in sqlite"}
+{"key": "2be470fc4658d401", "state": "[user] I'm poking around the analytics mongo db\n[assistant] Collections in analytics: pageviews, sessions, events, experiments.\n[user] how many docs in pageviews?"}
+{"key": "fce5ccc9260eb0c6", "state": "[user] list all schemas in the postgres database"}
+{"key": "86f5f84a3ba8dca7", "state": "[user] describe the sqlite events table\n[assistant] events(id INTEGER PK, user_id INTEGER, type TEXT, payload TEXT, created_at TEXT)\n[user] now do the same for the pg one, public schema"}
+{"key": "fd5e7063af66a173", "state": "[user] how many vectors are sitting in the support-docs index, broken down per namespace?"}
+{"key": "07a945d4b2b0e68b", "state": "[user] check vacuum health on the postgres db\n[assistant] Vacuum check: table events is at 41% of the transaction-id wraparound threshold; autovacuum is keeping up elsewhere.\n[user] is the rest of the database ok? check everything else too"}
+{"key": "aa0d8bee7d4007da", "state": "[user] lookups by email on the mongo users collection in the app db are crawling, can you speed that up"}
+{"key": "1ae95005aab009bc", "state": "[user] explain the execution plan for SELECT * FROM events WHERE user_id = 42 on postgres, with analyze"}
+{"key": "10da5954c972e56b", "state": "[user] jot down this finding in the memo: Q3 churn is concentrated in the starter tier"}
+{"key": "96030ff68a77ece0", "state": "[user] is anything dragging on the prod postgres box? which statements are burning the most time"}
+{"key": "74f2f8adee45d460", "state": "[user] get the redis string value for key session:9f3ab2"}
+{"key": "02e5d21b5020cbd2", "state": "[user] explain SELECT * FROM audit_log WHERE tenant_id = 7 AND created_at > now() - interval '1 day' on postgres\n[assistant] The plan is a Seq Scan on audit_log (cost=0.00..412883.10 rows=1204) \u2014 no usable index.\n[user] would an index on (tenant_id, created_at) help? simulate it, don't actually create it"}
+{"key": "fc5124d54df64006", "state": "[user] merge pull request #482 in acme/api with squash"}
+{"key": "892441d3937581b3", "state": "[user] retry pipeline 99812 in gitlab project 552"}
+{"key": "7deae9b12578edd9", "state": "[user] create a Linear issue for the Mobile team: 'Crash on Android 15 when opening settings'"}
+{"key": "1edfea89b769602c", "state": "[user] find flaky tests in our CircleCI project gh/acme/checkout"}
+{"key": "4b74f17aaf73349a", "state": "[user] did the build on my PR blow up? acme/api, branch fix/timeout"}
+{"key": "323184b7dbf91e53", "state": "[user] what's blowing up in prod right now? sentry project web-app, org acme"}
+{"key": "5935b539b2293214", "state": "[user] show me what changed in MR !231 of gitlab project 77 before I approve"}
+{"key": "da3a4bcf17ed6224", "state": "[user] what bugs are still unresolved in octo/cli on github"}
+{"key": "e94149bd37153fe6", "state": "[user] is PR 512 in acme/api approved and good to go? mergeable?"}
+{"key": "43549f4c2e6e3ebb", "state": "[user] leave a note on the linear ticket MOB-55 that design is final"}
+{"key": "b072e82526d83107", "state": "[user] tell me everything about CORE-1290 in jira, comments included"}
+{"key": "ee61e5f90182c9d2", "state": "[user] create a jira bug in PAY for the refund rounding error and move it straight to In Progress"}
+{"key": "f1cc5d92cc1df2a7", "state": "[user] pull the circleci failure logs for gh/acme/checkout on develop and rerun workflow 4b6e1c90 from the failed job"}
+{"key": "33f65fa7a48e5e7c", "state": "[user] read .github/workflows/ci.yml in acme/web and then list the recent runs of that workflow"}
+{"key": "97bb17e5a648f7f0", "state": "[user] list open PRs in acme/web\n[assistant] #901 'Refactor auth middleware' by kim, #903 'Bump lodash from 4.17.20 to 4.17.21' by dependabot.\n[user] merge the dependabot one"}
+{"key": "5aec7c533e0ba903", "state": "[user] search jira for open bugs in MOB\n[assistant] Found 12. Highest priority: MOB-88 'Push notifications delayed on iOS'.\n[user] assign that to raj and set the due date to friday"}
+{"key": "f21783284b45bc67", "state": "[user] get issue 342 in octo/cli\n[assistant] #342 'Panic on empty config file': open, label bug, opened by @mira 3 weeks ago.\n[user] it's fixed in 2.3.1, close it out"}
+{"key": "7999d0ae08bc1a55", "state": "[user] read the file /home/maya/projects/api/.env.example"}
+{"key": "e435e97fd3f7331a", "state": "[user] move the file ~/Desktop/report_draft.docx to ~/Documents/archive/"}
+{"key": "3fca8eec0ca38e86", "state": "[user] search google drive for 'Q3 board deck'"}
+{"key": "fdbccfc9c76067e4", "state": "[user] search confluence for pages about SSO setup in the IT space"}
+{"key": "60ee707af123dba7", "state": "[user] extract the tables from invoice_0923.pdf as csv"}
+{"key": "f9d005d3ef9f0bbb", "state": "[user] tidy up: call ~/Desktop/Screenshot 2026-10-01 at 10.22.14.png whiteboard-sketch.png instead"}
+{"key": "7e9c3d3f8e89e007", "state": "[user] whats sitting in my downloads folder"}
+{"key": "a944cee0a83e00f3", "state": "[user] let jordan@acme.com make changes to the budget sheet (drive id 1x9QwErTyUiOp)"}
+{"key": "44920fb9b4792361", "state": "[user] log a new bug in our notion tracker db (id 7d1e2f...): 'Login loop on Safari 17', priority High, status Triage"}
+{"key": "4b4481600c3b1ee0", "state": "[user] pull the contents of confluence page 884213 so I can summarize it"}
+{"key": "0a61b224c46a78c1", "state": "[user] staple these three scanned receipts into one file for my expense report: r1.pdf r2.pdf r3.pdf"}
+{"key": "60e57835a4f047ec", "state": "[user] find the Q3 OKR doc in google drive and read it to me"}
+{"key": "dc4698d1d67e94e7", "state": "[user] where's that doc about our expense policy? no idea if it's in drive, notion or confluence, check all of them"}
+{"key": "4232b651ef1e5390", "state": "[user] convert proposal.docx to pdf and then tack appendix.pdf onto the end"}
+{"key": "e4d5da0d223f9297", "state": "[user] get the 'API Guidelines' page from the ENG confluence space and save a markdown copy to docs/api-guidelines.md"}
+{"key": "7070c75452381a4e", "state": "[user] find our eng onboarding page in notion\n[assistant] Found 'Engineering Onboarding' (page id 3f1a9c2e-77b4-4c1d-9a0e-5b2d8e6f1a3c), last edited 3 weeks ago by Tom.\n[user] add a section at the bottom about getting VPN access"}
+{"key": "7dc501e3e9780d5b", "state": "[user] how big is ~/Movies/demo-final.mov?\n[assistant] ~/Movies/demo-final.mov is 2.3 GB, last modified 2026-10-02 18:41.\n[user] move it to the external drive, /Volumes/T7/videos"}
+{"key": "4bafe74f98b1f7cf", "state": "[user] query our notion OKR database for objectives owned by the platform team\n[assistant] 3 results: 'Cut p95 API latency 30%' (page 9a1...), 'Migrate CI to ARC runners' (page 9b2...), 'Zero-downtime Postgres upgrades' (page 9c3...).\n[user] leave a comment on the second one asking for a status update"}
+{"key": "621f7b622192e7d2", "state": "[user] Create a customer in Stripe: name Dana Whitfield, email dana@whitfield.io"}
+{"key": "4fcc7f51b744a624", "state": "[user] get the option chain for SPY, calls, expiring 2026-11-20"}
+{"key": "b93667b146058d66", "state": "[user] Run the profit and loss report in QuickBooks for Q3 2026, accrual basis, broken down by month"}
+{"key": "6a738100683a0811", "state": "[user] Create a bill in quickbooks from vendor Acme Paper Co for $1,240, due Nov 1"}
+{"key": "419187edf56589e3", "state": "[user] how's apple doing today? like what's it at"}
+{"key": "e24d6b1401642727", "state": "[user] what's a euro worth in yen these days"}
+{"key": "ee120cba7907fbf4", "state": "[user] how has ETH moved over the past 90 days? want to see the line"}
+{"key": "8de4eda683f2c353", "state": "[user] whats the ticker for that danish company that makes ozempic"}
+{"key": "aa98ddf3240c2cd3", "state": "[user] log that $86.40 uber ride on the company amex as travel"}
+{"key": "c1700de30a3d53b0", "state": "[user] do we already have Sparkle Cleaning Co set up as a supplier in quickbooks?"}
+{"key": "1e532f32e259522a", "state": "[user] can your fx source even handle the icelandic krona?"}
+{"key": "6661dbcb3f0375aa", "state": "[user] what's palantir trading at and is there any news on it today?"}
+{"key": "8d82bc900bb441b6", "state": "[user] pull both our P&L and balance sheet for FY2025 out of quickboks"}
+{"key": "54248339aa3e009e", "state": "[user] what's trending in crypto right now and what are those coins priced at"}
+{"key": "c6b390f27a07f03b", "state": "[user] what's the current quote on AMD?\n[assistant] AMD is at $162.34, up 1.8% on the day.\n[user] and the last 3 months of daily closes?"}
+{"key": "f39d5e543213e69c", "state": "[user] I'm doing month-end close in QuickBooks, gonna need a hand entering stuff\n[assistant] Happy to help. What should we record first?\n[user] start with the team lunch, $212 at Nopa on the Chase card, put it under meals"}
+{"key": "1be0f1941e5b70e0", "state": "[user] what did we spend on software in quickbooks last quarter?\n[assistant] You booked $14,380 of software expenses across 23 purchases in Q2.\n[user] and are we profitable overall for that same period?"}
+{"key": "8e8fbae58891ef5d", "state": "[user] say this in Brazilian Portuguese for the app store blurb: 'Track your habits effortlessly'"}
+{"key": "d3135523040774a7", "state": "[user] generate a logo for my bakery 'Crumb & Co', minimal line art\n[assistant] Here's the logo: crumb_logo.png (1024x1024).\n[user] nice, now make the background see-through"}
+{"key": "5da73b4ce0f1ca42", "state": "[user] turn my napkin doodle of a castle (castle_sketch.png) into a proper fantasy illustration"}
+{"key": "d8fc649f662e8818", "state": "[user] who said what in podcast_ep12.wav? need each line labelled by person, there's 3 of us"}
+{"key": "db1ffc985a1029a0", "state": "[user] can you make it see-through behind me in this headshot (me.jpg)? want to drop it on the website"}
+{"key": "00e04411e29ccc46", "state": "[user] translate our FAQ intro into French: 'We ship worldwide and returns are free for 30 days.'\n[assistant] Nous exp\u00e9dions dans le monde entier et les retours sont gratuits pendant 30 jours.\n[user] and spanish + italian too pls"}
+{"key": "53bb8c9ec8a0b86d", "state": "[user] translate 'Where is the train station?' into Japanese"}
+{"key": "3478955a80b6521c", "state": "[user] upscale logo_small.png 4x with Stability's fast upscaler"}
+{"key": "6921e5409f432b8a", "state": "[user] what's the text on this whiteboard photo? wb.jpg\n[assistant] It says: 'Q4 goals - ship v2, hire 3 engineers, cut churn to 2%'.\n[user] great, put that into Japanese for the Tokyo team"}
+{"key": "e611a3f83197eb74", "state": "[user] make an image of a cozy cabin at dusk and then cut out the background so it's just the cabin"}
+{"key": "4ccdf38ef396c8bf", "state": "[user] upscale old_photo.jpg and then change the faded red sofa to a deep green"}
+{"key": "2eaaad106672e3df", "state": "[user] create 4 variations of moodboard_03.png with OpenAI"}
+{"key": "1a5ff9886e58f74a", "state": "[user] what are the specs of clip_a.mp4\n[assistant] 1920x1080, H.264, 29.97 fps, 2:14 long, AAC stereo 48 kHz.\n[user] and clip_b.mp4?"}
+{"key": "4087c31b7f86d237", "state": "[user] i need a few riffs on this logo (logo_v2.png), same vibe but different"}
+{"key": "e5c64c10a302d5a5", "state": "[user] I need a voiceover reading this paragraph out loud, calm female voice: 'Our mission is to make clean water accessible to every family.'"}
+{"key": "a806ba5cca27b66f", "state": "[user] trim clip.mp4 from 00:01:10 to 00:02:30"}
+{"key": "c97f009f0ea6e7a5", "state": "[user] extract the audio track from webinar.mp4 as an mp3"}
+{"key": "dc387dd98288ae23", "state": "[user] the wind noise on my field recording is awful, can you clean it up so only the voice is left (field_rec.wav)"}
+{"key": "8d5a0f2b546b9997", "state": "[user] search google calendar events for 'offsite'"}
+{"key": "d8f51c365f0151f3", "state": "[user] create an outlook calendar event: 1:1 with sam@contoso.com Thursday 10:00-10:30, as a Teams meeting"}
+{"key": "6c2e18a2d37c36f2", "state": "[user] add a task to todoist: renew passport, due next monday, priority p1"}
+{"key": "fd1fdf42e7075fe6", "state": "[user] what's the current time in Europe/Lisbon"}
+{"key": "306707c4432ed468", "state": "[user] am I free thursday arvo?"}
+{"key": "4ddcc0ff9a9e6647", "state": "[user] can't make the design crit tomorrow (gcal event 3vq8xk1), let them know I'm out"}
+{"key": "c6bc47c2329dbc58", "state": "[user] scrap the vendor demo from my outlook calendar, it's event AAMkAGI2TG93AAA="}
+{"key": "c3666f630a4be6d2", "state": "[user] chuck 'call the plumber', 'buy primer' and 'measure the hallway' onto my home reno project in todoist"}
+{"key": "53761e3b75aa9cff", "state": "[user] if I dial in at 9am my time (Denver) what time is that for the folks in Bangalore"}
+{"key": "9cd90555c710274d", "state": "[user] what did I write about the tax stuff in my obsidian vault"}
+{"key": "31a02834b9a46b05", "state": "[user] what's still left on my Groceries list in microsoft to do"}
+{"key": "6e51c07ea113eaa4", "state": "[user] look up Marco Bianchi's email in my contacts and invite him to a google calendar lunch friday at 12:30"}
+{"key": "e89e83ac97c1db86", "state": "[user] what's on my google calendar today? append it as a bullet list to the end of Journal/2026-10-06.md in obsidian"}
+{"key": "ab93fe4a688095f5", "state": "[user] what's on my outlook calendar tomorrow? set an apple reminder 15 min before the first thing"}
+{"key": "7d7979fa1de60db0", "state": "[user] what's on my google calendar tomorrow?\n[assistant] Tomorrow (Wed Oct 7): 9:00 Standup; 11:00 Design review w/ Kim (event id ev88a1, organizer kim@acme.com); 15:00 Dentist.\n[user] decline the 11"}
+{"key": "b9cacd267e584a6c", "state": "[user] find times on my outlook calendar next week for me and ravi@contoso.com, 1 hour\n[assistant] Suggested slots: Tue Oct 13 10:00-11:00, Wed Oct 14 14:00-15:00, Thu Oct 15 09:00-10:00 (all attendees free).\n[user] wed works, book it, call it 'Roadmap sync'"}
+{"key": "2ae6802006364043", "state": "[user] what's on my Work list in microsoft to do?\n[assistant] Work list (id AQMkWrk01): 'Submit timesheet' (due today), 'Review Q3 budget draft' (due Oct 9).\n[user] add 'prep QBR slides' to that list too, due friday"}
+{"key": "c2dce6b66b7abb2a", "state": "[user] kick off a deep research run on the EU battery regulation's due diligence rules, then check whether it's finished"}
+{"key": "d212dd7409b1af5f", "state": "[user] look up the paper titled 'Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks' and show me who has cited it"}
+{"key": "14729709051bd6a5", "state": "[user] got a DOI, 10.1038/s41586-021-03819-2 \u2014 who wrote it, what's it about, and how influential has it been?"}
+{"key": "f9494ce1d0f48514", "state": "[user] how is the photosynthesis wiki page organized? what headings does it have"}
+{"key": "7c3e6727de1a9beb", "state": "[user] I'm writing a Go service that talks to Postgres through pgx v5\n[assistant] Sounds good \u2014 pgx v5 is a solid choice. What do you need help with?\n[user] how do i do batch inserts with that lib? want the current recommended way w/ examples"}
+{"key": "4678887ffbad9b8f", "state": "[user] for my geography notes, grab whatever lat/long the encyclopedia entry for lake baikal lists"}
+{"key": "b1cf36c05ee8d5e1", "state": "[user] how am I supposed to configure retries + timeouts on httpx AsyncClient? show me how the lib expects it, current version"}
+{"key": "ced5b554c5ab0d2f", "state": "[user] who has built on top of the LoRA paper since it came out? want to see follow-up work that references it"}
+{"key": "214f646a5bba9bb8", "state": "[user] peer reviewed stuff on intermittent fasting & insulin sensitivity, 2018 onwards, at least 100 cites, and only ones with a free pdf"}
+{"key": "ba6e1c1ec1ec7aa2", "state": "[user] map all the urls on docs.astral.sh and then pull the content of the uv installation page"}
+{"key": "9e78d09f6915449b", "state": "[user] search the web for 'rust async fn in traits stabilization'"}
+{"key": "030f61fc89fd3b77", "state": "[user] I'm going to Lisbon next week, staying at a hotel in Alfama\n[assistant] Nice! Alfama is a great neighborhood \u2014 lots of steep streets and viewpoints. Anything I can help you plan?\n[user] any good pastelarias walking distance from there?"}
+{"key": "5f0e596660cbe3f0", "state": "[user] going down a rabbit hole on the Silk Road \u2014 what other wiki topics hang off of it?"}
+{"key": "bdf29fb8fbb62775", "state": "[user] what's in the news about Anduril's Arsenal-1 factory, and also give me a company background on them"}
+{"key": "edb13ee2f7f9574f", "state": "[user] anywhere still open for ramen around shibuya station rn?"}
+{"key": "18fc7b66a84eebf9", "state": "[user] find the wikipedia article for the 1906 San Francisco earthquake, then extract its key facts"}
+{"key": "a395621871ad8962", "state": "[user] give me the untouched markup of https://news.ycombinator.com, I need to see the actual tags and class names"}
+{"key": "f6a2dba67e65c777", "state": "[user] find me papers on graph neural networks for drug discovery\n[assistant] Top results:\n1. 'Neural Message Passing for Quantum Chemistry' (Gilmer et al., 2017) \u2014 S2 id 5bd8b4b7...\n2. 'Analyzing Learned Molecular Representations for Property Prediction' (Yang et al., 2019) \u2014 S2 id 0f9cfd3c...\n3. 'MoleculeNet' (Wu et al., 2018)\n[user] who's cited the second one?"}
+{"key": "b12ebd9bf8cc06db", "state": "[user] find EV chargers near 37.3349,-122.0090 and figure out drive times from my house at 37.3861,-122.0839 to each one"}
+{"key": "b2ed90aec48c6159", "state": "[user] get Google Maps place details for place_id ChIJN1t_tDeuEmsRUsoyG83frY4"}
+{"key": "e277e101896b53c5", "state": "[user] find the tram stop nearest Alexanderplatz in Berlin and show me the next departures from it"}
+{"key": "f36ded39567111dd", "state": "[user] check for active weather alerts in Oklahoma and give me the hour-by-hour for Tulsa (36.15,-95.99) for the rest of today"}
+{"key": "a93ed23c13995bea", "state": "[user] reverse geocode 48.8584, 2.2945 to an address"}
+{"key": "4b52dba7e4b93c7a", "state": "[user] current temp and air quality in Mexico City"}
+{"key": "9a8768768c878901", "state": "[user] find the cheapest dates to fly SFO to NRT in November"}
+{"key": "a97f645590dc031c", "state": "[user] hourly forecast for the next 12 hours in Boulder, CO (40.015, -105.27)"}
+{"key": "9c8233fdbad8bf04", "state": "[user] look up the subway routes operated by the MBTA"}
+{"key": "499e6357589fdd6b", "state": "[user] list all active weather alerts for the state of Florida"}
+{"key": "33ebb7e85cb9f9c0", "state": "[user] air quality index and pollutant concentrations for Delhi (28.61, 77.21)"}
+{"key": "07e2434d0fcb6bde", "state": "[user] we're doing a road trip Portland -> Bend -> Crater Lake starting thursday, worried about storms\n[assistant] Sounds great! Want me to plan the route, or look at weather warnings and forecasts first?\n[user] check if there's anything active for oregon first"}
+{"key": "9c9103fb59111397", "state": "[user] 5 star hotels in Dubai with a pool\n[assistant] Found 8. Top picks: Atlantis The Palm (hotelId ADDXBATP), Jumeirah Al Naseem (ADDXJALN), One&Only Royal Mirage (ADDXOORM).\n[user] how much for 2 nights from dec 28 at the first two"}
+{"key": "be36cf1c06210339", "state": "[user] search flight offers JFK to LHR on 2026-11-14, 2 adults, business class"}
+{"key": "f75b8fc358cd7947", "state": "[user] flight status for BA287 scheduled to depart today"}
+{"key": "1b40455226a838cb", "state": "[user] what would 3 nights cost at hotels BCNAB123 and BCNMS456 from 12 Dec? two of us, with brekkie"}
+{"key": "516fa310ba618b99", "state": "[user] can you show me what's reachable within 10 minutes driving from our warehouse at 41.8781,-87.6298?\n[assistant] Here's the 10-minute driving area - it covers most of the Loop, West Loop and the near South Side.\n[user] add 20 and 30 min rings too but for bikes"}
