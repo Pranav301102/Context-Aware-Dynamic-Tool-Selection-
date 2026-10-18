@@ -1,0 +1,6 @@
+# Flat hybrid retrieval with the learned reranker (B3, top-5 and top-10) next to CATS.
+defaults:
+  - cats
+  - _self_
+name: flat_reranked
+baselines: [B3_hybrid_rerank, CATS]

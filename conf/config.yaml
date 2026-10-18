@@ -1,0 +1,27 @@
+# Hydra entry point for `python -m cats.runner` (see src/cats/runner.py and docs/components/platform.md).
+#
+#   python -m cats.runner experiment=bench strategy=cats data.enrich=true
+#   python -m cats.runner -m seed=0,1,2 experiment=validity calibration=independent
+defaults:
+  - strategy: cats        # cats | all | flat_reranked | cats_gbt | cats_no_decompose
+  - data: default         # default (enriched index) | raw (no enrichment)
+  - calibration: lac      # lac | aps | independent
+  - experiment: bench     # bench | ablate | validity | scale | cache
+  - _self_
+
+seed: 0
+name: null          # results/<name>.json and results/manifests/<name>.json; null = derived from the choices
+results_dir: null   # null = <repo>/results
+manifest: true      # write an NFR8 run manifest next to the results
+metrics:
+  enabled: true     # bench: append per-task records to the Parquet metrics store
+  root: null        # null = <results_dir>/parquet
+
+hydra:
+  job:
+    chdir: false    # keep the launch directory; relative paths resolve against it, then the repo root
+  run:
+    dir: ${oc.env:CATS_HYDRA_DIR,results/hydra}/runs/${now:%Y-%m-%d_%H-%M-%S}
+  sweep:
+    dir: ${oc.env:CATS_HYDRA_DIR,results/hydra}/multirun/${now:%Y-%m-%d_%H-%M-%S}
+    subdir: ${hydra.job.num}

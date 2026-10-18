@@ -1,0 +1,10 @@
+# Data inputs. Relative paths resolve against the launch directory, then the repo root.
+enrich: true                    # tool-document enrichment (docs/RESULTS.md section 4.1)
+enrich_dir: data/enrichment
+jev: false                      # Jev-style typed decision layer (cascade, steps, repair)
+jev_dir: runs/jev
+llm_router: false               # LLM-router scores as a router feature
+llm_router_dir: runs/llm_router
+embedder: null                  # null = $CATS_EMBEDDER or auto (wordllama, else lsa)
+corpus_dir: null                # null = data/corpus (bench and cache only; other experiments use data/)
+tasks_dir: null                 # null = data/tasks

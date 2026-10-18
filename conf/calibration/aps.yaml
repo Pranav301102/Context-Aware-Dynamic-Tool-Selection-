@@ -1,0 +1,5 @@
+# APS branch sets, as in the workbook's Algorithm 1.
+defaults:
+  - lac
+  - _self_
+method: aps

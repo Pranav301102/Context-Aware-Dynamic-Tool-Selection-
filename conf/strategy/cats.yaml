@@ -1,0 +1,14 @@
+# Improved CATS (docs/RESULTS.md): evaluate CATS alone in `bench`.
+name: cats
+baselines: [CATS]   # strategy names (prefix match) from cats.bench.experiments.baseline_strategies, or "all"
+k: 5                # k of the flat baselines
+cats:               # CATSConfig fields (calibration fields come from the calibration group)
+  k_max: 10
+  k_min: 1
+  k_per_extra_part: 3
+  decompose: true
+  dedupe: true
+  reranker: logreg
+  budget: 8000
+  order: canonical
+  bypass_tokens: 0

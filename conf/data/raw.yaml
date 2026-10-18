@@ -1,0 +1,5 @@
+# The workbook's index: tool definitions only, no enrichment.
+defaults:
+  - default
+  - _self_
+enrich: false

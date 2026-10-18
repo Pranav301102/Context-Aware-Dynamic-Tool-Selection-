@@ -1,0 +1,4 @@
+# Prompt-cache cost of tool-ordering policies over multi-turn sessions (FR12, NFR6): cache_sessions.
+kind: cache
+session_len: 5
+n_sessions: 40

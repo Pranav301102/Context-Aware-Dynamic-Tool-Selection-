@@ -1,0 +1,7 @@
+# CATS with a gradient-boosted reranker instead of logistic regression.
+defaults:
+  - cats
+  - _self_
+name: cats_gbt
+cats:
+  reranker: gbt

@@ -1,0 +1,6 @@
+# Conformal calibration (FR3, FR4). LAC branch sets, end-to-end CRC tool cut-off (the default).
+method: lac          # lac | aps: branch-set construction
+alpha_branch: 0.03   # router set misses a gold branch at most this often
+alpha_tool: 0.05     # expected fraction of gold slots missed, end to end
+mode: joint          # joint (cut-off calibrated on the routed pipeline) | independent (per stage)
+split: true          # disjoint calibration halves for the two thresholds

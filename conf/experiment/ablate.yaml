@@ -1,0 +1,2 @@
+# CATS configuration variants on one split: cats.bench.experiments.run_variants(default_variants(...)).
+kind: ablate

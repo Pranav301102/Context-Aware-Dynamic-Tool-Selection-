@@ -1,0 +1,6 @@
+# Every baseline of workbook Table 8 (B0-B4), CATS and the oracle, with paired CIs against CATS.
+defaults:
+  - cats
+  - _self_
+name: all
+baselines: all

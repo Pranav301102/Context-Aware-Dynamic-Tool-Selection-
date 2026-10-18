@@ -1,0 +1,4 @@
+# Tool-pool scaling with distractor domains and vendor clones (FR14, NFR5): cats.bench.experiments.scaling.
+kind: scale
+sizes: [100, 250, 1000, 2500, 5000, 10000]
+k: 5

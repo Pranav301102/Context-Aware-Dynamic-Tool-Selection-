@@ -1,0 +1,7 @@
+# CATS without rule-based query decomposition (one route and ranking per request).
+defaults:
+  - cats
+  - _self_
+name: cats_no_decompose
+cats:
+  decompose: false

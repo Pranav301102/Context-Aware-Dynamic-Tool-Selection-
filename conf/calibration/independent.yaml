@@ -1,0 +1,5 @@
+# Per-stage calibration (the cut-off assumes perfect routing), as in the workbook's Algorithm 1.
+defaults:
+  - lac
+  - _self_
+mode: independent
