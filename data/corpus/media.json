@@ -1,0 +1,687 @@
+{
+  "branch": {
+    "id": "media",
+    "name": "Media",
+    "summary": "Working with images, audio, video and language: generating and editing images, transcribing speech, text-to-speech and voice tools, trimming/converting videos and extracting frames or metadata, translating text and documents, and OCR on images and scans."
+  },
+  "toolkits": [
+    {
+      "id": "openai_media",
+      "name": "OpenAI Images & Audio",
+      "server": "mcp://openai-media",
+      "summary": "OpenAI image generation/editing (gpt-image-1, DALL-E) and audio endpoints for transcription, speech translation and text-to-speech.",
+      "tools": [
+        {
+          "name": "generate_image",
+          "description": "Generate images from a text prompt using OpenAI image models (gpt-image-1, dall-e-3). Returns base64 image data or saves files to output_path.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "prompt": {"type": "string", "maxLength": 32000, "description": "Text description of the desired image."},
+              "model": {"type": "string", "enum": ["gpt-image-1", "dall-e-3", "dall-e-2"], "default": "gpt-image-1"},
+              "size": {"type": "string", "enum": ["auto", "1024x1024", "1536x1024", "1024x1536", "1792x1024", "1024x1792", "512x512", "256x256"], "default": "auto"},
+              "quality": {"type": "string", "enum": ["auto", "high", "medium", "low", "hd", "standard"], "default": "auto"},
+              "n": {"type": "integer", "minimum": 1, "maximum": 10, "default": 1},
+              "background": {"type": "string", "enum": ["auto", "transparent", "opaque"], "default": "auto"},
+              "output_format": {"type": "string", "enum": ["png", "jpeg", "webp"], "default": "png"},
+              "output_compression": {"type": "integer", "minimum": 0, "maximum": 100},
+              "style": {"type": "string", "enum": ["vivid", "natural"], "description": "dall-e-3 only."},
+              "moderation": {"type": "string", "enum": ["auto", "low"], "default": "auto"},
+              "output_path": {"type": "string", "description": "Directory or file path to save the image(s)."}
+            },
+            "required": ["prompt"]
+          }
+        },
+        {
+          "name": "edit_image",
+          "description": "Edit an existing image by describing the change in natural language. Optionally supply a mask (PNG whose transparent areas mark where to repaint) to restrict the edit to one region. gpt-image-1 accepts up to 16 reference images.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "image": {"type": "array", "items": {"type": "string"}, "description": "Path(s) to the source image(s)."},
+              "prompt": {"type": "string", "description": "Description of the desired edit."},
+              "mask": {"type": "string", "description": "Path to a PNG mask, same size as the first image."},
+              "model": {"type": "string", "enum": ["gpt-image-1", "dall-e-2"], "default": "gpt-image-1"},
+              "size": {"type": "string", "enum": ["auto", "1024x1024", "1536x1024", "1024x1536", "512x512", "256x256"]},
+              "quality": {"type": "string", "enum": ["auto", "high", "medium", "low"]},
+              "input_fidelity": {"type": "string", "enum": ["low", "high"], "default": "low", "description": "How closely to preserve faces and fine detail from the input."},
+              "n": {"type": "integer", "minimum": 1, "maximum": 10, "default": 1},
+              "background": {"type": "string", "enum": ["auto", "transparent", "opaque"]},
+              "output_format": {"type": "string", "enum": ["png", "jpeg", "webp"]},
+              "output_path": {"type": "string"}
+            },
+            "required": ["image", "prompt"]
+          }
+        },
+        {
+          "name": "create_image_variation",
+          "description": "Creates a variation of a given image. (dall-e-2 only)",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "image": {"type": "string", "description": "Square PNG under 4MB."},
+              "n": {"type": "integer", "minimum": 1, "maximum": 10, "default": 1},
+              "size": {"type": "string", "enum": ["256x256", "512x512", "1024x1024"], "default": "1024x1024"},
+              "response_format": {"type": "string", "enum": ["url", "b64_json"], "default": "url"}
+            },
+            "required": ["image"]
+          }
+        },
+        {
+          "name": "transcribe_audio",
+          "description": "Transcribe audio into text in the language it was spoken. Accepts mp3, mp4, mpeg, mpga, m4a, wav and webm files up to 25 MB. Can return plain text, JSON, or SRT/VTT subtitles with timestamps.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "file": {"type": "string", "description": "Path to the audio or video file."},
+              "model": {"type": "string", "enum": ["gpt-4o-transcribe", "gpt-4o-mini-transcribe", "whisper-1"], "default": "gpt-4o-transcribe"},
+              "language": {"type": "string", "description": "ISO-639-1 code of the spoken language, improves accuracy."},
+              "prompt": {"type": "string", "description": "Optional text to guide spelling of names and jargon."},
+              "response_format": {"type": "string", "enum": ["json", "text", "srt", "verbose_json", "vtt"], "default": "json"},
+              "temperature": {"type": "number", "minimum": 0, "maximum": 1, "default": 0},
+              "timestamp_granularities": {"type": "array", "items": {"type": "string", "enum": ["word", "segment"]}, "description": "Requires verbose_json."}
+            },
+            "required": ["file"]
+          }
+        },
+        {
+          "name": "translate_audio",
+          "description": "Translate speech in any supported language into English text.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "file": {"type": "string"},
+              "model": {"type": "string", "enum": ["whisper-1"], "default": "whisper-1"},
+              "prompt": {"type": "string"},
+              "response_format": {"type": "string", "enum": ["json", "text", "srt", "verbose_json", "vtt"], "default": "json"},
+              "temperature": {"type": "number", "default": 0}
+            },
+            "required": ["file"]
+          }
+        },
+        {
+          "name": "create_speech",
+          "description": "Generates audio from the input text.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "input": {"type": "string", "maxLength": 4096},
+              "model": {"type": "string", "enum": ["gpt-4o-mini-tts", "tts-1", "tts-1-hd"], "default": "gpt-4o-mini-tts"},
+              "voice": {"type": "string", "enum": ["alloy", "ash", "ballad", "coral", "echo", "fable", "nova", "onyx", "sage", "shimmer", "verse"]},
+              "instructions": {"type": "string", "description": "Control tone, accent, emotion and pacing (gpt-4o-mini-tts only)."},
+              "response_format": {"type": "string", "enum": ["mp3", "opus", "aac", "flac", "wav", "pcm"], "default": "mp3"},
+              "speed": {"type": "number", "minimum": 0.25, "maximum": 4.0, "default": 1.0},
+              "output_path": {"type": "string"}
+            },
+            "required": ["input", "voice"]
+          }
+        }
+      ]
+    },
+    {
+      "id": "stability_ai",
+      "name": "Stability AI",
+      "server": "mcp://stability-ai",
+      "summary": "Stability AI image models: text-to-image, background removal, outpainting, object replace/recolor, upscaling and sketch-to-image.",
+      "tools": [
+        {
+          "name": "generate_image",
+          "description": "Generate a high quality image of anything based on a provided prompt & other optional parameters.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "prompt": {"type": "string", "minLength": 1, "maxLength": 10000, "description": "What you wish to see in the output image. Be descriptive and specific."},
+              "model": {"type": "string", "enum": ["core", "ultra", "sd3.5-large", "sd3.5-large-turbo", "sd3.5-medium"], "default": "core"},
+              "aspectRatio": {"type": "string", "enum": ["16:9", "1:1", "21:9", "2:3", "3:2", "4:5", "5:4", "9:16", "9:21"], "default": "1:1"},
+              "negativePrompt": {"type": "string", "description": "What you do not wish to see in the output image."},
+              "stylePreset": {"type": "string", "enum": ["3d-model", "analog-film", "anime", "cinematic", "comic-book", "digital-art", "enhance", "fantasy-art", "isometric", "line-art", "low-poly", "modeling-compound", "neon-punk", "origami", "photographic", "pixel-art", "tile-texture"]},
+              "seed": {"type": "integer", "minimum": 0, "maximum": 4294967294},
+              "outputImageFileName": {"type": "string", "description": "Desired file name without extension."}
+            },
+            "required": ["prompt", "outputImageFileName"]
+          }
+        },
+        {
+          "name": "remove_background",
+          "description": "Remove the background from an image.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "imageFileUri": {"type": "string", "description": "file:// URI of the image to process."},
+              "outputImageFileName": {"type": "string"}
+            },
+            "required": ["imageFileUri", "outputImageFileName"]
+          }
+        },
+        {
+          "name": "outpaint",
+          "description": "Extends an image in any direction while maintaining visual consistency. Specify how many pixels to add on each side and optionally describe what should fill the new area.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "imageFileUri": {"type": "string"},
+              "left": {"type": "integer", "minimum": 0, "maximum": 2000, "default": 0},
+              "right": {"type": "integer", "minimum": 0, "maximum": 2000, "default": 0},
+              "up": {"type": "integer", "minimum": 0, "maximum": 2000, "default": 0},
+              "down": {"type": "integer", "minimum": 0, "maximum": 2000, "default": 0},
+              "prompt": {"type": "string"},
+              "creativity": {"type": "number", "minimum": 0, "maximum": 1, "default": 0.5},
+              "outputImageFileName": {"type": "string"}
+            },
+            "required": ["imageFileUri", "outputImageFileName"]
+          }
+        },
+        {
+          "name": "search_and_replace",
+          "description": "Replace objects or elements in an image by describing what to replace and what to replace it with. No mask needed - the object is located from the search prompt.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "imageFileUri": {"type": "string"},
+              "searchPrompt": {"type": "string", "description": "Short description of what to find, e.g. 'the dog'."},
+              "prompt": {"type": "string", "description": "What to put in its place."},
+              "negativePrompt": {"type": "string"},
+              "outputImageFileName": {"type": "string"}
+            },
+            "required": ["imageFileUri", "searchPrompt", "prompt", "outputImageFileName"]
+          }
+        },
+        {
+          "name": "search_and_recolor",
+          "description": "Search for and recolor objects in an image",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "imageFileUri": {"type": "string"},
+              "selectPrompt": {"type": "string", "description": "Object to recolor."},
+              "prompt": {"type": "string", "description": "Desired colors/appearance."},
+              "growMask": {"type": "integer", "minimum": 0, "maximum": 20, "default": 3},
+              "outputImageFileName": {"type": "string"}
+            },
+            "required": ["imageFileUri", "selectPrompt", "prompt", "outputImageFileName"]
+          }
+        },
+        {
+          "name": "upscale_fast",
+          "description": "Cheap and fast tool to enhance image resolution by 4x while keeping the original content.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "imageFileUri": {"type": "string"},
+              "outputImageFileName": {"type": "string"}
+            },
+            "required": ["imageFileUri", "outputImageFileName"]
+          }
+        },
+        {
+          "name": "upscale_creative",
+          "description": "Enhance image resolution up to 4K pixels with high quality. Works best on highly degraded or low-resolution images; it re-imagines fine detail guided by a prompt, so results may differ slightly from the original.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "imageFileUri": {"type": "string"},
+              "prompt": {"type": "string"},
+              "negativePrompt": {"type": "string"},
+              "creativity": {"type": "number", "minimum": 0.1, "maximum": 0.5, "default": 0.3},
+              "outputImageFileName": {"type": "string"}
+            },
+            "required": ["imageFileUri", "prompt", "outputImageFileName"]
+          }
+        },
+        {
+          "name": "control_sketch",
+          "description": "Translate hand-drawn sketch to production-grade image",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "imageFileUri": {"type": "string"},
+              "prompt": {"type": "string"},
+              "controlStrength": {"type": "number", "minimum": 0, "maximum": 1, "default": 0.7},
+              "negativePrompt": {"type": "string"},
+              "outputImageFileName": {"type": "string"}
+            },
+            "required": ["imageFileUri", "prompt", "outputImageFileName"]
+          }
+        }
+      ]
+    },
+    {
+      "id": "elevenlabs",
+      "name": "ElevenLabs",
+      "server": "mcp://elevenlabs",
+      "summary": "ElevenLabs voice AI: text-to-speech, speech-to-text with speaker diarization, voice library search, voice cloning, voice changing, sound effects and audio isolation.",
+      "tools": [
+        {
+          "name": "text_to_speech",
+          "description": "Convert text to speech with a given voice and save the output audio file to a given directory. Directory is optional; if not provided, the output file will be saved to $HOME/Desktop. Only one of voice_id or voice_name can be provided. If none are provided, the default voice will be used. COST WARNING: This tool makes an API call to ElevenLabs which may incur costs. Only use when explicitly requested by the user.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "text": {"type": "string", "description": "The text to convert to speech."},
+              "voice_name": {"type": "string"},
+              "voice_id": {"type": "string"},
+              "model_id": {"type": "string", "enum": ["eleven_multilingual_v2", "eleven_v3", "eleven_flash_v2_5", "eleven_turbo_v2_5"], "default": "eleven_multilingual_v2"},
+              "stability": {"type": "number", "minimum": 0, "maximum": 1, "default": 0.5, "description": "Lower values are more expressive and variable."},
+              "similarity_boost": {"type": "number", "minimum": 0, "maximum": 1, "default": 0.75},
+              "style": {"type": "number", "minimum": 0, "maximum": 1, "default": 0},
+              "use_speaker_boost": {"type": "boolean", "default": true},
+              "speed": {"type": "number", "minimum": 0.7, "maximum": 1.2, "default": 1.0},
+              "language": {"type": "string", "description": "ISO 639-1 language code to enforce."},
+              "output_format": {"type": "string", "enum": ["mp3_44100_128", "mp3_44100_192", "mp3_22050_32", "pcm_16000", "pcm_44100", "ulaw_8000", "opus_48000_64"], "default": "mp3_44100_128"},
+              "output_directory": {"type": "string"}
+            },
+            "required": ["text"]
+          }
+        },
+        {
+          "name": "speech_to_text",
+          "description": "Transcribe speech from an audio or video file. Set diarize to true to label which speaker said each part. When save_transcript_to_file is true the transcript is saved to output_directory (default $HOME/Desktop); when return_transcript_to_client_directly is true the text is returned in the response. COST WARNING: This tool makes an API call to ElevenLabs which may incur costs.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "input_file_path": {"type": "string"},
+              "language_code": {"type": "string", "description": "ISO 639-3 code; auto-detected if omitted."},
+              "diarize": {"type": "boolean", "default": false},
+              "num_speakers": {"type": "integer", "minimum": 1, "maximum": 32},
+              "tag_audio_events": {"type": "boolean", "default": true, "description": "Tag events like (laughter) or (applause)."},
+              "timestamps_granularity": {"type": "string", "enum": ["none", "word", "character"], "default": "word"},
+              "additional_formats": {"type": "array", "items": {"type": "string", "enum": ["srt", "txt", "docx", "pdf", "html", "segmented_json"]}},
+              "save_transcript_to_file": {"type": "boolean", "default": true},
+              "return_transcript_to_client_directly": {"type": "boolean", "default": false},
+              "output_directory": {"type": "string"}
+            },
+            "required": ["input_file_path"]
+          }
+        },
+        {
+          "name": "search_voices",
+          "description": "Search for existing voices in a user's ElevenLabs voice library. Searches in name, description, labels (accent, age, gender, use case) and category.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "search": {"type": "string"},
+              "sort": {"type": "string", "enum": ["created_at_unix", "name"], "default": "name"},
+              "sort_direction": {"type": "string", "enum": ["asc", "desc"], "default": "desc"}
+            }
+          }
+        },
+        {
+          "name": "voice_clone",
+          "description": "Create an instant voice clone of a voice using provided audio files. COST WARNING: This tool makes an API call to ElevenLabs which may incur costs.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "name": {"type": "string"},
+              "files": {"type": "array", "items": {"type": "string"}, "description": "Paths to audio samples of the voice."},
+              "description": {"type": "string"}
+            },
+            "required": ["name", "files"]
+          }
+        },
+        {
+          "name": "text_to_sound_effects",
+          "description": "Convert text description of a sound effect to sound effect with a given duration and save the output audio file to a given directory. Duration must be between 0.5 and 5 seconds.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "text": {"type": "string"},
+              "duration_seconds": {"type": "number", "minimum": 0.5, "maximum": 5, "default": 2.0},
+              "loop": {"type": "boolean", "default": false},
+              "output_format": {"type": "string", "enum": ["mp3_44100_128", "pcm_44100", "opus_48000_64"], "default": "mp3_44100_128"},
+              "output_directory": {"type": "string"}
+            },
+            "required": ["text"]
+          }
+        },
+        {
+          "name": "isolate_audio",
+          "description": "Isolate audio from a file. Saves output file to directory (default: $HOME/Desktop).",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "input_file_path": {"type": "string"},
+              "output_directory": {"type": "string"}
+            },
+            "required": ["input_file_path"]
+          }
+        },
+        {
+          "name": "speech_to_speech",
+          "description": "Transform audio from one voice to another using provided audio files. Keeps the timing and delivery of the original recording but renders it in the target voice.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "input_file_path": {"type": "string"},
+              "voice_name": {"type": "string", "default": "Adam"},
+              "model_id": {"type": "string", "enum": ["eleven_multilingual_sts_v2", "eleven_english_sts_v2"], "default": "eleven_multilingual_sts_v2"},
+              "remove_background_noise": {"type": "boolean", "default": false},
+              "output_directory": {"type": "string"}
+            },
+            "required": ["input_file_path"]
+          }
+        }
+      ]
+    },
+    {
+      "id": "ffmpeg_video",
+      "name": "FFmpeg Video Tools",
+      "server": "mcp://ffmpeg-video",
+      "summary": "Local video and audio processing with ffmpeg/ffprobe: inspect, trim, transcode, extract frames or audio, join clips and burn subtitles.",
+      "tools": [
+        {
+          "name": "probe_media",
+          "description": "Inspect a media file with ffprobe and return container format, duration, size and bitrate plus per-stream details (codec, resolution, frame rate, pixel format, audio channels, sample rate, language tags).",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "input_path": {"type": "string"},
+              "show_streams": {"type": "boolean", "default": true},
+              "show_chapters": {"type": "boolean", "default": false}
+            },
+            "required": ["input_path"]
+          }
+        },
+        {
+          "name": "trim_video",
+          "description": "Cut a segment out of a video between a start and end timestamp. Uses stream copy when possible (fast, cuts on keyframes); set reencode=true for frame-accurate cuts.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "input_path": {"type": "string"},
+              "start_time": {"type": "string", "description": "HH:MM:SS[.mmm] or seconds."},
+              "end_time": {"type": "string", "description": "HH:MM:SS[.mmm] or seconds. Omit to keep until the end."},
+              "duration": {"type": "string", "description": "Alternative to end_time."},
+              "reencode": {"type": "boolean", "default": false},
+              "output_path": {"type": "string"}
+            },
+            "required": ["input_path", "start_time"]
+          }
+        },
+        {
+          "name": "extract_thumbnail",
+          "description": "Save a single still frame from a video at a given timestamp as an image file.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "input_path": {"type": "string"},
+              "timestamp": {"type": "string", "default": "00:00:01"},
+              "width": {"type": "integer"},
+              "height": {"type": "integer"},
+              "format": {"type": "string", "enum": ["jpg", "png", "webp"], "default": "jpg"},
+              "output_path": {"type": "string"}
+            },
+            "required": ["input_path"]
+          }
+        },
+        {
+          "name": "extract_frames",
+          "description": "Export frames at a regular interval into a directory.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "input_path": {"type": "string"},
+              "every_n_seconds": {"type": "number", "description": "One frame every N seconds."},
+              "fps": {"type": "number", "description": "Alternative to every_n_seconds."},
+              "start_time": {"type": "string"},
+              "end_time": {"type": "string"},
+              "max_frames": {"type": "integer"},
+              "format": {"type": "string", "enum": ["jpg", "png"], "default": "jpg"},
+              "output_dir": {"type": "string"}
+            },
+            "required": ["input_path"]
+          }
+        },
+        {
+          "name": "convert_video",
+          "description": "Transcode a video to another container, codec, resolution or frame rate. Typical uses: make a file playable on phones and browsers (H.264 + AAC in MP4), shrink file size with a higher CRF, convert to WebM for the web, change resolution (e.g. 4K to 1080p), or turn a short clip into an animated GIF. Any parameter left unset keeps the source value.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "input_path": {"type": "string"},
+              "output_path": {"type": "string"},
+              "output_format": {"type": "string", "enum": ["mp4", "mov", "webm", "mkv", "avi", "gif"]},
+              "video_codec": {"type": "string", "enum": ["libx264", "libx265", "libvpx-vp9", "libaom-av1", "prores_ks", "copy"]},
+              "audio_codec": {"type": "string", "enum": ["aac", "libopus", "libmp3lame", "copy", "none"]},
+              "crf": {"type": "integer", "minimum": 0, "maximum": 51, "description": "Quality (lower is better; 18-28 typical)."},
+              "preset": {"type": "string", "enum": ["ultrafast", "superfast", "veryfast", "faster", "fast", "medium", "slow", "slower", "veryslow"], "default": "medium"},
+              "resolution": {
+                "type": "object",
+                "properties": {
+                  "width": {"type": "integer"},
+                  "height": {"type": "integer"},
+                  "keep_aspect": {"type": "boolean", "default": true}
+                }
+              },
+              "fps": {"type": "number"},
+              "video_bitrate": {"type": "string", "description": "e.g. '4M'"},
+              "audio_bitrate": {"type": "string", "description": "e.g. '128k'"},
+              "extra_args": {"type": "array", "items": {"type": "string"}, "description": "Raw ffmpeg arguments appended before the output."}
+            },
+            "required": ["input_path", "output_path"]
+          }
+        },
+        {
+          "name": "extract_audio",
+          "description": "Extract the audio track from a video file.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "input_path": {"type": "string"},
+              "output_format": {"type": "string", "enum": ["mp3", "wav", "aac", "flac", "ogg", "m4a"], "default": "mp3"},
+              "bitrate": {"type": "string", "default": "192k"},
+              "sample_rate": {"type": "integer"},
+              "channels": {"type": "integer", "enum": [1, 2]},
+              "output_path": {"type": "string"}
+            },
+            "required": ["input_path"]
+          }
+        },
+        {
+          "name": "concatenate_videos",
+          "description": "Join multiple video clips end-to-end into one file, optionally with a crossfade or other transition between clips.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "input_paths": {"type": "array", "items": {"type": "string"}, "minItems": 2},
+              "output_path": {"type": "string"},
+              "transition": {
+                "type": "object",
+                "properties": {
+                  "type": {"type": "string", "enum": ["none", "fade", "dissolve", "wipeleft", "slideright"], "default": "none"},
+                  "duration": {"type": "number", "default": 0.5}
+                }
+              },
+              "normalize": {"type": "boolean", "default": true, "description": "Re-encode clips to a common resolution and frame rate first."}
+            },
+            "required": ["input_paths", "output_path"]
+          }
+        },
+        {
+          "name": "burn_subtitles",
+          "description": "Hardcode (burn in) subtitles from an SRT, VTT or ASS file into the video frames so they always show.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "input_path": {"type": "string"},
+              "subtitle_path": {"type": "string"},
+              "output_path": {"type": "string"},
+              "style": {
+                "type": "object",
+                "properties": {
+                  "font_name": {"type": "string", "default": "Arial"},
+                  "font_size": {"type": "integer", "default": 24},
+                  "primary_color": {"type": "string", "default": "&H00FFFFFF"},
+                  "outline_color": {"type": "string"},
+                  "outline_width": {"type": "number"},
+                  "alignment": {"type": "string", "enum": ["bottom", "middle", "top"], "default": "bottom"},
+                  "margin_v": {"type": "integer"}
+                }
+              }
+            },
+            "required": ["input_path", "subtitle_path"]
+          }
+        }
+      ]
+    },
+    {
+      "id": "deepl",
+      "name": "DeepL",
+      "server": "mcp://deepl",
+      "summary": "DeepL translation and writing: translate text and whole documents, rephrase text, and list supported languages.",
+      "tools": [
+        {
+          "name": "translate_text",
+          "description": "Translate text to a target language using DeepL API.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "text": {"type": "string"},
+              "targetLangCode": {"type": "string", "description": "Target language code, e.g. 'de', 'en-GB', 'pt-BR', 'ja'."},
+              "sourceLangCode": {"type": "string", "description": "Source language code; auto-detected if omitted."},
+              "formality": {"type": "string", "enum": ["less", "more", "default", "prefer_less", "prefer_more"]},
+              "glossaryId": {"type": "string"},
+              "context": {"type": "string", "description": "Additional context that influences the translation but is not translated."}
+            },
+            "required": ["text", "targetLangCode"]
+          }
+        },
+        {
+          "name": "translate_document",
+          "description": "Translate a document file (.docx, .pptx, .xlsx, .pdf, .htm/.html, .txt, .xlf, .srt) while preserving its layout and formatting. Returns the translated file.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "inputFile": {"type": "string"},
+              "outputFile": {"type": "string"},
+              "targetLangCode": {"type": "string"},
+              "sourceLangCode": {"type": "string"},
+              "formality": {"type": "string", "enum": ["less", "more", "default", "prefer_less", "prefer_more"]},
+              "glossaryId": {"type": "string"}
+            },
+            "required": ["inputFile", "targetLangCode"]
+          }
+        },
+        {
+          "name": "rephrase_text",
+          "description": "Rephrase text in the same language using DeepL API, optionally in a given writing style or tone.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "text": {"type": "string"},
+              "style": {"type": "string", "enum": ["default", "simple", "business", "academic", "casual"]},
+              "tone": {"type": "string", "enum": ["default", "enthusiastic", "friendly", "confident", "diplomatic"]}
+            },
+            "required": ["text"]
+          }
+        },
+        {
+          "name": "get_languages",
+          "description": "Get list of supported languages.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "type": {"type": "string", "enum": ["source", "target"], "default": "target"}
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "google_cloud_ai",
+      "name": "Google Cloud Vision & Translation",
+      "server": "mcp://google-cloud-ai",
+      "summary": "Google Cloud Vision (OCR, image labels) and Cloud Translation (text translation, language detection).",
+      "tools": [
+        {
+          "name": "ocr_image",
+          "description": "Detect and extract text from an image such as a photo, screenshot, sign, receipt or whiteboard. Returns the full text plus word-level bounding boxes and detected locale.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "image": {
+                "type": "object",
+                "properties": {
+                  "imageUri": {"type": "string", "description": "gs:// or https:// URI."},
+                  "content": {"type": "string", "description": "Base64-encoded image bytes."},
+                  "filePath": {"type": "string", "description": "Local file path."}
+                },
+                "description": "Provide exactly one of imageUri, content or filePath."
+              },
+              "feature": {"type": "string", "enum": ["TEXT_DETECTION", "DOCUMENT_TEXT_DETECTION"], "default": "DOCUMENT_TEXT_DETECTION"},
+              "languageHints": {"type": "array", "items": {"type": "string"}}
+            },
+            "required": ["image"]
+          }
+        },
+        {
+          "name": "ocr_pdf_document",
+          "description": "Run asynchronous OCR over multi-page PDF or TIFF files (e.g. scanned contracts and forms) stored in Cloud Storage; writes per-page JSON results with full text to an output bucket.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "gcsSourceUri": {"type": "string"},
+              "gcsDestinationUri": {"type": "string"},
+              "mimeType": {"type": "string", "enum": ["application/pdf", "image/tiff"], "default": "application/pdf"},
+              "batchSize": {"type": "integer", "minimum": 1, "maximum": 100, "default": 20},
+              "languageHints": {"type": "array", "items": {"type": "string"}}
+            },
+            "required": ["gcsSourceUri", "gcsDestinationUri"]
+          }
+        },
+        {
+          "name": "label_image",
+          "description": "Label detection.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "image": {
+                "type": "object",
+                "properties": {
+                  "imageUri": {"type": "string"},
+                  "content": {"type": "string"},
+                  "filePath": {"type": "string"}
+                }
+              },
+              "maxResults": {"type": "integer", "default": 10}
+            },
+            "required": ["image"]
+          }
+        },
+        {
+          "name": "translate_text",
+          "description": "Translates input text, returning translated text. Supports plain text and HTML, optional glossaries, and 130+ languages via Cloud Translation v3.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "contents": {"type": "array", "items": {"type": "string"}, "maxItems": 1024},
+              "targetLanguageCode": {"type": "string"},
+              "sourceLanguageCode": {"type": "string"},
+              "mimeType": {"type": "string", "enum": ["text/plain", "text/html"], "default": "text/plain"},
+              "model": {"type": "string", "description": "e.g. 'general/nmt' or 'general/translation-llm'."},
+              "glossaryConfig": {
+                "type": "object",
+                "properties": {
+                  "glossary": {"type": "string"},
+                  "ignoreCase": {"type": "boolean", "default": false}
+                }
+              }
+            },
+            "required": ["contents", "targetLanguageCode"]
+          }
+        },
+        {
+          "name": "detect_language",
+          "description": "Detects the language of text within a request.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "content": {"type": "string"},
+              "mimeType": {"type": "string", "enum": ["text/plain", "text/html"], "default": "text/plain"}
+            },
+            "required": ["content"]
+          }
+        }
+      ]
+    }
+  ]
+}

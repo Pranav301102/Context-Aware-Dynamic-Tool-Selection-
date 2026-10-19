@@ -1,0 +1,1210 @@
+{
+  "branch": {
+    "id": "database",
+    "name": "Database",
+    "summary": "Querying and administering data stores: SQL databases (PostgreSQL, SQLite, MySQL), MongoDB, Redis and a Pinecone vector index — running queries, inspecting schemas, tuning performance, migrations, and reading or writing records."
+  },
+  "toolkits": [
+    {
+      "id": "postgres",
+      "name": "Postgres",
+      "server": "mcp://postgres-mcp-pro",
+      "summary": "PostgreSQL server for schema inspection, SQL execution, query plans, index tuning, health checks and tracked schema migrations.",
+      "tools": [
+        {
+          "name": "list_schemas",
+          "description": "Lists all database schemas available in the PostgreSQL instance.",
+          "input_schema": {
+            "type": "object",
+            "properties": {}
+          }
+        },
+        {
+          "name": "list_objects",
+          "description": "Lists database objects (tables, views, sequences, extensions) within a specified schema.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "schema_name": {
+                "type": "string",
+                "description": "Schema name, e.g. 'public'."
+              },
+              "object_type": {
+                "type": "string",
+                "description": "Type of object.",
+                "enum": [
+                  "table",
+                  "view",
+                  "sequence",
+                  "extension"
+                ],
+                "default": "table"
+              }
+            },
+            "required": [
+              "schema_name"
+            ]
+          }
+        },
+        {
+          "name": "get_object_details",
+          "description": "Provides information about a specific database object, for example, a table's columns, constraints, and indexes.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "schema_name": {
+                "type": "string",
+                "description": "Schema name."
+              },
+              "object_name": {
+                "type": "string",
+                "description": "Object name."
+              },
+              "object_type": {
+                "type": "string",
+                "description": "Type of object.",
+                "enum": [
+                  "table",
+                  "view",
+                  "sequence",
+                  "extension"
+                ],
+                "default": "table"
+              }
+            },
+            "required": [
+              "schema_name",
+              "object_name"
+            ]
+          }
+        },
+        {
+          "name": "execute_sql",
+          "description": "Execute any SQL query.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "sql": {
+                "type": "string",
+                "description": "SQL to run."
+              }
+            },
+            "required": [
+              "sql"
+            ]
+          }
+        },
+        {
+          "name": "explain_query",
+          "description": "Explains the execution plan for a SQL query, showing how the database will execute it and the planner's cost estimates. Can be invoked with hypothetical indexes to simulate the plan after adding indexes, without creating them.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "sql": {
+                "type": "string",
+                "description": "Query to explain."
+              },
+              "analyze": {
+                "type": "boolean",
+                "description": "When true, actually runs the query to show real execution statistics instead of estimates.",
+                "default": false
+              },
+              "hypothetical_indexes": {
+                "type": "array",
+                "description": "Indexes to simulate (requires the hypopg extension).",
+                "items": {
+                  "type": "object",
+                  "description": "A hypothetical index.",
+                  "properties": {
+                    "table": {
+                      "type": "string",
+                      "description": "Table name."
+                    },
+                    "columns": {
+                      "type": "array",
+                      "description": "Indexed columns, in order.",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "using": {
+                      "type": "string",
+                      "description": "Index method.",
+                      "enum": [
+                        "btree",
+                        "hash",
+                        "gist",
+                        "gin",
+                        "brin"
+                      ],
+                      "default": "btree"
+                    }
+                  },
+                  "required": [
+                    "table",
+                    "columns"
+                  ]
+                },
+                "default": []
+              }
+            },
+            "required": [
+              "sql"
+            ]
+          }
+        },
+        {
+          "name": "get_top_queries",
+          "description": "Reports the slowest or most resource-intensive SQL queries based on data from the pg_stat_statements extension.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "sort_by": {
+                "type": "string",
+                "description": "Ranking criteria: 'total_time' or 'mean_time' for execution time, 'resources' for blocks read/written, WAL and temp usage.",
+                "enum": [
+                  "total_time",
+                  "mean_time",
+                  "resources"
+                ],
+                "default": "resources"
+              },
+              "limit": {
+                "type": "integer",
+                "description": "Number of queries to return.",
+                "default": 10
+              }
+            }
+          }
+        },
+        {
+          "name": "analyze_workload_indexes",
+          "description": "Analyze frequently executed queries in the database and recommend optimal indexes.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "max_index_size_mb": {
+                "type": "integer",
+                "description": "Max total size of recommended indexes in MB.",
+                "default": 10000
+              },
+              "method": {
+                "type": "string",
+                "description": "Recommendation method: 'dta' (database tuning advisor, deterministic) or 'llm' (LLM-guided).",
+                "enum": [
+                  "dta",
+                  "llm"
+                ],
+                "default": "dta"
+              }
+            }
+          }
+        },
+        {
+          "name": "analyze_query_indexes",
+          "description": "Analyze a list of (up to 10) SQL queries and recommend optimal indexes.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "queries": {
+                "type": "array",
+                "description": "SQL queries to analyze.",
+                "items": {
+                  "type": "string"
+                },
+                "minItems": 1,
+                "maxItems": 10
+              },
+              "max_index_size_mb": {
+                "type": "integer",
+                "description": "Max total size of recommended indexes in MB.",
+                "default": 10000
+              },
+              "method": {
+                "type": "string",
+                "description": "Recommendation method: 'dta' (database tuning advisor, deterministic) or 'llm' (LLM-guided).",
+                "enum": [
+                  "dta",
+                  "llm"
+                ],
+                "default": "dta"
+              }
+            },
+            "required": [
+              "queries"
+            ]
+          }
+        },
+        {
+          "name": "analyze_db_health",
+          "description": "Analyzes database health. Here are the available health checks:\n- index - checks for invalid, duplicate, and bloated indexes\n- connection - checks the number of connections and their utilization\n- vacuum - checks vacuum health for transaction id wraparound\n- sequence - checks sequences at risk of exceeding their maximum value\n- replication - checks replication health including lag and slots\n- buffer - checks for buffer cache hit rates for indexes and tables\n- constraint - checks for invalid constraints\n- all - runs all checks\nYou can optionally specify a single health check or a comma-separated list of health checks. The default is 'all' checks.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "health_type": {
+                "type": "string",
+                "description": "Comma-separated list of health checks to perform. Valid values: index, connection, vacuum, sequence, replication, buffer, constraint, all.",
+                "default": "all"
+              }
+            }
+          }
+        },
+        {
+          "name": "list_migrations",
+          "description": "Lists applied schema migrations.",
+          "input_schema": {
+            "type": "object",
+            "properties": {}
+          }
+        },
+        {
+          "name": "apply_migration",
+          "description": "Applies a schema migration to the database. Use this for DDL operations (CREATE/ALTER/DROP of tables, columns, indexes, types). The migration runs in a transaction and is recorded in the migrations history so it can be tracked and reproduced in other environments.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Migration name in snake_case, e.g. 'add_last_login_to_users'."
+              },
+              "query": {
+                "type": "string",
+                "description": "The SQL DDL to apply."
+              },
+              "dry_run": {
+                "type": "boolean",
+                "description": "Validate the migration inside a rolled-back transaction without committing.",
+                "default": false
+              }
+            },
+            "required": [
+              "name",
+              "query"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "sqlite",
+      "name": "SQLite",
+      "server": "mcp://sqlite",
+      "summary": "Local SQLite database file: read and write queries, table creation and inspection, plus a business-insights memo.",
+      "tools": [
+        {
+          "name": "read_query",
+          "description": "Execute a SELECT query on the SQLite database",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string",
+                "description": "SELECT SQL query to execute"
+              }
+            },
+            "required": [
+              "query"
+            ]
+          }
+        },
+        {
+          "name": "write_query",
+          "description": "Execute an INSERT, UPDATE, or DELETE query on the SQLite database",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string",
+                "description": "SQL query to execute"
+              }
+            },
+            "required": [
+              "query"
+            ]
+          }
+        },
+        {
+          "name": "create_table",
+          "description": "Create a new table in the SQLite database",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string",
+                "description": "CREATE TABLE SQL statement"
+              }
+            },
+            "required": [
+              "query"
+            ]
+          }
+        },
+        {
+          "name": "list_tables",
+          "description": "List all tables in the SQLite database",
+          "input_schema": {
+            "type": "object",
+            "properties": {}
+          }
+        },
+        {
+          "name": "describe_table",
+          "description": "Get the schema information for a specific table",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "table_name": {
+                "type": "string",
+                "description": "Name of the table to describe"
+              }
+            },
+            "required": [
+              "table_name"
+            ]
+          }
+        },
+        {
+          "name": "append_insight",
+          "description": "Add a business insight to the memo",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "insight": {
+                "type": "string",
+                "description": "Business insight discovered from data analysis"
+              }
+            },
+            "required": [
+              "insight"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "mysql",
+      "name": "MySQL",
+      "server": "mcp://mysql",
+      "summary": "MySQL server access: run SQL and inspect tables.",
+      "tools": [
+        {
+          "name": "execute_sql",
+          "description": "Execute an SQL query on the MySQL server",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string",
+                "description": "The SQL query to execute"
+              }
+            },
+            "required": [
+              "query"
+            ]
+          }
+        },
+        {
+          "name": "list_tables",
+          "description": "List tables.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "database": {
+                "type": "string",
+                "description": "Database name; defaults to the connection's database."
+              }
+            }
+          }
+        },
+        {
+          "name": "describe_table",
+          "description": "Show columns, types, keys and indexes for a MySQL table (equivalent to SHOW CREATE TABLE plus SHOW INDEX).",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "table": {
+                "type": "string",
+                "description": "Table name."
+              },
+              "database": {
+                "type": "string",
+                "description": "Database name; defaults to the connection's database."
+              }
+            },
+            "required": [
+              "table"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "mongodb",
+      "name": "MongoDB",
+      "server": "mcp://mongodb-mcp-server",
+      "summary": "MongoDB server: query, aggregate, count, insert, update and delete documents, inspect collections and schemas, and manage indexes.",
+      "tools": [
+        {
+          "name": "find",
+          "description": "Run a find query against a MongoDB collection",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "database": {
+                "type": "string",
+                "description": "Database name"
+              },
+              "collection": {
+                "type": "string",
+                "description": "Collection name"
+              },
+              "filter": {
+                "type": "object",
+                "description": "The query filter, matching the syntax of the query argument of db.collection.find()",
+                "additionalProperties": true
+              },
+              "projection": {
+                "type": "object",
+                "description": "The projection, matching the syntax of the projection argument of db.collection.find()",
+                "additionalProperties": true
+              },
+              "sort": {
+                "type": "object",
+                "description": "A document describing the sort order, e.g. {\"createdAt\": -1}",
+                "additionalProperties": true
+              },
+              "limit": {
+                "type": "integer",
+                "description": "The maximum number of documents to return",
+                "default": 10
+              },
+              "skip": {
+                "type": "integer",
+                "description": "Number of documents to skip before returning results",
+                "default": 0
+              },
+              "hint": {
+                "type": [
+                  "string",
+                  "object"
+                ],
+                "description": "Index name or key pattern to force the query planner to use"
+              },
+              "collation": {
+                "type": "object",
+                "description": "Language-specific string comparison rules",
+                "properties": {
+                  "locale": {
+                    "type": "string",
+                    "description": "ICU locale, e.g. 'en' or 'fr_CA'"
+                  },
+                  "strength": {
+                    "type": "integer",
+                    "description": "Comparison level (1 = base letters only, 2 = + diacritics, 3 = + case)",
+                    "minimum": 1,
+                    "maximum": 5,
+                    "default": 3
+                  },
+                  "caseLevel": {
+                    "type": "boolean",
+                    "description": "Include case comparison at strength 1 or 2",
+                    "default": false
+                  },
+                  "numericOrdering": {
+                    "type": "boolean",
+                    "description": "Compare numeric strings as numbers",
+                    "default": false
+                  }
+                },
+                "required": [
+                  "locale"
+                ]
+              },
+              "max_time_ms": {
+                "type": "integer",
+                "description": "Abort the query after this many milliseconds"
+              },
+              "response_bytes_limit": {
+                "type": "integer",
+                "description": "Maximum number of bytes of documents to return; results are truncated beyond this",
+                "default": 1048576
+              },
+              "read_preference": {
+                "type": "string",
+                "description": "Which replica set members to read from",
+                "enum": [
+                  "primary",
+                  "primaryPreferred",
+                  "secondary",
+                  "secondaryPreferred",
+                  "nearest"
+                ],
+                "default": "primary"
+              },
+              "comment": {
+                "type": "string",
+                "description": "Comment attached to the query, visible in profiler and logs"
+              }
+            },
+            "required": [
+              "database",
+              "collection"
+            ]
+          }
+        },
+        {
+          "name": "aggregate",
+          "description": "Run an aggregation against a MongoDB collection",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "database": {
+                "type": "string",
+                "description": "Database name"
+              },
+              "collection": {
+                "type": "string",
+                "description": "Collection name"
+              },
+              "pipeline": {
+                "type": "array",
+                "description": "An array of aggregation stages to execute",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            },
+            "required": [
+              "database",
+              "collection",
+              "pipeline"
+            ]
+          }
+        },
+        {
+          "name": "count",
+          "description": "Gets the number of documents in a MongoDB collection using db.collection.count() and query as an optional filter parameter",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "database": {
+                "type": "string",
+                "description": "Database name"
+              },
+              "collection": {
+                "type": "string",
+                "description": "Collection name"
+              },
+              "query": {
+                "type": "object",
+                "description": "A filter/query parameter. Allows users to filter the documents to count. Matches the syntax of the filter argument of db.collection.count().",
+                "additionalProperties": true
+              }
+            },
+            "required": [
+              "database",
+              "collection"
+            ]
+          }
+        },
+        {
+          "name": "insert_many",
+          "description": "Insert an array of documents into a MongoDB collection",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "database": {
+                "type": "string",
+                "description": "Database name"
+              },
+              "collection": {
+                "type": "string",
+                "description": "Collection name"
+              },
+              "documents": {
+                "type": "array",
+                "description": "The array of documents to insert, matching the syntax of the document argument of db.collection.insertMany()",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            },
+            "required": [
+              "database",
+              "collection",
+              "documents"
+            ]
+          }
+        },
+        {
+          "name": "update_many",
+          "description": "Updates all documents that match the specified filter for a collection",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "database": {
+                "type": "string",
+                "description": "Database name"
+              },
+              "collection": {
+                "type": "string",
+                "description": "Collection name"
+              },
+              "filter": {
+                "type": "object",
+                "description": "The selection criteria for the update, matching the syntax of the filter argument of db.collection.updateOne()",
+                "additionalProperties": true
+              },
+              "update": {
+                "type": "object",
+                "description": "An update document describing the modifications to apply using update operator expressions",
+                "additionalProperties": true
+              },
+              "upsert": {
+                "type": "boolean",
+                "description": "Controls whether to insert a new document if no documents match the filter",
+                "default": false
+              }
+            },
+            "required": [
+              "database",
+              "collection",
+              "update"
+            ]
+          }
+        },
+        {
+          "name": "delete_many",
+          "description": "Removes all documents that match the filter from a MongoDB collection",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "database": {
+                "type": "string",
+                "description": "Database name"
+              },
+              "collection": {
+                "type": "string",
+                "description": "Collection name"
+              },
+              "filter": {
+                "type": "object",
+                "description": "The query filter, specifying the deletion criteria. Matches the syntax of the filter argument of db.collection.deleteMany()",
+                "additionalProperties": true
+              }
+            },
+            "required": [
+              "database",
+              "collection"
+            ]
+          }
+        },
+        {
+          "name": "list_collections",
+          "description": "List all collections for a given database",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "database": {
+                "type": "string",
+                "description": "Database name"
+              }
+            },
+            "required": [
+              "database"
+            ]
+          }
+        },
+        {
+          "name": "collection_schema",
+          "description": "Describe the schema for a collection",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "database": {
+                "type": "string",
+                "description": "Database name"
+              },
+              "collection": {
+                "type": "string",
+                "description": "Collection name"
+              },
+              "sample_size": {
+                "type": "integer",
+                "description": "Number of documents to sample to infer the schema.",
+                "default": 50
+              }
+            },
+            "required": [
+              "database",
+              "collection"
+            ]
+          }
+        },
+        {
+          "name": "create_index",
+          "description": "Create an index for a collection",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "database": {
+                "type": "string",
+                "description": "Database name"
+              },
+              "collection": {
+                "type": "string",
+                "description": "Collection name"
+              },
+              "keys": {
+                "type": "object",
+                "description": "The index definition, e.g. {\"email\": 1}",
+                "additionalProperties": true
+              },
+              "name": {
+                "type": "string",
+                "description": "The name of the index"
+              },
+              "unique": {
+                "type": "boolean",
+                "description": "Enforce uniqueness on the indexed fields.",
+                "default": false
+              }
+            },
+            "required": [
+              "database",
+              "collection",
+              "keys"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "redis",
+      "name": "Redis",
+      "server": "mcp://redis",
+      "summary": "Redis key-value store: get/set strings and hashes, scan and expire keys, delete keys, and inspect server info and clients.",
+      "tools": [
+        {
+          "name": "get",
+          "description": "Get a Redis string value.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "key": {
+                "type": "string",
+                "description": "The key to retrieve."
+              }
+            },
+            "required": [
+              "key"
+            ]
+          }
+        },
+        {
+          "name": "set",
+          "description": "Set a Redis string value with an optional expiration time.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "key": {
+                "type": "string",
+                "description": "The key to set."
+              },
+              "value": {
+                "type": "string",
+                "description": "The value to store."
+              },
+              "expiration": {
+                "type": "integer",
+                "description": "Expiration time in seconds (optional)."
+              }
+            },
+            "required": [
+              "key",
+              "value"
+            ]
+          }
+        },
+        {
+          "name": "delete",
+          "description": "Delete a Redis key.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "key": {
+                "type": "string",
+                "description": "The key to delete."
+              }
+            },
+            "required": [
+              "key"
+            ]
+          }
+        },
+        {
+          "name": "hgetall",
+          "description": "Get all fields and values from a Redis hash.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "The Redis hash key."
+              }
+            },
+            "required": [
+              "name"
+            ]
+          }
+        },
+        {
+          "name": "scan_keys",
+          "description": "Scan keys in the Redis database using the SCAN command (non-blocking, production-safe). Returns a partial result plus a cursor; call again with the returned cursor to continue until it is 0. Prefer this over KEYS on large databases.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "pattern": {
+                "type": "string",
+                "description": "Pattern to match keys against (e.g. 'user:*').",
+                "default": "*"
+              },
+              "count": {
+                "type": "integer",
+                "description": "Hint for how many keys to return per iteration.",
+                "default": 100
+              },
+              "cursor": {
+                "type": "integer",
+                "description": "The cursor position to start scanning from (0 to start).",
+                "default": 0
+              }
+            }
+          }
+        },
+        {
+          "name": "expire",
+          "description": "Set an expiration time for a Redis key.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "The Redis key."
+              },
+              "expire_seconds": {
+                "type": "integer",
+                "description": "Time in seconds after which the key should expire."
+              }
+            },
+            "required": [
+              "name",
+              "expire_seconds"
+            ]
+          }
+        },
+        {
+          "name": "info",
+          "description": "Get Redis server information and statistics.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "section": {
+                "type": "string",
+                "description": "The section of the info command (default, memory, cpu, clients, replication, keyspace, stats, etc.).",
+                "default": "default"
+              }
+            }
+          }
+        },
+        {
+          "name": "client_list",
+          "description": "Get a list of connected clients to the Redis server.",
+          "input_schema": {
+            "type": "object",
+            "properties": {}
+          }
+        }
+      ]
+    },
+    {
+      "id": "pinecone",
+      "name": "Pinecone",
+      "server": "mcp://pinecone",
+      "summary": "Pinecone vector database with integrated embedding: manage indexes, upsert text records, semantic search and reranking.",
+      "tools": [
+        {
+          "name": "list_indexes",
+          "description": "List all Pinecone indexes.",
+          "input_schema": {
+            "type": "object",
+            "properties": {}
+          }
+        },
+        {
+          "name": "describe_index_stats",
+          "description": "Describe the statistics of a Pinecone index, including the number of records in each namespace and dimension.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Index name."
+              }
+            },
+            "required": [
+              "name"
+            ]
+          }
+        },
+        {
+          "name": "create_index_for_model",
+          "description": "Create a Pinecone index with integrated inference: records are embedded automatically by the chosen model.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Index name."
+              },
+              "embed": {
+                "type": "object",
+                "description": "Integrated inference configuration.",
+                "properties": {
+                  "model": {
+                    "type": "string",
+                    "description": "Embedding model.",
+                    "enum": [
+                      "multilingual-e5-large",
+                      "llama-text-embed-v2",
+                      "pinecone-sparse-english-v0"
+                    ]
+                  },
+                  "fieldMap": {
+                    "type": "object",
+                    "description": "Which record field to embed.",
+                    "properties": {
+                      "text": {
+                        "type": "string",
+                        "description": "Name of the text field to embed, e.g. 'chunk_text'."
+                      }
+                    },
+                    "required": [
+                      "text"
+                    ]
+                  }
+                },
+                "required": [
+                  "model",
+                  "fieldMap"
+                ]
+              }
+            },
+            "required": [
+              "name",
+              "embed"
+            ]
+          }
+        },
+        {
+          "name": "upsert_records",
+          "description": "Insert or update records in a Pinecone index with integrated inference. Each record needs an id and the text field configured in the index's fieldMap; other fields are stored as metadata.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Index name."
+              },
+              "namespace": {
+                "type": "string",
+                "description": "Namespace to upsert into."
+              },
+              "records": {
+                "type": "array",
+                "description": "Records to upsert.",
+                "items": {
+                  "type": "object",
+                  "description": "A record.",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "Record id."
+                    }
+                  },
+                  "required": [
+                    "id"
+                  ],
+                  "additionalProperties": true
+                },
+                "minItems": 1
+              }
+            },
+            "required": [
+              "name",
+              "namespace",
+              "records"
+            ]
+          }
+        },
+        {
+          "name": "search_records",
+          "description": "Search for records in a Pinecone index based on a text query, using integrated inference for embedding. Has options for metadata filtering and reranking.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Index name."
+              },
+              "namespace": {
+                "type": "string",
+                "description": "Namespace to search."
+              },
+              "query": {
+                "type": "object",
+                "description": "Search query.",
+                "properties": {
+                  "topK": {
+                    "type": "integer",
+                    "description": "Number of results to return.",
+                    "default": 10
+                  },
+                  "inputs": {
+                    "type": "object",
+                    "description": "Query input.",
+                    "properties": {
+                      "text": {
+                        "type": "string",
+                        "description": "Query text."
+                      }
+                    },
+                    "required": [
+                      "text"
+                    ]
+                  },
+                  "filter": {
+                    "type": "object",
+                    "description": "Metadata filter, e.g. {\"genre\": {\"$eq\": \"faq\"}}.",
+                    "additionalProperties": true
+                  }
+                },
+                "required": [
+                  "topK",
+                  "inputs"
+                ]
+              },
+              "fields": {
+                "type": "array",
+                "description": "Fields to return in each hit.",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "rerank": {
+                "type": "object",
+                "description": "Optional reranking of results.",
+                "properties": {
+                  "model": {
+                    "type": "string",
+                    "description": "Reranking model.",
+                    "enum": [
+                      "cohere-rerank-3.5",
+                      "bge-reranker-v2-m3",
+                      "pinecone-rerank-v0"
+                    ]
+                  },
+                  "rankFields": {
+                    "type": "array",
+                    "description": "Fields to rerank on.",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "topN": {
+                    "type": "integer",
+                    "description": "Number of reranked results to return."
+                  },
+                  "query": {
+                    "type": "string",
+                    "description": "Optional alternative query text for reranking."
+                  }
+                },
+                "required": [
+                  "model",
+                  "rankFields"
+                ]
+              }
+            },
+            "required": [
+              "name",
+              "namespace",
+              "query"
+            ]
+          }
+        },
+        {
+          "name": "rerank_documents",
+          "description": "Rerank a set of documents based on a query.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "model": {
+                "type": "string",
+                "description": "Reranking model.",
+                "enum": [
+                  "cohere-rerank-3.5",
+                  "bge-reranker-v2-m3",
+                  "pinecone-rerank-v0"
+                ]
+              },
+              "query": {
+                "type": "string",
+                "description": "Query to rank documents against."
+              },
+              "documents": {
+                "type": "array",
+                "description": "Documents to rerank: strings, or objects with the fields named in rankFields.",
+                "items": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": true
+                    }
+                  ]
+                }
+              },
+              "options": {
+                "type": "object",
+                "description": "Ranking options.",
+                "properties": {
+                  "topN": {
+                    "type": "integer",
+                    "description": "Number of top documents to return."
+                  },
+                  "rankFields": {
+                    "type": "array",
+                    "description": "Fields to rank on (object documents only).",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "required": [
+              "model",
+              "query",
+              "documents"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

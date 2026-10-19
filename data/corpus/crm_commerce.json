@@ -1,0 +1,968 @@
+{
+  "branch": {
+    "id": "crm_commerce",
+    "name": "CRM & Commerce",
+    "summary": "Customer and sales operations: CRM contacts, leads, companies, deals and activity logging (Salesforce, HubSpot), online store products, orders, fulfillment, refunds, inventory and discounts (Shopify), customer support tickets (Zendesk), and marketing email audiences and campaigns (Mailchimp)."
+  },
+  "toolkits": [
+    {
+      "id": "salesforce",
+      "name": "Salesforce",
+      "server": "mcp://salesforce",
+      "summary": "Salesforce CRM: SOQL/SOSL queries, object metadata, contacts, leads and lead conversion, opportunities and activity tasks.",
+      "tools": [
+        {
+          "name": "salesforce_query_records",
+          "description": "Query records from any Salesforce object using SOQL, including relationship queries. Examples: parent-to-child subqueries (SELECT Name, (SELECT Id, FirstName FROM Contacts) FROM Account), child-to-parent fields (SELECT Id, Account.Name FROM Contact), and filters, ordering and limits. Note: for aggregate queries (COUNT, SUM) include only grouped fields.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "objectName": {"type": "string", "description": "API name of the object to query, e.g. 'Account', 'Opportunity', 'Custom__c'."},
+              "fields": {"type": "array", "items": {"type": "string"}, "description": "Fields to retrieve, including relationship fields like 'Owner.Name'."},
+              "whereClause": {"type": "string", "description": "SOQL WHERE clause without the WHERE keyword."},
+              "orderBy": {"type": "string"},
+              "limit": {"type": "integer", "default": 200}
+            },
+            "required": ["objectName", "fields"]
+          }
+        },
+        {
+          "name": "salesforce_search_all",
+          "description": "Search across multiple Salesforce objects using SOSL (Salesforce Object Search Language). Useful when you have a keyword, name, email or phone fragment but do not know which object the record lives in.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "searchTerm": {"type": "string", "description": "Text to search for; supports wildcards * and ?."},
+              "searchIn": {"type": "string", "enum": ["ALL FIELDS", "NAME FIELDS", "EMAIL FIELDS", "PHONE FIELDS", "SIDEBAR FIELDS"], "default": "ALL FIELDS"},
+              "objects": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "name": {"type": "string"},
+                    "fields": {"type": "array", "items": {"type": "string"}},
+                    "where": {"type": "string"},
+                    "orderBy": {"type": "string"},
+                    "limit": {"type": "integer"}
+                  },
+                  "required": ["name", "fields"]
+                },
+                "description": "Objects to search and the fields to return for each."
+              },
+              "withClauses": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "type": {"type": "string", "enum": ["DATA CATEGORY", "DIVISION", "METADATA", "NETWORK", "PRICEBOOKID", "SNIPPET", "SECURITY_ENFORCED"]},
+                    "fields": {"type": "array", "items": {"type": "string"}}
+                  },
+                  "required": ["type"]
+                }
+              },
+              "updateable": {"type": "boolean"},
+              "viewable": {"type": "boolean"}
+            },
+            "required": ["searchTerm", "objects"]
+          }
+        },
+        {
+          "name": "salesforce_describe_object",
+          "description": "Get detailed schema metadata including all fields, relationships, and field properties of any Salesforce object.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "objectName": {"type": "string", "description": "API name of the object, e.g. 'Lead'."}
+            },
+            "required": ["objectName"]
+          }
+        },
+        {
+          "name": "salesforce_create_contact",
+          "description": "Create a Contact record in Salesforce, optionally linked to an Account.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "FirstName": {"type": "string"},
+              "LastName": {"type": "string"},
+              "Email": {"type": "string", "format": "email"},
+              "Phone": {"type": "string"},
+              "MobilePhone": {"type": "string"},
+              "Title": {"type": "string"},
+              "AccountId": {"type": "string", "description": "18-character Account Id."},
+              "MailingAddress": {
+                "type": "object",
+                "properties": {
+                  "street": {"type": "string"},
+                  "city": {"type": "string"},
+                  "state": {"type": "string"},
+                  "postalCode": {"type": "string"},
+                  "country": {"type": "string"}
+                }
+              },
+              "LeadSource": {"type": "string", "enum": ["Web", "Phone Inquiry", "Partner Referral", "Purchased List", "Trade Show", "Other"]},
+              "OwnerId": {"type": "string"},
+              "Description": {"type": "string"}
+            },
+            "required": ["LastName"]
+          }
+        },
+        {
+          "name": "salesforce_create_lead",
+          "description": "Create a new Lead - an unqualified prospect who has not yet been converted to an account and contact.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "FirstName": {"type": "string"},
+              "LastName": {"type": "string"},
+              "Company": {"type": "string"},
+              "Email": {"type": "string"},
+              "Phone": {"type": "string"},
+              "Title": {"type": "string"},
+              "Status": {"type": "string", "enum": ["Open - Not Contacted", "Working - Contacted", "Closed - Converted", "Closed - Not Converted"], "default": "Open - Not Contacted"},
+              "LeadSource": {"type": "string", "enum": ["Web", "Phone Inquiry", "Partner Referral", "Purchased List", "Trade Show", "Other"]},
+              "Industry": {"type": "string"},
+              "Rating": {"type": "string", "enum": ["Hot", "Warm", "Cold"]},
+              "AnnualRevenue": {"type": "number"},
+              "NumberOfEmployees": {"type": "integer"},
+              "Website": {"type": "string"},
+              "Description": {"type": "string"},
+              "OwnerId": {"type": "string"}
+            },
+            "required": ["LastName", "Company"]
+          }
+        },
+        {
+          "name": "salesforce_convert_lead",
+          "description": "Convert a qualified Lead into an Account, a Contact and (optionally) an Opportunity. Can merge into an existing Account or Contact.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "leadId": {"type": "string"},
+              "convertedStatus": {"type": "string", "default": "Closed - Converted"},
+              "accountId": {"type": "string", "description": "Existing Account to merge into."},
+              "contactId": {"type": "string", "description": "Existing Contact to merge into."},
+              "opportunityName": {"type": "string"},
+              "doNotCreateOpportunity": {"type": "boolean", "default": false},
+              "ownerId": {"type": "string"},
+              "sendNotificationEmail": {"type": "boolean", "default": false}
+            },
+            "required": ["leadId"]
+          }
+        },
+        {
+          "name": "salesforce_create_opportunity",
+          "description": "Create an Opportunity (a potential sale) on an Account with stage, amount and close date.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "Name": {"type": "string"},
+              "AccountId": {"type": "string"},
+              "StageName": {"type": "string", "enum": ["Prospecting", "Qualification", "Needs Analysis", "Value Proposition", "Id. Decision Makers", "Perception Analysis", "Proposal/Price Quote", "Negotiation/Review", "Closed Won", "Closed Lost"]},
+              "CloseDate": {"type": "string", "format": "date"},
+              "Amount": {"type": "number"},
+              "Probability": {"type": "number", "minimum": 0, "maximum": 100},
+              "Type": {"type": "string", "enum": ["New Customer", "Existing Customer - Upgrade", "Existing Customer - Replacement", "Existing Customer - Downgrade"]},
+              "LeadSource": {"type": "string"},
+              "NextStep": {"type": "string"},
+              "CampaignId": {"type": "string"},
+              "OwnerId": {"type": "string"},
+              "Description": {"type": "string"}
+            },
+            "required": ["Name", "StageName", "CloseDate"]
+          }
+        },
+        {
+          "name": "salesforce_update_opportunity",
+          "description": "Update fields on an existing Opportunity.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "opportunityId": {"type": "string"},
+              "fields": {
+                "type": "object",
+                "properties": {
+                  "StageName": {"type": "string"},
+                  "Amount": {"type": "number"},
+                  "CloseDate": {"type": "string", "format": "date"},
+                  "Probability": {"type": "number"},
+                  "NextStep": {"type": "string"},
+                  "ForecastCategoryName": {"type": "string", "enum": ["Omitted", "Pipeline", "Best Case", "Commit", "Closed"]},
+                  "OwnerId": {"type": "string"},
+                  "Description": {"type": "string"}
+                },
+                "additionalProperties": true
+              }
+            },
+            "required": ["opportunityId", "fields"]
+          }
+        },
+        {
+          "name": "salesforce_create_task",
+          "description": "Log an activity (call, email or to-do) as a Task related to a contact or lead (WhoId) and/or an account or opportunity (WhatId). Use Status 'Completed' to record something that already happened.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "Subject": {"type": "string"},
+              "WhoId": {"type": "string", "description": "Contact or Lead Id."},
+              "WhatId": {"type": "string", "description": "Account, Opportunity or other related record Id."},
+              "ActivityDate": {"type": "string", "format": "date", "description": "Due date."},
+              "Status": {"type": "string", "enum": ["Not Started", "In Progress", "Completed", "Waiting on someone else", "Deferred"], "default": "Not Started"},
+              "Priority": {"type": "string", "enum": ["High", "Normal", "Low"], "default": "Normal"},
+              "TaskSubtype": {"type": "string", "enum": ["Task", "Email", "Call"], "default": "Task"},
+              "Description": {"type": "string"},
+              "OwnerId": {"type": "string"},
+              "ReminderDateTime": {"type": "string", "format": "date-time"}
+            },
+            "required": ["Subject"]
+          }
+        }
+      ]
+    },
+    {
+      "id": "hubspot",
+      "name": "HubSpot",
+      "server": "mcp://hubspot",
+      "summary": "HubSpot CRM: search, create and update contacts, companies and deals, log engagements, and inspect associations.",
+      "tools": [
+        {
+          "name": "hubspot_search_objects",
+          "description": "Performs advanced filtered searches across HubSpot object types using complex criteria. Use for finding records that match property filters, e.g. deals over $50k closing this month, contacts at a given company, or tickets in a pipeline stage. Supports up to 5 filter groups (OR) of up to 6 filters each (AND), free-text query, sorting, property selection and cursor pagination. Returns at most 100 records per call.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "objectType": {"type": "string", "enum": ["contacts", "companies", "deals", "tickets", "products", "line_items", "quotes", "calls", "emails", "meetings", "notes", "tasks"]},
+              "query": {"type": "string", "description": "Free-text search across default searchable properties."},
+              "filterGroups": {
+                "type": "array",
+                "maxItems": 5,
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "filters": {
+                      "type": "array",
+                      "maxItems": 6,
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "propertyName": {"type": "string"},
+                          "operator": {"type": "string", "enum": ["EQ", "NEQ", "LT", "LTE", "GT", "GTE", "BETWEEN", "IN", "NOT_IN", "HAS_PROPERTY", "NOT_HAS_PROPERTY", "CONTAINS_TOKEN", "NOT_CONTAINS_TOKEN"]},
+                          "value": {"type": "string"},
+                          "highValue": {"type": "string"},
+                          "values": {"type": "array", "items": {"type": "string"}}
+                        },
+                        "required": ["propertyName", "operator"]
+                      }
+                    }
+                  },
+                  "required": ["filters"]
+                }
+              },
+              "properties": {"type": "array", "items": {"type": "string"}},
+              "sorts": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "propertyName": {"type": "string"},
+                    "direction": {"type": "string", "enum": ["ASCENDING", "DESCENDING"]}
+                  }
+                }
+              },
+              "limit": {"type": "integer", "minimum": 1, "maximum": 100, "default": 10},
+              "after": {"type": "string"}
+            },
+            "required": ["objectType"]
+          }
+        },
+        {
+          "name": "hubspot_create_contact",
+          "description": "Create a new contact in HubSpot. Checks if a contact with the same email already exists before creating.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "firstname": {"type": "string"},
+              "lastname": {"type": "string"},
+              "email": {"type": "string"},
+              "phone": {"type": "string"},
+              "company": {"type": "string"},
+              "jobtitle": {"type": "string"},
+              "lifecyclestage": {"type": "string", "enum": ["subscriber", "lead", "marketingqualifiedlead", "salesqualifiedlead", "opportunity", "customer", "evangelist", "other"]},
+              "hubspot_owner_id": {"type": "string"},
+              "properties": {"type": "object", "additionalProperties": {"type": "string"}, "description": "Any additional contact properties."}
+            },
+            "required": ["firstname", "lastname"]
+          }
+        },
+        {
+          "name": "hubspot_create_company",
+          "description": "Create a new company in HubSpot.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "name": {"type": "string"},
+              "domain": {"type": "string"},
+              "industry": {"type": "string"},
+              "city": {"type": "string"},
+              "country": {"type": "string"},
+              "numberofemployees": {"type": "integer"},
+              "annualrevenue": {"type": "number"},
+              "properties": {"type": "object", "additionalProperties": {"type": "string"}}
+            },
+            "required": ["name"]
+          }
+        },
+        {
+          "name": "hubspot_create_deal",
+          "description": "Create a deal in a HubSpot pipeline and optionally associate it with contacts and companies.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "dealname": {"type": "string"},
+              "amount": {"type": "number"},
+              "pipeline": {"type": "string", "default": "default"},
+              "dealstage": {"type": "string", "description": "Internal stage id, e.g. appointmentscheduled, qualifiedtobuy, presentationscheduled, decisionmakerboughtin, contractsent, closedwon, closedlost."},
+              "closedate": {"type": "string", "format": "date-time"},
+              "hubspot_owner_id": {"type": "string"},
+              "associations": {
+                "type": "object",
+                "properties": {
+                  "contactIds": {"type": "array", "items": {"type": "string"}},
+                  "companyIds": {"type": "array", "items": {"type": "string"}}
+                }
+              }
+            },
+            "required": ["dealname", "dealstage"]
+          }
+        },
+        {
+          "name": "hubspot_batch_update_objects",
+          "description": "Updates multiple existing HubSpot objects of the same type in a single API call. Use for changing properties such as deal stage, amount, owner or lifecycle stage on records whose IDs you already have.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "objectType": {"type": "string", "enum": ["contacts", "companies", "deals", "tickets", "products", "line_items", "quotes"]},
+              "inputs": {
+                "type": "array",
+                "minItems": 1,
+                "maxItems": 100,
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {"type": "string"},
+                    "properties": {"type": "object", "additionalProperties": {"type": "string"}}
+                  },
+                  "required": ["id", "properties"]
+                }
+              }
+            },
+            "required": ["objectType", "inputs"]
+          }
+        },
+        {
+          "name": "hubspot_create_engagement",
+          "description": "Creates a HubSpot engagement (Note, Task, Call, Email or Meeting) associated with contacts, companies, deals or tickets.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "type": {"type": "string", "enum": ["NOTE", "TASK", "CALL", "EMAIL", "MEETING"]},
+              "ownerId": {"type": "integer"},
+              "timestamp": {"type": "integer", "description": "Unix ms; defaults to now."},
+              "associations": {
+                "type": "object",
+                "properties": {
+                  "contactIds": {"type": "array", "items": {"type": "integer"}},
+                  "companyIds": {"type": "array", "items": {"type": "integer"}},
+                  "dealIds": {"type": "array", "items": {"type": "integer"}},
+                  "ticketIds": {"type": "array", "items": {"type": "integer"}}
+                }
+              },
+              "metadata": {
+                "type": "object",
+                "description": "Type-specific fields: body (NOTE), subject/status/priority/taskType (TASK), toNumber/durationMilliseconds/body (CALL), title/startTime/endTime (MEETING).",
+                "additionalProperties": true
+              }
+            },
+            "required": ["type", "ownerId", "associations", "metadata"]
+          }
+        },
+        {
+          "name": "hubspot_list_associations",
+          "description": "Retrieves existing relationships between a specific object and other objects of a particular type.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "objectType": {"type": "string"},
+              "objectId": {"type": "string"},
+              "toObjectType": {"type": "string"},
+              "after": {"type": "string"}
+            },
+            "required": ["objectType", "objectId", "toObjectType"]
+          }
+        }
+      ]
+    },
+    {
+      "id": "shopify",
+      "name": "Shopify",
+      "server": "mcp://shopify",
+      "summary": "Shopify store admin: products, orders, fulfillment, refunds, inventory, customers and discount codes.",
+      "tools": [
+        {
+          "name": "get_products",
+          "description": "Get all products or search by title. Returns title, handle, status, price range and variant SKUs/prices.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "searchTitle": {"type": "string"},
+              "status": {"type": "string", "enum": ["ACTIVE", "DRAFT", "ARCHIVED"]},
+              "limit": {"type": "integer", "default": 10}
+            }
+          }
+        },
+        {
+          "name": "get_product_by_id",
+          "description": "Get a specific product by ID",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "productId": {"type": "string"}
+            },
+            "required": ["productId"]
+          }
+        },
+        {
+          "name": "create_product",
+          "description": "Create a new product",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "title": {"type": "string"},
+              "descriptionHtml": {"type": "string"},
+              "vendor": {"type": "string"},
+              "productType": {"type": "string"},
+              "tags": {"type": "array", "items": {"type": "string"}},
+              "status": {"type": "string", "enum": ["ACTIVE", "DRAFT", "ARCHIVED"], "default": "DRAFT"},
+              "options": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "name": {"type": "string"},
+                    "values": {"type": "array", "items": {"type": "string"}}
+                  }
+                }
+              },
+              "variants": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "price": {"type": "string"},
+                    "compareAtPrice": {"type": "string"},
+                    "sku": {"type": "string"},
+                    "barcode": {"type": "string"},
+                    "optionValues": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {"optionName": {"type": "string"}, "name": {"type": "string"}}
+                      }
+                    },
+                    "inventoryQuantity": {"type": "integer"},
+                    "weight": {"type": "number"},
+                    "weightUnit": {"type": "string", "enum": ["GRAMS", "KILOGRAMS", "OUNCES", "POUNDS"]}
+                  }
+                }
+              },
+              "images": {
+                "type": "array",
+                "items": {"type": "object", "properties": {"src": {"type": "string"}, "altText": {"type": "string"}}}
+              },
+              "seo": {"type": "object", "properties": {"title": {"type": "string"}, "description": {"type": "string"}}}
+            },
+            "required": ["title"]
+          }
+        },
+        {
+          "name": "get_orders",
+          "description": "Get orders with optional filtering by status, payment, fulfillment, date range or a Shopify search query (e.g. 'email:jo@example.com', 'name:#1001', 'sku:HOOD-BLU-M').",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "status": {"type": "string", "enum": ["any", "open", "closed", "cancelled"], "default": "open"},
+              "financialStatus": {"type": "string", "enum": ["authorized", "pending", "paid", "partially_paid", "refunded", "partially_refunded", "voided", "any"]},
+              "fulfillmentStatus": {"type": "string", "enum": ["shipped", "partial", "unshipped", "unfulfilled", "any"]},
+              "query": {"type": "string"},
+              "createdAtMin": {"type": "string", "format": "date-time"},
+              "createdAtMax": {"type": "string", "format": "date-time"},
+              "limit": {"type": "integer", "default": 10}
+            }
+          }
+        },
+        {
+          "name": "get_order_by_id",
+          "description": "Get a specific order by ID",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "orderId": {"type": "string"}
+            },
+            "required": ["orderId"]
+          }
+        },
+        {
+          "name": "update_order",
+          "description": "Update an existing order with new information",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "id": {"type": "string"},
+              "tags": {"type": "array", "items": {"type": "string"}},
+              "email": {"type": "string"},
+              "note": {"type": "string"},
+              "customAttributes": {
+                "type": "array",
+                "items": {"type": "object", "properties": {"key": {"type": "string"}, "value": {"type": "string"}}}
+              },
+              "metafields": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {"type": "string"},
+                    "namespace": {"type": "string"},
+                    "key": {"type": "string"},
+                    "value": {"type": "string"},
+                    "type": {"type": "string"}
+                  }
+                }
+              },
+              "shippingAddress": {
+                "type": "object",
+                "properties": {
+                  "address1": {"type": "string"},
+                  "address2": {"type": "string"},
+                  "city": {"type": "string"},
+                  "province": {"type": "string"},
+                  "zip": {"type": "string"},
+                  "country": {"type": "string"},
+                  "firstName": {"type": "string"},
+                  "lastName": {"type": "string"},
+                  "phone": {"type": "string"}
+                }
+              }
+            },
+            "required": ["id"]
+          }
+        },
+        {
+          "name": "create_fulfillment",
+          "description": "Fulfill all or some line items of an order, attach carrier tracking info, and optionally email the customer a shipping confirmation.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "orderId": {"type": "string"},
+              "lineItems": {
+                "type": "array",
+                "items": {"type": "object", "properties": {"id": {"type": "string"}, "quantity": {"type": "integer"}}},
+                "description": "Omit to fulfill everything remaining."
+              },
+              "trackingInfo": {
+                "type": "object",
+                "properties": {
+                  "number": {"type": "string"},
+                  "company": {"type": "string", "description": "Carrier, e.g. 'UPS', 'DHL Express', 'Royal Mail'."},
+                  "url": {"type": "string"}
+                }
+              },
+              "notifyCustomer": {"type": "boolean", "default": true},
+              "locationId": {"type": "string"}
+            },
+            "required": ["orderId"]
+          }
+        },
+        {
+          "name": "refund_order",
+          "description": "Issue a full or partial refund on an order, with optional restocking of returned items and shipping refund.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "orderId": {"type": "string"},
+              "refundLineItems": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "lineItemId": {"type": "string"},
+                    "quantity": {"type": "integer"},
+                    "restockType": {"type": "string", "enum": ["NO_RESTOCK", "CANCEL", "RETURN"], "default": "NO_RESTOCK"},
+                    "locationId": {"type": "string"}
+                  },
+                  "required": ["lineItemId", "quantity"]
+                }
+              },
+              "shipping": {
+                "type": "object",
+                "properties": {
+                  "fullRefund": {"type": "boolean"},
+                  "amount": {"type": "string"}
+                }
+              },
+              "note": {"type": "string"},
+              "notify": {"type": "boolean", "default": true}
+            },
+            "required": ["orderId"]
+          }
+        },
+        {
+          "name": "get_inventory_levels",
+          "description": "Get available, on-hand and committed stock for product variants at each location. Look up by SKU, inventory item ID or product title.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "sku": {"type": "string"},
+              "inventoryItemIds": {"type": "array", "items": {"type": "string"}},
+              "productTitle": {"type": "string"},
+              "locationId": {"type": "string"}
+            }
+          }
+        },
+        {
+          "name": "adjust_inventory",
+          "description": "Adjust available inventory for an item at a location by a delta (positive adds stock, negative removes it).",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "inventoryItemId": {"type": "string"},
+              "locationId": {"type": "string"},
+              "delta": {"type": "integer"},
+              "reason": {"type": "string", "enum": ["correction", "cycle_count_available", "damaged", "received", "restock", "shrinkage", "promotion", "other"], "default": "correction"},
+              "referenceDocumentUri": {"type": "string"}
+            },
+            "required": ["inventoryItemId", "locationId", "delta"]
+          }
+        },
+        {
+          "name": "get_customers",
+          "description": "Get customers or search by name/email. Returns contact info, order count and total spent.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "searchQuery": {"type": "string"},
+              "limit": {"type": "integer", "default": 10}
+            }
+          }
+        },
+        {
+          "name": "create_discount_code",
+          "description": "Create a basic discount code (percentage or fixed amount) with optional dates, usage limits, minimum subtotal and product scope.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "title": {"type": "string"},
+              "code": {"type": "string"},
+              "valueType": {"type": "string", "enum": ["percentage", "fixed_amount"]},
+              "value": {"type": "number"},
+              "startsAt": {"type": "string", "format": "date-time"},
+              "endsAt": {"type": "string", "format": "date-time"},
+              "usageLimit": {"type": "integer"},
+              "appliesOncePerCustomer": {"type": "boolean", "default": false},
+              "minimumSubtotal": {"type": "number"},
+              "customerSelection": {"type": "string", "enum": ["all", "segment"], "default": "all"},
+              "appliesTo": {
+                "type": "object",
+                "properties": {
+                  "allItems": {"type": "boolean", "default": true},
+                  "productIds": {"type": "array", "items": {"type": "string"}},
+                  "collectionIds": {"type": "array", "items": {"type": "string"}}
+                }
+              }
+            },
+            "required": ["title", "code", "valueType", "value"]
+          }
+        }
+      ]
+    },
+    {
+      "id": "zendesk",
+      "name": "Zendesk",
+      "server": "mcp://zendesk",
+      "summary": "Zendesk Support: read, search, create, comment on and update customer support tickets.",
+      "tools": [
+        {
+          "name": "get_tickets",
+          "description": "Fetch the latest tickets with pagination support",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "page": {"type": "integer", "default": 1},
+              "per_page": {"type": "integer", "default": 25, "maximum": 100},
+              "sort_by": {"type": "string", "enum": ["created_at", "updated_at", "priority", "status"], "default": "created_at"},
+              "sort_order": {"type": "string", "enum": ["asc", "desc"], "default": "desc"}
+            }
+          }
+        },
+        {
+          "name": "get_ticket",
+          "description": "Retrieve a Zendesk ticket by its ID",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "ticket_id": {"type": "integer"}
+            },
+            "required": ["ticket_id"]
+          }
+        },
+        {
+          "name": "get_ticket_comments",
+          "description": "Retrieve all comments for a Zendesk ticket by its ID",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "ticket_id": {"type": "integer"}
+            },
+            "required": ["ticket_id"]
+          }
+        },
+        {
+          "name": "create_ticket",
+          "description": "Create a new Zendesk ticket",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "subject": {"type": "string"},
+              "comment": {
+                "type": "object",
+                "properties": {
+                  "body": {"type": "string"},
+                  "html_body": {"type": "string"},
+                  "public": {"type": "boolean", "default": true}
+                },
+                "required": ["body"]
+              },
+              "requester": {
+                "type": "object",
+                "properties": {"name": {"type": "string"}, "email": {"type": "string"}}
+              },
+              "priority": {"type": "string", "enum": ["urgent", "high", "normal", "low"]},
+              "type": {"type": "string", "enum": ["problem", "incident", "question", "task"]},
+              "status": {"type": "string", "enum": ["new", "open", "pending", "hold", "solved"], "default": "new"},
+              "tags": {"type": "array", "items": {"type": "string"}},
+              "assignee_id": {"type": "integer"},
+              "group_id": {"type": "integer"},
+              "due_at": {"type": "string", "format": "date-time"},
+              "custom_fields": {
+                "type": "array",
+                "items": {"type": "object", "properties": {"id": {"type": "integer"}, "value": {}}}
+              }
+            },
+            "required": ["subject", "comment"]
+          }
+        },
+        {
+          "name": "create_ticket_comment",
+          "description": "Create a new comment on an existing Zendesk ticket. Set public=false for an internal note visible only to agents.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "ticket_id": {"type": "integer"},
+              "comment": {"type": "string"},
+              "public": {"type": "boolean", "default": true}
+            },
+            "required": ["ticket_id", "comment"]
+          }
+        },
+        {
+          "name": "update_ticket",
+          "description": "Update fields on an existing Zendesk ticket (e.g., status, priority, assignee_id)",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "ticket_id": {"type": "integer"},
+              "subject": {"type": "string"},
+              "status": {"type": "string", "enum": ["new", "open", "pending", "hold", "solved", "closed"]},
+              "priority": {"type": "string", "enum": ["urgent", "high", "normal", "low"]},
+              "type": {"type": "string", "enum": ["problem", "incident", "question", "task"]},
+              "assignee_id": {"type": "integer"},
+              "group_id": {"type": "integer"},
+              "tags": {"type": "array", "items": {"type": "string"}},
+              "due_at": {"type": "string", "format": "date-time"},
+              "custom_fields": {"type": "array", "items": {"type": "object"}}
+            },
+            "required": ["ticket_id"]
+          }
+        },
+        {
+          "name": "search",
+          "description": "Search tickets, users and organizations using Zendesk search syntax, e.g. 'type:ticket status:open priority:urgent' or 'type:ticket requester:jane@acme.com' or 'type:ticket organization:\"Acme\"'.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "query": {"type": "string"},
+              "sort_by": {"type": "string", "enum": ["updated_at", "created_at", "priority", "status", "ticket_type"]},
+              "sort_order": {"type": "string", "enum": ["asc", "desc"], "default": "desc"},
+              "per_page": {"type": "integer", "default": 25}
+            },
+            "required": ["query"]
+          }
+        }
+      ]
+    },
+    {
+      "id": "mailchimp",
+      "name": "Mailchimp",
+      "server": "mcp://mailchimp",
+      "summary": "Mailchimp email marketing: audiences and subscribers, campaign creation, content, sending, scheduling and reports.",
+      "tools": [
+        {
+          "name": "list_audiences",
+          "description": "Get information about all audiences (lists) in the account, including member counts and default from/subject settings.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "count": {"type": "integer", "default": 10, "maximum": 1000},
+              "offset": {"type": "integer", "default": 0}
+            }
+          }
+        },
+        {
+          "name": "add_or_update_member",
+          "description": "Add a contact to an audience or update an existing one (upsert by email address). Use status 'pending' to send a double opt-in confirmation email.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "list_id": {"type": "string"},
+              "email_address": {"type": "string"},
+              "status": {"type": "string", "enum": ["subscribed", "unsubscribed", "cleaned", "pending", "transactional"]},
+              "status_if_new": {"type": "string", "enum": ["subscribed", "unsubscribed", "cleaned", "pending", "transactional"]},
+              "merge_fields": {
+                "type": "object",
+                "properties": {
+                  "FNAME": {"type": "string"},
+                  "LNAME": {"type": "string"},
+                  "PHONE": {"type": "string"},
+                  "BIRTHDAY": {"type": "string"}
+                },
+                "additionalProperties": true
+              },
+              "tags": {"type": "array", "items": {"type": "string"}},
+              "language": {"type": "string"},
+              "vip": {"type": "boolean", "default": false}
+            },
+            "required": ["list_id", "email_address", "status_if_new"]
+          }
+        },
+        {
+          "name": "create_campaign",
+          "description": "Create a new Mailchimp campaign",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "type": {"type": "string", "enum": ["regular", "plaintext", "absplit", "rss", "variate"], "default": "regular"},
+              "recipients": {
+                "type": "object",
+                "properties": {
+                  "list_id": {"type": "string"},
+                  "segment_opts": {
+                    "type": "object",
+                    "properties": {
+                      "saved_segment_id": {"type": "integer"},
+                      "match": {"type": "string", "enum": ["any", "all"]},
+                      "conditions": {"type": "array", "items": {"type": "object"}}
+                    }
+                  }
+                },
+                "required": ["list_id"]
+              },
+              "settings": {
+                "type": "object",
+                "properties": {
+                  "subject_line": {"type": "string"},
+                  "preview_text": {"type": "string"},
+                  "title": {"type": "string"},
+                  "from_name": {"type": "string"},
+                  "reply_to": {"type": "string"},
+                  "to_name": {"type": "string"},
+                  "template_id": {"type": "integer"}
+                }
+              },
+              "tracking": {
+                "type": "object",
+                "properties": {
+                  "opens": {"type": "boolean", "default": true},
+                  "html_clicks": {"type": "boolean", "default": true},
+                  "text_clicks": {"type": "boolean", "default": false}
+                }
+              }
+            },
+            "required": ["type", "recipients"]
+          }
+        },
+        {
+          "name": "set_campaign_content",
+          "description": "Set the content for a campaign.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "campaign_id": {"type": "string"},
+              "html": {"type": "string"},
+              "plain_text": {"type": "string"},
+              "url": {"type": "string", "description": "Import HTML from this URL."},
+              "template": {
+                "type": "object",
+                "properties": {
+                  "id": {"type": "integer"},
+                  "sections": {"type": "object", "additionalProperties": {"type": "string"}}
+                }
+              }
+            },
+            "required": ["campaign_id"]
+          }
+        },
+        {
+          "name": "send_campaign",
+          "description": "Send a Mailchimp campaign immediately. For RSS campaigns, the campaign will send according to its schedule.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "campaign_id": {"type": "string"}
+            },
+            "required": ["campaign_id"]
+          }
+        },
+        {
+          "name": "schedule_campaign",
+          "description": "Schedule a campaign for delivery at a future time. Optionally use Timewarp to deliver at that local time in each recipient's timezone, or batch delivery to spread sends out.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "campaign_id": {"type": "string"},
+              "schedule_time": {"type": "string", "format": "date-time", "description": "UTC, on the quarter-hour."},
+              "timewarp": {"type": "boolean", "default": false},
+              "batch_delivery": {
+                "type": "object",
+                "properties": {
+                  "batch_delay": {"type": "integer", "description": "Minutes between batches."},
+                  "batch_count": {"type": "integer"}
+                }
+              }
+            },
+            "required": ["campaign_id", "schedule_time"]
+          }
+        },
+        {
+          "name": "get_campaign_report",
+          "description": "Get report details for a sent campaign: opens, clicks, bounces, unsubscribes, abuse reports and e-commerce revenue.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "campaign_id": {"type": "string"}
+            },
+            "required": ["campaign_id"]
+          }
+        }
+      ]
+    }
+  ]
+}

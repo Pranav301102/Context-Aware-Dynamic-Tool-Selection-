@@ -1,0 +1,773 @@
+{
+  "branch": {
+    "id": "travel_geo",
+    "name": "Travel & Geo",
+    "summary": "Location and trip requests: geocoding addresses and coordinates, directions and travel times, finding places nearby, map images, weather conditions, forecasts and alerts, flight search and status, hotel availability, and public transit stops, routes and departures."
+  },
+  "toolkits": [
+    {
+      "id": "google_maps",
+      "name": "Google Maps",
+      "server": "mcp://google-maps",
+      "summary": "Google Maps Platform server: geocoding, place search and details, directions, distance matrix and elevation.",
+      "tools": [
+        {
+          "name": "maps_geocode",
+          "description": "Convert an address into geographic coordinates",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "address": {"type": "string", "description": "The address to geocode"}
+            },
+            "required": ["address"]
+          }
+        },
+        {
+          "name": "maps_reverse_geocode",
+          "description": "Convert coordinates into an address",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "latitude": {"type": "number", "description": "Latitude coordinate"},
+              "longitude": {"type": "number", "description": "Longitude coordinate"}
+            },
+            "required": ["latitude", "longitude"]
+          }
+        },
+        {
+          "name": "maps_search_places",
+          "description": "Search for places using Google Places API",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "query": {"type": "string", "description": "Search query"},
+              "location": {
+                "type": "object",
+                "properties": {
+                  "latitude": {"type": "number"},
+                  "longitude": {"type": "number"}
+                },
+                "description": "Optional center point for the search"
+              },
+              "radius": {"type": "number", "description": "Search radius in meters (max 50000)"}
+            },
+            "required": ["query"]
+          }
+        },
+        {
+          "name": "maps_place_details",
+          "description": "Get detailed information about a specific place",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "place_id": {"type": "string", "description": "The place ID to get details for"}
+            },
+            "required": ["place_id"]
+          }
+        },
+        {
+          "name": "maps_distance_matrix",
+          "description": "Calculate travel distance and time for multiple origins and destinations",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "origins": {"type": "array", "items": {"type": "string"}, "description": "Array of origin addresses or coordinates"},
+              "destinations": {"type": "array", "items": {"type": "string"}, "description": "Array of destination addresses or coordinates"},
+              "mode": {"type": "string", "enum": ["driving", "walking", "bicycling", "transit"], "description": "Travel mode (driving, walking, bicycling, transit)"}
+            },
+            "required": ["origins", "destinations"]
+          }
+        },
+        {
+          "name": "maps_elevation",
+          "description": "Get elevation data for locations on the earth",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "locations": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "latitude": {"type": "number"},
+                    "longitude": {"type": "number"}
+                  },
+                  "required": ["latitude", "longitude"]
+                },
+                "description": "Array of locations to get elevation for"
+              }
+            },
+            "required": ["locations"]
+          }
+        },
+        {
+          "name": "maps_directions",
+          "description": "Get directions between two points",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "origin": {"type": "string", "description": "Starting point address or coordinates"},
+              "destination": {"type": "string", "description": "Ending point address or coordinates"},
+              "mode": {"type": "string", "enum": ["driving", "walking", "bicycling", "transit"], "description": "Travel mode (driving, walking, bicycling, transit)"}
+            },
+            "required": ["origin", "destination"]
+          }
+        }
+      ]
+    },
+    {
+      "id": "mapbox",
+      "name": "Mapbox",
+      "server": "mcp://mapbox",
+      "summary": "Mapbox location platform: search and geocoding, category search, routing, travel-time matrices, isochrones and static map images.",
+      "tools": [
+        {
+          "name": "search_and_geocode_tool",
+          "description": "Search for points of interest, brands and chains, and geocode addresses, cities, towns and postcodes using the Mapbox Search Box API. Returns names, full addresses and coordinates. Supports proximity biasing, bounding boxes and country filters. Do not use for generic place types such as 'museums', 'coffee shops' or 'tacos' - category_search_tool is better for those.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "q": {"type": "string", "maxLength": 256, "description": "Search query text: an address, place name, POI or brand."},
+              "proximity": {
+                "type": "object",
+                "properties": {
+                  "longitude": {"type": "number", "minimum": -180, "maximum": 180},
+                  "latitude": {"type": "number", "minimum": -90, "maximum": 90}
+                },
+                "required": ["longitude", "latitude"],
+                "description": "Bias results toward this location."
+              },
+              "bbox": {
+                "type": "object",
+                "properties": {
+                  "minLongitude": {"type": "number"},
+                  "minLatitude": {"type": "number"},
+                  "maxLongitude": {"type": "number"},
+                  "maxLatitude": {"type": "number"}
+                },
+                "description": "Limit results to this bounding box."
+              },
+              "country": {"type": "array", "items": {"type": "string", "pattern": "^[A-Z]{2}$"}, "description": "ISO 3166 alpha-2 country codes to restrict results to."},
+              "language": {"type": "string", "description": "IETF language tag for results, e.g. 'en', 'de'."},
+              "limit": {"type": "integer", "minimum": 1, "maximum": 10, "default": 10},
+              "types": {
+                "type": "array",
+                "items": {"type": "string", "enum": ["country", "region", "postcode", "district", "place", "city", "locality", "neighborhood", "street", "address", "poi", "brand"]},
+                "description": "Feature types to include."
+              },
+              "eta_type": {"type": "string", "enum": ["navigation"], "description": "Request estimated time of arrival from origin."},
+              "navigation_profile": {"type": "string", "enum": ["driving", "walking", "cycling"]},
+              "origin": {
+                "type": "object",
+                "properties": {"longitude": {"type": "number"}, "latitude": {"type": "number"}},
+                "description": "Origin for ETA calculation."
+              }
+            },
+            "required": ["q"]
+          }
+        },
+        {
+          "name": "category_search_tool",
+          "description": "Return all places that match a category (industry, amenity or type) such as 'coffee', 'pharmacy', 'gas_station', 'hotel', 'restaurant' or 'ev_charging_station'. Use this for generic 'find X near Y' requests where no specific business name is given. Results are sorted by distance when a proximity point is supplied.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "category": {"type": "string", "description": "Canonical category id, e.g. 'coffee', 'pharmacy', 'bar', 'supermarket'."},
+              "proximity": {
+                "type": "object",
+                "properties": {
+                  "longitude": {"type": "number"},
+                  "latitude": {"type": "number"}
+                },
+                "required": ["longitude", "latitude"]
+              },
+              "bbox": {
+                "type": "object",
+                "properties": {
+                  "minLongitude": {"type": "number"},
+                  "minLatitude": {"type": "number"},
+                  "maxLongitude": {"type": "number"},
+                  "maxLatitude": {"type": "number"}
+                }
+              },
+              "country": {"type": "array", "items": {"type": "string"}},
+              "language": {"type": "string"},
+              "limit": {"type": "integer", "minimum": 1, "maximum": 25, "default": 10},
+              "poi_category_exclusions": {"type": "array", "items": {"type": "string"}, "description": "Categories to exclude from results."},
+              "format": {"type": "string", "enum": ["formatted_text", "json_string"], "default": "formatted_text"}
+            },
+            "required": ["category"]
+          }
+        },
+        {
+          "name": "reverse_geocode_tool",
+          "description": "Find addresses, places and administrative areas at a given longitude/latitude using the Mapbox Geocoding API v6.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "longitude": {"type": "number", "minimum": -180, "maximum": 180},
+              "latitude": {"type": "number", "minimum": -90, "maximum": 90},
+              "types": {
+                "type": "array",
+                "items": {"type": "string", "enum": ["country", "region", "postcode", "district", "place", "locality", "neighborhood", "street", "address"]}
+              },
+              "limit": {"type": "integer", "minimum": 1, "maximum": 5, "default": 1},
+              "language": {"type": "string"},
+              "country": {"type": "array", "items": {"type": "string"}},
+              "worldview": {"type": "string", "default": "us", "description": "Return boundaries and names as seen from this country's perspective."},
+              "format": {"type": "string", "enum": ["formatted_text", "json_string"], "default": "formatted_text"}
+            },
+            "required": ["longitude", "latitude"]
+          }
+        },
+        {
+          "name": "directions_tool",
+          "description": "Fetch a route between 2 and 25 coordinates using the Mapbox Directions API. Supports driving (with or without live traffic), walking and cycling profiles, road exclusions (tolls, motorways, ferries, unpaved roads, borders), vehicle height/width/weight limits for trucks, and departure or arrival time constraints. Returns distance, duration and optionally turn-by-turn steps and route geometry. Public transit is not supported.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "coordinates": {
+                "type": "array",
+                "minItems": 2,
+                "maxItems": 25,
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "longitude": {"type": "number"},
+                    "latitude": {"type": "number"}
+                  },
+                  "required": ["longitude", "latitude"]
+                },
+                "description": "Ordered waypoints: origin, optional intermediate stops, destination."
+              },
+              "routing_profile": {"type": "string", "enum": ["mapbox/driving-traffic", "mapbox/driving", "mapbox/walking", "mapbox/cycling"], "default": "mapbox/driving-traffic"},
+              "geometries": {"type": "string", "enum": ["none", "geojson"], "default": "none"},
+              "alternatives": {"type": "boolean", "default": false},
+              "steps": {"type": "boolean", "default": false, "description": "Include turn-by-turn instructions."},
+              "exclude": {
+                "type": "array",
+                "items": {"type": "string", "enum": ["toll", "motorway", "ferry", "unpaved", "cash_only_tolls", "country_border", "state_border"]},
+                "description": "Road types to avoid."
+              },
+              "depart_at": {"type": "string", "description": "ISO 8601 departure time (driving profiles only)."},
+              "arrive_by": {"type": "string", "description": "ISO 8601 desired arrival time (mapbox/driving only)."},
+              "max_height": {"type": "number", "description": "Vehicle height in meters (0-10)."},
+              "max_width": {"type": "number", "description": "Vehicle width in meters (0-10)."},
+              "max_weight": {"type": "number", "description": "Vehicle weight in metric tons (0-100)."},
+              "language": {"type": "string", "default": "en"}
+            },
+            "required": ["coordinates"]
+          }
+        },
+        {
+          "name": "matrix_tool",
+          "description": "Calculate travel times and distances between many points with the Mapbox Matrix API. Returns a table of durations (and optionally distances) for every source-destination pair, up to 25 coordinates (10 with driving-traffic). Useful for finding the nearest of several locations or planning multi-stop deliveries.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "coordinates": {
+                "type": "array",
+                "minItems": 2,
+                "maxItems": 25,
+                "items": {
+                  "type": "object",
+                  "properties": {"longitude": {"type": "number"}, "latitude": {"type": "number"}},
+                  "required": ["longitude", "latitude"]
+                }
+              },
+              "profile": {"type": "string", "enum": ["mapbox/driving-traffic", "mapbox/driving", "mapbox/walking", "mapbox/cycling"]},
+              "annotations": {"type": "string", "enum": ["duration", "distance", "duration,distance"], "default": "duration"},
+              "sources": {"type": "string", "description": "Semicolon-separated indices of coordinates to use as sources, or 'all'.", "default": "all"},
+              "destinations": {"type": "string", "description": "Semicolon-separated indices of coordinates to use as destinations, or 'all'.", "default": "all"},
+              "approaches": {"type": "string", "description": "Semicolon-separated 'unrestricted' or 'curb' per coordinate."},
+              "fallback_speed": {"type": "number", "description": "km/h used to estimate pairs with no route."},
+              "depart_at": {"type": "string"}
+            },
+            "required": ["coordinates", "profile"]
+          }
+        },
+        {
+          "name": "isochrone_tool",
+          "description": "Compute areas that are reachable within a specified amount of time or distance from a location. Returns GeoJSON polygons or lines (isochrones / isodistances), e.g. 'everywhere within a 15-minute walk'.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "coordinates": {
+                "type": "object",
+                "properties": {"longitude": {"type": "number"}, "latitude": {"type": "number"}},
+                "required": ["longitude", "latitude"]
+              },
+              "profile": {"type": "string", "enum": ["mapbox/driving-traffic", "mapbox/driving", "mapbox/walking", "mapbox/cycling"], "default": "mapbox/driving"},
+              "contours_minutes": {"type": "array", "items": {"type": "integer", "minimum": 1, "maximum": 60}, "maxItems": 4, "description": "Up to 4 travel times in minutes, increasing order."},
+              "contours_meters": {"type": "array", "items": {"type": "integer", "minimum": 1, "maximum": 100000}, "maxItems": 4},
+              "contours_colors": {"type": "array", "items": {"type": "string"}, "description": "Hex colors without '#', one per contour."},
+              "polygons": {"type": "boolean", "default": true},
+              "denoise": {"type": "number", "minimum": 0, "maximum": 1, "default": 1},
+              "generalize": {"type": "number", "description": "Tolerance in meters for Douglas-Peucker simplification."},
+              "exclude": {"type": "array", "items": {"type": "string", "enum": ["toll", "motorway", "ferry", "unpaved", "cash_only_tolls"]}},
+              "depart_at": {"type": "string"}
+            },
+            "required": ["coordinates", "profile"]
+          }
+        },
+        {
+          "name": "static_map_image_tool",
+          "description": "Generates a static map image from Mapbox Static Images API. Supports center coordinates, zoom level (0-22), image size (up to 1280x1280), various Mapbox styles, and overlays (markers, paths, GeoJSON). Returns PNG for vector styles, JPEG for raster-only styles.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "center": {
+                "type": "object",
+                "properties": {"longitude": {"type": "number"}, "latitude": {"type": "number"}},
+                "required": ["longitude", "latitude"]
+              },
+              "zoom": {"type": "number", "minimum": 0, "maximum": 22},
+              "size": {
+                "type": "object",
+                "properties": {
+                  "width": {"type": "integer", "minimum": 1, "maximum": 1280},
+                  "height": {"type": "integer", "minimum": 1, "maximum": 1280}
+                },
+                "required": ["width", "height"]
+              },
+              "style": {"type": "string", "enum": ["mapbox/streets-v12", "mapbox/outdoors-v12", "mapbox/light-v11", "mapbox/dark-v11", "mapbox/satellite-v9", "mapbox/satellite-streets-v12", "mapbox/navigation-day-v1", "mapbox/navigation-night-v1"], "default": "mapbox/streets-v12"},
+              "highDensity": {"type": "boolean", "default": false, "description": "Render at @2x for retina displays."},
+              "overlays": {
+                "type": "array",
+                "items": {
+                  "oneOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "type": {"const": "marker"},
+                        "longitude": {"type": "number"},
+                        "latitude": {"type": "number"},
+                        "size": {"type": "string", "enum": ["small", "large"], "default": "small"},
+                        "label": {"type": "string", "description": "Single letter, number 0-99, or Maki icon name."},
+                        "color": {"type": "string", "description": "Hex color without '#'."}
+                      },
+                      "required": ["type", "longitude", "latitude"]
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "type": {"const": "path"},
+                        "encodedPolyline": {"type": "string"},
+                        "strokeWidth": {"type": "number"},
+                        "strokeColor": {"type": "string"},
+                        "strokeOpacity": {"type": "number"},
+                        "fillColor": {"type": "string"},
+                        "fillOpacity": {"type": "number"}
+                      },
+                      "required": ["type", "encodedPolyline"]
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "type": {"const": "geojson"},
+                        "data": {"type": "object", "description": "GeoJSON Feature or FeatureCollection."}
+                      },
+                      "required": ["type", "data"]
+                    }
+                  ]
+                }
+              }
+            },
+            "required": ["center", "zoom", "size"]
+          }
+        }
+      ]
+    },
+    {
+      "id": "openweathermap",
+      "name": "OpenWeatherMap",
+      "server": "mcp://openweathermap",
+      "summary": "Worldwide weather data from OpenWeatherMap: current conditions, 5-day forecasts, government alerts, air pollution and historical weather.",
+      "tools": [
+        {
+          "name": "get_current_weather",
+          "description": "Get current weather conditions (temperature, feels-like, humidity, pressure, wind, cloud cover, rain/snow and visibility) for any city or coordinates worldwide.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "location": {"type": "string", "description": "City name, optionally with ISO country code, e.g. 'Leeds,GB' or 'Austin,US'. Ignored if lat/lon given."},
+              "lat": {"type": "number"},
+              "lon": {"type": "number"},
+              "units": {"type": "string", "enum": ["standard", "metric", "imperial"], "default": "metric"},
+              "lang": {"type": "string", "default": "en"}
+            }
+          }
+        },
+        {
+          "name": "get_forecast",
+          "description": "5 day weather forecast in 3-hour steps for any location worldwide. Includes temperature, probability of precipitation (pop), rain/snow volume, wind and condition descriptions.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "location": {"type": "string", "description": "City name, optionally with country code."},
+              "lat": {"type": "number"},
+              "lon": {"type": "number"},
+              "units": {"type": "string", "enum": ["standard", "metric", "imperial"], "default": "metric"},
+              "cnt": {"type": "integer", "minimum": 1, "maximum": 40, "description": "Number of 3-hour timestamps to return (40 = 5 days)."},
+              "lang": {"type": "string", "default": "en"}
+            }
+          }
+        },
+        {
+          "name": "get_weather_alerts",
+          "description": "National weather alerts for a coordinate.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "lat": {"type": "number"},
+              "lon": {"type": "number"}
+            },
+            "required": ["lat", "lon"]
+          }
+        },
+        {
+          "name": "get_air_pollution",
+          "description": "Air quality index (1 = Good to 5 = Very Poor) and pollutant concentrations (CO, NO, NO2, O3, SO2, PM2.5, PM10, NH3) for a location. Set mode to 'forecast' for an hourly forecast up to 4 days ahead, or 'history' with start/end unix timestamps.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "lat": {"type": "number"},
+              "lon": {"type": "number"},
+              "mode": {"type": "string", "enum": ["current", "forecast", "history"], "default": "current"},
+              "start": {"type": "integer", "description": "Unix timestamp (history mode)."},
+              "end": {"type": "integer", "description": "Unix timestamp (history mode)."}
+            },
+            "required": ["lat", "lon"]
+          }
+        },
+        {
+          "name": "get_historical_weather",
+          "description": "Weather data for a past date and location (from 1979-01-01 onward) via the One Call timemachine endpoint.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "lat": {"type": "number"},
+              "lon": {"type": "number"},
+              "dt": {"type": "string", "description": "Date/time to look up, as ISO 8601 or unix timestamp."},
+              "units": {"type": "string", "enum": ["standard", "metric", "imperial"], "default": "metric"}
+            },
+            "required": ["lat", "lon", "dt"]
+          }
+        }
+      ]
+    },
+    {
+      "id": "nws_weather",
+      "name": "National Weather Service",
+      "server": "mcp://weather",
+      "summary": "US National Weather Service (api.weather.gov) forecasts, observations and alerts for locations in the United States.",
+      "tools": [
+        {
+          "name": "get_alerts",
+          "description": "Get weather alerts for a US state.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "state": {"type": "string", "description": "Two-letter US state code (e.g. CA, NY)"}
+            },
+            "required": ["state"]
+          }
+        },
+        {
+          "name": "get_forecast",
+          "description": "Get weather forecast for a location. Returns the next 5 forecast periods (day/night) from the NWS gridpoint covering the coordinates. US locations only.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "latitude": {"type": "number", "description": "Latitude of the location"},
+              "longitude": {"type": "number", "description": "Longitude of the location"}
+            },
+            "required": ["latitude", "longitude"]
+          }
+        },
+        {
+          "name": "get_hourly_forecast",
+          "description": "Hour-by-hour forecast (temperature, precipitation chance, wind, sky cover) for up to the next 156 hours at a US location.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "latitude": {"type": "number"},
+              "longitude": {"type": "number"},
+              "hours": {"type": "integer", "minimum": 1, "maximum": 156, "default": 24}
+            },
+            "required": ["latitude", "longitude"]
+          }
+        },
+        {
+          "name": "get_latest_observation",
+          "description": "Latest observed conditions from the NWS observation station nearest to a US location, or from a specific station ID such as KSFO.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "latitude": {"type": "number"},
+              "longitude": {"type": "number"},
+              "station_id": {"type": "string", "description": "ICAO station identifier; overrides latitude/longitude."}
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "amadeus_travel",
+      "name": "Amadeus Travel",
+      "server": "mcp://amadeus",
+      "summary": "Amadeus Self-Service travel APIs: flight offers, cheapest dates, destination inspiration, flight status, airport lookup, hotel lists and hotel room offers.",
+      "tools": [
+        {
+          "name": "search_flight_offers",
+          "description": "Search for bookable flight offers between two airports or cities on given dates. Returns itineraries with segments, carriers, durations, baggage allowances and total price. Supports passenger counts, cabin class, airline include/exclude lists, non-stop only and a maximum price.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "originLocationCode": {"type": "string", "description": "IATA code of the departure airport or city, e.g. 'JFK' or 'NYC'."},
+              "destinationLocationCode": {"type": "string", "description": "IATA code of the arrival airport or city."},
+              "departureDate": {"type": "string", "format": "date", "description": "YYYY-MM-DD"},
+              "returnDate": {"type": "string", "format": "date", "description": "YYYY-MM-DD; omit for one-way."},
+              "adults": {"type": "integer", "minimum": 1, "maximum": 9, "default": 1},
+              "children": {"type": "integer", "minimum": 0, "maximum": 9},
+              "infants": {"type": "integer", "minimum": 0, "maximum": 9},
+              "travelClass": {"type": "string", "enum": ["ECONOMY", "PREMIUM_ECONOMY", "BUSINESS", "FIRST"]},
+              "includedAirlineCodes": {"type": "string", "description": "Comma-separated IATA airline codes to include."},
+              "excludedAirlineCodes": {"type": "string", "description": "Comma-separated IATA airline codes to exclude."},
+              "nonStop": {"type": "boolean", "default": false},
+              "currencyCode": {"type": "string", "default": "USD", "description": "ISO 4217 currency code."},
+              "maxPrice": {"type": "integer", "description": "Maximum price per traveler, no decimals."},
+              "max": {"type": "integer", "default": 50, "maximum": 250}
+            },
+            "required": ["originLocationCode", "destinationLocationCode", "departureDate", "adults"]
+          }
+        },
+        {
+          "name": "get_flight_status",
+          "description": "Get the real-time status of a specific flight: scheduled vs. estimated departure and arrival times, delays, terminals and gates.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "carrierCode": {"type": "string", "description": "2-character IATA airline code, e.g. 'BA'."},
+              "flightNumber": {"type": "string", "description": "1-4 digit flight number."},
+              "scheduledDepartureDate": {"type": "string", "format": "date"},
+              "operationalSuffix": {"type": "string", "description": "Optional one-letter suffix."}
+            },
+            "required": ["carrierCode", "flightNumber", "scheduledDepartureDate"]
+          }
+        },
+        {
+          "name": "search_airports_and_cities",
+          "description": "Find airports and cities matching a keyword and return their IATA codes, names and locations.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "keyword": {"type": "string", "description": "Start of a city or airport name or code, e.g. 'Lond'."},
+              "subType": {"type": "array", "items": {"type": "string", "enum": ["AIRPORT", "CITY"]}, "default": ["AIRPORT", "CITY"]},
+              "countryCode": {"type": "string", "description": "ISO 3166-1 alpha-2 filter."},
+              "page_limit": {"type": "integer", "default": 10}
+            },
+            "required": ["keyword"]
+          }
+        },
+        {
+          "name": "flight_inspiration_search",
+          "description": "Find the cheapest destinations reachable from an origin, optionally within a budget and date range. Good for open-ended 'where can I go' questions where the destination is not fixed.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "origin": {"type": "string", "description": "IATA code of the departure city."},
+              "departureDate": {"type": "string", "description": "Date or range, e.g. '2026-11-01' or '2026-11-01,2026-11-30'."},
+              "oneWay": {"type": "boolean", "default": false},
+              "duration": {"type": "string", "description": "Trip length in days or range, e.g. '2,5'."},
+              "nonStop": {"type": "boolean", "default": false},
+              "maxPrice": {"type": "integer"},
+              "viewBy": {"type": "string", "enum": ["COUNTRY", "DATE", "DESTINATION", "DURATION", "WEEK"]}
+            },
+            "required": ["origin"]
+          }
+        },
+        {
+          "name": "flight_cheapest_dates",
+          "description": "Find the cheapest dates to travel on a fixed origin-destination route.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "origin": {"type": "string"},
+              "destination": {"type": "string"},
+              "departureDate": {"type": "string", "description": "Date or range, e.g. '2026-11-01,2026-11-30'."},
+              "oneWay": {"type": "boolean", "default": false},
+              "duration": {"type": "string"},
+              "nonStop": {"type": "boolean", "default": false},
+              "maxPrice": {"type": "integer"},
+              "viewBy": {"type": "string", "enum": ["DATE", "DURATION", "WEEK"], "default": "DATE"}
+            },
+            "required": ["origin", "destination"]
+          }
+        },
+        {
+          "name": "airport_direct_destinations",
+          "description": "Returns the destinations served by non-stop flights from a given airport.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "departureAirportCode": {"type": "string", "description": "IATA airport code."},
+              "max": {"type": "integer"},
+              "arrivalCountryCode": {"type": "string"}
+            },
+            "required": ["departureAirportCode"]
+          }
+        },
+        {
+          "name": "search_hotels_by_city",
+          "description": "List hotels in a city by IATA city code, with optional filters for distance from the city center, hotel chains, amenities and star rating. Returns hotel IDs, names and locations only - use get_hotel_offers for prices and availability.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "cityCode": {"type": "string", "description": "IATA city code, e.g. 'PAR'."},
+              "radius": {"type": "integer", "default": 5},
+              "radiusUnit": {"type": "string", "enum": ["KM", "MILE"], "default": "KM"},
+              "chainCodes": {"type": "array", "items": {"type": "string"}, "description": "2-letter hotel chain codes, e.g. 'MC' (Marriott)."},
+              "amenities": {
+                "type": "array",
+                "items": {"type": "string", "enum": ["SWIMMING_POOL", "SPA", "FITNESS_CENTER", "AIR_CONDITIONING", "RESTAURANT", "PARKING", "PETS_ALLOWED", "AIRPORT_SHUTTLE", "BUSINESS_CENTER", "DISABLED_FACILITIES", "WIFI", "MEETING_ROOMS", "NO_KID_ALLOWED", "TENNIS", "GOLF", "KITCHEN", "BEACH", "CASINO", "JACUZZI", "SAUNA", "SOLARIUM", "MASSAGE", "VALET_PARKING", "BAR_OR_LOUNGE", "KIDS_WELCOME", "NO_PORN_FILMS", "MINIBAR", "TELEVISION", "WI_FI_IN_ROOM", "ROOM_SERVICE", "GUARDED_PARKG", "SERV_SPEC_MENU"]}
+              },
+              "ratings": {"type": "array", "items": {"type": "string", "enum": ["1", "2", "3", "4", "5"]}, "maxItems": 4},
+              "hotelSource": {"type": "string", "enum": ["BEDBANK", "DIRECTCHAIN", "ALL"], "default": "ALL"}
+            },
+            "required": ["cityCode"]
+          }
+        },
+        {
+          "name": "search_hotels_by_geocode",
+          "description": "List hotels around a latitude/longitude.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "latitude": {"type": "number"},
+              "longitude": {"type": "number"},
+              "radius": {"type": "integer", "default": 5},
+              "radiusUnit": {"type": "string", "enum": ["KM", "MILE"], "default": "KM"},
+              "amenities": {"type": "array", "items": {"type": "string"}},
+              "ratings": {"type": "array", "items": {"type": "string", "enum": ["1", "2", "3", "4", "5"]}}
+            },
+            "required": ["latitude", "longitude"]
+          }
+        },
+        {
+          "name": "get_hotel_offers",
+          "description": "Get available room offers with prices for one or more hotels on given dates. Requires hotel IDs from a hotel list search.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "hotelIds": {"type": "array", "items": {"type": "string"}, "description": "8-character Amadeus hotel IDs."},
+              "adults": {"type": "integer", "minimum": 1, "maximum": 9, "default": 1},
+              "checkInDate": {"type": "string", "format": "date"},
+              "checkOutDate": {"type": "string", "format": "date"},
+              "roomQuantity": {"type": "integer", "minimum": 1, "maximum": 9, "default": 1},
+              "priceRange": {"type": "string", "description": "e.g. '100-300' (requires currency)."},
+              "currency": {"type": "string"},
+              "paymentPolicy": {"type": "string", "enum": ["NONE", "GUARANTEE", "DEPOSIT"], "default": "NONE"},
+              "boardType": {"type": "string", "enum": ["ROOM_ONLY", "BREAKFAST", "HALF_BOARD", "FULL_BOARD", "ALL_INCLUSIVE"]},
+              "bestRateOnly": {"type": "boolean", "default": true},
+              "includeClosed": {"type": "boolean", "default": false},
+              "lang": {"type": "string"}
+            },
+            "required": ["hotelIds"]
+          }
+        }
+      ]
+    },
+    {
+      "id": "transitland",
+      "name": "Transitland",
+      "server": "mcp://transitland",
+      "summary": "Transitland open transit data: stops, routes, operators and scheduled/real-time departures for public transport agencies worldwide.",
+      "tools": [
+        {
+          "name": "search_stops",
+          "description": "Search public transit stops (bus stops, rail and metro stations, ferry terminals) by name or around a point. Returns Onestop IDs, names, coordinates and the routes serving each stop.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "search": {"type": "string", "description": "Full-text search on stop name."},
+              "lat": {"type": "number"},
+              "lon": {"type": "number"},
+              "radius": {"type": "number", "default": 500, "description": "Meters around lat/lon."},
+              "served_by_onestop_ids": {"type": "string", "description": "Comma-separated operator or route Onestop IDs."},
+              "served_by_route_type": {"type": "integer", "description": "GTFS route_type (0 tram, 1 subway, 2 rail, 3 bus, 4 ferry)."},
+              "limit": {"type": "integer", "default": 20, "maximum": 100}
+            }
+          }
+        },
+        {
+          "name": "get_stop_departures",
+          "description": "Get upcoming departures from a stop, combining the published schedule with real-time predictions where the agency provides them. Includes route, headsign, scheduled and estimated times, and active service alerts.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "stop_key": {"type": "string", "description": "Stop Onestop ID, or '<feed_onestop_id>:<stop_id>'."},
+              "next": {"type": "integer", "default": 3600, "description": "Look-ahead window in seconds."},
+              "date": {"type": "string", "description": "Service date YYYY-MM-DD; defaults to today in the stop's timezone."},
+              "start_time": {"type": "string", "description": "HH:MM:SS"},
+              "end_time": {"type": "string", "description": "HH:MM:SS"},
+              "route_onestop_ids": {"type": "array", "items": {"type": "string"}},
+              "include_alerts": {"type": "boolean", "default": true},
+              "include_geometry": {"type": "boolean", "default": false},
+              "use_service_window": {"type": "boolean", "default": false},
+              "limit": {"type": "integer", "default": 20}
+            },
+            "required": ["stop_key"]
+          }
+        },
+        {
+          "name": "search_routes",
+          "description": "Look up transit routes (bus lines, subway and rail lines, trams, ferries) by name, operator, vehicle type or location.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "search": {"type": "string"},
+              "operator_onestop_id": {"type": "string"},
+              "route_type": {"type": "integer", "enum": [0, 1, 2, 3, 4, 5, 6, 7, 11, 12], "description": "GTFS route_type: 0 tram, 1 subway/metro, 2 rail, 3 bus, 4 ferry, 5 cable tram, 6 aerial lift, 7 funicular, 11 trolleybus, 12 monorail."},
+              "lat": {"type": "number"},
+              "lon": {"type": "number"},
+              "radius": {"type": "number"},
+              "limit": {"type": "integer", "default": 20}
+            }
+          }
+        },
+        {
+          "name": "get_route",
+          "description": "Route details.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "route_key": {"type": "string", "description": "Route Onestop ID or numeric id."},
+              "include_geometry": {"type": "boolean", "default": false},
+              "include_stops": {"type": "boolean", "default": true},
+              "include_alerts": {"type": "boolean", "default": false}
+            },
+            "required": ["route_key"]
+          }
+        },
+        {
+          "name": "search_operators",
+          "description": "Find transit agencies and operators by name or by the area they serve. Returns Onestop IDs, website and the feeds each operator publishes.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "search": {"type": "string"},
+              "lat": {"type": "number"},
+              "lon": {"type": "number"},
+              "radius": {"type": "number"},
+              "adm0_name": {"type": "string", "description": "Country name."},
+              "adm1_name": {"type": "string", "description": "State/province name."},
+              "city_name": {"type": "string"},
+              "limit": {"type": "integer", "default": 20}
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

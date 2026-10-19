@@ -1,0 +1,1925 @@
+{
+  "branch": {
+    "id": "cloud_ops",
+    "name": "Cloud & Ops",
+    "summary": "Operating running infrastructure: Kubernetes workloads, Docker containers, AWS resources (EC2, S3, Lambda, CloudWatch), observability (Grafana/Prometheus/Loki, Datadog logs, metrics, monitors, traces) and incident paging/on-call (PagerDuty). Use for debugging prod, scaling, rollbacks, log and metric queries, alerts and paging people."
+  },
+  "toolkits": [
+    {
+      "id": "kubernetes",
+      "name": "Kubernetes",
+      "server": "mcp://kubernetes",
+      "summary": "kubectl-style operations (get, describe, logs, scale, rollout, apply, exec) against the clusters in the local kubeconfig.",
+      "tools": [
+        {
+          "name": "kubectl_get",
+          "description": "Get or list Kubernetes resources by resource type, name, and optionally namespace",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "resourceType": {
+                "type": "string",
+                "description": "Type of resource to get (e.g., pods, deployments, services, configmaps, events, nodes, etc.)"
+              },
+              "name": {
+                "type": "string",
+                "description": "Name of the resource (optional - if not provided, lists all resources of the specified type)"
+              },
+              "namespace": {
+                "type": "string",
+                "description": "Kubernetes namespace",
+                "default": "default"
+              },
+              "output": {
+                "type": "string",
+                "description": "Output format",
+                "enum": [
+                  "json",
+                  "yaml",
+                  "wide",
+                  "name",
+                  "custom"
+                ],
+                "default": "json"
+              },
+              "allNamespaces": {
+                "type": "boolean",
+                "description": "If true, list resources across all namespaces",
+                "default": false
+              },
+              "labelSelector": {
+                "type": "string",
+                "description": "Filter resources by label selector (e.g. 'app=nginx')"
+              },
+              "fieldSelector": {
+                "type": "string",
+                "description": "Filter resources by field selector (e.g. 'status.phase=Running')"
+              },
+              "sortBy": {
+                "type": "string",
+                "description": "Sort events by a field (default: lastTimestamp). Only applicable for events."
+              }
+            },
+            "required": [
+              "resourceType"
+            ]
+          }
+        },
+        {
+          "name": "kubectl_describe",
+          "description": "Describe Kubernetes resources by resource type, name, and optionally namespace",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "resourceType": {
+                "type": "string",
+                "description": "Type of resource to describe (e.g., pods, deployments, services, etc.)"
+              },
+              "name": {
+                "type": "string",
+                "description": "Name of the resource to describe"
+              },
+              "namespace": {
+                "type": "string",
+                "description": "Kubernetes namespace",
+                "default": "default"
+              },
+              "allNamespaces": {
+                "type": "boolean",
+                "description": "If true, describe resources across all namespaces",
+                "default": false
+              }
+            },
+            "required": [
+              "resourceType",
+              "name"
+            ]
+          }
+        },
+        {
+          "name": "kubectl_logs",
+          "description": "Get logs from Kubernetes resources like pods, deployments, or jobs. For deployments and jobs, logs are collected from the pods they manage. Use 'previous' to see output from the last terminated container instance (useful for CrashLoopBackOff), and 'since' or 'tail' to limit how much is returned.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "resourceType": {
+                "type": "string",
+                "description": "Type of resource to get logs from",
+                "enum": [
+                  "pod",
+                  "deployment",
+                  "job",
+                  "cronjob"
+                ]
+              },
+              "name": {
+                "type": "string",
+                "description": "Name of the resource"
+              },
+              "namespace": {
+                "type": "string",
+                "description": "Namespace of the resource"
+              },
+              "container": {
+                "type": "string",
+                "description": "Container name (required when pod has multiple containers)"
+              },
+              "tail": {
+                "type": "integer",
+                "description": "Number of lines to show from end of logs"
+              },
+              "since": {
+                "type": "string",
+                "description": "Show logs since relative time (e.g. '5s', '2m', '3h')"
+              },
+              "sinceTime": {
+                "type": "string",
+                "description": "Show logs since absolute time (RFC3339)"
+              },
+              "timestamps": {
+                "type": "boolean",
+                "description": "Include timestamps in logs",
+                "default": false
+              },
+              "previous": {
+                "type": "boolean",
+                "description": "Include logs from previously terminated containers",
+                "default": false
+              },
+              "follow": {
+                "type": "boolean",
+                "description": "Follow logs output (not recommended, may cause timeouts)",
+                "default": false
+              },
+              "labelSelector": {
+                "type": "string",
+                "description": "Filter resources by label selector"
+              }
+            },
+            "required": [
+              "resourceType",
+              "name",
+              "namespace"
+            ]
+          }
+        },
+        {
+          "name": "kubectl_scale",
+          "description": "Scale a Kubernetes deployment",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Name of the deployment to scale"
+              },
+              "namespace": {
+                "type": "string",
+                "description": "Kubernetes namespace",
+                "default": "default"
+              },
+              "replicas": {
+                "type": "integer",
+                "description": "Number of replicas to scale to"
+              },
+              "resourceType": {
+                "type": "string",
+                "description": "Resource type to scale (deployment, replicaset, statefulset)",
+                "default": "deployment"
+              }
+            },
+            "required": [
+              "name",
+              "replicas"
+            ]
+          }
+        },
+        {
+          "name": "kubectl_rollout",
+          "description": "Manage the rollout of a resource (e.g., deployment, daemonset, statefulset)",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "subCommand": {
+                "type": "string",
+                "description": "Rollout subcommand to execute",
+                "enum": [
+                  "history",
+                  "pause",
+                  "restart",
+                  "resume",
+                  "status",
+                  "undo"
+                ],
+                "default": "status"
+              },
+              "resourceType": {
+                "type": "string",
+                "description": "Type of resource to manage rollout for",
+                "enum": [
+                  "deployment",
+                  "daemonset",
+                  "statefulset"
+                ],
+                "default": "deployment"
+              },
+              "name": {
+                "type": "string",
+                "description": "Name of the resource"
+              },
+              "namespace": {
+                "type": "string",
+                "description": "Kubernetes namespace",
+                "default": "default"
+              },
+              "revision": {
+                "type": "integer",
+                "description": "Revision to rollback to (for undo subcommand)"
+              },
+              "toRevision": {
+                "type": "integer",
+                "description": "Revision to roll back to (for history subcommand)"
+              },
+              "timeout": {
+                "type": "string",
+                "description": "The length of time to wait before giving up (e.g., '30s', '1m', '2m30s')"
+              },
+              "watch": {
+                "type": "boolean",
+                "description": "Watch the rollout status in real-time until completion",
+                "default": false
+              }
+            },
+            "required": [
+              "subCommand",
+              "resourceType",
+              "name",
+              "namespace"
+            ]
+          }
+        },
+        {
+          "name": "kubectl_apply",
+          "description": "Apply a Kubernetes YAML manifest from a string or file",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "manifest": {
+                "type": "string",
+                "description": "YAML manifest to apply"
+              },
+              "filename": {
+                "type": "string",
+                "description": "Path to a YAML file to apply (optional - use either manifest or filename)"
+              },
+              "namespace": {
+                "type": "string",
+                "description": "Kubernetes namespace",
+                "default": "default"
+              },
+              "dryRun": {
+                "type": "boolean",
+                "description": "If true, only validate the resource, don't apply it",
+                "default": false
+              },
+              "force": {
+                "type": "boolean",
+                "description": "If true, immediately remove resources from API and bypass graceful deletion",
+                "default": false
+              }
+            }
+          }
+        },
+        {
+          "name": "kubectl_delete",
+          "description": "Delete Kubernetes resources by resource type, name, labels, or from a manifest file",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "resourceType": {
+                "type": "string",
+                "description": "Type of resource to delete (e.g., pods, deployments, services, etc.)"
+              },
+              "name": {
+                "type": "string",
+                "description": "Name of the resource to delete"
+              },
+              "namespace": {
+                "type": "string",
+                "description": "Kubernetes namespace",
+                "default": "default"
+              },
+              "labelSelector": {
+                "type": "string",
+                "description": "Delete resources matching this label selector (e.g. 'app=nginx')"
+              },
+              "manifest": {
+                "type": "string",
+                "description": "YAML manifest defining resources to delete (optional)"
+              },
+              "filename": {
+                "type": "string",
+                "description": "Path to a YAML file to delete resources from (optional)"
+              },
+              "allNamespaces": {
+                "type": "boolean",
+                "description": "If true, delete resources across all namespaces",
+                "default": false
+              },
+              "force": {
+                "type": "boolean",
+                "description": "If true, immediately remove resources from API and bypass graceful deletion",
+                "default": false
+              },
+              "gracePeriodSeconds": {
+                "type": "integer",
+                "description": "Period of time in seconds given to the resource to terminate gracefully"
+              }
+            },
+            "required": [
+              "resourceType"
+            ]
+          }
+        },
+        {
+          "name": "exec_in_pod",
+          "description": "Execute a command in a Kubernetes pod or container and return the output",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Name of the pod to execute the command in"
+              },
+              "namespace": {
+                "type": "string",
+                "description": "Kubernetes namespace",
+                "default": "default"
+              },
+              "command": {
+                "description": "Command to execute in the pod (string or array of args)",
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                ]
+              },
+              "container": {
+                "type": "string",
+                "description": "Container name (required when pod has multiple containers)"
+              },
+              "shell": {
+                "type": "string",
+                "description": "Shell to use for command execution (e.g. '/bin/sh', '/bin/bash'). If not provided, will use command as-is."
+              },
+              "timeout": {
+                "type": "number",
+                "description": "Timeout for command - 60000 milliseconds if not specified"
+              }
+            },
+            "required": [
+              "name",
+              "command"
+            ]
+          }
+        },
+        {
+          "name": "kubectl_context",
+          "description": "Manage Kubernetes contexts",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "operation": {
+                "type": "string",
+                "description": "Operation to perform",
+                "enum": [
+                  "list",
+                  "get",
+                  "set"
+                ]
+              },
+              "name": {
+                "type": "string",
+                "description": "Name of the context to set as current (required for set operation)"
+              },
+              "showCurrent": {
+                "type": "boolean",
+                "description": "When listing contexts, highlight which one is currently active",
+                "default": true
+              },
+              "detailed": {
+                "type": "boolean",
+                "description": "Include detailed information about the context",
+                "default": false
+              }
+            },
+            "required": [
+              "operation"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "docker",
+      "name": "Docker",
+      "server": "mcp://docker",
+      "summary": "Manage containers and images on the local Docker engine.",
+      "tools": [
+        {
+          "name": "list_containers",
+          "description": "List all Docker containers",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "all": {
+                "type": "boolean",
+                "description": "Show all containers (default shows just running)",
+                "default": false
+              },
+              "filters": {
+                "type": "object",
+                "description": "Filter containers by label, status or name",
+                "properties": {
+                  "label": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "description": ""
+                    },
+                    "description": "Filter by label, either `key` or `key=value` format"
+                  },
+                  "status": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "description": "",
+                      "enum": [
+                        "created",
+                        "restarting",
+                        "running",
+                        "removing",
+                        "paused",
+                        "exited",
+                        "dead"
+                      ]
+                    },
+                    "description": "Filter by container status"
+                  },
+                  "name": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "description": ""
+                    },
+                    "description": "Filter by container name (substring match)"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "run_container",
+          "description": "Create and start a Docker container from an image. Pulls the image first if it is not present locally. Returns the container ID and name. Prefer this over separate create/start calls; port mappings are given as {container_port: host_port}, e.g. {\"5432/tcp\": 5433}.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "image": {
+                "type": "string",
+                "description": "Image to run, e.g. 'postgres:16' or 'ghcr.io/org/app:1.2.3'"
+              },
+              "name": {
+                "type": "string",
+                "description": "Container name"
+              },
+              "command": {
+                "type": "string",
+                "description": "Command to run in the container"
+              },
+              "entrypoint": {
+                "type": "string",
+                "description": "Override the image entrypoint"
+              },
+              "environment": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "description": "Environment variables as a dict"
+              },
+              "ports": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": [
+                    "integer",
+                    "null"
+                  ]
+                },
+                "description": "A map whose keys are the container port, and the values are the host port(s) to bind to."
+              },
+              "volumes": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "description": ""
+                },
+                "description": "List of volume mounts in 'host_path:container_path[:ro]' format, or named volumes"
+              },
+              "network_mode": {
+                "type": "string",
+                "description": "Network mode (bridge, host, none, or a named network)",
+                "default": "bridge"
+              },
+              "labels": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "description": "Container labels"
+              },
+              "auto_remove": {
+                "type": "boolean",
+                "description": "Remove the container when it exits",
+                "default": false
+              },
+              "detach": {
+                "type": "boolean",
+                "description": "Run container in the background",
+                "default": true
+              },
+              "restart_policy": {
+                "type": "object",
+                "description": "Restart policy for the container",
+                "properties": {
+                  "Name": {
+                    "type": "string",
+                    "description": "Restart policy name",
+                    "enum": [
+                      "no",
+                      "always",
+                      "on-failure",
+                      "unless-stopped"
+                    ]
+                  },
+                  "MaximumRetryCount": {
+                    "type": "integer",
+                    "description": "Max restarts when Name is on-failure"
+                  }
+                }
+              },
+              "mem_limit": {
+                "type": "string",
+                "description": "Memory limit, e.g. '512m' or '2g'"
+              }
+            },
+            "required": [
+              "image"
+            ]
+          }
+        },
+        {
+          "name": "stop_container",
+          "description": "Stop a container",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "container_id": {
+                "type": "string",
+                "description": "Container ID or name"
+              }
+            },
+            "required": [
+              "container_id"
+            ]
+          }
+        },
+        {
+          "name": "fetch_container_logs",
+          "description": "Fetch logs for a Docker container",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "container_id": {
+                "type": "string",
+                "description": "Container ID or name"
+              },
+              "tail": {
+                "description": "Number of lines to show from the end of the logs, or 'all'",
+                "anyOf": [
+                  {
+                    "type": "integer"
+                  },
+                  {
+                    "type": "string",
+                    "enum": [
+                      "all"
+                    ]
+                  }
+                ],
+                "default": 100
+              },
+              "since": {
+                "type": "string",
+                "description": "Only return logs since this time (unix timestamp or relative like '10m')"
+              },
+              "timestamps": {
+                "type": "boolean",
+                "description": "Show timestamps",
+                "default": false
+              }
+            },
+            "required": [
+              "container_id"
+            ]
+          }
+        },
+        {
+          "name": "pull_image",
+          "description": "Pull an image from a registry",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "repository": {
+                "type": "string",
+                "description": "Image repository, e.g. 'redis' or 'ghcr.io/org/app'"
+              },
+              "tag": {
+                "type": "string",
+                "description": "Image tag",
+                "default": "latest"
+              }
+            },
+            "required": [
+              "repository"
+            ]
+          }
+        },
+        {
+          "name": "build_image",
+          "description": "Build a Docker image from a Dockerfile",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "path": {
+                "type": "string",
+                "description": "Path to the build context directory"
+              },
+              "tag": {
+                "type": "string",
+                "description": "Image tag, e.g. 'myapp:dev'"
+              },
+              "dockerfile": {
+                "type": "string",
+                "description": "Path to Dockerfile relative to the context",
+                "default": "Dockerfile"
+              },
+              "build_args": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "description": "Build-time variables"
+              },
+              "no_cache": {
+                "type": "boolean",
+                "description": "Do not use cache when building the image",
+                "default": false
+              },
+              "platform": {
+                "type": "string",
+                "description": "Target platform, e.g. 'linux/amd64'"
+              },
+              "target": {
+                "type": "string",
+                "description": "Name of the build stage to target in a multi-stage Dockerfile"
+              }
+            },
+            "required": [
+              "path",
+              "tag"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "aws",
+      "name": "AWS",
+      "server": "mcp://aws",
+      "summary": "Calls AWS APIs for EC2, S3, Lambda and CloudWatch (metrics, Logs Insights, alarms) using the configured AWS profile.",
+      "tools": [
+        {
+          "name": "ec2_describe_instances",
+          "description": "Describes the specified EC2 instances or all instances in a region. Supports filtering by tag, state, instance type, VPC and more using the standard EC2 filter syntax.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "region": {
+                "type": "string",
+                "description": "AWS region, e.g. us-east-1. Defaults to the profile's configured region."
+              },
+              "instance_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "description": ""
+                },
+                "description": "Instance IDs, e.g. ['i-0abc123']"
+              },
+              "filters": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "description": "An EC2 filter",
+                  "properties": {
+                    "Name": {
+                      "type": "string",
+                      "description": "Filter name, e.g. 'tag:env', 'instance-state-name', 'instance-type', 'vpc-id'"
+                    },
+                    "Values": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "description": ""
+                      },
+                      "description": "Values to match"
+                    }
+                  },
+                  "required": [
+                    "Name",
+                    "Values"
+                  ]
+                },
+                "description": "Filters to apply"
+              },
+              "max_results": {
+                "type": "integer",
+                "description": "Maximum number of results (5-1000)",
+                "default": 100
+              },
+              "next_token": {
+                "type": "string",
+                "description": "Pagination token from a previous call"
+              }
+            }
+          }
+        },
+        {
+          "name": "ec2_manage_instances",
+          "description": "Start, stop, reboot or terminate one or more EC2 instances.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "action": {
+                "type": "string",
+                "description": "Action to perform",
+                "enum": [
+                  "start",
+                  "stop",
+                  "reboot",
+                  "terminate"
+                ]
+              },
+              "instance_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "description": ""
+                },
+                "description": "Instance IDs to act on"
+              },
+              "region": {
+                "type": "string",
+                "description": "AWS region, e.g. us-east-1. Defaults to the profile's configured region."
+              },
+              "hibernate": {
+                "type": "boolean",
+                "description": "Hibernate instead of stop (stop only, instance must support it)",
+                "default": false
+              },
+              "force": {
+                "type": "boolean",
+                "description": "Force stop without flushing file system caches",
+                "default": false
+              },
+              "dry_run": {
+                "type": "boolean",
+                "description": "Check permissions without performing the action",
+                "default": false
+              }
+            },
+            "required": [
+              "action",
+              "instance_ids"
+            ]
+          }
+        },
+        {
+          "name": "s3_list_buckets",
+          "description": "List buckets.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "region": {
+                "type": "string",
+                "description": "AWS region, e.g. us-east-1. Defaults to the profile's configured region."
+              }
+            }
+          }
+        },
+        {
+          "name": "s3_list_objects",
+          "description": "List objects in an S3 bucket, optionally under a key prefix.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "bucket": {
+                "type": "string",
+                "description": "Bucket name"
+              },
+              "prefix": {
+                "type": "string",
+                "description": "Only return keys beginning with this prefix"
+              },
+              "delimiter": {
+                "type": "string",
+                "description": "Delimiter for grouping keys, usually '/'"
+              },
+              "max_keys": {
+                "type": "integer",
+                "description": "Maximum keys to return",
+                "default": 1000
+              },
+              "continuation_token": {
+                "type": "string",
+                "description": "Token from a previous truncated listing"
+              }
+            },
+            "required": [
+              "bucket"
+            ]
+          }
+        },
+        {
+          "name": "s3_get_object",
+          "description": "Retrieve an object from S3. Text content is returned inline; binary objects are returned base64-encoded or saved to download_path.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "bucket": {
+                "type": "string",
+                "description": "Bucket name"
+              },
+              "key": {
+                "type": "string",
+                "description": "Object key"
+              },
+              "version_id": {
+                "type": "string",
+                "description": "Specific object version"
+              },
+              "range": {
+                "type": "string",
+                "description": "Byte range, e.g. 'bytes=0-1023'"
+              },
+              "download_path": {
+                "type": "string",
+                "description": "Optional local path to save the object to"
+              }
+            },
+            "required": [
+              "bucket",
+              "key"
+            ]
+          }
+        },
+        {
+          "name": "s3_put_object",
+          "description": "Upload an object to S3 from inline content or a local file.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "bucket": {
+                "type": "string",
+                "description": "Bucket name"
+              },
+              "key": {
+                "type": "string",
+                "description": "Destination object key"
+              },
+              "body": {
+                "type": "string",
+                "description": "Object content (text)"
+              },
+              "file_path": {
+                "type": "string",
+                "description": "Local file to upload instead of body"
+              },
+              "content_type": {
+                "type": "string",
+                "description": "MIME type, e.g. text/csv"
+              },
+              "storage_class": {
+                "type": "string",
+                "description": "Storage class",
+                "enum": [
+                  "STANDARD",
+                  "STANDARD_IA",
+                  "ONEZONE_IA",
+                  "INTELLIGENT_TIERING",
+                  "GLACIER",
+                  "DEEP_ARCHIVE"
+                ],
+                "default": "STANDARD"
+              },
+              "server_side_encryption": {
+                "type": "string",
+                "description": "Server-side encryption",
+                "enum": [
+                  "AES256",
+                  "aws:kms"
+                ]
+              },
+              "acl": {
+                "type": "string",
+                "description": "Canned ACL",
+                "enum": [
+                  "private",
+                  "public-read",
+                  "bucket-owner-full-control"
+                ],
+                "default": "private"
+              },
+              "metadata": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "description": "User-defined metadata"
+              }
+            },
+            "required": [
+              "bucket",
+              "key"
+            ]
+          }
+        },
+        {
+          "name": "lambda_list_functions",
+          "description": "Lists functions",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "region": {
+                "type": "string",
+                "description": "AWS region, e.g. us-east-1. Defaults to the profile's configured region."
+              },
+              "max_items": {
+                "type": "integer",
+                "description": "Maximum number of functions to return",
+                "default": 50
+              }
+            }
+          }
+        },
+        {
+          "name": "lambda_invoke",
+          "description": "Invokes a Lambda function. Use RequestResponse to wait for the result, or Event to invoke asynchronously.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "function_name": {
+                "type": "string",
+                "description": "Function name, ARN, or partial ARN"
+              },
+              "payload": {
+                "type": "object",
+                "description": "JSON payload passed to the function"
+              },
+              "invocation_type": {
+                "type": "string",
+                "description": "Invocation type",
+                "enum": [
+                  "RequestResponse",
+                  "Event",
+                  "DryRun"
+                ],
+                "default": "RequestResponse"
+              },
+              "log_type": {
+                "type": "string",
+                "description": "Set to Tail to include the last 4KB of execution log in the response",
+                "enum": [
+                  "None",
+                  "Tail"
+                ],
+                "default": "None"
+              },
+              "qualifier": {
+                "type": "string",
+                "description": "Version or alias to invoke"
+              },
+              "region": {
+                "type": "string",
+                "description": "AWS region, e.g. us-east-1. Defaults to the profile's configured region."
+              }
+            },
+            "required": [
+              "function_name"
+            ]
+          }
+        },
+        {
+          "name": "cloudwatch_get_metric_data",
+          "description": "Retrieve CloudWatch metric values for AWS resources (EC2, RDS, ELB, Lambda, SQS, etc.) over a time range. Specify the namespace, metric name and dimensions, plus the statistic and period to aggregate by.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "namespace": {
+                "type": "string",
+                "description": "Metric namespace, e.g. 'AWS/EC2', 'AWS/RDS', 'AWS/Lambda'"
+              },
+              "metric_name": {
+                "type": "string",
+                "description": "Metric name, e.g. 'CPUUtilization', 'Errors', 'Duration'"
+              },
+              "dimensions": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "description": "A dimension",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "description": "Dimension name, e.g. 'DBInstanceIdentifier'"
+                    },
+                    "value": {
+                      "type": "string",
+                      "description": "Dimension value"
+                    }
+                  },
+                  "required": [
+                    "name",
+                    "value"
+                  ]
+                },
+                "description": "Dimensions identifying the resource"
+              },
+              "start_time": {
+                "type": "string",
+                "description": "Start of the range (ISO 8601)"
+              },
+              "end_time": {
+                "type": "string",
+                "description": "End of the range (ISO 8601). Defaults to now."
+              },
+              "period": {
+                "type": "integer",
+                "description": "Granularity in seconds (multiple of 60)",
+                "default": 300
+              },
+              "statistic": {
+                "type": "string",
+                "description": "Statistic to retrieve",
+                "enum": [
+                  "Average",
+                  "Sum",
+                  "Minimum",
+                  "Maximum",
+                  "SampleCount",
+                  "p90",
+                  "p99"
+                ],
+                "default": "Average"
+              },
+              "unit": {
+                "type": "string",
+                "description": "Unit filter, e.g. 'Percent', 'Count', 'Milliseconds'"
+              },
+              "region": {
+                "type": "string",
+                "description": "AWS region, e.g. us-east-1. Defaults to the profile's configured region."
+              }
+            },
+            "required": [
+              "namespace",
+              "metric_name",
+              "start_time"
+            ]
+          }
+        },
+        {
+          "name": "cloudwatch_logs_insights_query",
+          "description": "Executes a CloudWatch Logs Insights query against one or more log groups and waits for the results. Use this to search and aggregate log events from Lambda functions, ECS tasks, API Gateway, VPC flow logs and anything else shipping to CloudWatch Logs. The query uses Logs Insights syntax, e.g. 'fields @timestamp, @message | filter @message like /ERROR/ | sort @timestamp desc | limit 50'. Time range defaults to the last hour. Large time ranges over busy log groups can be slow and costly; narrow the range where possible.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "log_group_names": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "description": ""
+                },
+                "description": "Log groups to query, e.g. ['/aws/lambda/checkout']"
+              },
+              "query_string": {
+                "type": "string",
+                "description": "Logs Insights query"
+              },
+              "start_time": {
+                "type": "string",
+                "description": "Start time (ISO 8601 or relative like '-1h')",
+                "default": "-1h"
+              },
+              "end_time": {
+                "type": "string",
+                "description": "End time (ISO 8601). Defaults to now."
+              },
+              "limit": {
+                "type": "integer",
+                "description": "Maximum number of log events to return",
+                "default": 100
+              },
+              "max_timeout": {
+                "type": "integer",
+                "description": "Seconds to wait for the query to complete",
+                "default": 30
+              },
+              "region": {
+                "type": "string",
+                "description": "AWS region, e.g. us-east-1. Defaults to the profile's configured region."
+              }
+            },
+            "required": [
+              "log_group_names",
+              "query_string"
+            ]
+          }
+        },
+        {
+          "name": "cloudwatch_describe_alarms",
+          "description": "Gets CloudWatch alarms and their current state.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "state_value": {
+                "type": "string",
+                "description": "Only return alarms in this state",
+                "enum": [
+                  "OK",
+                  "ALARM",
+                  "INSUFFICIENT_DATA"
+                ]
+              },
+              "alarm_name_prefix": {
+                "type": "string",
+                "description": "Only return alarms whose name starts with this prefix"
+              },
+              "max_records": {
+                "type": "integer",
+                "description": "Maximum alarms to return",
+                "default": 50
+              },
+              "region": {
+                "type": "string",
+                "description": "AWS region, e.g. us-east-1. Defaults to the profile's configured region."
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "grafana",
+      "name": "Grafana",
+      "server": "mcp://grafana",
+      "summary": "Grafana dashboards, alert rules, OnCall schedules, and queries against its Prometheus and Loki datasources.",
+      "tools": [
+        {
+          "name": "search_dashboards",
+          "description": "Search for dashboards",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string",
+                "description": "The query to search for"
+              }
+            }
+          }
+        },
+        {
+          "name": "get_dashboard_by_uid",
+          "description": "Retrieves the complete dashboard, including panels, variables, and settings, for a specific dashboard identified by its UID.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "uid": {
+                "type": "string",
+                "description": "The UID of the dashboard"
+              }
+            },
+            "required": [
+              "uid"
+            ]
+          }
+        },
+        {
+          "name": "query_prometheus",
+          "description": "Query Prometheus using a PromQL expression. Supports both instant queries (at a single point in time) and range queries (over a time range). Time can be specified either in RFC3339 format or as relative time expressions like 'now', 'now-1h', 'now-30m', etc.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "datasourceUid": {
+                "type": "string",
+                "description": "The UID of the datasource to query"
+              },
+              "expr": {
+                "type": "string",
+                "description": "The PromQL expression to query"
+              },
+              "startTime": {
+                "type": "string",
+                "description": "The start time. Required if queryType is 'range', ignored if queryType is 'instant'. Supported formats are RFC3339 or relative to now (e.g. 'now', 'now-1.5h', 'now-2h45m')."
+              },
+              "endTime": {
+                "type": "string",
+                "description": "The end time. Required if queryType is 'range', ignored if queryType is 'instant'."
+              },
+              "stepSeconds": {
+                "type": "integer",
+                "description": "The time series step size in seconds. Required if queryType is 'range'."
+              },
+              "queryType": {
+                "type": "string",
+                "description": "The type of query to use. Either 'range' or 'instant'",
+                "enum": [
+                  "range",
+                  "instant"
+                ]
+              }
+            },
+            "required": [
+              "datasourceUid",
+              "expr"
+            ]
+          }
+        },
+        {
+          "name": "query_loki_logs",
+          "description": "Executes a LogQL query against a Loki datasource to retrieve log entries or metric values. Returns a list of results, each containing a timestamp, labels, and either a log line or a metric value. Defaults to the last hour and a limit of 10 entries. Prefer using list_loki_label_names first to discover the labels available.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "datasourceUid": {
+                "type": "string",
+                "description": "The UID of the datasource to query"
+              },
+              "logql": {
+                "type": "string",
+                "description": "The LogQL query to execute against Loki. This can be a simple label matcher or a complex query with filters, parsers, and expressions"
+              },
+              "startRfc3339": {
+                "type": "string",
+                "description": "Optionally, the start time of the query in RFC3339 format"
+              },
+              "endRfc3339": {
+                "type": "string",
+                "description": "Optionally, the end time of the query in RFC3339 format"
+              },
+              "limit": {
+                "type": "integer",
+                "description": "Optionally, the maximum number of log lines to return (max: 100)",
+                "default": 10
+              },
+              "direction": {
+                "type": "string",
+                "description": "Optionally, the direction of the query",
+                "enum": [
+                  "forward",
+                  "backward"
+                ],
+                "default": "backward"
+              }
+            },
+            "required": [
+              "datasourceUid",
+              "logql"
+            ]
+          }
+        },
+        {
+          "name": "list_alert_rules",
+          "description": "Lists Grafana alert rules, returning a summary including UID, title, current state (e.g., 'pending', 'firing', 'inactive'), and labels. Supports filtering by labels using selectors and pagination.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "limit": {
+                "type": "integer",
+                "description": "The maximum number of results to return",
+                "default": 100
+              },
+              "page": {
+                "type": "integer",
+                "description": "The page number to return",
+                "default": 1
+              },
+              "label_selectors": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "description": "A label selector",
+                  "properties": {
+                    "filters": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "description": "A label matcher",
+                        "properties": {
+                          "name": {
+                            "type": "string",
+                            "description": "The name of the label to match against"
+                          },
+                          "type": {
+                            "type": "string",
+                            "description": "The match operator",
+                            "enum": [
+                              "=",
+                              "!=",
+                              "=~",
+                              "!~"
+                            ]
+                          },
+                          "value": {
+                            "type": "string",
+                            "description": "The value to match against"
+                          }
+                        },
+                        "required": [
+                          "name",
+                          "type",
+                          "value"
+                        ]
+                      },
+                      "description": "Label matchers"
+                    }
+                  },
+                  "required": [
+                    "filters"
+                  ]
+                },
+                "description": "Optionally, a list of matchers to filter alert rules by labels"
+              }
+            }
+          }
+        },
+        {
+          "name": "get_current_oncall_users",
+          "description": "Get users currently on-call for a specific Grafana OnCall schedule ID. Returns the schedule ID, name, and a list of detailed user objects for those currently on call.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "scheduleId": {
+                "type": "string",
+                "description": "The ID of the schedule to get current on-call users for"
+              }
+            },
+            "required": [
+              "scheduleId"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "datadog",
+      "name": "Datadog",
+      "server": "mcp://datadog",
+      "summary": "Datadog logs, metrics, monitors, APM traces, dashboards and incidents.",
+      "tools": [
+        {
+          "name": "get_logs",
+          "description": "Search and retrieve logs from Datadog",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string",
+                "description": "Datadog log search query, e.g. 'service:checkout status:error'"
+              },
+              "from": {
+                "type": "integer",
+                "description": "Start time in epoch seconds"
+              },
+              "to": {
+                "type": "integer",
+                "description": "End time in epoch seconds"
+              },
+              "limit": {
+                "type": "integer",
+                "description": "Maximum number of logs to return",
+                "default": 100
+              }
+            },
+            "required": [
+              "from",
+              "to"
+            ]
+          }
+        },
+        {
+          "name": "query_metrics",
+          "description": "Query timeseries points of metrics from Datadog",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string",
+                "description": "Datadog metrics query, e.g. 'avg:system.mem.used{service:ingest} by {host}'"
+              },
+              "from": {
+                "type": "integer",
+                "description": "Start of the queried time period in epoch seconds"
+              },
+              "to": {
+                "type": "integer",
+                "description": "End of the queried time period in epoch seconds"
+              }
+            },
+            "required": [
+              "query",
+              "from",
+              "to"
+            ]
+          }
+        },
+        {
+          "name": "get_monitors",
+          "description": "Fetch the status of Datadog monitors",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "groupStates": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "description": "",
+                  "enum": [
+                    "alert",
+                    "warn",
+                    "no data",
+                    "ok"
+                  ]
+                },
+                "description": "States to filter (e.g., alert, warn, no data, ok)"
+              },
+              "name": {
+                "type": "string",
+                "description": "Filter monitors by name"
+              },
+              "tags": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "description": ""
+                },
+                "description": "Filter monitors by tags, e.g. ['team:checkout']"
+              }
+            }
+          }
+        },
+        {
+          "name": "list_traces",
+          "description": "Retrieve a list of APM traces (spans) from Datadog, filtered by query, service, operation and time range. Useful for finding slow or failing requests.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string",
+                "description": "Span search query, e.g. 'resource_name:\"GET /api/cart\" @duration:>2s'"
+              },
+              "from": {
+                "type": "integer",
+                "description": "Start time in epoch seconds"
+              },
+              "to": {
+                "type": "integer",
+                "description": "End time in epoch seconds"
+              },
+              "limit": {
+                "type": "integer",
+                "description": "Maximum number of traces",
+                "default": 100
+              },
+              "sort": {
+                "type": "string",
+                "description": "Sort order",
+                "enum": [
+                  "timestamp",
+                  "-timestamp"
+                ],
+                "default": "-timestamp"
+              },
+              "service": {
+                "type": "string",
+                "description": "Filter by service name"
+              },
+              "operation": {
+                "type": "string",
+                "description": "Filter by operation name"
+              }
+            },
+            "required": [
+              "query",
+              "from",
+              "to"
+            ]
+          }
+        },
+        {
+          "name": "list_dashboards",
+          "description": "Get a list of dashboards from Datadog",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Filter dashboards by name"
+              },
+              "tags": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "description": ""
+                },
+                "description": "Filter dashboards by tags"
+              }
+            }
+          }
+        },
+        {
+          "name": "list_incidents",
+          "description": "Get incidents",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "pageSize": {
+                "type": "integer",
+                "description": "Page size",
+                "default": 10
+              },
+              "pageOffset": {
+                "type": "integer",
+                "description": "Page offset",
+                "default": 0
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "pagerduty",
+      "name": "PagerDuty",
+      "server": "mcp://pagerduty",
+      "summary": "PagerDuty incidents (list, create/trigger, acknowledge, resolve, notes) and on-call schedules.",
+      "tools": [
+        {
+          "name": "list_incidents",
+          "description": "List incidents. By default returns incidents assigned to the current user; set request_scope to 'all' to see every incident in the account.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "query_model": {
+                "type": "object",
+                "description": "Query parameters",
+                "properties": {
+                  "statuses": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "description": "",
+                      "enum": [
+                        "triggered",
+                        "acknowledged",
+                        "resolved"
+                      ]
+                    },
+                    "description": "Incident statuses to include"
+                  },
+                  "service_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "description": ""
+                    },
+                    "description": "Only incidents on these services"
+                  },
+                  "urgencies": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "description": "",
+                      "enum": [
+                        "high",
+                        "low"
+                      ]
+                    },
+                    "description": "Urgencies to include"
+                  },
+                  "since": {
+                    "type": "string",
+                    "description": "Start of date range (ISO 8601)"
+                  },
+                  "until": {
+                    "type": "string",
+                    "description": "End of date range (ISO 8601)"
+                  },
+                  "request_scope": {
+                    "type": "string",
+                    "description": "Scope of the request",
+                    "enum": [
+                      "all",
+                      "teams",
+                      "assigned"
+                    ],
+                    "default": "assigned"
+                  },
+                  "limit": {
+                    "type": "integer",
+                    "description": "Max incidents",
+                    "default": 20
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "get_incident",
+          "description": "Get an incident.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "incident_id": {
+                "type": "string",
+                "description": "The incident ID"
+              }
+            },
+            "required": [
+              "incident_id"
+            ]
+          }
+        },
+        {
+          "name": "create_incident",
+          "description": "Create an incident in PagerDuty. This triggers notifications to the on-call responders of the given service according to its escalation policy.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "create_model": {
+                "type": "object",
+                "description": "Incident creation request",
+                "properties": {
+                  "incident": {
+                    "type": "object",
+                    "description": "The incident to create",
+                    "properties": {
+                      "title": {
+                        "type": "string",
+                        "description": "A succinct description of the problem"
+                      },
+                      "service": {
+                        "type": "object",
+                        "description": "Service the incident is on",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "description": "Service ID"
+                          },
+                          "type": {
+                            "type": "string",
+                            "description": "",
+                            "enum": [
+                              "service_reference"
+                            ],
+                            "default": "service_reference"
+                          }
+                        },
+                        "required": [
+                          "id"
+                        ]
+                      },
+                      "urgency": {
+                        "type": "string",
+                        "description": "Urgency",
+                        "enum": [
+                          "high",
+                          "low"
+                        ],
+                        "default": "high"
+                      },
+                      "body": {
+                        "type": "object",
+                        "description": "Incident body",
+                        "properties": {
+                          "details": {
+                            "type": "string",
+                            "description": "Additional details about the incident"
+                          }
+                        }
+                      },
+                      "escalation_policy": {
+                        "type": "object",
+                        "description": "Override the service's escalation policy",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "description": "Escalation policy ID"
+                          }
+                        }
+                      },
+                      "assignments": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "description": "Assignment",
+                          "properties": {
+                            "assignee": {
+                              "type": "object",
+                              "description": "User to assign",
+                              "properties": {
+                                "id": {
+                                  "type": "string",
+                                  "description": "User ID"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        "description": "Assign directly to users instead of the escalation policy"
+                      },
+                      "incident_key": {
+                        "type": "string",
+                        "description": "De-duplication key"
+                      }
+                    },
+                    "required": [
+                      "title",
+                      "service"
+                    ]
+                  }
+                },
+                "required": [
+                  "incident"
+                ]
+              }
+            },
+            "required": [
+              "create_model"
+            ]
+          }
+        },
+        {
+          "name": "manage_incidents",
+          "description": "Manage one or more incidents: acknowledge, resolve, change urgency, reassign or escalate.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "manage_request": {
+                "type": "object",
+                "description": "Management request",
+                "properties": {
+                  "incident_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "description": ""
+                    },
+                    "description": "Incidents to update"
+                  },
+                  "status": {
+                    "type": "string",
+                    "description": "New status",
+                    "enum": [
+                      "acknowledged",
+                      "resolved"
+                    ]
+                  },
+                  "urgency": {
+                    "type": "string",
+                    "description": "New urgency",
+                    "enum": [
+                      "high",
+                      "low"
+                    ]
+                  },
+                  "assignement": {
+                    "type": "object",
+                    "description": "Reassign the incidents",
+                    "properties": {
+                      "user_id": {
+                        "type": "string",
+                        "description": "User to reassign to"
+                      }
+                    }
+                  },
+                  "escalation_level": {
+                    "type": "integer",
+                    "description": "Escalate to this level of the escalation policy"
+                  }
+                },
+                "required": [
+                  "incident_ids"
+                ]
+              }
+            },
+            "required": [
+              "manage_request"
+            ]
+          }
+        },
+        {
+          "name": "add_note_to_incident",
+          "description": "Add a note to an incident timeline.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "incident_id": {
+                "type": "string",
+                "description": "The incident ID"
+              },
+              "note": {
+                "type": "string",
+                "description": "Note content"
+              }
+            },
+            "required": [
+              "incident_id",
+              "note"
+            ]
+          }
+        },
+        {
+          "name": "list_oncalls",
+          "description": "List the on-call entries (who is on call, for which schedule and escalation policy, and until when).",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "query_model": {
+                "type": "object",
+                "description": "Query parameters",
+                "properties": {
+                  "schedule_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "description": ""
+                    },
+                    "description": "Filter by schedule"
+                  },
+                  "user_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "description": ""
+                    },
+                    "description": "Filter by user"
+                  },
+                  "escalation_policy_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "description": ""
+                    },
+                    "description": "Filter by escalation policy"
+                  },
+                  "since": {
+                    "type": "string",
+                    "description": "Start of range (ISO 8601)"
+                  },
+                  "until": {
+                    "type": "string",
+                    "description": "End of range (ISO 8601)"
+                  },
+                  "earliest": {
+                    "type": "boolean",
+                    "description": "Only return the earliest on-call for each combination of escalation policy, level and user",
+                    "default": false
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

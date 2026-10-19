@@ -1,0 +1,1329 @@
+{
+  "branch": {
+    "id": "code_exec",
+    "name": "Code Execution",
+    "summary": "Running code and developer tooling: executing snippets in sandboxes, shell commands and processes, Jupyter notebook cells, linters, formatters, type checkers, test runners, and pip/npm package management."
+  },
+  "toolkits": [
+    {
+      "id": "e2b",
+      "name": "E2B Code Interpreter",
+      "server": "mcp://e2b",
+      "summary": "Secure cloud sandboxes (E2B) for running Python, JavaScript, R, Java or bash code and moving files in and out of them.",
+      "tools": [
+        {
+          "name": "run_code",
+          "description": "Run code in a secure E2B cloud sandbox and return stdout, stderr, results (including rich outputs like charts and dataframes) and errors. The sandbox is a stateful Jupyter-style environment: variables, files and installed packages persist across calls that reuse the same sandbox_id. A new sandbox is created if none is given.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string",
+                "description": "The code to execute."
+              },
+              "language": {
+                "type": "string",
+                "description": "Language/kernel to run the code with.",
+                "enum": [
+                  "python",
+                  "javascript",
+                  "typescript",
+                  "r",
+                  "java",
+                  "bash"
+                ],
+                "default": "python"
+              },
+              "sandbox_id": {
+                "type": "string",
+                "description": "Existing sandbox to run in. Omit to create a fresh one."
+              },
+              "timeout_ms": {
+                "type": "integer",
+                "description": "Maximum execution time in milliseconds.",
+                "minimum": 1000,
+                "default": 60000
+              },
+              "env_vars": {
+                "type": "object",
+                "description": "Environment variables available to the code.",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": [
+              "code"
+            ]
+          }
+        },
+        {
+          "name": "create_sandbox",
+          "description": "Create a new sandbox.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "template": {
+                "type": "string",
+                "description": "Sandbox template ID or alias.",
+                "default": "code-interpreter-v1"
+              },
+              "timeout_seconds": {
+                "type": "integer",
+                "description": "Seconds before the sandbox is automatically killed.",
+                "minimum": 1,
+                "maximum": 86400,
+                "default": 300
+              },
+              "metadata": {
+                "type": "object",
+                "description": "Arbitrary key/value metadata attached to the sandbox.",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              "envs": {
+                "type": "object",
+                "description": "Default environment variables for the sandbox.",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              "allow_internet_access": {
+                "type": "boolean",
+                "description": "Whether the sandbox can reach the internet.",
+                "default": true
+              }
+            }
+          }
+        },
+        {
+          "name": "upload_file",
+          "description": "Write a file into a sandbox's filesystem. Creates parent directories as needed and overwrites existing files.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "sandbox_id": {
+                "type": "string",
+                "description": "ID of the sandbox, as returned by create_sandbox or run_code."
+              },
+              "path": {
+                "type": "string",
+                "description": "Absolute destination path inside the sandbox, e.g. /home/user/data.csv."
+              },
+              "content": {
+                "type": "string",
+                "description": "File content."
+              },
+              "encoding": {
+                "type": "string",
+                "description": "Encoding of the content field.",
+                "enum": [
+                  "utf-8",
+                  "base64"
+                ],
+                "default": "utf-8"
+              }
+            },
+            "required": [
+              "sandbox_id",
+              "path",
+              "content"
+            ]
+          }
+        },
+        {
+          "name": "download_file",
+          "description": "Read a file from the sandbox filesystem and return its contents (text, or base64 for binary files such as images).",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "sandbox_id": {
+                "type": "string",
+                "description": "ID of the sandbox, as returned by create_sandbox or run_code."
+              },
+              "path": {
+                "type": "string",
+                "description": "Absolute path of the file inside the sandbox."
+              },
+              "format": {
+                "type": "string",
+                "description": "How to return the content.",
+                "enum": [
+                  "text",
+                  "bytes"
+                ],
+                "default": "text"
+              }
+            },
+            "required": [
+              "sandbox_id",
+              "path"
+            ]
+          }
+        },
+        {
+          "name": "list_sandboxes",
+          "description": "Lists sandboxes.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "state": {
+                "type": "array",
+                "description": "Filter by sandbox state.",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "running",
+                    "paused"
+                  ]
+                },
+                "default": [
+                  "running"
+                ]
+              },
+              "metadata": {
+                "type": "object",
+                "description": "Only return sandboxes whose metadata matches all of these key/value pairs.",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              "limit": {
+                "type": "integer",
+                "description": "Maximum number of sandboxes to return.",
+                "default": 100
+              }
+            }
+          }
+        },
+        {
+          "name": "kill_sandbox",
+          "description": "Kill a sandbox.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "sandbox_id": {
+                "type": "string",
+                "description": "ID of the sandbox, as returned by create_sandbox or run_code."
+              }
+            },
+            "required": [
+              "sandbox_id"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "mcp_run_python",
+      "name": "MCP Run Python",
+      "server": "mcp://mcp-run-python",
+      "summary": "Runs isolated, stateless Python 3.12 snippets in a Pyodide/WebAssembly sandbox.",
+      "tools": [
+        {
+          "name": "run_python_code",
+          "description": "Tool to execute Python code and return stdout, stderr, and return value.\n\nThe code may be async, and the value on the last line will be returned as the return value.\n\nThe code will be executed with Python 3.12.\n\nDependencies may be defined via PEP 723 script metadata, e.g. to install \"pydantic\", the script should start with a comment of the form:\n\n# /// script\n# dependencies = ['pydantic']\n# ///\n\nEach call runs in a fresh interpreter; no state is kept between calls.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "python_code": {
+                "type": "string",
+                "description": "Python code to run."
+              }
+            },
+            "required": [
+              "python_code"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "desktop_commander",
+      "name": "Desktop Commander",
+      "server": "mcp://desktop-commander",
+      "summary": "Local terminal control: start shell commands and long-running processes, talk to interactive REPLs, read output, list and kill processes.",
+      "tools": [
+        {
+          "name": "start_process",
+          "description": "Start a new terminal process with intelligent state detection. Runs the command in a shell on the user's machine and waits up to timeout_ms for output, then reports whether the process finished, is waiting for input (e.g. a REPL prompt), or is still running in the background. Returns the PID for use with interact_with_process, read_process_output and force_terminate.\n\nUse for builds, dev servers, scripts, git, docker and any other CLI command, and to launch interactive programs such as python3 -i, node, psql or ssh. Always use absolute paths for reliability.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "command": {
+                "type": "string",
+                "description": "Command line to execute."
+              },
+              "timeout_ms": {
+                "type": "integer",
+                "description": "How long to wait for initial output before returning (ms)."
+              },
+              "shell": {
+                "type": "string",
+                "description": "Shell to use, e.g. /bin/bash, zsh, powershell. Defaults to the configured shell."
+              },
+              "cwd": {
+                "type": "string",
+                "description": "Working directory for the command."
+              },
+              "verbose_timing": {
+                "type": "boolean",
+                "description": "Include timing telemetry in the response.",
+                "default": false
+              }
+            },
+            "required": [
+              "command",
+              "timeout_ms"
+            ]
+          }
+        },
+        {
+          "name": "interact_with_process",
+          "description": "Send input to a running process and automatically receive the response. Use this to drive interactive sessions (Python/Node REPLs, database shells, SSH) that were started with start_process.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "pid": {
+                "type": "integer",
+                "description": "Process ID."
+              },
+              "input": {
+                "type": "string",
+                "description": "Text to send to the process's stdin (a newline is appended)."
+              },
+              "timeout_ms": {
+                "type": "integer",
+                "description": "Max time to wait for a response (ms).",
+                "default": 8000
+              },
+              "wait_for_prompt": {
+                "type": "boolean",
+                "description": "Wait until the REPL prompt reappears before returning.",
+                "default": true
+              }
+            },
+            "required": [
+              "pid",
+              "input"
+            ]
+          }
+        },
+        {
+          "name": "read_process_output",
+          "description": "Read output from a running process.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "pid": {
+                "type": "integer",
+                "description": "Process ID."
+              },
+              "timeout_ms": {
+                "type": "integer",
+                "description": "Max time to wait for new output (ms).",
+                "default": 5000
+              },
+              "offset": {
+                "type": "integer",
+                "description": "Line offset to start reading from; negative values read from the end.",
+                "default": 0
+              },
+              "length": {
+                "type": "integer",
+                "description": "Maximum number of lines to return.",
+                "default": 1000
+              }
+            },
+            "required": [
+              "pid"
+            ]
+          }
+        },
+        {
+          "name": "force_terminate",
+          "description": "Force terminate a running terminal session.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "pid": {
+                "type": "integer",
+                "description": "Process ID."
+              }
+            },
+            "required": [
+              "pid"
+            ]
+          }
+        },
+        {
+          "name": "list_sessions",
+          "description": "List all active terminal sessions.",
+          "input_schema": {
+            "type": "object",
+            "properties": {}
+          }
+        },
+        {
+          "name": "list_processes",
+          "description": "List all running processes. Returns process information including PID, command name, CPU usage, and memory usage.",
+          "input_schema": {
+            "type": "object",
+            "properties": {}
+          }
+        },
+        {
+          "name": "kill_process",
+          "description": "Terminate a running process by PID. Use with caution as this will forcefully terminate the specified process.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "pid": {
+                "type": "integer",
+                "description": "Process ID."
+              }
+            },
+            "required": [
+              "pid"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "jupyter",
+      "name": "Jupyter",
+      "server": "mcp://jupyter-mcp-server",
+      "summary": "Connects to a JupyterLab server to read, edit and execute notebook cells and run code in the notebook's live kernel.",
+      "tools": [
+        {
+          "name": "list_notebooks",
+          "description": "List all notebooks in the Jupyter server (including subdirectories) and show which ones are managed/active.",
+          "input_schema": {
+            "type": "object",
+            "properties": {}
+          }
+        },
+        {
+          "name": "use_notebook",
+          "description": "Use a notebook file (connect to an existing one or create a new one) and activate it for subsequent cell operations.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "notebook_name": {
+                "type": "string",
+                "description": "Unique alias for the notebook within this session."
+              },
+              "notebook_path": {
+                "type": "string",
+                "description": "Path to the .ipynb file relative to the Jupyter root."
+              },
+              "mode": {
+                "type": "string",
+                "description": "Connect to an existing notebook or create a new one.",
+                "enum": [
+                  "connect",
+                  "create"
+                ],
+                "default": "connect"
+              },
+              "kernel_id": {
+                "type": "string",
+                "description": "Attach to an existing kernel instead of starting one."
+              }
+            },
+            "required": [
+              "notebook_name"
+            ]
+          }
+        },
+        {
+          "name": "read_cells",
+          "description": "Read cells from the currently activated notebook, including their source and outputs.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "start_index": {
+                "type": "integer",
+                "description": "First cell to read.",
+                "default": 0
+              },
+              "limit": {
+                "type": "integer",
+                "description": "Maximum number of cells to return (0 = all).",
+                "default": 0
+              },
+              "response_format": {
+                "type": "string",
+                "description": "'brief' returns the first line of each cell; 'detailed' returns full source and outputs.",
+                "enum": [
+                  "brief",
+                  "detailed"
+                ],
+                "default": "detailed"
+              }
+            }
+          }
+        },
+        {
+          "name": "insert_cell",
+          "description": "Insert a cell at the specified position (-1 to append) without executing it.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "cell_index": {
+                "type": "integer",
+                "description": "Position to insert at; -1 appends to the end."
+              },
+              "cell_type": {
+                "type": "string",
+                "description": "Type of cell.",
+                "enum": [
+                  "code",
+                  "markdown"
+                ]
+              },
+              "cell_source": {
+                "type": "string",
+                "description": "Source of the new cell."
+              }
+            },
+            "required": [
+              "cell_index",
+              "cell_type",
+              "cell_source"
+            ]
+          }
+        },
+        {
+          "name": "overwrite_cell_source",
+          "description": "Overwrite the source of an existing cell. Returns a diff of the change. Does not execute the cell.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "cell_index": {
+                "type": "integer",
+                "description": "Zero-based index of the cell."
+              },
+              "cell_source": {
+                "type": "string",
+                "description": "New cell source."
+              }
+            },
+            "required": [
+              "cell_index",
+              "cell_source"
+            ]
+          }
+        },
+        {
+          "name": "execute_cell",
+          "description": "Execute a cell with a timeout and return its outputs. Can stream progress for long-running cells.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "cell_index": {
+                "type": "integer",
+                "description": "Zero-based index of the cell."
+              },
+              "timeout": {
+                "type": "integer",
+                "description": "Timeout in seconds.",
+                "default": 90
+              },
+              "stream": {
+                "type": "boolean",
+                "description": "Stream intermediate outputs while the cell runs.",
+                "default": false
+              },
+              "progress_interval": {
+                "type": "integer",
+                "description": "Seconds between progress updates when streaming.",
+                "default": 5
+              }
+            },
+            "required": [
+              "cell_index"
+            ]
+          }
+        },
+        {
+          "name": "insert_execute_code_cell",
+          "description": "Insert a code cell at the given position (-1 to append) and execute it immediately, returning its outputs.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "cell_index": {
+                "type": "integer",
+                "description": "Position to insert at; -1 appends."
+              },
+              "cell_source": {
+                "type": "string",
+                "description": "Code for the new cell."
+              }
+            },
+            "required": [
+              "cell_index",
+              "cell_source"
+            ]
+          }
+        },
+        {
+          "name": "delete_cell",
+          "description": "Delete cells.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "cell_indices": {
+                "type": "array",
+                "description": "Indices of the cells to delete.",
+                "items": {
+                  "type": "integer"
+                },
+                "minItems": 1
+              }
+            },
+            "required": [
+              "cell_indices"
+            ]
+          }
+        },
+        {
+          "name": "restart_notebook",
+          "description": "Restart the kernel for a notebook. All in-memory state is lost.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "notebook_name": {
+                "type": "string",
+                "description": "Alias of the notebook whose kernel to restart."
+              }
+            },
+            "required": [
+              "notebook_name"
+            ]
+          }
+        },
+        {
+          "name": "execute_ipython",
+          "description": "Execute IPython code directly in the kernel of the current notebook without adding a cell. Supports magics (%pip, %timeit, %who) and shell escapes (!ls). Useful for quick checks, inspecting variables or installing packages into the kernel's environment.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string",
+                "description": "IPython code to run."
+              },
+              "timeout": {
+                "type": "integer",
+                "description": "Timeout in seconds.",
+                "default": 60
+              }
+            },
+            "required": [
+              "code"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "code_checker",
+      "name": "Code Checker",
+      "server": "mcp://code-checker",
+      "summary": "Runs linters, type checkers, formatters and test suites (pylint, ruff, mypy, pytest, eslint, prettier, jest) on the local project and returns structured results.",
+      "tools": [
+        {
+          "name": "run_pylint_check",
+          "description": "Run pylint on the project code and generate smart prompts for LLMs.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "target_directories": {
+                "type": "array",
+                "description": "Directories to lint.",
+                "items": {
+                  "type": "string"
+                },
+                "default": [
+                  "src",
+                  "tests"
+                ]
+              },
+              "disable_codes": {
+                "type": "array",
+                "description": "Pylint message codes to disable, e.g. ['C0114', 'R0913'].",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "categories": {
+                "type": "array",
+                "description": "Message categories to report.",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "convention",
+                    "refactor",
+                    "warning",
+                    "error",
+                    "fatal"
+                  ]
+                },
+                "default": [
+                  "error",
+                  "fatal"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "name": "run_ruff_check",
+          "description": "Lint Python files with Ruff and report rule violations. Optionally apply autofixes.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "paths": {
+                "type": "array",
+                "description": "Files or directories to check, relative to the project root.",
+                "items": {
+                  "type": "string"
+                },
+                "default": [
+                  "."
+                ]
+              },
+              "fix": {
+                "type": "boolean",
+                "description": "Apply safe autofixes.",
+                "default": false
+              },
+              "unsafe_fixes": {
+                "type": "boolean",
+                "description": "Also apply unsafe fixes (requires fix=true).",
+                "default": false
+              },
+              "select": {
+                "type": "array",
+                "description": "Rule codes or prefixes to enable, e.g. ['E', 'F', 'I'].",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "ignore": {
+                "type": "array",
+                "description": "Rule codes to ignore.",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "output_format": {
+                "type": "string",
+                "description": "Output format.",
+                "enum": [
+                  "concise",
+                  "full",
+                  "json",
+                  "github"
+                ],
+                "default": "concise"
+              },
+              "config": {
+                "type": "string",
+                "description": "Path to a ruff.toml / pyproject.toml to use."
+              }
+            }
+          }
+        },
+        {
+          "name": "run_mypy_check",
+          "description": "Run mypy type checking on the project code.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "target_directories": {
+                "type": "array",
+                "description": "Directories to type check.",
+                "items": {
+                  "type": "string"
+                },
+                "default": [
+                  "src"
+                ]
+              },
+              "strict": {
+                "type": "boolean",
+                "description": "Enable --strict mode.",
+                "default": false
+              },
+              "disable_error_codes": {
+                "type": "array",
+                "description": "Error codes to disable, e.g. ['import-untyped'].",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "enable_error_codes": {
+                "type": "array",
+                "description": "Extra error codes to enable.",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "python_version": {
+                "type": "string",
+                "description": "Target Python version, e.g. '3.11'."
+              }
+            }
+          }
+        },
+        {
+          "name": "ruff_format",
+          "description": "Format Python code with `ruff format` (Black-compatible). Use check=true to only report which files would be reformatted.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "paths": {
+                "type": "array",
+                "description": "Files or directories to check, relative to the project root.",
+                "items": {
+                  "type": "string"
+                },
+                "default": [
+                  "."
+                ]
+              },
+              "check": {
+                "type": "boolean",
+                "description": "Don't write files; exit non-zero if any file would change.",
+                "default": false
+              },
+              "diff": {
+                "type": "boolean",
+                "description": "Show a diff of the changes instead of writing.",
+                "default": false
+              },
+              "line_length": {
+                "type": "integer",
+                "description": "Maximum line length.",
+                "minimum": 1,
+                "maximum": 320
+              },
+              "target_version": {
+                "type": "string",
+                "description": "Minimum Python version to target.",
+                "enum": [
+                  "py38",
+                  "py39",
+                  "py310",
+                  "py311",
+                  "py312",
+                  "py313"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "name": "run_pytest_check",
+          "description": "Run pytest on the project code and generate smart prompts for LLMs. Returns a summary of passed/failed/skipped tests and the tracebacks of failures.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "test_path": {
+                "type": "string",
+                "description": "File, directory or node id to run, e.g. 'tests/test_api.py::test_login'."
+              },
+              "keyword": {
+                "type": "string",
+                "description": "Only run tests matching this -k expression."
+              },
+              "markers": {
+                "type": "array",
+                "description": "Only run tests with these markers (-m).",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "verbosity": {
+                "type": "integer",
+                "description": "Verbosity level (0-3).",
+                "minimum": 0,
+                "maximum": 3,
+                "default": 2
+              },
+              "maxfail": {
+                "type": "integer",
+                "description": "Stop after this many failures (0 = never stop).",
+                "minimum": 0,
+                "default": 0
+              },
+              "last_failed": {
+                "type": "boolean",
+                "description": "Re-run only the tests that failed in the previous run (--lf).",
+                "default": false
+              },
+              "parallel_workers": {
+                "type": [
+                  "integer",
+                  "string"
+                ],
+                "description": "Number of xdist workers, or 'auto'. Omit for serial execution."
+              },
+              "coverage": {
+                "type": "object",
+                "description": "Coverage collection options (requires pytest-cov).",
+                "properties": {
+                  "enabled": {
+                    "type": "boolean",
+                    "description": "Collect coverage.",
+                    "default": false
+                  },
+                  "source": {
+                    "type": "array",
+                    "description": "Packages or paths to measure.",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "report": {
+                    "type": "string",
+                    "description": "Report format.",
+                    "enum": [
+                      "term",
+                      "term-missing",
+                      "html",
+                      "xml",
+                      "json"
+                    ],
+                    "default": "term-missing"
+                  },
+                  "fail_under": {
+                    "type": "number",
+                    "description": "Fail if total coverage is below this percentage."
+                  }
+                }
+              },
+              "env_vars": {
+                "type": "object",
+                "description": "Extra environment variables for the test run.",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              "extra_args": {
+                "type": "array",
+                "description": "Additional raw pytest arguments.",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "timeout_seconds": {
+                "type": "integer",
+                "description": "Kill the run after this many seconds.",
+                "default": 600
+              }
+            }
+          }
+        },
+        {
+          "name": "collect_tests",
+          "description": "Collect tests without running them (pytest --collect-only). Returns test node ids.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "test_path": {
+                "type": "string",
+                "description": "File or directory to collect from.",
+                "default": "tests"
+              },
+              "keyword": {
+                "type": "string",
+                "description": "Only collect tests matching this -k expression."
+              },
+              "markers": {
+                "type": "array",
+                "description": "Only collect tests with these markers.",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "run_all_checks",
+          "description": "Run all code checks (pylint, pytest and mypy) and generate combined results.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "extra_args": {
+                "type": "array",
+                "description": "Additional pytest arguments.",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "categories": {
+                "type": "array",
+                "description": "Pylint categories to report.",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "convention",
+                    "refactor",
+                    "warning",
+                    "error",
+                    "fatal"
+                  ]
+                }
+              },
+              "strict_mypy": {
+                "type": "boolean",
+                "description": "Run mypy in strict mode.",
+                "default": false
+              }
+            }
+          }
+        },
+        {
+          "name": "run_eslint",
+          "description": "Lints JavaScript/TypeScript.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "files": {
+                "type": "array",
+                "description": "Files, directories or globs.",
+                "items": {
+                  "type": "string"
+                },
+                "default": [
+                  "."
+                ]
+              },
+              "fix": {
+                "type": "boolean",
+                "description": "Automatically fix problems.",
+                "default": false
+              },
+              "config_path": {
+                "type": "string",
+                "description": "Path to an ESLint config file."
+              },
+              "max_warnings": {
+                "type": "integer",
+                "description": "Fail if there are more warnings than this.",
+                "minimum": -1,
+                "default": -1
+              },
+              "format": {
+                "type": "string",
+                "description": "Output format.",
+                "enum": [
+                  "stylish",
+                  "json",
+                  "compact"
+                ],
+                "default": "stylish"
+              }
+            }
+          }
+        },
+        {
+          "name": "prettier_format",
+          "description": "Format files with Prettier (JS, TS, JSX, CSS, JSON, Markdown, YAML).",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "files": {
+                "type": "array",
+                "description": "Files or globs to format.",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "write": {
+                "type": "boolean",
+                "description": "Write changes to disk.",
+                "default": true
+              },
+              "check": {
+                "type": "boolean",
+                "description": "Only check whether files are formatted.",
+                "default": false
+              },
+              "parser": {
+                "type": "string",
+                "description": "Force a parser.",
+                "enum": [
+                  "babel",
+                  "typescript",
+                  "css",
+                  "json",
+                  "markdown",
+                  "yaml",
+                  "html"
+                ]
+              },
+              "config_path": {
+                "type": "string",
+                "description": "Path to a Prettier config file."
+              }
+            },
+            "required": [
+              "files"
+            ]
+          }
+        },
+        {
+          "name": "run_jest",
+          "description": "Run Jest tests and return pass/fail results with failure messages and optional coverage.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "test_path_pattern": {
+                "type": "string",
+                "description": "Regex matched against test file paths."
+              },
+              "test_name_pattern": {
+                "type": "string",
+                "description": "Only run tests whose name matches this regex (-t)."
+              },
+              "coverage": {
+                "type": "boolean",
+                "description": "Collect coverage.",
+                "default": false
+              },
+              "update_snapshot": {
+                "type": "boolean",
+                "description": "Re-record failing snapshots (-u).",
+                "default": false
+              },
+              "only_changed": {
+                "type": "boolean",
+                "description": "Only run tests related to files changed since the last commit.",
+                "default": false
+              },
+              "ci": {
+                "type": "boolean",
+                "description": "Run in CI mode (no new snapshots written).",
+                "default": false
+              },
+              "max_workers": {
+                "type": [
+                  "integer",
+                  "string"
+                ],
+                "description": "Worker count or percentage, e.g. 4 or '50%'."
+              },
+              "silent": {
+                "type": "boolean",
+                "description": "Suppress console output from tests.",
+                "default": false
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "package_manager",
+      "name": "Package Manager",
+      "server": "mcp://package-manager",
+      "summary": "Manages project dependencies with pip and npm: install, uninstall, list, run package.json scripts and audit for vulnerabilities.",
+      "tools": [
+        {
+          "name": "pip_install",
+          "description": "Install Python packages with pip into the project's virtual environment.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "packages": {
+                "type": "array",
+                "description": "Requirement specifiers, e.g. ['requests>=2.31', 'rich'].",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "requirements_file": {
+                "type": "string",
+                "description": "Install from a requirements file instead (-r)."
+              },
+              "upgrade": {
+                "type": "boolean",
+                "description": "Upgrade packages to the newest available version (-U).",
+                "default": false
+              },
+              "editable": {
+                "type": "string",
+                "description": "Path of a local project to install in editable mode (-e)."
+              },
+              "index_url": {
+                "type": "string",
+                "description": "Base URL of the package index."
+              },
+              "extra_index_url": {
+                "type": "string",
+                "description": "Extra index URL to search."
+              },
+              "no_deps": {
+                "type": "boolean",
+                "description": "Don't install dependencies.",
+                "default": false
+              },
+              "pre": {
+                "type": "boolean",
+                "description": "Include pre-release versions.",
+                "default": false
+              },
+              "venv_path": {
+                "type": "string",
+                "description": "Path to the virtual environment; defaults to the project's .venv."
+              }
+            }
+          }
+        },
+        {
+          "name": "pip_list",
+          "description": "List installed packages.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "outdated": {
+                "type": "boolean",
+                "description": "Only list outdated packages with their latest version.",
+                "default": false
+              },
+              "format": {
+                "type": "string",
+                "description": "Output format.",
+                "enum": [
+                  "columns",
+                  "json",
+                  "freeze"
+                ],
+                "default": "columns"
+              }
+            }
+          }
+        },
+        {
+          "name": "pip_uninstall",
+          "description": "Uninstall packages.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "packages": {
+                "type": "array",
+                "description": "Package names.",
+                "items": {
+                  "type": "string"
+                },
+                "minItems": 1
+              }
+            },
+            "required": [
+              "packages"
+            ]
+          }
+        },
+        {
+          "name": "npm_install",
+          "description": "Install npm dependencies. With no packages, installs everything listed in package.json (like `npm install`); with packages, adds them to package.json.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "packages": {
+                "type": "array",
+                "description": "Packages to add, e.g. ['zod@^3', 'axios']. Empty installs from package.json.",
+                "items": {
+                  "type": "string"
+                },
+                "default": []
+              },
+              "save_dev": {
+                "type": "boolean",
+                "description": "Save as devDependencies.",
+                "default": false
+              },
+              "global": {
+                "type": "boolean",
+                "description": "Install globally.",
+                "default": false
+              },
+              "exact": {
+                "type": "boolean",
+                "description": "Save exact versions instead of semver ranges.",
+                "default": false
+              },
+              "cwd": {
+                "type": "string",
+                "description": "Directory containing package.json."
+              }
+            }
+          }
+        },
+        {
+          "name": "npm_run_script",
+          "description": "Run a script defined in package.json (npm run <script>).",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "script": {
+                "type": "string",
+                "description": "Script name, e.g. 'build', 'dev', 'lint'."
+              },
+              "args": {
+                "type": "array",
+                "description": "Extra arguments passed after --.",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "cwd": {
+                "type": "string",
+                "description": "Directory containing package.json."
+              }
+            },
+            "required": [
+              "script"
+            ]
+          }
+        },
+        {
+          "name": "npm_audit",
+          "description": "Run npm audit to report known security vulnerabilities in the dependency tree; optionally apply fixes.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "fix": {
+                "type": "boolean",
+                "description": "Run `npm audit fix` to upgrade vulnerable dependencies.",
+                "default": false
+              },
+              "audit_level": {
+                "type": "string",
+                "description": "Minimum severity to report.",
+                "enum": [
+                  "low",
+                  "moderate",
+                  "high",
+                  "critical"
+                ],
+                "default": "low"
+              },
+              "production_only": {
+                "type": "boolean",
+                "description": "Ignore devDependencies.",
+                "default": false
+              }
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

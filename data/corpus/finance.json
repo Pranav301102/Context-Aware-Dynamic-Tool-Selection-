@@ -1,0 +1,1826 @@
+{
+  "branch": {
+    "id": "finance",
+    "name": "Finance",
+    "summary": "Market data (stock quotes, price history, fundamentals, options, news), currency exchange and crypto prices, plus business finance: Stripe payments/billing and QuickBooks accounting and expenses."
+  },
+  "toolkits": [
+    {
+      "id": "alpha_vantage",
+      "name": "Alpha Vantage",
+      "server": "mcp://alphavantage",
+      "summary": "Realtime and historical equity, forex and crypto market data, company fundamentals and news sentiment from Alpha Vantage.",
+      "tools": [
+        {
+          "name": "global_quote",
+          "description": "Returns the latest price and volume information for a ticker of your choice.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "symbol": {
+                "type": "string",
+                "description": "The symbol of the global ticker of your choice. For example: symbol=IBM."
+              },
+              "datatype": {
+                "type": "string",
+                "description": "Response format: json (default) or csv.",
+                "enum": [
+                  "json",
+                  "csv"
+                ],
+                "default": "json"
+              }
+            },
+            "required": [
+              "symbol"
+            ]
+          }
+        },
+        {
+          "name": "time_series_daily",
+          "description": "Returns raw (as-traded) daily time series (date, daily open, daily high, daily low, daily close, daily volume) of the global equity specified, covering 20+ years of historical data.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "symbol": {
+                "type": "string",
+                "description": "The name of the equity of your choice. For example: symbol=IBM."
+              },
+              "outputsize": {
+                "type": "string",
+                "description": "compact returns only the latest 100 data points; full returns the full-length time series of 20+ years of historical data.",
+                "enum": [
+                  "compact",
+                  "full"
+                ],
+                "default": "compact"
+              },
+              "datatype": {
+                "type": "string",
+                "description": "Response format: json (default) or csv.",
+                "enum": [
+                  "json",
+                  "csv"
+                ],
+                "default": "json"
+              }
+            },
+            "required": [
+              "symbol"
+            ]
+          }
+        },
+        {
+          "name": "time_series_intraday",
+          "description": "Returns current and 20+ years of historical intraday OHLCV time series of the equity specified, covering pre-market and post-market hours where applicable.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "symbol": {
+                "type": "string",
+                "description": "The name of the equity of your choice. For example: symbol=IBM."
+              },
+              "interval": {
+                "type": "string",
+                "description": "Time interval between two consecutive data points in the time series.",
+                "enum": [
+                  "1min",
+                  "5min",
+                  "15min",
+                  "30min",
+                  "60min"
+                ]
+              },
+              "adjusted": {
+                "type": "boolean",
+                "description": "By default output is adjusted by historical split and dividend events. Set false to query raw (as-traded) intraday values.",
+                "default": true
+              },
+              "extended_hours": {
+                "type": "boolean",
+                "description": "Include pre-market and post-market trading hours.",
+                "default": true
+              },
+              "month": {
+                "type": "string",
+                "description": "Query a specific month in history, in YYYY-MM format, e.g. 2009-01."
+              },
+              "outputsize": {
+                "type": "string",
+                "description": "compact (latest 100 points) or full (30 days, or the full requested month).",
+                "enum": [
+                  "compact",
+                  "full"
+                ],
+                "default": "compact"
+              },
+              "datatype": {
+                "type": "string",
+                "description": "Response format: json (default) or csv.",
+                "enum": [
+                  "json",
+                  "csv"
+                ],
+                "default": "json"
+              }
+            },
+            "required": [
+              "symbol",
+              "interval"
+            ]
+          }
+        },
+        {
+          "name": "company_overview",
+          "description": "Returns the company information, financial ratios, and other key metrics for the equity specified. Data is generally refreshed on the same day a company reports its latest earnings and financials.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "symbol": {
+                "type": "string",
+                "description": "The symbol of the ticker of your choice. For example: symbol=IBM."
+              }
+            },
+            "required": [
+              "symbol"
+            ]
+          }
+        },
+        {
+          "name": "symbol_search",
+          "description": "Returns the best-matching symbols and market information based on keywords of your choice.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "keywords": {
+                "type": "string",
+                "description": "A text string of your choice. For example: keywords=microsoft."
+              },
+              "datatype": {
+                "type": "string",
+                "description": "Response format: json (default) or csv.",
+                "enum": [
+                  "json",
+                  "csv"
+                ],
+                "default": "json"
+              }
+            },
+            "required": [
+              "keywords"
+            ]
+          }
+        },
+        {
+          "name": "currency_exchange_rate",
+          "description": "Returns the realtime exchange rate for any pair of digital currency (e.g., Bitcoin) or physical currency (e.g., USD).",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "from_currency": {
+                "type": "string",
+                "description": "The currency you would like to get the exchange rate for. It can either be a physical currency or digital/crypto currency. For example: USD or BTC."
+              },
+              "to_currency": {
+                "type": "string",
+                "description": "The destination currency for the exchange rate. For example: USD or BTC."
+              }
+            },
+            "required": [
+              "from_currency",
+              "to_currency"
+            ]
+          }
+        },
+        {
+          "name": "news_sentiment",
+          "description": "Returns live and historical market news & sentiment data from a large and growing selection of premier news outlets around the world, covering stocks, cryptocurrencies, forex, and a wide range of topics such as fiscal policy, mergers & acquisitions and IPOs. Each article comes with an overall sentiment score and label (Bearish, Somewhat-Bearish, Neutral, Somewhat-Bullish, Bullish) plus per-ticker relevance and sentiment scores. Use the tickers and topics filters to narrow results; with no filters the latest articles across all markets are returned.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "tickers": {
+                "type": "string",
+                "description": "Comma-separated stock/crypto/forex symbols, e.g. 'IBM' or 'COIN,CRYPTO:BTC,FOREX:USD'. Returned articles mention ALL listed tickers."
+              },
+              "topics": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "blockchain",
+                    "earnings",
+                    "ipo",
+                    "mergers_and_acquisitions",
+                    "financial_markets",
+                    "economy_fiscal",
+                    "economy_monetary",
+                    "economy_macro",
+                    "energy_transportation",
+                    "finance",
+                    "life_sciences",
+                    "manufacturing",
+                    "real_estate",
+                    "retail_wholesale",
+                    "technology"
+                  ]
+                },
+                "description": "News topics to filter on."
+              },
+              "time_from": {
+                "type": "string",
+                "description": "Start of the time range in YYYYMMDDTHHMM format, e.g. 20220410T0130."
+              },
+              "time_to": {
+                "type": "string",
+                "description": "End of the time range in YYYYMMDDTHHMM format. Defaults to now."
+              },
+              "sort": {
+                "type": "string",
+                "description": "Sort order.",
+                "enum": [
+                  "LATEST",
+                  "EARLIEST",
+                  "RELEVANCE"
+                ],
+                "default": "LATEST"
+              },
+              "limit": {
+                "type": "integer",
+                "description": "Maximum number of articles to return.",
+                "default": 50,
+                "minimum": 1,
+                "maximum": 1000
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "yahoo_finance",
+      "name": "Yahoo Finance",
+      "server": "mcp://yahoo-finance",
+      "summary": "Stock prices, company info, financial statements, options, corporate actions, analyst recommendations and news via yfinance.",
+      "tools": [
+        {
+          "name": "get_historical_stock_prices",
+          "description": "Get historical stock prices for a given ticker symbol from yahoo finance. Include the following information: Date, Open, High, Low, Close, Volume, Adj Close.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "ticker": {
+                "type": "string",
+                "description": "The ticker symbol of the stock to get historical prices for, e.g. \"AAPL\""
+              },
+              "period": {
+                "type": "string",
+                "description": "Valid periods: 1d,5d,1mo,3mo,6mo,1y,2y,5y,10y,ytd,max. Either use period parameter or use start and end.",
+                "enum": [
+                  "1d",
+                  "5d",
+                  "1mo",
+                  "3mo",
+                  "6mo",
+                  "1y",
+                  "2y",
+                  "5y",
+                  "10y",
+                  "ytd",
+                  "max"
+                ],
+                "default": "1mo"
+              },
+              "interval": {
+                "type": "string",
+                "description": "Valid intervals: 1m,2m,5m,15m,30m,60m,90m,1h,1d,5d,1wk,1mo,3mo. Intraday data cannot extend past the last 60 days.",
+                "enum": [
+                  "1m",
+                  "2m",
+                  "5m",
+                  "15m",
+                  "30m",
+                  "60m",
+                  "90m",
+                  "1h",
+                  "1d",
+                  "5d",
+                  "1wk",
+                  "1mo",
+                  "3mo"
+                ],
+                "default": "1d"
+              }
+            },
+            "required": [
+              "ticker"
+            ]
+          }
+        },
+        {
+          "name": "get_stock_info",
+          "description": "Get stock information for a given ticker symbol from yahoo finance. Include the following information: Stock Price & Trading Info, Company Information, Financial Metrics, Earnings & Revenue, Margins & Returns, Dividends, Balance Sheet, Ownership, Analyst Coverage, Risk Metrics, Other.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "ticker": {
+                "type": "string",
+                "description": "The ticker symbol of the stock to get information for, e.g. \"AAPL\""
+              }
+            },
+            "required": [
+              "ticker"
+            ]
+          }
+        },
+        {
+          "name": "get_yahoo_finance_news",
+          "description": "Get news for a given ticker symbol from yahoo finance.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "ticker": {
+                "type": "string",
+                "description": "The ticker symbol of the stock to get news for, e.g. \"AAPL\""
+              }
+            },
+            "required": [
+              "ticker"
+            ]
+          }
+        },
+        {
+          "name": "get_stock_actions",
+          "description": "Get stock dividends and stock splits for a given ticker symbol from yahoo finance.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "ticker": {
+                "type": "string",
+                "description": "The ticker symbol of the stock to get stock actions for, e.g. \"AAPL\""
+              }
+            },
+            "required": [
+              "ticker"
+            ]
+          }
+        },
+        {
+          "name": "get_financial_statement",
+          "description": "Get financial statement for a given ticker symbol from yahoo finance. You can choose from the following financial statement types: income_stmt, quarterly_income_stmt, balance_sheet, quarterly_balance_sheet, cashflow, quarterly_cashflow.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "ticker": {
+                "type": "string",
+                "description": "The ticker symbol of the stock to get financial statement for, e.g. \"AAPL\""
+              },
+              "financial_type": {
+                "type": "string",
+                "description": "The type of financial statement to get.",
+                "enum": [
+                  "income_stmt",
+                  "quarterly_income_stmt",
+                  "balance_sheet",
+                  "quarterly_balance_sheet",
+                  "cashflow",
+                  "quarterly_cashflow"
+                ]
+              }
+            },
+            "required": [
+              "ticker",
+              "financial_type"
+            ]
+          }
+        },
+        {
+          "name": "get_option_chain",
+          "description": "Fetch the option chain for a given ticker symbol, expiration date, and option type.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "ticker": {
+                "type": "string",
+                "description": "The ticker symbol of the stock to get option chain for, e.g. \"AAPL\""
+              },
+              "expiration_date": {
+                "type": "string",
+                "description": "The expiration date for the options chain (format: 'YYYY-MM-DD')"
+              },
+              "option_type": {
+                "type": "string",
+                "description": "The type of option to fetch ('calls' or 'puts')",
+                "enum": [
+                  "calls",
+                  "puts"
+                ]
+              }
+            },
+            "required": [
+              "ticker",
+              "expiration_date",
+              "option_type"
+            ]
+          }
+        },
+        {
+          "name": "get_recommendations",
+          "description": "Get recommendations or upgrades/downgrades for a given ticker symbol from yahoo finance. You can also specify the number of months back to get upgrades/downgrades for, default is 12.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "ticker": {
+                "type": "string",
+                "description": "The ticker symbol of the stock, e.g. \"AAPL\""
+              },
+              "recommendation_type": {
+                "type": "string",
+                "description": "The type of recommendation to get.",
+                "enum": [
+                  "recommendations",
+                  "upgrades_downgrades"
+                ],
+                "default": "recommendations"
+              },
+              "months_back": {
+                "type": "integer",
+                "description": "Number of months back to get upgrades/downgrades for.",
+                "default": 12
+              }
+            },
+            "required": [
+              "ticker",
+              "recommendation_type"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "coingecko",
+      "name": "CoinGecko",
+      "server": "mcp://coingecko",
+      "summary": "Cryptocurrency prices, market rankings, historical charts and trending coins from the CoinGecko API.",
+      "tools": [
+        {
+          "name": "get_simple_price",
+          "description": "Query the prices of one or more coins by using their unique Coin API IDs.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "ids": {
+                "type": "string",
+                "description": "Coins' IDs, comma-separated if querying more than 1 coin, e.g. bitcoin,ethereum. Refers to /coins/list."
+              },
+              "vs_currencies": {
+                "type": "string",
+                "description": "Target currency of coins, comma-separated if querying more than 1 currency, e.g. usd,eur."
+              },
+              "include_market_cap": {
+                "type": "boolean",
+                "description": "Include market capitalization.",
+                "default": false
+              },
+              "include_24hr_vol": {
+                "type": "boolean",
+                "description": "Include 24hr volume.",
+                "default": false
+              },
+              "include_24hr_change": {
+                "type": "boolean",
+                "description": "Include 24hr price change.",
+                "default": false
+              },
+              "include_last_updated_at": {
+                "type": "boolean",
+                "description": "Include last updated price time in UNIX.",
+                "default": false
+              },
+              "precision": {
+                "type": "string",
+                "description": "Decimal place for currency price value.",
+                "enum": [
+                  "full",
+                  "0",
+                  "1",
+                  "2",
+                  "3",
+                  "4",
+                  "5",
+                  "6",
+                  "7",
+                  "8",
+                  "9",
+                  "10",
+                  "11",
+                  "12",
+                  "13",
+                  "14",
+                  "15",
+                  "16",
+                  "17",
+                  "18"
+                ]
+              }
+            },
+            "required": [
+              "ids",
+              "vs_currencies"
+            ]
+          }
+        },
+        {
+          "name": "get_coins_markets",
+          "description": "Query all the supported coins with price, market cap, volume and market related data.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "vs_currency": {
+                "type": "string",
+                "description": "Target currency of coins and market data, e.g. usd."
+              },
+              "ids": {
+                "type": "string",
+                "description": "Coins' IDs, comma-separated if querying more than 1 coin."
+              },
+              "category": {
+                "type": "string",
+                "description": "Filter based on coins' category, e.g. layer-1, meme-token."
+              },
+              "order": {
+                "type": "string",
+                "description": "Sort result by field.",
+                "enum": [
+                  "market_cap_asc",
+                  "market_cap_desc",
+                  "volume_asc",
+                  "volume_desc",
+                  "id_asc",
+                  "id_desc"
+                ],
+                "default": "market_cap_desc"
+              },
+              "per_page": {
+                "type": "integer",
+                "description": "Total results per page.",
+                "default": 100,
+                "minimum": 1,
+                "maximum": 250
+              },
+              "page": {
+                "type": "integer",
+                "description": "Page through results.",
+                "default": 1
+              },
+              "sparkline": {
+                "type": "boolean",
+                "description": "Include sparkline 7 days data.",
+                "default": false
+              },
+              "price_change_percentage": {
+                "type": "string",
+                "description": "Include price change percentage timeframe, comma-separated: 1h, 24h, 7d, 14d, 30d, 200d, 1y."
+              },
+              "locale": {
+                "type": "string",
+                "description": "Language background.",
+                "enum": [
+                  "en",
+                  "de",
+                  "es",
+                  "fr",
+                  "it",
+                  "ja",
+                  "ko",
+                  "pt",
+                  "ru",
+                  "zh",
+                  "zh-tw"
+                ],
+                "default": "en"
+              },
+              "precision": {
+                "type": "string",
+                "description": "Decimal place for currency price value, 'full' or 0-18."
+              },
+              "include_tokens": {
+                "type": "string",
+                "description": "For coins with multiple tokens on different chains.",
+                "enum": [
+                  "top",
+                  "all"
+                ],
+                "default": "top"
+              }
+            },
+            "required": [
+              "vs_currency"
+            ]
+          }
+        },
+        {
+          "name": "get_coin_market_chart",
+          "description": "Get the historical chart data of a coin including time in UNIX, price, market cap and 24hrs volume based on particular coin id.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "Coin id, e.g. bitcoin."
+              },
+              "vs_currency": {
+                "type": "string",
+                "description": "Target currency of market data, e.g. usd."
+              },
+              "days": {
+                "type": "string",
+                "description": "Data up to number of days ago. Any integer or 'max'."
+              },
+              "interval": {
+                "type": "string",
+                "description": "Data interval. Leave empty for auto granularity.",
+                "enum": [
+                  "daily"
+                ]
+              },
+              "precision": {
+                "type": "string",
+                "description": "Decimal place for currency price value."
+              }
+            },
+            "required": [
+              "id",
+              "vs_currency",
+              "days"
+            ]
+          }
+        },
+        {
+          "name": "search",
+          "description": "Search CoinGecko.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "query"
+            ]
+          }
+        },
+        {
+          "name": "get_trending",
+          "description": "Query trending search coins, NFTs and categories on CoinGecko in the last 24 hours.",
+          "input_schema": {
+            "type": "object",
+            "properties": {}
+          }
+        }
+      ]
+    },
+    {
+      "id": "stripe",
+      "name": "Stripe",
+      "server": "mcp://stripe",
+      "summary": "Stripe payments API: customers, invoices, payment links, payment intents, refunds, subscriptions, disputes and balance.",
+      "tools": [
+        {
+          "name": "create_customer",
+          "description": "This tool will create a customer in Stripe.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "The name of the customer."
+              },
+              "email": {
+                "type": "string",
+                "description": "The email of the customer."
+              }
+            },
+            "required": [
+              "name"
+            ]
+          }
+        },
+        {
+          "name": "list_customers",
+          "description": "This tool will fetch a list of Customers from Stripe.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "limit": {
+                "type": "integer",
+                "description": "A limit on the number of objects to be returned. Limit can range between 1 and 100.",
+                "minimum": 1,
+                "maximum": 100
+              },
+              "email": {
+                "type": "string",
+                "description": "A case-sensitive filter on the list based on the customer's email field. The value must be a string."
+              }
+            }
+          }
+        },
+        {
+          "name": "create_payment_link",
+          "description": "This tool will create a payment link in Stripe.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "price": {
+                "type": "string",
+                "description": "The ID of the price to create the payment link for."
+              },
+              "quantity": {
+                "type": "integer",
+                "description": "The quantity of the product to include."
+              },
+              "redirect_url": {
+                "type": "string",
+                "description": "The URL the customer will be redirected to after the purchase is complete."
+              }
+            },
+            "required": [
+              "price",
+              "quantity"
+            ]
+          }
+        },
+        {
+          "name": "create_invoice",
+          "description": "This tool will create an invoice in Stripe.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "customer": {
+                "type": "string",
+                "description": "The ID of the customer to create the invoice for."
+              },
+              "days_until_due": {
+                "type": "integer",
+                "description": "The number of days until the invoice is due."
+              }
+            },
+            "required": [
+              "customer"
+            ]
+          }
+        },
+        {
+          "name": "create_invoice_item",
+          "description": "This tool will create an invoice item in Stripe.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "customer": {
+                "type": "string",
+                "description": "The ID of the customer to create the invoice item for."
+              },
+              "price": {
+                "type": "string",
+                "description": "The ID of the price for the item."
+              },
+              "invoice": {
+                "type": "string",
+                "description": "The ID of the invoice to create the item for."
+              }
+            },
+            "required": [
+              "customer",
+              "price",
+              "invoice"
+            ]
+          }
+        },
+        {
+          "name": "finalize_invoice",
+          "description": "This tool will finalize an invoice in Stripe.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "invoice": {
+                "type": "string",
+                "description": "The ID of the invoice to finalize."
+              }
+            },
+            "required": [
+              "invoice"
+            ]
+          }
+        },
+        {
+          "name": "retrieve_balance",
+          "description": "This tool will retrieve the balance from Stripe. It takes no input.",
+          "input_schema": {
+            "type": "object",
+            "properties": {}
+          }
+        },
+        {
+          "name": "create_refund",
+          "description": "This tool will refund a payment intent in Stripe.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "payment_intent": {
+                "type": "string",
+                "description": "The ID of the PaymentIntent to refund."
+              },
+              "amount": {
+                "type": "integer",
+                "description": "The amount to refund in cents. Defaults to the full remaining amount."
+              },
+              "reason": {
+                "type": "string",
+                "description": "String indicating the reason for the refund.",
+                "enum": [
+                  "duplicate",
+                  "fraudulent",
+                  "requested_by_customer"
+                ]
+              }
+            },
+            "required": [
+              "payment_intent"
+            ]
+          }
+        },
+        {
+          "name": "list_payment_intents",
+          "description": "This tool will list payment intents in Stripe.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "customer": {
+                "type": "string",
+                "description": "The ID of the customer to list payment intents for."
+              },
+              "limit": {
+                "type": "integer",
+                "description": "A limit on the number of objects to be returned. Limit can range between 1 and 100.",
+                "minimum": 1,
+                "maximum": 100
+              }
+            }
+          }
+        },
+        {
+          "name": "list_subscriptions",
+          "description": "This tool will list all subscriptions in Stripe.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "customer": {
+                "type": "string",
+                "description": "The ID of the customer to list subscriptions for."
+              },
+              "price": {
+                "type": "string",
+                "description": "The ID of the price to list subscriptions for."
+              },
+              "status": {
+                "type": "string",
+                "description": "The status of the subscriptions to retrieve.",
+                "enum": [
+                  "active",
+                  "past_due",
+                  "unpaid",
+                  "canceled",
+                  "incomplete",
+                  "incomplete_expired",
+                  "trialing",
+                  "all"
+                ]
+              },
+              "limit": {
+                "type": "integer",
+                "description": "A limit on the number of objects to be returned. Limit can range between 1 and 100.",
+                "minimum": 1,
+                "maximum": 100
+              }
+            }
+          }
+        },
+        {
+          "name": "cancel_subscription",
+          "description": "This tool will cancel a subscription in Stripe.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "subscription": {
+                "type": "string",
+                "description": "The ID of the subscription to cancel."
+              },
+              "invoice_now": {
+                "type": "boolean",
+                "description": "Will generate a final invoice that invoices for any un-invoiced metered usage and new/pending proration invoice items."
+              },
+              "prorate": {
+                "type": "boolean",
+                "description": "Will generate a proration invoice item that credits remaining unused time until the subscription period end."
+              },
+              "cancellation_details": {
+                "type": "object",
+                "properties": {
+                  "comment": {
+                    "type": "string",
+                    "description": "Additional comments about why the user canceled the subscription."
+                  },
+                  "feedback": {
+                    "type": "string",
+                    "description": "The customer submitted reason for why they canceled.",
+                    "enum": [
+                      "customer_service",
+                      "low_quality",
+                      "missing_features",
+                      "other",
+                      "switched_service",
+                      "too_complex",
+                      "too_expensive",
+                      "unused"
+                    ]
+                  }
+                }
+              }
+            },
+            "required": [
+              "subscription"
+            ]
+          }
+        },
+        {
+          "name": "update_subscription",
+          "description": "This tool will update an existing subscription in Stripe. If changing an existing subscription item, the existing subscription item has to be set to deleted and the new one has to be added.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "subscription": {
+                "type": "string",
+                "description": "The ID of the subscription to update."
+              },
+              "proration_behavior": {
+                "type": "string",
+                "description": "Determines how to handle prorations when the subscription items change.",
+                "enum": [
+                  "create_prorations",
+                  "none",
+                  "always_invoice"
+                ]
+              },
+              "items": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "The ID of the subscription item to modify."
+                    },
+                    "price": {
+                      "type": "string",
+                      "description": "The ID of the price to switch to."
+                    },
+                    "quantity": {
+                      "type": "integer",
+                      "description": "The quantity of the item."
+                    },
+                    "deleted": {
+                      "type": "boolean",
+                      "description": "Whether to delete this item."
+                    }
+                  }
+                },
+                "description": "A list of subscription items to update, add, or remove."
+              },
+              "cancel_at_period_end": {
+                "type": "boolean",
+                "description": "Whether to cancel the subscription at the end of the current period."
+              },
+              "trial_end": {
+                "type": "string",
+                "description": "Unix timestamp representing the end of the trial period, or 'now'."
+              },
+              "metadata": {
+                "type": "object",
+                "properties": {},
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "description": "Set of key-value pairs that you can attach to the subscription."
+              }
+            },
+            "required": [
+              "subscription"
+            ]
+          }
+        },
+        {
+          "name": "list_disputes",
+          "description": "This tool will fetch a list of disputes in Stripe.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "charge": {
+                "type": "string",
+                "description": "Only return disputes associated to the charge specified by this charge ID."
+              },
+              "payment_intent": {
+                "type": "string",
+                "description": "Only return disputes associated to the PaymentIntent specified by this PaymentIntent ID."
+              },
+              "limit": {
+                "type": "integer",
+                "description": "A limit on the number of objects to be returned. Limit can range between 1 and 100.",
+                "minimum": 1,
+                "maximum": 100
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "quickbooks",
+      "name": "QuickBooks Online",
+      "server": "mcp://quickbooks-online",
+      "summary": "Intuit QuickBooks Online accounting: expenses (purchases), bills, vendors, customers, invoices and financial reports.",
+      "tools": [
+        {
+          "name": "create_purchase",
+          "description": "Create a purchase (expense) transaction in QuickBooks Online. Use for money spent by cash, check or credit card that is recorded immediately rather than as a bill to pay later.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "purchase": {
+                "type": "object",
+                "properties": {
+                  "PaymentType": {
+                    "type": "string",
+                    "description": "How the expense was paid.",
+                    "enum": [
+                      "Cash",
+                      "Check",
+                      "CreditCard"
+                    ]
+                  },
+                  "AccountRef": {
+                    "type": "object",
+                    "properties": {
+                      "value": {
+                        "type": "string",
+                        "description": "Id of the referenced entity."
+                      },
+                      "name": {
+                        "type": "string",
+                        "description": "Display name (optional)."
+                      }
+                    },
+                    "required": [
+                      "value"
+                    ],
+                    "description": "Bank or credit card account the money came out of."
+                  },
+                  "EntityRef": {
+                    "type": "object",
+                    "properties": {
+                      "value": {
+                        "type": "string"
+                      },
+                      "type": {
+                        "type": "string",
+                        "enum": [
+                          "Vendor",
+                          "Customer",
+                          "Employee"
+                        ]
+                      }
+                    },
+                    "description": "Payee of the expense."
+                  },
+                  "TxnDate": {
+                    "type": "string",
+                    "description": "Transaction date, YYYY-MM-DD.",
+                    "format": "date"
+                  },
+                  "DocNumber": {
+                    "type": "string",
+                    "description": "Reference / check number."
+                  },
+                  "PrivateNote": {
+                    "type": "string",
+                    "description": "Memo visible only internally."
+                  },
+                  "Line": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "Amount": {
+                          "type": "number",
+                          "description": "Line amount."
+                        },
+                        "Description": {
+                          "type": "string"
+                        },
+                        "DetailType": {
+                          "type": "string",
+                          "enum": [
+                            "AccountBasedExpenseLineDetail",
+                            "ItemBasedExpenseLineDetail"
+                          ]
+                        },
+                        "AccountBasedExpenseLineDetail": {
+                          "type": "object",
+                          "properties": {
+                            "AccountRef": {
+                              "type": "object",
+                              "properties": {
+                                "value": {
+                                  "type": "string",
+                                  "description": "Id of the referenced entity."
+                                },
+                                "name": {
+                                  "type": "string",
+                                  "description": "Display name (optional)."
+                                }
+                              },
+                              "required": [
+                                "value"
+                              ],
+                              "description": "Expense account, e.g. Travel, Meals, Software."
+                            },
+                            "BillableStatus": {
+                              "type": "string",
+                              "enum": [
+                                "Billable",
+                                "NotBillable",
+                                "HasBeenBilled"
+                              ]
+                            },
+                            "CustomerRef": {
+                              "type": "object",
+                              "properties": {
+                                "value": {
+                                  "type": "string",
+                                  "description": "Id of the referenced entity."
+                                },
+                                "name": {
+                                  "type": "string",
+                                  "description": "Display name (optional)."
+                                }
+                              },
+                              "required": [
+                                "value"
+                              ]
+                            },
+                            "TaxCodeRef": {
+                              "type": "object",
+                              "properties": {
+                                "value": {
+                                  "type": "string",
+                                  "description": "Id of the referenced entity."
+                                },
+                                "name": {
+                                  "type": "string",
+                                  "description": "Display name (optional)."
+                                }
+                              },
+                              "required": [
+                                "value"
+                              ]
+                            }
+                          }
+                        }
+                      },
+                      "required": [
+                        "Amount",
+                        "DetailType"
+                      ]
+                    },
+                    "description": "Expense lines.",
+                    "minItems": 1
+                  }
+                },
+                "required": [
+                  "PaymentType",
+                  "AccountRef",
+                  "Line"
+                ]
+              }
+            },
+            "required": [
+              "purchase"
+            ]
+          }
+        },
+        {
+          "name": "search_purchases",
+          "description": "Search purchases (expenses) using criteria. Returns matching Purchase objects.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "criteria": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "field": {
+                      "type": "string",
+                      "description": "Entity field to filter on, e.g. DisplayName, TxnDate, TotalAmt."
+                    },
+                    "value": {
+                      "type": "string",
+                      "description": "Value to compare against."
+                    },
+                    "operator": {
+                      "type": "string",
+                      "description": "Comparison operator.",
+                      "enum": [
+                        "=",
+                        "<",
+                        ">",
+                        "<=",
+                        ">=",
+                        "LIKE",
+                        "IN"
+                      ],
+                      "default": "="
+                    }
+                  },
+                  "required": [
+                    "field",
+                    "value"
+                  ]
+                },
+                "description": "Filter criteria, combined with AND."
+              },
+              "limit": {
+                "type": "integer",
+                "description": "Max results.",
+                "default": 100
+              },
+              "offset": {
+                "type": "integer",
+                "description": "Pagination offset.",
+                "default": 0
+              },
+              "desc": {
+                "type": "string",
+                "description": "Field to sort descending by, e.g. TxnDate."
+              }
+            }
+          }
+        },
+        {
+          "name": "create_bill",
+          "description": "Create a bill (accounts payable) from a vendor in QuickBooks Online, to be paid later.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "bill": {
+                "type": "object",
+                "properties": {
+                  "VendorRef": {
+                    "type": "object",
+                    "properties": {
+                      "value": {
+                        "type": "string",
+                        "description": "Id of the referenced entity."
+                      },
+                      "name": {
+                        "type": "string",
+                        "description": "Display name (optional)."
+                      }
+                    },
+                    "required": [
+                      "value"
+                    ]
+                  },
+                  "TxnDate": {
+                    "type": "string",
+                    "description": "Bill date, YYYY-MM-DD."
+                  },
+                  "DueDate": {
+                    "type": "string",
+                    "description": "Due date, YYYY-MM-DD."
+                  },
+                  "DocNumber": {
+                    "type": "string",
+                    "description": "Vendor's invoice / reference number."
+                  },
+                  "APAccountRef": {
+                    "type": "object",
+                    "properties": {
+                      "value": {
+                        "type": "string",
+                        "description": "Id of the referenced entity."
+                      },
+                      "name": {
+                        "type": "string",
+                        "description": "Display name (optional)."
+                      }
+                    },
+                    "required": [
+                      "value"
+                    ]
+                  },
+                  "Line": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "Amount": {
+                          "type": "number"
+                        },
+                        "Description": {
+                          "type": "string"
+                        },
+                        "DetailType": {
+                          "type": "string",
+                          "enum": [
+                            "AccountBasedExpenseLineDetail",
+                            "ItemBasedExpenseLineDetail"
+                          ]
+                        },
+                        "AccountBasedExpenseLineDetail": {
+                          "type": "object",
+                          "properties": {
+                            "AccountRef": {
+                              "type": "object",
+                              "properties": {
+                                "value": {
+                                  "type": "string",
+                                  "description": "Id of the referenced entity."
+                                },
+                                "name": {
+                                  "type": "string",
+                                  "description": "Display name (optional)."
+                                }
+                              },
+                              "required": [
+                                "value"
+                              ]
+                            }
+                          }
+                        }
+                      },
+                      "required": [
+                        "Amount",
+                        "DetailType"
+                      ]
+                    },
+                    "minItems": 1
+                  }
+                },
+                "required": [
+                  "VendorRef",
+                  "Line"
+                ]
+              }
+            },
+            "required": [
+              "bill"
+            ]
+          }
+        },
+        {
+          "name": "search_vendors",
+          "description": "Search vendors",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "criteria": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "field": {
+                      "type": "string",
+                      "description": "Entity field to filter on, e.g. DisplayName, TxnDate, TotalAmt."
+                    },
+                    "value": {
+                      "type": "string",
+                      "description": "Value to compare against."
+                    },
+                    "operator": {
+                      "type": "string",
+                      "description": "Comparison operator.",
+                      "enum": [
+                        "=",
+                        "<",
+                        ">",
+                        "<=",
+                        ">=",
+                        "LIKE",
+                        "IN"
+                      ],
+                      "default": "="
+                    }
+                  },
+                  "required": [
+                    "field",
+                    "value"
+                  ]
+                },
+                "description": "Filter criteria, combined with AND."
+              },
+              "limit": {
+                "type": "integer"
+              },
+              "offset": {
+                "type": "integer"
+              }
+            }
+          }
+        },
+        {
+          "name": "create_customer",
+          "description": "Create a customer in QuickBooks Online.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "customer": {
+                "type": "object",
+                "properties": {
+                  "DisplayName": {
+                    "type": "string",
+                    "description": "Unique display name."
+                  },
+                  "CompanyName": {
+                    "type": "string"
+                  },
+                  "GivenName": {
+                    "type": "string"
+                  },
+                  "FamilyName": {
+                    "type": "string"
+                  },
+                  "PrimaryEmailAddr": {
+                    "type": "object",
+                    "properties": {
+                      "Address": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "PrimaryPhone": {
+                    "type": "object",
+                    "properties": {
+                      "FreeFormNumber": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "BillAddr": {
+                    "type": "object",
+                    "properties": {
+                      "Line1": {
+                        "type": "string"
+                      },
+                      "City": {
+                        "type": "string"
+                      },
+                      "CountrySubDivisionCode": {
+                        "type": "string"
+                      },
+                      "PostalCode": {
+                        "type": "string"
+                      },
+                      "Country": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "Notes": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "DisplayName"
+                ]
+              }
+            },
+            "required": [
+              "customer"
+            ]
+          }
+        },
+        {
+          "name": "create_invoice",
+          "description": "Create an invoice for a customer in QuickBooks Online (accounts receivable).",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "invoice": {
+                "type": "object",
+                "properties": {
+                  "CustomerRef": {
+                    "type": "object",
+                    "properties": {
+                      "value": {
+                        "type": "string",
+                        "description": "Id of the referenced entity."
+                      },
+                      "name": {
+                        "type": "string",
+                        "description": "Display name (optional)."
+                      }
+                    },
+                    "required": [
+                      "value"
+                    ]
+                  },
+                  "TxnDate": {
+                    "type": "string",
+                    "description": "Invoice date, YYYY-MM-DD."
+                  },
+                  "DueDate": {
+                    "type": "string",
+                    "description": "Due date, YYYY-MM-DD."
+                  },
+                  "SalesTermRef": {
+                    "type": "object",
+                    "properties": {
+                      "value": {
+                        "type": "string",
+                        "description": "Id of the referenced entity."
+                      },
+                      "name": {
+                        "type": "string",
+                        "description": "Display name (optional)."
+                      }
+                    },
+                    "required": [
+                      "value"
+                    ]
+                  },
+                  "BillEmail": {
+                    "type": "object",
+                    "properties": {
+                      "Address": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "EmailStatus": {
+                    "type": "string",
+                    "enum": [
+                      "NotSet",
+                      "NeedToSend",
+                      "EmailSent"
+                    ],
+                    "default": "NotSet"
+                  },
+                  "CustomerMemo": {
+                    "type": "object",
+                    "properties": {
+                      "value": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "Line": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "Amount": {
+                          "type": "number"
+                        },
+                        "Description": {
+                          "type": "string"
+                        },
+                        "DetailType": {
+                          "type": "string",
+                          "enum": [
+                            "SalesItemLineDetail",
+                            "DescriptionOnly"
+                          ]
+                        },
+                        "SalesItemLineDetail": {
+                          "type": "object",
+                          "properties": {
+                            "ItemRef": {
+                              "type": "object",
+                              "properties": {
+                                "value": {
+                                  "type": "string",
+                                  "description": "Id of the referenced entity."
+                                },
+                                "name": {
+                                  "type": "string",
+                                  "description": "Display name (optional)."
+                                }
+                              },
+                              "required": [
+                                "value"
+                              ]
+                            },
+                            "Qty": {
+                              "type": "number"
+                            },
+                            "UnitPrice": {
+                              "type": "number"
+                            }
+                          }
+                        }
+                      },
+                      "required": [
+                        "Amount",
+                        "DetailType"
+                      ]
+                    },
+                    "minItems": 1
+                  }
+                },
+                "required": [
+                  "CustomerRef",
+                  "Line"
+                ]
+              }
+            },
+            "required": [
+              "invoice"
+            ]
+          }
+        },
+        {
+          "name": "get_profit_and_loss",
+          "description": "Run the Profit and Loss report (income statement) for the connected QuickBooks company over a date range.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "start_date": {
+                "type": "string",
+                "description": "Report start date, YYYY-MM-DD."
+              },
+              "end_date": {
+                "type": "string",
+                "description": "Report end date, YYYY-MM-DD."
+              },
+              "date_macro": {
+                "type": "string",
+                "description": "Predefined range; overrides start/end.",
+                "enum": [
+                  "This Month",
+                  "Last Month",
+                  "This Fiscal Quarter",
+                  "Last Fiscal Quarter",
+                  "This Fiscal Year",
+                  "Last Fiscal Year",
+                  "Year-To-Date"
+                ]
+              },
+              "accounting_method": {
+                "type": "string",
+                "enum": [
+                  "Cash",
+                  "Accrual"
+                ],
+                "default": "Accrual"
+              },
+              "summarize_column_by": {
+                "type": "string",
+                "description": "How to break columns down.",
+                "enum": [
+                  "Total",
+                  "Month",
+                  "Quarter",
+                  "Year",
+                  "Customers",
+                  "Vendors",
+                  "Classes",
+                  "Departments"
+                ],
+                "default": "Total"
+              }
+            }
+          }
+        },
+        {
+          "name": "get_balance_sheet",
+          "description": "Balance sheet report.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "start_date": {
+                "type": "string"
+              },
+              "end_date": {
+                "type": "string"
+              },
+              "accounting_method": {
+                "type": "string",
+                "enum": [
+                  "Cash",
+                  "Accrual"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "frankfurter",
+      "name": "Frankfurter FX",
+      "server": "mcp://frankfurter",
+      "summary": "Foreign exchange reference rates published by the European Central Bank: latest, historical and time series, with amount conversion.",
+      "tools": [
+        {
+          "name": "get_latest_rates",
+          "description": "Get the latest working-day exchange rates published by the European Central Bank. Pass amount to convert a sum from the base currency into the target currencies.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "base": {
+                "type": "string",
+                "description": "Base currency (ISO 4217).",
+                "default": "EUR"
+              },
+              "symbols": {
+                "type": "string",
+                "description": "Comma-separated target currencies, e.g. USD,GBP. Defaults to all."
+              },
+              "amount": {
+                "type": "number",
+                "description": "Amount of base currency to convert.",
+                "default": 1
+              }
+            }
+          }
+        },
+        {
+          "name": "get_historical_rates",
+          "description": "Get exchange rates for a specific past date (back to 1999-01-04). If the date falls on a weekend or holiday the closest previous working day is returned.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "date": {
+                "type": "string",
+                "description": "Date in YYYY-MM-DD format."
+              },
+              "base": {
+                "type": "string",
+                "description": "Base currency.",
+                "default": "EUR"
+              },
+              "symbols": {
+                "type": "string",
+                "description": "Comma-separated target currencies."
+              },
+              "amount": {
+                "type": "number",
+                "description": "Amount to convert.",
+                "default": 1
+              }
+            },
+            "required": [
+              "date"
+            ]
+          }
+        },
+        {
+          "name": "get_time_series",
+          "description": "Get daily exchange rates over a date range.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "start_date": {
+                "type": "string",
+                "description": "YYYY-MM-DD"
+              },
+              "end_date": {
+                "type": "string",
+                "description": "YYYY-MM-DD. Defaults to latest."
+              },
+              "base": {
+                "type": "string",
+                "default": "EUR"
+              },
+              "symbols": {
+                "type": "string",
+                "description": "Comma-separated target currencies."
+              }
+            },
+            "required": [
+              "start_date"
+            ]
+          }
+        },
+        {
+          "name": "list_currencies",
+          "description": "List available currencies.",
+          "input_schema": {
+            "type": "object",
+            "properties": {}
+          }
+        }
+      ]
+    }
+  ]
+}

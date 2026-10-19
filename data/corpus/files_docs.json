@@ -1,0 +1,1346 @@
+{
+  "branch": {
+    "id": "files_docs",
+    "name": "Files & Documents",
+    "summary": "Finding, reading, writing and organizing files and documents: the local filesystem, Google Drive, Notion, Confluence, and PDF/Office document tools (extract text or tables, convert formats, merge/split PDFs, edit Word/Excel files)."
+  },
+  "toolkits": [
+    {
+      "id": "filesystem",
+      "name": "Filesystem",
+      "server": "mcp://filesystem",
+      "summary": "Read, write, edit, list, move and search files and directories on the local machine, restricted to allowed directories.",
+      "tools": [
+        {
+          "name": "read_file",
+          "description": "Read the complete contents of a file from the file system. Handles various text encodings and provides detailed error messages if the file cannot be read. Use this tool when you need to examine the contents of a single file. Use the 'head' parameter to read only the first N lines of a file, or the 'tail' parameter to read only the last N lines of a file. Only works within allowed directories.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "path": {
+                "type": "string",
+                "description": "Path to the file"
+              },
+              "tail": {
+                "type": "number",
+                "description": "If provided, returns only the last N lines of the file"
+              },
+              "head": {
+                "type": "number",
+                "description": "If provided, returns only the first N lines of the file"
+              }
+            },
+            "required": [
+              "path"
+            ]
+          }
+        },
+        {
+          "name": "read_multiple_files",
+          "description": "Read the contents of multiple files simultaneously. This is more efficient than reading files one by one when you need to analyze or compare multiple files. Each file's content is returned with its path as a reference. Failed reads for individual files won't stop the entire operation. Only works within allowed directories.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "paths": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "description": ""
+                },
+                "description": "Paths of the files to read"
+              }
+            },
+            "required": [
+              "paths"
+            ]
+          }
+        },
+        {
+          "name": "write_file",
+          "description": "Create a new file or completely overwrite an existing file with new content. Use with caution as it will overwrite existing files without warning. Handles text content with proper encoding. Only works within allowed directories.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "path": {
+                "type": "string",
+                "description": "Path to the file"
+              },
+              "content": {
+                "type": "string",
+                "description": "Content to write"
+              }
+            },
+            "required": [
+              "path",
+              "content"
+            ]
+          }
+        },
+        {
+          "name": "edit_file",
+          "description": "Make line-based edits to a text file. Each edit replaces exact line sequences with new content. Returns a git-style diff showing the changes made. Only works within allowed directories.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "path": {
+                "type": "string",
+                "description": "Path to the file"
+              },
+              "edits": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "description": "A single edit",
+                  "properties": {
+                    "oldText": {
+                      "type": "string",
+                      "description": "Text to search for - must match exactly"
+                    },
+                    "newText": {
+                      "type": "string",
+                      "description": "Text to replace with"
+                    }
+                  },
+                  "required": [
+                    "oldText",
+                    "newText"
+                  ]
+                },
+                "description": "Edits to apply in order"
+              },
+              "dryRun": {
+                "type": "boolean",
+                "description": "Preview changes using git-style diff format",
+                "default": false
+              }
+            },
+            "required": [
+              "path",
+              "edits"
+            ]
+          }
+        },
+        {
+          "name": "create_directory",
+          "description": "Create a new directory or ensure a directory exists. Can create multiple nested directories in one operation. If the directory already exists, this operation will succeed silently. Perfect for setting up directory structures for projects or ensuring required paths exist. Only works within allowed directories.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "path": {
+                "type": "string",
+                "description": "Directory path to create"
+              }
+            },
+            "required": [
+              "path"
+            ]
+          }
+        },
+        {
+          "name": "list_directory",
+          "description": "Get a detailed listing of all files and directories in a specified path. Results clearly distinguish between files and directories with [FILE] and [DIR] prefixes. This tool is essential for understanding directory structure and finding specific files within a directory. Only works within allowed directories.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "path": {
+                "type": "string",
+                "description": "Directory path"
+              }
+            },
+            "required": [
+              "path"
+            ]
+          }
+        },
+        {
+          "name": "directory_tree",
+          "description": "Get a recursive tree view of files and directories as a JSON structure. Each entry includes 'name', 'type' (file/directory), and 'children' for directories. Files have no children array, while directories always have a children array (which may be empty). The output is formatted with 2-space indentation for readability. Only works within allowed directories.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "path": {
+                "type": "string",
+                "description": "Root directory"
+              },
+              "excludePatterns": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "description": ""
+                },
+                "description": "Glob patterns to exclude, e.g. ['node_modules', '**/.git']",
+                "default": []
+              }
+            },
+            "required": [
+              "path"
+            ]
+          }
+        },
+        {
+          "name": "move_file",
+          "description": "Move or rename files and directories. Can move files between directories and rename them in a single operation. If the destination exists, the operation will fail. Works across different directories and can be used for simple renaming within the same directory. Both source and destination must be within allowed directories.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "source": {
+                "type": "string",
+                "description": "Current path"
+              },
+              "destination": {
+                "type": "string",
+                "description": "New path"
+              }
+            },
+            "required": [
+              "source",
+              "destination"
+            ]
+          }
+        },
+        {
+          "name": "search_files",
+          "description": "Recursively search for files and directories matching a pattern. Searches through all subdirectories from the starting path. The search is case-insensitive and matches partial names. Returns full paths to all matching items. Great for finding files when you don't know their exact location. Only searches within allowed directories.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "path": {
+                "type": "string",
+                "description": "Directory to start searching from"
+              },
+              "pattern": {
+                "type": "string",
+                "description": "Name pattern to match"
+              },
+              "excludePatterns": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "description": ""
+                },
+                "description": "Glob patterns to exclude",
+                "default": []
+              }
+            },
+            "required": [
+              "path",
+              "pattern"
+            ]
+          }
+        },
+        {
+          "name": "get_file_info",
+          "description": "Retrieve detailed metadata about a file or directory. Returns comprehensive information including size, creation time, last modified time, permissions, and type. This tool is perfect for understanding file characteristics without reading the actual content. Only works within allowed directories.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "path": {
+                "type": "string",
+                "description": "Path to the file or directory"
+              }
+            },
+            "required": [
+              "path"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "google_drive",
+      "name": "Google Drive",
+      "server": "mcp://gdrive",
+      "summary": "Search, read, upload, organize, share and export files in Google Drive (including Docs, Sheets and Slides).",
+      "tools": [
+        {
+          "name": "gdrive_search",
+          "description": "Search for files in Google Drive",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string",
+                "description": "Search query"
+              },
+              "pageToken": {
+                "type": "string",
+                "description": "Token for the next page of results"
+              },
+              "pageSize": {
+                "type": "integer",
+                "description": "Number of results per page (max 100)",
+                "default": 10
+              }
+            },
+            "required": [
+              "query"
+            ]
+          }
+        },
+        {
+          "name": "gdrive_read_file",
+          "description": "Read contents of a file from Google Drive. Google Docs are exported as Markdown, Sheets as CSV, Presentations as plain text, Drawings as PNG; other files are returned as text or base64.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "fileId": {
+                "type": "string",
+                "description": "ID of the Google Drive file"
+              }
+            },
+            "required": [
+              "fileId"
+            ]
+          }
+        },
+        {
+          "name": "gdrive_upload_file",
+          "description": "Upload a local file (or inline text content) to Google Drive, optionally converting it to a native Google Docs format.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Name of the file in Drive"
+              },
+              "local_path": {
+                "type": "string",
+                "description": "Path of a local file to upload"
+              },
+              "content": {
+                "type": "string",
+                "description": "Inline text content to upload instead of a local file"
+              },
+              "mime_type": {
+                "type": "string",
+                "description": "MIME type of the uploaded content"
+              },
+              "parent_folder_id": {
+                "type": "string",
+                "description": "ID of the destination folder (defaults to My Drive root)"
+              },
+              "convert": {
+                "type": "boolean",
+                "description": "Convert to the corresponding Google format (Docs/Sheets/Slides)",
+                "default": false
+              }
+            },
+            "required": [
+              "name"
+            ]
+          }
+        },
+        {
+          "name": "gdrive_create_folder",
+          "description": "Create a folder in Google Drive.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Folder name"
+              },
+              "parent_id": {
+                "type": "string",
+                "description": "Parent folder ID (defaults to My Drive root)"
+              }
+            },
+            "required": [
+              "name"
+            ]
+          }
+        },
+        {
+          "name": "gdrive_move_file",
+          "description": "Move a file to another folder",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "file_id": {
+                "type": "string",
+                "description": "ID of the Google Drive file"
+              },
+              "new_parent_id": {
+                "type": "string",
+                "description": "ID of the destination folder"
+              },
+              "remove_from_current": {
+                "type": "boolean",
+                "description": "Remove the file from its current parent folders",
+                "default": true
+              }
+            },
+            "required": [
+              "file_id",
+              "new_parent_id"
+            ]
+          }
+        },
+        {
+          "name": "gdrive_share_file",
+          "description": "Share a Google Drive file or folder by granting a permission to a user, group, domain or anyone with the link.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "file_id": {
+                "type": "string",
+                "description": "ID of the Google Drive file"
+              },
+              "permission": {
+                "type": "object",
+                "description": "Permission to grant",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "description": "Grantee type",
+                    "enum": [
+                      "user",
+                      "group",
+                      "domain",
+                      "anyone"
+                    ]
+                  },
+                  "role": {
+                    "type": "string",
+                    "description": "Access level",
+                    "enum": [
+                      "reader",
+                      "commenter",
+                      "writer",
+                      "owner"
+                    ]
+                  },
+                  "emailAddress": {
+                    "type": "string",
+                    "description": "Email for user or group grantees"
+                  },
+                  "domain": {
+                    "type": "string",
+                    "description": "Domain for domain grantees"
+                  },
+                  "allowFileDiscovery": {
+                    "type": "boolean",
+                    "description": "For domain/anyone: whether the file can be found via search",
+                    "default": false
+                  }
+                },
+                "required": [
+                  "type",
+                  "role"
+                ]
+              },
+              "send_notification_email": {
+                "type": "boolean",
+                "description": "Notify the grantee by email",
+                "default": true
+              },
+              "email_message": {
+                "type": "string",
+                "description": "Custom message included in the notification email"
+              },
+              "expiration_time": {
+                "type": "string",
+                "description": "RFC 3339 time at which the permission expires"
+              }
+            },
+            "required": [
+              "file_id",
+              "permission"
+            ]
+          }
+        },
+        {
+          "name": "gdrive_export_file",
+          "description": "Export a Google Workspace document (Doc, Sheet, Slides) to another format such as PDF, DOCX, XLSX, PPTX, CSV or plain text, and save it locally.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "file_id": {
+                "type": "string",
+                "description": "ID of the Google Drive file"
+              },
+              "mime_type": {
+                "type": "string",
+                "description": "Target MIME type",
+                "enum": [
+                  "application/pdf",
+                  "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                  "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+                  "text/csv",
+                  "text/plain",
+                  "text/markdown",
+                  "application/epub+zip"
+                ]
+              },
+              "save_to": {
+                "type": "string",
+                "description": "Local path to write the exported file to"
+              }
+            },
+            "required": [
+              "file_id",
+              "mime_type"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "notion",
+      "name": "Notion",
+      "server": "mcp://notion",
+      "summary": "Search, read, create and update pages and databases in a Notion workspace, and comment on pages.",
+      "tools": [
+        {
+          "name": "notion_search",
+          "description": "Perform a search over: - \"internal\": Semantic search over Notion workspace and connected sources (Slack, Google Drive, GitHub, Jira, Microsoft Teams, SharePoint, OneDrive, Linear). Supports filtering by creation date and creator. - \"user\": Search for users by name or email. Auto-selects AI search (with connected sources) or workspace search (workspace-only, faster) based on user's access to Notion AI. Use content_search_mode to override.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string",
+                "description": "Semantic search query over your entire Notion workspace and connected sources"
+              },
+              "query_type": {
+                "type": "string",
+                "description": "Type of search",
+                "enum": [
+                  "internal",
+                  "user"
+                ],
+                "default": "internal"
+              },
+              "content_search_mode": {
+                "type": "string",
+                "description": "Override the auto-selected search mode",
+                "enum": [
+                  "workspace_search",
+                  "ai_search"
+                ]
+              },
+              "filters": {
+                "type": "object",
+                "description": "Optional filters to apply to the search results",
+                "properties": {
+                  "created_date_range": {
+                    "type": "object",
+                    "description": "Restrict to content created in this range",
+                    "properties": {
+                      "start_date": {
+                        "type": "string",
+                        "description": "ISO date, inclusive"
+                      },
+                      "end_date": {
+                        "type": "string",
+                        "description": "ISO date, exclusive"
+                      }
+                    }
+                  },
+                  "created_by_user_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "description": ""
+                    },
+                    "description": "Restrict to content created by these users",
+                    "maxItems": 100
+                  }
+                }
+              },
+              "page_url": {
+                "type": "string",
+                "description": "Optionally, search within a specific page and its children"
+              },
+              "teamspace_id": {
+                "type": "string",
+                "description": "Optionally, search within a specific teamspace"
+              },
+              "data_source_url": {
+                "type": "string",
+                "description": "Optionally, search within a specific database data source (collection://...)"
+              }
+            },
+            "required": [
+              "query"
+            ]
+          }
+        },
+        {
+          "name": "notion_fetch",
+          "description": "Retrieves details about a Notion entity (page or database) by URL or ID. Returns the page content in Notion-flavored Markdown along with its properties.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "The ID or URL of the Notion page or database to fetch"
+              }
+            },
+            "required": [
+              "id"
+            ]
+          }
+        },
+        {
+          "name": "notion_create_pages",
+          "description": "Creates one or more Notion pages with specified properties and content. If a parent is not specified, pages are created as standalone workspace-level private pages. To add a row to a database, pass the database (data source) as the parent and set properties matching its schema.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "parent": {
+                "type": "object",
+                "description": "Where to create the pages",
+                "properties": {
+                  "page_id": {
+                    "type": "string",
+                    "description": "Parent page ID"
+                  },
+                  "database_id": {
+                    "type": "string",
+                    "description": "Parent database ID"
+                  },
+                  "data_source_id": {
+                    "type": "string",
+                    "description": "Parent data source ID"
+                  }
+                }
+              },
+              "pages": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "description": "A page to create",
+                  "properties": {
+                    "properties": {
+                      "type": "object",
+                      "description": "Page properties. For pages under a database these must match the database schema; otherwise only 'title' is allowed.",
+                      "additionalProperties": true
+                    },
+                    "content": {
+                      "type": "string",
+                      "description": "Page content in Notion-flavored Markdown"
+                    },
+                    "icon": {
+                      "type": "string",
+                      "description": "Emoji or image URL"
+                    }
+                  }
+                },
+                "description": "Pages to create",
+                "maxItems": 100
+              }
+            },
+            "required": [
+              "pages"
+            ]
+          }
+        },
+        {
+          "name": "notion_update_page",
+          "description": "Update a Notion page's properties or content.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "data": {
+                "type": "object",
+                "description": "Update request",
+                "properties": {
+                  "page_id": {
+                    "type": "string",
+                    "description": "The ID of the page to update"
+                  },
+                  "command": {
+                    "type": "string",
+                    "description": "Update command",
+                    "enum": [
+                      "update_properties",
+                      "replace_content",
+                      "replace_content_range",
+                      "insert_content_after"
+                    ]
+                  },
+                  "properties": {
+                    "type": "object",
+                    "description": "Properties to set (update_properties)",
+                    "additionalProperties": true
+                  },
+                  "new_str": {
+                    "type": "string",
+                    "description": "New content in Notion-flavored Markdown"
+                  },
+                  "selection_with_ellipsis": {
+                    "type": "string",
+                    "description": "Unique start and end snippet of the content to replace or insert after, e.g. '# Section...last line'"
+                  }
+                },
+                "required": [
+                  "page_id",
+                  "command"
+                ]
+              }
+            },
+            "required": [
+              "data"
+            ]
+          }
+        },
+        {
+          "name": "notion_query_database",
+          "description": "Query a database",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "database_id": {
+                "type": "string",
+                "description": "Identifier for a Notion database"
+              },
+              "filter": {
+                "type": "object",
+                "description": "Notion filter object, e.g. {\"property\": \"Status\", \"status\": {\"equals\": \"In progress\"}}",
+                "additionalProperties": true
+              },
+              "sorts": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "description": "Sort criterion",
+                  "properties": {
+                    "property": {
+                      "type": "string",
+                      "description": "Property name"
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "description": "Sort by timestamp instead of property",
+                      "enum": [
+                        "created_time",
+                        "last_edited_time"
+                      ]
+                    },
+                    "direction": {
+                      "type": "string",
+                      "description": "Sort direction",
+                      "enum": [
+                        "ascending",
+                        "descending"
+                      ]
+                    }
+                  }
+                },
+                "description": "Sort order"
+              },
+              "page_size": {
+                "type": "integer",
+                "description": "Number of results (max 100)",
+                "default": 100
+              },
+              "start_cursor": {
+                "type": "string",
+                "description": "Pagination cursor"
+              }
+            },
+            "required": [
+              "database_id"
+            ]
+          }
+        },
+        {
+          "name": "notion_create_comment",
+          "description": "Add a comment to a page or reply in an existing discussion thread.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "page_id": {
+                "type": "string",
+                "description": "ID of the page to comment on"
+              },
+              "discussion_id": {
+                "type": "string",
+                "description": "Reply in this discussion thread instead of starting a new one"
+              },
+              "rich_text": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "description": "Rich text item",
+                  "properties": {
+                    "text": {
+                      "type": "object",
+                      "description": "Text object",
+                      "properties": {
+                        "content": {
+                          "type": "string",
+                          "description": "Comment text"
+                        }
+                      },
+                      "required": [
+                        "content"
+                      ]
+                    }
+                  }
+                },
+                "description": "Comment content as Notion rich text"
+              }
+            },
+            "required": [
+              "rich_text"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "confluence",
+      "name": "Confluence",
+      "server": "mcp://atlassian-confluence",
+      "summary": "Search, read, create and update Confluence wiki pages and comments.",
+      "tools": [
+        {
+          "name": "confluence_search",
+          "description": "Search Confluence content using simple terms or CQL.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string",
+                "description": "Search query - can be either a simple text (e.g. 'project documentation') or a CQL query string. Simple queries use 'siteSearch' by default. Examples of CQL: 'type=page AND space=DEV', 'title~\"Meeting Notes\"', 'label=documentation', 'lastModified > startOfMonth(\"-1M\")'"
+              },
+              "limit": {
+                "type": "integer",
+                "description": "Maximum number of results (1-50)",
+                "default": 10
+              },
+              "spaces_filter": {
+                "type": "string",
+                "description": "Comma-separated list of space keys to filter results by"
+              }
+            },
+            "required": [
+              "query"
+            ]
+          }
+        },
+        {
+          "name": "confluence_get_page",
+          "description": "Get content of a specific Confluence page by its ID, or by its title and space key.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "page_id": {
+                "type": "string",
+                "description": "Confluence page ID (numeric ID, can be found in the page URL)"
+              },
+              "title": {
+                "type": "string",
+                "description": "The exact title of the page. Use with space_key if page_id is not known."
+              },
+              "space_key": {
+                "type": "string",
+                "description": "The key of the space. Required if using title."
+              },
+              "include_metadata": {
+                "type": "boolean",
+                "description": "Whether to include page metadata such as creation date, last update, version, and labels",
+                "default": true
+              },
+              "convert_to_markdown": {
+                "type": "boolean",
+                "description": "Whether to convert page to markdown (true) or keep it in raw storage format (false)",
+                "default": true
+              }
+            }
+          }
+        },
+        {
+          "name": "confluence_get_page_children",
+          "description": "Get child pages of a specific Confluence page.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "parent_id": {
+                "type": "string",
+                "description": "The ID of the parent page whose children you want to retrieve"
+              },
+              "expand": {
+                "type": "string",
+                "description": "Fields to expand in the response (e.g., 'version', 'body.storage')",
+                "default": "version"
+              },
+              "limit": {
+                "type": "integer",
+                "description": "Maximum number of child pages to return (1-50)",
+                "default": 25
+              },
+              "include_content": {
+                "type": "boolean",
+                "description": "Whether to include the page content in the response",
+                "default": false
+              },
+              "convert_to_markdown": {
+                "type": "boolean",
+                "description": "Whether to convert page content to markdown",
+                "default": true
+              },
+              "start": {
+                "type": "integer",
+                "description": "Starting index for pagination (0-based)",
+                "default": 0
+              }
+            },
+            "required": [
+              "parent_id"
+            ]
+          }
+        },
+        {
+          "name": "confluence_create_page",
+          "description": "Create a new Confluence page.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "space_key": {
+                "type": "string",
+                "description": "The key of the space to create the page in (usually a short uppercase code like 'DEV', 'TEAM', or 'DOC')"
+              },
+              "title": {
+                "type": "string",
+                "description": "The title of the page"
+              },
+              "content": {
+                "type": "string",
+                "description": "The content of the page. Format depends on content_format parameter."
+              },
+              "parent_id": {
+                "type": "string",
+                "description": "Optional parent page ID. If provided, this page will be created as a child of the specified page"
+              },
+              "content_format": {
+                "type": "string",
+                "description": "The format of the content parameter",
+                "enum": [
+                  "markdown",
+                  "wiki",
+                  "storage"
+                ],
+                "default": "markdown"
+              },
+              "enable_heading_anchors": {
+                "type": "boolean",
+                "description": "Whether to enable automatic heading anchor generation (only applies when content_format is 'markdown')",
+                "default": false
+              }
+            },
+            "required": [
+              "space_key",
+              "title",
+              "content"
+            ]
+          }
+        },
+        {
+          "name": "confluence_update_page",
+          "description": "Update an existing Confluence page. The full new content must be provided; it replaces the existing body.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "page_id": {
+                "type": "string",
+                "description": "The ID of the page to update"
+              },
+              "title": {
+                "type": "string",
+                "description": "The new title of the page"
+              },
+              "content": {
+                "type": "string",
+                "description": "The new content of the page. Format depends on content_format parameter."
+              },
+              "is_minor_edit": {
+                "type": "boolean",
+                "description": "Whether this is a minor edit",
+                "default": false
+              },
+              "version_comment": {
+                "type": "string",
+                "description": "Optional comment for this version"
+              },
+              "parent_id": {
+                "type": "string",
+                "description": "Optional the new parent page ID"
+              },
+              "content_format": {
+                "type": "string",
+                "description": "The format of the content parameter",
+                "enum": [
+                  "markdown",
+                  "wiki",
+                  "storage"
+                ],
+                "default": "markdown"
+              }
+            },
+            "required": [
+              "page_id",
+              "title",
+              "content"
+            ]
+          }
+        },
+        {
+          "name": "confluence_add_comment",
+          "description": "Add a comment to a Confluence page.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "page_id": {
+                "type": "string",
+                "description": "The ID of the page to add a comment to"
+              },
+              "content": {
+                "type": "string",
+                "description": "The comment content in Markdown format"
+              }
+            },
+            "required": [
+              "page_id",
+              "content"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "pdf_tools",
+      "name": "PDF Tools",
+      "server": "mcp://pdf-tools",
+      "summary": "Local PDF utilities: extract text (with OCR) and tables, merge, split, and read metadata.",
+      "tools": [
+        {
+          "name": "pdf_extract_text",
+          "description": "Extract text from a PDF file. Supports page ranges and OCR for scanned/image-only PDFs.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "path": {
+                "type": "string",
+                "description": "Path to the PDF file"
+              },
+              "pages": {
+                "type": "string",
+                "description": "Pages to extract, e.g. '1-3,7'. Defaults to all pages."
+              },
+              "ocr": {
+                "type": "boolean",
+                "description": "Run OCR on pages without a text layer",
+                "default": false
+              },
+              "ocr_language": {
+                "type": "string",
+                "description": "Tesseract language code(s) for OCR, e.g. 'eng' or 'eng+deu'",
+                "default": "eng"
+              },
+              "layout": {
+                "type": "string",
+                "description": "Text layout mode",
+                "enum": [
+                  "plain",
+                  "preserve"
+                ],
+                "default": "plain"
+              },
+              "password": {
+                "type": "string",
+                "description": "Password for encrypted PDFs"
+              }
+            },
+            "required": [
+              "path"
+            ]
+          }
+        },
+        {
+          "name": "pdf_merge",
+          "description": "Merge multiple PDF files into one.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "input_paths": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "description": ""
+                },
+                "description": "PDF files to merge, in order",
+                "minItems": 2
+              },
+              "output_path": {
+                "type": "string",
+                "description": "Path for the merged PDF"
+              },
+              "add_bookmarks": {
+                "type": "boolean",
+                "description": "Add a bookmark for each input file",
+                "default": true
+              }
+            },
+            "required": [
+              "input_paths",
+              "output_path"
+            ]
+          }
+        },
+        {
+          "name": "pdf_split",
+          "description": "Split a PDF into separate files by page range.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "path": {
+                "type": "string",
+                "description": "Path to the PDF file"
+              },
+              "ranges": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "description": ""
+                },
+                "description": "Page ranges, one output file per range, e.g. ['1-3', '4-12']"
+              },
+              "output_dir": {
+                "type": "string",
+                "description": "Directory for the output files (defaults to the input's directory)"
+              },
+              "filename_template": {
+                "type": "string",
+                "description": "Output filename template",
+                "default": "{stem}_{range}.pdf"
+              }
+            },
+            "required": [
+              "path",
+              "ranges"
+            ]
+          }
+        },
+        {
+          "name": "pdf_get_metadata",
+          "description": "PDF info (pages, author, title, etc).",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "path": {
+                "type": "string",
+                "description": "Path to the PDF file"
+              }
+            },
+            "required": [
+              "path"
+            ]
+          }
+        },
+        {
+          "name": "pdf_extract_tables",
+          "description": "Detect and extract tables from PDF pages.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "path": {
+                "type": "string",
+                "description": "Path to the PDF file"
+              },
+              "pages": {
+                "type": "string",
+                "description": "Pages to scan, e.g. '1,3-5'",
+                "default": "all"
+              },
+              "output_format": {
+                "type": "string",
+                "description": "Format of the extracted tables",
+                "enum": [
+                  "csv",
+                  "json",
+                  "markdown"
+                ],
+                "default": "markdown"
+              },
+              "flavor": {
+                "type": "string",
+                "description": "Extraction strategy: 'lattice' for ruled tables, 'stream' for whitespace-separated",
+                "enum": [
+                  "lattice",
+                  "stream"
+                ],
+                "default": "lattice"
+              }
+            },
+            "required": [
+              "path"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "office_docs",
+      "name": "Office Documents",
+      "server": "mcp://office-docs",
+      "summary": "Convert documents between formats (pandoc, MarkItDown) and work with Word and Excel files.",
+      "tools": [
+        {
+          "name": "convert_to_markdown",
+          "description": "Convert a resource described by an http:, https:, file: or data: URI to markdown. Supports PDF, Word (.docx), PowerPoint (.pptx), Excel (.xlsx), HTML, CSV, JSON, XML, EPUB, ZIP archives, images (EXIF metadata and OCR) and audio (transcription).",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "uri": {
+                "type": "string",
+                "description": "URI of the resource to convert, e.g. file:///home/me/report.docx"
+              }
+            },
+            "required": [
+              "uri"
+            ]
+          }
+        },
+        {
+          "name": "convert_contents",
+          "description": "Converts content between different formats. Transforms input content from any supported format into the specified output format. Supported formats: markdown, html, pdf, docx, rst, latex, epub, txt, ipynb, odt. PDF output requires a TeX engine. For pdf, docx, rst, latex, epub and odt output, output_file is required.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "contents": {
+                "type": "string",
+                "description": "The content to be converted (must be provided if input_file is not)"
+              },
+              "input_file": {
+                "type": "string",
+                "description": "Complete path to input file including filename and extension"
+              },
+              "input_format": {
+                "type": "string",
+                "description": "Source format of the content",
+                "enum": [
+                  "markdown",
+                  "html",
+                  "docx",
+                  "rst",
+                  "latex",
+                  "epub",
+                  "txt",
+                  "ipynb",
+                  "odt"
+                ],
+                "default": "markdown"
+              },
+              "output_format": {
+                "type": "string",
+                "description": "Desired output format",
+                "enum": [
+                  "markdown",
+                  "html",
+                  "pdf",
+                  "docx",
+                  "rst",
+                  "latex",
+                  "epub",
+                  "txt",
+                  "ipynb",
+                  "odt"
+                ],
+                "default": "markdown"
+              },
+              "output_file": {
+                "type": "string",
+                "description": "Complete path where to save the output including filename and extension"
+              },
+              "reference_doc": {
+                "type": "string",
+                "description": "Path to a reference .docx whose styles are used for docx output"
+              },
+              "toc": {
+                "type": "boolean",
+                "description": "Include a table of contents",
+                "default": false
+              },
+              "metadata": {
+                "type": "object",
+                "description": "Document metadata such as title, author, date",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "read_data_from_excel",
+          "description": "Read data from Excel worksheet.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "filepath": {
+                "type": "string",
+                "description": "Path to Excel file"
+              },
+              "sheet_name": {
+                "type": "string",
+                "description": "Name of worksheet"
+              },
+              "start_cell": {
+                "type": "string",
+                "description": "Starting cell",
+                "default": "A1"
+              },
+              "end_cell": {
+                "type": "string",
+                "description": "Ending cell (optional, auto-expands if not provided)"
+              },
+              "preview_only": {
+                "type": "boolean",
+                "description": "Whether to return preview only",
+                "default": false
+              }
+            },
+            "required": [
+              "filepath",
+              "sheet_name"
+            ]
+          }
+        },
+        {
+          "name": "docx_search_and_replace",
+          "description": "Search for text and replace all occurrences in a Word document.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "filename": {
+                "type": "string",
+                "description": "Path to the Word document"
+              },
+              "find_text": {
+                "type": "string",
+                "description": "Text to search for"
+              },
+              "replace_text": {
+                "type": "string",
+                "description": "Text to replace with"
+              },
+              "match_case": {
+                "type": "boolean",
+                "description": "Case-sensitive match",
+                "default": true
+              }
+            },
+            "required": [
+              "filename",
+              "find_text",
+              "replace_text"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

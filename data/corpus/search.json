@@ -1,0 +1,1394 @@
+{
+  "branch": {
+    "id": "search",
+    "name": "Search",
+    "summary": "Finding information outside the conversation: web and news search, local/image/video search, academic paper and citation lookup, encyclopedia (Wikipedia) lookups, and fetching, scraping or crawling web pages."
+  },
+  "toolkits": [
+    {
+      "id": "brave_search",
+      "name": "Brave Search",
+      "server": "mcp://brave-search",
+      "summary": "Brave Search API server for web, news, local business, image and video search plus AI summaries of results.",
+      "tools": [
+        {
+          "name": "brave_web_search",
+          "description": "Performs web searches using the Brave Search API and returns comprehensive search results with rich metadata. Use for general queries, facts, current topics and online content. Supports pagination, freshness filters, country/language targeting, Goggles re-ranking and can request a summary key for brave_summarizer.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string",
+                "description": "Search query (max 400 characters, 50 words).",
+                "maxLength": 400
+              },
+              "country": {
+                "type": "string",
+                "description": "2-letter country code the results come from, e.g. 'US', 'DE'.",
+                "default": "US"
+              },
+              "search_lang": {
+                "type": "string",
+                "description": "Language code for result content, e.g. 'en'.",
+                "default": "en"
+              },
+              "ui_lang": {
+                "type": "string",
+                "description": "User interface language for the response, e.g. 'en-US'.",
+                "default": "en-US"
+              },
+              "count": {
+                "type": "integer",
+                "description": "Number of results to return (1-20).",
+                "minimum": 1,
+                "maximum": 20,
+                "default": 10
+              },
+              "offset": {
+                "type": "integer",
+                "description": "Zero-based page offset for pagination (max 9).",
+                "minimum": 0,
+                "maximum": 9,
+                "default": 0
+              },
+              "safesearch": {
+                "type": "string",
+                "description": "Adult content filter.",
+                "enum": [
+                  "off",
+                  "moderate",
+                  "strict"
+                ],
+                "default": "moderate"
+              },
+              "freshness": {
+                "type": "string",
+                "description": "Filter results by when they were discovered: 'pd' (last 24h), 'pw' (last 7 days), 'pm' (last 31 days), 'py' (last 365 days), or a date range 'YYYY-MM-DDtoYYYY-MM-DD'."
+              },
+              "text_decorations": {
+                "type": "boolean",
+                "description": "Include highlighting markers in snippets.",
+                "default": true
+              },
+              "spellcheck": {
+                "type": "boolean",
+                "description": "Spellcheck the query before searching.",
+                "default": true
+              },
+              "result_filter": {
+                "type": "array",
+                "description": "Result types to include.",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "discussions",
+                    "faq",
+                    "infobox",
+                    "news",
+                    "query",
+                    "summarizer",
+                    "videos",
+                    "web",
+                    "locations"
+                  ]
+                },
+                "default": [
+                  "web",
+                  "query"
+                ]
+              },
+              "goggles": {
+                "type": "array",
+                "description": "Goggle URLs or inline definitions used to re-rank results.",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "units": {
+                "type": "string",
+                "description": "Measurement units for unit-aware results.",
+                "enum": [
+                  "metric",
+                  "imperial"
+                ]
+              },
+              "extra_snippets": {
+                "type": "boolean",
+                "description": "Return up to 5 additional excerpts per result.",
+                "default": false
+              },
+              "summary": {
+                "type": "boolean",
+                "description": "Request a summary key that can be passed to brave_summarizer.",
+                "default": false
+              }
+            },
+            "required": [
+              "query"
+            ]
+          }
+        },
+        {
+          "name": "brave_local_search",
+          "description": "Searches for local businesses and places using Brave's Local Search API. Best for queries related to physical locations, businesses, restaurants, services, etc. Returns detailed information including:\n- Business names and addresses\n- Ratings and review counts\n- Phone numbers and opening hours\nUse this when the query implies 'near me' or mentions specific locations. Automatically falls back to web search if no local results are found.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string",
+                "description": "Local search query (e.g. 'pizza near Central Park')."
+              },
+              "count": {
+                "type": "integer",
+                "description": "Number of results (1-20).",
+                "minimum": 1,
+                "maximum": 20,
+                "default": 5
+              }
+            },
+            "required": [
+              "query"
+            ]
+          }
+        },
+        {
+          "name": "brave_news_search",
+          "description": "Searches for news articles using Brave's News Search API. Use for current events, breaking news and recent developments; results include title, source, publication age and a short description.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string",
+                "description": "News search query."
+              },
+              "country": {
+                "type": "string",
+                "description": "2-letter country code the results come from, e.g. 'US', 'DE'.",
+                "default": "US"
+              },
+              "search_lang": {
+                "type": "string",
+                "description": "Language code for result content, e.g. 'en'.",
+                "default": "en"
+              },
+              "count": {
+                "type": "integer",
+                "description": "Number of articles (1-50).",
+                "minimum": 1,
+                "maximum": 50,
+                "default": 20
+              },
+              "offset": {
+                "type": "integer",
+                "description": "Page offset (max 9).",
+                "minimum": 0,
+                "maximum": 9,
+                "default": 0
+              },
+              "freshness": {
+                "type": "string",
+                "description": "Filter results by when they were discovered: 'pd' (last 24h), 'pw' (last 7 days), 'pm' (last 31 days), 'py' (last 365 days), or a date range 'YYYY-MM-DDtoYYYY-MM-DD'."
+              },
+              "safesearch": {
+                "type": "string",
+                "description": "Adult content filter.",
+                "enum": [
+                  "off",
+                  "moderate",
+                  "strict"
+                ],
+                "default": "moderate"
+              },
+              "spellcheck": {
+                "type": "boolean",
+                "description": "Spellcheck the query.",
+                "default": true
+              },
+              "extra_snippets": {
+                "type": "boolean",
+                "description": "Return additional excerpts per article.",
+                "default": false
+              }
+            },
+            "required": [
+              "query"
+            ]
+          }
+        },
+        {
+          "name": "brave_image_search",
+          "description": "Searches for images using Brave's Image Search API. Returns image URLs, thumbnails, source page and dimensions.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string",
+                "description": "Image search query."
+              },
+              "country": {
+                "type": "string",
+                "description": "2-letter country code the results come from, e.g. 'US', 'DE'.",
+                "default": "US"
+              },
+              "search_lang": {
+                "type": "string",
+                "description": "Language code for result content, e.g. 'en'.",
+                "default": "en"
+              },
+              "count": {
+                "type": "integer",
+                "description": "Number of images (1-200).",
+                "minimum": 1,
+                "maximum": 200,
+                "default": 50
+              },
+              "safesearch": {
+                "type": "string",
+                "description": "Adult content filter.",
+                "enum": [
+                  "off",
+                  "strict"
+                ],
+                "default": "strict"
+              },
+              "spellcheck": {
+                "type": "boolean",
+                "description": "Spellcheck the query.",
+                "default": true
+              }
+            },
+            "required": [
+              "query"
+            ]
+          }
+        },
+        {
+          "name": "brave_video_search",
+          "description": "Video search.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string",
+                "description": "Query."
+              },
+              "count": {
+                "type": "integer",
+                "description": "Number of results (1-50).",
+                "minimum": 1,
+                "maximum": 50,
+                "default": 20
+              },
+              "freshness": {
+                "type": "string",
+                "description": "Filter results by when they were discovered: 'pd' (last 24h), 'pw' (last 7 days), 'pm' (last 31 days), 'py' (last 365 days), or a date range 'YYYY-MM-DDtoYYYY-MM-DD'."
+              },
+              "safesearch": {
+                "type": "string",
+                "description": "Adult content filter.",
+                "enum": [
+                  "off",
+                  "moderate",
+                  "strict"
+                ],
+                "default": "moderate"
+              }
+            },
+            "required": [
+              "query"
+            ]
+          }
+        },
+        {
+          "name": "brave_summarizer",
+          "description": "Retrieves an AI-generated summary of a previous web search. Requires the summary key returned by brave_web_search when it was called with summary=true.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "key": {
+                "type": "string",
+                "description": "Summary key from a brave_web_search response."
+              },
+              "entity_info": {
+                "type": "boolean",
+                "description": "Include extra information about entities mentioned in the summary.",
+                "default": false
+              },
+              "inline_references": {
+                "type": "boolean",
+                "description": "Add citation markers that point to the source results.",
+                "default": false
+              }
+            },
+            "required": [
+              "key"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "tavily",
+      "name": "Tavily",
+      "server": "mcp://tavily-mcp",
+      "summary": "Tavily AI search engine: real-time web/news search, content extraction from URLs, and site crawling/mapping.",
+      "tools": [
+        {
+          "name": "tavily_search",
+          "description": "A powerful web search tool that provides comprehensive, real-time results using Tavily's AI search engine. Returns relevant web content with customizable parameters for result count, content type, and domain filtering. Ideal for gathering current information, news, and detailed web content analysis.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string",
+                "description": "Search query."
+              },
+              "search_depth": {
+                "type": "string",
+                "description": "The depth of the search. 'basic' is faster; 'advanced' retrieves more relevant sources.",
+                "enum": [
+                  "basic",
+                  "advanced"
+                ],
+                "default": "basic"
+              },
+              "topic": {
+                "type": "string",
+                "description": "The category of the search. 'news' is for real-time updates on politics, sports and major current events; 'finance' for markets.",
+                "enum": [
+                  "general",
+                  "news",
+                  "finance"
+                ],
+                "default": "general"
+              },
+              "days": {
+                "type": "integer",
+                "description": "Number of days back from today to include. Only applies when topic is 'news'.",
+                "default": 3
+              },
+              "time_range": {
+                "type": "string",
+                "description": "Time range back from the current date to filter results.",
+                "enum": [
+                  "day",
+                  "week",
+                  "month",
+                  "year"
+                ]
+              },
+              "start_date": {
+                "type": "string",
+                "description": "Only include results published after this date (YYYY-MM-DD)."
+              },
+              "end_date": {
+                "type": "string",
+                "description": "Only include results published before this date (YYYY-MM-DD)."
+              },
+              "max_results": {
+                "type": "integer",
+                "description": "The maximum number of search results to return.",
+                "minimum": 5,
+                "maximum": 20,
+                "default": 10
+              },
+              "include_images": {
+                "type": "boolean",
+                "description": "Include a list of query-related images in the response.",
+                "default": false
+              },
+              "include_image_descriptions": {
+                "type": "boolean",
+                "description": "Include descriptions for each returned image.",
+                "default": false
+              },
+              "include_raw_content": {
+                "type": "boolean",
+                "description": "Include the cleaned and parsed HTML content of each result.",
+                "default": false
+              },
+              "include_domains": {
+                "type": "array",
+                "description": "A list of domains to specifically include in the search results.",
+                "items": {
+                  "type": "string"
+                },
+                "default": []
+              },
+              "exclude_domains": {
+                "type": "array",
+                "description": "List of domains to specifically exclude.",
+                "items": {
+                  "type": "string"
+                },
+                "default": []
+              },
+              "country": {
+                "type": "string",
+                "description": "Boost results from a specific country (full country name, e.g. 'germany'). Only for topic 'general'."
+              },
+              "include_favicon": {
+                "type": "boolean",
+                "description": "Include the favicon URL for each result.",
+                "default": false
+              }
+            },
+            "required": [
+              "query"
+            ]
+          }
+        },
+        {
+          "name": "tavily_extract",
+          "description": "A powerful web content extraction tool that retrieves and processes raw content from specified URLs, ideal for data collection, content analysis, and research tasks.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "urls": {
+                "type": "array",
+                "description": "List of URLs to extract content from.",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "extract_depth": {
+                "type": "string",
+                "description": "Depth of extraction - 'basic' or 'advanced' (tables, embedded content, LinkedIn).",
+                "enum": [
+                  "basic",
+                  "advanced"
+                ],
+                "default": "basic"
+              },
+              "include_images": {
+                "type": "boolean",
+                "description": "Include a list of images extracted from the URLs.",
+                "default": false
+              },
+              "format": {
+                "type": "string",
+                "description": "The format of the extracted page content.",
+                "enum": [
+                  "markdown",
+                  "text"
+                ],
+                "default": "markdown"
+              },
+              "include_favicon": {
+                "type": "boolean",
+                "description": "Include the favicon URL for each result.",
+                "default": false
+              }
+            },
+            "required": [
+              "urls"
+            ]
+          }
+        },
+        {
+          "name": "tavily_crawl",
+          "description": "A powerful web crawler that initiates a structured web crawl starting from a specified base URL. The crawler expands from that point like a tree, following internal links across pages. You can control how deep and wide it goes, and guide it to focus on specific sections of the site. Returns the extracted content of every page visited.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "url": {
+                "type": "string",
+                "description": "The root URL to begin the crawl."
+              },
+              "max_depth": {
+                "type": "integer",
+                "description": "Max depth of the crawl. Defines how far from the base URL the crawler can explore.",
+                "minimum": 1,
+                "default": 1
+              },
+              "max_breadth": {
+                "type": "integer",
+                "description": "Max number of links to follow per level of the tree.",
+                "minimum": 1,
+                "default": 20
+              },
+              "limit": {
+                "type": "integer",
+                "description": "Total number of links the crawler will process before stopping.",
+                "minimum": 1,
+                "default": 50
+              },
+              "instructions": {
+                "type": "string",
+                "description": "Natural language instructions for the crawler, e.g. 'only pages about authentication'."
+              },
+              "select_paths": {
+                "type": "array",
+                "description": "Regex patterns to select only URLs with specific path patterns (e.g. /docs/.*).",
+                "items": {
+                  "type": "string"
+                },
+                "default": []
+              },
+              "select_domains": {
+                "type": "array",
+                "description": "Regex patterns to restrict crawling to specific domains or subdomains.",
+                "items": {
+                  "type": "string"
+                },
+                "default": []
+              },
+              "allow_external": {
+                "type": "boolean",
+                "description": "Whether to allow following links that go to external domains.",
+                "default": false
+              },
+              "categories": {
+                "type": "array",
+                "description": "Filter URLs using predefined categories.",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "Careers",
+                    "Blog",
+                    "Documentation",
+                    "About",
+                    "Pricing",
+                    "Community",
+                    "Developers",
+                    "Contact",
+                    "Media"
+                  ]
+                },
+                "default": []
+              },
+              "extract_depth": {
+                "type": "string",
+                "description": "Advanced extraction retrieves more data, including tables and embedded content.",
+                "enum": [
+                  "basic",
+                  "advanced"
+                ],
+                "default": "basic"
+              },
+              "format": {
+                "type": "string",
+                "description": "Format of extracted page content.",
+                "enum": [
+                  "markdown",
+                  "text"
+                ],
+                "default": "markdown"
+              }
+            },
+            "required": [
+              "url"
+            ]
+          }
+        },
+        {
+          "name": "tavily_map",
+          "description": "A powerful web mapping tool that creates a structured map of website URLs, allowing you to discover and analyze site structure, content organization, and navigation paths. Perfect for site audits, content discovery, and understanding website architecture. Returns URLs only, not page content.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "url": {
+                "type": "string",
+                "description": "The root URL to begin the mapping."
+              },
+              "max_depth": {
+                "type": "integer",
+                "description": "Max depth of the mapping.",
+                "minimum": 1,
+                "default": 1
+              },
+              "max_breadth": {
+                "type": "integer",
+                "description": "Max number of links to follow per level.",
+                "minimum": 1,
+                "default": 20
+              },
+              "limit": {
+                "type": "integer",
+                "description": "Total number of links to process before stopping.",
+                "minimum": 1,
+                "default": 50
+              },
+              "instructions": {
+                "type": "string",
+                "description": "Natural language instructions for the crawler."
+              },
+              "select_paths": {
+                "type": "array",
+                "description": "Regex patterns to select only URLs with specific path patterns.",
+                "items": {
+                  "type": "string"
+                },
+                "default": []
+              },
+              "select_domains": {
+                "type": "array",
+                "description": "Regex patterns to restrict to specific domains or subdomains.",
+                "items": {
+                  "type": "string"
+                },
+                "default": []
+              },
+              "allow_external": {
+                "type": "boolean",
+                "description": "Whether to allow following links to external domains.",
+                "default": false
+              },
+              "categories": {
+                "type": "array",
+                "description": "Filter URLs using predefined categories.",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "Careers",
+                    "Blog",
+                    "Documentation",
+                    "About",
+                    "Pricing",
+                    "Community",
+                    "Developers",
+                    "Contact",
+                    "Media"
+                  ]
+                },
+                "default": []
+              }
+            },
+            "required": [
+              "url"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "exa",
+      "name": "Exa",
+      "server": "mcp://exa-mcp-server",
+      "summary": "Exa AI neural search: web search, research papers, company and LinkedIn lookup, URL crawling, code context and deep research jobs.",
+      "tools": [
+        {
+          "name": "web_search_exa",
+          "description": "Search the web using Exa AI - performs real-time web searches and can scrape content from specific URLs. Supports configurable result counts and returns the content from the most relevant websites.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string",
+                "description": "Search query."
+              },
+              "numResults": {
+                "type": "integer",
+                "description": "Number of search results to return.",
+                "default": 5
+              }
+            },
+            "required": [
+              "query"
+            ]
+          }
+        },
+        {
+          "name": "research_paper_search_exa",
+          "description": "Search across 100M+ research papers with full text access using Exa AI - performs targeted academic paper searches with deep research content coverage. Returns detailed information about relevant academic papers including titles, authors, publication dates, and full-text excerpts.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string",
+                "description": "Research paper search query."
+              },
+              "numResults": {
+                "type": "integer",
+                "description": "Number of research papers to return.",
+                "default": 5
+              },
+              "maxCharacters": {
+                "type": "integer",
+                "description": "Maximum number of characters to return for each result's text content.",
+                "default": 3000
+              }
+            },
+            "required": [
+              "query"
+            ]
+          }
+        },
+        {
+          "name": "company_research_exa",
+          "description": "Research companies using Exa AI - finds comprehensive information about businesses, organizations, and corporations. Provides insights into company operations, news, financial information, and industry analysis.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "companyName": {
+                "type": "string",
+                "description": "Name of the company to research."
+              },
+              "numResults": {
+                "type": "integer",
+                "description": "Number of search results to return.",
+                "default": 5
+              }
+            },
+            "required": [
+              "companyName"
+            ]
+          }
+        },
+        {
+          "name": "crawling_exa",
+          "description": "Extract and crawl content from specific URLs using Exa AI - retrieves full text content, metadata, and structured information from web pages. Ideal for extracting detailed content from known URLs.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "url": {
+                "type": "string",
+                "description": "URL to crawl and extract content from."
+              },
+              "maxCharacters": {
+                "type": "integer",
+                "description": "Maximum characters to extract.",
+                "default": 3000
+              }
+            },
+            "required": [
+              "url"
+            ]
+          }
+        },
+        {
+          "name": "linkedin_search_exa",
+          "description": "Search LinkedIn profiles and companies using Exa AI - finds professional profiles, company pages, and business-related content on LinkedIn.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string",
+                "description": "LinkedIn search query (e.g. person name, role, company)."
+              },
+              "searchType": {
+                "type": "string",
+                "description": "Type of LinkedIn content to search.",
+                "enum": [
+                  "profiles",
+                  "companies",
+                  "all"
+                ],
+                "default": "all"
+              },
+              "numResults": {
+                "type": "integer",
+                "description": "Number of LinkedIn results to return.",
+                "default": 5
+              }
+            },
+            "required": [
+              "query"
+            ]
+          }
+        },
+        {
+          "name": "get_code_context_exa",
+          "description": "Search and get relevant context for any programming task. Exa-code has the highest quality and freshest context for libraries, SDKs, and APIs. Use this tool for ANY question or task related to programming: usage examples, API signatures, configuration, and up-to-date documentation snippets from GitHub, docs sites and Stack Overflow.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string",
+                "description": "Search query to find relevant context for APIs, libraries, and SDKs, e.g. 'React useState hook examples'."
+              },
+              "tokensNum": {
+                "type": [
+                  "string",
+                  "integer"
+                ],
+                "description": "Number of tokens to return: 'dynamic' or an integer between 1000 and 50000.",
+                "default": "dynamic"
+              }
+            },
+            "required": [
+              "query"
+            ]
+          }
+        },
+        {
+          "name": "deep_researcher_start",
+          "description": "Start a comprehensive AI-powered deep research task for complex queries. This tool initiates an intelligent agent that performs extensive web searches, crawls relevant pages, analyzes information, and synthesizes findings into a detailed research report with citations. The task runs asynchronously: this returns a taskId immediately, and you must call deep_researcher_check with it to retrieve the report. Use for questions that need many sources and careful synthesis rather than a quick lookup.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "instructions": {
+                "type": "string",
+                "description": "Complex research question or detailed instructions for the AI researcher."
+              },
+              "model": {
+                "type": "string",
+                "description": "Research model: 'exa-research' (faster, 15-45s) or 'exa-research-pro' (more thorough, 45s-2min).",
+                "enum": [
+                  "exa-research",
+                  "exa-research-pro"
+                ],
+                "default": "exa-research"
+              }
+            },
+            "required": [
+              "instructions"
+            ]
+          }
+        },
+        {
+          "name": "deep_researcher_check",
+          "description": "Check status of a research task.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "taskId": {
+                "type": "string",
+                "description": "The task ID returned from deep_researcher_start."
+              }
+            },
+            "required": [
+              "taskId"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "semantic_scholar",
+      "name": "Semantic Scholar",
+      "server": "mcp://semantic-scholar",
+      "summary": "Semantic Scholar Academic Graph API: paper and author search, paper metadata by DOI/arXiv id, citation and reference graphs, and recommendations.",
+      "tools": [
+        {
+          "name": "paper_relevance_search",
+          "description": "Search for papers on Semantic Scholar using relevance-based ranking. Supports filtering by publication year range, venue, fields of study, publication type, minimum citation count and open-access PDF availability.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string",
+                "description": "Plain-text search query. No special query syntax is supported."
+              },
+              "fields": {
+                "type": "array",
+                "description": "Fields to return, e.g. ['title', 'abstract', 'year', 'authors', 'citationCount', 'venue', 'openAccessPdf', 'externalIds'].",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "publication_types": {
+                "type": "array",
+                "description": "Restrict to these publication types.",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "Review",
+                    "JournalArticle",
+                    "CaseReport",
+                    "ClinicalTrial",
+                    "Conference",
+                    "Dataset",
+                    "Editorial",
+                    "LettersAndComments",
+                    "MetaAnalysis",
+                    "News",
+                    "Study",
+                    "Book",
+                    "BookSection"
+                  ]
+                }
+              },
+              "open_access_pdf": {
+                "type": "boolean",
+                "description": "Only return papers with a public PDF.",
+                "default": false
+              },
+              "min_citation_count": {
+                "type": "integer",
+                "description": "Only return papers with at least this many citations.",
+                "minimum": 0
+              },
+              "year": {
+                "type": "string",
+                "description": "Publication year or range, e.g. '2019', '2016-2020', '2010-', '-2015'."
+              },
+              "venue": {
+                "type": "array",
+                "description": "Restrict to papers published in these venues (e.g. 'Nature', 'NeurIPS').",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "fields_of_study": {
+                "type": "array",
+                "description": "Restrict to these fields of study.",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "Computer Science",
+                    "Medicine",
+                    "Chemistry",
+                    "Biology",
+                    "Materials Science",
+                    "Physics",
+                    "Geology",
+                    "Psychology",
+                    "Art",
+                    "History",
+                    "Geography",
+                    "Sociology",
+                    "Business",
+                    "Political Science",
+                    "Economics",
+                    "Philosophy",
+                    "Mathematics",
+                    "Engineering",
+                    "Environmental Science",
+                    "Agricultural and Food Sciences",
+                    "Education",
+                    "Law",
+                    "Linguistics"
+                  ]
+                }
+              },
+              "offset": {
+                "type": "integer",
+                "description": "Pagination offset.",
+                "minimum": 0,
+                "default": 0
+              },
+              "limit": {
+                "type": "integer",
+                "description": "Maximum number of results (max 100).",
+                "minimum": 1,
+                "maximum": 100,
+                "default": 10
+              }
+            },
+            "required": [
+              "query"
+            ]
+          }
+        },
+        {
+          "name": "paper_title_search",
+          "description": "Find a single paper by closest title match.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string",
+                "description": "Paper title."
+              },
+              "fields": {
+                "type": "array",
+                "description": "Fields to return, e.g. ['title', 'abstract', 'year', 'authors', 'citationCount', 'venue', 'openAccessPdf', 'externalIds'].",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": [
+              "query"
+            ]
+          }
+        },
+        {
+          "name": "paper_details",
+          "description": "Get details about a paper using various ID formats (Semantic Scholar ID, DOI, arXiv ID, PubMed ID, ACL ID, Corpus ID or URL): title, abstract, authors, venue, year, citation counts and open-access links.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "paper_id": {
+                "type": "string",
+                "description": "Paper identifier: Semantic Scholar ID, or prefixed external id such as 'DOI:10.18653/v1/N18-3011', 'ARXIV:2106.15928', 'CorpusId:215416146', 'PMID:19872477', 'ACL:W12-3903', or 'URL:https://arxiv.org/abs/...'."
+              },
+              "fields": {
+                "type": "array",
+                "description": "Fields to return, e.g. ['title', 'abstract', 'year', 'authors', 'citationCount', 'venue', 'openAccessPdf', 'externalIds'].",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": [
+              "paper_id"
+            ]
+          }
+        },
+        {
+          "name": "paper_citations",
+          "description": "Get papers that cite the specified paper (i.e. papers in whose bibliography this paper appears), with optional citation contexts and intents.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "paper_id": {
+                "type": "string",
+                "description": "Paper identifier: Semantic Scholar ID, or prefixed external id such as 'DOI:10.18653/v1/N18-3011', 'ARXIV:2106.15928', 'CorpusId:215416146', 'PMID:19872477', 'ACL:W12-3903', or 'URL:https://arxiv.org/abs/...'."
+              },
+              "fields": {
+                "type": "array",
+                "description": "Fields to return, e.g. ['title', 'abstract', 'year', 'authors', 'citationCount', 'venue', 'openAccessPdf', 'externalIds'].",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "offset": {
+                "type": "integer",
+                "description": "Pagination offset.",
+                "default": 0
+              },
+              "limit": {
+                "type": "integer",
+                "description": "Maximum number of results (max 1000).",
+                "minimum": 1,
+                "maximum": 1000,
+                "default": 100
+              }
+            },
+            "required": [
+              "paper_id"
+            ]
+          }
+        },
+        {
+          "name": "paper_references",
+          "description": "Get references of a paper.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "paper_id": {
+                "type": "string",
+                "description": "Paper identifier: Semantic Scholar ID, or prefixed external id such as 'DOI:10.18653/v1/N18-3011', 'ARXIV:2106.15928', 'CorpusId:215416146', 'PMID:19872477', 'ACL:W12-3903', or 'URL:https://arxiv.org/abs/...'."
+              },
+              "fields": {
+                "type": "array",
+                "description": "Fields to return, e.g. ['title', 'abstract', 'year', 'authors', 'citationCount', 'venue', 'openAccessPdf', 'externalIds'].",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "offset": {
+                "type": "integer",
+                "description": "Pagination offset.",
+                "default": 0
+              },
+              "limit": {
+                "type": "integer",
+                "description": "Maximum number of results (max 1000).",
+                "minimum": 1,
+                "maximum": 1000,
+                "default": 100
+              }
+            },
+            "required": [
+              "paper_id"
+            ]
+          }
+        },
+        {
+          "name": "author_search",
+          "description": "Search for authors by name on Semantic Scholar. Returns author ids, affiliations, paper counts and h-index.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string",
+                "description": "Author name."
+              },
+              "fields": {
+                "type": "array",
+                "description": "Author fields to return, e.g. ['name', 'affiliations', 'hIndex', 'paperCount'].",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "offset": {
+                "type": "integer",
+                "description": "Pagination offset.",
+                "default": 0
+              },
+              "limit": {
+                "type": "integer",
+                "description": "Maximum number of results.",
+                "maximum": 1000,
+                "default": 100
+              }
+            },
+            "required": [
+              "query"
+            ]
+          }
+        },
+        {
+          "name": "author_papers",
+          "description": "List papers by an author.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "author_id": {
+                "type": "string",
+                "description": "Semantic Scholar author ID."
+              },
+              "fields": {
+                "type": "array",
+                "description": "Fields to return, e.g. ['title', 'abstract', 'year', 'authors', 'citationCount', 'venue', 'openAccessPdf', 'externalIds'].",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "offset": {
+                "type": "integer",
+                "description": "Pagination offset.",
+                "default": 0
+              },
+              "limit": {
+                "type": "integer",
+                "description": "Maximum number of results.",
+                "maximum": 1000,
+                "default": 100
+              }
+            },
+            "required": [
+              "author_id"
+            ]
+          }
+        },
+        {
+          "name": "get_paper_recommendations",
+          "description": "Get recommended papers based on one or more seed papers. Provide positive examples (and optionally negative examples) to find similar recent work.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "positive_paper_ids": {
+                "type": "array",
+                "description": "Paper IDs the recommendations should resemble.",
+                "items": {
+                  "type": "string"
+                },
+                "minItems": 1
+              },
+              "negative_paper_ids": {
+                "type": "array",
+                "description": "Paper IDs the recommendations should NOT resemble.",
+                "items": {
+                  "type": "string"
+                },
+                "default": []
+              },
+              "fields": {
+                "type": "array",
+                "description": "Fields to return, e.g. ['title', 'abstract', 'year', 'authors', 'citationCount', 'venue', 'openAccessPdf', 'externalIds'].",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "limit": {
+                "type": "integer",
+                "description": "Number of recommendations (max 500).",
+                "minimum": 1,
+                "maximum": 500,
+                "default": 100
+              },
+              "from_pool": {
+                "type": "string",
+                "description": "Pool to draw from (single-seed mode only).",
+                "enum": [
+                  "recent",
+                  "all-cs"
+                ],
+                "default": "recent"
+              }
+            },
+            "required": [
+              "positive_paper_ids"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "wikipedia",
+      "name": "Wikipedia",
+      "server": "mcp://wikipedia-mcp",
+      "summary": "Wikipedia lookups: article search, full articles, summaries, sections, related topics, key facts and coordinates.",
+      "tools": [
+        {
+          "name": "search_wikipedia",
+          "description": "Search Wikipedia for articles matching a query.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string",
+                "description": "Search terms."
+              },
+              "limit": {
+                "type": "integer",
+                "description": "Maximum number of results.",
+                "default": 10
+              }
+            },
+            "required": [
+              "query"
+            ]
+          }
+        },
+        {
+          "name": "get_article",
+          "description": "Get the full content of a Wikipedia article.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "title": {
+                "type": "string",
+                "description": "Article title."
+              }
+            },
+            "required": [
+              "title"
+            ]
+          }
+        },
+        {
+          "name": "get_summary",
+          "description": "Get a summary of a Wikipedia article.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "title": {
+                "type": "string",
+                "description": "Article title."
+              }
+            },
+            "required": [
+              "title"
+            ]
+          }
+        },
+        {
+          "name": "get_sections",
+          "description": "Get the sections of a Wikipedia article.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "title": {
+                "type": "string",
+                "description": "Article title."
+              }
+            },
+            "required": [
+              "title"
+            ]
+          }
+        },
+        {
+          "name": "get_related_topics",
+          "description": "Get topics related to a Wikipedia article based on links and categories.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "title": {
+                "type": "string",
+                "description": "Article title."
+              },
+              "limit": {
+                "type": "integer",
+                "description": "Maximum number of related topics.",
+                "default": 10
+              }
+            },
+            "required": [
+              "title"
+            ]
+          }
+        },
+        {
+          "name": "extract_key_facts",
+          "description": "Extract key facts from a Wikipedia article, optionally focused on a specific topic within the article.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "title": {
+                "type": "string",
+                "description": "Article title."
+              },
+              "topic_within_article": {
+                "type": "string",
+                "description": "Optional topic to focus the facts on, e.g. 'economy' or 'early life'."
+              },
+              "count": {
+                "type": "integer",
+                "description": "Number of key facts to extract.",
+                "default": 5
+              }
+            },
+            "required": [
+              "title"
+            ]
+          }
+        },
+        {
+          "name": "get_coordinates",
+          "description": "Returns coordinates for an article.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "title": {
+                "type": "string",
+                "description": "Article title."
+              }
+            },
+            "required": [
+              "title"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "fetch",
+      "name": "Fetch",
+      "server": "mcp://fetch",
+      "summary": "Fetches a single URL and returns its contents as markdown or raw HTML.",
+      "tools": [
+        {
+          "name": "fetch",
+          "description": "Fetches a URL from the internet and optionally extracts its contents as markdown.\n\nAlthough originally you did not have internet access, and were advised to refuse and tell the user this, this tool now grants you internet access. Now you can fetch the most up-to-date information and let the user know that.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "url": {
+                "type": "string",
+                "description": "URL to fetch.",
+                "format": "uri"
+              },
+              "max_length": {
+                "type": "integer",
+                "description": "Maximum number of characters to return.",
+                "minimum": 1,
+                "maximum": 1000000,
+                "default": 5000
+              },
+              "start_index": {
+                "type": "integer",
+                "description": "Return output starting at this character index, useful if a previous fetch was truncated and more context is required.",
+                "minimum": 0,
+                "default": 0
+              },
+              "raw": {
+                "type": "boolean",
+                "description": "Get the actual HTML content of the requested page, without simplification.",
+                "default": false
+              }
+            },
+            "required": [
+              "url"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
