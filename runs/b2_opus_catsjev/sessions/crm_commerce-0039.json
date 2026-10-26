@@ -1,0 +1,65 @@
+{
+ "task_id": "crm_commerce-0039",
+ "mode": "cats",
+ "loaded": [
+  "shopify.adjust_inventory",
+  "shopify.create_fulfillment",
+  "shopify.create_product",
+  "shopify.get_inventory_levels"
+ ],
+ "order": [
+  "shopify.adjust_inventory",
+  "shopify.create_fulfillment",
+  "shopify.create_product",
+  "shopify.get_inventory_levels"
+ ],
+ "scores": {
+  "shopify.adjust_inventory": 0.35230236153285677,
+  "shopify.create_fulfillment": 0.09333849550804445,
+  "shopify.create_product": 0.3170542122776672,
+  "shopify.get_inventory_levels": 0.4392239678260981
+ },
+ "router_tokens": 1445,
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "shopify.get_inventory_levels",
+   "args": {
+    "productTitle": "Ceramic Mug"
+   }
+  },
+  {
+   "tool": "shopify.adjust_inventory",
+   "args": {
+    "inventoryItemId": "<ceramic_mug_inventory_item_id>",
+    "locationId": "<main_warehouse_location_id>",
+    "delta": 50,
+    "reason": "restock"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 4,
+   "tool_tokens": 890,
+   "t": 1791321563.9646077
+  },
+  {
+   "type": "call",
+   "tool": "shopify__get_inventory_levels",
+   "valid": true,
+   "t": 1791321575.0599499
+  },
+  {
+   "type": "call",
+   "tool": "shopify__adjust_inventory",
+   "valid": true,
+   "t": 1791321586.6062717
+  }
+ ],
+ "done": true,
+ "t_done": 1791321594.0285113,
+ "final": ""
+}

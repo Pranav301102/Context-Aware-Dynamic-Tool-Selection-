@@ -1,0 +1,73 @@
+{
+ "task_id": "database-0049",
+ "mode": "cats",
+ "loaded": [
+  "mongodb.aggregate",
+  "mongodb.collection_schema",
+  "mongodb.count",
+  "mongodb.create_index",
+  "mongodb.delete_many",
+  "mongodb.find",
+  "mongodb.insert_many",
+  "mongodb.list_collections",
+  "mongodb.update_many",
+  "postgres.get_top_queries"
+ ],
+ "order": [
+  "mongodb.aggregate",
+  "mongodb.collection_schema",
+  "mongodb.count",
+  "mongodb.create_index",
+  "mongodb.delete_many",
+  "mongodb.find",
+  "mongodb.insert_many",
+  "mongodb.list_collections",
+  "mongodb.update_many",
+  "postgres.get_top_queries"
+ ],
+ "scores": {
+  "mongodb.aggregate": 0.06660990664486909,
+  "mongodb.collection_schema": 0.11842440676262439,
+  "mongodb.count": 0.1213066957388643,
+  "mongodb.create_index": 0.6278204418023834,
+  "mongodb.delete_many": 0.07164758366822017,
+  "mongodb.find": 0.05666979483694994,
+  "mongodb.insert_many": 0.08490826486331933,
+  "mongodb.list_collections": 0.14113691485674748,
+  "mongodb.update_many": 0.07210345259762461,
+  "postgres.get_top_queries": 0.10964847960926744
+ },
+ "router_tokens": 0,
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "mongodb.create_index",
+   "args": {
+    "database": "app",
+    "collection": "users",
+    "keys": {
+     "email": 1
+    },
+    "name": "email_index"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 10,
+   "tool_tokens": 1753,
+   "t": 1791322010.323919
+  },
+  {
+   "type": "call",
+   "tool": "mongodb__create_index",
+   "valid": true,
+   "t": 1791322022.2463462
+  }
+ ],
+ "done": true,
+ "t_done": 1791322027.980397,
+ "final": ""
+}

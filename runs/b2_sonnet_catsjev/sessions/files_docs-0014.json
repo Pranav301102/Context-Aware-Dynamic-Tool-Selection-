@@ -1,0 +1,59 @@
+{
+ "task_id": "files_docs-0014",
+ "mode": "cats",
+ "loaded": [
+  "confluence.confluence_create_page",
+  "confluence.confluence_get_page",
+  "confluence.confluence_get_page_children",
+  "confluence.confluence_search",
+  "confluence.confluence_update_page",
+  "notion.notion_create_pages"
+ ],
+ "order": [
+  "confluence.confluence_create_page",
+  "confluence.confluence_get_page",
+  "confluence.confluence_get_page_children",
+  "confluence.confluence_search",
+  "confluence.confluence_update_page",
+  "notion.notion_create_pages"
+ ],
+ "scores": {
+  "confluence.confluence_create_page": 0.9180231470398673,
+  "confluence.confluence_get_page": 0.3956403076406922,
+  "confluence.confluence_get_page_children": 0.03826749593473942,
+  "confluence.confluence_search": 0.13116151944084603,
+  "confluence.confluence_update_page": 0.06913925878532609,
+  "notion.notion_create_pages": 0.09548653057285028
+ },
+ "router_tokens": 0,
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "confluence.confluence_create_page",
+   "args": {
+    "space_key": "ENG",
+    "title": "Postmortem: 2026-10-02 checkout outage",
+    "content": "## Summary\n\n_TODO: brief summary of the checkout outage._\n\n## Impact\n\n_TODO: customer and business impact._\n\n## Timeline\n\n- _TODO: add timeline entries (time - event)._\n",
+    "content_format": "markdown"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 6,
+   "tool_tokens": 1471,
+   "t": 1791322132.5180347
+  },
+  {
+   "type": "call",
+   "tool": "confluence__confluence_create_page",
+   "valid": true,
+   "t": 1791322144.200364
+  }
+ ],
+ "done": true,
+ "t_done": 1791322150.1051714,
+ "final": ""
+}

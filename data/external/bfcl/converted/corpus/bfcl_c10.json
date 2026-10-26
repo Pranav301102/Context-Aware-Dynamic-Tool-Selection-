@@ -1,0 +1,2628 @@
+{
+ "branch": {
+  "id": "bfcl_c10",
+  "name": "value / key / string",
+  "summary": "Functions about value, key, string, function, test, set, given, integer, specified, property, perform, returns."
+ },
+ "toolkits": [
+  {
+   "id": "basepolicydataprovider",
+   "name": "BasePolicyDataProvider",
+   "server": "bfcl://BasePolicyDataProvider",
+   "summary": "Retrieves the value of a specified property from the DBeaver registry policy node if it exists, specifically for Windows systems.",
+   "tools": [
+    {
+     "name": "getRegistryPolicyValue",
+     "description": "Retrieves the value of a specified property from the DBeaver registry policy node if it exists, specifically for Windows systems.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "root": {
+        "type": "string",
+        "description": "The root key in the Windows registry (e.g., HKEY_LOCAL_MACHINE)."
+       },
+       "property": {
+        "type": "string",
+        "description": "The name of the property to retrieve the value for from the registry."
+       }
+      },
+      "required": [
+       "root",
+       "property"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "booleans",
+   "name": "Booleans",
+   "server": "bfcl://Booleans",
+   "summary": "Parses a string to a boolean value leniently, allowing various string representations to be interpreted as 'false', and defaults to 'true' for other cases, unless a default value is provided.",
+   "tools": [
+    {
+     "name": "parseBooleanLenient",
+     "description": "Parses a string to a boolean value leniently, allowing various string representations to be interpreted as 'false', and defaults to 'true' for other cases, unless a default value is provided.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "value": {
+        "type": "string",
+        "description": "The string value to parse into a boolean."
+       },
+       "defaultValue": {
+        "type": "boolean",
+        "description": "The default boolean value to return if the string value is null."
+       }
+      },
+      "required": [
+       "value",
+       "defaultValue"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "jdkxmlfeatures",
+   "name": "JdkXmlFeatures",
+   "server": "bfcl://JdkXmlFeatures",
+   "summary": "Checks if the specified system property is set and applies its boolean value to the given XML feature.",
+   "tools": [
+    {
+     "name": "getSystemProperty",
+     "description": "Checks if the specified system property is set and applies its boolean value to the given XML feature. Throws NumberFormatException if the property value is invalid.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "feature": {
+        "type": "string",
+        "description": "The XML feature to check the system property for."
+       },
+       "sysPropertyName": {
+        "type": "string",
+        "description": "The name of the system property to be checked."
+       }
+      },
+      "required": [
+       "feature",
+       "sysPropertyName"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "largehandshaketest",
+   "name": "LargeHandshakeTest",
+   "server": "bfcl://LargeHandshakeTest",
+   "summary": "Outputs a formatted Java constant declaration for a given name and value, splitting the value into multiple lines if it exceeds 60 characters.",
+   "tools": [
+    {
+     "name": "format",
+     "description": "Outputs a formatted Java constant declaration for a given name and value, splitting the value into multiple lines if it exceeds 60 characters.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "name": {
+        "type": "string",
+        "description": "The name of the Java constant."
+       },
+       "value": {
+        "type": "string",
+        "description": "The value of the Java constant, which will be split into multiple lines if it's too long."
+       }
+      },
+      "required": [
+       "name",
+       "value"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "redissonasynccache",
+   "name": "RedissonAsyncCache",
+   "server": "bfcl://RedissonAsyncCache",
+   "summary": "Asynchronously puts the given value associated with the specified key into the cache if it is not already present, and returns a CompletableFuture that will complete with an Optional of the previous value.",
+   "tools": [
+    {
+     "name": "putIfAbsent",
+     "description": "Asynchronously puts the given value associated with the specified key into the cache if it is not already present, and returns a CompletableFuture that will complete with an Optional of the previous value.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "key": {
+        "type": "string",
+        "description": "The key with which the specified value is to be associated."
+       },
+       "value": {
+        "type": "string",
+        "description": "The value to be associated with the specified key."
+       }
+      },
+      "required": [
+       "key",
+       "value"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "redissonconnection",
+   "name": "RedissonConnection",
+   "server": "bfcl://RedissonConnection",
+   "summary": "Performs a bitwise operation between the given keys and stores the result in the destination key.",
+   "tools": [
+    {
+     "name": "bitOp",
+     "description": "Performs a bitwise operation between the given keys and stores the result in the destination key. The NOT operation is not supported for multiple source keys.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "op": {
+        "type": "string",
+        "description": "The BitOperation enum value representing the bitwise operation to perform. It's object represented by BitOperation.OR for or operation for example"
+       },
+       "destination": {
+        "type": "array",
+        "description": "The destination key where the result will be stored.",
+        "items": {
+         "type": "string"
+        }
+       },
+       "keys": {
+        "type": "array",
+        "description": "The source keys on which the bitwise operation will be performed.",
+        "items": {
+         "type": "string"
+        }
+       }
+      },
+      "required": [
+       "op",
+       "destination",
+       "keys"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "redissonmapcache",
+   "name": "RedissonMapCache",
+   "server": "bfcl://RedissonMapCache",
+   "summary": "Asynchronously stores a key-value pair in the Redisson map cache.",
+   "tools": [
+    {
+     "name": "putOperationAsync",
+     "description": "Asynchronously stores a key-value pair in the Redisson map cache.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "key": {
+        "type": "string",
+        "description": "The key under which the value is to be stored in the map cache."
+       },
+       "value": {
+        "type": "string",
+        "description": "The value associated with the key to be stored in the map cache."
+       }
+      },
+      "required": [
+       "key",
+       "value"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "reqscr",
+   "name": "ReqScr",
+   "server": "bfcl://ReqScr",
+   "summary": "Generates a pair of unique keys specific to the require script, intended for user execution within a game environment.",
+   "tools": [
+    {
+     "name": "generate_key",
+     "description": "Generates a pair of unique keys specific to the require script, intended for user execution within a game environment.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "TheLen",
+       "TheLen2"
+      ],
+      "properties": {
+       "TheLen": {
+        "type": "integer",
+        "description": "The length of the first key to be generated. It must be an integer greater than 9 and less than 51."
+       },
+       "TheLen2": {
+        "type": "integer",
+        "description": "The length of the second key to be generated. It must be an integer greater than 9 and less than 51."
+       }
+      }
+     }
+    }
+   ]
+  },
+  {
+   "id": "res9patchstreamdecoder",
+   "name": "Res9patchStreamDecoder",
+   "server": "bfcl://Res9patchStreamDecoder",
+   "summary": "Decodes a 9-patch image from the given input stream and writes the decoded PNG image to the specified output stream.",
+   "tools": [
+    {
+     "name": "decode",
+     "description": "Decodes a 9-patch image from the given input stream and writes the decoded PNG image to the specified output stream. Returns true if the operation is successful, otherwise false.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "input": {
+        "type": "string",
+        "description": "The input stream containing the 9-patch image data."
+       },
+       "out": {
+        "type": "string",
+        "description": "The output stream where the decoded PNG image will be written."
+       }
+      },
+      "required": [
+       "input",
+       "out"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "answer",
+   "name": "answer",
+   "server": "bfcl://answer",
+   "summary": "Analyzes the string output from a language model. Analyzes the string output from a language model.",
+   "tools": [
+    {
+     "name": "string",
+     "description": "Analyzes the string output from a language model. It returns the string directly if an answer is found within it. Should the output indicate that no answer was found, an empty string is returned instead.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "answer"
+      ],
+      "properties": {
+       "answer": {
+        "type": "string",
+        "description": "The text response from a language model in plain text. An empty string is returned if the language model's response suggests that an answer could not be found."
+       }
+      }
+     }
+    },
+    {
+     "name": "string_2",
+     "description": "Analyzes the string output from a language model. It returns the string directly if an answer is found within it. Should the output indicate that no answer was found, an empty string is returned instead.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "answer"
+      ],
+      "properties": {
+       "answer": {
+        "type": "string",
+        "description": "The text response from a language model. An empty string is returned if the language model's response suggests that an answer could not be found."
+       }
+      }
+     }
+    },
+    {
+     "name": "string_3",
+     "description": "Parses the answer generated from a Language Learning Model (LLM) and checks for its validity. Returns an empty string if the LLM output is 'answer not found'.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "answer"
+      ],
+      "properties": {
+       "answer": {
+        "type": "string",
+        "description": "The text response from the LLM in plain text. This should be the raw output provided by the model."
+       }
+      }
+     }
+    },
+    {
+     "name": "string_4",
+     "description": "Parses the generated answer from a Large Language Model (LLM) and returns an empty string if the answer indicates that no answer was found.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "answer"
+      ],
+      "properties": {
+       "answer": {
+        "type": "string",
+        "description": "The response provided by the LLM in plain text. If the response contains the phrase 'answer not found', this function will return an empty string instead."
+       }
+      }
+     }
+    },
+    {
+     "name": "string_5",
+     "description": "Parses the response provided by a Large Language Model (LLM) and returns the answer. If the LLM does not provide an answer, it returns an empty string.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "answer"
+      ],
+      "properties": {
+       "answer": {
+        "type": "string",
+        "description": "The answer generated by the Large Language Model in plain text. If the model does not generate an answer, this parameter should be an empty string."
+       }
+      }
+     }
+    }
+   ]
+  },
+  {
+   "id": "audio_mixer",
+   "name": "audio_mixer",
+   "server": "bfcl://audio_mixer",
+   "summary": "Combines multiple audio tracks into a single track.",
+   "tools": [
+    {
+     "name": "combine_tracks",
+     "description": "Combines multiple audio tracks into a single track. The output format is determined by the specified codec, and a volume adjustment can be applied to each track individually.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "tracks",
+       "output_codec"
+      ],
+      "properties": {
+       "tracks": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "An array of file paths for each audio track to be combined."
+       },
+       "output_codec": {
+        "type": "string",
+        "description": "The codec to be used for the output audio track.",
+        "enum": [
+         "mp3",
+         "wav",
+         "aac",
+         "flac"
+        ]
+       },
+       "volume_adjustments": {
+        "type": "array",
+        "items": {
+         "type": "number"
+        },
+        "description": "A list of volume adjustment values (in decibels) corresponding to each track, where a positive value increases volume and a negative value decreases it.",
+        "default": []
+       },
+       "output_file_path": {
+        "type": "string",
+        "description": "The file path where the combined audio track will be saved.",
+        "default": "combined_track.mp3"
+       }
+      }
+     }
+    }
+   ]
+  },
+  {
+   "id": "bom_api",
+   "name": "bom_api",
+   "server": "bfcl://bom_api",
+   "summary": "Exports the dependency metadata of a specified project in the CycloneDX format, which is a standardized format for encoding Bill of Materials (BOM) information. Check if tasks associated with a given token are currently being processed or are queued for processing.",
+   "tools": [
+    {
+     "name": "BomApi_export_project_as_cyclone_dx",
+     "description": "Exports the dependency metadata of a specified project in the CycloneDX format, which is a standardized format for encoding Bill of Materials (BOM) information.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "uuid"
+      ],
+      "properties": {
+       "uuid": {
+        "type": "string",
+        "description": "The unique identifier of the project for which dependency metadata is to be exported."
+       },
+       "format": {
+        "type": "string",
+        "description": "The output format of the exported data. Supports 'JSON' or 'XML' formats.",
+        "enum": [
+         "JSON",
+         "XML"
+        ],
+        "default": "JSON"
+       },
+       "variant": {
+        "type": "string",
+        "description": "The specific CycloneDX variant to export. Choose between 'inventory' for basic component information or 'withVulnerabilities' to include known vulnerabilities.",
+        "enum": [
+         "inventory",
+         "withVulnerabilities"
+        ],
+        "default": "inventory"
+       },
+       "download": {
+        "type": "boolean",
+        "description": "A flag indicating whether to force download of the resulting BOM as a file. When set to true, the BOM will be downloaded; otherwise, it may be displayed in the browser or API client.",
+        "default": false
+       }
+      }
+     }
+    },
+    {
+     "name": "BomApi_is_token_being_processed",
+     "description": "Check if tasks associated with a given token are currently being processed or are queued for processing. This is typically used to check the status of a BOM (Bill of Materials) upload, which returns a token. The token can be queried to determine if tasks, such as vulnerability analysis, are in progress. A return value of 'true' indicates ongoing processing, while 'false' means there is no current processing for the provided token. Note that 'false' does not verify the token's validity, but simply the absence of associated processing tasks.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "uuid"
+      ],
+      "properties": {
+       "uuid": {
+        "type": "string",
+        "description": "The unique identifier (UUID) of the token to be queried. This UUID is provided after successfully uploading a BOM document."
+       }
+      }
+     }
+    }
+   ]
+  },
+  {
+   "id": "calculus",
+   "name": "calculus",
+   "server": "bfcl://calculus",
+   "summary": "Compute the definite integral of a function within a given interval. Compute the derivative of a function at a specific value.",
+   "tools": [
+    {
+     "name": "compute_definite_integral",
+     "description": "Compute the definite integral of a function within a given interval.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "function": {
+        "type": "string",
+        "description": "The function to be integrated."
+       },
+       "interval": {
+        "type": "array",
+        "items": {
+         "type": "integer"
+        },
+        "description": "The interval within which the definite integral needs to be computed."
+       },
+       "num_of_partitions": {
+        "type": "integer",
+        "description": "The number of partitions for approximation. Default is 1000."
+       }
+      },
+      "required": [
+       "function",
+       "interval"
+      ]
+     }
+    },
+    {
+     "name": "derivative",
+     "description": "Compute the derivative of a function at a specific value.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "function": {
+        "type": "string",
+        "description": "The function to calculate the derivative of."
+       },
+       "value": {
+        "type": "integer",
+        "description": "The value where the derivative needs to be calculated at."
+       },
+       "function_variable": {
+        "type": "string",
+        "description": "The variable present in the function, for instance x or y, etc.",
+        "default": "x"
+       }
+      },
+      "required": [
+       "function",
+       "value"
+      ]
+     }
+    },
+    {
+     "name": "derivative_2",
+     "description": "Compute the derivative of a function at a specific value.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "function": {
+        "type": "string",
+        "description": "The function to calculate the derivative of."
+       },
+       "value": {
+        "type": "integer",
+        "description": "The value where the derivative needs to be calculated at."
+       },
+       "function_variable": {
+        "type": "string",
+        "description": "The variable present in the function, for instance x or y, etc. Default is 'x'"
+       }
+      },
+      "required": [
+       "function",
+       "value"
+      ]
+     }
+    },
+    {
+     "name": "derivative_3",
+     "description": "Compute the derivative of a function at a specific value.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "function": {
+        "type": "string",
+        "description": "The function to calculate the derivative of."
+       },
+       "value": {
+        "type": "integer",
+        "description": "The value where the derivative needs to be calculated at."
+       },
+       "function_variable": {
+        "type": "string",
+        "description": "The variable present in the function, for instance x or y, etc. Default is 'x'."
+       }
+      },
+      "required": [
+       "function",
+       "value"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "classfloadhk005",
+   "name": "classfloadhk005",
+   "server": "bfcl://classfloadhk005",
+   "summary": "Executes the test to check if a class has been correctly instrumented by loading the class and invoking a method to verify the expected value change.",
+   "tools": [
+    {
+     "name": "runIt",
+     "description": "Executes the test to check if a class has been correctly instrumented by loading the class and invoking a method to verify the expected value change.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "argv": {
+        "type": "array",
+        "description": "An array of command-line arguments to configure the test.",
+        "items": {
+         "type": "string"
+        }
+       },
+       "out": {
+        "type": "string",
+        "description": "The PrintStream object used for logging output during the test."
+       }
+      },
+      "required": [
+       "argv",
+       "out"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "cmd_controller",
+   "name": "cmd_controller",
+   "server": "bfcl://cmd_controller",
+   "summary": "Executes a given command using the os.system() function specifically for Windows operating systems. Executes a specified command in the Windows operating system using the os.system() function.",
+   "tools": [
+    {
+     "name": "execute",
+     "description": "Executes a given command using the os.system() function specifically for Windows operating systems. For multiple commands, separate them with '&&'. For complex tasks, create and run a .bat file.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "command"
+      ],
+      "properties": {
+       "command": {
+        "type": "string",
+        "description": "The Windows command line instruction(s) to be executed. Use '&&' between commands for multiple instructions. For complex sequences, encapsulate the logic within a .bat file and provide the execution command here."
+       }
+      }
+     }
+    },
+    {
+     "name": "execute_2",
+     "description": "Executes a specified command in the Windows operating system using the os.system() function.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "command"
+      ],
+      "properties": {
+       "command": {
+        "type": "string",
+        "description": "The command line instruction to be passed to os.system() for execution, formatted as a Windows command prompt statement."
+       },
+       "unit": {
+        "type": "string",
+        "description": "The unit of measurement for the command execution time, such as 'seconds' or 'milliseconds'",
+        "enum": [
+         "seconds",
+         "milliseconds"
+        ],
+        "default": "N/A"
+       }
+      }
+     }
+    },
+    {
+     "name": "execute_3",
+     "description": "Executes a system-level command using os.system() on Windows operating systems. It can execute single or multiple commands chained with '&&'",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "command"
+      ],
+      "properties": {
+       "command": {
+        "type": "string",
+        "description": "The system command to be executed. To execute multiple commands, separate them with '&&'. For example, 'dir && echo done'."
+       },
+       "unit": {
+        "type": "string",
+        "description": "The unit of measurement for the command execution time, such as 'seconds' or 'milliseconds'",
+        "enum": [
+         "seconds",
+         "milliseconds"
+        ],
+        "default": "N/A"
+       }
+      }
+     }
+    },
+    {
+     "name": "execute_4",
+     "description": "Executes a system-level command using os.system() on Windows operating systems. It can execute single or multiple commands chained with '&&'.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "command"
+      ],
+      "properties": {
+       "command": {
+        "type": "string",
+        "description": "The system command to be executed. To execute multiple commands, separate them with '&&'. For example, 'dir && echo done'."
+       },
+       "unit": {
+        "type": "string",
+        "description": "Specifies the unit of measure for the command if applicable. This is not utilized by os.system() directly but can be used for logging or analysis purposes.",
+        "default": "N/A"
+       }
+      }
+     }
+    },
+    {
+     "name": "execute_5",
+     "description": "Executes a system-level command using os.system() on Windows operating systems. It can execute single or multiple commands chained with '&&'.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "command"
+      ],
+      "properties": {
+       "command": {
+        "type": "string",
+        "description": "The system command to be executed. To execute multiple commands, separate them with '&&'. For example, 'dir && echo done'."
+       },
+       "unit": {
+        "type": "string",
+        "description": "The unit of measurement for the command execution time, such as 'seconds' or 'milliseconds'",
+        "enum": [
+         "seconds",
+         "milliseconds"
+        ],
+        "default": "N/A"
+       }
+      }
+     }
+    }
+   ]
+  },
+  {
+   "id": "default",
+   "name": "default",
+   "server": "bfcl://default",
+   "summary": "Adds a default value to a dictionary if the specified key does not exist, ensuring that updates do not overwrite existing entries.",
+   "tools": [
+    {
+     "name": "add_default_value",
+     "description": "Adds a default value to a dictionary if the specified key does not exist, ensuring that updates do not overwrite existing entries.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "dict",
+       "key",
+       "default_value"
+      ],
+      "properties": {
+       "dict": {
+        "type": "object",
+        "description": "The dictionary to which the default value should be added.",
+        "properties": {}
+       },
+       "key": {
+        "type": "string",
+        "description": "The key for which the default value is to be set."
+       },
+       "default_value": {
+        "type": "string",
+        "description": "The value to set for the key if it does not exist in the dictionary. The type of this value can be any valid Python data type."
+       }
+      }
+     }
+    }
+   ]
+  },
+  {
+   "id": "hypothesis_testing",
+   "name": "hypothesis_testing",
+   "server": "bfcl://hypothesis_testing",
+   "summary": "Performs a one-sample binomial test and returns the calculated p-value. Conducts a hypothesis test for two independent samples.",
+   "tools": [
+    {
+     "name": "get_p_value",
+     "description": "Performs a one-sample binomial test and returns the calculated p-value.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "successes": {
+        "type": "integer",
+        "description": "The number of successful outcomes observed in the experiment."
+       },
+       "n": {
+        "type": "integer",
+        "description": "The total number of trials conducted in the experiment."
+       },
+       "prob_null": {
+        "type": "number",
+        "description": "The hypothesized probability of success under the null hypothesis."
+       },
+       "alternative": {
+        "type": "string",
+        "enum": [
+         "less",
+         "greater",
+         "two_sided"
+        ],
+        "description": "Specifies the alternative hypothesis. 'less' means the true probability of success is less than prob_null, 'greater' means it is greater than prob_null, and 'two_sided' means it is different from prob_null.",
+        "default": "less"
+       }
+      },
+      "required": [
+       "successes",
+       "n",
+       "prob_null"
+      ]
+     }
+    },
+    {
+     "name": "ttest_ind",
+     "description": "Conducts a hypothesis test for two independent samples.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "sample1": {
+        "type": "array",
+        "items": {
+         "type": "integer"
+        },
+        "description": "First set of observations (array of numbers)."
+       },
+       "sample2": {
+        "type": "array",
+        "items": {
+         "type": "integer"
+        },
+        "description": "Second set of observations (array of numbers)."
+       },
+       "significance_level": {
+        "type": "number",
+        "description": "Significance level of the test (default: 0.05)"
+       }
+      },
+      "required": [
+       "sample1",
+       "sample2"
+      ]
+     }
+    },
+    {
+     "name": "two_sample_t_test",
+     "description": "Perform a two-sample t-test to determine if there is a significant difference between the means of two independent samples.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "group1": {
+        "type": "array",
+        "items": {
+         "type": "number"
+        },
+        "description": "Sample observations from group 1."
+       },
+       "group2": {
+        "type": "array",
+        "items": {
+         "type": "number"
+        },
+        "description": "Sample observations from group 2."
+       },
+       "alpha": {
+        "type": "number",
+        "description": "Significance level for the t-test. Default is 0.05."
+       }
+      },
+      "required": [
+       "group1",
+       "group2"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "music",
+   "name": "music",
+   "server": "bfcl://music",
+   "summary": "Calculate the duration between two notes based on their frequencies and harmonic rhythm. Calculate the duration between two notes based on their frequencies and harmonic rhythm.",
+   "tools": [
+    {
+     "name": "calculate_note_duration",
+     "description": "Calculate the duration between two notes based on their frequencies and harmonic rhythm.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "first_note_frequency": {
+        "type": "number",
+        "description": "The frequency of the first note in Hz."
+       },
+       "second_note_frequency": {
+        "type": "number",
+        "description": "The frequency of the second note in Hz."
+       },
+       "tempo": {
+        "type": "integer",
+        "description": "The tempo of the music in beats per minute. Defaults to 120 beats per minute."
+       }
+      },
+      "required": [
+       "first_note_frequency",
+       "second_note_frequency"
+      ]
+     }
+    },
+    {
+     "name": "calculate_note_duration_2",
+     "description": "Calculate the duration between two notes based on their frequencies and harmonic rhythm.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "first_note_frequency": {
+        "type": "integer",
+        "description": "The frequency of the first note in Hz."
+       },
+       "second_note_frequency": {
+        "type": "integer",
+        "description": "The frequency of the second note in Hz."
+       },
+       "tempo": {
+        "type": "integer",
+        "description": "The tempo of the music in beats per minute. Defaults to 120 beats per minute."
+       }
+      },
+      "required": [
+       "first_note_frequency",
+       "second_note_frequency"
+      ]
+     }
+    },
+    {
+     "name": "generate",
+     "description": "Generate a piece of music given a key, tempo, and time signature.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "key": {
+        "type": "string",
+        "description": "The key of the piece, e.g., C Major."
+       },
+       "tempo": {
+        "type": "integer",
+        "description": "Tempo of the piece in beats per minute."
+       },
+       "time_signature": {
+        "type": "string",
+        "description": "Time signature of the piece, e.g., 4/4. Default '4/4'",
+        "optional": true
+       }
+      },
+      "required": [
+       "key",
+       "tempo"
+      ]
+     }
+    },
+    {
+     "name": "generate_2",
+     "description": "Generate a piece of music given a key, tempo, and time signature.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "key": {
+        "type": "string",
+        "description": "The key of the piece, e.g., C Major."
+       },
+       "tempo": {
+        "type": "integer",
+        "description": "Tempo of the piece in beats per minute."
+       },
+       "time_signature": {
+        "type": "string",
+        "description": "Time signature of the piece, e.g., 4/4. Default is '4/4' if not specified.",
+        "optional": true
+       }
+      },
+      "required": [
+       "key",
+       "tempo"
+      ]
+     }
+    },
+    {
+     "name": "search_composer",
+     "description": "Search the composer of a specific musical piece",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "title": {
+        "type": "string",
+        "description": "The title of the musical piece."
+       },
+       "epoch": {
+        "type": "string",
+        "description": "The historical period or style of the musical piece."
+       },
+       "performer": {
+        "type": "string",
+        "description": "The performer of the musical piece, Default: 'vivian'"
+       }
+      },
+      "required": [
+       "title",
+       "epoch"
+      ]
+     }
+    },
+    {
+     "name": "theory_chordProgression",
+     "description": "Identifies a potential key signature for the given chord progression.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "progression": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "The chord progression in Roman numerals. Eg: ['I', 'V', 'vi', 'IV']."
+       },
+       "returnAllPossibleKeys": {
+        "type": "boolean",
+        "description": "Flag indicating if the function should return all possible key signatures that fit the chord progression. If false, the function will return the first valid key it finds. Default is false."
+       },
+       "assumeMajor": {
+        "type": "boolean",
+        "description": "Assumption if the key signature is Major. If true, the function will assume the key signature to be major and otherwise minor. Default is true."
+       }
+      },
+      "required": [
+       "progression"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "music_generator",
+   "name": "music_generator",
+   "server": "bfcl://music_generator",
+   "summary": "Generate a melody based on certain musical parameters. Generate a music scale progression in a specific key with a given tempo and duration.",
+   "tools": [
+    {
+     "name": "generate_melody",
+     "description": "Generate a melody based on certain musical parameters.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "key": {
+        "type": "string",
+        "description": "The key of the melody. E.g., 'C' for C major."
+       },
+       "start_note": {
+        "type": "string",
+        "description": "The first note of the melody, specified in scientific pitch notation. E.g., 'C4'."
+       },
+       "length": {
+        "type": "integer",
+        "description": "The number of measures in the melody."
+       },
+       "tempo": {
+        "type": "integer",
+        "description": "The tempo of the melody, in beats per minute. Optional parameter. If not specified, defaults to 120."
+       }
+      },
+      "required": [
+       "key",
+       "start_note",
+       "length"
+      ]
+     }
+    },
+    {
+     "name": "generate_scale_progression",
+     "description": "Generate a music scale progression in a specific key with a given tempo and duration.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "key": {
+        "type": "string",
+        "description": "The key in which to generate the scale progression."
+       },
+       "tempo": {
+        "type": "integer",
+        "description": "The tempo of the scale progression in BPM."
+       },
+       "duration": {
+        "type": "integer",
+        "description": "The duration of each note in beats."
+       },
+       "scale_type": {
+        "type": "string",
+        "default": "major",
+        "description": "The type of scale to generate. Defaults to 'major'."
+       }
+      },
+      "required": [
+       "key",
+       "tempo",
+       "duration"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "music_theory",
+   "name": "music_theory",
+   "server": "bfcl://music_theory",
+   "summary": "Creates a chord progression based on given musical key. Generates the blues scale in a given key.",
+   "tools": [
+    {
+     "name": "create_chord_progression",
+     "description": "Creates a chord progression based on given musical key.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "key": {
+        "type": "string",
+        "description": "The musical key for the chord progression."
+       },
+       "progression_pattern": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "The chord progression pattern."
+       }
+      },
+      "required": [
+       "key",
+       "progression_pattern"
+      ]
+     }
+    },
+    {
+     "name": "get_blues_scale",
+     "description": "Generates the blues scale in a given key.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "key": {
+        "type": "string",
+        "description": "The root note or key of the blues scale."
+       },
+       "show_intervals": {
+        "type": "boolean",
+        "description": "Flag to show the intervals of the scale. Default is false."
+       }
+      },
+      "required": [
+       "key"
+      ]
+     }
+    },
+    {
+     "name": "key_signature",
+     "description": "Return the key signature of a major or minor scale.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "key": {
+        "type": "string",
+        "description": "The root of the scale, e.g., 'C', 'F#', 'Ab'."
+       },
+       "scale_type": {
+        "type": "string",
+        "enum": [
+         "major",
+         "minor"
+        ],
+        "description": "Type of the scale, either 'major' or 'minor'. Default is 'major'."
+       }
+      },
+      "required": [
+       "key"
+      ]
+     }
+    },
+    {
+     "name": "primary_triads",
+     "description": "Get the primary triads for a given key signature.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "key_signature": {
+        "type": "string",
+        "description": "The key signature to calculate the primary triads for."
+       },
+       "include_inversions": {
+        "type": "boolean",
+        "description": "Whether or not to include inversions in the returned triads."
+       }
+      },
+      "required": [
+       "key_signature",
+       "include_inversions"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "perform",
+   "name": "perform",
+   "server": "bfcl://perform",
+   "summary": "Reverses a given string.",
+   "tools": [
+    {
+     "name": "string_reverse",
+     "description": "Reverses a given string.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "input_string": {
+        "type": "string",
+        "description": "The string to be reversed."
+       }
+      },
+      "required": [
+       "input_string"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "property_valuation",
+   "name": "property_valuation",
+   "server": "bfcl://property_valuation",
+   "summary": "Get estimated value of a property based on location, specifications and age",
+   "tools": [
+    {
+     "name": "get",
+     "description": "Get estimated value of a property based on location, specifications and age",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "City and state where the property is located, e.g. San Diego, CA."
+       },
+       "propertyType": {
+        "type": "string",
+        "description": "Type of property such as villa, condo, apartment, etc."
+       },
+       "bedrooms": {
+        "type": "integer",
+        "description": "Number of bedrooms required in the property."
+       },
+       "age": {
+        "type": "integer",
+        "description": "Age of the property in years."
+       }
+      },
+      "required": [
+       "location",
+       "propertyType",
+       "bedrooms",
+       "age"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "statistics",
+   "name": "statistics",
+   "server": "bfcl://statistics",
+   "summary": "Calculate the p-value for a t-test on a single sample from a population. This function returns the median of the data set provided.",
+   "tools": [
+    {
+     "name": "calculate_p_value",
+     "description": "Calculate the p-value for a t-test on a single sample from a population.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "sample_mean": {
+        "type": "number",
+        "description": "The mean of the sample data."
+       },
+       "population_mean": {
+        "type": "number",
+        "description": "The mean of the population data."
+       },
+       "sample_std_dev": {
+        "type": "number",
+        "description": "The standard deviation of the sample data."
+       },
+       "sample_size": {
+        "type": "integer",
+        "description": "The size of the sample data."
+       },
+       "two_tailed": {
+        "type": "boolean",
+        "description": "Whether the test is two-tailed. If not provided, default is true."
+       }
+      },
+      "required": [
+       "sample_mean",
+       "population_mean",
+       "sample_std_dev",
+       "sample_size"
+      ]
+     }
+    },
+    {
+     "name": "median",
+     "description": "This function returns the median of the data set provided.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "data": {
+        "type": "array",
+        "items": {
+         "type": "integer"
+        },
+        "description": "The list of data points."
+       }
+      },
+      "required": [
+       "data"
+      ]
+     }
+    },
+    {
+     "name": "mode",
+     "description": "This function determines the mode of a list of numbers.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "data": {
+        "type": "array",
+        "items": {
+         "type": "integer"
+        },
+        "description": "The list of data points."
+       }
+      },
+      "required": [
+       "data"
+      ]
+     }
+    },
+    {
+     "name": "variance",
+     "description": "This function calculates the variance of a given set of numbers.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "data": {
+        "type": "array",
+        "items": {
+         "type": "integer"
+        },
+        "description": "The list of data points."
+       },
+       "population": {
+        "type": "boolean",
+        "description": "Determines whether to use population variance formula. Default to True",
+        "default": true
+       }
+      },
+      "required": [
+       "data"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "stats",
+   "name": "stats",
+   "server": "bfcl://stats",
+   "summary": "Perform a two-sample t-test for two given arrays.",
+   "tools": [
+    {
+     "name": "t_test",
+     "description": "Perform a two-sample t-test for two given arrays.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "array_1": {
+        "type": "array",
+        "items": {
+         "type": "integer"
+        },
+        "description": "First array of data."
+       },
+       "array_2": {
+        "type": "array",
+        "items": {
+         "type": "integer"
+        },
+        "description": "Second array of data."
+       },
+       "alpha": {
+        "type": "number",
+        "description": "Significance level for hypothesis testing."
+       }
+      },
+      "required": [
+       "array_1",
+       "array_2",
+       "alpha"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "thrcputime002",
+   "name": "thrcputime002",
+   "server": "bfcl://thrcputime002",
+   "summary": "Executes a performance test by running a specific thread for a given number of iterations and logs the output to the provided PrintStream.",
+   "tools": [
+    {
+     "name": "runIt",
+     "description": "Executes a performance test by running a specific thread for a given number of iterations and logs the output to the provided PrintStream. It also handles synchronization and status checks before, during, and after the thread execution.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "argv": {
+        "type": "array",
+        "description": "An array of command-line arguments to configure the test, including wait time and number of iterations. In the format of -waitTime, <waitTime>, -iterations, <iterations>",
+        "items": {
+         "type": "string"
+        }
+       },
+       "out": {
+        "type": "string",
+        "description": "The PrintStream to which the test output will be written."
+       }
+      },
+      "required": [
+       "argv",
+       "out"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "bfcl_c10_g0",
+   "name": "value object function",
+   "server": "bfcl://bfcl_c10_g0",
+   "summary": "Functions for value, object, function, doesemailinputexist, property, input.",
+   "tools": [
+    {
+     "name": "assignOwnDefaults",
+     "description": "This function determines the value to be assigned to a property in an object, preferring the object's own value if it exists and is not undefined, otherwise using a source value.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "objectValue": {
+        "type": "number",
+        "description": "The value of the property in the object."
+       },
+       "sourceValue": {
+        "type": "number",
+        "description": "The default or source value to use if the object's value is undefined or the object does not have its own property for the key."
+       },
+       "key": {
+        "type": "string",
+        "description": "The key of the property to check in the object."
+       },
+       "object": {
+        "type": "object",
+        "description": "The object to check for the property."
+       }
+      },
+      "required": [
+       "objectValue",
+       "sourceValue",
+       "key",
+       "object"
+      ]
+     }
+    },
+    {
+     "name": "doesEmailInputExist",
+     "description": "This function verifies whether a given email form contains an input with a specific 'name' attribute value.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "formElem": {
+        "type": "string",
+        "description": "The email form element to inspect."
+       },
+       "inputName": {
+        "type": "string",
+        "description": "The value of the 'name' attribute to look for in the input."
+       }
+      },
+      "required": [
+       "formElem",
+       "inputName"
+      ]
+     }
+    },
+    {
+     "name": "getNextKeyValues",
+     "description": "This function extracts all key-value pairs in a JSON object that follow a specified key until it encounters a new nested object or array. It is intended for use within a specific data analysis context that keeps track of the current position within the JSON structure.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "ctx": {
+        "type": "string",
+        "description": "The data analysis context object which contains the current position and functions to navigate through the JSON structure."
+       },
+       "currentKey": {
+        "type": "string",
+        "description": "The current key from which to start extracting the following key-value pairs."
+       }
+      },
+      "required": [
+       "ctx",
+       "currentKey"
+      ]
+     }
+    },
+    {
+     "name": "get_sculpture_value",
+     "description": "Retrieve the current market value of a particular sculpture by a specific artist.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "sculpture": {
+        "type": "string",
+        "description": "The name of the sculpture."
+       },
+       "artist": {
+        "type": "string",
+        "description": "The name of the artist who created the sculpture."
+       },
+       "year": {
+        "type": "integer",
+        "description": "The year the sculpture was created. This is optional and is not required for all sculptures. Default is the 2024."
+       }
+      },
+      "required": [
+       "sculpture",
+       "artist"
+      ]
+     }
+    },
+    {
+     "name": "get_sculpture_value_2",
+     "description": "Retrieve the current market value of a particular sculpture by a specific artist.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "sculpture": {
+        "type": "string",
+        "description": "The name of the sculpture."
+       },
+       "artist": {
+        "type": "string",
+        "description": "The name of the artist who created the sculpture."
+       }
+      },
+      "required": [
+       "sculpture",
+       "artist"
+      ]
+     }
+    },
+    {
+     "name": "get_value_chat",
+     "description": "Retrieves a chat value based on the service ID, work hours, and service date. It indicates whether the service is scheduled for tomorrow.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "service_id": {
+        "type": "integer",
+        "description": "The unique identifier of the service. Valid values are 1 for cleaning service, 2 for ironing service, 3 for massage, 13 for big cleaning service, 39 for bathroom cleaning, 15 for dust mites cleaning, 35 for cleaning services for a team of 3 people, and 24 for disinfectant cleaning."
+       },
+       "work_hours": {
+        "type": "integer",
+        "description": "The number of hours booked for the service."
+       },
+       "is_tomorrow": {
+        "type": "boolean",
+        "description": "A flag indicating whether the service is scheduled for tomorrow. True if the service is tomorrow, false otherwise.",
+        "default": false
+       },
+       "service_date": {
+        "type": "string",
+        "description": "The date of the customer's service appointment, in the format YYYY-MM-DD. Defaults to null, which represents the current date.",
+        "default": null
+       }
+      },
+      "required": [
+       "service_id",
+       "work_hours"
+      ]
+     }
+    },
+    {
+     "name": "get_value_chat_2",
+     "description": "This function retrieves the chat value for various services provided on a specified date, determining if the service is scheduled for tomorrow.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "service_id",
+       "is_tomorrow"
+      ],
+      "properties": {
+       "service_id": {
+        "type": "integer",
+        "description": "Unique identifier of the service. For example, 1 represents cleaning service, 2 for ironing service, 3 for massage, 13 for big cleaning service, 39 for bathroom cleaning, 15 for dust mites cleaning, 35 for a cleaning team of 3 people, and 24 for disinfectant cleaning.",
+        "enum": [
+         1,
+         2,
+         3,
+         13,
+         39,
+         15,
+         35,
+         24
+        ]
+       },
+       "work_hours": {
+        "type": "integer",
+        "description": "Number of hours the service is expected to last.",
+        "default": 2
+       },
+       "is_tomorrow": {
+        "type": "boolean",
+        "description": "Indicates whether the service is scheduled for tomorrow. True if the service is tomorrow, false otherwise."
+       },
+       "service_date": {
+        "type": "string",
+        "description": "The scheduled date for the service, in the format of 'YYYY-MM-DD'.",
+        "default": null
+       }
+      }
+     }
+    },
+    {
+     "name": "invokeCallback",
+     "description": "This function invokes a callback with an error and a value. If the callback throws an error, it is caught and re-thrown asynchronously.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "callback": {
+        "type": "string",
+        "description": "The callback function to be invoked."
+       },
+       "error": {
+        "type": "string",
+        "description": "The error to pass to the callback function. Can be 'null' if there is no error."
+       },
+       "value": {
+        "type": "string",
+        "description": "The value to pass to the callback function."
+       }
+      },
+      "required": [
+       "callback",
+       "error",
+       "value"
+      ]
+     }
+    },
+    {
+     "name": "reverse_input",
+     "description": "Reverses the given input, returning the opposite or inverted form. For strings, it returns the characters in reverse order. For booleans, it returns the negation. For numbers, it returns the negative value.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "input_value"
+      ],
+      "properties": {
+       "input_value": {
+        "type": "string",
+        "description": "The value to be reversed. Can be a string, boolean, or number (integer or float)."
+       }
+      }
+     }
+    },
+    {
+     "name": "vOe",
+     "description": "This function updates a property of an object to a new value, but only if the new value is different from the existing one or if the property does not already exist on the object.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "r": {
+        "type": "string",
+        "description": "The object to update."
+       },
+       "e": {
+        "type": "string",
+        "description": "The property of the object to update."
+       },
+       "t": {
+        "type": "string",
+        "description": "The new value to assign to the property."
+       }
+      },
+      "required": [
+       "r",
+       "e",
+       "t"
+      ]
+     }
+    },
+    {
+     "name": "validateReactProp",
+     "description": "This function validates an object to ensure it is safe to pass as a prop in a React component by checking that it is not a Promise and does not contain methods that could lead to side effects, raising a warning if the validation fails.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "obj": {
+        "type": "string",
+        "description": "The object to validate for safe usage as a React prop."
+       },
+       "componentName": {
+        "type": "string",
+        "description": "The name of the React component to which the object is passed as a prop."
+       }
+      },
+      "required": [
+       "obj",
+       "componentName"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "bfcl_c10_g1",
+   "name": "key function perform",
+   "server": "bfcl://bfcl_c10_g1",
+   "summary": "Functions for key, function, perform, operation, activity, scale.",
+   "tools": [
+    {
+     "name": "DelPerm",
+     "description": "Deletes all workspaces used for storing source code. To ensure security, only developers with the specific administrator key, provided by the SecRun team, can perform this operation.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "TheKey"
+      ],
+      "properties": {
+       "TheKey": {
+        "type": "string",
+        "description": "The unique administrator key provided by the SecRun developers for secure access."
+       }
+      }
+     }
+    },
+    {
+     "name": "DelTemp",
+     "description": "Deletes all temporary keys which were used to store key statistics for the required script. This function is intended for use by SecRun developers who possess the authorized administrative key.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "TheKey"
+      ],
+      "properties": {
+       "TheKey": {
+        "type": "string",
+        "description": "The administrative key provided by a SecRun developer for authorized use."
+       }
+      }
+     }
+    },
+    {
+     "name": "compute_statistics",
+     "description": "This function calculates key statistical measures, such as the mean, median, and mode, of a given dataset.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "data"
+      ],
+      "properties": {
+       "data": {
+        "type": "array",
+        "items": {
+         "type": "number"
+        },
+        "description": "An array of numerical values for which statistical measures will be computed."
+       },
+       "include_variance": {
+        "type": "boolean",
+        "description": "A flag indicating whether to include variance in the output. By default, variance is not included.",
+        "default": false
+       },
+       "decimal_places": {
+        "type": "integer",
+        "description": "The number of decimal places to round the computed statistics to. The default is 2 decimal places.",
+        "default": 2
+       }
+      }
+     }
+    },
+    {
+     "name": "default_function",
+     "description": "This function performs a default operation with optional customization parameters.",
+     "input_schema": {
+      "type": "object",
+      "required": [],
+      "properties": {
+       "option_flag": {
+        "type": "boolean",
+        "description": "A flag that indicates whether the default operation should be customized.",
+        "default": false
+       },
+       "precision": {
+        "type": "integer",
+        "description": "Specifies the numeric precision for the operation's output.",
+        "default": 2
+       },
+       "operation_mode": {
+        "type": "string",
+        "description": "Determines the mode of operation to be used.",
+        "enum": [
+         "simple",
+         "advanced"
+        ],
+        "default": "simple"
+       }
+      }
+     }
+    },
+    {
+     "name": "default_function_2",
+     "description": "This function provides default behavior when specific functionality has not been implemented.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "action"
+      ],
+      "properties": {
+       "action": {
+        "type": "string",
+        "description": "The action to be executed by the function. Should be a descriptive verb.",
+        "enum": [
+         "create",
+         "read",
+         "update",
+         "delete"
+        ]
+       },
+       "verbose": {
+        "type": "boolean",
+        "description": "A flag to indicate whether to run the function in verbose mode, providing detailed logs.",
+        "default": false
+       },
+       "timeout": {
+        "type": "integer",
+        "description": "Maximum time in seconds the function should wait before timing out.",
+        "default": 60
+       }
+      }
+     }
+    },
+    {
+     "name": "default_function_3",
+     "description": "This function serves as a placeholder and does not perform any operation.",
+     "input_schema": {
+      "type": "object",
+      "required": [],
+      "properties": {}
+     }
+    },
+    {
+     "name": "default_function_4",
+     "description": "This function serves as a placeholder and does not perform any operations.",
+     "input_schema": {
+      "type": "object",
+      "required": [],
+      "properties": {}
+     }
+    },
+    {
+     "name": "get_activity_by_key",
+     "description": "Retrieve the specified activity information using a unique identifier key.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "key"
+      ],
+      "properties": {
+       "key": {
+        "type": "string",
+        "description": "The unique identifier key for the activity to be retrieved."
+       }
+      }
+     }
+    },
+    {
+     "name": "musical_scale",
+     "description": "Get the musical scale of a specific key in music theory.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "key": {
+        "type": "string",
+        "description": "The musical key for which the scale will be found."
+       },
+       "scale_type": {
+        "type": "string",
+        "default": "major",
+        "description": "The type of musical scale."
+       }
+      },
+      "required": [
+       "key"
+      ]
+     }
+    },
+    {
+     "name": "no_op",
+     "description": "A placeholder function that performs no operation and returns no value. It can be used as a stub in code where a specific function interface is required but no action is desired.",
+     "input_schema": {
+      "type": "object",
+      "required": [],
+      "properties": {}
+     }
+    },
+    {
+     "name": "t_test",
+     "description": "Perform a statistical t-test to check if the means of two independent datasets are statistically different.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "dataset_A": {
+        "type": "array",
+        "items": {
+         "type": "integer"
+        },
+        "description": "Dataset A for comparison."
+       },
+       "dataset_B": {
+        "type": "array",
+        "items": {
+         "type": "integer"
+        },
+        "description": "Dataset B for comparison."
+       },
+       "alpha": {
+        "type": "number",
+        "description": "Significance level for the test. Default is 0.05."
+       }
+      },
+      "required": [
+       "dataset_A",
+       "dataset_B"
+      ]
+     }
+    },
+    {
+     "name": "tune_instrument",
+     "description": "This function helps tune instruments based on the instrument type and the desired key or note.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "instrument_type": {
+        "type": "string",
+        "description": "The type of the instrument, e.g. 'acoustic guitar', 'piano'."
+       },
+       "key": {
+        "type": "string",
+        "description": "The key or note to which the instrument should be tuned to. Default is 'Standard' for guitars."
+       }
+      },
+      "required": [
+       "instrument_type",
+       "key"
+      ]
+     }
+    },
+    {
+     "name": "validateApiResponse",
+     "description": "This function analyzes a JSON payload to determine if it contains a specific key, indicating successful API response, and triggers the corresponding processing logic for that key.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "jsonPayload": {
+        "type": "object",
+        "description": "The JSON object representing the API response to be validated."
+       },
+       "keyToCheck": {
+        "type": "string",
+        "description": "The specific key to look for in the JSON payload."
+       },
+       "processingCallback": {
+        "type": "string",
+        "description": "The callback function to be executed if the key is present in the JSON payload."
+       }
+      },
+      "required": [
+       "jsonPayload",
+       "keyToCheck",
+       "processingCallback"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "bfcl_c10_g2",
+   "name": "string set value",
+   "server": "bfcl://bfcl_c10_g2",
+   "summary": "Functions for string, set, value, attribute, translation, strings.",
+   "tools": [
+    {
+     "name": "concat_strings",
+     "description": "Concatenate a list of strings into a single string.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "strings"
+      ],
+      "properties": {
+       "strings": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "An array of strings to be concatenated."
+       },
+       "separator": {
+        "type": "string",
+        "description": "The string to be used as a separator between each string in the array.",
+        "default": ""
+       }
+      }
+     }
+    },
+    {
+     "name": "convertEnumeratedValue",
+     "description": "This function converts a given key-value pair to a 'true' or 'false' string based on specific conditions. It specifically handles falsy values, the string 'false', and validates the 'contenteditable' attribute's value.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "key": {
+        "type": "string",
+        "description": "The attribute key to be evaluated."
+       },
+       "value": {
+        "type": "string",
+        "description": "The value associated with the key."
+       }
+      },
+      "required": [
+       "key",
+       "value"
+      ]
+     }
+    },
+    {
+     "name": "getActiveDataEntries",
+     "description": "This function extracts data entries from a list element based on a specified attribute and its value. It checks for the presence of the 'data-active' attribute and whether it is set to true.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "listElement": {
+        "type": "string",
+        "description": "The list element from which to extract active data entries."
+       },
+       "attribute": {
+        "type": "string",
+        "description": "The data attribute used to filter entries. Optional parameter with a default value of 'data-active'.",
+        "default": "data-active"
+       },
+       "value": {
+        "type": "boolean",
+        "description": "The value of the attribute to match. Optional parameter with a default value of true.",
+        "default": true
+       }
+      },
+      "required": [
+       "listElement"
+      ]
+     }
+    },
+    {
+     "name": "get_translation_baidu",
+     "description": "This function requests a translation from the Baidu translation service for a specified question string.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "question"
+      ],
+      "properties": {
+       "question": {
+        "type": "string",
+        "description": "The text input that needs to be translated."
+       },
+       "source_language": {
+        "type": "string",
+        "description": "The language code of the source text. For example, 'en' for English.",
+        "enum": [
+         "en",
+         "es",
+         "fr",
+         "de",
+         "zh"
+        ],
+        "default": "en"
+       },
+       "target_language": {
+        "type": "string",
+        "description": "The language code of the target translation. For example, 'es' for Spanish.",
+        "enum": [
+         "en",
+         "es",
+         "fr",
+         "de",
+         "zh"
+        ],
+        "default": "zh"
+       }
+      }
+     }
+    },
+    {
+     "name": "get_url_content",
+     "description": "Scrapes the specified URL for textual data and returns the content as a string. This function is useful for extracting information from web pages when a URL is provided.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "url"
+      ],
+      "properties": {
+       "url": {
+        "type": "string",
+        "description": "The web address of the page to scrape. It should be a valid URL format, such as 'http://www.example.com'."
+       },
+       "timeout": {
+        "type": "integer",
+        "description": "The maximum time in seconds to wait for the server to send data before giving up, with a default value that allows for a reasonable amount of time for most web pages to load.",
+        "default": 30
+       },
+       "user_agent": {
+        "type": "string",
+        "description": "The User-Agent string to be used for the HTTP request to simulate a particular browser, which is optional. Some websites may require this for access.",
+        "default": "Mozilla/5.0"
+       }
+      }
+     }
+    },
+    {
+     "name": "mapTransitions",
+     "description": "This function creates a mapping where each key is an element from a given array (up to a specified limit of elements) and each value is set to a predefined category. This is useful for defining categories for CSS transitions.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "category": {
+        "type": "string",
+        "description": "The category to be assigned to each element in the mapping."
+       },
+       "limit": {
+        "type": "number",
+        "description": "The number of elements from the array to include in the mapping."
+       }
+      },
+      "required": [
+       "category",
+       "limit"
+      ]
+     }
+    },
+    {
+     "name": "parseAnswer",
+     "description": "Analyzes an input string and determines if it can be interpreted as a meaningful answer. If the input string indicates that an answer cannot be found, the output is an empty string.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "answer"
+      ],
+      "properties": {
+       "answer": {
+        "type": "string",
+        "description": "The input string to be parsed in plain text. If the string indicates 'answer not found', the result will be an empty string ('')."
+       }
+      }
+     }
+    },
+    {
+     "name": "parseAnswer_2",
+     "description": "Parses a given string to determine if a valid answer can be formulated. Returns a default response if a valid answer is not identified.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "answer"
+      ],
+      "properties": {
+       "answer": {
+        "type": "string",
+        "description": "The answer generated by the language model that is to be parsed for validity in plain text."
+       }
+      }
+     }
+    },
+    {
+     "name": "set_countdown",
+     "description": "Initializes a countdown timer for a specified duration with an optional reminder purpose.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "duration"
+      ],
+      "properties": {
+       "duration": {
+        "type": "string",
+        "description": "The countdown duration, expected in the format 'MM:SS', where MM is minutes and SS is seconds."
+       },
+       "purpose": {
+        "type": "string",
+        "description": "A brief description of the purpose of the countdown timer.",
+        "default": "General Reminder"
+       }
+      }
+     }
+    },
+    {
+     "name": "set_countdown_2",
+     "description": "Set a countdown timer for a specified duration. The duration should be specified as a string in the format of 'X hours Y minutes', such as '1 hour 30 minutes', '45 minutes', or '2 hours'.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "duration"
+      ],
+      "properties": {
+       "duration": {
+        "type": "string",
+        "description": "The countdown duration. Acceptable formats include combinations of hours and minutes (e.g., '1 hour 30 minutes', '45 minutes', '2 hours')."
+       },
+       "purpose": {
+        "type": "string",
+        "description": "The purpose of the countdown timer, such as 'meeting' or 'break time'.",
+        "default": "general reminder",
+        "enum": [
+         "meeting",
+         "break time",
+         "workout",
+         "meditation",
+         "general reminder"
+        ]
+       }
+      }
+     }
+    },
+    {
+     "name": "set_countdown_3",
+     "description": "Sets a countdown timer based on the provided duration, which should be specified in either hours, minutes, or a combination of both. For example, valid inputs include '1 hour', '30 minutes', and '1 hour 30 minutes'.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "duration"
+      ],
+      "properties": {
+       "duration": {
+        "type": "string",
+        "description": "The countdown duration specified as a string in one of the following formats: 'X hour(s) Y minute(s)', 'X hour(s)', or 'Y minute(s)'. Examples: '1 hour 30 minutes', '45 minutes', '2 hours'.",
+        "enum": [
+         "1 hour",
+         "30 minutes",
+         "1 hour 30 minutes",
+         "45 minutes",
+         "2 hours"
+        ]
+       },
+       "purpose": {
+        "type": "string",
+        "description": "An optional description of the purpose for the countdown timer.",
+        "default": "General reminder"
+       }
+      }
+     }
+    },
+    {
+     "name": "set_countdown_4",
+     "description": "Sets a countdown timer for a specified duration. The duration can be specified in a string format, such as '1h 30m' for 1 hour and 30 minutes, '45m' for 45 minutes, or '2h' for 2 hours.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "duration"
+      ],
+      "properties": {
+       "duration": {
+        "type": "string",
+        "description": "The countdown duration in the format of 'Nh Nm', where 'N' can be any integer representing the number of hours (h) or minutes (m). For example, '1h 30m', '45m', '2h'."
+       },
+       "purpose": {
+        "type": "string",
+        "description": "The purpose of the countdown timer. This is an optional parameter.",
+        "default": "General reminder"
+       }
+      }
+     }
+    },
+    {
+     "name": "set_countdown_5",
+     "description": "Sets a countdown timer for a specified duration. The duration should be specified in a clear format, such as '1 hour 30 minutes', '45 minutes', or '2 hours'. Supported units are hours and minutes.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "duration"
+      ],
+      "properties": {
+       "duration": {
+        "type": "string",
+        "description": "The countdown duration, expressed in a format such as '1 hour 30 minutes', '45 minutes', or '2 hours'. Examples include '1 hour', '30 minutes', '1 hr 15 mins'. The format should include a numeric time quantity followed by a space and a time unit ('hours' or 'minutes')."
+       },
+       "purpose": {
+        "type": "string",
+        "description": "The purpose of setting the countdown timer. For example, 'baking', 'study session', or 'workout'.",
+        "default": "General reminder"
+       }
+      }
+     }
+    },
+    {
+     "name": "set_string",
+     "description": "Assigns a new value to the specified string variable.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "string_name",
+       "string_value"
+      ],
+      "properties": {
+       "string_name": {
+        "type": "string",
+        "description": "The identifier of the string variable to be updated."
+       },
+       "string_value": {
+        "type": "string",
+        "description": "The new content that the string variable will hold."
+       }
+      }
+     }
+    }
+   ]
+  },
+  {
+   "id": "bfcl_c10_g3",
+   "name": "runthis volume mute",
+   "server": "bfcl://bfcl_c10_g3",
+   "summary": "Functions for runthis, volume, mute, playback, test, audio.",
+   "tools": [
+    {
+     "name": "runThis",
+     "description": "Executes the test runner with provided arguments and a print stream for logging. It handles the debuggee binding, output redirection, and test execution flow.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "argv": {
+        "type": "array",
+        "description": "An array of strings representing the command-line arguments, to include waittime and debuggeeName. Format: -waitTime, <waitTime>, -debuggeeName, TestDebuggee",
+        "items": {
+         "type": "string"
+        }
+       },
+       "out": {
+        "type": "string",
+        "description": "The PrintStream to output the logs to."
+       }
+      },
+      "required": [
+       "argv",
+       "out"
+      ]
+     }
+    },
+    {
+     "name": "set_volume",
+     "description": "Set the global volume for all audio playback. The volume level can be adjusted from mute to maximum output. The desired volume should be provided as a percentage.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "volume"
+      ],
+      "properties": {
+       "volume": {
+        "type": "integer",
+        "description": "The volume level as a percentage (0-100), where 0 is mute and 100 is the maximum volume."
+       }
+      }
+     }
+    },
+    {
+     "name": "set_volume_2",
+     "description": "Set the global volume for all audio playback. The volume level can be set within a range from 0 (mute) to 100 (maximum volume).",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "volume"
+      ],
+      "properties": {
+       "volume": {
+        "type": "integer",
+        "description": "The volume level to be set. Acceptable values range from 0 (mute) to 100 (maximum volume)."
+       }
+      }
+     }
+    },
+    {
+     "name": "set_volume_3",
+     "description": "Set the global volume for all audio playback. The volume level can be specified as an integer between 0 (mute) and 100 (maximum loudness).",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "volume"
+      ],
+      "properties": {
+       "volume": {
+        "type": "integer",
+        "description": "The volume level to be set. Valid values range from 0 (mute) to 100 (maximum loudness)."
+       }
+      }
+     }
+    },
+    {
+     "name": "set_volume_4",
+     "description": "Set the global volume for all audio playback. The volume level can be specified as an integer percentage between 0 (mute) and 100 (maximum volume).",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "volume"
+      ],
+      "properties": {
+       "volume": {
+        "type": "integer",
+        "description": "The volume level as a percentage from 0 (silent) to 100 (full volume)."
+       }
+      }
+     }
+    },
+    {
+     "name": "set_volume_5",
+     "description": "Set the global volume for all audio playback. The volume level can be specified as an integer value ranging from 0 (mute) to 100 (maximum volume).",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "volume"
+      ],
+      "properties": {
+       "volume": {
+        "type": "integer",
+        "description": "The volume level to be set for audio playback. Valid range is from 0 to 100, where 0 is completely muted and 100 is the highest volume."
+       }
+      }
+     }
+    }
+   ]
+  },
+  {
+   "id": "bfcl_c10_g4",
+   "name": "integer value int",
+   "server": "bfcl://bfcl_c10_g4",
+   "summary": "Functions for integer, value, int, str, sets, sub.",
+   "tools": [
+    {
+     "name": "checkInnerFields",
+     "description": "Checks if the inner fields of the given RedefClass instance have the expected value. If not, it sets the test status to failed and logs a complaint.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "redefCls": {
+        "type": "string",
+        "description": "The instance of RedefClass to be checked."
+       },
+       "expValue": {
+        "type": "integer",
+        "description": "The expected value for the inner fields."
+       }
+      },
+      "required": [
+       "redefCls",
+       "expValue"
+      ]
+     }
+    },
+    {
+     "name": "rotateImageAction",
+     "description": "Rotates the image clockwise by a specified degree of angle. Accepts an integer value representing the angle in degrees.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "degrees"
+      ],
+      "properties": {
+       "degrees": {
+        "type": "integer",
+        "description": "The degree of clockwise rotation to be applied to the image. Value must be between 0 and 360 degrees."
+       },
+       "image_format": {
+        "type": "string",
+        "description": "The format of the image to be rotated. For example, 'JPEG', 'PNG', 'BMP', etc.",
+        "enum": [
+         "JPEG",
+         "PNG",
+         "BMP",
+         "GIF",
+         "TIFF"
+        ],
+        "default": "JPEG"
+       },
+       "keep_original": {
+        "type": "boolean",
+        "description": "Indicates whether the original image should be kept unchanged. If set to false, the original image will be overwritten.",
+        "default": true
+       }
+      }
+     }
+    },
+    {
+     "name": "set_integer",
+     "description": "Sets the value of an integer variable specified by its name.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "name",
+       "value"
+      ],
+      "properties": {
+       "name": {
+        "type": "string",
+        "description": "The unique identifier for the integer variable."
+       },
+       "value": {
+        "type": "integer",
+        "description": "The value to assign to the integer variable."
+       }
+      }
+     }
+    },
+    {
+     "name": "str_to_int",
+     "description": "Converts string value to integer.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "value": {
+        "type": "string",
+        "description": "String value to be converted to integer"
+       }
+      },
+      "required": [
+       "value"
+      ]
+     }
+    },
+    {
+     "name": "sub",
+     "description": "Subtracts one integer from another and returns the result.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "a",
+       "b"
+      ],
+      "properties": {
+       "a": {
+        "type": "integer",
+        "description": "The first number from which the second number will be subtracted."
+       },
+       "b": {
+        "type": "integer",
+        "description": "The second number to subtract from the first number."
+       }
+      }
+     }
+    },
+    {
+     "name": "sub_2",
+     "description": "Subtracts the second integer from the first integer and returns the result.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "a": {
+        "type": "integer",
+        "description": "The minuend integer from which the subtrahend will be subtracted."
+       },
+       "b": {
+        "type": "integer",
+        "description": "The subtrahend integer to be subtracted from the minuend."
+       }
+      },
+      "required": [
+       "a",
+       "b"
+      ]
+     }
+    },
+    {
+     "name": "sub_3",
+     "description": "Subtracts the second integer from the first integer and returns the result.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "a",
+       "b"
+      ],
+      "properties": {
+       "a": {
+        "type": "integer",
+        "description": "The minuend, an integer from which another integer (subtrahend) is to be subtracted."
+       },
+       "b": {
+        "type": "integer",
+        "description": "The subtrahend, an integer to be subtracted from the first integer (minuend)."
+       }
+      }
+     }
+    }
+   ]
+  }
+ ]
+}

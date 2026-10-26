@@ -1,0 +1,117 @@
+{
+ "task_id": "cross-0028",
+ "mode": "cats",
+ "loaded": [
+  "deepl.get_languages",
+  "mongodb.collection_schema",
+  "mongodb.count",
+  "mongodb.create_index",
+  "mongodb.delete_many",
+  "mongodb.find",
+  "mongodb.insert_many",
+  "mongodb.list_collections",
+  "mongodb.update_many",
+  "openai_media.translate_audio",
+  "pinecone.list_indexes",
+  "pinecone.upsert_records",
+  "deepl.translate_text",
+  "google_cloud_ai.translate_text",
+  "deepl.translate_document",
+  "ffmpeg_video.burn_subtitles",
+  "pinecone.create_index_for_model"
+ ],
+ "order": [
+  "deepl.get_languages",
+  "mongodb.collection_schema",
+  "mongodb.count",
+  "mongodb.create_index",
+  "mongodb.delete_many",
+  "mongodb.find",
+  "mongodb.insert_many",
+  "mongodb.list_collections",
+  "mongodb.update_many",
+  "openai_media.translate_audio",
+  "pinecone.list_indexes",
+  "pinecone.upsert_records",
+  "deepl.translate_text",
+  "google_cloud_ai.translate_text",
+  "deepl.translate_document",
+  "ffmpeg_video.burn_subtitles",
+  "pinecone.create_index_for_model"
+ ],
+ "scores": {
+  "deepl.get_languages": 0.0,
+  "mongodb.collection_schema": 0.3075986722113501,
+  "mongodb.count": 0.2031093035837436,
+  "mongodb.create_index": 0.05570786702779357,
+  "mongodb.delete_many": 0.11790071867317863,
+  "mongodb.find": 0.08495168731228342,
+  "mongodb.insert_many": 0.6510637840674023,
+  "mongodb.list_collections": 0.4555307007831997,
+  "mongodb.update_many": 0.16880738301389714,
+  "openai_media.translate_audio": 0.0,
+  "pinecone.list_indexes": 0.05784241253106618,
+  "pinecone.upsert_records": 0.0722493308931898,
+  "deepl.translate_text": 2.0,
+  "google_cloud_ai.translate_text": 2.0,
+  "deepl.translate_document": 2.0,
+  "ffmpeg_video.burn_subtitles": 2.0,
+  "pinecone.create_index_for_model": 2.0
+ },
+ "router_tokens": 1450,
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "mongodb.find",
+   "args": {
+    "database": "catalog",
+    "collection": "products",
+    "limit": 10
+   }
+  },
+  {
+   "tool": "deepl.translate_text",
+   "args": {
+    "text": "High-quality wireless headphones with exceptional sound quality and 30-hour battery life",
+    "targetLangCode": "fr"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 12,
+   "tool_tokens": 1922,
+   "t": 1791322086.667616
+  },
+  {
+   "type": "call",
+   "tool": "mongodb__find",
+   "valid": true,
+   "t": 1791322101.4103267
+  },
+  {
+   "type": "request_tools",
+   "capability": "Translate text from English to French",
+   "added": [
+    "deepl.translate_text",
+    "google_cloud_ai.translate_text",
+    "deepl.translate_document",
+    "ffmpeg_video.burn_subtitles",
+    "pinecone.create_index_for_model"
+   ],
+   "tool_tokens": 2960,
+   "t": 1791322113.5679202
+  },
+  {
+   "type": "call",
+   "tool": "deepl__translate_text",
+   "valid": true,
+   "t": 1791322124.5578263
+  }
+ ],
+ "done": true,
+ "t_done": 1791322129.0110745,
+ "final": ""
+}

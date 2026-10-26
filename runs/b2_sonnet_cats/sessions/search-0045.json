@@ -1,0 +1,73 @@
+{
+ "task_id": "search-0045",
+ "mode": "cats",
+ "loaded": [
+  "amadeus_travel.airport_direct_destinations",
+  "amadeus_travel.get_hotel_offers",
+  "amadeus_travel.search_hotels_by_city",
+  "amadeus_travel.search_hotels_by_geocode",
+  "google_maps.maps_directions",
+  "google_maps.maps_distance_matrix",
+  "google_maps.maps_search_places",
+  "mapbox.category_search_tool",
+  "mapbox.directions_tool",
+  "nws_weather.get_forecast"
+ ],
+ "order": [
+  "amadeus_travel.airport_direct_destinations",
+  "amadeus_travel.get_hotel_offers",
+  "amadeus_travel.search_hotels_by_city",
+  "amadeus_travel.search_hotels_by_geocode",
+  "google_maps.maps_directions",
+  "google_maps.maps_distance_matrix",
+  "google_maps.maps_search_places",
+  "mapbox.category_search_tool",
+  "mapbox.directions_tool",
+  "nws_weather.get_forecast"
+ ],
+ "scores": {
+  "amadeus_travel.airport_direct_destinations": 0.08967988626232494,
+  "amadeus_travel.get_hotel_offers": 0.23749166077362763,
+  "amadeus_travel.search_hotels_by_city": 0.5744248025872798,
+  "amadeus_travel.search_hotels_by_geocode": 0.1731896694393472,
+  "google_maps.maps_directions": 0.07233553967303646,
+  "google_maps.maps_distance_matrix": 0.22505162732786904,
+  "google_maps.maps_search_places": 0.24755324241361917,
+  "mapbox.category_search_tool": 0.04207585676020708,
+  "mapbox.directions_tool": 0.04157314108254062,
+  "nws_weather.get_forecast": 0.04252571516363326
+ },
+ "router_tokens": 0,
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "google_maps.maps_search_places",
+   "args": {
+    "query": "pastelaria",
+    "location": {
+     "latitude": 38.711,
+     "longitude": -9.1296
+    },
+    "radius": 1000
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 10,
+   "tool_tokens": 2515,
+   "t": 1791320835.187703
+  },
+  {
+   "type": "call",
+   "tool": "google_maps__maps_search_places",
+   "valid": true,
+   "t": 1791320844.954757
+  }
+ ],
+ "done": true,
+ "t_done": 1791320848.9928548,
+ "final": ""
+}

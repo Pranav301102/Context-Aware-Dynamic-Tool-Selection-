@@ -1,0 +1,65 @@
+{
+ "task_id": "search-0044",
+ "mode": "search",
+ "loaded": [
+  "semantic_scholar.author_search",
+  "semantic_scholar.author_papers",
+  "semantic_scholar.paper_relevance_search",
+  "semantic_scholar.paper_citations",
+  "semantic_scholar.paper_references"
+ ],
+ "order": [
+  "semantic_scholar.author_search",
+  "semantic_scholar.author_papers",
+  "semantic_scholar.paper_relevance_search",
+  "semantic_scholar.paper_citations",
+  "semantic_scholar.paper_references"
+ ],
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "semantic_scholar.author_search",
+   "args": {
+    "query": "Percy Liang"
+   }
+  },
+  {
+   "tool": "semantic_scholar.author_papers",
+   "args": {
+    "author_id": "145419642"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0
+  },
+  {
+   "type": "request_tools",
+   "capability": "search for an author by name on Semantic Scholar and list the author's papers",
+   "added": [
+    "semantic_scholar.author_search",
+    "semantic_scholar.author_papers",
+    "semantic_scholar.paper_relevance_search",
+    "semantic_scholar.paper_citations",
+    "semantic_scholar.paper_references"
+   ],
+   "tool_tokens": 1483
+  },
+  {
+   "type": "call",
+   "tool": "semantic_scholar__author_search",
+   "valid": true
+  },
+  {
+   "type": "call",
+   "tool": "semantic_scholar__author_papers",
+   "valid": true
+  }
+ ],
+ "done": true,
+ "final": ""
+}

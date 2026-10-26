@@ -1,0 +1,54 @@
+{
+ "task_id": "cloud_ops-0052",
+ "mode": "cats",
+ "loaded": [
+  "aws.lambda_invoke",
+  "aws.lambda_list_functions"
+ ],
+ "order": [
+  "aws.lambda_invoke",
+  "aws.lambda_list_functions"
+ ],
+ "scores": {
+  "aws.lambda_invoke": 0.9067902786388278,
+  "aws.lambda_list_functions": 0.2693172437072745
+ },
+ "router_tokens": 0,
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "aws.lambda_list_functions",
+   "args": {
+    "region": "us-east-1"
+   }
+  },
+  {
+   "tool": "aws.lambda_invoke",
+   "args": {
+    "function_name": "healthcheck",
+    "payload": {},
+    "region": "us-east-1"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 2,
+   "tool_tokens": 340
+  },
+  {
+   "type": "call",
+   "tool": "aws__lambda_list_functions",
+   "valid": true
+  },
+  {
+   "type": "call",
+   "tool": "aws__lambda_invoke",
+   "valid": true
+  }
+ ],
+ "done": true,
+ "final": ""
+}

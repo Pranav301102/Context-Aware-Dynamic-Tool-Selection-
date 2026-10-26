@@ -1,0 +1,59 @@
+{
+ "task_id": "database-0025",
+ "mode": "search",
+ "loaded": [
+  "sqlite.describe_table",
+  "sqlite.create_table",
+  "sqlite.list_tables",
+  "mysql.describe_table",
+  "sqlite.read_query"
+ ],
+ "order": [
+  "sqlite.describe_table",
+  "sqlite.create_table",
+  "sqlite.list_tables",
+  "mysql.describe_table",
+  "sqlite.read_query"
+ ],
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "sqlite.describe_table",
+   "args": {
+    "table_name": "invoices"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0
+  },
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0
+  },
+  {
+   "type": "request_tools",
+   "capability": "describe the schema (columns and types) of a table in a SQLite database",
+   "added": [
+    "sqlite.describe_table",
+    "sqlite.create_table",
+    "sqlite.list_tables",
+    "mysql.describe_table",
+    "sqlite.read_query"
+   ],
+   "tool_tokens": 332
+  },
+  {
+   "type": "call",
+   "tool": "sqlite__describe_table",
+   "valid": true
+  }
+ ],
+ "done": true,
+ "final": ""
+}

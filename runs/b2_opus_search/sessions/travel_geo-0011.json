@@ -1,0 +1,82 @@
+{
+ "task_id": "travel_geo-0011",
+ "mode": "search",
+ "loaded": [
+  "transitland.get_stop_departures",
+  "transitland.search_stops",
+  "transitland.search_operators",
+  "google_maps.maps_directions",
+  "google_maps.maps_distance_matrix"
+ ],
+ "order": [
+  "transitland.get_stop_departures",
+  "transitland.search_stops",
+  "transitland.search_operators",
+  "google_maps.maps_directions",
+  "google_maps.maps_distance_matrix"
+ ],
+ "scores": {
+  "transitland.get_stop_departures": 2.0,
+  "transitland.search_stops": 2.0,
+  "transitland.search_operators": 2.0,
+  "google_maps.maps_directions": 2.0,
+  "google_maps.maps_distance_matrix": 2.0
+ },
+ "router_tokens": 0,
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "transitland.search_stops",
+   "args": {
+    "lat": 52.5219,
+    "lon": 13.4132,
+    "radius": 500,
+    "served_by_route_type": 0,
+    "limit": 5
+   }
+  },
+  {
+   "tool": "transitland.get_stop_departures",
+   "args": {
+    "stop_key": "s-u33dc1v8ph-alexanderplatz~tram"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0,
+   "t": 1791321024.828392
+  },
+  {
+   "type": "request_tools",
+   "capability": "find nearby public transit stops and get real-time departures from a stop",
+   "added": [
+    "transitland.get_stop_departures",
+    "transitland.search_stops",
+    "transitland.search_operators",
+    "google_maps.maps_directions",
+    "google_maps.maps_distance_matrix"
+   ],
+   "tool_tokens": 977,
+   "t": 1791321037.2029374
+  },
+  {
+   "type": "call",
+   "tool": "transitland__search_stops",
+   "valid": true,
+   "t": 1791321048.8212025
+  },
+  {
+   "type": "call",
+   "tool": "transitland__get_stop_departures",
+   "valid": true,
+   "t": 1791321059.6096122
+  }
+ ],
+ "done": true,
+ "t_done": 1791321061.5678065,
+ "final": ""
+}

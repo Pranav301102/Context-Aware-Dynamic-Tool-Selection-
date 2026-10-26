@@ -1,0 +1,76 @@
+{
+ "task_id": "cloud_ops-0058",
+ "mode": "cats",
+ "loaded": [
+  "confluence.confluence_add_comment",
+  "confluence.confluence_get_page",
+  "datadog.list_incidents",
+  "github.add_issue_comment",
+  "linear.create_comment",
+  "pagerduty.add_note_to_incident",
+  "pagerduty.get_incident",
+  "pagerduty.list_incidents",
+  "pagerduty.manage_incidents",
+  "sentry.update_issue"
+ ],
+ "order": [
+  "confluence.confluence_add_comment",
+  "confluence.confluence_get_page",
+  "datadog.list_incidents",
+  "github.add_issue_comment",
+  "linear.create_comment",
+  "pagerduty.add_note_to_incident",
+  "pagerduty.get_incident",
+  "pagerduty.list_incidents",
+  "pagerduty.manage_incidents",
+  "sentry.update_issue"
+ ],
+ "scores": {
+  "confluence.confluence_add_comment": 0.17026730009645683,
+  "confluence.confluence_get_page": 0.09782968987521978,
+  "datadog.list_incidents": 0.2417061804129025,
+  "github.add_issue_comment": 0.0768327018962117,
+  "linear.create_comment": 0.09503536924348935,
+  "pagerduty.add_note_to_incident": 0.796352961180697,
+  "pagerduty.get_incident": 0.6918212730270508,
+  "pagerduty.list_incidents": 0.3053596021789773,
+  "pagerduty.manage_incidents": 0.22353064143648976,
+  "sentry.update_issue": 0.09906896983790593
+ },
+ "router_tokens": 0,
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "pagerduty.list_incidents",
+   "args": {
+    "query_model": {
+     "statuses": [
+      "triggered",
+      "acknowledged"
+     ],
+     "since": "2026-10-05T00:00:00Z",
+     "until": "2026-10-06T00:00:00Z",
+     "request_scope": "all"
+    }
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 10,
+   "tool_tokens": 1654,
+   "t": 1791321477.0697396
+  },
+  {
+   "type": "call",
+   "tool": "pagerduty__list_incidents",
+   "valid": true,
+   "t": 1791321487.4704123
+  }
+ ],
+ "done": true,
+ "t_done": 1791321511.1695564,
+ "final": ""
+}

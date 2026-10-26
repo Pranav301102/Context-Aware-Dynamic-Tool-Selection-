@@ -1,0 +1,71 @@
+{
+ "task_id": "database-0019",
+ "mode": "cats",
+ "loaded": [
+  "mongodb.count",
+  "mysql.describe_table",
+  "mysql.execute_sql",
+  "notion.notion_create_pages",
+  "notion.notion_query_database",
+  "postgres.execute_sql",
+  "postgres.explain_query",
+  "postgres.get_object_details",
+  "postgres.list_objects",
+  "sentry.search_events",
+  "sqlite.create_table",
+  "sqlite.describe_table",
+  "sqlite.read_query"
+ ],
+ "order": [
+  "mongodb.count",
+  "mysql.describe_table",
+  "mysql.execute_sql",
+  "notion.notion_create_pages",
+  "notion.notion_query_database",
+  "postgres.execute_sql",
+  "postgres.explain_query",
+  "postgres.get_object_details",
+  "postgres.list_objects",
+  "sentry.search_events",
+  "sqlite.create_table",
+  "sqlite.describe_table",
+  "sqlite.read_query"
+ ],
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "postgres.get_object_details",
+   "args": {
+    "schema_name": "public",
+    "object_name": "events",
+    "object_type": "table"
+   }
+  },
+  {
+   "tool": "postgres.execute_sql",
+   "args": {
+    "sql": "SELECT COUNT(*) FROM public.events WHERE created_at >= date_trunc('week', now()) - interval '1 week' AND created_at < date_trunc('week', now());"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 13,
+   "tool_tokens": 2018
+  },
+  {
+   "type": "call",
+   "tool": "postgres__get_object_details",
+   "valid": true
+  },
+  {
+   "type": "call",
+   "tool": "postgres__execute_sql",
+   "valid": true
+  }
+ ],
+ "done": true,
+ "final": ""
+}

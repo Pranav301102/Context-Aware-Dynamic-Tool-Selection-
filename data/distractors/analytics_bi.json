@@ -1,0 +1,1062 @@
+{
+  "branch": {
+    "id": "analytics_bi",
+    "name": "Analytics & BI",
+    "summary": "Business intelligence and product analytics: dashboards and saved reports, ad-hoc metric and SQL queries, product event analytics (segmentation, funnels, retention, cohorts) and A/B test experiments."
+  },
+  "toolkits": [
+    {
+      "id": "metabase",
+      "name": "Metabase",
+      "server": "mcp://metabase",
+      "summary": "Open-source BI: dashboards, saved questions (cards), native SQL queries and dashboard subscriptions.",
+      "tools": [
+        {
+          "name": "search",
+          "description": "Search dashboards, saved questions, collections, models and metrics by name.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "q": {
+                "type": "string",
+                "description": "Search text."
+              },
+              "models": {
+                "type": "array",
+                "description": "Object types.",
+                "items": {
+                  "type": "string",
+                  "description": "Type.",
+                  "enum": [
+                    "dashboard",
+                    "card",
+                    "collection",
+                    "dataset",
+                    "metric",
+                    "table"
+                  ]
+                }
+              },
+              "archived": {
+                "type": "boolean",
+                "description": "Search archived items.",
+                "default": false
+              }
+            },
+            "required": [
+              "q"
+            ]
+          }
+        },
+        {
+          "name": "list_dashboards",
+          "description": "List dashboards.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "collection_id": {
+                "type": "string",
+                "description": "Collection id."
+              },
+              "filter": {
+                "type": "string",
+                "description": "Filter.",
+                "enum": [
+                  "all",
+                  "mine",
+                  "archived"
+                ],
+                "default": "all"
+              }
+            }
+          }
+        },
+        {
+          "name": "get_dashboard",
+          "description": "Get a dashboard with its cards, filter parameters and layout.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "dashboard_id": {
+                "type": "integer",
+                "description": "Dashboard id."
+              }
+            },
+            "required": [
+              "dashboard_id"
+            ]
+          }
+        },
+        {
+          "name": "run_card",
+          "description": "Run a saved question and return its results, optionally applying filter parameter values.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "card_id": {
+                "type": "integer",
+                "description": "Card (question) id."
+              },
+              "parameters": {
+                "type": "array",
+                "description": "Parameter values.",
+                "items": {
+                  "type": "object",
+                  "description": "Parameter.",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "Parameter id."
+                    },
+                    "type": {
+                      "type": "string",
+                      "description": "Type."
+                    },
+                    "target": {},
+                    "value": {}
+                  }
+                }
+              },
+              "format": {
+                "type": "string",
+                "description": "Result format.",
+                "enum": [
+                  "json",
+                  "csv"
+                ],
+                "default": "json"
+              }
+            },
+            "required": [
+              "card_id"
+            ]
+          }
+        },
+        {
+          "name": "run_query",
+          "description": "Run an ad-hoc native SQL query against a connected database and return rows.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "database_id": {
+                "type": "integer",
+                "description": "Database id."
+              },
+              "query": {
+                "type": "string",
+                "description": "SQL text."
+              },
+              "template_tags": {
+                "type": "object",
+                "description": "Values for {{variables}} in the SQL.",
+                "additionalProperties": true
+              },
+              "max_rows": {
+                "type": "integer",
+                "description": "Row cap.",
+                "default": 2000
+              }
+            },
+            "required": [
+              "database_id",
+              "query"
+            ]
+          }
+        },
+        {
+          "name": "create_card",
+          "description": "Save a query as a question (card) with a visualization.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Name."
+              },
+              "database_id": {
+                "type": "integer",
+                "description": "Database id."
+              },
+              "query": {
+                "type": "string",
+                "description": "SQL."
+              },
+              "display": {
+                "type": "string",
+                "description": "Visualization.",
+                "enum": [
+                  "table",
+                  "line",
+                  "bar",
+                  "row",
+                  "area",
+                  "pie",
+                  "scalar",
+                  "funnel",
+                  "map"
+                ],
+                "default": "table"
+              },
+              "collection_id": {
+                "type": "integer",
+                "description": "Collection to save into."
+              },
+              "description": {
+                "type": "string",
+                "description": "Description."
+              },
+              "visualization_settings": {
+                "type": "object",
+                "description": "Visualization settings.",
+                "additionalProperties": true
+              }
+            },
+            "required": [
+              "name",
+              "database_id",
+              "query"
+            ]
+          }
+        },
+        {
+          "name": "add_card_to_dashboard",
+          "description": "Add card to dashboard.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "dashboard_id": {
+                "type": "integer",
+                "description": "Dashboard id."
+              },
+              "card_id": {
+                "type": "integer",
+                "description": "Card id."
+              },
+              "row": {
+                "type": "integer",
+                "description": "Row."
+              },
+              "col": {
+                "type": "integer",
+                "description": "Column."
+              },
+              "size_x": {
+                "type": "integer",
+                "description": "Width.",
+                "default": 6
+              },
+              "size_y": {
+                "type": "integer",
+                "description": "Height.",
+                "default": 4
+              }
+            },
+            "required": [
+              "dashboard_id",
+              "card_id"
+            ]
+          }
+        },
+        {
+          "name": "create_subscription",
+          "description": "Email a dashboard or post it to Slack on a schedule.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "dashboard_id": {
+                "type": "integer",
+                "description": "Dashboard id."
+              },
+              "channel": {
+                "type": "string",
+                "description": "Delivery.",
+                "enum": [
+                  "email",
+                  "slack"
+                ]
+              },
+              "recipients": {
+                "type": "array",
+                "description": "Email recipients.",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "slack_channel": {
+                "type": "string",
+                "description": "Slack channel, e.g. '#metrics'."
+              },
+              "schedule": {
+                "type": "object",
+                "description": "Schedule.",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "description": "Frequency.",
+                    "enum": [
+                      "hourly",
+                      "daily",
+                      "weekly",
+                      "monthly"
+                    ]
+                  },
+                  "hour": {
+                    "type": "integer",
+                    "description": "Hour (0-23)."
+                  },
+                  "day": {
+                    "type": "string",
+                    "description": "Weekday.",
+                    "enum": [
+                      "mon",
+                      "tue",
+                      "wed",
+                      "thu",
+                      "fri",
+                      "sat",
+                      "sun"
+                    ]
+                  }
+                },
+                "required": [
+                  "type"
+                ]
+              }
+            },
+            "required": [
+              "dashboard_id",
+              "channel",
+              "schedule"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "mixpanel",
+      "name": "Mixpanel",
+      "server": "mcp://mixpanel",
+      "summary": "Product analytics: event segmentation, funnels, retention, cohorts and user profiles.",
+      "tools": [
+        {
+          "name": "query_segmentation",
+          "description": "Count an event over time, optionally segmented by a property (e.g. signups by country per day).",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "project_id": {
+                "type": "integer",
+                "description": "Project id."
+              },
+              "event": {
+                "type": "string",
+                "description": "Event name."
+              },
+              "from_date": {
+                "type": "string",
+                "description": "Start (YYYY-MM-DD)."
+              },
+              "to_date": {
+                "type": "string",
+                "description": "End (YYYY-MM-DD)."
+              },
+              "unit": {
+                "type": "string",
+                "description": "Time bucket.",
+                "enum": [
+                  "minute",
+                  "hour",
+                  "day",
+                  "week",
+                  "month"
+                ],
+                "default": "day"
+              },
+              "type": {
+                "type": "string",
+                "description": "Count type.",
+                "enum": [
+                  "general",
+                  "unique",
+                  "average"
+                ],
+                "default": "general"
+              },
+              "on": {
+                "type": "string",
+                "description": "Property to segment by, e.g. 'properties[\"country\"]'."
+              },
+              "where": {
+                "type": "string",
+                "description": "Filter expression."
+              },
+              "limit": {
+                "type": "integer",
+                "description": "Max segment values.",
+                "default": 60
+              }
+            },
+            "required": [
+              "event",
+              "from_date",
+              "to_date"
+            ]
+          }
+        },
+        {
+          "name": "query_funnel",
+          "description": "Get step-by-step conversion rates for a saved funnel over a date range.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "funnel_id": {
+                "type": "integer",
+                "description": "Funnel id."
+              },
+              "from_date": {
+                "type": "string",
+                "description": "Start (YYYY-MM-DD)."
+              },
+              "to_date": {
+                "type": "string",
+                "description": "End (YYYY-MM-DD)."
+              },
+              "length": {
+                "type": "integer",
+                "description": "Conversion window length."
+              },
+              "length_unit": {
+                "type": "string",
+                "description": "Window unit.",
+                "enum": [
+                  "second",
+                  "minute",
+                  "hour",
+                  "day"
+                ]
+              },
+              "on": {
+                "type": "string",
+                "description": "Segment by property."
+              }
+            },
+            "required": [
+              "funnel_id",
+              "from_date",
+              "to_date"
+            ]
+          }
+        },
+        {
+          "name": "query_retention",
+          "description": "Cohort retention: of users who did born_event, how many came back and did event in later periods.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "born_event": {
+                "type": "string",
+                "description": "Cohort-defining event."
+              },
+              "event": {
+                "type": "string",
+                "description": "Return event; omit for any event."
+              },
+              "from_date": {
+                "type": "string",
+                "description": "Start (YYYY-MM-DD)."
+              },
+              "to_date": {
+                "type": "string",
+                "description": "End (YYYY-MM-DD)."
+              },
+              "retention_type": {
+                "type": "string",
+                "description": "Type.",
+                "enum": [
+                  "birth",
+                  "compounded"
+                ],
+                "default": "birth"
+              },
+              "unit": {
+                "type": "string",
+                "description": "Period.",
+                "enum": [
+                  "day",
+                  "week",
+                  "month"
+                ],
+                "default": "day"
+              },
+              "interval_count": {
+                "type": "integer",
+                "description": "Periods."
+              }
+            },
+            "required": [
+              "from_date",
+              "to_date"
+            ]
+          }
+        },
+        {
+          "name": "list_events",
+          "description": "List event names.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "description": "Type.",
+                "enum": [
+                  "general",
+                  "unique",
+                  "average"
+                ]
+              },
+              "limit": {
+                "type": "integer",
+                "description": "Max."
+              }
+            }
+          }
+        },
+        {
+          "name": "get_event_properties",
+          "description": "List top properties and values for an event.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "event": {
+                "type": "string",
+                "description": "Event name."
+              },
+              "limit": {
+                "type": "integer",
+                "description": "Max.",
+                "default": 50
+              }
+            },
+            "required": [
+              "event"
+            ]
+          }
+        },
+        {
+          "name": "query_profiles",
+          "description": "Query user profiles with a where expression and return selected properties.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "where": {
+                "type": "string",
+                "description": "e.g. 'properties[\"plan\"] == \"pro\"'."
+              },
+              "output_properties": {
+                "type": "array",
+                "description": "Properties to return.",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "cohort_id": {
+                "type": "integer",
+                "description": "Restrict to a cohort."
+              },
+              "page": {
+                "type": "integer",
+                "description": "Page."
+              }
+            }
+          }
+        },
+        {
+          "name": "list_cohorts",
+          "description": "List saved cohorts.",
+          "input_schema": {
+            "type": "object",
+            "properties": {}
+          }
+        },
+        {
+          "name": "import_events",
+          "description": "Send events server-side or backfill historical events into the project.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "events": {
+                "type": "array",
+                "description": "Events.",
+                "items": {
+                  "type": "object",
+                  "description": "Event.",
+                  "properties": {
+                    "event": {
+                      "type": "string",
+                      "description": "Event name."
+                    },
+                    "properties": {
+                      "type": "object",
+                      "description": "Event properties.",
+                      "properties": {
+                        "distinct_id": {
+                          "type": "string",
+                          "description": "User id."
+                        },
+                        "time": {
+                          "type": "integer",
+                          "description": "Epoch ms."
+                        },
+                        "$insert_id": {
+                          "type": "string",
+                          "description": "Dedup key."
+                        }
+                      },
+                      "required": [
+                        "distinct_id",
+                        "time"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "event",
+                    "properties"
+                  ]
+                }
+              },
+              "strict": {
+                "type": "boolean",
+                "description": "Validate and reject bad events.",
+                "default": true
+              }
+            },
+            "required": [
+              "events"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "statsig_experiments",
+      "name": "Statsig Experiments",
+      "server": "mcp://statsig",
+      "summary": "A/B test experiments and feature gates: setup, allocation, results and ship decisions.",
+      "tools": [
+        {
+          "name": "list_experiments",
+          "description": "List experiments.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "status": {
+                "type": "string",
+                "description": "Status.",
+                "enum": [
+                  "setup",
+                  "active",
+                  "decision_made",
+                  "abandoned"
+                ]
+              },
+              "tags": {
+                "type": "array",
+                "description": "Tags.",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "create_experiment",
+          "description": "Create an A/B test with a control and variant groups, parameter values and primary/secondary metrics.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Experiment name."
+              },
+              "hypothesis": {
+                "type": "string",
+                "description": "Hypothesis."
+              },
+              "id_type": {
+                "type": "string",
+                "description": "Randomization unit.",
+                "enum": [
+                  "userID",
+                  "stableID",
+                  "companyID"
+                ],
+                "default": "userID"
+              },
+              "groups": {
+                "type": "array",
+                "description": "Test groups; sizes must sum to 100.",
+                "items": {
+                  "type": "object",
+                  "description": "Group.",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "description": "Group name."
+                    },
+                    "size": {
+                      "type": "number",
+                      "description": "Percent of allocated traffic."
+                    },
+                    "parameter_values": {
+                      "type": "object",
+                      "description": "Parameter values for this group.",
+                      "additionalProperties": true
+                    }
+                  },
+                  "required": [
+                    "name",
+                    "size"
+                  ]
+                }
+              },
+              "primary_metrics": {
+                "type": "array",
+                "description": "Primary metrics.",
+                "items": {
+                  "type": "object",
+                  "description": "Metric.",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "description": "Metric name."
+                    },
+                    "type": {
+                      "type": "string",
+                      "description": "Type.",
+                      "enum": [
+                        "event_count",
+                        "event_user",
+                        "ratio",
+                        "sum",
+                        "mean"
+                      ]
+                    }
+                  }
+                }
+              },
+              "secondary_metrics": {
+                "type": "array",
+                "description": "Secondary metrics.",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "allocation_percent": {
+                "type": "number",
+                "description": "Percent of eligible users in the experiment.",
+                "default": 100
+              },
+              "duration_days": {
+                "type": "integer",
+                "description": "Planned duration.",
+                "default": 14
+              },
+              "targeting_gate_id": {
+                "type": "string",
+                "description": "Only users passing this gate."
+              }
+            },
+            "required": [
+              "name",
+              "groups"
+            ]
+          }
+        },
+        {
+          "name": "start_experiment",
+          "description": "Start experiment.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "experiment_id": {
+                "type": "string",
+                "description": "Experiment id."
+              }
+            },
+            "required": [
+              "experiment_id"
+            ]
+          }
+        },
+        {
+          "name": "get_experiment_results",
+          "description": "Get Pulse results: metric lift, confidence intervals and statistical significance of each group versus control.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "experiment_id": {
+                "type": "string",
+                "description": "Experiment id."
+              },
+              "metric_names": {
+                "type": "array",
+                "description": "Limit to metrics.",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "confidence_level": {
+                "type": "string",
+                "description": "Confidence.",
+                "enum": [
+                  "80",
+                  "90",
+                  "95",
+                  "99"
+                ],
+                "default": "95"
+              },
+              "apply_cuped": {
+                "type": "boolean",
+                "description": "Variance reduction.",
+                "default": true
+              }
+            },
+            "required": [
+              "experiment_id"
+            ]
+          }
+        },
+        {
+          "name": "update_allocation",
+          "description": "Change the percentage of traffic allocated to an experiment.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "experiment_id": {
+                "type": "string",
+                "description": "Experiment id."
+              },
+              "allocation_percent": {
+                "type": "number",
+                "description": "New allocation."
+              }
+            },
+            "required": [
+              "experiment_id",
+              "allocation_percent"
+            ]
+          }
+        },
+        {
+          "name": "make_decision",
+          "description": "Ship a winning group to everyone, or abandon the experiment.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "experiment_id": {
+                "type": "string",
+                "description": "Experiment id."
+              },
+              "decision": {
+                "type": "string",
+                "description": "Decision.",
+                "enum": [
+                  "ship",
+                  "abandon"
+                ]
+              },
+              "group_name": {
+                "type": "string",
+                "description": "Group to ship."
+              },
+              "reason": {
+                "type": "string",
+                "description": "Decision notes."
+              }
+            },
+            "required": [
+              "experiment_id",
+              "decision"
+            ]
+          }
+        },
+        {
+          "name": "list_gates",
+          "description": "List feature gates",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "enabled": {
+                "type": "boolean",
+                "description": "Only enabled gates."
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "tableau_cloud",
+      "name": "Tableau Cloud",
+      "server": "mcp://tableau",
+      "summary": "Tableau workbooks, views, published data sources and extract refreshes.",
+      "tools": [
+        {
+          "name": "list_workbooks",
+          "description": "List workbooks",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "project_name": {
+                "type": "string",
+                "description": "Project."
+              },
+              "owner": {
+                "type": "string",
+                "description": "Owner."
+              },
+              "filter": {
+                "type": "string",
+                "description": "Filter expression, e.g. 'name:eq:Sales'."
+              },
+              "page_size": {
+                "type": "integer",
+                "description": "Page size.",
+                "default": 100
+              }
+            }
+          }
+        },
+        {
+          "name": "get_view_data",
+          "description": "Download the underlying data of a view (worksheet) as CSV, with optional filters.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "view_id": {
+                "type": "string",
+                "description": "View id."
+              },
+              "filters": {
+                "type": "object",
+                "description": "Field -> value filters.",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              "max_age_minutes": {
+                "type": "integer",
+                "description": "Use cached data up to this age."
+              }
+            },
+            "required": [
+              "view_id"
+            ]
+          }
+        },
+        {
+          "name": "get_view_image",
+          "description": "Render a view or dashboard as a PNG image.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "view_id": {
+                "type": "string",
+                "description": "View id."
+              },
+              "resolution": {
+                "type": "string",
+                "description": "Resolution.",
+                "enum": [
+                  "standard",
+                  "high"
+                ],
+                "default": "high"
+              }
+            },
+            "required": [
+              "view_id"
+            ]
+          }
+        },
+        {
+          "name": "refresh_extract",
+          "description": "Run an extract refresh for a data source or workbook now.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "datasource_id": {
+                "type": "string",
+                "description": "Data source id."
+              },
+              "workbook_id": {
+                "type": "string",
+                "description": "Workbook id."
+              }
+            }
+          }
+        },
+        {
+          "name": "query_datasource",
+          "description": "Query a published data source (VizQL Data Service): pick fields and aggregations and apply filters.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "datasource_luid": {
+                "type": "string",
+                "description": "Data source LUID."
+              },
+              "fields": {
+                "type": "array",
+                "description": "Fields.",
+                "items": {
+                  "type": "object",
+                  "description": "Field.",
+                  "properties": {
+                    "field_caption": {
+                      "type": "string",
+                      "description": "Field name."
+                    },
+                    "function": {
+                      "type": "string",
+                      "description": "Aggregation.",
+                      "enum": [
+                        "SUM",
+                        "AVG",
+                        "COUNT",
+                        "COUNTD",
+                        "MIN",
+                        "MAX",
+                        "MEDIAN"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "field_caption"
+                  ]
+                }
+              },
+              "filters": {
+                "type": "array",
+                "description": "Filters.",
+                "items": {
+                  "type": "object"
+                }
+              },
+              "limit": {
+                "type": "integer",
+                "description": "Row limit."
+              }
+            },
+            "required": [
+              "datasource_luid",
+              "fields"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

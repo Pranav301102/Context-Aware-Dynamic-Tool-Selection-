@@ -1,0 +1,46 @@
+{
+ "task_id": "crm_commerce-0029",
+ "mode": "cats",
+ "loaded": [
+  "shopify.create_fulfillment",
+  "shopify.get_order_by_id",
+  "shopify.get_orders",
+  "shopify.refund_order",
+  "shopify.update_order"
+ ],
+ "order": [
+  "shopify.create_fulfillment",
+  "shopify.get_order_by_id",
+  "shopify.get_orders",
+  "shopify.refund_order",
+  "shopify.update_order"
+ ],
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "shopify.create_fulfillment",
+   "args": {
+    "orderId": "5512",
+    "trackingInfo": {
+     "number": "1Z999AA10123456784",
+     "company": "UPS"
+    }
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 5,
+   "tool_tokens": 1047
+  },
+  {
+   "type": "call",
+   "tool": "shopify__create_fulfillment",
+   "valid": true
+  }
+ ],
+ "done": true,
+ "final": ""
+}

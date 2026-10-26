@@ -1,0 +1,73 @@
+{
+ "task_id": "search-0045",
+ "mode": "cats",
+ "loaded": [
+  "amadeus_travel.airport_direct_destinations",
+  "amadeus_travel.get_hotel_offers",
+  "amadeus_travel.search_hotels_by_city",
+  "amadeus_travel.search_hotels_by_geocode",
+  "google_maps.maps_directions",
+  "google_maps.maps_distance_matrix",
+  "google_maps.maps_search_places",
+  "mapbox.category_search_tool",
+  "mapbox.directions_tool",
+  "nws_weather.get_forecast"
+ ],
+ "order": [
+  "amadeus_travel.airport_direct_destinations",
+  "amadeus_travel.get_hotel_offers",
+  "amadeus_travel.search_hotels_by_city",
+  "amadeus_travel.search_hotels_by_geocode",
+  "google_maps.maps_directions",
+  "google_maps.maps_distance_matrix",
+  "google_maps.maps_search_places",
+  "mapbox.category_search_tool",
+  "mapbox.directions_tool",
+  "nws_weather.get_forecast"
+ ],
+ "scores": {
+  "amadeus_travel.airport_direct_destinations": 0.10980608228932348,
+  "amadeus_travel.get_hotel_offers": 0.26867756217875594,
+  "amadeus_travel.search_hotels_by_city": 0.6019746914097224,
+  "amadeus_travel.search_hotels_by_geocode": 0.2012049034807324,
+  "google_maps.maps_directions": 0.0908066389827035,
+  "google_maps.maps_distance_matrix": 0.2746545821801802,
+  "google_maps.maps_search_places": 0.27102816408514535,
+  "mapbox.category_search_tool": 0.05450159192820891,
+  "mapbox.directions_tool": 0.055112351612114044,
+  "nws_weather.get_forecast": 0.056958275935431596
+ },
+ "router_tokens": 0,
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "google_maps.maps_search_places",
+   "args": {
+    "query": "pastelaria in Alfama, Lisbon",
+    "location": {
+     "latitude": 38.711,
+     "longitude": -9.1296
+    },
+    "radius": 1000
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 10,
+   "tool_tokens": 2515,
+   "t": 1791321352.3737934
+  },
+  {
+   "type": "call",
+   "tool": "google_maps__maps_search_places",
+   "valid": true,
+   "t": 1791321364.2528973
+  }
+ ],
+ "done": true,
+ "t_done": 1791321370.5617933,
+ "final": ""
+}

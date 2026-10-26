@@ -1,0 +1,69 @@
+{
+ "task_id": "files_docs-0014",
+ "mode": "search",
+ "loaded": [
+  "confluence.confluence_create_page",
+  "confluence.confluence_get_page",
+  "confluence.confluence_search",
+  "confluence.confluence_get_page_children",
+  "confluence.confluence_update_page"
+ ],
+ "order": [
+  "confluence.confluence_create_page",
+  "confluence.confluence_get_page",
+  "confluence.confluence_search",
+  "confluence.confluence_get_page_children",
+  "confluence.confluence_update_page"
+ ],
+ "scores": {
+  "confluence.confluence_create_page": 2.0,
+  "confluence.confluence_get_page": 2.0,
+  "confluence.confluence_search": 2.0,
+  "confluence.confluence_get_page_children": 2.0,
+  "confluence.confluence_update_page": 2.0
+ },
+ "router_tokens": 0,
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "confluence.confluence_create_page",
+   "args": {
+    "space_key": "ENG",
+    "title": "Postmortem: 2026-10-02 checkout outage",
+    "content": "## Summary\n\n_TBD: brief description of what happened._\n\n## Impact\n\n_TBD: affected users, duration, revenue/requests impacted._\n\n## Timeline\n\n| Time (UTC) | Event |\n|---|---|\n| | |\n",
+    "content_format": "markdown"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0,
+   "t": 1791322138.79287
+  },
+  {
+   "type": "request_tools",
+   "capability": "create a page in a Confluence space",
+   "added": [
+    "confluence.confluence_create_page",
+    "confluence.confluence_get_page",
+    "confluence.confluence_search",
+    "confluence.confluence_get_page_children",
+    "confluence.confluence_update_page"
+   ],
+   "tool_tokens": 1163,
+   "t": 1791322149.9930174
+  },
+  {
+   "type": "call",
+   "tool": "confluence__confluence_create_page",
+   "valid": true,
+   "t": 1791322163.6126156
+  }
+ ],
+ "done": true,
+ "t_done": 1791322165.6867487,
+ "final": ""
+}

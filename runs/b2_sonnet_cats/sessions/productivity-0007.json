@@ -1,0 +1,88 @@
+{
+ "task_id": "productivity-0007",
+ "mode": "cats",
+ "loaded": [
+  "apple_mcp.calendar",
+  "google_calendar.create_event",
+  "google_calendar.update_event",
+  "ms365_pim.create_calendar_event",
+  "ms365_pim.delete_calendar_event",
+  "ms365_pim.find_meeting_times",
+  "ms365_pim.get_calendar_view",
+  "ms365_pim.get_schedule",
+  "ms365_pim.update_calendar_event",
+  "ms_teams.create_online_meeting"
+ ],
+ "order": [
+  "apple_mcp.calendar",
+  "google_calendar.create_event",
+  "google_calendar.update_event",
+  "ms365_pim.create_calendar_event",
+  "ms365_pim.delete_calendar_event",
+  "ms365_pim.find_meeting_times",
+  "ms365_pim.get_calendar_view",
+  "ms365_pim.get_schedule",
+  "ms365_pim.update_calendar_event",
+  "ms_teams.create_online_meeting"
+ ],
+ "scores": {
+  "apple_mcp.calendar": 0.0749106867117775,
+  "google_calendar.create_event": 0.31687639860505507,
+  "google_calendar.update_event": 0.05666168964235824,
+  "ms365_pim.create_calendar_event": 0.9018146211107657,
+  "ms365_pim.delete_calendar_event": 0.10769360657552916,
+  "ms365_pim.find_meeting_times": 0.1078576693289489,
+  "ms365_pim.get_calendar_view": 0.3459642648200649,
+  "ms365_pim.get_schedule": 0.08707078028299448,
+  "ms365_pim.update_calendar_event": 0.2607020660632921,
+  "ms_teams.create_online_meeting": 0.2581077010083077
+ },
+ "router_tokens": 0,
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "ms365_pim.create_calendar_event",
+   "args": {
+    "body": {
+     "subject": "1:1 with Sam",
+     "start": {
+      "dateTime": "2026-10-08T10:00:00",
+      "timeZone": "UTC"
+     },
+     "end": {
+      "dateTime": "2026-10-08T10:30:00",
+      "timeZone": "UTC"
+     },
+     "attendees": [
+      {
+       "emailAddress": {
+        "address": "sam@contoso.com"
+       },
+       "type": "required"
+      }
+     ],
+     "isOnlineMeeting": true,
+     "onlineMeetingProvider": "teamsForBusiness"
+    }
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 10,
+   "tool_tokens": 5278,
+   "t": 1791321066.819411
+  },
+  {
+   "type": "call",
+   "tool": "ms365_pim__create_calendar_event",
+   "valid": true,
+   "t": 1791321077.6471634
+  }
+ ],
+ "done": true,
+ "t_done": 1791321084.3627186,
+ "final": ""
+}

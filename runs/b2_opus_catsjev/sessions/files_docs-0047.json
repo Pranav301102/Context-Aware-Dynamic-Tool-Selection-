@@ -1,0 +1,72 @@
+{
+ "task_id": "files_docs-0047",
+ "mode": "cats",
+ "loaded": [
+  "filesystem.create_directory",
+  "filesystem.move_file",
+  "google_drive.gdrive_create_folder",
+  "google_drive.gdrive_export_file",
+  "google_drive.gdrive_move_file",
+  "google_drive.gdrive_share_file",
+  "google_drive.gdrive_upload_file"
+ ],
+ "order": [
+  "filesystem.create_directory",
+  "filesystem.move_file",
+  "google_drive.gdrive_create_folder",
+  "google_drive.gdrive_export_file",
+  "google_drive.gdrive_move_file",
+  "google_drive.gdrive_share_file",
+  "google_drive.gdrive_upload_file"
+ ],
+ "scores": {
+  "filesystem.create_directory": 0.05051513672727405,
+  "filesystem.move_file": 0.18921730098204795,
+  "google_drive.gdrive_create_folder": 0.4827803058464786,
+  "google_drive.gdrive_export_file": 0.1544663178210031,
+  "google_drive.gdrive_move_file": 0.7873574858577417,
+  "google_drive.gdrive_share_file": 0.03933879147041444,
+  "google_drive.gdrive_upload_file": 0.06465073150644993
+ },
+ "router_tokens": 1450,
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "google_drive.gdrive_create_folder",
+   "args": {
+    "name": "Client X"
+   }
+  },
+  {
+   "tool": "google_drive.gdrive_move_file",
+   "args": {
+    "file_id": "1sOwXyZ",
+    "new_parent_id": "<client_x_folder_id>"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 7,
+   "tool_tokens": 1244,
+   "t": 1791321173.4856482
+  },
+  {
+   "type": "call",
+   "tool": "google_drive__gdrive_create_folder",
+   "valid": true,
+   "t": 1791321186.2292333
+  },
+  {
+   "type": "call",
+   "tool": "google_drive__gdrive_move_file",
+   "valid": true,
+   "t": 1791321194.6685305
+  }
+ ],
+ "done": true,
+ "t_done": 1791321196.723345,
+ "final": ""
+}

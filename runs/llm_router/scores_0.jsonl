@@ -1,0 +1,240 @@
+{"key": "da15be34dc5de601", "p": {"cloud_ops": 0.97}}
+{"key": "2215e76797914e08", "p": {"cloud_ops": 0.95, "code_exec": 0.1}}
+{"key": "1d28236a5d51f300", "p": {"cloud_ops": 0.97, "files_docs": 0.05}}
+{"key": "7c3f54cb4d73b600", "p": {"cloud_ops": 0.97}}
+{"key": "19492eb543ad240c", "p": {"cloud_ops": 0.97}}
+{"key": "48938d4b80511ee6", "p": {"cloud_ops": 0.95, "dev_platform": 0.06}}
+{"key": "ffc004a491d924d2", "p": {"cloud_ops": 0.95}}
+{"key": "b8f5266a9fcee1dd", "p": {"cloud_ops": 0.95, "communication": 0.08}}
+{"key": "b29241816ef0e83c", "p": {"code_exec": 0.65, "cloud_ops": 0.5, "database": 0.08}}
+{"key": "bd9c5f559b4c0de2", "p": {"cloud_ops": 0.95}}
+{"key": "370975725ea78446", "p": {"cloud_ops": 0.95, "database": 0.1}}
+{"key": "2c2842c73302525c", "p": {"cloud_ops": 0.98}}
+{"key": "2f8a6db37232e1d4", "p": {"cloud_ops": 0.9, "code_exec": 0.15, "database": 0.04}}
+{"key": "59df2676b488122a", "p": {"cloud_ops": 0.98}}
+{"key": "37856e0a75d283b6", "p": {"cloud_ops": 0.98}}
+{"key": "e4cc1e379dd12f92", "p": {"cloud_ops": 0.97}}
+{"key": "9ae40226ad575c5e", "p": {"cloud_ops": 0.95, "files_docs": 0.1}}
+{"key": "ebf9a677a2d2b456", "p": {"cloud_ops": 0.95}}
+{"key": "de82f8df2bd00c09", "p": {"code_exec": 0.97}}
+{"key": "7603f471ee19e077", "p": {"code_exec": 0.95}}
+{"key": "53ca7fe5f448ac44", "p": {"code_exec": 0.95}}
+{"key": "9e17aea7e17bc30f", "p": {"code_exec": 0.95, "cloud_ops": 0.04}}
+{"key": "0aa432c0f3d34306", "p": {"code_exec": 0.95}}
+{"key": "a94561d4fb4a3b80", "p": {"code_exec": 0.96}}
+{"key": "ddc3bc341f1a7aaa", "p": {"code_exec": 0.97}}
+{"key": "d6e57fafd3612d33", "p": {"code_exec": 0.97}}
+{"key": "067f6c163eb747b5", "p": {"code_exec": 0.97}}
+{"key": "1f28e5a95297d9a8", "p": {"code_exec": 0.93, "files_docs": 0.05}}
+{"key": "0c796e5944dde48b", "p": {"code_exec": 0.97}}
+{"key": "c56ec369b02d5764", "p": {"code_exec": 0.9, "files_docs": 0.15}}
+{"key": "45d2a238b2b38ebe", "p": {"code_exec": 0.97}}
+{"key": "a3bc66213b1968e1", "p": {"code_exec": 0.95}}
+{"key": "1503626c47a24eec", "p": {"code_exec": 0.93, "dev_platform": 0.12, "search": 0.05}}
+{"key": "f9b77a29054db757", "p": {"code_exec": 0.97}}
+{"key": "88143e6e50004dda", "p": {"code_exec": 0.95, "dev_platform": 0.06}}
+{"key": "7d55eff6131df8be", "p": {"communication": 0.98}}
+{"key": "56473a72605442f5", "p": {"communication": 0.97, "files_docs": 0.15}}
+{"key": "9a6790cfec5d2384", "p": {"communication": 0.97}}
+{"key": "821437342df20e72", "p": {"communication": 0.97}}
+{"key": "2393d8c80d5d2eb4", "p": {"communication": 0.97}}
+{"key": "d856e23a7dd31835", "p": {"communication": 0.97}}
+{"key": "fe058cef42b7f720", "p": {"communication": 0.95}}
+{"key": "d50766f3ffb01793", "p": {"communication": 0.97}}
+{"key": "b8e706a01f709ba5", "p": {"communication": 0.97}}
+{"key": "39c06e9a74abab0f", "p": {"communication": 0.97}}
+{"key": "f42e67162e7e22a8", "p": {"communication": 0.95, "productivity": 0.05}}
+{"key": "e416edfd2c18dabb", "p": {"communication": 0.98}}
+{"key": "1e8131c2ee4ad978", "p": {"communication": 0.98}}
+{"key": "211ec9d216f655c7", "p": {"communication": 0.98}}
+{"key": "da554d251dedf85c", "p": {"communication": 0.97}}
+{"key": "57c988da188393ec", "p": {"communication": 0.97}}
+{"key": "f21886e7efe7e1e3", "p": {"communication": 0.97}}
+{"key": "2ae36d801a822f07", "p": {"communication": 0.97}}
+{"key": "2ee51431043dd0f4", "p": {"crm_commerce": 0.97, "finance": 0.05}}
+{"key": "34e388c88ada7c90", "p": {"crm_commerce": 0.97}}
+{"key": "76653d6dc396832e", "p": {"crm_commerce": 0.95, "finance": 0.05}}
+{"key": "51aae924a82c3b36", "p": {"crm_commerce": 0.98, "finance": 0.1}}
+{"key": "738a54e09f381506", "p": {"crm_commerce": 0.98}}
+{"key": "1680c73f17ecaf83", "p": {"crm_commerce": 0.97}}
+{"key": "33380643aa4d2199", "p": {"crm_commerce": 0.97, "productivity": 0.05}}
+{"key": "60c15c6318a45faf", "p": {"crm_commerce": 0.97}}
+{"key": "e819b3c8792bddf7", "p": {"crm_commerce": 0.97}}
+{"key": "0d4504dea6812d44", "p": {"crm_commerce": 0.97}}
+{"key": "0202e19f26159e8a", "p": {"crm_commerce": 0.96}}
+{"key": "1b6e44266fc9c4d5", "p": {"crm_commerce": 0.95, "communication": 0.12}}
+{"key": "033ce38e655057ad", "p": {"crm_commerce": 0.97}}
+{"key": "ca13d683f4269720", "p": {"crm_commerce": 0.98}}
+{"key": "7cf96f6a77bb4ec4", "p": {"crm_commerce": 0.97}}
+{"key": "a53db996b9c6446f", "p": {"crm_commerce": 0.97}}
+{"key": "4779bae75d248dc0", "p": {"crm_commerce": 0.97}}
+{"key": "616d9838eb814fb8", "p": {"travel_geo": 0.97, "productivity": 0.92}}
+{"key": "6a000386b16f7ec0", "p": {"code_exec": 0.97, "dev_platform": 0.97}}
+{"key": "0efa44d646d76198", "p": {"code_exec": 0.97, "communication": 0.95}}
+{"key": "96199c6e844fdc90", "p": {"files_docs": 0.95, "finance": 0.95}}
+{"key": "4c572e41428fcd73", "p": {"search": 0.95, "media": 0.93}}
+{"key": "5d33cd86b7602a5f", "p": {"productivity": 0.96, "files_docs": 0.93}}
+{"key": "f4394ea2a2c5fbd8", "p": {"search": 0.96, "database": 0.95}}
+{"key": "2671d3397a976482", "p": {"crm_commerce": 0.95, "communication": 0.96}}
+{"key": "02e199fa2bbffd1e", "p": {"travel_geo": 0.97, "cloud_ops": 0.92}}
+{"key": "b6994f191f7a4d66", "p": {"search": 0.95, "communication": 0.96}}
+{"key": "5631f4bff5f84879", "p": {"travel_geo": 0.96, "productivity": 0.95, "search": 0.1}}
+{"key": "bd8986ca39c08394", "p": {"files_docs": 0.95, "media": 0.92}}
+{"key": "b98901fd2529675a", "p": {"productivity": 0.97, "communication": 0.97}}
+{"key": "117b7a04878f2a6e", "p": {"code_exec": 0.96, "cloud_ops": 0.88}}
+{"key": "ee57c664d37bec6d", "p": {"files_docs": 0.9, "crm_commerce": 0.97}}
+{"key": "58138c2cfb8ddbd4", "p": {"finance": 0.96, "crm_commerce": 0.96}}
+{"key": "06f347ac6682d9de", "p": {"media": 0.96, "files_docs": 0.95}}
+{"key": "9c06014ddc6bd1dd", "p": {"database": 0.96, "code_exec": 0.93}}
+{"key": "b87fd9ad8238e6c1", "p": {"database": 0.96, "code_exec": 0.94}}
+{"key": "844fc6393a855d8d", "p": {"media": 0.97, "files_docs": 0.55}}
+{"key": "784a98aab5457b5f", "p": {"travel_geo": 0.97, "files_docs": 0.92}}
+{"key": "c8924f626f6bcff9", "p": {"dev_platform": 0.97, "productivity": 0.96}}
+{"key": "bc59cccb40adfcaf", "p": {"search": 0.96, "finance": 0.96}}
+{"key": "48093e3c7c92ab0f", "p": {"dev_platform": 0.96, "communication": 0.95}}
+{"key": "ec805948681fbb33", "p": {"cloud_ops": 0.95, "communication": 0.9}}
+{"key": "4aefa401fa7905ab", "p": {"code_exec": 0.97, "files_docs": 0.9}}
+{"key": "148780d57aaab3e7", "p": {"cloud_ops": 0.96, "files_docs": 0.95}}
+{"key": "d8dfdbd18076c80c", "p": {"search": 0.96, "dev_platform": 0.96}}
+{"key": "0b5da6e2980a4228", "p": {"finance": 0.97, "media": 0.96}}
+{"key": "ee9d97355b7b0ca9", "p": {"database": 0.97, "files_docs": 0.95}}
+{"key": "4bc4081b81e914f2", "p": {"database": 0.96}}
+{"key": "2f145414874f6175", "p": {"database": 0.98}}
+{"key": "a49318595a15e672", "p": {"database": 0.85, "search": 0.1, "code_exec": 0.08}}
+{"key": "0c750e0aefca3a9e", "p": {"database": 0.98}}
+{"key": "72c263dc4ed520bb", "p": {"database": 0.98}}
+{"key": "dd62b2e0a951d144", "p": {"database": 0.98}}
+{"key": "283b99891e5b5703", "p": {"database": 0.98}}
+{"key": "2be470fc4658d401", "p": {"database": 0.98}}
+{"key": "fce5ccc9260eb0c6", "p": {"database": 0.98}}
+{"key": "86f5f84a3ba8dca7", "p": {"database": 0.98}}
+{"key": "fd5e7063af66a173", "p": {"database": 0.97}}
+{"key": "07a945d4b2b0e68b", "p": {"database": 0.97}}
+{"key": "aa0d8bee7d4007da", "p": {"database": 0.97}}
+{"key": "1ae95005aab009bc", "p": {"database": 0.98}}
+{"key": "10da5954c972e56b", "p": {"database": 0.7, "productivity": 0.3, "files_docs": 0.25}}
+{"key": "96030ff68a77ece0", "p": {"database": 0.97, "cloud_ops": 0.1}}
+{"key": "74f2f8adee45d460", "p": {"database": 0.98}}
+{"key": "02e5d21b5020cbd2", "p": {"database": 0.98}}
+{"key": "fc5124d54df64006", "p": {"dev_platform": 0.98}}
+{"key": "892441d3937581b3", "p": {"dev_platform": 0.98}}
+{"key": "7deae9b12578edd9", "p": {"dev_platform": 0.98}}
+{"key": "1edfea89b769602c", "p": {"dev_platform": 0.98}}
+{"key": "4b74f17aaf73349a", "p": {"dev_platform": 0.97}}
+{"key": "323184b7dbf91e53", "p": {"dev_platform": 0.97, "cloud_ops": 0.08}}
+{"key": "5935b539b2293214", "p": {"dev_platform": 0.98}}
+{"key": "da3a4bcf17ed6224", "p": {"dev_platform": 0.98}}
+{"key": "e94149bd37153fe6", "p": {"dev_platform": 0.98}}
+{"key": "43549f4c2e6e3ebb", "p": {"dev_platform": 0.98}}
+{"key": "b072e82526d83107", "p": {"dev_platform": 0.98}}
+{"key": "ee61e5f90182c9d2", "p": {"dev_platform": 0.98}}
+{"key": "f1cc5d92cc1df2a7", "p": {"dev_platform": 0.98}}
+{"key": "33f65fa7a48e5e7c", "p": {"dev_platform": 0.98}}
+{"key": "97bb17e5a648f7f0", "p": {"dev_platform": 0.98}}
+{"key": "5aec7c533e0ba903", "p": {"dev_platform": 0.97}}
+{"key": "f21783284b45bc67", "p": {"dev_platform": 0.98}}
+{"key": "7999d0ae08bc1a55", "p": {"files_docs": 0.97, "code_exec": 0.1}}
+{"key": "e435e97fd3f7331a", "p": {"files_docs": 0.97}}
+{"key": "3fca8eec0ca38e86", "p": {"files_docs": 0.98}}
+{"key": "fdbccfc9c76067e4", "p": {"files_docs": 0.98}}
+{"key": "60ee707af123dba7", "p": {"files_docs": 0.97}}
+{"key": "f9d005d3ef9f0bbb", "p": {"files_docs": 0.97}}
+{"key": "7e9c3d3f8e89e007", "p": {"files_docs": 0.97}}
+{"key": "a944cee0a83e00f3", "p": {"files_docs": 0.97}}
+{"key": "44920fb9b4792361", "p": {"files_docs": 0.96, "dev_platform": 0.05}}
+{"key": "4b4481600c3b1ee0", "p": {"files_docs": 0.98}}
+{"key": "0a61b224c46a78c1", "p": {"files_docs": 0.97}}
+{"key": "60e57835a4f047ec", "p": {"files_docs": 0.97, "media": 0.12}}
+{"key": "dc4698d1d67e94e7", "p": {"files_docs": 0.98}}
+{"key": "4232b651ef1e5390", "p": {"files_docs": 0.98}}
+{"key": "e4d5da0d223f9297", "p": {"files_docs": 0.98}}
+{"key": "7070c75452381a4e", "p": {"files_docs": 0.97}}
+{"key": "7dc501e3e9780d5b", "p": {"files_docs": 0.96}}
+{"key": "4bafe74f98b1f7cf", "p": {"files_docs": 0.97}}
+{"key": "621f7b622192e7d2", "p": {"finance": 0.97, "crm_commerce": 0.05}}
+{"key": "4fcc7f51b744a624", "p": {"finance": 0.98}}
+{"key": "b93667b146058d66", "p": {"finance": 0.98}}
+{"key": "6a738100683a0811", "p": {"finance": 0.98}}
+{"key": "419187edf56589e3", "p": {"finance": 0.98}}
+{"key": "e24d6b1401642727", "p": {"finance": 0.98}}
+{"key": "ee120cba7907fbf4", "p": {"finance": 0.97, "code_exec": 0.1}}
+{"key": "8de4eda683f2c353", "p": {"finance": 0.93, "search": 0.15}}
+{"key": "aa98ddf3240c2cd3", "p": {"finance": 0.96}}
+{"key": "c1700de30a3d53b0", "p": {"finance": 0.97}}
+{"key": "1e532f32e259522a", "p": {"finance": 0.97}}
+{"key": "6661dbcb3f0375aa", "p": {"finance": 0.97, "search": 0.15}}
+{"key": "8d82bc900bb441b6", "p": {"finance": 0.98}}
+{"key": "54248339aa3e009e", "p": {"finance": 0.97, "search": 0.05}}
+{"key": "c6b390f27a07f03b", "p": {"finance": 0.98}}
+{"key": "f39d5e543213e69c", "p": {"finance": 0.97}}
+{"key": "1be0f1941e5b70e0", "p": {"finance": 0.97}}
+{"key": "8e8fbae58891ef5d", "p": {"media": 0.97}}
+{"key": "d3135523040774a7", "p": {"media": 0.97}}
+{"key": "5da73b4ce0f1ca42", "p": {"media": 0.97}}
+{"key": "d8fc649f662e8818", "p": {"media": 0.97}}
+{"key": "db1ffc985a1029a0", "p": {"media": 0.97}}
+{"key": "00e04411e29ccc46", "p": {"media": 0.97}}
+{"key": "53bb8c9ec8a0b86d", "p": {"media": 0.97}}
+{"key": "3478955a80b6521c", "p": {"media": 0.98}}
+{"key": "6921e5409f432b8a", "p": {"media": 0.97}}
+{"key": "e611a3f83197eb74", "p": {"media": 0.98}}
+{"key": "4ccdf38ef396c8bf", "p": {"media": 0.98}}
+{"key": "2eaaad106672e3df", "p": {"media": 0.98}}
+{"key": "1a5ff9886e58f74a", "p": {"media": 0.97}}
+{"key": "4087c31b7f86d237", "p": {"media": 0.97}}
+{"key": "e5c64c10a302d5a5", "p": {"media": 0.98}}
+{"key": "a806ba5cca27b66f", "p": {"media": 0.98}}
+{"key": "c97f009f0ea6e7a5", "p": {"media": 0.98}}
+{"key": "dc387dd98288ae23", "p": {"media": 0.97}}
+{"key": "8d5a0f2b546b9997", "p": {"productivity": 0.98}}
+{"key": "d8f51c365f0151f3", "p": {"productivity": 0.98, "communication": 0.05}}
+{"key": "6c2e18a2d37c36f2", "p": {"productivity": 0.98}}
+{"key": "fd1fdf42e7075fe6", "p": {"productivity": 0.97}}
+{"key": "306707c4432ed468", "p": {"productivity": 0.97}}
+{"key": "4ddcc0ff9a9e6647", "p": {"productivity": 0.95, "communication": 0.1}}
+{"key": "c6bc47c2329dbc58", "p": {"productivity": 0.98}}
+{"key": "c3666f630a4be6d2", "p": {"productivity": 0.98}}
+{"key": "53761e3b75aa9cff", "p": {"productivity": 0.97}}
+{"key": "9cd90555c710274d", "p": {"productivity": 0.96, "files_docs": 0.08}}
+{"key": "31a02834b9a46b05", "p": {"productivity": 0.98}}
+{"key": "6e51c07ea113eaa4", "p": {"productivity": 0.98}}
+{"key": "e89e83ac97c1db86", "p": {"productivity": 0.98}}
+{"key": "ab93fe4a688095f5", "p": {"productivity": 0.98}}
+{"key": "7d7979fa1de60db0", "p": {"productivity": 0.97}}
+{"key": "b9cacd267e584a6c", "p": {"productivity": 0.98}}
+{"key": "2ae6802006364043", "p": {"productivity": 0.98}}
+{"key": "c2dce6b66b7abb2a", "p": {"search": 0.97}}
+{"key": "d212dd7409b1af5f", "p": {"search": 0.98}}
+{"key": "14729709051bd6a5", "p": {"search": 0.98}}
+{"key": "f9494ce1d0f48514", "p": {"search": 0.97}}
+{"key": "7c3e6727de1a9beb", "p": {"search": 0.9, "code_exec": 0.05}}
+{"key": "4678887ffbad9b8f", "p": {"search": 0.95, "travel_geo": 0.1}}
+{"key": "b1cf36c05ee8d5e1", "p": {"search": 0.9, "code_exec": 0.05}}
+{"key": "ced5b554c5ab0d2f", "p": {"search": 0.98}}
+{"key": "214f646a5bba9bb8", "p": {"search": 0.98}}
+{"key": "ba6e1c1ec1ec7aa2", "p": {"search": 0.97}}
+{"key": "9e78d09f6915449b", "p": {"search": 0.98}}
+{"key": "030f61fc89fd3b77", "p": {"travel_geo": 0.96, "search": 0.1}}
+{"key": "5f0e596660cbe3f0", "p": {"search": 0.97}}
+{"key": "bdf29fb8fbb62775", "p": {"search": 0.97, "finance": 0.06}}
+{"key": "edb13ee2f7f9574f", "p": {"travel_geo": 0.96, "search": 0.08}}
+{"key": "18fc7b66a84eebf9", "p": {"search": 0.98}}
+{"key": "a395621871ad8962", "p": {"search": 0.97}}
+{"key": "f6a2dba67e65c777", "p": {"search": 0.98}}
+{"key": "b12ebd9bf8cc06db", "p": {"travel_geo": 0.98}}
+{"key": "b2ed90aec48c6159", "p": {"travel_geo": 0.98}}
+{"key": "e277e101896b53c5", "p": {"travel_geo": 0.98}}
+{"key": "f36ded39567111dd", "p": {"travel_geo": 0.98}}
+{"key": "a93ed23c13995bea", "p": {"travel_geo": 0.98}}
+{"key": "4b52dba7e4b93c7a", "p": {"travel_geo": 0.97}}
+{"key": "9a8768768c878901", "p": {"travel_geo": 0.98}}
+{"key": "a97f645590dc031c", "p": {"travel_geo": 0.98}}
+{"key": "9c8233fdbad8bf04", "p": {"travel_geo": 0.98}}
+{"key": "499e6357589fdd6b", "p": {"travel_geo": 0.98}}
+{"key": "33ebb7e85cb9f9c0", "p": {"travel_geo": 0.97}}
+{"key": "07e2434d0fcb6bde", "p": {"travel_geo": 0.97}}
+{"key": "9c9103fb59111397", "p": {"travel_geo": 0.98}}
+{"key": "be36cf1c06210339", "p": {"travel_geo": 0.98}}
+{"key": "f75b8fc358cd7947", "p": {"travel_geo": 0.97}}
+{"key": "1b40455226a838cb", "p": {"travel_geo": 0.98}}
+{"key": "516fa310ba618b99", "p": {"travel_geo": 0.98}}

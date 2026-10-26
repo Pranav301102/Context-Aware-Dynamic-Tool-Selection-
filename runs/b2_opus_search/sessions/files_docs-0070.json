@@ -1,0 +1,72 @@
+{
+ "task_id": "files_docs-0070",
+ "mode": "search",
+ "loaded": [
+  "filesystem.edit_file",
+  "filesystem.write_file",
+  "confluence.confluence_update_page",
+  "google_drive.gdrive_upload_file",
+  "filesystem.read_file"
+ ],
+ "order": [
+  "filesystem.edit_file",
+  "filesystem.write_file",
+  "confluence.confluence_update_page",
+  "google_drive.gdrive_upload_file",
+  "filesystem.read_file"
+ ],
+ "scores": {
+  "filesystem.edit_file": 2.0,
+  "filesystem.write_file": 2.0,
+  "confluence.confluence_update_page": 2.0,
+  "google_drive.gdrive_upload_file": 2.0,
+  "filesystem.read_file": 2.0
+ },
+ "router_tokens": 0,
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "filesystem.edit_file",
+   "args": {
+    "path": "~/drafts/blogpost.md",
+    "edits": [
+     {
+      "oldText": "Teh short version: teh bill tripled",
+      "newText": "The short version: the bill tripled"
+     }
+    ]
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0,
+   "t": 1791322421.378054
+  },
+  {
+   "type": "request_tools",
+   "capability": "edit a local text file by replacing text",
+   "added": [
+    "filesystem.edit_file",
+    "filesystem.write_file",
+    "confluence.confluence_update_page",
+    "google_drive.gdrive_upload_file",
+    "filesystem.read_file"
+   ],
+   "tool_tokens": 985,
+   "t": 1791322429.9256148
+  },
+  {
+   "type": "call",
+   "tool": "filesystem__edit_file",
+   "valid": true,
+   "t": 1791322439.0038455
+  }
+ ],
+ "done": true,
+ "t_done": 1791322440.0372787,
+ "final": ""
+}

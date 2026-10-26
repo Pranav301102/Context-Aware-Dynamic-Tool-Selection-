@@ -1,0 +1,83 @@
+{
+ "task_id": "productivity-0024",
+ "mode": "search",
+ "loaded": [
+  "ms365_pim.find_meeting_times",
+  "ms365_pim.create_calendar_event",
+  "ms365_pim.get_calendar_view",
+  "ms365_pim.update_calendar_event",
+  "ms365_pim.delete_calendar_event"
+ ],
+ "order": [
+  "ms365_pim.find_meeting_times",
+  "ms365_pim.create_calendar_event",
+  "ms365_pim.get_calendar_view",
+  "ms365_pim.update_calendar_event",
+  "ms365_pim.delete_calendar_event"
+ ],
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "ms365_pim.find_meeting_times",
+   "args": {
+    "attendees": [
+     {
+      "emailAddress": {
+       "address": "priya@contoso.com"
+      },
+      "type": "required"
+     },
+     {
+      "emailAddress": {
+       "address": "marco@contoso.com"
+      },
+      "type": "required"
+     }
+    ],
+    "timeConstraint": {
+     "activityDomain": "work",
+     "timeSlots": [
+      {
+       "start": {
+        "dateTime": "2026-10-12T00:00:00",
+        "timeZone": "UTC"
+       },
+       "end": {
+        "dateTime": "2026-10-16T23:59:59",
+        "timeZone": "UTC"
+       }
+      }
+     ]
+    },
+    "meetingDuration": "PT1H"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0
+  },
+  {
+   "type": "request_tools",
+   "capability": "find common free meeting times for multiple attendees in Outlook calendars",
+   "added": [
+    "ms365_pim.find_meeting_times",
+    "ms365_pim.create_calendar_event",
+    "ms365_pim.get_calendar_view",
+    "ms365_pim.update_calendar_event",
+    "ms365_pim.delete_calendar_event"
+   ],
+   "tool_tokens": 2904
+  },
+  {
+   "type": "call",
+   "tool": "ms365_pim__find_meeting_times",
+   "valid": true
+  }
+ ],
+ "done": true,
+ "final": ""
+}

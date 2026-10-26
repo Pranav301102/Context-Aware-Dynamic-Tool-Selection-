@@ -1,0 +1,99 @@
+{
+ "task_id": "cross-0025",
+ "mode": "search",
+ "loaded": [
+  "pinecone.upsert_records",
+  "tavily.tavily_crawl",
+  "pinecone.describe_index_stats",
+  "pinecone.rerank_documents",
+  "pinecone.create_index_for_model"
+ ],
+ "order": [
+  "pinecone.upsert_records",
+  "tavily.tavily_crawl",
+  "pinecone.describe_index_stats",
+  "pinecone.rerank_documents",
+  "pinecone.create_index_for_model"
+ ],
+ "scores": {
+  "pinecone.upsert_records": 2.0,
+  "tavily.tavily_crawl": 2.0,
+  "pinecone.describe_index_stats": 2.0,
+  "pinecone.rerank_documents": 2.0,
+  "pinecone.create_index_for_model": 2.0
+ },
+ "router_tokens": 0,
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "tavily.tavily_crawl",
+   "args": {
+    "url": "https://docs.pinecone.io",
+    "max_depth": 3,
+    "max_breadth": 20,
+    "limit": 100,
+    "categories": [
+     "Documentation"
+    ]
+   }
+  },
+  {
+   "tool": "pinecone.upsert_records",
+   "args": {
+    "name": "docs-kb",
+    "namespace": "default",
+    "records": [
+     {
+      "id": "page-1",
+      "text": "Pinecone documentation content"
+     },
+     {
+      "id": "page-2",
+      "text": "Additional documentation pages"
+     },
+     {
+      "id": "page-3",
+      "text": "More crawled content"
+     }
+    ]
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0,
+   "t": 1791321865.3335304
+  },
+  {
+   "type": "request_tools",
+   "capability": "crawl websites using Tavily and upsert documents into Pinecone vector database",
+   "added": [
+    "pinecone.upsert_records",
+    "tavily.tavily_crawl",
+    "pinecone.describe_index_stats",
+    "pinecone.rerank_documents",
+    "pinecone.create_index_for_model"
+   ],
+   "tool_tokens": 1286,
+   "t": 1791321878.4807913
+  },
+  {
+   "type": "call",
+   "tool": "tavily__tavily_crawl",
+   "valid": true,
+   "t": 1791321892.474593
+  },
+  {
+   "type": "call",
+   "tool": "pinecone__upsert_records",
+   "valid": true,
+   "t": 1791321905.0176966
+  }
+ ],
+ "done": true,
+ "t_done": 1791321910.9222822,
+ "final": ""
+}

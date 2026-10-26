@@ -1,0 +1,83 @@
+{
+ "task_id": "search-0024",
+ "mode": "cats",
+ "loaded": [
+  "brave_search.brave_video_search",
+  "elevenlabs.speech_to_text",
+  "exa.linkedin_search_exa",
+  "exa.web_search_exa",
+  "ffmpeg_video.burn_subtitles",
+  "ffmpeg_video.concatenate_videos",
+  "ffmpeg_video.convert_video",
+  "semantic_scholar.paper_citations",
+  "semantic_scholar.paper_relevance_search",
+  "tavily.tavily_crawl"
+ ],
+ "order": [
+  "brave_search.brave_video_search",
+  "elevenlabs.speech_to_text",
+  "exa.linkedin_search_exa",
+  "exa.web_search_exa",
+  "ffmpeg_video.burn_subtitles",
+  "ffmpeg_video.concatenate_videos",
+  "ffmpeg_video.convert_video",
+  "semantic_scholar.paper_citations",
+  "semantic_scholar.paper_relevance_search",
+  "tavily.tavily_crawl"
+ ],
+ "scores": {
+  "brave_search.brave_video_search": 0.15007479208274466,
+  "elevenlabs.speech_to_text": 0.2998401715044079,
+  "exa.linkedin_search_exa": 0.8110716766744978,
+  "exa.web_search_exa": 0.09417853065821127,
+  "ffmpeg_video.burn_subtitles": 0.21227505635532953,
+  "ffmpeg_video.concatenate_videos": 0.24870455633372548,
+  "ffmpeg_video.convert_video": 0.5863296283459273,
+  "semantic_scholar.paper_citations": 0.04353032896608256,
+  "semantic_scholar.paper_relevance_search": 0.05279344237426869,
+  "tavily.tavily_crawl": 0.04475328150863575
+ },
+ "router_tokens": 1448,
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "exa.linkedin_search_exa",
+   "args": {
+    "query": "CTO Supabase",
+    "searchType": "profiles",
+    "numResults": 5
+   }
+  },
+  {
+   "tool": "brave_search.brave_video_search",
+   "args": {
+    "query": "Supabase CTO conference talk",
+    "count": 10
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 10,
+   "tool_tokens": 3197,
+   "t": 1791322193.7313669
+  },
+  {
+   "type": "call",
+   "tool": "exa__linkedin_search_exa",
+   "valid": true,
+   "t": 1791322206.2691953
+  },
+  {
+   "type": "call",
+   "tool": "brave_search__brave_video_search",
+   "valid": true,
+   "t": 1791322216.8975122
+  }
+ ],
+ "done": true,
+ "t_done": 1791322223.7525883,
+ "final": ""
+}

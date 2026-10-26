@@ -1,0 +1,89 @@
+{
+ "task_id": "finance-0048",
+ "mode": "cats",
+ "loaded": [
+  "alpha_vantage.global_quote",
+  "alpha_vantage.news_sentiment",
+  "alpha_vantage.symbol_search",
+  "datadog.get_monitors",
+  "desktop_commander.list_sessions",
+  "office_docs.read_data_from_excel",
+  "shopify.get_customers",
+  "time.get_current_time",
+  "yahoo_finance.get_recommendations",
+  "yahoo_finance.get_stock_actions",
+  "yahoo_finance.get_stock_info",
+  "yahoo_finance.get_yahoo_finance_news",
+  "zendesk.create_ticket_comment"
+ ],
+ "order": [
+  "alpha_vantage.global_quote",
+  "alpha_vantage.news_sentiment",
+  "alpha_vantage.symbol_search",
+  "datadog.get_monitors",
+  "desktop_commander.list_sessions",
+  "office_docs.read_data_from_excel",
+  "shopify.get_customers",
+  "time.get_current_time",
+  "yahoo_finance.get_recommendations",
+  "yahoo_finance.get_stock_actions",
+  "yahoo_finance.get_stock_info",
+  "yahoo_finance.get_yahoo_finance_news",
+  "zendesk.create_ticket_comment"
+ ],
+ "scores": {
+  "alpha_vantage.global_quote": 0.4136366559153995,
+  "alpha_vantage.news_sentiment": 0.15707426483516174,
+  "alpha_vantage.symbol_search": 0.7359544658306709,
+  "datadog.get_monitors": 0.14139533643399255,
+  "desktop_commander.list_sessions": 0.1423702099661524,
+  "office_docs.read_data_from_excel": 0.12909744311319388,
+  "shopify.get_customers": 0.06050280969651965,
+  "time.get_current_time": 0.40814914242975786,
+  "yahoo_finance.get_recommendations": 0.03848061123919678,
+  "yahoo_finance.get_stock_actions": 0.34968761475946053,
+  "yahoo_finance.get_stock_info": 0.3142234707934426,
+  "yahoo_finance.get_yahoo_finance_news": 0.09455029529578973,
+  "zendesk.create_ticket_comment": 0.048987936086500074
+ },
+ "router_tokens": 0,
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "alpha_vantage.symbol_search",
+   "args": {
+    "keywords": "Hims & Hers"
+   }
+  },
+  {
+   "tool": "alpha_vantage.global_quote",
+   "args": {
+    "symbol": "HIMS"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 13,
+   "tool_tokens": 1839,
+   "t": 1791321090.9457362
+  },
+  {
+   "type": "call",
+   "tool": "alpha_vantage__symbol_search",
+   "valid": true,
+   "t": 1791321100.2888436
+  },
+  {
+   "type": "call",
+   "tool": "alpha_vantage__global_quote",
+   "valid": true,
+   "t": 1791321111.6112685
+  }
+ ],
+ "done": true,
+ "t_done": 1791321117.2569957,
+ "final": ""
+}

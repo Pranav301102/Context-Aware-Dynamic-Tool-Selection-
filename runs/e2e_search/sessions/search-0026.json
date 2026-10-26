@@ -1,0 +1,54 @@
+{
+ "task_id": "search-0026",
+ "mode": "search",
+ "loaded": [
+  "tavily.tavily_map",
+  "tavily.tavily_extract",
+  "tavily.tavily_crawl",
+  "exa.crawling_exa",
+  "exa.web_search_exa"
+ ],
+ "order": [
+  "tavily.tavily_map",
+  "tavily.tavily_extract",
+  "tavily.tavily_crawl",
+  "exa.crawling_exa",
+  "exa.web_search_exa"
+ ],
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "tavily.tavily_map",
+   "args": {
+    "url": "https://stripe.com/docs"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0
+  },
+  {
+   "type": "request_tools",
+   "capability": "map or discover all URLs of a website to show its site structure (sitemap)",
+   "added": [
+    "tavily.tavily_map",
+    "tavily.tavily_extract",
+    "tavily.tavily_crawl",
+    "exa.crawling_exa",
+    "exa.web_search_exa"
+   ],
+   "tool_tokens": 1426
+  },
+  {
+   "type": "call",
+   "tool": "tavily__tavily_map",
+   "valid": true
+  }
+ ],
+ "done": true,
+ "final": ""
+}

@@ -1,0 +1,83 @@
+{
+ "task_id": "communication-0058",
+ "mode": "search",
+ "loaded": [
+  "gmail.draft_email",
+  "gmail.read_email",
+  "mailchimp.create_campaign",
+  "gmail.modify_email",
+  "gmail.delete_email"
+ ],
+ "order": [
+  "gmail.draft_email",
+  "gmail.read_email",
+  "mailchimp.create_campaign",
+  "gmail.modify_email",
+  "gmail.delete_email"
+ ],
+ "scores": {
+  "gmail.draft_email": 2.0,
+  "gmail.read_email": 2.0,
+  "mailchimp.create_campaign": 2.0,
+  "gmail.modify_email": 2.0,
+  "gmail.delete_email": 2.0
+ },
+ "router_tokens": 0,
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "gmail.read_email",
+   "args": {
+    "messageId": "18b77ef"
+   }
+  },
+  {
+   "tool": "gmail.draft_email",
+   "args": {
+    "to": [
+     "sender@example.com"
+    ],
+    "subject": "Re: your message",
+    "inReplyTo": "18b77ef",
+    "body": "Hello,\n\nThank you very much for reaching out and for thinking of me. After careful consideration, I will have to respectfully decline at this time.\n\nI appreciate the opportunity and wish you all the best.\n\nKind regards"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0,
+   "t": 1791321420.2754438
+  },
+  {
+   "type": "request_tools",
+   "capability": "read an email by message id and create an email draft",
+   "added": [
+    "gmail.draft_email",
+    "gmail.read_email",
+    "mailchimp.create_campaign",
+    "gmail.modify_email",
+    "gmail.delete_email"
+   ],
+   "tool_tokens": 935,
+   "t": 1791321429.5019324
+  },
+  {
+   "type": "call",
+   "tool": "gmail__read_email",
+   "valid": true,
+   "t": 1791321438.062058
+  },
+  {
+   "type": "call",
+   "tool": "gmail__draft_email",
+   "valid": true,
+   "t": 1791321448.287761
+  }
+ ],
+ "done": true,
+ "t_done": 1791321452.548364,
+ "final": ""
+}

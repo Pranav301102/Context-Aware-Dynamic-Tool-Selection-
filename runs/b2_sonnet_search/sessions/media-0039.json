@@ -1,0 +1,105 @@
+{
+ "task_id": "media-0039",
+ "mode": "search",
+ "loaded": [
+  "deepl.translate_text",
+  "google_cloud_ai.translate_text",
+  "openai_media.translate_audio",
+  "deepl.translate_document",
+  "pdf_tools.pdf_extract_text",
+  "elevenlabs.text_to_speech",
+  "openai_media.create_speech",
+  "elevenlabs.speech_to_text",
+  "elevenlabs.speech_to_speech",
+  "ffmpeg_video.extract_audio"
+ ],
+ "order": [
+  "deepl.translate_text",
+  "google_cloud_ai.translate_text",
+  "openai_media.translate_audio",
+  "deepl.translate_document",
+  "pdf_tools.pdf_extract_text",
+  "elevenlabs.text_to_speech",
+  "openai_media.create_speech",
+  "elevenlabs.speech_to_text",
+  "elevenlabs.speech_to_speech",
+  "ffmpeg_video.extract_audio"
+ ],
+ "scores": {
+  "deepl.translate_text": 2.0,
+  "google_cloud_ai.translate_text": 2.0,
+  "openai_media.translate_audio": 2.0,
+  "deepl.translate_document": 2.0,
+  "pdf_tools.pdf_extract_text": 2.0,
+  "elevenlabs.text_to_speech": 2.0,
+  "openai_media.create_speech": 2.0,
+  "elevenlabs.speech_to_text": 2.0,
+  "elevenlabs.speech_to_speech": 2.0,
+  "ffmpeg_video.extract_audio": 2.0
+ },
+ "router_tokens": 0,
+ "escalations": 2,
+ "calls": [
+  {
+   "tool": "deepl.translate_text",
+   "args": {
+    "text": "Thank you for joining our webinar today.",
+    "targetLangCode": "de",
+    "sourceLangCode": "en"
+   }
+  },
+  {
+   "tool": "openai_media.create_speech",
+   "args": {
+    "input": "Vielen Dank, dass Sie heute an unserem Webinar teilgenommen haben.",
+    "voice": "alloy",
+    "response_format": "mp3",
+    "output_path": "webinar_thanks_de.mp3"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0
+  },
+  {
+   "type": "request_tools",
+   "capability": "translate text into German",
+   "added": [
+    "deepl.translate_text",
+    "google_cloud_ai.translate_text",
+    "openai_media.translate_audio",
+    "deepl.translate_document",
+    "pdf_tools.pdf_extract_text"
+   ],
+   "tool_tokens": 976
+  },
+  {
+   "type": "call",
+   "tool": "deepl__translate_text",
+   "valid": true
+  },
+  {
+   "type": "request_tools",
+   "capability": "convert text to speech and save as an mp3 audio file",
+   "added": [
+    "elevenlabs.text_to_speech",
+    "openai_media.create_speech",
+    "elevenlabs.speech_to_text",
+    "elevenlabs.speech_to_speech",
+    "ffmpeg_video.extract_audio"
+   ],
+   "tool_tokens": 2473
+  },
+  {
+   "type": "call",
+   "tool": "openai_media__create_speech",
+   "valid": true
+  }
+ ],
+ "done": true,
+ "final": ""
+}

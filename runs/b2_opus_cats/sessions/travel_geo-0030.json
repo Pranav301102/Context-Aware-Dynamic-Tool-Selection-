@@ -1,0 +1,70 @@
+{
+ "task_id": "travel_geo-0030",
+ "mode": "cats",
+ "loaded": [
+  "apple_mcp.reminders",
+  "deepl.translate_text",
+  "google_calendar.delete_event",
+  "ms365_pim.create_calendar_event",
+  "ms365_pim.get_schedule",
+  "ms_teams.create_online_meeting",
+  "nws_weather.get_forecast",
+  "openweathermap.get_air_pollution",
+  "openweathermap.get_current_weather",
+  "openweathermap.get_forecast"
+ ],
+ "order": [
+  "apple_mcp.reminders",
+  "deepl.translate_text",
+  "google_calendar.delete_event",
+  "ms365_pim.create_calendar_event",
+  "ms365_pim.get_schedule",
+  "ms_teams.create_online_meeting",
+  "nws_weather.get_forecast",
+  "openweathermap.get_air_pollution",
+  "openweathermap.get_current_weather",
+  "openweathermap.get_forecast"
+ ],
+ "scores": {
+  "apple_mcp.reminders": 0.0864722854062106,
+  "deepl.translate_text": 0.071385599793854,
+  "google_calendar.delete_event": 0.1941227432477261,
+  "ms365_pim.create_calendar_event": 0.05012214911294481,
+  "ms365_pim.get_schedule": 0.14193553806359527,
+  "ms_teams.create_online_meeting": 0.1337073396108542,
+  "nws_weather.get_forecast": 0.06086749112363221,
+  "openweathermap.get_air_pollution": 0.17196000880321108,
+  "openweathermap.get_current_weather": 0.09202478347414794,
+  "openweathermap.get_forecast": 0.43125851727815345
+ },
+ "router_tokens": 0,
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "openweathermap.get_forecast",
+   "args": {
+    "location": "Leeds,GB",
+    "units": "metric",
+    "cnt": 16
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 10,
+   "tool_tokens": 3039,
+   "t": 1791321887.2464595
+  },
+  {
+   "type": "call",
+   "tool": "openweathermap__get_forecast",
+   "valid": true,
+   "t": 1791321899.9033043
+  }
+ ],
+ "done": true,
+ "t_done": 1791321902.056049,
+ "final": ""
+}

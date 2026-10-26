@@ -1,0 +1,1225 @@
+{
+ "branch": {
+  "id": "bfcl_c15",
+  "name": "file / node / function",
+  "summary": "Functions about file, node, function, provided, specified, tool, given, sound, data, typescript, wave, directory."
+ },
+ "toolkits": [
+  {
+   "id": "classfilefinder",
+   "name": "ClassFileFinder",
+   "server": "bfcl://ClassFileFinder",
+   "summary": "Finds the class file for a given class name within the specified class path and returns the path to the class file.",
+   "tools": [
+    {
+     "name": "findClassFile",
+     "description": "Finds the class file for a given class name within the specified class path and returns the path to the class file.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "name": {
+        "type": "string",
+        "description": "The fully qualified name of the class to find."
+       },
+       "classPath": {
+        "type": "string",
+        "description": "The class path where to search for the class file, with paths separated by the system path separator."
+       }
+      },
+      "required": [
+       "name",
+       "classPath"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "efsniofile",
+   "name": "EFSNIOFile",
+   "server": "bfcl://EFSNIOFile",
+   "summary": "Sets the contents of a file with data from the provided InputStream, with options to force the operation and to keep or discard the file history.",
+   "tools": [
+    {
+     "name": "setContents",
+     "description": "Sets the contents of a file with data from the provided InputStream, with options to force the operation and to keep or discard the file history.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "source": {
+        "type": "string",
+        "description": "The InputStream from which file contents are read."
+       },
+       "force": {
+        "type": "boolean",
+        "description": "If true, the operation is forced, otherwise it's a normal set content operation."
+       },
+       "keepHistory": {
+        "type": "boolean",
+        "description": "If true, keeps the file history, otherwise discards it."
+       },
+       "monitor": {
+        "type": "string",
+        "description": "The IProgressMonitor to report progress of the operation."
+       }
+      },
+      "required": [
+       "source",
+       "force",
+       "keepHistory",
+       "monitor"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "exportnodetest",
+   "name": "ExportNodeTest",
+   "server": "bfcl://ExportNodeTest",
+   "summary": "Executes a generic operation on the given receiver object with the provided argument, using a specialized inlinable node and bound to a node library.",
+   "tools": [
+    {
+     "name": "doGeneric",
+     "description": "Executes a generic operation on the given receiver object with the provided argument, using a specialized inlinable node and bound to a node library.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "receiver": {
+        "type": "string",
+        "description": "The receiver object on which the operation is performed."
+       },
+       "argument": {
+        "type": "string",
+        "description": "The argument to pass to the node's execute method."
+       },
+       "node": {
+        "type": "string",
+        "description": "The specialized inlinable node used for execution."
+       },
+       "library": {
+        "type": "string",
+        "description": "The node library to which this operation is bound."
+       }
+      },
+      "required": [
+       "receiver",
+       "argument",
+       "node",
+       "library"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "flatnodegenfactory",
+   "name": "FlatNodeGenFactory",
+   "server": "bfcl://FlatNodeGenFactory",
+   "summary": "Generates introspection information for a given class representing a node in the Truffle DSL processor.",
+   "tools": [
+    {
+     "name": "generateIntrospectionInfo",
+     "description": "Generates introspection information for a given class representing a node in the Truffle DSL processor.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "clazz": {
+        "type": "string",
+        "description": "The class element representing the node for which introspection information is to be generated."
+       },
+       "inlined": {
+        "type": "boolean",
+        "description": "Indicates whether the introspection is inlined."
+       }
+      },
+      "required": [
+       "clazz",
+       "inlined"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "hbaseadapter",
+   "name": "HbaseAdapter",
+   "server": "bfcl://HbaseAdapter",
+   "summary": "Updates the HBase mapping configuration for a given file name with the provided mapping configuration, ensuring the outer adapter key remains unchanged.",
+   "tools": [
+    {
+     "name": "updateConfig",
+     "description": "Updates the HBase mapping configuration for a given file name with the provided mapping configuration, ensuring the outer adapter key remains unchanged.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "fileName": {
+        "type": "string",
+        "description": "The name of the file for which the mapping configuration is to be updated."
+       },
+       "config": {
+        "type": "string",
+        "description": "The new mapping configuration object to be used for the update."
+       }
+      },
+      "required": [
+       "fileName",
+       "config"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "nodeidconverter",
+   "name": "NodeIdConverter",
+   "server": "bfcl://NodeIdConverter",
+   "summary": "Appends the node ID to the provided StringBuilder if the node ID is available from the NodeAndClusterIdStateListener.",
+   "tools": [
+    {
+     "name": "format",
+     "description": "Appends the node ID to the provided StringBuilder if the node ID is available from the NodeAndClusterIdStateListener.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "event": {
+        "type": "string",
+        "description": "The LogEvent that contains the logging information."
+       },
+       "toAppendTo": {
+        "type": "string",
+        "description": "The StringBuilder to which the node ID will be appended."
+       }
+      },
+      "required": [
+       "event",
+       "toAppendTo"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "samlobjectsignertests",
+   "name": "SamlObjectSignerTests",
+   "server": "bfcl://SamlObjectSignerTests",
+   "summary": "Retrieves all child nodes of a specified type from a given node.",
+   "tools": [
+    {
+     "name": "getChildren",
+     "description": "Retrieves all child nodes of a specified type from a given node.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "node": {
+        "type": "string",
+        "description": "The parent Node from which to retrieve child nodes."
+       },
+       "node_type": {
+        "type": "string",
+        "description": "The Class object representing the type of child nodes to retrieve. Represented by <TYPE>.class"
+       }
+      },
+      "required": [
+       "node",
+       "node_type"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "truncatetranslogaction",
+   "name": "TruncateTranslogAction",
+   "server": "bfcl://TruncateTranslogAction",
+   "summary": "Truncates the translog for a given shard path by creating a new empty checkpoint and translog file, and removes the existing translog files.",
+   "tools": [
+    {
+     "name": "execute",
+     "description": "Truncates the translog for a given shard path by creating a new empty checkpoint and translog file, and removes the existing translog files.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "terminal": {
+        "type": "string",
+        "description": "The Terminal interface used for standard I/O interactions."
+       },
+       "shardPath": {
+        "type": "string",
+        "description": "The ShardPath object representing the path to the shard whose translog needs to be truncated. ShardPath() constructor taking a Path object, which can be returned by  Paths.get(<path string>) for example"
+       },
+       "indexDirectory": {
+        "type": "string",
+        "description": "The Directory object representing the path to the index directory of the shard. Directory object can be obtained by return value of FSDirectory.open a path string"
+       }
+      },
+      "required": [
+       "terminal",
+       "shardPath",
+       "indexDirectory"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "argumenttypes001",
+   "name": "argumenttypes001",
+   "server": "bfcl://argumenttypes001",
+   "summary": "Executes the test logic with the provided command-line arguments and directs the output to the specified PrintStream.",
+   "tools": [
+    {
+     "name": "runThis",
+     "description": "Executes the test logic with the provided command-line arguments and directs the output to the specified PrintStream.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "argv": {
+        "type": "array",
+        "description": "An array of command-line arguments to pass to the test logic.",
+        "items": {
+         "type": "string"
+        }
+       },
+       "out": {
+        "type": "string",
+        "description": "The PrintStream object where the test output will be directed."
+       }
+      },
+      "required": [
+       "argv",
+       "out"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "configstorage",
+   "name": "configStorage",
+   "server": "bfcl://configStorage",
+   "summary": "Creates a ScheduledExecutorService that periodically loads Elasticsearch credentials from a specified file at a given interval, using provided basic credentials.",
+   "tools": [
+    {
+     "name": "dynamicCredentialsScheduledExecutorService",
+     "description": "Creates a ScheduledExecutorService that periodically loads Elasticsearch credentials from a specified file at a given interval, using provided basic credentials.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "credentialsFile": {
+        "type": "string",
+        "description": "The path to the credentials file."
+       },
+       "credentialsRefreshInterval": {
+        "type": "integer",
+        "description": "The interval in seconds at which the credentials file should be reloaded."
+       },
+       "basicCredentials": {
+        "type": "string",
+        "description": "The BasicCredentials object containing the current credentials."
+       }
+      },
+      "required": [
+       "credentialsFile",
+       "credentialsRefreshInterval",
+       "basicCredentials"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "invokemethod007",
+   "name": "invokemethod007",
+   "server": "bfcl://invokemethod007",
+   "summary": "Processes command-line arguments for a debug session and logs the output to the provided PrintStream.",
+   "tools": [
+    {
+     "name": "runIt",
+     "description": "Processes command-line arguments for a debug session and logs the output to the provided PrintStream.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "args": {
+        "type": "array",
+        "description": "An array of command-line arguments to process.",
+        "items": {
+         "type": "string"
+        }
+       },
+       "out": {
+        "type": "string",
+        "description": "The PrintStream to which the output will be logged."
+       }
+      },
+      "required": [
+       "args",
+       "out"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "telemetry",
+   "name": "telemetry",
+   "server": "bfcl://telemetry",
+   "summary": "Retrieves specified telemetry information for a network interface within a given fabric, node, and pod, filtered by the interface and information types.",
+   "tools": [
+    {
+     "name": "flowrules_interfaceInfo_get",
+     "description": "Retrieves specified telemetry information for a network interface within a given fabric, node, and pod, filtered by the interface and information types.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "fabricName",
+       "nodeId",
+       "podId",
+       "interfaceType",
+       "infoType"
+      ],
+      "properties": {
+       "fabricName": {
+        "type": "string",
+        "description": "The name of the fabric to limit the nodes pertaining to the given fabric name."
+       },
+       "nodeId": {
+        "type": "integer",
+        "description": "The identifier of the node to limit the results pertaining to the given node ID."
+       },
+       "podId": {
+        "type": "integer",
+        "description": "The identifier of the pod to limit the results pertaining to the given pod ID."
+       },
+       "interfaceType": {
+        "type": "string",
+        "description": "The type of the interface to limit the results pertaining to the given interface type.",
+        "enum": [
+         "svi",
+         "ethernet",
+         "loopback",
+         "port-channel"
+        ]
+       },
+       "infoType": {
+        "type": "string",
+        "description": "The type of information to retrieve about the interface.",
+        "enum": [
+         "interfaces",
+         "status",
+         "statistics",
+         "errors"
+        ]
+       }
+      }
+     }
+    }
+   ]
+  },
+  {
+   "id": "bfcl_c15_g0",
+   "name": "node typescript function",
+   "server": "bfcl://bfcl_c15_g0",
+   "summary": "Functions for node, typescript, function, declaration, emitnewlinebeforeleadingcomments, decorators.",
+   "tools": [
+    {
+     "name": "addInitializedPropertyStatements",
+     "description": "This function adds statements for initializing properties to an array of statements. It is designed to work with TypeScript's AST manipulation.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "statements": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "The array of statements to which the new initialized property statements will be added."
+       },
+       "property": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "An array of property names that need to be initialized. Default empty array"
+       },
+       "receiver": {
+        "type": "string",
+        "description": "The name of the object for which the properties are being initialized."
+       }
+      },
+      "required": [
+       "statements",
+       "property",
+       "receiver"
+      ]
+     }
+    },
+    {
+     "name": "areDeclarationFlagsIdentical",
+     "description": "This function compares two TypeScript declaration objects to determine if they have identical declaration flags, taking into account specific allowances for differences in optionality between parameters and variable declarations.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "left": {
+        "type": "string",
+        "description": "The first TypeScript declaration object to compare."
+       },
+       "right": {
+        "type": "string",
+        "description": "The second TypeScript declaration object to compare."
+       }
+      },
+      "required": [
+       "left",
+       "right"
+      ]
+     }
+    },
+    {
+     "name": "emitNewLineBeforeLeadingComments",
+     "description": "This function ensures that a new line is emitted before the leading comments of a specified node within a TypeScript file.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "lineMap": {
+        "type": "string",
+        "description": "An object representing the line map of the TypeScript file."
+       },
+       "writer": {
+        "type": "string",
+        "description": "An object used for writing to the TypeScript file."
+       },
+       "node": {
+        "type": "integer",
+        "description": "The position of the node.."
+       },
+       "leadingComments": {
+        "type": "string",
+        "description": "An array of leading comment objects associated with the node. Default empty array"
+       }
+      },
+      "required": [
+       "lineMap",
+       "writer",
+       "node"
+      ]
+     }
+    },
+    {
+     "name": "getDirectoryToWatchFromFailedLookupLocationDirectory",
+     "description": "This function determines the most suitable directory to watch for file changes based on a given directory path, especially handling paths within 'node_modules' by selecting the top-most 'node_modules' directory or an ancestor directory.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "dir": {
+        "type": "string",
+        "description": "The initial directory to consider for watching."
+       },
+       "dirPath": {
+        "type": "string",
+        "description": "The full path of the directory to consider for watching."
+       }
+      },
+      "required": [
+       "dir",
+       "dirPath"
+      ]
+     }
+    },
+    {
+     "name": "skipThrough",
+     "description": "This function allows for a custom operation to be performed on a node during a tree traversal by executing a callback function with the node and a state object as arguments.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "node": {
+        "type": "string",
+        "description": "The current node being processed in the tree traversal."
+       },
+       "st": {
+        "type": "string",
+        "description": "The state object associated with the current node."
+       },
+       "c": {
+        "type": "string",
+        "description": "The callback function to be executed on the current node and state object."
+       }
+      },
+      "required": [
+       "node",
+       "st",
+       "c"
+      ]
+     }
+    },
+    {
+     "name": "transformAllDecoratorsOfDeclaration",
+     "description": "This function processes and transforms all decorators associated with a TypeScript declaration node. It combines transformed decorators and parameters decorators into a single array.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "node": {
+        "type": "string",
+        "description": "The TypeScript declaration node to process."
+       },
+       "container": {
+        "type": "string",
+        "description": "The container that holds the node."
+       }
+      },
+      "required": [
+       "node",
+       "container"
+      ]
+     }
+    },
+    {
+     "name": "updateBreak",
+     "description": "This function updates the label of a break node within an abstract syntax tree. If the current label of the node does not match the provided label, it creates a new break node with the specified label and updates the original node.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "node": {
+        "type": "string",
+        "description": "The break node to be updated."
+       },
+       "label": {
+        "type": "string",
+        "description": "The new label to assign to the break node."
+       }
+      },
+      "required": [
+       "node",
+       "label"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "bfcl_c15_g1",
+   "name": "file tool lawsuit",
+   "server": "bfcl://bfcl_c15_g1",
+   "summary": "Functions for file, tool, lawsuit, write, complaint, sound.",
+   "tools": [
+    {
+     "name": "detect_beats_and_filter",
+     "description": "Analyzes an audio file to detect beats and filters them based on confidence levels and timing. Returns a list of times in seconds, each representing the occurrence of a significant beat within the audio file.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "capture_percentage",
+       "confidence_window_size"
+      ],
+      "properties": {
+       "capture_percentage": {
+        "type": "integer",
+        "description": "Filters beats by excluding those below a specified confidence percentile. Values range from 0 to 100 (inclusive)."
+       },
+       "confidence_window_size": {
+        "type": "number",
+        "description": "Selects the highest confidence beat within a given time window in seconds (e.g., 0.5), to ensure distinct beats are chosen in that period."
+       }
+      }
+     }
+    },
+    {
+     "name": "file_complaint",
+     "description": "File a complaint for noise to the local council in a specified city.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "complaint_type": {
+        "type": "string",
+        "description": "The type of complaint, such as noise, litter, etc."
+       },
+       "location": {
+        "type": "string",
+        "description": "The city where the complaint is to be filed."
+       },
+       "details": {
+        "type": "string",
+        "description": "Detailed information about the complaint.",
+        "optional": true,
+        "default": "bug"
+       }
+      },
+      "required": [
+       "complaint_type",
+       "location"
+      ]
+     }
+    },
+    {
+     "name": "file_lawsuit",
+     "description": "File a lawsuit against a party.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "defendant": {
+        "type": "string",
+        "description": "The party being sued."
+       },
+       "plaintiff": {
+        "type": "string",
+        "description": "The party filing the lawsuit."
+       },
+       "jurisdiction": {
+        "type": "string",
+        "description": "The legal jurisdiction in which the lawsuit is being filed, e.g. New York, NY",
+        "default": "Your local jurisdiction"
+       }
+      },
+      "required": [
+       "defendant",
+       "plaintiff"
+      ]
+     }
+    },
+    {
+     "name": "generate_image_tool",
+     "description": "Generates an image based on the provided description and saves it with the specified file name. The image description should be detailed to ensure the resulting image matches the desired subject and surroundings; otherwise, these aspects will be chosen randomly. This function is not intended for generating images from textual data.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "desc",
+       "file_name"
+      ],
+      "properties": {
+       "desc": {
+        "type": "string",
+        "description": "A single string that provides a detailed description of the desired image. For example, 'a sunset over the mountains with a lake in the foreground'."
+       },
+       "file_name": {
+        "type": "string",
+        "description": "The name of the file to which the generated image will be saved. It should include the file extension, such as 'image.png'."
+       }
+      }
+     }
+    },
+    {
+     "name": "play_sound_wave",
+     "description": "This function is for playing a sound wave file.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "wave_file": {
+        "type": "string",
+        "description": "The filename of the sound wave file to be played."
+       },
+       "volume": {
+        "type": "number",
+        "description": "The volume level at which the sound is to be played (1 is 100%).",
+        "default": 1
+       }
+      },
+      "required": [
+       "wave_file"
+      ]
+     }
+    },
+    {
+     "name": "pollQueue",
+     "description": "This function processes a queue of file watch objects at specified intervals, checking a chunk of files at a time for any modifications.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "queue": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "The queue of file watch objects to be processed."
+       },
+       "pollingInterval": {
+        "type": "number",
+        "description": "The interval in milliseconds at which the queue is polled."
+       },
+       "pollIndex": {
+        "type": "number",
+        "description": "The starting index in the queue from which polling begins."
+       },
+       "chunkSize": {
+        "type": "number",
+        "description": "The number of files to be checked in each polling interval."
+       }
+      },
+      "required": [
+       "queue",
+       "pollingInterval",
+       "pollIndex",
+       "chunkSize"
+      ]
+     }
+    },
+    {
+     "name": "tts_tool",
+     "description": "Converts the provided text content to speech and saves the resulting audio to a file. This function is intended for voice narration and should be used accordingly.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "content"
+      ],
+      "properties": {
+       "content": {
+        "type": "string",
+        "description": "The text content that needs to be converted to speech."
+       },
+       "speaker": {
+        "type": "string",
+        "description": "The voice to be used for the text-to-speech conversion.",
+        "enum": [
+         "male",
+         "female",
+         "bria",
+         "alex"
+        ],
+        "default": "female"
+       },
+       "file_name": {
+        "type": "string",
+        "description": "The name of the file to save the audio output without the extension. If left empty, a default name will be generated based on the content.",
+        "default": ""
+       }
+      }
+     }
+    },
+    {
+     "name": "write_html_tool",
+     "description": "Writes an HTML file to disk with the given content. Ensures HTML tags within the content are properly closed. This function should be used when there is a need to save HTML content to a file as part of a 'save' operation.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "content"
+      ],
+      "properties": {
+       "content": {
+        "type": "string",
+        "description": "The HTML content to be written to the file. Must contain valid HTML structure."
+       },
+       "filename": {
+        "type": "string",
+        "description": "The name of the file to which the HTML content will be written. If not provided, a default filename will be used.",
+        "default": "output.html"
+       }
+      }
+     }
+    },
+    {
+     "name": "write_markdown_tool",
+     "description": "Writes the provided content to a Markdown (.md) file on the disk. This function should be used when there is a need to persist text data in Markdown format as a result of a user action or a process that requires saving information in a structured text file.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "content"
+      ],
+      "properties": {
+       "content": {
+        "type": "string",
+        "description": "The Markdown formatted text content to be written to the file."
+       },
+       "filename": {
+        "type": "string",
+        "description": "The name of the file to which the Markdown content will be written. If not provided, a default filename will be used.",
+        "default": "output.md"
+       }
+      }
+     }
+    }
+   ]
+  },
+  {
+   "id": "bfcl_c15_g2",
+   "name": "file compress data",
+   "server": "bfcl://bfcl_c15_g2",
+   "summary": "Functions for file, compress, data, loading, generates, zip.",
+   "tools": [
+    {
+     "name": "compress_file",
+     "description": "Compresses a given file into a zip archive.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "file_path": {
+        "type": "string",
+        "description": "The path of the file to compress."
+       },
+       "archive_name": {
+        "type": "string",
+        "description": "The name of the resulting archive."
+       },
+       "compression_level": {
+        "type": "integer",
+        "description": "The level of compression to apply (from 0 to 9). Default is 5."
+       }
+      },
+      "required": [
+       "file_path",
+       "archive_name"
+      ]
+     }
+    },
+    {
+     "name": "create_a_docker_file",
+     "description": "Generates a Dockerfile in the specified repository directory with a default configuration.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "directory_name"
+      ],
+      "properties": {
+       "directory_name": {
+        "type": "string",
+        "description": "The name of the repository directory where the Dockerfile will be created. It should be a valid directory name within the filesystem."
+       },
+       "base_image": {
+        "type": "string",
+        "description": "The base image to use in the Dockerfile. For example, 'python:3.8-slim'.",
+        "default": "alpine:latest"
+       },
+       "maintainer": {
+        "type": "string",
+        "description": "The maintainer information to be added to the Dockerfile. Format should be 'Name <email@example.com>'.",
+        "default": null
+       },
+       "port": {
+        "type": "integer",
+        "description": "The port number that the container will expose. For example, '80' for a web server.",
+        "default": 80
+       },
+       "commands": {
+        "type": "string",
+        "description": "Additional commands to be executed when building the image, separated by ';'. For example, 'apt-get update; apt-get install -y git'.",
+        "default": ""
+       }
+      }
+     }
+    },
+    {
+     "name": "create_a_docker_file_2",
+     "description": "Generates a Dockerfile within the specified repository directory to enable containerization of the application.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "directory_name"
+      ],
+      "properties": {
+       "directory_name": {
+        "type": "string",
+        "description": "The name of the repository directory where the Dockerfile will be created. The directory name should be a valid path relative to the root of the repository."
+       }
+      }
+     }
+    },
+    {
+     "name": "create_a_docker_file_3",
+     "description": "This function generates a Dockerfile in the specified directory with basic configuration. The Dockerfile will be tailored to a simple Python application.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "directory_name"
+      ],
+      "properties": {
+       "directory_name": {
+        "type": "string",
+        "description": "The name of the directory where the Dockerfile will be created. It should be a valid directory path relative to the current working directory."
+       },
+       "base_image": {
+        "type": "string",
+        "description": "The base image to use for the Dockerfile, representing the starting point for the build.",
+        "enum": [
+         "python:3.8-slim",
+         "python:3.9-slim",
+         "python:3.10-slim"
+        ],
+        "default": "python:3.8-slim"
+       },
+       "maintainer": {
+        "type": "string",
+        "description": "The name of the maintainer or author of the Dockerfile.",
+        "default": "Unknown"
+       },
+       "expose_port": {
+        "type": "integer",
+        "description": "The port number that the container should expose. This is typically the port that the application listens on.",
+        "default": 80
+       },
+       "entrypoint": {
+        "type": "string",
+        "description": "The command that will be executed when the Docker container starts.",
+        "default": "python app.py"
+       }
+      }
+     }
+    },
+    {
+     "name": "create_kubernetes_yaml_file",
+     "description": "Generates a Kubernetes deployment and service YAML file based on the provided directory name.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "directory_name"
+      ],
+      "properties": {
+       "directory_name": {
+        "type": "string",
+        "description": "The name of the directory where the repo is located. This will be used to name the Kubernetes deployment and service."
+       },
+       "deployment_name": {
+        "type": "string",
+        "description": "The name to assign to the Kubernetes deployment. use Defaults if not provided.",
+        "default": null
+       },
+       "image_name": {
+        "type": "string",
+        "description": "The name of the Docker image to be used in the deployment. use latest if not provided",
+        "default": "latest"
+       },
+       "replicas": {
+        "type": "integer",
+        "description": "The number of pod replicas to be deployed.",
+        "default": 1
+       },
+       "port": {
+        "type": "integer",
+        "description": "The container port that the service will expose.",
+        "default": 80
+       },
+       "service_type": {
+        "type": "string",
+        "description": "The type of the Kubernetes service to create.",
+        "enum": [
+         "ClusterIP",
+         "NodePort",
+         "LoadBalancer"
+        ],
+        "default": "ClusterIP"
+       }
+      }
+     }
+    },
+    {
+     "name": "create_kubernetes_yaml_file_2",
+     "description": "Generates a Kubernetes deployment and service YAML file in the specified directory.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "directory_name"
+      ],
+      "properties": {
+       "directory_name": {
+        "type": "string",
+        "description": "The name of the directory where the Kubernetes YAML file will be created. This should be a valid path relative to the project root."
+       },
+       "deployment_name": {
+        "type": "string",
+        "description": "The name to assign to the Kubernetes deployment. This name must be unique within the Kubernetes namespace.",
+        "default": "default-deployment"
+       },
+       "image_name": {
+        "type": "string",
+        "description": "The name of the Docker image to use for the deployment. This should include the repository name and tag, if applicable, in the format 'repository/image:tag'.",
+        "default": "nginx:latest"
+       },
+       "replicas": {
+        "type": "integer",
+        "description": "The number of instances to deploy for the specified Docker image.",
+        "default": 1
+       },
+       "service_type": {
+        "type": "string",
+        "description": "The type of service to create for the deployment. Typical values include 'ClusterIP', 'NodePort', and 'LoadBalancer'.",
+        "enum": [
+         "ClusterIP",
+         "NodePort",
+         "LoadBalancer"
+        ],
+        "default": "ClusterIP"
+       },
+       "port": {
+        "type": "integer",
+        "description": "The port number that the service should expose. This should correspond to the port that the application inside the Docker container is set to listen on.",
+        "default": 80
+       },
+       "target_port": {
+        "type": "integer",
+        "description": "The target port on the pod to which the service will send requests. This should be the same as the port that the application inside the Docker container is set to listen on.",
+        "default": 80
+       }
+      }
+     }
+    },
+    {
+     "name": "create_kubernetes_yaml_file_3",
+     "description": "Generates a Kubernetes deployment and service YAML file in the specified repository directory.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "directory_name"
+      ],
+      "properties": {
+       "directory_name": {
+        "type": "string",
+        "description": "The name of the directory where the Kubernetes YAML file will be created. This should be the root directory of the repository."
+       },
+       "deployment_name": {
+        "type": "string",
+        "description": "The name of the deployment to be created. This should be a unique identifier for the deployment.",
+        "default": "default-deployment"
+       },
+       "image_name": {
+        "type": "string",
+        "description": "The name of the Docker image to be used in the deployment. Include the image version tag if necessary.",
+        "default": "nginx:latest"
+       },
+       "replicas": {
+        "type": "integer",
+        "description": "The number of replicated pods desired in the deployment.",
+        "default": 2
+       },
+       "port": {
+        "type": "integer",
+        "description": "The port number that the container exposes for communication.",
+        "default": 80
+       },
+       "service_type": {
+        "type": "string",
+        "description": "The type of Kubernetes service to be created for the deployment.",
+        "enum": [
+         "ClusterIP",
+         "NodePort",
+         "LoadBalancer"
+        ],
+        "default": "ClusterIP"
+       }
+      }
+     }
+    },
+    {
+     "name": "data_loading",
+     "description": "Load data from a csv file into a data structure.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "file_path": {
+        "type": "string",
+        "description": "The path to the file to load."
+       },
+       "delimiter": {
+        "type": "string",
+        "description": "The character used to separate values in the file. Optional.",
+        "default": ","
+       }
+      },
+      "required": [
+       "file_path"
+      ]
+     }
+    },
+    {
+     "name": "generate_fake_records",
+     "description": "Generates a specified number of fake records with options to include banking data, extended personal information, and the ability to compress the data into a ZIP file with optional password protection.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "number"
+      ],
+      "properties": {
+       "number": {
+        "type": "integer",
+        "description": "The number of fake records to be generated."
+       },
+       "bankdata": {
+        "type": "boolean",
+        "description": "Whether to include banking data (Card number, CVV, IBAN, etc.) in the records.",
+        "default": false
+       },
+       "extended": {
+        "type": "boolean",
+        "description": "Whether to include extended information (City, Phone number, Social Security number, etc.) in the records.",
+        "default": false
+       },
+       "photo": {
+        "type": "boolean",
+        "description": "Whether to add a photo to each fake record.",
+        "default": false
+       },
+       "compress": {
+        "type": "boolean",
+        "description": "Whether to compress the generated records into a ZIP file.",
+        "default": false
+       },
+       "password": {
+        "type": "string",
+        "description": "The password to protect the ZIP file. Ignored if 'compress' is false or not provided.",
+        "default": null
+       }
+      }
+     }
+    },
+    {
+     "name": "generate_sound_wave",
+     "description": "This function is for generating a sinusoidal sound wave file of a certain frequency for a specific duration and save it to a WAV file.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "frequency": {
+        "type": "number",
+        "description": "The frequency of the sound wave in Hz."
+       },
+       "duration": {
+        "type": "integer",
+        "description": "The duration of the sound in seconds."
+       },
+       "wave_type": {
+        "type": "string",
+        "enum": [
+         "sine",
+         "square",
+         "sawtooth"
+        ],
+        "description": "The waveform to be used to generate the sound.",
+        "default": "sine"
+       }
+      },
+      "required": [
+       "frequency",
+       "duration"
+      ]
+     }
+    },
+    {
+     "name": "generate_sound_wave_2",
+     "description": "This function is for generating a sinusoidal sound wave file of a certain frequency for a specific duration and save it to a WAV file.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "frequency": {
+        "type": "integer",
+        "description": "The frequency of the sound wave in Hz."
+       },
+       "duration": {
+        "type": "integer",
+        "description": "The duration of the sound in seconds."
+       },
+       "wave_type": {
+        "type": "string",
+        "enum": [
+         "sine",
+         "square",
+         "sawtooth"
+        ],
+        "description": "The waveform to be used to generate the sound.",
+        "default": "sine"
+       }
+      },
+      "required": [
+       "frequency",
+       "duration"
+      ]
+     }
+    }
+   ]
+  }
+ ]
+}

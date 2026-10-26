@@ -1,0 +1,1181 @@
+{
+  "branch": {
+    "id": "education",
+    "name": "Education",
+    "summary": "Teaching and learning platforms: courses and enrollments, assignments and student submissions, grading and gradebooks, quizzes and question banks, class announcements and plagiarism checks."
+  },
+  "toolkits": [
+    {
+      "id": "canvas_lms",
+      "name": "Canvas LMS",
+      "server": "mcp://canvas",
+      "summary": "Instructure Canvas: courses, modules, assignments, submissions, grades and announcements.",
+      "tools": [
+        {
+          "name": "list_courses",
+          "description": "List courses for the current user, filtered by enrollment role and state.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "enrollment_type": {
+                "type": "string",
+                "description": "Role in the course.",
+                "enum": [
+                  "teacher",
+                  "student",
+                  "ta",
+                  "observer",
+                  "designer"
+                ]
+              },
+              "enrollment_state": {
+                "type": "string",
+                "description": "Enrollment state.",
+                "enum": [
+                  "active",
+                  "invited_or_pending",
+                  "completed"
+                ]
+              },
+              "search_term": {
+                "type": "string",
+                "description": "Course name or code contains."
+              },
+              "include": {
+                "type": "array",
+                "description": "Extra data.",
+                "items": {
+                  "type": "string",
+                  "description": "Include.",
+                  "enum": [
+                    "syllabus_body",
+                    "total_students",
+                    "term",
+                    "teachers"
+                  ]
+                }
+              },
+              "per_page": {
+                "type": "integer",
+                "description": "Page size.",
+                "default": 50
+              }
+            }
+          }
+        },
+        {
+          "name": "get_course",
+          "description": "Get course details.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "course_id": {
+                "type": "string",
+                "description": "Course id or 'sis_course_id:XYZ'."
+              },
+              "include": {
+                "type": "array",
+                "description": "Extra data.",
+                "items": {
+                  "type": "string",
+                  "description": "Include.",
+                  "enum": [
+                    "syllabus_body",
+                    "total_students",
+                    "term",
+                    "teachers"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "course_id"
+            ]
+          }
+        },
+        {
+          "name": "list_assignments",
+          "description": "List assignments in a course. Use bucket to get only upcoming, overdue, ungraded or past assignments.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "course_id": {
+                "type": "string",
+                "description": "Course id."
+              },
+              "bucket": {
+                "type": "string",
+                "description": "Due-date bucket.",
+                "enum": [
+                  "past",
+                  "overdue",
+                  "undated",
+                  "ungraded",
+                  "unsubmitted",
+                  "upcoming",
+                  "future"
+                ]
+              },
+              "search_term": {
+                "type": "string",
+                "description": "Assignment name contains."
+              },
+              "order_by": {
+                "type": "string",
+                "description": "Sort.",
+                "enum": [
+                  "position",
+                  "name",
+                  "due_at"
+                ],
+                "default": "position"
+              }
+            },
+            "required": [
+              "course_id"
+            ]
+          }
+        },
+        {
+          "name": "create_assignment",
+          "description": "Create an assignment in a course.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "course_id": {
+                "type": "string",
+                "description": "Course id."
+              },
+              "name": {
+                "type": "string",
+                "description": "Assignment title."
+              },
+              "description": {
+                "type": "string",
+                "description": "Instructions (HTML allowed)."
+              },
+              "points_possible": {
+                "type": "number",
+                "description": "Maximum points."
+              },
+              "due_at": {
+                "type": "string",
+                "description": "Due date-time (ISO 8601).",
+                "format": "date-time"
+              },
+              "unlock_at": {
+                "type": "string",
+                "description": "Available from (ISO 8601)."
+              },
+              "lock_at": {
+                "type": "string",
+                "description": "Available until (ISO 8601)."
+              },
+              "submission_types": {
+                "type": "array",
+                "description": "Allowed submission types.",
+                "items": {
+                  "type": "string",
+                  "description": "Type.",
+                  "enum": [
+                    "online_text_entry",
+                    "online_upload",
+                    "online_url",
+                    "media_recording",
+                    "on_paper",
+                    "none",
+                    "external_tool"
+                  ]
+                }
+              },
+              "grading_type": {
+                "type": "string",
+                "description": "Grading type.",
+                "enum": [
+                  "points",
+                  "percent",
+                  "letter_grade",
+                  "pass_fail",
+                  "not_graded"
+                ],
+                "default": "points"
+              },
+              "assignment_group_id": {
+                "type": "string",
+                "description": "Assignment group (weighting category)."
+              },
+              "allowed_attempts": {
+                "type": "integer",
+                "description": "Max attempts; -1 for unlimited.",
+                "default": -1
+              },
+              "published": {
+                "type": "boolean",
+                "description": "Publish immediately.",
+                "default": false
+              }
+            },
+            "required": [
+              "course_id",
+              "name"
+            ]
+          }
+        },
+        {
+          "name": "update_assignment",
+          "description": "Update an assignment's due date, points, description or published state.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "course_id": {
+                "type": "string",
+                "description": "Course id."
+              },
+              "assignment_id": {
+                "type": "string",
+                "description": "Assignment id."
+              },
+              "updates": {
+                "type": "object",
+                "description": "Fields to change.",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Title."
+                  },
+                  "due_at": {
+                    "type": "string",
+                    "description": "Due date-time."
+                  },
+                  "points_possible": {
+                    "type": "number",
+                    "description": "Points."
+                  },
+                  "published": {
+                    "type": "boolean",
+                    "description": "Published."
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "Instructions."
+                  }
+                }
+              }
+            },
+            "required": [
+              "course_id",
+              "assignment_id",
+              "updates"
+            ]
+          }
+        },
+        {
+          "name": "list_submissions",
+          "description": "List student submissions for an assignment with workflow state (submitted, graded, pending_review) and late/missing flags.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "course_id": {
+                "type": "string",
+                "description": "Course id."
+              },
+              "assignment_id": {
+                "type": "string",
+                "description": "Assignment id."
+              },
+              "workflow_state": {
+                "type": "string",
+                "description": "Filter by state.",
+                "enum": [
+                  "submitted",
+                  "unsubmitted",
+                  "graded",
+                  "pending_review"
+                ]
+              },
+              "include": {
+                "type": "array",
+                "description": "Extra data.",
+                "items": {
+                  "type": "string",
+                  "description": "Include.",
+                  "enum": [
+                    "submission_comments",
+                    "rubric_assessment",
+                    "user"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "course_id",
+              "assignment_id"
+            ]
+          }
+        },
+        {
+          "name": "grade_submission",
+          "description": "Grade or comment on a student's submission.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "course_id": {
+                "type": "string",
+                "description": "Course id."
+              },
+              "assignment_id": {
+                "type": "string",
+                "description": "Assignment id."
+              },
+              "user_id": {
+                "type": "string",
+                "description": "Student user id."
+              },
+              "posted_grade": {
+                "type": "string",
+                "description": "Grade: points ('18'), percentage ('85%'), letter ('B+') or 'pass'/'fail'."
+              },
+              "comment_text": {
+                "type": "string",
+                "description": "Feedback comment."
+              },
+              "rubric_assessment": {
+                "type": "object",
+                "description": "Rubric criterion id -> {points, comments}.",
+                "additionalProperties": true
+              }
+            },
+            "required": [
+              "course_id",
+              "assignment_id",
+              "user_id"
+            ]
+          }
+        },
+        {
+          "name": "get_gradebook",
+          "description": "Get current and final grades for every student enrolled in a course.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "course_id": {
+                "type": "string",
+                "description": "Course id."
+              },
+              "grading_period_id": {
+                "type": "string",
+                "description": "Grading period."
+              },
+              "include_inactive": {
+                "type": "boolean",
+                "description": "Include inactive enrollments.",
+                "default": false
+              }
+            },
+            "required": [
+              "course_id"
+            ]
+          }
+        },
+        {
+          "name": "enroll_user",
+          "description": "Enroll a user in a course",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "course_id": {
+                "type": "string",
+                "description": "Course id."
+              },
+              "user_id": {
+                "type": "string",
+                "description": "User id."
+              },
+              "type": {
+                "type": "string",
+                "description": "Enrollment type.",
+                "enum": [
+                  "StudentEnrollment",
+                  "TeacherEnrollment",
+                  "TaEnrollment",
+                  "ObserverEnrollment"
+                ],
+                "default": "StudentEnrollment"
+              },
+              "section_id": {
+                "type": "string",
+                "description": "Course section."
+              },
+              "notify": {
+                "type": "boolean",
+                "description": "Send enrollment email.",
+                "default": false
+              }
+            },
+            "required": [
+              "course_id",
+              "user_id"
+            ]
+          }
+        },
+        {
+          "name": "post_announcement",
+          "description": "Post an announcement to a course. Optionally delay posting until a set time.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "course_id": {
+                "type": "string",
+                "description": "Course id."
+              },
+              "title": {
+                "type": "string",
+                "description": "Title."
+              },
+              "message": {
+                "type": "string",
+                "description": "Body (HTML)."
+              },
+              "delayed_post_at": {
+                "type": "string",
+                "description": "Post at (ISO 8601)."
+              },
+              "section_ids": {
+                "type": "array",
+                "description": "Limit to sections.",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": [
+              "course_id",
+              "title",
+              "message"
+            ]
+          }
+        },
+        {
+          "name": "list_modules",
+          "description": "List modules.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "course_id": {
+                "type": "string",
+                "description": "Course id."
+              },
+              "include_items": {
+                "type": "boolean",
+                "description": "Include module items.",
+                "default": false
+              }
+            },
+            "required": [
+              "course_id"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "google_classroom",
+      "name": "Google Classroom",
+      "server": "mcp://google-classroom",
+      "summary": "Classes, coursework, student submissions, rosters and announcements in Google Classroom.",
+      "tools": [
+        {
+          "name": "list_classes",
+          "description": "List classes the user teaches or is enrolled in.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "teacher_id": {
+                "type": "string",
+                "description": "Teacher id or 'me'."
+              },
+              "student_id": {
+                "type": "string",
+                "description": "Student id or 'me'."
+              },
+              "course_states": {
+                "type": "array",
+                "description": "States.",
+                "items": {
+                  "type": "string",
+                  "description": "State.",
+                  "enum": [
+                    "ACTIVE",
+                    "ARCHIVED",
+                    "PROVISIONED",
+                    "DECLINED"
+                  ]
+                }
+              },
+              "page_size": {
+                "type": "integer",
+                "description": "Page size."
+              }
+            }
+          }
+        },
+        {
+          "name": "create_coursework",
+          "description": "Create an assignment, short-answer question or multiple-choice question in a class, as a draft or published.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "course_id": {
+                "type": "string",
+                "description": "Class id."
+              },
+              "title": {
+                "type": "string",
+                "description": "Title."
+              },
+              "description": {
+                "type": "string",
+                "description": "Instructions."
+              },
+              "work_type": {
+                "type": "string",
+                "description": "Coursework type.",
+                "enum": [
+                  "ASSIGNMENT",
+                  "SHORT_ANSWER_QUESTION",
+                  "MULTIPLE_CHOICE_QUESTION"
+                ]
+              },
+              "max_points": {
+                "type": "number",
+                "description": "Max points; omit for ungraded."
+              },
+              "due_date": {
+                "type": "object",
+                "description": "Due date.",
+                "properties": {
+                  "year": {
+                    "type": "integer"
+                  },
+                  "month": {
+                    "type": "integer"
+                  },
+                  "day": {
+                    "type": "integer"
+                  }
+                }
+              },
+              "due_time": {
+                "type": "object",
+                "description": "Due time (UTC).",
+                "properties": {
+                  "hours": {
+                    "type": "integer"
+                  },
+                  "minutes": {
+                    "type": "integer"
+                  }
+                }
+              },
+              "choices": {
+                "type": "array",
+                "description": "Answer choices for multiple-choice questions.",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "materials": {
+                "type": "array",
+                "description": "Attached materials.",
+                "items": {
+                  "type": "object",
+                  "description": "Material.",
+                  "properties": {
+                    "link_url": {
+                      "type": "string",
+                      "description": "URL."
+                    },
+                    "drive_file_id": {
+                      "type": "string",
+                      "description": "Drive file id."
+                    },
+                    "youtube_id": {
+                      "type": "string",
+                      "description": "YouTube video id."
+                    }
+                  }
+                }
+              },
+              "topic_id": {
+                "type": "string",
+                "description": "Topic."
+              },
+              "state": {
+                "type": "string",
+                "description": "State.",
+                "enum": [
+                  "PUBLISHED",
+                  "DRAFT"
+                ],
+                "default": "DRAFT"
+              }
+            },
+            "required": [
+              "course_id",
+              "title",
+              "work_type"
+            ]
+          }
+        },
+        {
+          "name": "list_student_submissions",
+          "description": "List student submissions for coursework.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "course_id": {
+                "type": "string",
+                "description": "Class id."
+              },
+              "coursework_id": {
+                "type": "string",
+                "description": "Coursework id, or '-' for all."
+              },
+              "states": {
+                "type": "array",
+                "description": "Submission states.",
+                "items": {
+                  "type": "string",
+                  "description": "State.",
+                  "enum": [
+                    "NEW",
+                    "CREATED",
+                    "TURNED_IN",
+                    "RETURNED",
+                    "RECLAIMED_BY_STUDENT"
+                  ]
+                }
+              },
+              "late": {
+                "type": "string",
+                "description": "Lateness filter.",
+                "enum": [
+                  "LATE_ONLY",
+                  "NOT_LATE_ONLY"
+                ]
+              },
+              "user_id": {
+                "type": "string",
+                "description": "Student id."
+              }
+            },
+            "required": [
+              "course_id",
+              "coursework_id"
+            ]
+          }
+        },
+        {
+          "name": "return_submission",
+          "description": "Return a turned-in submission to the student and publish the assigned grade.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "course_id": {
+                "type": "string",
+                "description": "Class id."
+              },
+              "coursework_id": {
+                "type": "string",
+                "description": "Coursework id."
+              },
+              "submission_id": {
+                "type": "string",
+                "description": "Submission id."
+              },
+              "assigned_grade": {
+                "type": "number",
+                "description": "Grade to set before returning."
+              }
+            },
+            "required": [
+              "course_id",
+              "coursework_id",
+              "submission_id"
+            ]
+          }
+        },
+        {
+          "name": "invite_student",
+          "description": "Invite a student to a class by email.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "course_id": {
+                "type": "string",
+                "description": "Class id."
+              },
+              "email": {
+                "type": "string",
+                "description": "Student email."
+              }
+            },
+            "required": [
+              "course_id",
+              "email"
+            ]
+          }
+        },
+        {
+          "name": "list_roster",
+          "description": "List students and teachers in a class.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "course_id": {
+                "type": "string",
+                "description": "Class id."
+              },
+              "role": {
+                "type": "string",
+                "description": "Who to list.",
+                "enum": [
+                  "students",
+                  "teachers",
+                  "all"
+                ],
+                "default": "all"
+              }
+            },
+            "required": [
+              "course_id"
+            ]
+          }
+        },
+        {
+          "name": "create_announcement",
+          "description": "Post an announcement to the class stream.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "course_id": {
+                "type": "string",
+                "description": "Class id."
+              },
+              "text": {
+                "type": "string",
+                "description": "Announcement text."
+              },
+              "scheduled_time": {
+                "type": "string",
+                "description": "Schedule for later (RFC 3339)."
+              },
+              "materials": {
+                "type": "array",
+                "description": "Links or Drive files.",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": [
+              "course_id",
+              "text"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "moodle_quiz",
+      "name": "Moodle Quizzes",
+      "server": "mcp://moodle",
+      "summary": "Moodle web services for quizzes, question banks, attempts, overrides and user grades.",
+      "tools": [
+        {
+          "name": "create_quiz",
+          "description": "Create a quiz activity in a course section.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "course_id": {
+                "type": "integer",
+                "description": "Course id."
+              },
+              "section": {
+                "type": "integer",
+                "description": "Course section number."
+              },
+              "name": {
+                "type": "string",
+                "description": "Quiz name."
+              },
+              "intro": {
+                "type": "string",
+                "description": "Description shown to students."
+              },
+              "time_open": {
+                "type": "string",
+                "description": "Open date-time (ISO 8601)."
+              },
+              "time_close": {
+                "type": "string",
+                "description": "Close date-time (ISO 8601)."
+              },
+              "time_limit_minutes": {
+                "type": "integer",
+                "description": "Time limit; 0 for none.",
+                "default": 0
+              },
+              "attempts_allowed": {
+                "type": "integer",
+                "description": "Attempts allowed; 0 for unlimited.",
+                "default": 0
+              },
+              "grading_method": {
+                "type": "string",
+                "description": "How multiple attempts are graded.",
+                "enum": [
+                  "highest",
+                  "average",
+                  "first",
+                  "last"
+                ],
+                "default": "highest"
+              },
+              "shuffle_questions": {
+                "type": "boolean",
+                "description": "Shuffle question order.",
+                "default": false
+              },
+              "pass_grade": {
+                "type": "number",
+                "description": "Grade to pass."
+              }
+            },
+            "required": [
+              "course_id",
+              "name"
+            ]
+          }
+        },
+        {
+          "name": "add_quiz_question",
+          "description": "Add a question to a quiz, either a new question or one from the question bank.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "quiz_id": {
+                "type": "integer",
+                "description": "Quiz id."
+              },
+              "question": {
+                "type": "object",
+                "description": "A new question.",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "description": "Question type.",
+                    "enum": [
+                      "multichoice",
+                      "truefalse",
+                      "shortanswer",
+                      "numerical",
+                      "essay",
+                      "match"
+                    ]
+                  },
+                  "text": {
+                    "type": "string",
+                    "description": "Question text (HTML)."
+                  },
+                  "answers": {
+                    "type": "array",
+                    "description": "Answer options.",
+                    "items": {
+                      "type": "object",
+                      "description": "Answer.",
+                      "properties": {
+                        "text": {
+                          "type": "string",
+                          "description": "Answer text."
+                        },
+                        "fraction": {
+                          "type": "number",
+                          "description": "Credit for this answer from 0 to 1."
+                        },
+                        "feedback": {
+                          "type": "string",
+                          "description": "Feedback shown for this answer."
+                        }
+                      }
+                    }
+                  },
+                  "default_mark": {
+                    "type": "number",
+                    "description": "Marks for the question.",
+                    "default": 1
+                  }
+                },
+                "required": [
+                  "type",
+                  "text"
+                ]
+              },
+              "bank_question_id": {
+                "type": "integer",
+                "description": "Existing question bank id (instead of question)."
+              },
+              "page": {
+                "type": "integer",
+                "description": "Quiz page to add to.",
+                "default": 1
+              }
+            },
+            "required": [
+              "quiz_id"
+            ]
+          }
+        },
+        {
+          "name": "search_question_bank",
+          "description": "Search the course question bank by text, category or tag.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "course_id": {
+                "type": "integer",
+                "description": "Course id."
+              },
+              "query": {
+                "type": "string",
+                "description": "Text search."
+              },
+              "category_id": {
+                "type": "integer",
+                "description": "Category."
+              },
+              "tags": {
+                "type": "array",
+                "description": "Tags.",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "qtype": {
+                "type": "string",
+                "description": "Question type.",
+                "enum": [
+                  "multichoice",
+                  "truefalse",
+                  "shortanswer",
+                  "numerical",
+                  "essay",
+                  "match"
+                ]
+              }
+            },
+            "required": [
+              "course_id"
+            ]
+          }
+        },
+        {
+          "name": "get_quiz_attempts",
+          "description": "Get attempts for a quiz with per-question marks and state.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "quiz_id": {
+                "type": "integer",
+                "description": "Quiz id."
+              },
+              "user_id": {
+                "type": "integer",
+                "description": "Student id."
+              },
+              "status": {
+                "type": "string",
+                "description": "Attempt state.",
+                "enum": [
+                  "all",
+                  "finished",
+                  "inprogress",
+                  "overdue",
+                  "abandoned"
+                ],
+                "default": "all"
+              }
+            },
+            "required": [
+              "quiz_id"
+            ]
+          }
+        },
+        {
+          "name": "get_user_grades",
+          "description": "Get grades.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "course_id": {
+                "type": "integer",
+                "description": "Course id."
+              },
+              "user_id": {
+                "type": "integer",
+                "description": "User id."
+              }
+            },
+            "required": [
+              "course_id"
+            ]
+          }
+        },
+        {
+          "name": "override_quiz_settings",
+          "description": "Set a per-user or per-group quiz override, e.g. extra time or an extended close date as an accommodation.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "quiz_id": {
+                "type": "integer",
+                "description": "Quiz id."
+              },
+              "user_id": {
+                "type": "integer",
+                "description": "User id."
+              },
+              "group_id": {
+                "type": "integer",
+                "description": "Group id."
+              },
+              "time_limit_minutes": {
+                "type": "integer",
+                "description": "New time limit."
+              },
+              "time_close": {
+                "type": "string",
+                "description": "New close date-time."
+              },
+              "attempts": {
+                "type": "integer",
+                "description": "Attempts allowed."
+              }
+            },
+            "required": [
+              "quiz_id"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "turnitin",
+      "name": "Turnitin",
+      "server": "mcp://turnitin",
+      "summary": "Similarity (plagiarism) and AI-writing detection reports for student papers.",
+      "tools": [
+        {
+          "name": "submit_for_similarity_check",
+          "description": "Upload a paper and request a similarity report.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "filename": {
+                "type": "string",
+                "description": "File name."
+              },
+              "content_base64": {
+                "type": "string",
+                "description": "Base64 file contents."
+              },
+              "title": {
+                "type": "string",
+                "description": "Submission title."
+              },
+              "owner_email": {
+                "type": "string",
+                "description": "Student email."
+              },
+              "exclude_quotes": {
+                "type": "boolean",
+                "description": "Exclude quoted text.",
+                "default": false
+              },
+              "exclude_bibliography": {
+                "type": "boolean",
+                "description": "Exclude bibliography.",
+                "default": true
+              },
+              "search_repositories": {
+                "type": "array",
+                "description": "Repositories to compare against.",
+                "items": {
+                  "type": "string",
+                  "description": "Repository.",
+                  "enum": [
+                    "internet",
+                    "publication",
+                    "submitted_work",
+                    "crossref"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "filename",
+              "content_base64"
+            ]
+          }
+        },
+        {
+          "name": "get_similarity_report",
+          "description": "Get similarity report status, overall match percentage, AI-writing score and top matching sources.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "submission_id": {
+                "type": "string",
+                "description": "Submission id."
+              },
+              "include_sources": {
+                "type": "boolean",
+                "description": "Include matched sources.",
+                "default": true
+              }
+            },
+            "required": [
+              "submission_id"
+            ]
+          }
+        },
+        {
+          "name": "get_viewer_url",
+          "description": "Get a link to the report viewer.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "submission_id": {
+                "type": "string",
+                "description": "Submission id."
+              },
+              "viewer_user_id": {
+                "type": "string",
+                "description": "Viewer."
+              },
+              "locale": {
+                "type": "string",
+                "description": "Locale.",
+                "default": "en-US"
+              }
+            },
+            "required": [
+              "submission_id"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

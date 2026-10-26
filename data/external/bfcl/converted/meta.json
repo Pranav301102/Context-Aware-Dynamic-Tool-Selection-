@@ -1,0 +1,33 @@
+{
+ "name": "bfcl",
+ "tools": 3258,
+ "toolkits": 708,
+ "branches": 32,
+ "function_names": 1853,
+ "tasks": 2501,
+ "tasks_by_kind": {
+  "simple_python": 400,
+  "simple_java": 100,
+  "simple_javascript": 50,
+  "multiple": 200,
+  "parallel": 200,
+  "parallel_multiple": 200,
+  "live_simple": 258,
+  "live_multiple": 1053,
+  "live_parallel": 16,
+  "live_parallel_multiple": 24
+ },
+ "skipped": {
+  "no_answer": 0,
+  "unresolved": 0,
+  "no_query": 0
+ },
+ "slots_mean": 1.1263494602159136,
+ "hierarchy": {
+  "method": "tfidf-kmeans",
+  "n_branches": 32,
+  "toolkit_size": 8,
+  "seed": 0
+ },
+ "label_widening": "function name"
+}

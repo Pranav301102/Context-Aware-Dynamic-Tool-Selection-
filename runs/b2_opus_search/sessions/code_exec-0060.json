@@ -1,0 +1,66 @@
+{
+ "task_id": "code_exec-0060",
+ "mode": "search",
+ "loaded": [
+  "code_checker.collect_tests",
+  "code_checker.run_pytest_check",
+  "code_checker.run_all_checks",
+  "code_checker.run_jest",
+  "package_manager.npm_run_script"
+ ],
+ "order": [
+  "code_checker.collect_tests",
+  "code_checker.run_pytest_check",
+  "code_checker.run_all_checks",
+  "code_checker.run_jest",
+  "package_manager.npm_run_script"
+ ],
+ "scores": {
+  "code_checker.collect_tests": 2.0,
+  "code_checker.run_pytest_check": 2.0,
+  "code_checker.run_all_checks": 2.0,
+  "code_checker.run_jest": 2.0,
+  "package_manager.npm_run_script": 2.0
+ },
+ "router_tokens": 0,
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "code_checker.collect_tests",
+   "args": {
+    "test_path": "tests/integration"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0,
+   "t": 1791321456.0581982
+  },
+  {
+   "type": "request_tools",
+   "capability": "collect pytest tests without running them",
+   "added": [
+    "code_checker.collect_tests",
+    "code_checker.run_pytest_check",
+    "code_checker.run_all_checks",
+    "code_checker.run_jest",
+    "package_manager.npm_run_script"
+   ],
+   "tool_tokens": 1225,
+   "t": 1791321466.3304245
+  },
+  {
+   "type": "call",
+   "tool": "code_checker__collect_tests",
+   "valid": true,
+   "t": 1791321476.8246481
+  }
+ ],
+ "done": true,
+ "t_done": 1791321479.1448014,
+ "final": ""
+}

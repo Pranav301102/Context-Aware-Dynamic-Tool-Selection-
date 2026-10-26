@@ -1,0 +1,93 @@
+{
+ "task_id": "cross-0080",
+ "mode": "cats",
+ "loaded": [
+  "confluence.confluence_create_page",
+  "confluence.confluence_get_page",
+  "confluence.confluence_get_page_children",
+  "confluence.confluence_search",
+  "sentry.find_releases",
+  "sentry.get_issue_details",
+  "sentry.search_events",
+  "sentry.search_issues"
+ ],
+ "order": [
+  "confluence.confluence_create_page",
+  "confluence.confluence_get_page",
+  "confluence.confluence_get_page_children",
+  "confluence.confluence_search",
+  "sentry.find_releases",
+  "sentry.get_issue_details",
+  "sentry.search_events",
+  "sentry.search_issues"
+ ],
+ "scores": {
+  "confluence.confluence_create_page": 0.4010941026671247,
+  "confluence.confluence_get_page": 0.22735610846710214,
+  "confluence.confluence_get_page_children": 0.03344890715715803,
+  "confluence.confluence_search": 0.3078784887828854,
+  "sentry.find_releases": 0.382868737162403,
+  "sentry.get_issue_details": 0.617502500804401,
+  "sentry.search_events": 0.06616920270349705,
+  "sentry.search_issues": 0.22100157097450115
+ },
+ "router_tokens": 0,
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "sentry.search_events",
+   "args": {
+    "organizationSlug": "acme",
+    "naturalLanguageQuery": "errors from today sorted by frequency",
+    "projectSlug": "web-frontend",
+    "limit": 1
+   }
+  },
+  {
+   "tool": "sentry.get_issue_details",
+   "args": {
+    "organizationSlug": "acme",
+    "issueId": "WEBFRONTEND-1"
+   }
+  },
+  {
+   "tool": "confluence.confluence_create_page",
+   "args": {
+    "space_key": "ENG",
+    "title": "Postmortem: WEBFRONTEND-1 Error from 2026-10-06",
+    "content": "# Postmortem: Web Frontend Error\n\n## Issue Summary\nSentry Issue: WEBFRONTEND-1\n\n## Stack Trace\n[Stack trace details from Sentry]\n\n## Impact\n\n## Root Cause\n\n## Resolution\n\n## Timeline\n\n## Lessons Learned\n",
+    "content_format": "markdown"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 8,
+   "tool_tokens": 2139,
+   "t": 1791321768.0374873
+  },
+  {
+   "type": "call",
+   "tool": "sentry__search_events",
+   "valid": true,
+   "t": 1791321781.7455556
+  },
+  {
+   "type": "call",
+   "tool": "sentry__get_issue_details",
+   "valid": true,
+   "t": 1791321793.6635542
+  },
+  {
+   "type": "call",
+   "tool": "confluence__confluence_create_page",
+   "valid": true,
+   "t": 1791321807.3133771
+  }
+ ],
+ "done": true,
+ "t_done": 1791321813.1891968,
+ "final": ""
+}

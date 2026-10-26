@@ -1,0 +1,67 @@
+{
+ "task_id": "productivity-0003",
+ "mode": "search",
+ "loaded": [
+  "google_calendar.search_events",
+  "apple_mcp.calendar",
+  "google_calendar.list_events",
+  "google_calendar.delete_event",
+  "google_calendar.create_event"
+ ],
+ "order": [
+  "google_calendar.search_events",
+  "apple_mcp.calendar",
+  "google_calendar.list_events",
+  "google_calendar.delete_event",
+  "google_calendar.create_event"
+ ],
+ "scores": {
+  "google_calendar.search_events": 2.0,
+  "apple_mcp.calendar": 2.0,
+  "google_calendar.list_events": 2.0,
+  "google_calendar.delete_event": 2.0,
+  "google_calendar.create_event": 2.0
+ },
+ "router_tokens": 0,
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "google_calendar.search_events",
+   "args": {
+    "calendarId": "primary",
+    "query": "offsite"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0,
+   "t": 1791320850.0012345
+  },
+  {
+   "type": "request_tools",
+   "capability": "search Google Calendar events by text query",
+   "added": [
+    "google_calendar.search_events",
+    "apple_mcp.calendar",
+    "google_calendar.list_events",
+    "google_calendar.delete_event",
+    "google_calendar.create_event"
+   ],
+   "tool_tokens": 1736,
+   "t": 1791320858.043613
+  },
+  {
+   "type": "call",
+   "tool": "google_calendar__search_events",
+   "valid": true,
+   "t": 1791320865.9960773
+  }
+ ],
+ "done": true,
+ "t_done": 1791320870.1224978,
+ "final": ""
+}

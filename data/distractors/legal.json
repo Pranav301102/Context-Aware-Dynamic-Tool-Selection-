@@ -1,0 +1,1207 @@
+{
+  "branch": {
+    "id": "legal",
+    "name": "Legal",
+    "summary": "Legal work: drafting, reviewing and tracking contracts, sending documents for e-signature, managing law firm matters, time entries and bills, and researching case law, statutes and contract clauses."
+  },
+  "toolkits": [
+    {
+      "id": "docusign_esign",
+      "name": "DocuSign eSignature",
+      "server": "mcp://docusign",
+      "summary": "Create, send and track envelopes for electronic signature.",
+      "tools": [
+        {
+          "name": "create_envelope",
+          "description": "Create an envelope with one or more documents and recipients. Set status to 'sent' to send it for signature immediately, or 'created' to save it as a draft.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "email_subject": {
+                "type": "string",
+                "description": "Subject line of the signing email."
+              },
+              "email_blurb": {
+                "type": "string",
+                "description": "Message body shown to recipients."
+              },
+              "documents": {
+                "type": "array",
+                "description": "Documents to include.",
+                "items": {
+                  "type": "object",
+                  "description": "Document.",
+                  "properties": {
+                    "document_id": {
+                      "type": "string",
+                      "description": "Id unique within the envelope."
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "Display name."
+                    },
+                    "file_base64": {
+                      "type": "string",
+                      "description": "Base64-encoded file contents."
+                    },
+                    "file_extension": {
+                      "type": "string",
+                      "description": "pdf, docx, etc.",
+                      "default": "pdf"
+                    }
+                  },
+                  "required": [
+                    "document_id",
+                    "name",
+                    "file_base64"
+                  ]
+                }
+              },
+              "recipients": {
+                "type": "object",
+                "description": "Who signs and who gets copies.",
+                "properties": {
+                  "signers": {
+                    "type": "array",
+                    "description": "Signers.",
+                    "items": {
+                      "type": "object",
+                      "description": "Recipient.",
+                      "properties": {
+                        "name": {
+                          "type": "string",
+                          "description": "Full name."
+                        },
+                        "email": {
+                          "type": "string",
+                          "description": "Email address."
+                        },
+                        "recipient_id": {
+                          "type": "string",
+                          "description": "Unique id within the envelope, e.g. '1'."
+                        },
+                        "routing_order": {
+                          "type": "integer",
+                          "description": "Signing order; recipients with the same number sign in parallel.",
+                          "default": 1
+                        }
+                      },
+                      "required": [
+                        "name",
+                        "email"
+                      ]
+                    }
+                  },
+                  "carbon_copies": {
+                    "type": "array",
+                    "description": "CC recipients.",
+                    "items": {
+                      "type": "object",
+                      "description": "Recipient.",
+                      "properties": {
+                        "name": {
+                          "type": "string",
+                          "description": "Full name."
+                        },
+                        "email": {
+                          "type": "string",
+                          "description": "Email address."
+                        },
+                        "recipient_id": {
+                          "type": "string",
+                          "description": "Unique id within the envelope, e.g. '1'."
+                        },
+                        "routing_order": {
+                          "type": "integer",
+                          "description": "Signing order; recipients with the same number sign in parallel.",
+                          "default": 1
+                        }
+                      },
+                      "required": [
+                        "name",
+                        "email"
+                      ]
+                    }
+                  }
+                }
+              },
+              "status": {
+                "type": "string",
+                "description": "Envelope status on creation.",
+                "enum": [
+                  "created",
+                  "sent"
+                ],
+                "default": "created"
+              },
+              "expire_after_days": {
+                "type": "integer",
+                "description": "Days before the envelope expires.",
+                "default": 120
+              },
+              "reminder_frequency_days": {
+                "type": "integer",
+                "description": "Send reminders every N days."
+              }
+            },
+            "required": [
+              "email_subject",
+              "documents",
+              "recipients"
+            ]
+          }
+        },
+        {
+          "name": "create_envelope_from_template",
+          "description": "Create and optionally send an envelope from a saved template, filling template roles with recipients.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "template_id": {
+                "type": "string",
+                "description": "Template id."
+              },
+              "template_roles": {
+                "type": "array",
+                "description": "Role assignments.",
+                "items": {
+                  "type": "object",
+                  "description": "Role.",
+                  "properties": {
+                    "role_name": {
+                      "type": "string",
+                      "description": "Role name as defined in the template, e.g. 'Client'."
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "Recipient name."
+                    },
+                    "email": {
+                      "type": "string",
+                      "description": "Recipient email."
+                    }
+                  },
+                  "required": [
+                    "role_name",
+                    "name",
+                    "email"
+                  ]
+                }
+              },
+              "email_subject": {
+                "type": "string",
+                "description": "Overrides the template subject."
+              },
+              "status": {
+                "type": "string",
+                "description": "Envelope status.",
+                "enum": [
+                  "created",
+                  "sent"
+                ],
+                "default": "sent"
+              }
+            },
+            "required": [
+              "template_id",
+              "template_roles"
+            ]
+          }
+        },
+        {
+          "name": "send_envelope",
+          "description": "Send a draft envelope.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "envelope_id": {
+                "type": "string",
+                "description": "Envelope id."
+              }
+            },
+            "required": [
+              "envelope_id"
+            ]
+          }
+        },
+        {
+          "name": "get_envelope_status",
+          "description": "Get the status of an envelope (created, sent, delivered, completed, declined, voided) and each recipient's signing status.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "envelope_id": {
+                "type": "string",
+                "description": "Envelope id."
+              },
+              "include_recipients": {
+                "type": "boolean",
+                "description": "Include per-recipient status.",
+                "default": true
+              }
+            },
+            "required": [
+              "envelope_id"
+            ]
+          }
+        },
+        {
+          "name": "list_envelopes",
+          "description": "List envelopes changed since a date, optionally filtered by status, folder or search text.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "from_date": {
+                "type": "string",
+                "description": "Return envelopes changed on or after this date (YYYY-MM-DD)."
+              },
+              "to_date": {
+                "type": "string",
+                "description": "Upper bound (YYYY-MM-DD)."
+              },
+              "status": {
+                "type": "string",
+                "description": "Envelope status.",
+                "enum": [
+                  "any",
+                  "created",
+                  "sent",
+                  "delivered",
+                  "completed",
+                  "declined",
+                  "voided"
+                ],
+                "default": "any"
+              },
+              "search_text": {
+                "type": "string",
+                "description": "Matches subject, recipient names and emails."
+              },
+              "folder": {
+                "type": "string",
+                "description": "Folder.",
+                "enum": [
+                  "inbox",
+                  "sentitems",
+                  "drafts",
+                  "recyclebin"
+                ]
+              },
+              "count": {
+                "type": "integer",
+                "description": "Max results.",
+                "default": 25
+              }
+            },
+            "required": [
+              "from_date"
+            ]
+          }
+        },
+        {
+          "name": "void_envelope",
+          "description": "Void an in-process envelope so it can no longer be signed.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "envelope_id": {
+                "type": "string",
+                "description": "Envelope id."
+              },
+              "voided_reason": {
+                "type": "string",
+                "description": "Reason shown to recipients."
+              }
+            },
+            "required": [
+              "envelope_id",
+              "voided_reason"
+            ]
+          }
+        },
+        {
+          "name": "download_document",
+          "description": "Download a signed document, or the combined PDF of all documents plus the certificate of completion.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "envelope_id": {
+                "type": "string",
+                "description": "Envelope id."
+              },
+              "document_id": {
+                "type": "string",
+                "description": "Document id, or 'combined' / 'certificate'.",
+                "default": "combined"
+              },
+              "include_certificate": {
+                "type": "boolean",
+                "description": "Append the certificate of completion.",
+                "default": false
+              }
+            },
+            "required": [
+              "envelope_id"
+            ]
+          }
+        },
+        {
+          "name": "list_templates",
+          "description": "List templates.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "search_text": {
+                "type": "string",
+                "description": "Name filter."
+              },
+              "folder_id": {
+                "type": "string",
+                "description": "Folder."
+              },
+              "shared_by_me": {
+                "type": "boolean",
+                "description": "Only templates I shared."
+              }
+            }
+          }
+        },
+        {
+          "name": "resend_envelope_notification",
+          "description": "Resend the signing notification email to recipients who have not yet signed.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "envelope_id": {
+                "type": "string",
+                "description": "Envelope id."
+              },
+              "recipient_ids": {
+                "type": "array",
+                "description": "Limit to these recipients.",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": [
+              "envelope_id"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "ironclad_clm",
+      "name": "Ironclad CLM",
+      "server": "mcp://ironclad",
+      "summary": "Contract lifecycle management: launch contract workflows, search the contract repository and track renewals and obligations.",
+      "tools": [
+        {
+          "name": "search_contracts",
+          "description": "Search executed contracts in the repository by counterparty, contract type, full text or metadata such as contract value and renewal date.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string",
+                "description": "Full-text search across contract documents and properties."
+              },
+              "counterparty_name": {
+                "type": "string",
+                "description": "Counterparty legal name."
+              },
+              "contract_type": {
+                "type": "string",
+                "description": "Contract type.",
+                "enum": [
+                  "nda",
+                  "msa",
+                  "sow",
+                  "dpa",
+                  "order_form",
+                  "employment",
+                  "vendor_agreement",
+                  "lease",
+                  "other"
+                ]
+              },
+              "status": {
+                "type": "string",
+                "description": "Record status.",
+                "enum": [
+                  "executed",
+                  "expired",
+                  "terminated"
+                ]
+              },
+              "effective_after": {
+                "type": "string",
+                "description": "Effective date lower bound (YYYY-MM-DD)."
+              },
+              "effective_before": {
+                "type": "string",
+                "description": "Effective date upper bound (YYYY-MM-DD)."
+              },
+              "min_contract_value": {
+                "type": "number",
+                "description": "Minimum total contract value (USD)."
+              },
+              "page_size": {
+                "type": "integer",
+                "description": "Results per page.",
+                "default": 20
+              }
+            }
+          }
+        },
+        {
+          "name": "get_contract",
+          "description": "Get a contract record with metadata, parties, key dates and attached files.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "record_id": {
+                "type": "string",
+                "description": "Record id."
+              }
+            },
+            "required": [
+              "record_id"
+            ]
+          }
+        },
+        {
+          "name": "launch_workflow",
+          "description": "Start a new contract workflow from a template (e.g. mutual NDA, MSA) with the given attribute values. The workflow then moves through review and approval before signature.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "template_id": {
+                "type": "string",
+                "description": "Workflow template id."
+              },
+              "creator_email": {
+                "type": "string",
+                "description": "User launching the workflow."
+              },
+              "counterparty": {
+                "type": "object",
+                "description": "Counterparty details.",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Legal name."
+                  },
+                  "signer_name": {
+                    "type": "string",
+                    "description": "Signer name."
+                  },
+                  "signer_email": {
+                    "type": "string",
+                    "description": "Signer email."
+                  }
+                }
+              },
+              "attributes": {
+                "type": "object",
+                "description": "Template attribute values, e.g. {\"term_months\": 12, \"governing_law\": \"Delaware\"}.",
+                "additionalProperties": true
+              }
+            },
+            "required": [
+              "template_id"
+            ]
+          }
+        },
+        {
+          "name": "list_workflows",
+          "description": "List in-flight workflows",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "status": {
+                "type": "string",
+                "description": "Status.",
+                "enum": [
+                  "active",
+                  "paused",
+                  "completed",
+                  "cancelled"
+                ]
+              },
+              "step": {
+                "type": "string",
+                "description": "Current step.",
+                "enum": [
+                  "create",
+                  "review",
+                  "sign",
+                  "archive"
+                ]
+              },
+              "assignee_email": {
+                "type": "string",
+                "description": "Assigned reviewer."
+              }
+            }
+          }
+        },
+        {
+          "name": "approve_workflow",
+          "description": "Approve the current review step of a workflow on behalf of an approver group.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "workflow_id": {
+                "type": "string",
+                "description": "Workflow id."
+              },
+              "approver_role": {
+                "type": "string",
+                "description": "Approver role, e.g. 'legal', 'finance'."
+              },
+              "comment": {
+                "type": "string",
+                "description": "Optional comment."
+              }
+            },
+            "required": [
+              "workflow_id",
+              "approver_role"
+            ]
+          }
+        },
+        {
+          "name": "update_contract_metadata",
+          "description": "Update record properties such as renewal date, owner or contract value.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "record_id": {
+                "type": "string",
+                "description": "Record id."
+              },
+              "properties": {
+                "type": "object",
+                "description": "Property values to set.",
+                "additionalProperties": true
+              }
+            },
+            "required": [
+              "record_id",
+              "properties"
+            ]
+          }
+        },
+        {
+          "name": "list_upcoming_renewals",
+          "description": "List contracts renewing or expiring within the next N days, including auto-renewal notice deadlines.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "within_days": {
+                "type": "integer",
+                "description": "Look-ahead window in days.",
+                "default": 90
+              },
+              "contract_type": {
+                "type": "string",
+                "description": "Contract type.",
+                "enum": [
+                  "nda",
+                  "msa",
+                  "sow",
+                  "dpa",
+                  "order_form",
+                  "employment",
+                  "vendor_agreement",
+                  "lease",
+                  "other"
+                ]
+              },
+              "owner_email": {
+                "type": "string",
+                "description": "Contract owner."
+              },
+              "auto_renew_only": {
+                "type": "boolean",
+                "description": "Only auto-renewing contracts.",
+                "default": false
+              }
+            }
+          }
+        },
+        {
+          "name": "extract_obligations",
+          "description": "Use AI to extract key terms and obligations (payment terms, termination rights, liability cap, governing law, notice periods) from a contract.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "record_id": {
+                "type": "string",
+                "description": "Record id."
+              },
+              "fields": {
+                "type": "array",
+                "description": "Fields to extract.",
+                "items": {
+                  "type": "string",
+                  "description": "Field.",
+                  "enum": [
+                    "payment_terms",
+                    "termination",
+                    "liability_cap",
+                    "governing_law",
+                    "renewal",
+                    "notice_period",
+                    "indemnification",
+                    "confidentiality"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "record_id"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "clio_manage",
+      "name": "Clio Manage",
+      "server": "mcp://clio",
+      "summary": "Law practice management: matters, clients and contacts, time tracking, documents, calendar and billing.",
+      "tools": [
+        {
+          "name": "list_matters",
+          "description": "List matters, optionally filtered by client, status, practice area or responsible attorney.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string",
+                "description": "Search matter number or description."
+              },
+              "client_id": {
+                "type": "string",
+                "description": "Client contact id."
+              },
+              "status": {
+                "type": "string",
+                "description": "Matter status.",
+                "enum": [
+                  "open",
+                  "pending",
+                  "closed"
+                ]
+              },
+              "responsible_attorney_id": {
+                "type": "string",
+                "description": "User id."
+              },
+              "practice_area": {
+                "type": "string",
+                "description": "Practice area, e.g. 'Family', 'Litigation'."
+              },
+              "limit": {
+                "type": "integer",
+                "description": "Max results.",
+                "default": 50
+              }
+            }
+          }
+        },
+        {
+          "name": "create_matter",
+          "description": "Open a new matter for a client.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "client_id": {
+                "type": "string",
+                "description": "Client contact id."
+              },
+              "description": {
+                "type": "string",
+                "description": "Matter description."
+              },
+              "practice_area": {
+                "type": "string",
+                "description": "Practice area."
+              },
+              "responsible_attorney_id": {
+                "type": "string",
+                "description": "Responsible attorney."
+              },
+              "billing_method": {
+                "type": "string",
+                "description": "Billing method.",
+                "enum": [
+                  "hourly",
+                  "flat",
+                  "contingency"
+                ],
+                "default": "hourly"
+              },
+              "open_date": {
+                "type": "string",
+                "description": "Open date (YYYY-MM-DD)."
+              },
+              "statute_of_limitations_date": {
+                "type": "string",
+                "description": "Statute of limitations (YYYY-MM-DD)."
+              }
+            },
+            "required": [
+              "client_id",
+              "description"
+            ]
+          }
+        },
+        {
+          "name": "get_matter",
+          "description": "Get matter.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "matter_id": {
+                "type": "string",
+                "description": "Matter id."
+              }
+            },
+            "required": [
+              "matter_id"
+            ]
+          }
+        },
+        {
+          "name": "create_time_entry",
+          "description": "Log billable or non-billable time against a matter.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "matter_id": {
+                "type": "string",
+                "description": "Matter id."
+              },
+              "user_id": {
+                "type": "string",
+                "description": "Timekeeper. Defaults to current user."
+              },
+              "date": {
+                "type": "string",
+                "description": "Work date (YYYY-MM-DD)."
+              },
+              "quantity_hours": {
+                "type": "number",
+                "description": "Hours worked, e.g. 1.5."
+              },
+              "activity_description": {
+                "type": "string",
+                "description": "Narrative shown on the bill."
+              },
+              "activity_category": {
+                "type": "string",
+                "description": "Activity code, e.g. 'Drafting', 'Court appearance'."
+              },
+              "rate": {
+                "type": "number",
+                "description": "Hourly rate override."
+              },
+              "non_billable": {
+                "type": "boolean",
+                "description": "Mark as non-billable.",
+                "default": false
+              }
+            },
+            "required": [
+              "matter_id",
+              "quantity_hours",
+              "activity_description"
+            ]
+          }
+        },
+        {
+          "name": "list_contacts",
+          "description": "Search clients and other contacts (opposing counsel, witnesses, experts).",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string",
+                "description": "Name, email or phone."
+              },
+              "type": {
+                "type": "string",
+                "description": "Contact type.",
+                "enum": [
+                  "person",
+                  "company"
+                ]
+              },
+              "tag": {
+                "type": "string",
+                "description": "Tag filter."
+              }
+            }
+          }
+        },
+        {
+          "name": "upload_document",
+          "description": "Upload a document to a matter's documents.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "matter_id": {
+                "type": "string",
+                "description": "Matter id."
+              },
+              "filename": {
+                "type": "string",
+                "description": "File name."
+              },
+              "content_base64": {
+                "type": "string",
+                "description": "Base64 file contents."
+              },
+              "folder_id": {
+                "type": "string",
+                "description": "Target folder."
+              },
+              "category": {
+                "type": "string",
+                "description": "Document category.",
+                "enum": [
+                  "pleading",
+                  "correspondence",
+                  "discovery",
+                  "contract",
+                  "evidence",
+                  "other"
+                ]
+              }
+            },
+            "required": [
+              "matter_id",
+              "filename",
+              "content_base64"
+            ]
+          }
+        },
+        {
+          "name": "create_bill",
+          "description": "Generate a draft bill for a matter's unbilled time and expenses.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "matter_id": {
+                "type": "string",
+                "description": "Matter id."
+              },
+              "issued_at": {
+                "type": "string",
+                "description": "Issue date (YYYY-MM-DD)."
+              },
+              "due_at": {
+                "type": "string",
+                "description": "Due date (YYYY-MM-DD)."
+              },
+              "include_expenses": {
+                "type": "boolean",
+                "description": "Include unbilled expenses.",
+                "default": true
+              }
+            },
+            "required": [
+              "matter_id"
+            ]
+          }
+        },
+        {
+          "name": "add_calendar_entry",
+          "description": "Add a court date, filing deadline or meeting to the matter calendar. Can compute deadline chains from court rules.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "matter_id": {
+                "type": "string",
+                "description": "Matter id."
+              },
+              "summary": {
+                "type": "string",
+                "description": "Title, e.g. 'Motion hearing'."
+              },
+              "start_at": {
+                "type": "string",
+                "description": "Start (ISO 8601)."
+              },
+              "end_at": {
+                "type": "string",
+                "description": "End (ISO 8601)."
+              },
+              "all_day": {
+                "type": "boolean",
+                "description": "All-day entry.",
+                "default": false
+              },
+              "location": {
+                "type": "string",
+                "description": "Courtroom or address."
+              },
+              "attendee_ids": {
+                "type": "array",
+                "description": "User ids to invite.",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "court_rule_trigger": {
+                "type": "object",
+                "description": "Generate rule-based deadlines from a triggering event.",
+                "properties": {
+                  "jurisdiction": {
+                    "type": "string",
+                    "description": "Court / jurisdiction, e.g. 'CA Superior Court'."
+                  },
+                  "trigger_event": {
+                    "type": "string",
+                    "description": "Triggering event, e.g. 'Complaint served'."
+                  },
+                  "trigger_date": {
+                    "type": "string",
+                    "description": "Date of the event (YYYY-MM-DD)."
+                  }
+                }
+              }
+            },
+            "required": [
+              "matter_id",
+              "summary",
+              "start_at"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "lexis_research",
+      "name": "Lexis+ Research",
+      "server": "mcp://lexis-plus",
+      "summary": "Legal research across case law, statutes and regulations, with citation checking and a contract clause library.",
+      "tools": [
+        {
+          "name": "search_case_law",
+          "description": "Search judicial opinions using natural language or Boolean terms and connectors. Filter by jurisdiction, court level and date.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string",
+                "description": "Search terms."
+              },
+              "jurisdiction": {
+                "type": "string",
+                "description": "Jurisdiction, e.g. 'US-Federal', 'CA', 'NY', '9th Cir.'."
+              },
+              "court_level": {
+                "type": "string",
+                "description": "Court level.",
+                "enum": [
+                  "supreme",
+                  "appellate",
+                  "trial",
+                  "all"
+                ],
+                "default": "all"
+              },
+              "date_from": {
+                "type": "string",
+                "description": "Decided on or after (YYYY-MM-DD)."
+              },
+              "date_to": {
+                "type": "string",
+                "description": "Decided on or before (YYYY-MM-DD)."
+              },
+              "sort": {
+                "type": "string",
+                "description": "Sort.",
+                "enum": [
+                  "relevance",
+                  "date_desc",
+                  "date_asc",
+                  "most_cited"
+                ],
+                "default": "relevance"
+              },
+              "limit": {
+                "type": "integer",
+                "description": "Max results.",
+                "default": 10
+              }
+            },
+            "required": [
+              "query"
+            ]
+          }
+        },
+        {
+          "name": "get_case",
+          "description": "Retrieve full text, headnotes and case summary by citation or document id.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "citation": {
+                "type": "string",
+                "description": "Reporter citation, e.g. '410 U.S. 113'."
+              },
+              "document_id": {
+                "type": "string",
+                "description": "Lexis document id."
+              }
+            }
+          }
+        },
+        {
+          "name": "check_citation",
+          "description": "Shepardize a citation: returns the treatment signal (positive, caution, negative) and citing references.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "citation": {
+                "type": "string",
+                "description": "Citation to check."
+              },
+              "include_citing_references": {
+                "type": "boolean",
+                "description": "Return citing decisions.",
+                "default": true
+              },
+              "max_references": {
+                "type": "integer",
+                "description": "Max citing references.",
+                "default": 25
+              }
+            },
+            "required": [
+              "citation"
+            ]
+          }
+        },
+        {
+          "name": "search_statutes",
+          "description": "Search statutes and regulations.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string",
+                "description": "Search terms."
+              },
+              "jurisdiction": {
+                "type": "string",
+                "description": "Jurisdiction."
+              },
+              "code": {
+                "type": "string",
+                "description": "Code, e.g. 'USC', 'CFR', 'Cal. Civ. Code'."
+              },
+              "current_only": {
+                "type": "boolean",
+                "description": "Only current law.",
+                "default": true
+              }
+            },
+            "required": [
+              "query"
+            ]
+          }
+        },
+        {
+          "name": "search_clauses",
+          "description": "Find model and precedent contract clauses (indemnification, limitation of liability, governing law...) and compare them with market-standard language.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string",
+                "description": "Describe the clause or paste sample language."
+              },
+              "clause_type": {
+                "type": "string",
+                "description": "Clause type.",
+                "enum": [
+                  "indemnification",
+                  "limitation_of_liability",
+                  "confidentiality",
+                  "termination",
+                  "governing_law",
+                  "assignment",
+                  "force_majeure",
+                  "non_compete",
+                  "ip_ownership",
+                  "data_protection"
+                ]
+              },
+              "agreement_type": {
+                "type": "string",
+                "description": "Agreement type, e.g. 'SaaS subscription', 'asset purchase'."
+              },
+              "jurisdiction": {
+                "type": "string",
+                "description": "Governing jurisdiction."
+              },
+              "favorability": {
+                "type": "string",
+                "description": "Which side the clause should favor.",
+                "enum": [
+                  "buyer",
+                  "seller",
+                  "neutral"
+                ]
+              },
+              "limit": {
+                "type": "integer",
+                "description": "Max clauses.",
+                "default": 10
+              }
+            },
+            "required": [
+              "query"
+            ]
+          }
+        },
+        {
+          "name": "summarize_document",
+          "description": "Upload a brief, motion or contract and get a summary plus the authorities it cites.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "filename": {
+                "type": "string",
+                "description": "File name."
+              },
+              "content_base64": {
+                "type": "string",
+                "description": "Base64 file contents."
+              },
+              "summary_length": {
+                "type": "string",
+                "description": "Length.",
+                "enum": [
+                  "short",
+                  "detailed"
+                ],
+                "default": "short"
+              }
+            },
+            "required": [
+              "content_base64"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

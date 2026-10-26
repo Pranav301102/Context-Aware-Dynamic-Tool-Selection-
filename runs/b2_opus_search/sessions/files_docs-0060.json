@@ -1,0 +1,66 @@
+{
+ "task_id": "files_docs-0060",
+ "mode": "search",
+ "loaded": [
+  "filesystem.read_file",
+  "filesystem.read_multiple_files",
+  "e2b.download_file",
+  "google_drive.gdrive_upload_file",
+  "filesystem.get_file_info"
+ ],
+ "order": [
+  "filesystem.read_file",
+  "filesystem.read_multiple_files",
+  "e2b.download_file",
+  "google_drive.gdrive_upload_file",
+  "filesystem.get_file_info"
+ ],
+ "scores": {
+  "filesystem.read_file": 2.0,
+  "filesystem.read_multiple_files": 2.0,
+  "e2b.download_file": 2.0,
+  "google_drive.gdrive_upload_file": 2.0,
+  "filesystem.get_file_info": 2.0
+ },
+ "router_tokens": 0,
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "filesystem.read_file",
+   "args": {
+    "path": "~/projects/blog/posts/2026-09-29-tailscale-acl.md"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0,
+   "t": 1791321813.483923
+  },
+  {
+   "type": "request_tools",
+   "capability": "read the contents of a local file",
+   "added": [
+    "filesystem.read_file",
+    "filesystem.read_multiple_files",
+    "e2b.download_file",
+    "google_drive.gdrive_upload_file",
+    "filesystem.get_file_info"
+   ],
+   "tool_tokens": 795,
+   "t": 1791321824.3323045
+  },
+  {
+   "type": "call",
+   "tool": "filesystem__read_file",
+   "valid": true,
+   "t": 1791321836.6077018
+  }
+ ],
+ "done": true,
+ "t_done": 1791321838.172759,
+ "final": ""
+}

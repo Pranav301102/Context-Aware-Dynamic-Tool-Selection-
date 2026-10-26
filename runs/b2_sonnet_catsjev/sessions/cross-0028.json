@@ -1,0 +1,127 @@
+{
+ "task_id": "cross-0028",
+ "mode": "cats",
+ "loaded": [
+  "deepl.get_languages",
+  "mongodb.collection_schema",
+  "mongodb.count",
+  "mongodb.create_index",
+  "mongodb.delete_many",
+  "mongodb.find",
+  "mongodb.insert_many",
+  "mongodb.list_collections",
+  "mongodb.update_many",
+  "openai_media.translate_audio",
+  "pinecone.list_indexes",
+  "pinecone.upsert_records",
+  "deepl.translate_text",
+  "google_cloud_ai.translate_text",
+  "deepl.translate_document",
+  "ffmpeg_video.burn_subtitles",
+  "pinecone.create_index_for_model"
+ ],
+ "order": [
+  "deepl.get_languages",
+  "mongodb.collection_schema",
+  "mongodb.count",
+  "mongodb.create_index",
+  "mongodb.delete_many",
+  "mongodb.find",
+  "mongodb.insert_many",
+  "mongodb.list_collections",
+  "mongodb.update_many",
+  "openai_media.translate_audio",
+  "pinecone.list_indexes",
+  "pinecone.upsert_records",
+  "deepl.translate_text",
+  "google_cloud_ai.translate_text",
+  "deepl.translate_document",
+  "ffmpeg_video.burn_subtitles",
+  "pinecone.create_index_for_model"
+ ],
+ "scores": {
+  "deepl.get_languages": 0.0,
+  "mongodb.collection_schema": 0.30759865777499806,
+  "mongodb.count": 0.20310913088003998,
+  "mongodb.create_index": 0.05570781184833285,
+  "mongodb.delete_many": 0.11790061391996272,
+  "mongodb.find": 0.08495159823334787,
+  "mongodb.insert_many": 0.651063459855748,
+  "mongodb.list_collections": 0.4555306517828714,
+  "mongodb.update_many": 0.16880724846492326,
+  "openai_media.translate_audio": 0.0,
+  "pinecone.list_indexes": 0.057842378999244486,
+  "pinecone.upsert_records": 0.07224927260500831,
+  "deepl.translate_text": 2.0,
+  "google_cloud_ai.translate_text": 2.0,
+  "deepl.translate_document": 2.0,
+  "ffmpeg_video.burn_subtitles": 2.0,
+  "pinecone.create_index_for_model": 2.0
+ },
+ "router_tokens": 1450,
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "mongodb.find",
+   "args": {
+    "database": "app",
+    "collection": "catalog",
+    "filter": {
+     "blurb_fr": {
+      "$exists": false
+     }
+    },
+    "projection": {
+     "blurb": 1,
+     "name": 1
+    },
+    "limit": 50
+   }
+  },
+  {
+   "tool": "deepl.translate_text",
+   "args": {
+    "text": "English-only product blurbs from the catalog collection",
+    "targetLangCode": "fr",
+    "sourceLangCode": "en"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 12,
+   "tool_tokens": 1922,
+   "t": 1791322341.9648142
+  },
+  {
+   "type": "call",
+   "tool": "mongodb__find",
+   "valid": true,
+   "t": 1791322352.7025633
+  },
+  {
+   "type": "request_tools",
+   "capability": "Translate English text into French",
+   "added": [
+    "deepl.translate_text",
+    "google_cloud_ai.translate_text",
+    "deepl.translate_document",
+    "ffmpeg_video.burn_subtitles",
+    "pinecone.create_index_for_model"
+   ],
+   "tool_tokens": 2960,
+   "t": 1791322359.222874
+  },
+  {
+   "type": "call",
+   "tool": "deepl__translate_text",
+   "valid": true,
+   "t": 1791322367.6960547
+  }
+ ],
+ "done": true,
+ "t_done": 1791322371.6702158,
+ "final": ""
+}

@@ -1,0 +1,63 @@
+{
+ "task_id": "communication-0060",
+ "mode": "cats",
+ "loaded": [
+  "discord.send_message",
+  "ms_teams.get_channel_messages",
+  "ms_teams.reply_to_channel_message",
+  "ms_teams.send_channel_message",
+  "ms_teams.send_chat_message",
+  "slack.get_thread_replies",
+  "slack.reply_to_thread"
+ ],
+ "order": [
+  "discord.send_message",
+  "ms_teams.get_channel_messages",
+  "ms_teams.reply_to_channel_message",
+  "ms_teams.send_channel_message",
+  "ms_teams.send_chat_message",
+  "slack.get_thread_replies",
+  "slack.reply_to_thread"
+ ],
+ "scores": {
+  "discord.send_message": 0.028061737493912064,
+  "ms_teams.get_channel_messages": 0.18384087497447052,
+  "ms_teams.reply_to_channel_message": 0.7878403263952365,
+  "ms_teams.send_channel_message": 0.07633297763904626,
+  "ms_teams.send_chat_message": 0.04996642781369673,
+  "slack.get_thread_replies": 0.035897841305998913,
+  "slack.reply_to_thread": 0.07220075401144012
+ },
+ "router_tokens": 0,
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "ms_teams.reply_to_channel_message",
+   "args": {
+    "team_id": "ops-team-id",
+    "channel_id": "general-channel-id",
+    "message_id": "1699887766554",
+    "content": "It's me this weekend.",
+    "content_type": "text"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 7,
+   "tool_tokens": 1140,
+   "t": 1791321272.3816025
+  },
+  {
+   "type": "call",
+   "tool": "ms_teams__reply_to_channel_message",
+   "valid": true,
+   "t": 1791321284.2839255
+  }
+ ],
+ "done": true,
+ "t_done": 1791321289.6594725,
+ "final": ""
+}

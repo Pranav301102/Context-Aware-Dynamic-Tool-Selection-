@@ -1,0 +1,67 @@
+{
+ "task_id": "dev_platform-0020",
+ "mode": "search",
+ "loaded": [
+  "circleci.get_job_test_results",
+  "circleci.get_build_failure_logs",
+  "circleci.get_latest_pipeline_status",
+  "github.get_job_logs",
+  "circleci.find_flaky_tests"
+ ],
+ "order": [
+  "circleci.get_job_test_results",
+  "circleci.get_build_failure_logs",
+  "circleci.get_latest_pipeline_status",
+  "github.get_job_logs",
+  "circleci.find_flaky_tests"
+ ],
+ "scores": {
+  "circleci.get_job_test_results": 2.0,
+  "circleci.get_build_failure_logs": 2.0,
+  "circleci.get_latest_pipeline_status": 2.0,
+  "github.get_job_logs": 2.0,
+  "circleci.find_flaky_tests": 2.0
+ },
+ "router_tokens": 0,
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "circleci.get_build_failure_logs",
+   "args": {
+    "projectSlug": "gh/acme/checkout",
+    "branch": "main"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0,
+   "t": 1791321915.840959
+  },
+  {
+   "type": "request_tools",
+   "capability": "get the latest failed CircleCI pipeline on a branch and its failing job logs / test failures",
+   "added": [
+    "circleci.get_job_test_results",
+    "circleci.get_build_failure_logs",
+    "circleci.get_latest_pipeline_status",
+    "github.get_job_logs",
+    "circleci.find_flaky_tests"
+   ],
+   "tool_tokens": 1279,
+   "t": 1791321928.6233351
+  },
+  {
+   "type": "call",
+   "tool": "circleci__get_build_failure_logs",
+   "valid": true,
+   "t": 1791321941.8906877
+  }
+ ],
+ "done": true,
+ "t_done": 1791321943.3169694,
+ "final": ""
+}

@@ -1,0 +1,108 @@
+{
+ "task_id": "productivity-0048",
+ "mode": "cats",
+ "loaded": [
+  "apple_mcp.calendar",
+  "google_calendar.delete_event",
+  "google_calendar.get_freebusy",
+  "google_calendar.list_calendars",
+  "google_calendar.list_events",
+  "todoist.add_tasks",
+  "todoist.complete_tasks",
+  "todoist.find_projects",
+  "todoist.find_tasks",
+  "todoist.find_tasks_by_date",
+  "google_calendar.create_event",
+  "ms365_pim.create_calendar_event",
+  "google_calendar.update_event",
+  "google_calendar.search_events",
+  "ms365_pim.update_calendar_event"
+ ],
+ "order": [
+  "apple_mcp.calendar",
+  "google_calendar.delete_event",
+  "google_calendar.get_freebusy",
+  "google_calendar.list_calendars",
+  "google_calendar.list_events",
+  "todoist.add_tasks",
+  "todoist.complete_tasks",
+  "todoist.find_projects",
+  "todoist.find_tasks",
+  "todoist.find_tasks_by_date",
+  "google_calendar.create_event",
+  "ms365_pim.create_calendar_event",
+  "google_calendar.update_event",
+  "google_calendar.search_events",
+  "ms365_pim.update_calendar_event"
+ ],
+ "scores": {
+  "apple_mcp.calendar": 0.04051050295386301,
+  "google_calendar.delete_event": 0.030656223821464983,
+  "google_calendar.get_freebusy": 0.03489724265776542,
+  "google_calendar.list_calendars": 0.2244358969419829,
+  "google_calendar.list_events": 0.1343508779023468,
+  "todoist.add_tasks": 0.035540500236961044,
+  "todoist.complete_tasks": 0.09135759895356199,
+  "todoist.find_projects": 0.059911352913013,
+  "todoist.find_tasks": 0.07887428119552461,
+  "todoist.find_tasks_by_date": 0.5997809711745856,
+  "google_calendar.create_event": 2.0,
+  "ms365_pim.create_calendar_event": 2.0,
+  "google_calendar.update_event": 2.0,
+  "google_calendar.search_events": 2.0,
+  "ms365_pim.update_calendar_event": 2.0
+ },
+ "router_tokens": 0,
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "todoist.find_tasks_by_date",
+   "args": {
+    "startDate": "today",
+    "daysCount": 1,
+    "overdueOption": "exclude-overdue"
+   }
+  },
+  {
+   "tool": "google_calendar.create_event",
+   "args": {
+    "calendarId": "primary",
+    "summary": "Focus block: most urgent Todoist task due today",
+    "start": "2026-10-06T10:00:00",
+    "end": "2026-10-06T11:00:00"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 10,
+   "tool_tokens": 2268
+  },
+  {
+   "type": "call",
+   "tool": "todoist__find_tasks_by_date",
+   "valid": true
+  },
+  {
+   "type": "request_tools",
+   "capability": "Create a new event on a Google Calendar (block a one-hour time slot)",
+   "added": [
+    "google_calendar.create_event",
+    "ms365_pim.create_calendar_event",
+    "google_calendar.update_event",
+    "google_calendar.search_events",
+    "ms365_pim.update_calendar_event"
+   ],
+   "tool_tokens": 5592
+  },
+  {
+   "type": "call",
+   "tool": "google_calendar__create_event",
+   "valid": true
+  }
+ ],
+ "done": true,
+ "final": ""
+}

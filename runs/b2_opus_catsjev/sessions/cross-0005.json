@@ -1,0 +1,84 @@
+{
+ "task_id": "cross-0005",
+ "mode": "cats",
+ "loaded": [
+  "circleci.get_job_test_results",
+  "code_checker.collect_tests",
+  "code_checker.run_all_checks",
+  "code_checker.run_jest",
+  "code_checker.run_pytest_check",
+  "github.create_issue",
+  "github.get_job_logs",
+  "github.list_workflow_runs",
+  "github.rerun_failed_jobs",
+  "gitlab.create_issue"
+ ],
+ "order": [
+  "circleci.get_job_test_results",
+  "code_checker.collect_tests",
+  "code_checker.run_all_checks",
+  "code_checker.run_jest",
+  "code_checker.run_pytest_check",
+  "github.create_issue",
+  "github.get_job_logs",
+  "github.list_workflow_runs",
+  "github.rerun_failed_jobs",
+  "gitlab.create_issue"
+ ],
+ "scores": {
+  "circleci.get_job_test_results": 0.07149588578902633,
+  "code_checker.collect_tests": 0.31748973555559906,
+  "code_checker.run_all_checks": 0.146842609934384,
+  "code_checker.run_jest": 0.05853229112562015,
+  "code_checker.run_pytest_check": 0.8711923683354452,
+  "github.create_issue": 0.13186411543551285,
+  "github.get_job_logs": 0.03670818223529834,
+  "github.list_workflow_runs": 0.27697131762496857,
+  "github.rerun_failed_jobs": 0.07322406284026377,
+  "gitlab.create_issue": 0.04334630249817115
+ },
+ "router_tokens": 1448,
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "code_checker.run_pytest_check",
+   "args": {}
+  },
+  {
+   "tool": "github.create_issue",
+   "args": {
+    "owner": "acme",
+    "repo": "api",
+    "title": "Failing pytest tests",
+    "body": "The following tests failed in the latest pytest run:\n\n<list of failing tests from pytest output>",
+    "labels": [
+     "bug"
+    ]
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 10,
+   "tool_tokens": 2648,
+   "t": 1791321010.9778116
+  },
+  {
+   "type": "call",
+   "tool": "code_checker__run_pytest_check",
+   "valid": true,
+   "t": 1791321023.5469217
+  },
+  {
+   "type": "call",
+   "tool": "github__create_issue",
+   "valid": true,
+   "t": 1791321032.7513878
+  }
+ ],
+ "done": true,
+ "t_done": 1791321036.2555127,
+ "final": ""
+}

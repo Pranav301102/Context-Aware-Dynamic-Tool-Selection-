@@ -1,0 +1,54 @@
+{
+ "task_id": "search-0028",
+ "mode": "search",
+ "loaded": [
+  "alpha_vantage.news_sentiment",
+  "brave_search.brave_news_search",
+  "wikipedia.search_wikipedia",
+  "tavily.tavily_search",
+  "wikipedia.get_related_topics"
+ ],
+ "order": [
+  "alpha_vantage.news_sentiment",
+  "brave_search.brave_news_search",
+  "wikipedia.search_wikipedia",
+  "tavily.tavily_search",
+  "wikipedia.get_related_topics"
+ ],
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "brave_search.brave_news_search",
+   "args": {
+    "query": "Seattle teachers strike"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0
+  },
+  {
+   "type": "request_tools",
+   "capability": "search recent news articles about a topic",
+   "added": [
+    "alpha_vantage.news_sentiment",
+    "brave_search.brave_news_search",
+    "wikipedia.search_wikipedia",
+    "tavily.tavily_search",
+    "wikipedia.get_related_topics"
+   ],
+   "tool_tokens": 1684
+  },
+  {
+   "type": "call",
+   "tool": "brave_search__brave_news_search",
+   "valid": true
+  }
+ ],
+ "done": true,
+ "final": ""
+}

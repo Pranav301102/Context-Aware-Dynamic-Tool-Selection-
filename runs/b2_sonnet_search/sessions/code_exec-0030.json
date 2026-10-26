@@ -1,0 +1,65 @@
+{
+ "task_id": "code_exec-0030",
+ "mode": "search",
+ "loaded": [
+  "code_checker.prettier_format",
+  "code_checker.run_jest",
+  "filesystem.search_files",
+  "e2b.run_code",
+  "code_checker.run_eslint"
+ ],
+ "order": [
+  "code_checker.prettier_format",
+  "code_checker.run_jest",
+  "filesystem.search_files",
+  "e2b.run_code",
+  "code_checker.run_eslint"
+ ],
+ "scores": {
+  "code_checker.prettier_format": 2.0,
+  "code_checker.run_jest": 2.0,
+  "filesystem.search_files": 2.0,
+  "e2b.run_code": 2.0,
+  "code_checker.run_eslint": 2.0
+ },
+ "router_tokens": 0,
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "code_checker.prettier_format",
+   "args": {
+    "files": [
+     "src/**/*.tsx"
+    ],
+    "write": true
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0
+  },
+  {
+   "type": "request_tools",
+   "capability": "run prettier code formatter on files matching a glob",
+   "added": [
+    "code_checker.prettier_format",
+    "code_checker.run_jest",
+    "filesystem.search_files",
+    "e2b.run_code",
+    "code_checker.run_eslint"
+   ],
+   "tool_tokens": 1116
+  },
+  {
+   "type": "call",
+   "tool": "code_checker__prettier_format",
+   "valid": true
+  }
+ ],
+ "done": true,
+ "final": ""
+}

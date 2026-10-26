@@ -1,0 +1,1178 @@
+{
+  "branch": {
+    "id": "security",
+    "name": "Security",
+    "summary": "Security operations: vulnerability and dependency scanning, SIEM incidents, alert triage and threat hunting, identity and access management (users, groups, admin roles, MFA), and secrets vaults."
+  },
+  "toolkits": [
+    {
+      "id": "snyk_scanner",
+      "name": "Snyk",
+      "server": "mcp://snyk",
+      "summary": "Developer security: scan open-source dependencies, code, containers and IaC for vulnerabilities.",
+      "tools": [
+        {
+          "name": "list_projects",
+          "description": "List monitored projects in an organization.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "org_id": {
+                "type": "string",
+                "description": "Snyk org id."
+              },
+              "target_id": {
+                "type": "string",
+                "description": "Repository / target id."
+              },
+              "type": {
+                "type": "string",
+                "description": "Project type.",
+                "enum": [
+                  "npm",
+                  "pip",
+                  "maven",
+                  "gradle",
+                  "gomodules",
+                  "docker",
+                  "terraform",
+                  "sast"
+                ]
+              }
+            },
+            "required": [
+              "org_id"
+            ]
+          }
+        },
+        {
+          "name": "test_dependencies",
+          "description": "Test a package manifest for known vulnerable dependencies and get upgrade/fix advice.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "manifest_content": {
+                "type": "string",
+                "description": "File contents."
+              },
+              "manifest_type": {
+                "type": "string",
+                "description": "Manifest file type.",
+                "enum": [
+                  "package.json",
+                  "package-lock.json",
+                  "requirements.txt",
+                  "pom.xml",
+                  "go.mod",
+                  "Gemfile.lock"
+                ]
+              },
+              "target_file": {
+                "type": "string",
+                "description": "Path in repo, for reporting."
+              },
+              "severity_threshold": {
+                "type": "string",
+                "description": "Lowest severity to report.",
+                "enum": [
+                  "low",
+                  "medium",
+                  "high",
+                  "critical"
+                ],
+                "default": "low"
+              }
+            },
+            "required": [
+              "manifest_content",
+              "manifest_type"
+            ]
+          }
+        },
+        {
+          "name": "list_issues",
+          "description": "List open issues (vulnerabilities, license issues, code issues) for an org or project.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "org_id": {
+                "type": "string",
+                "description": "Org id."
+              },
+              "project_id": {
+                "type": "string",
+                "description": "Project id."
+              },
+              "severity": {
+                "type": "array",
+                "description": "Severities.",
+                "items": {
+                  "type": "string",
+                  "description": "Severity.",
+                  "enum": [
+                    "low",
+                    "medium",
+                    "high",
+                    "critical"
+                  ]
+                }
+              },
+              "type": {
+                "type": "string",
+                "description": "Issue type.",
+                "enum": [
+                  "package_vulnerability",
+                  "license",
+                  "code",
+                  "cloud",
+                  "custom"
+                ]
+              },
+              "status": {
+                "type": "string",
+                "description": "Status.",
+                "enum": [
+                  "open",
+                  "resolved"
+                ],
+                "default": "open"
+              },
+              "exploit_maturity": {
+                "type": "string",
+                "description": "Exploit maturity.",
+                "enum": [
+                  "mature",
+                  "proof_of_concept",
+                  "no_known_exploit"
+                ]
+              },
+              "limit": {
+                "type": "integer",
+                "description": "Max.",
+                "default": 100
+              }
+            },
+            "required": [
+              "org_id"
+            ]
+          }
+        },
+        {
+          "name": "get_issue",
+          "description": "Get issue.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "org_id": {
+                "type": "string",
+                "description": "Org id."
+              },
+              "issue_id": {
+                "type": "string",
+                "description": "Issue id."
+              }
+            },
+            "required": [
+              "org_id",
+              "issue_id"
+            ]
+          }
+        },
+        {
+          "name": "ignore_issue",
+          "description": "Ignore an issue with a reason and optional expiry date.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "project_id": {
+                "type": "string",
+                "description": "Project id."
+              },
+              "issue_id": {
+                "type": "string",
+                "description": "Issue id."
+              },
+              "reason": {
+                "type": "string",
+                "description": "Justification."
+              },
+              "reason_type": {
+                "type": "string",
+                "description": "Reason type.",
+                "enum": [
+                  "not-vulnerable",
+                  "wont-fix",
+                  "temporary-ignore"
+                ]
+              },
+              "expires": {
+                "type": "string",
+                "description": "Expiry (ISO 8601)."
+              }
+            },
+            "required": [
+              "project_id",
+              "issue_id",
+              "reason_type"
+            ]
+          }
+        },
+        {
+          "name": "get_sbom",
+          "description": "Export a software bill of materials (SBOM) for a project.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "project_id": {
+                "type": "string",
+                "description": "Project id."
+              },
+              "format": {
+                "type": "string",
+                "description": "Format.",
+                "enum": [
+                  "cyclonedx1.4+json",
+                  "spdx2.3+json"
+                ],
+                "default": "cyclonedx1.4+json"
+              }
+            },
+            "required": [
+              "project_id"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "tenable_io",
+      "name": "Tenable Vulnerability Management",
+      "server": "mcp://tenable",
+      "summary": "Network and host vulnerability scanning, asset inventory and vulnerability findings.",
+      "tools": [
+        {
+          "name": "list_scans",
+          "description": "List scans",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "folder_id": {
+                "type": "integer",
+                "description": "Folder."
+              },
+              "last_modified": {
+                "type": "integer",
+                "description": "Unix time."
+              }
+            }
+          }
+        },
+        {
+          "name": "create_scan",
+          "description": "Create a scan definition for a set of targets using a scan template.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Scan name."
+              },
+              "template": {
+                "type": "string",
+                "description": "Scan template.",
+                "enum": [
+                  "basic",
+                  "advanced",
+                  "discovery",
+                  "webapp",
+                  "pci",
+                  "credentialed_patch_audit"
+                ]
+              },
+              "targets": {
+                "type": "array",
+                "description": "IP addresses, CIDR ranges or hostnames.",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "scanner_id": {
+                "type": "string",
+                "description": "Scanner or scanner group."
+              },
+              "policy_id": {
+                "type": "integer",
+                "description": "Custom policy id."
+              },
+              "schedule": {
+                "type": "object",
+                "description": "Recurring schedule.",
+                "properties": {
+                  "enabled": {
+                    "type": "boolean",
+                    "description": "Enabled."
+                  },
+                  "rrules": {
+                    "type": "string",
+                    "description": "iCal RRULE, e.g. 'FREQ=WEEKLY;BYDAY=SU'."
+                  },
+                  "start_time": {
+                    "type": "string",
+                    "description": "YYYYMMDDTHHMMSS."
+                  },
+                  "timezone": {
+                    "type": "string",
+                    "description": "IANA zone."
+                  }
+                }
+              }
+            },
+            "required": [
+              "name",
+              "template",
+              "targets"
+            ]
+          }
+        },
+        {
+          "name": "launch_scan",
+          "description": "Launch a scan now.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "scan_id": {
+                "type": "integer",
+                "description": "Scan id."
+              },
+              "alt_targets": {
+                "type": "array",
+                "description": "Override targets.",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": [
+              "scan_id"
+            ]
+          }
+        },
+        {
+          "name": "get_scan_status",
+          "description": "Get scan status.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "scan_id": {
+                "type": "integer",
+                "description": "Scan id."
+              }
+            },
+            "required": [
+              "scan_id"
+            ]
+          }
+        },
+        {
+          "name": "list_vulnerabilities",
+          "description": "List vulnerability findings across assets, filterable by severity, CVE, plugin or host.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "severity": {
+                "type": "array",
+                "description": "Severities.",
+                "items": {
+                  "type": "string",
+                  "description": "Severity.",
+                  "enum": [
+                    "info",
+                    "low",
+                    "medium",
+                    "high",
+                    "critical"
+                  ]
+                }
+              },
+              "cve": {
+                "type": "string",
+                "description": "CVE id."
+              },
+              "plugin_id": {
+                "type": "integer",
+                "description": "Plugin id."
+              },
+              "asset_hostname": {
+                "type": "string",
+                "description": "Hostname."
+              },
+              "state": {
+                "type": "string",
+                "description": "State.",
+                "enum": [
+                  "open",
+                  "reopened",
+                  "fixed"
+                ],
+                "default": "open"
+              },
+              "since": {
+                "type": "string",
+                "description": "Seen since (ISO 8601)."
+              },
+              "limit": {
+                "type": "integer",
+                "description": "Max.",
+                "default": 200
+              }
+            }
+          }
+        },
+        {
+          "name": "list_assets",
+          "description": "List assets.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "hostname": {
+                "type": "string",
+                "description": "Hostname."
+              },
+              "ip": {
+                "type": "string",
+                "description": "IP."
+              },
+              "tags": {
+                "type": "array",
+                "description": "Tags (category:value).",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "microsoft_sentinel",
+      "name": "Microsoft Sentinel",
+      "server": "mcp://sentinel",
+      "summary": "Cloud SIEM: security incidents and alerts, KQL hunting queries and analytics rules.",
+      "tools": [
+        {
+          "name": "list_incidents",
+          "description": "List security incidents, filterable by severity, status, owner and creation time.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "severity": {
+                "type": "array",
+                "description": "Severities.",
+                "items": {
+                  "type": "string",
+                  "description": "Severity.",
+                  "enum": [
+                    "High",
+                    "Medium",
+                    "Low",
+                    "Informational"
+                  ]
+                }
+              },
+              "status": {
+                "type": "string",
+                "description": "Status.",
+                "enum": [
+                  "New",
+                  "Active",
+                  "Closed"
+                ]
+              },
+              "owner_upn": {
+                "type": "string",
+                "description": "Assigned analyst."
+              },
+              "created_after": {
+                "type": "string",
+                "description": "ISO 8601."
+              },
+              "top": {
+                "type": "integer",
+                "description": "Max.",
+                "default": 50
+              }
+            }
+          }
+        },
+        {
+          "name": "get_incident",
+          "description": "Get an incident with its related alerts, entities (accounts, hosts, IPs) and comments.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "incident_id": {
+                "type": "string",
+                "description": "Incident id."
+              },
+              "include": {
+                "type": "array",
+                "description": "Related data.",
+                "items": {
+                  "type": "string",
+                  "description": "Include.",
+                  "enum": [
+                    "alerts",
+                    "entities",
+                    "comments"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "incident_id"
+            ]
+          }
+        },
+        {
+          "name": "update_incident",
+          "description": "Change an incident's status, severity, owner or classification.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "incident_id": {
+                "type": "string",
+                "description": "Incident id."
+              },
+              "status": {
+                "type": "string",
+                "description": "Status.",
+                "enum": [
+                  "New",
+                  "Active",
+                  "Closed"
+                ]
+              },
+              "severity": {
+                "type": "string",
+                "description": "Severity.",
+                "enum": [
+                  "High",
+                  "Medium",
+                  "Low",
+                  "Informational"
+                ]
+              },
+              "owner_upn": {
+                "type": "string",
+                "description": "Assignee."
+              },
+              "classification": {
+                "type": "string",
+                "description": "Required when closing.",
+                "enum": [
+                  "TruePositive",
+                  "BenignPositive",
+                  "FalsePositive",
+                  "Undetermined"
+                ]
+              },
+              "classification_comment": {
+                "type": "string",
+                "description": "Closing comment."
+              },
+              "labels": {
+                "type": "array",
+                "description": "Labels.",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": [
+              "incident_id"
+            ]
+          }
+        },
+        {
+          "name": "add_incident_comment",
+          "description": "Comment on incident.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "incident_id": {
+                "type": "string",
+                "description": "Incident id."
+              },
+              "message": {
+                "type": "string",
+                "description": "Comment."
+              }
+            },
+            "required": [
+              "incident_id",
+              "message"
+            ]
+          }
+        },
+        {
+          "name": "run_hunting_query",
+          "description": "Run a KQL query against the Log Analytics workspace, e.g. SigninLogs, SecurityEvent or DeviceProcessEvents.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string",
+                "description": "KQL query."
+              },
+              "timespan": {
+                "type": "string",
+                "description": "ISO 8601 duration, e.g. 'P1D'.",
+                "default": "P1D"
+              },
+              "workspace_id": {
+                "type": "string",
+                "description": "Workspace id."
+              }
+            },
+            "required": [
+              "query"
+            ]
+          }
+        },
+        {
+          "name": "list_alert_rules",
+          "description": "List analytics rules.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "kind": {
+                "type": "string",
+                "description": "Rule kind.",
+                "enum": [
+                  "Scheduled",
+                  "NRT",
+                  "Fusion",
+                  "MicrosoftSecurityIncidentCreation"
+                ]
+              },
+              "enabled": {
+                "type": "boolean",
+                "description": "Only enabled."
+              }
+            }
+          }
+        },
+        {
+          "name": "create_alert_rule",
+          "description": "Create a scheduled analytics rule that raises alerts when a KQL query returns results.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "display_name": {
+                "type": "string",
+                "description": "Rule name."
+              },
+              "query": {
+                "type": "string",
+                "description": "KQL."
+              },
+              "severity": {
+                "type": "string",
+                "description": "Alert severity.",
+                "enum": [
+                  "High",
+                  "Medium",
+                  "Low",
+                  "Informational"
+                ]
+              },
+              "query_frequency": {
+                "type": "string",
+                "description": "Run every (ISO 8601 duration).",
+                "default": "PT1H"
+              },
+              "query_period": {
+                "type": "string",
+                "description": "Look back (ISO 8601 duration).",
+                "default": "PT1H"
+              },
+              "trigger_operator": {
+                "type": "string",
+                "description": "Operator.",
+                "enum": [
+                  "GreaterThan",
+                  "LessThan",
+                  "Equal",
+                  "NotEqual"
+                ],
+                "default": "GreaterThan"
+              },
+              "trigger_threshold": {
+                "type": "integer",
+                "description": "Threshold.",
+                "default": 0
+              },
+              "tactics": {
+                "type": "array",
+                "description": "MITRE ATT&CK tactics.",
+                "items": {
+                  "type": "string",
+                  "description": "Tactic.",
+                  "enum": [
+                    "InitialAccess",
+                    "Execution",
+                    "Persistence",
+                    "PrivilegeEscalation",
+                    "CredentialAccess",
+                    "LateralMovement",
+                    "Exfiltration"
+                  ]
+                }
+              },
+              "enabled": {
+                "type": "boolean",
+                "description": "Enable now.",
+                "default": true
+              }
+            },
+            "required": [
+              "display_name",
+              "query",
+              "severity"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "okta_identity",
+      "name": "Okta Identity",
+      "server": "mcp://okta",
+      "summary": "Workforce identity and access management: users, groups, admin roles, MFA factors and the system log.",
+      "tools": [
+        {
+          "name": "list_users",
+          "description": "List users in the org. Supports search expressions (e.g. profile.department eq \"Engineering\") and status filters.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "q": {
+                "type": "string",
+                "description": "Quick search on name or email."
+              },
+              "search": {
+                "type": "string",
+                "description": "SCIM search expression."
+              },
+              "filter": {
+                "type": "string",
+                "description": "Filter, e.g. 'status eq \"LOCKED_OUT\"'."
+              },
+              "limit": {
+                "type": "integer",
+                "description": "Max.",
+                "default": 200
+              }
+            }
+          }
+        },
+        {
+          "name": "get_user",
+          "description": "Get user.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "user_id": {
+                "type": "string",
+                "description": "User id or login."
+              }
+            },
+            "required": [
+              "user_id"
+            ]
+          }
+        },
+        {
+          "name": "create_user",
+          "description": "Create a user, optionally activating them and adding them to groups.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "profile": {
+                "type": "object",
+                "description": "Profile.",
+                "properties": {
+                  "first_name": {
+                    "type": "string",
+                    "description": "First name."
+                  },
+                  "last_name": {
+                    "type": "string",
+                    "description": "Last name."
+                  },
+                  "email": {
+                    "type": "string",
+                    "description": "Email."
+                  },
+                  "login": {
+                    "type": "string",
+                    "description": "Login (usually email)."
+                  },
+                  "department": {
+                    "type": "string",
+                    "description": "Department."
+                  },
+                  "title": {
+                    "type": "string",
+                    "description": "Title."
+                  },
+                  "manager_id": {
+                    "type": "string",
+                    "description": "Manager."
+                  }
+                },
+                "required": [
+                  "first_name",
+                  "last_name",
+                  "email",
+                  "login"
+                ]
+              },
+              "group_ids": {
+                "type": "array",
+                "description": "Groups to join.",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "activate": {
+                "type": "boolean",
+                "description": "Activate and send email.",
+                "default": true
+              }
+            },
+            "required": [
+              "profile"
+            ]
+          }
+        },
+        {
+          "name": "deactivate_user",
+          "description": "Deactivate a user and revoke access to all apps. Required before deletion.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "user_id": {
+                "type": "string",
+                "description": "User id."
+              },
+              "send_email": {
+                "type": "boolean",
+                "description": "Notify admins.",
+                "default": false
+              }
+            },
+            "required": [
+              "user_id"
+            ]
+          }
+        },
+        {
+          "name": "reset_factors",
+          "description": "Reset all enrolled MFA factors for a user, e.g. after a lost phone.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "user_id": {
+                "type": "string",
+                "description": "User id."
+              }
+            },
+            "required": [
+              "user_id"
+            ]
+          }
+        },
+        {
+          "name": "list_groups",
+          "description": "List groups",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "q": {
+                "type": "string",
+                "description": "Name prefix."
+              },
+              "filter": {
+                "type": "string",
+                "description": "Filter."
+              },
+              "limit": {
+                "type": "integer",
+                "description": "Max."
+              }
+            }
+          }
+        },
+        {
+          "name": "add_user_to_group",
+          "description": "Add a user to a group.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "group_id": {
+                "type": "string",
+                "description": "Group id."
+              },
+              "user_id": {
+                "type": "string",
+                "description": "User id."
+              }
+            },
+            "required": [
+              "group_id",
+              "user_id"
+            ]
+          }
+        },
+        {
+          "name": "assign_admin_role",
+          "description": "Assign an admin role to a user.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "user_id": {
+                "type": "string",
+                "description": "User id."
+              },
+              "role_type": {
+                "type": "string",
+                "description": "Role.",
+                "enum": [
+                  "SUPER_ADMIN",
+                  "ORG_ADMIN",
+                  "APP_ADMIN",
+                  "USER_ADMIN",
+                  "HELP_DESK_ADMIN",
+                  "READ_ONLY_ADMIN",
+                  "GROUP_MEMBERSHIP_ADMIN",
+                  "REPORT_ADMIN"
+                ]
+              }
+            },
+            "required": [
+              "user_id",
+              "role_type"
+            ]
+          }
+        },
+        {
+          "name": "list_user_roles",
+          "description": "List roles.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "user_id": {
+                "type": "string",
+                "description": "User id."
+              }
+            },
+            "required": [
+              "user_id"
+            ]
+          }
+        },
+        {
+          "name": "get_system_log",
+          "description": "Query the system log for sign-in events, admin actions and policy evaluations.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "since": {
+                "type": "string",
+                "description": "ISO 8601."
+              },
+              "until": {
+                "type": "string",
+                "description": "ISO 8601."
+              },
+              "filter": {
+                "type": "string",
+                "description": "e.g. 'eventType eq \"user.session.start\" and outcome.result eq \"FAILURE\"'."
+              },
+              "q": {
+                "type": "string",
+                "description": "Keyword search."
+              },
+              "limit": {
+                "type": "integer",
+                "description": "Max.",
+                "default": 100
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "hcp_vault",
+      "name": "HashiCorp Vault",
+      "server": "mcp://vault",
+      "summary": "Secrets management: KV secrets, dynamic database credentials and leases.",
+      "tools": [
+        {
+          "name": "read_secret",
+          "description": "Read the latest or a specific version of a KV v2 secret.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "mount": {
+                "type": "string",
+                "description": "KV mount.",
+                "default": "secret"
+              },
+              "path": {
+                "type": "string",
+                "description": "Secret path, e.g. 'apps/billing/prod'."
+              },
+              "version": {
+                "type": "integer",
+                "description": "Version; omit for latest."
+              }
+            },
+            "required": [
+              "path"
+            ]
+          }
+        },
+        {
+          "name": "write_secret",
+          "description": "Create or update a KV v2 secret (writes a new version).",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "mount": {
+                "type": "string",
+                "description": "KV mount.",
+                "default": "secret"
+              },
+              "path": {
+                "type": "string",
+                "description": "Secret path."
+              },
+              "data": {
+                "type": "object",
+                "description": "Key/value pairs.",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              "cas": {
+                "type": "integer",
+                "description": "Check-and-set version; 0 to only create."
+              }
+            },
+            "required": [
+              "path",
+              "data"
+            ]
+          }
+        },
+        {
+          "name": "list_secrets",
+          "description": "List secrets.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "mount": {
+                "type": "string",
+                "description": "KV mount.",
+                "default": "secret"
+              },
+              "path": {
+                "type": "string",
+                "description": "Folder path."
+              }
+            }
+          }
+        },
+        {
+          "name": "delete_secret",
+          "description": "Soft-delete secret versions, or permanently destroy them.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "mount": {
+                "type": "string",
+                "description": "KV mount.",
+                "default": "secret"
+              },
+              "path": {
+                "type": "string",
+                "description": "Secret path."
+              },
+              "versions": {
+                "type": "array",
+                "description": "Versions; omit for latest.",
+                "items": {
+                  "type": "integer"
+                }
+              },
+              "destroy": {
+                "type": "boolean",
+                "description": "Destroy permanently.",
+                "default": false
+              }
+            },
+            "required": [
+              "path"
+            ]
+          }
+        },
+        {
+          "name": "generate_database_credentials",
+          "description": "Generate short-lived dynamic database credentials for a role.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "mount": {
+                "type": "string",
+                "description": "Secrets engine mount.",
+                "default": "database"
+              },
+              "role": {
+                "type": "string",
+                "description": "Role name."
+              }
+            },
+            "required": [
+              "role"
+            ]
+          }
+        },
+        {
+          "name": "revoke_lease",
+          "description": "Revoke lease.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "lease_id": {
+                "type": "string",
+                "description": "Lease id or prefix."
+              },
+              "prefix": {
+                "type": "boolean",
+                "description": "Revoke by prefix.",
+                "default": false
+              }
+            },
+            "required": [
+              "lease_id"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,77 @@
+{
+ "task_id": "database-0002",
+ "mode": "cats",
+ "loaded": [
+  "mongodb.aggregate",
+  "mongodb.collection_schema",
+  "mongodb.count",
+  "mongodb.create_index",
+  "mongodb.delete_many",
+  "mongodb.find",
+  "mongodb.insert_many",
+  "mongodb.list_collections",
+  "mongodb.update_many",
+  "stripe.update_subscription"
+ ],
+ "order": [
+  "mongodb.aggregate",
+  "mongodb.collection_schema",
+  "mongodb.count",
+  "mongodb.create_index",
+  "mongodb.delete_many",
+  "mongodb.find",
+  "mongodb.insert_many",
+  "mongodb.list_collections",
+  "mongodb.update_many",
+  "stripe.update_subscription"
+ ],
+ "scores": {
+  "mongodb.aggregate": 0.15524695759976626,
+  "mongodb.collection_schema": 0.22938565742253542,
+  "mongodb.count": 0.2044688201912409,
+  "mongodb.create_index": 0.050476259055500974,
+  "mongodb.delete_many": 0.1704908166267814,
+  "mongodb.find": 0.048427250399352265,
+  "mongodb.insert_many": 0.20737507444584596,
+  "mongodb.list_collections": 0.3286508823616503,
+  "mongodb.update_many": 0.6564087193727145,
+  "stripe.update_subscription": 0.050669717608700426
+ },
+ "router_tokens": 0,
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "mongodb.update_many",
+   "args": {
+    "database": "app",
+    "collection": "users",
+    "filter": {
+     "plan": "trial"
+    },
+    "update": {
+     "$set": {
+      "plan": "free"
+     }
+    }
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 10,
+   "tool_tokens": 1977,
+   "t": 1791321116.9572031
+  },
+  {
+   "type": "call",
+   "tool": "mongodb__update_many",
+   "valid": true,
+   "t": 1791321128.9282615
+  }
+ ],
+ "done": true,
+ "t_done": 1791321131.9487107,
+ "final": ""
+}

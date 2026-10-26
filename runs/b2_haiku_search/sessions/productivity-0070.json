@@ -1,0 +1,70 @@
+{
+ "task_id": "productivity-0070",
+ "mode": "search",
+ "loaded": [
+  "ms365_pim.create_todo_task",
+  "apple_mcp.reminders",
+  "salesforce.salesforce_create_task",
+  "todoist.update_tasks",
+  "todoist.find_tasks_by_date"
+ ],
+ "order": [
+  "ms365_pim.create_todo_task",
+  "apple_mcp.reminders",
+  "salesforce.salesforce_create_task",
+  "todoist.update_tasks",
+  "todoist.find_tasks_by_date"
+ ],
+ "scores": {
+  "ms365_pim.create_todo_task": 2.0,
+  "apple_mcp.reminders": 2.0,
+  "salesforce.salesforce_create_task": 2.0,
+  "todoist.update_tasks": 2.0,
+  "todoist.find_tasks_by_date": 2.0
+ },
+ "router_tokens": 0,
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "apple_mcp.reminders",
+   "args": {
+    "operation": "create",
+    "name": "Gift ideas reminder",
+    "listName": "Reminders",
+    "dueDate": "2026-12-01",
+    "notes": "Check your gift ideas note - Lego set for Sam, scarf for mum"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0,
+   "t": 1791321671.4421191
+  },
+  {
+   "type": "request_tools",
+   "capability": "Set a reminder or notification for a specific date to alert about a note or task",
+   "added": [
+    "ms365_pim.create_todo_task",
+    "apple_mcp.reminders",
+    "salesforce.salesforce_create_task",
+    "todoist.update_tasks",
+    "todoist.find_tasks_by_date"
+   ],
+   "tool_tokens": 1621,
+   "t": 1791321686.337818
+  },
+  {
+   "type": "call",
+   "tool": "apple_mcp__reminders",
+   "valid": true,
+   "t": 1791321699.9260564
+  }
+ ],
+ "done": true,
+ "t_done": 1791321704.23631,
+ "final": ""
+}

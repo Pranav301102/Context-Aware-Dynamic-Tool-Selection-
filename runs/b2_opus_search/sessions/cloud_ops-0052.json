@@ -1,0 +1,75 @@
+{
+ "task_id": "cloud_ops-0052",
+ "mode": "search",
+ "loaded": [
+  "aws.lambda_invoke",
+  "aws.lambda_list_functions",
+  "aws.s3_list_buckets",
+  "aws.cloudwatch_logs_insights_query",
+  "aws.cloudwatch_get_metric_data"
+ ],
+ "order": [
+  "aws.lambda_invoke",
+  "aws.lambda_list_functions",
+  "aws.s3_list_buckets",
+  "aws.cloudwatch_logs_insights_query",
+  "aws.cloudwatch_get_metric_data"
+ ],
+ "scores": {
+  "aws.lambda_invoke": 2.0,
+  "aws.lambda_list_functions": 2.0,
+  "aws.s3_list_buckets": 2.0,
+  "aws.cloudwatch_logs_insights_query": 2.0,
+  "aws.cloudwatch_get_metric_data": 2.0
+ },
+ "router_tokens": 0,
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "aws.lambda_list_functions",
+   "args": {
+    "region": "us-east-1"
+   }
+  },
+  {
+   "tool": "aws.lambda_invoke",
+   "args": {
+    "function_name": "healthcheck",
+    "payload": {},
+    "region": "us-east-1"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0
+  },
+  {
+   "type": "request_tools",
+   "capability": "list and invoke AWS Lambda functions in a region",
+   "added": [
+    "aws.lambda_invoke",
+    "aws.lambda_list_functions",
+    "aws.s3_list_buckets",
+    "aws.cloudwatch_logs_insights_query",
+    "aws.cloudwatch_get_metric_data"
+   ],
+   "tool_tokens": 1245
+  },
+  {
+   "type": "call",
+   "tool": "aws__lambda_list_functions",
+   "valid": true
+  },
+  {
+   "type": "call",
+   "tool": "aws__lambda_invoke",
+   "valid": true
+  }
+ ],
+ "done": true,
+ "final": ""
+}

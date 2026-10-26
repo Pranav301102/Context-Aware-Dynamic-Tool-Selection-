@@ -1,0 +1,90 @@
+{
+ "task_id": "finance-0063",
+ "mode": "search",
+ "loaded": [
+  "quickbooks.create_purchase",
+  "quickbooks.search_purchases",
+  "quickbooks.create_customer",
+  "quickbooks.create_invoice",
+  "quickbooks.create_bill"
+ ],
+ "order": [
+  "quickbooks.create_purchase",
+  "quickbooks.search_purchases",
+  "quickbooks.create_customer",
+  "quickbooks.create_invoice",
+  "quickbooks.create_bill"
+ ],
+ "scores": {
+  "quickbooks.create_purchase": 2.0,
+  "quickbooks.search_purchases": 2.0,
+  "quickbooks.create_customer": 2.0,
+  "quickbooks.create_invoice": 2.0,
+  "quickbooks.create_bill": 2.0
+ },
+ "router_tokens": 0,
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "quickbooks.create_purchase",
+   "args": {
+    "purchase": {
+     "PaymentType": "CreditCard",
+     "AccountRef": {
+      "value": "chase_card_id",
+      "name": "Chase Card"
+     },
+     "EntityRef": {
+      "value": "nopa_vendor_id",
+      "type": "Vendor"
+     },
+     "TxnDate": "2026-10-06",
+     "Line": [
+      {
+       "Amount": 212,
+       "Description": "Team Lunch",
+       "DetailType": "AccountBasedExpenseLineDetail",
+       "AccountBasedExpenseLineDetail": {
+        "AccountRef": {
+         "value": "meals_expense_id",
+         "name": "Meals"
+        }
+       }
+      }
+     ]
+    }
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0,
+   "t": 1791321759.4813366
+  },
+  {
+   "type": "request_tools",
+   "capability": "create transactions and record expenses in QuickBooks",
+   "added": [
+    "quickbooks.create_purchase",
+    "quickbooks.search_purchases",
+    "quickbooks.create_customer",
+    "quickbooks.create_invoice",
+    "quickbooks.create_bill"
+   ],
+   "tool_tokens": 2083,
+   "t": 1791321771.8755727
+  },
+  {
+   "type": "call",
+   "tool": "quickbooks__create_purchase",
+   "valid": true,
+   "t": 1791321787.2892814
+  }
+ ],
+ "done": true,
+ "t_done": 1791321793.3449316,
+ "final": ""
+}

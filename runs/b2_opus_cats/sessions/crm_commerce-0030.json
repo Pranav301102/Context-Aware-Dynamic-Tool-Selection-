@@ -1,0 +1,78 @@
+{
+ "task_id": "crm_commerce-0030",
+ "mode": "cats",
+ "loaded": [
+  "hubspot.hubspot_batch_update_objects",
+  "hubspot.hubspot_create_deal",
+  "hubspot.hubspot_create_engagement",
+  "hubspot.hubspot_list_associations",
+  "hubspot.hubspot_search_objects"
+ ],
+ "order": [
+  "hubspot.hubspot_batch_update_objects",
+  "hubspot.hubspot_create_deal",
+  "hubspot.hubspot_create_engagement",
+  "hubspot.hubspot_list_associations",
+  "hubspot.hubspot_search_objects"
+ ],
+ "scores": {
+  "hubspot.hubspot_batch_update_objects": 0.10277762352701782,
+  "hubspot.hubspot_create_deal": 0.3437251328092267,
+  "hubspot.hubspot_create_engagement": 0.04303816510932958,
+  "hubspot.hubspot_list_associations": 0.038079041476994285,
+  "hubspot.hubspot_search_objects": 0.5654283204925225
+ },
+ "router_tokens": 0,
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "hubspot.hubspot_search_objects",
+   "args": {
+    "objectType": "deals",
+    "filterGroups": [
+     {
+      "filters": [
+       {
+        "propertyName": "amount",
+        "operator": "GT",
+        "value": "50000"
+       },
+       {
+        "propertyName": "closedate",
+        "operator": "BETWEEN",
+        "value": "2026-10-01T00:00:00Z",
+        "highValue": "2026-12-31T23:59:59Z"
+       }
+      ]
+     }
+    ],
+    "properties": [
+     "dealname",
+     "amount",
+     "closedate",
+     "dealstage",
+     "hubspot_owner_id"
+    ],
+    "limit": 100
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 5,
+   "tool_tokens": 1318,
+   "t": 1791321471.3434365
+  },
+  {
+   "type": "call",
+   "tool": "hubspot__hubspot_search_objects",
+   "valid": true,
+   "t": 1791321482.7369905
+  }
+ ],
+ "done": true,
+ "t_done": 1791321484.358999,
+ "final": ""
+}

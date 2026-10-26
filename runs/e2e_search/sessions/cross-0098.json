@@ -1,0 +1,90 @@
+{
+ "task_id": "cross-0098",
+ "mode": "search",
+ "loaded": [
+  "openweathermap.get_air_pollution",
+  "mapbox.reverse_geocode_tool",
+  "nws_weather.get_latest_observation",
+  "google_maps.maps_reverse_geocode",
+  "nws_weather.get_forecast",
+  "elevenlabs.text_to_speech",
+  "openai_media.create_speech",
+  "elevenlabs.speech_to_text",
+  "elevenlabs.speech_to_speech",
+  "openai_media.translate_audio"
+ ],
+ "order": [
+  "openweathermap.get_air_pollution",
+  "mapbox.reverse_geocode_tool",
+  "nws_weather.get_latest_observation",
+  "google_maps.maps_reverse_geocode",
+  "nws_weather.get_forecast",
+  "elevenlabs.text_to_speech",
+  "openai_media.create_speech",
+  "elevenlabs.speech_to_text",
+  "elevenlabs.speech_to_speech",
+  "openai_media.translate_audio"
+ ],
+ "escalations": 2,
+ "calls": [
+  {
+   "tool": "openweathermap.get_air_pollution",
+   "args": {
+    "lat": 28.61,
+    "lon": 77.21,
+    "mode": "current"
+   }
+  },
+  {
+   "tool": "elevenlabs.text_to_speech",
+   "args": {
+    "text": "Air quality alert for Delhi. The current air quality index is 5 out of 5, very poor. It is not safe to run outside right now. Consider exercising indoors today.",
+    "output_format": "mp3_44100_128"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0
+  },
+  {
+   "type": "request_tools",
+   "capability": "get current air quality index for a latitude/longitude",
+   "added": [
+    "openweathermap.get_air_pollution",
+    "mapbox.reverse_geocode_tool",
+    "nws_weather.get_latest_observation",
+    "google_maps.maps_reverse_geocode",
+    "nws_weather.get_forecast"
+   ],
+   "tool_tokens": 763
+  },
+  {
+   "type": "request_tools",
+   "capability": "convert text to speech and save it as an mp3 audio file",
+   "added": [
+    "elevenlabs.text_to_speech",
+    "openai_media.create_speech",
+    "elevenlabs.speech_to_text",
+    "elevenlabs.speech_to_speech",
+    "openai_media.translate_audio"
+   ],
+   "tool_tokens": 2251
+  },
+  {
+   "type": "call",
+   "tool": "openweathermap__get_air_pollution",
+   "valid": true
+  },
+  {
+   "type": "call",
+   "tool": "elevenlabs__text_to_speech",
+   "valid": true
+  }
+ ],
+ "done": true,
+ "final": ""
+}

@@ -1,0 +1,79 @@
+{
+ "task_id": "cross-0079",
+ "mode": "cats",
+ "loaded": [
+  "alpha_vantage.currency_exchange_rate",
+  "frankfurter.get_historical_rates",
+  "frankfurter.get_latest_rates",
+  "gmail.draft_email",
+  "gmail.read_email",
+  "gmail.search_emails",
+  "gmail.send_email",
+  "salesforce.salesforce_create_contact",
+  "stripe.create_customer"
+ ],
+ "order": [
+  "alpha_vantage.currency_exchange_rate",
+  "frankfurter.get_historical_rates",
+  "frankfurter.get_latest_rates",
+  "gmail.draft_email",
+  "gmail.read_email",
+  "gmail.search_emails",
+  "gmail.send_email",
+  "salesforce.salesforce_create_contact",
+  "stripe.create_customer"
+ ],
+ "scores": {
+  "alpha_vantage.currency_exchange_rate": 0.1539330302053197,
+  "frankfurter.get_historical_rates": 0.2111212282786732,
+  "frankfurter.get_latest_rates": 0.7815570804735443,
+  "gmail.draft_email": 0.30550993184297354,
+  "gmail.read_email": 0.21290314719397702,
+  "gmail.search_emails": 0.5813132043925168,
+  "gmail.send_email": 0.4660132451764961,
+  "salesforce.salesforce_create_contact": 0.24051150901146295,
+  "stripe.create_customer": 0.7719386989453728
+ },
+ "router_tokens": 0,
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "frankfurter.get_latest_rates",
+   "args": {
+    "base": "EUR",
+    "symbols": "USD",
+    "amount": 2400
+   }
+  },
+  {
+   "tool": "gmail.send_email",
+   "args": {
+    "to": [
+     "accounting@acme.com"
+    ],
+    "subject": "2,400 EUR to USD at today's ECB reference rate",
+    "body": "Hi,\n\n2,400 EUR converts to the USD amount shown at today's ECB reference rate (via Frankfurter).\n\nBest regards"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 9,
+   "tool_tokens": 1600
+  },
+  {
+   "type": "call",
+   "tool": "frankfurter__get_latest_rates",
+   "valid": true
+  },
+  {
+   "type": "call",
+   "tool": "gmail__send_email",
+   "valid": true
+  }
+ ],
+ "done": true,
+ "final": ""
+}

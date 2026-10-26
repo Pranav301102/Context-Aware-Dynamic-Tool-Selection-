@@ -1,0 +1,55 @@
+{
+ "task_id": "dev_platform-0061",
+ "mode": "search",
+ "loaded": [
+  "circleci.rerun_workflow",
+  "circleci.get_job_test_results",
+  "github.rerun_failed_jobs",
+  "circleci.get_build_failure_logs",
+  "circleci.find_flaky_tests"
+ ],
+ "order": [
+  "circleci.rerun_workflow",
+  "circleci.get_job_test_results",
+  "github.rerun_failed_jobs",
+  "circleci.get_build_failure_logs",
+  "circleci.find_flaky_tests"
+ ],
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "circleci.rerun_workflow",
+   "args": {
+    "workflowId": "7c1e2d44-9f0a",
+    "fromFailed": true
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0
+  },
+  {
+   "type": "request_tools",
+   "capability": "rerun a CircleCI workflow from the failed job",
+   "added": [
+    "circleci.rerun_workflow",
+    "circleci.get_job_test_results",
+    "github.rerun_failed_jobs",
+    "circleci.get_build_failure_logs",
+    "circleci.find_flaky_tests"
+   ],
+   "tool_tokens": 1053
+  },
+  {
+   "type": "call",
+   "tool": "circleci__rerun_workflow",
+   "valid": true
+  }
+ ],
+ "done": true,
+ "final": ""
+}

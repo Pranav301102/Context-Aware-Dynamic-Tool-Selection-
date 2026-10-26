@@ -1,0 +1,68 @@
+{
+ "task_id": "media-0070",
+ "mode": "search",
+ "loaded": [
+  "ffmpeg_video.burn_subtitles",
+  "openai_media.transcribe_audio",
+  "ffmpeg_video.concatenate_videos",
+  "elevenlabs.speech_to_text",
+  "ffmpeg_video.convert_video"
+ ],
+ "order": [
+  "ffmpeg_video.burn_subtitles",
+  "openai_media.transcribe_audio",
+  "ffmpeg_video.concatenate_videos",
+  "elevenlabs.speech_to_text",
+  "ffmpeg_video.convert_video"
+ ],
+ "scores": {
+  "ffmpeg_video.burn_subtitles": 2.0,
+  "openai_media.transcribe_audio": 2.0,
+  "ffmpeg_video.concatenate_videos": 2.0,
+  "elevenlabs.speech_to_text": 2.0,
+  "ffmpeg_video.convert_video": 2.0
+ },
+ "router_tokens": 0,
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "ffmpeg_video.burn_subtitles",
+   "args": {
+    "input_path": "promo.mp4",
+    "subtitle_path": "subs_en.srt",
+    "output_path": "promo_subtitled.mp4"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0,
+   "t": 1791322136.9649363
+  },
+  {
+   "type": "request_tools",
+   "capability": "burn or embed subtitles into video files",
+   "added": [
+    "ffmpeg_video.burn_subtitles",
+    "openai_media.transcribe_audio",
+    "ffmpeg_video.concatenate_videos",
+    "elevenlabs.speech_to_text",
+    "ffmpeg_video.convert_video"
+   ],
+   "tool_tokens": 1632,
+   "t": 1791322147.4690003
+  },
+  {
+   "type": "call",
+   "tool": "ffmpeg_video__burn_subtitles",
+   "valid": true,
+   "t": 1791322160.7755234
+  }
+ ],
+ "done": true,
+ "t_done": 1791322166.4419608,
+ "final": ""
+}

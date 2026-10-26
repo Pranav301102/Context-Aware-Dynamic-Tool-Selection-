@@ -1,0 +1,49 @@
+{
+ "task_id": "crm_commerce-0044",
+ "mode": "cats",
+ "loaded": [
+  "salesforce.salesforce_convert_lead",
+  "salesforce.salesforce_create_contact",
+  "salesforce.salesforce_create_lead",
+  "salesforce.salesforce_create_task",
+  "salesforce.salesforce_query_records"
+ ],
+ "order": [
+  "salesforce.salesforce_convert_lead",
+  "salesforce.salesforce_create_contact",
+  "salesforce.salesforce_create_lead",
+  "salesforce.salesforce_create_task",
+  "salesforce.salesforce_query_records"
+ ],
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "salesforce.salesforce_query_records",
+   "args": {
+    "objectName": "Account",
+    "fields": [
+     "Id",
+     "Name",
+     "BillingState",
+     "AnnualRevenue"
+    ],
+    "whereClause": "BillingState = 'CA' AND AnnualRevenue > 10000000"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 5,
+   "tool_tokens": 1276
+  },
+  {
+   "type": "call",
+   "tool": "salesforce__salesforce_query_records",
+   "valid": true
+  }
+ ],
+ "done": true,
+ "final": ""
+}

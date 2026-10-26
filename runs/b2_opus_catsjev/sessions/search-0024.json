@@ -1,0 +1,81 @@
+{
+ "task_id": "search-0024",
+ "mode": "cats",
+ "loaded": [
+  "brave_search.brave_video_search",
+  "elevenlabs.speech_to_text",
+  "exa.linkedin_search_exa",
+  "exa.web_search_exa",
+  "ffmpeg_video.burn_subtitles",
+  "ffmpeg_video.concatenate_videos",
+  "ffmpeg_video.convert_video",
+  "semantic_scholar.paper_citations",
+  "semantic_scholar.paper_relevance_search",
+  "tavily.tavily_crawl"
+ ],
+ "order": [
+  "brave_search.brave_video_search",
+  "elevenlabs.speech_to_text",
+  "exa.linkedin_search_exa",
+  "exa.web_search_exa",
+  "ffmpeg_video.burn_subtitles",
+  "ffmpeg_video.concatenate_videos",
+  "ffmpeg_video.convert_video",
+  "semantic_scholar.paper_citations",
+  "semantic_scholar.paper_relevance_search",
+  "tavily.tavily_crawl"
+ ],
+ "scores": {
+  "brave_search.brave_video_search": 0.15007479702846968,
+  "elevenlabs.speech_to_text": 0.29984010916292214,
+  "exa.linkedin_search_exa": 0.8110716446622783,
+  "exa.web_search_exa": 0.09417850967043431,
+  "ffmpeg_video.burn_subtitles": 0.21227499713247439,
+  "ffmpeg_video.concatenate_videos": 0.248704575988791,
+  "ffmpeg_video.convert_video": 0.5863296280571627,
+  "semantic_scholar.paper_citations": 0.04353032166530879,
+  "semantic_scholar.paper_relevance_search": 0.05279343757824715,
+  "tavily.tavily_crawl": 0.04475328180925537
+ },
+ "router_tokens": 1448,
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "exa.linkedin_search_exa",
+   "args": {
+    "query": "CTO Supabase",
+    "searchType": "profiles"
+   }
+  },
+  {
+   "tool": "brave_search.brave_video_search",
+   "args": {
+    "query": "Ant Wilson Supabase CTO conference talk"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 10,
+   "tool_tokens": 3197,
+   "t": 1791321343.096248
+  },
+  {
+   "type": "call",
+   "tool": "exa__linkedin_search_exa",
+   "valid": true,
+   "t": 1791321356.8651948
+  },
+  {
+   "type": "call",
+   "tool": "brave_search__brave_video_search",
+   "valid": true,
+   "t": 1791321365.7488322
+  }
+ ],
+ "done": true,
+ "t_done": 1791321370.7892513,
+ "final": ""
+}

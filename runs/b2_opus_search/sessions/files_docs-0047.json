@@ -1,0 +1,79 @@
+{
+ "task_id": "files_docs-0047",
+ "mode": "search",
+ "loaded": [
+  "google_drive.gdrive_move_file",
+  "google_drive.gdrive_create_folder",
+  "google_drive.gdrive_upload_file",
+  "filesystem.move_file",
+  "google_drive.gdrive_share_file"
+ ],
+ "order": [
+  "google_drive.gdrive_move_file",
+  "google_drive.gdrive_create_folder",
+  "google_drive.gdrive_upload_file",
+  "filesystem.move_file",
+  "google_drive.gdrive_share_file"
+ ],
+ "scores": {
+  "google_drive.gdrive_move_file": 2.0,
+  "google_drive.gdrive_create_folder": 2.0,
+  "google_drive.gdrive_upload_file": 2.0,
+  "filesystem.move_file": 2.0,
+  "google_drive.gdrive_share_file": 2.0
+ },
+ "router_tokens": 0,
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "google_drive.gdrive_create_folder",
+   "args": {
+    "name": "Client X"
+   }
+  },
+  {
+   "tool": "google_drive.gdrive_move_file",
+   "args": {
+    "file_id": "1sOwXyZ",
+    "new_parent_id": "client_x_folder_id"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0,
+   "t": 1791321155.823653
+  },
+  {
+   "type": "request_tools",
+   "capability": "create a folder in Google Drive and move a file into a folder",
+   "added": [
+    "google_drive.gdrive_move_file",
+    "google_drive.gdrive_create_folder",
+    "google_drive.gdrive_upload_file",
+    "filesystem.move_file",
+    "google_drive.gdrive_share_file"
+   ],
+   "tool_tokens": 902,
+   "t": 1791321166.7664661
+  },
+  {
+   "type": "call",
+   "tool": "google_drive__gdrive_create_folder",
+   "valid": true,
+   "t": 1791321179.4621332
+  },
+  {
+   "type": "call",
+   "tool": "google_drive__gdrive_move_file",
+   "valid": true,
+   "t": 1791321187.3482053
+  }
+ ],
+ "done": true,
+ "t_done": 1791321189.2961988,
+ "final": ""
+}

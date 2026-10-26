@@ -1,0 +1,69 @@
+{
+ "task_id": "dev_platform-0023",
+ "mode": "search",
+ "loaded": [
+  "sentry.search_issues",
+  "sentry.search_events",
+  "sentry.get_issue_details",
+  "sentry.find_releases",
+  "sentry.update_issue"
+ ],
+ "order": [
+  "sentry.search_issues",
+  "sentry.search_events",
+  "sentry.get_issue_details",
+  "sentry.find_releases",
+  "sentry.update_issue"
+ ],
+ "scores": {
+  "sentry.search_issues": 2.0,
+  "sentry.search_events": 2.0,
+  "sentry.get_issue_details": 2.0,
+  "sentry.find_releases": 2.0,
+  "sentry.update_issue": 2.0
+ },
+ "router_tokens": 0,
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "sentry.search_issues",
+   "args": {
+    "organizationSlug": "acme",
+    "projectSlugOrId": "web-app",
+    "naturalLanguageQuery": "unresolved errors in production right now",
+    "limit": 10
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0,
+   "t": 1791321762.0836673
+  },
+  {
+   "type": "request_tools",
+   "capability": "Query Sentry for recent errors and issues in a project",
+   "added": [
+    "sentry.search_issues",
+    "sentry.search_events",
+    "sentry.get_issue_details",
+    "sentry.find_releases",
+    "sentry.update_issue"
+   ],
+   "tool_tokens": 1504,
+   "t": 1791321775.2211227
+  },
+  {
+   "type": "call",
+   "tool": "sentry__search_issues",
+   "valid": true,
+   "t": 1791321787.171793
+  }
+ ],
+ "done": true,
+ "t_done": 1791321793.2860193,
+ "final": ""
+}

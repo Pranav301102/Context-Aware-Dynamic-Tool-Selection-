@@ -1,0 +1,118 @@
+{
+ "task_id": "cross-0025",
+ "mode": "search",
+ "loaded": [
+  "tavily.tavily_crawl",
+  "tavily.tavily_map",
+  "exa.crawling_exa",
+  "tavily.tavily_extract",
+  "tavily.tavily_search",
+  "pinecone.upsert_records",
+  "pinecone.describe_index_stats",
+  "pinecone.create_index_for_model",
+  "pinecone.list_indexes",
+  "pinecone.search_records"
+ ],
+ "order": [
+  "tavily.tavily_crawl",
+  "tavily.tavily_map",
+  "exa.crawling_exa",
+  "tavily.tavily_extract",
+  "tavily.tavily_search",
+  "pinecone.upsert_records",
+  "pinecone.describe_index_stats",
+  "pinecone.create_index_for_model",
+  "pinecone.list_indexes",
+  "pinecone.search_records"
+ ],
+ "scores": {
+  "tavily.tavily_crawl": 2.0,
+  "tavily.tavily_map": 2.0,
+  "exa.crawling_exa": 2.0,
+  "tavily.tavily_extract": 2.0,
+  "tavily.tavily_search": 2.0,
+  "pinecone.upsert_records": 2.0,
+  "pinecone.describe_index_stats": 2.0,
+  "pinecone.create_index_for_model": 2.0,
+  "pinecone.list_indexes": 2.0,
+  "pinecone.search_records": 2.0
+ },
+ "router_tokens": 0,
+ "escalations": 2,
+ "calls": [
+  {
+   "tool": "tavily.tavily_crawl",
+   "args": {
+    "url": "https://docs.pinecone.io",
+    "max_depth": 2,
+    "limit": 100,
+    "format": "markdown"
+   }
+  },
+  {
+   "tool": "pinecone.upsert_records",
+   "args": {
+    "name": "docs-kb",
+    "namespace": "pinecone-docs",
+    "records": [
+     {
+      "id": "docs.pinecone.io/",
+      "chunk_text": "simulated result of tavily.tavily_crawl",
+      "url": "https://docs.pinecone.io",
+      "source": "tavily_crawl"
+     }
+    ]
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0,
+   "t": 1791321717.9234738
+  },
+  {
+   "type": "request_tools",
+   "capability": "crawl a website with Tavily",
+   "added": [
+    "tavily.tavily_crawl",
+    "tavily.tavily_map",
+    "exa.crawling_exa",
+    "tavily.tavily_extract",
+    "tavily.tavily_search"
+   ],
+   "tool_tokens": 1943,
+   "t": 1791321731.7019286
+  },
+  {
+   "type": "call",
+   "tool": "tavily__tavily_crawl",
+   "valid": true,
+   "t": 1791321747.2208288
+  },
+  {
+   "type": "request_tools",
+   "capability": "upsert text records/documents into a Pinecone vector index",
+   "added": [
+    "pinecone.upsert_records",
+    "pinecone.describe_index_stats",
+    "pinecone.create_index_for_model",
+    "pinecone.list_indexes",
+    "pinecone.search_records"
+   ],
+   "tool_tokens": 2901,
+   "t": 1791321754.2833421
+  },
+  {
+   "type": "call",
+   "tool": "pinecone__upsert_records",
+   "valid": true,
+   "t": 1791321768.6440127
+  }
+ ],
+ "done": true,
+ "t_done": 1791321771.6916704,
+ "final": ""
+}

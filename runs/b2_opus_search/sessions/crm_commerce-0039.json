@@ -1,0 +1,81 @@
+{
+ "task_id": "crm_commerce-0039",
+ "mode": "search",
+ "loaded": [
+  "shopify.get_inventory_levels",
+  "shopify.adjust_inventory",
+  "shopify.create_product",
+  "shopify.get_products",
+  "shopify.get_product_by_id"
+ ],
+ "order": [
+  "shopify.get_inventory_levels",
+  "shopify.adjust_inventory",
+  "shopify.create_product",
+  "shopify.get_products",
+  "shopify.get_product_by_id"
+ ],
+ "scores": {
+  "shopify.get_inventory_levels": 2.0,
+  "shopify.adjust_inventory": 2.0,
+  "shopify.create_product": 2.0,
+  "shopify.get_products": 2.0,
+  "shopify.get_product_by_id": 2.0
+ },
+ "router_tokens": 0,
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "shopify.get_inventory_levels",
+   "args": {
+    "productTitle": "Ceramic Mug"
+   }
+  },
+  {
+   "tool": "shopify.adjust_inventory",
+   "args": {
+    "inventoryItemId": "ceramic-mug-inventory-item",
+    "locationId": "main-warehouse",
+    "delta": 50,
+    "reason": "restock"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0,
+   "t": 1791321669.8847492
+  },
+  {
+   "type": "request_tools",
+   "capability": "check product inventory level and adjust inventory quantity at a warehouse location in the store",
+   "added": [
+    "shopify.get_inventory_levels",
+    "shopify.adjust_inventory",
+    "shopify.create_product",
+    "shopify.get_products",
+    "shopify.get_product_by_id"
+   ],
+   "tool_tokens": 832,
+   "t": 1791321682.66616
+  },
+  {
+   "type": "call",
+   "tool": "shopify__get_inventory_levels",
+   "valid": true,
+   "t": 1791321695.8129525
+  },
+  {
+   "type": "call",
+   "tool": "shopify__adjust_inventory",
+   "valid": true,
+   "t": 1791321708.9409316
+  }
+ ],
+ "done": true,
+ "t_done": 1791321711.7156394,
+ "final": ""
+}

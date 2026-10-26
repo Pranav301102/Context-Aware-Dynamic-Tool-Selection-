@@ -1,0 +1,240 @@
+{"key": "83efa114fc74868e", "query": "restart the rollout for deployment orders-svc in namespace shop", "history": []}
+{"key": "23f53f4592adcfe6", "query": "build a docker image from ./services/api tagged api:dev", "history": []}
+{"key": "d5c8652a0aa79402", "query": "run a cloudwatch logs insights query on /aws/lambda/checkout for ERROR messages in the last hour", "history": []}
+{"key": "ff3bbfda4c745bbd", "query": "search datadog logs for service:checkout status:error over the last 2 hours", "history": []}
+{"key": "4ddd4d4fb09009c6", "query": "checkout keeps crashlooping in prod, what did it spit out right before the last restart?", "history": []}
+{"key": "cdb2e546043b01ac", "query": "hop onto the redis box in the cluster (redis-master-0, ns cache) and run redis-cli config get maxmemory", "history": []}
+{"key": "3206543734178ea8", "query": "what's still running on my machine from that compose project? pretty sure postgres never shut down", "history": []}
+{"key": "ff50a919ac03a2a2", "query": "are any of our VMs in eu-west-1 still up from last week's load test? trying to figure out what's burning money on amazon", "history": []}
+{"key": "5441fd340a92226b", "query": "drop this csv into s3://acme-reports at monthly/2026-10/signups.csv\n\ndate,signups\n2026-10-01,412\n2026-10-02,388", "history": []}
+{"key": "23be4592844321d9", "query": "pull up the ingress-nginx lines from loki for the last 30 min, only ones mentioning 502", "history": []}
+{"key": "43765e77304df9cc", "query": "find me the slowest calls to GET /api/cart in the last hour, the ones taking >2s", "history": []}
+{"key": "4381f2a3250ec69a", "query": "switch to the staging context and then apply k8s/staging/configmap.yaml", "history": []}
+{"key": "c96e1c34821cf9b7", "query": "list the files under s3://acme-exports/daily/ and download the newest one", "history": []}
+{"key": "ef5014ff214c87d1", "query": "grep loki for OOMKilled in the payments namespace over the last day, and check prometheus for container memory in that namespace too", "history": []}
+{"key": "0e82bd86531d6fb2", "query": "ok same thing but for staging", "history": [{"role": "user", "content": "can you show me the logs for the orders-api pod in prod?"}, {"role": "assistant", "content": "Last 100 lines from orders-api-6c9d8f-4mz2t (namespace prod): repeated 'dial tcp 10.2.3.4:6379: connect: connection refused' starting at 13:02 UTC."}]}
+{"key": "8e7387b9d368490c", "query": "give it a couple more then", "history": [{"role": "user", "content": "is the cart deployment healthy in prod?"}, {"role": "assistant", "content": "cart: 3/3 replicas ready, no restarts, but each pod is at ~92% of its CPU limit and p95 latency is up 40% since 10:00."}]}
+{"key": "fb4351804572be14", "query": "and what do the actual log lines from that minute say? we ship everything to loki", "history": [{"role": "user", "content": "what's the 5xx rate on the api over the last hour in prometheus?"}, {"role": "assistant", "content": "Peaked at 23 req/s at 14:10 UTC, otherwise under 0.5 req/s."}]}
+{"key": "e7f3a905b622d976", "query": "get rid of cells 3, 4 and 5 in the notebook, they're dead code", "history": []}
+{"key": "09d62f21bda671d9", "query": "install deps from package.json then run the jest suite", "history": []}
+{"key": "090a3100875d5c9c", "query": "run mypy type checking in strict mode on the project", "history": []}
+{"key": "2acdf12b63c5e6ad", "query": "tack a new cell on the end that plots a histogram of df['age'] and run it", "history": []}
+{"key": "91b08809a17d3d66", "query": "create a new e2b sandbox with a 10 minute timeout", "history": []}
+{"key": "89054d89e1dde611", "query": "put a markdown heading at the very top of the notebook that says 'EDA \u2013 churn'", "history": []}
+{"key": "4aaf1d91dc6d82b2", "query": "in the sandbox sbx_77d0, dump the results dict to /home/user/results.json and then send me the file", "history": []}
+{"key": "6394bd09457d3494", "query": "figure out what's eating all the memory and kill it", "history": []}
+{"key": "1bde487be9691f3c", "query": "did my refactor break anything? check the python suite under tests/", "history": []}
+{"key": "c21deef2b6657f5b", "query": "which of our cloud sandboxes are still alive? don't want to pay for idle ones", "history": []}
+{"key": "dad299da3c66e4a1", "query": "hows it going, anything new?", "history": [{"role": "user", "content": "run the full release build"}, {"role": "assistant", "content": "Started `make release` (PID 9021). It's still compiling after 30s \u2014 this usually takes a few minutes."}]}
+{"key": "9aac00dbe0acd347", "query": "kick off `make release` for me and let me know how it goes", "history": []}
+{"key": "4e8f5db36a15c520", "query": "what terminals do I still have going from earlier?", "history": []}
+{"key": "ac012aa4ad22ab35", "query": "npm install vitest as a dev dependency", "history": []}
+{"key": "ed9e50f0b7b45101", "query": "run jest tests matching 'Checkout' and collect coverage", "history": []}
+{"key": "4fece43f787e537a", "query": "restart the kernel for the analysis notebook", "history": []}
+{"key": "b5472f3e403ad4cc", "query": "start the flask app with `flask --app api run` and after a few secs show me what it logged", "history": []}
+{"key": "53c24104647ff1d2", "query": "start a new terminal process running `docker compose up -d` in /srv/app", "history": []}
+{"key": "6a5bffed428d52dc", "query": "add a white_check_mark reaction to the slack message in C02XYZ at ts 1716400000.123400", "history": []}
+{"key": "35b687f3af87f8b2", "query": "search my emails in gmail for anything from stripe that has an attachment", "history": []}
+{"key": "121531b11e490d07", "query": "send a whatsapp message to +447700900123 saying your parcel has shipped", "history": []}
+{"key": "9811b29444dededd", "query": "create a Teams online meeting tomorrow 3:00-3:30pm with ana@contoso.com, subject 'Design review'", "history": []}
+{"key": "afd415be12f1ae83", "query": "let everyone in slack #general know lunch is here \ud83c\udf55", "history": []}
+{"key": "738ee0f38328283e", "query": "who all is in our slack? need a roster of everyone", "history": []}
+{"key": "3ad5e925e7feb347", "query": "save the pdf off that invoice mail (msg 18e7c1, attachment ANGjdJ9fkL) into ~/Downloads", "history": []}
+{"key": "fd07d1f13cca0aed", "query": "spin up a spot on our discord (guild 445566) for speedrun chat", "history": []}
+{"key": "0a22d9f05b9fa2a8", "query": "what texts have we sent to +16175550110 this week", "history": []}
+{"key": "e9e7406a8df08eba", "query": "respond under kevin's post in the teams Sales channel saying i'll take the lead on it", "history": []}
+{"key": "af3b568f043fbafb", "query": "write up a reply to the recruiter (jen@talentco.io) saying I'm interested but park it so I can tweak before it goes", "history": []}
+{"key": "46d1ab337ce96f35", "query": "read the slack thread C01OPS / 1719000000.220000 and email a summary of it to boss@company.com", "history": []}
+{"key": "915703c132a0090f", "query": "check if 555-0199 (US) is a mobile number and if so text them the 2FA reminder", "history": []}
+{"key": "5347b85b832d375a", "query": "list the teams im in, then show me the channels in the Finance one", "history": []}
+{"key": "32b54f6b9e1f902e", "query": "now do the same on discord, channel 424242", "history": [{"role": "user", "content": "post 'deploy starting, expect 5 min of downtime' in slack #eng"}, {"role": "assistant", "content": "Posted to #eng (C01ENG)."}]}
+{"key": "ce67770c8ec6573a", "query": "react with eyes to jamie's", "history": [{"role": "user", "content": "read me the last few messages in slack #support"}, {"role": "assistant", "content": "1) Jamie (ts 1721000001.000100): customer can't log in after reset. 2) Ola (ts 1721000050.000200): billing page slow."}]}
+{"key": "9a6a5d7f65b1ff14", "query": "send the details to the Finance channel in teams too", "history": [{"role": "user", "content": "set up a teams call with the auditors friday 9am"}, {"role": "assistant", "content": "Created 'Audit sync', Fri 9:00-9:30, join link https://teams.microsoft.com/l/meetup-join/19%3a..."}]}
+{"key": "df6f3baff8c32389", "query": "get Shopify orders that are unfulfilled", "history": []}
+{"key": "fbc0f51f2c6bf379", "query": "list all my Mailchimp audiences", "history": []}
+{"key": "c21bd44c676408c0", "query": "pull the open Salesforce opps for Stark Industries and push the biggest one to Negotiation/Review", "history": []}
+{"key": "f6fba496b20cd5a0", "query": "pull everyone who bought the limited-edition sneakers and add them to the Sneakerheads audience in Mailchimp (list 9a8b7c6d)", "history": []}
+{"key": "09e9aba4ce1eec5e", "query": "create a HubSpot company 'Bluefin Labs' and a $12k deal 'Bluefin pilot' linked to it", "history": []}
+{"key": "e1b0135bc862b30c", "query": "create a Salesforce contact for Raj Patel (raj@vertex.ai) and log a task to send him the proposal by Friday", "history": []}
+{"key": "e5d48906b78bbdd3", "query": "create a deal in HubSpot called 'Acme renewal 2027', amount 48000, stage contract sent", "history": []}
+{"key": "d307c03dc65f9b58", "query": "fulfill Shopify order 5512 with UPS tracking number 1Z999AA10123456784", "history": []}
+{"key": "04091ffd760af32d", "query": "met a prospect at the trade show, Ana Ruiz from Solaris Energy - get her into salesforce so we remember to chase her", "history": []}
+{"key": "f2c65839bd377107", "query": "add Omar Haddad omar@haddad.io to HubSpot and subscribe him to the monthly newsletter in Mailchimp (list 4ca5b2e1f0)", "history": []}
+{"key": "3e4e546af476dedb", "query": "create a company in HubSpot for Northwind Traders, domain northwind.com", "history": []}
+{"key": "dcc277e59621af7a", "query": "just got off the phone with Priya at Globex, she wants a demo next week - log that against her in salesforce", "history": []}
+{"key": "93cd5c19536538d6", "query": "describe the Salesforce Opportunity object - I need all its fields and relationships", "history": []}
+{"key": "3ea765a35373544e", "query": "fire off the October product update email right now, it's campaign 7c1d0e44", "history": []}
+{"key": "14d51b0e57fc9e01", "query": "they want to sign this month - move the close date to Oct 31 and bump it to 90%", "history": [{"role": "user", "content": "find the Salesforce opportunity for Cyberdyne"}, {"role": "assistant", "content": "Opportunity 'Cyberdyne - Platform Deal' (006Ax00000Kl9P): Stage Proposal/Price Quote, Amount $220,000, Close 2026-11-30."}]}
+{"key": "ac4babea51a57f78", "query": "hubspot deals 1001, 1002 and 1003 are dead, mark them all lost", "history": []}
+{"key": "61bd40f9858df210", "query": "add a note that eng is on it, ETA 2h - agents only, don't show the customer", "history": [{"role": "user", "content": "create a Zendesk ticket for acme's SSO outage"}, {"role": "assistant", "content": "Created ticket #88012 'SSO outage - Acme', priority high."}]}
+{"key": "6cd7c83d49899ac4", "query": "add Leo Park (leo@parkdesign.co, Park Design Studio) to the CRM as a new person", "history": []}
+{"key": "5d90ffaa19d1532f", "query": "search the news for the latest on the OPEC+ production cut and get Exxon's (XOM) daily price history for the last 6 months", "history": []}
+{"key": "7265f698ac4d8920", "query": "is anything in prod on k8s falling over and coming back up again and again? if so give the SRE crew a shout in their Teams room", "history": []}
+{"key": "8e48e0ee60f92f08", "query": "check if the api pods in the prod namespace are crashlooping and open a jira ticket in PLAT if so", "history": []}
+{"key": "782133fd30e24985", "query": "run the quickbooks profit and loss report for september and set a reminder for friday to review it with the accountant", "history": []}
+{"key": "517f7974534e3cc4", "query": "translate our onboarding email into Spanish and send it to the new hire at maria@acme.mx", "history": []}
+{"key": "5ea41bd7045e0efa", "query": "search flights from SFO to JFK on Nov 14 under $400 and put the best option on my calendar", "history": []}
+{"key": "89eb63689d1e069e", "query": "I snapped a street sign (~/Pictures/sign.jpg) \u2014 read off what it says and tell me the coordinates of that street", "history": []}
+{"key": "6ec63639b78692fb", "query": "yeah grab the last 200 lines and drop them in the #incidents slack channel", "history": [{"role": "user", "content": "the checkout-api deployment in the prod namespace has been flaky since this morning"}, {"role": "assistant", "content": "I can look at its pods and recent logs if you want \u2014 should I?"}]}
+{"key": "a38a3c251a43513a", "query": "check whether it's showing any outages and if so post it in #support on discord", "history": [{"role": "user", "content": "our status page is at https://status.acme.io"}, {"role": "assistant", "content": "Got it, I'll use that when you ask about incidents."}]}
+{"key": "f8ff2e72ee2927e9", "query": "who's on call in pagerduty right now? send them a whatsapp message saying the db migration starts at 10pm", "history": []}
+{"key": "f69da713592be4d1", "query": "anyone who raised an urgent help-desk complaint in zendesk today \u2014 make me a to-do for each so I remember to follow up", "history": []}
+{"key": "5e5eb90dcbc6c692", "query": "convert ~/videos/launch.mov to an H.264 mp4 and upload it to s3://acme-marketing/videos/launch.mp4", "history": []}
+{"key": "db09003ff60b37c7", "query": "translate it into German, keep the formatting, and email it to klaus@partner.de", "history": [{"role": "user", "content": "here's the quarterly board update draft: ~/docs/board_q3.docx"}, {"role": "assistant", "content": "Got it \u2014 a 6-page Word doc with the Q3 summary, KPIs and hiring plan. What would you like to do with it?"}]}
+{"key": "ac627196f6a4cdb4", "query": "is something on my machine chewing through the CPU? put it out of its misery and tell #it-help on slack what it was", "history": []}
+{"key": "4acad013cf236884", "query": "which stripe charges bounced in september? give the money folks a heads-up in their slack channel", "history": []}
+{"key": "c9b73cc006e90ee7", "query": "list my open linear issues due this week and create a 2-hour google calendar event tomorrow morning to work on the top one", "history": []}
+{"key": "1f44fa49f81d131b", "query": "dig up a company profile on Northwind Logistics \u2014 what they do, size, funding \u2014 then put them in hubspot as a new account", "history": []}
+{"key": "f010004ec2d95255", "query": "get the latest github actions run on main for acme/web; if it failed, pull the failed job logs and post them in #ci on slack", "history": []}
+{"key": "959ee50b51d5ba85", "query": "OCR the receipt photo ~/Pictures/receipt_0912.jpg, find the shopify order number printed on it and refund that order", "history": []}
+{"key": "44e8f6cb9f8d437c", "query": "convert 2,400 EUR to USD at today's ECB reference rate and email the result to accounting@acme.com", "history": []}
+{"key": "c6f030f1bb2d1f63", "query": "what's sitting in the acme-backups bucket under exports/? bring the newest one down and put a copy in our shared google drive folder", "history": []}
+{"key": "82d128c2bc3e97c0", "query": "get the text off it and make a todoist task for each item", "history": [{"role": "user", "content": "here's the photo of the whiteboard from the planning session: ~/Pictures/wb_1004.jpg"}, {"role": "assistant", "content": "Got it \u2014 looks like a list of about eight items in marker."}]}
+{"key": "7a42f4b5c71c55ea", "query": "pull up what I wrote about 'Thinking, Fast and Slow' and turn it into a short podcast-style audio clip", "history": [{"role": "user", "content": "I keep my reading notes in Obsidian, one file per book under Books/"}, {"role": "assistant", "content": "Got it \u2014 Books/<title>.md in your vault."}]}
+{"key": "41aa0b93c9413f88", "query": "generate an image of a minimalist mountain logo and upload it to the 'Brand' folder in my google drive", "history": []}
+{"key": "bffe7a6119ea8cfb", "query": "grab what's written in docs/runbook.md in the acme/ops github repo and drop a copy into Notion so the support folks can see it", "history": []}
+{"key": "70d657c9c259fa59", "query": "get up-to-date code context for the pydantic v2 model_validator API, then run a quick python snippet to check it behaves as documented", "history": []}
+{"key": "bfa15077b84611b5", "query": "list my mailchimp audiences, add jane.doe@gmail.com to the 'Newsletter' one, then send her a welcome SMS at +447700900123", "history": []}
+{"key": "36de343a25bfe7ce", "query": "get shopify order 5520011's shipping address and calculate the driving time to it from our warehouse at 200 Industrial Way, Oakland", "history": []}
+{"key": "71a180942f569a5d", "query": "what's NVDA's stock price right now? add it as a new row in my Notion 'Watchlist' database", "history": []}
+{"key": "486638ad23381920", "query": "list the unresolved sentry issues in the checkout project from the last 24h and post them in #backend on slack", "history": []}
+{"key": "6dc7c13c8a46954d", "query": "list all collections in the 'analytics' mongodb database", "history": []}
+{"key": "24deb5d441ce5a89", "query": "list the sqlite tables and then describe the orders table", "history": []}
+{"key": "4a54be046f63c9e5", "query": "what's actually in the crm database on the mysql server? just the table names is fine", "history": []}
+{"key": "ddc4e285c84ecb5a", "query": "this report query takes forever: SELECT c.name, sum(o.total) FROM customers c JOIN orders o ON o.customer_id = c.id WHERE o.created_at > now() - interval '30 days' GROUP BY 1 \u2014 what index would help it in postgres?", "history": []}
+{"key": "0f77cd221178108f", "query": "check the structure of the pg events table, then count how many rows came in last week", "history": []}
+{"key": "64b401e7b9eb95f6", "query": "run a find query on mongodb database 'shop', collection 'orders', where status is 'shipped', limit 20", "history": []}
+{"key": "f42c20e1165c8728", "query": "how is postgres going to run this join \u2014 is it doing a seq scan on line_items? SELECT * FROM orders o JOIN line_items li ON li.order_id = o.id WHERE o.id = 9", "history": []}
+{"key": "9457d346cd8fff8f", "query": "postgres has been sluggish across the board lately \u2014 what should we add so the day-to-day traffic gets quicker?", "history": []}
+{"key": "e2d6f52902b0c41a", "query": "what's inside the second one?", "history": [{"role": "user", "content": "scan redis for session keys"}, {"role": "assistant", "content": "Found 3 keys (string values): session:a81f, session:c02d, session:e77b."}]}
+{"key": "419dfff7a9a69676", "query": "execute this SQL against postgres: SELECT count(*) FROM orders WHERE status = 'refunded'", "history": []}
+{"key": "a0ab5d26b114a4f7", "query": "blow away the cached flag in redis, flags:checkout_v2, it's stale", "history": []}
+{"key": "6aea4527bcce2455", "query": "what's the shape of the subscriptions table in pg \u2014 what's in it and what does it point at?", "history": []}
+{"key": "f03a904f6aa86717", "query": "mark invoice 1042 as paid in the local sqlite db", "history": []}
+{"key": "e826c65ff2508716", "query": "execute this on the MySQL server: SELECT id, email FROM customers ORDER BY created_at DESC LIMIT 5", "history": []}
+{"key": "6a86340b787c1e29", "query": "which schema changes have already shipped to the postgres db?", "history": []}
+{"key": "5c968a691c9844c8", "query": "dump everything redis is holding for user:991, it's a map of profile attrs", "history": []}
+{"key": "bfaa662b0bcf0811", "query": "add a migration that creates an index on orders(customer_id) in postgres, then show me the migration history", "history": []}
+{"key": "4c9c065271de0a6e", "query": "create an issue in the GitHub repo acme/web titled 'Login button misaligned on Safari'", "history": []}
+{"key": "fd4056c4466f661d", "query": "create a merge request in GitLab project 1834 from feature/sso into main", "history": []}
+{"key": "d1673beb6354cee2", "query": "add a comment to jira issue OPS-77: 'waiting on vendor response'", "history": []}
+{"key": "50fd4d5b17762c34", "query": "get sentry issue details for FRONTEND-3KQ in org acme", "history": []}
+{"key": "a2fba63c64af40e8", "query": "get the details of issue #77 in the github repo octo/widgets", "history": []}
+{"key": "da0f567ce9348a47", "query": "which of our tests on circle are unreliable, like pass one run and fail the next?", "history": []}
+{"key": "11fecdfbe627e4c8", "query": "mute that noisy sentry error API-1F7, we know about it and it's harmless", "history": []}
+{"key": "ff82c88b9ca9850b", "query": "write up a ticket on github in shopco/storefront: checkout 500s when the cart is empty. tag it p1", "history": []}
+{"key": "b1cf8ac22a2ec96b", "query": "where in our github org (acme) do we call stripe.charges.create?", "history": []}
+{"key": "6740aa0b2f551fa1", "query": "what's on the Platform team's plate in linear right now", "history": []}
+{"key": "51f284285e6029f0", "query": "jira: hand OPS-90 to maria@acme.com and make it high priority", "history": []}
+{"key": "cde92bc6f5d7b53b", "query": "find the failing github actions run of ci.yml on acme/api main, pull the logs for the failed jobs, then rerun them", "history": []}
+{"key": "bcb85731ee6d06be", "query": "find the github issue about the 'memory leak in worker' in acme/queue and comment that we found the root cause", "history": []}
+{"key": "93685c316443ce9e", "query": "resolve sentry issue MOBILE-2Z and close linear ticket MOB-301 that was tracking it", "history": []}
+{"key": "69790560d30f0e70", "query": "which tests failed in the latest circleci job on main for gh/acme/api, and are any of them known flakes?", "history": []}
+{"key": "cc0106dc5dd0c199", "query": "rerun it, but only from the part that broke", "history": [{"role": "user", "content": "what's the latest circleci status on main for gh/acme/api?"}, {"role": "assistant", "content": "Failed. Workflow 'build-and-test' (id 7c1e2d44-9f0a) failed at job 'integration'."}]}
+{"key": "cef5dead8337e799", "query": "comment on the first one: blocked on infra", "history": [{"role": "user", "content": "what's assigned to me in linear?"}, {"role": "assistant", "content": "ENG-77 'Cache invalidation bug' (In Progress), ENG-80 'Rate limit admin API' (Todo)."}]}
+{"key": "cac4d1740fe4df25", "query": "are any of those just flaky?", "history": [{"role": "user", "content": "get the circleci test results for gh/acme/web on main"}, {"role": "assistant", "content": "312 passed, 4 failed: test_checkout_tax, test_coupon_stack, test_login_redirect, test_export_csv."}]}
+{"key": "f8656ee21f2bdbb1", "query": "search files under ~/code for anything matching docker-compose", "history": []}
+{"key": "b1071502161ceae6", "query": "get file info for /var/log/syslog, I need the size and last modified time", "history": []}
+{"key": "e70ae8e2f8712169", "query": "search notion for the onboarding checklist", "history": []}
+{"key": "5f49bf5f74d8c1cf", "query": "merge a.pdf, b.pdf and c.pdf into combined.pdf", "history": []}
+{"key": "7aa2614e63a73f92", "query": "what's in that config at ~/projects/infra/terraform.tfvars", "history": []}
+{"key": "43db84d8e0961e9d", "query": "in config/settings.yaml swap the db host from localhost to db.internal, leave everything else alone", "history": []}
+{"key": "81620f66a864dfcd", "query": "what's the overall layout of this repo look like, roughly? skip .git", "history": []}
+{"key": "ade829417e9ba512", "query": "put ~/exports/q3-metrics.csv up on drive in the Finance folder (folder id 0BfInAnCe)", "history": []}
+{"key": "f6ec04e7a9c3e637", "query": "flip the status on the notion Q4 launch page (id 4c3b2a19) to 'In review'", "history": []}
+{"key": "4312a1a433ae8ecd", "query": "what does this scanned lease actually say? ~/docs/lease_scan.pdf, it's just images of pages", "history": []}
+{"key": "43dcbd884619d850", "query": "what are the numbers on the Summary tab of ~/finance/forecast.xlsx, just A1 through F20", "history": []}
+{"key": "76585260e215f436", "query": "make a folder called 'Client X' in drive and move the SOW (id 1sOwXyZ) into it", "history": []}
+{"key": "80dcf4c6b5395118", "query": "pull the text out of ~/papers/attention.pdf and save it as attention.txt next to it", "history": []}
+{"key": "9af23e55d04bd958", "query": "read meeting_notes.md here and post it as a new notion page under https://www.notion.so/acme/Meetings-2b7e4d1c9f0a4e8b", "history": []}
+{"key": "1aff709ca689484c", "query": "open the signed one", "history": [{"role": "user", "content": "search my drive for the northwind vendor contract"}, {"role": "assistant", "content": "Found 2 files: 'Vendor MSA - Northwind (signed).pdf' (id 1nWsGnD7) and 'Vendor MSA - Northwind DRAFT' (Google Doc, id 1nWdRfT2)."}]}
+{"key": "2fb3d19474088e03", "query": "do the same for the handout docx in that folder", "history": [{"role": "user", "content": "convert ~/talks/kubecon/slides.pptx to markdown"}, {"role": "assistant", "content": "Here's the markdown for slides.pptx (24 slides) ... The folder also contains handout.docx and speaker-notes.txt."}]}
+{"key": "5dace1ee4de11419", "query": "give the whole design team view access, it's the design@acme.com group", "history": [{"role": "user", "content": "find the q4 roadmap in google drive"}, {"role": "assistant", "content": "'Q4 Roadmap v3' (Google Doc, id 1q4RdMpV3) owned by Lena Fischer, last edited yesterday."}]}
+{"key": "b249ed3a1c0352e7", "query": "Get the latest global quote for MSFT from Alpha Vantage", "history": []}
+{"key": "4895db504de78ade", "query": "list the active subscriptions for stripe customer cus_Q8x2LmN", "history": []}
+{"key": "9b3f11970684c38e", "query": "historical exchange rates EUR->CHF on 2024-03-15", "history": []}
+{"key": "07dcbf4d3c4f7796", "query": "retrieve our Stripe balance pls", "history": []}
+{"key": "9c8a943d3934088f", "query": "list stripe disputes for payment intent pi_3Rk99aLm", "history": []}
+{"key": "800e8a277e4f5732", "query": "how much cash do we actually have sitting in stripe rn", "history": []}
+{"key": "1d641aa647697176", "query": "what's everyone in crypto piling into today, like what's hot on coingecko", "history": []}
+{"key": "d19ac182b6a1cf59", "query": "is wall street turning on AMD? have the brokers been cutting their calls recently", "history": []}
+{"key": "1789c90ca9e180c9", "query": "how much did costco bring in vs spend last fiscal year? top line to bottom line", "history": []}
+{"key": "bb7ebe38b9bc9483", "query": "switch sub_1PzQ8rT to price_Annual2026 and dont charge them anything extra for the change", "history": []}
+{"key": "bedd03a15ba2cc5c", "query": "what was a dollar worth in mexican pesos on july 4 2025? doing my trip expenses", "history": []}
+{"key": "38577838cb8bdd34", "query": "start a draft stripe invoice for cus_LenaO41, add the setup fee price (price_1SetupFee) to it, then finalize it", "history": []}
+{"key": "c54675ab7631ced9", "query": "what's ETH going for in dollars and how's it trended over the last 30 days", "history": []}
+{"key": "9feee5d59b81a237", "query": "give me NVDA's key stats and the last few quarters of income statements", "history": []}
+{"key": "858a0f48e58a32ce", "query": "show me all of cus_8812Pq's payments in stripe and refund the most recent one", "history": []}
+{"key": "f389a7c5609a8798", "query": "same thing but for jan 2 2020", "history": [{"role": "user", "content": "what's EUR to USD today?"}, {"role": "assistant", "content": "1 EUR = 1.0842 USD (ECB reference rate, today)."}]}
+{"key": "fcfefd4f29693a94", "query": "what do the analysts think, any downgrades lately?", "history": [{"role": "user", "content": "looking at shopify stock, where's it at"}, {"role": "assistant", "content": "SHOP is at $112.80, down 0.6% today."}]}
+{"key": "59321c0bf689365b", "query": "chart the 3rd one over the past year", "history": [{"role": "user", "content": "gimme the top 10 coins by market cap"}, {"role": "assistant", "content": "1. Bitcoin 2. Ethereum 3. Tether 4. XRP 5. BNB 6. Solana 7. USDC 8. Dogecoin 9. Cardano 10. TRON"}]}
+{"key": "1f561fd013b5d607", "query": "my banner is too narrow for the twitter header, widen it with more sky and beach on both sides", "history": []}
+{"key": "20bc8ad333a5f774", "query": "this email to the client sounds kinda rude, can you smooth it out a bit? keep it in english", "history": []}
+{"key": "20670d338eb3044b", "query": "swap the coffee cup on the desk for a potted plant in office.jpg", "history": []}
+{"key": "064a7e604072d6dd", "query": "now do the same for meeting_0919.mp3", "history": [{"role": "user", "content": "transcribe meeting_0912.mp3"}, {"role": "assistant", "content": "Done - here's the transcript: 'Okay, let's get started. First item is the Q4 roadmap...'"}]}
+{"key": "3bd3835e418644fb", "query": "what language is this review written in, and what does it say in english? 'Produkten var helt okej men leveransen tog evigheter'", "history": []}
+{"key": "3cbdde0db3170830", "query": "swap the neon sign on the left for a giant ramen bowl sign", "history": [{"role": "user", "content": "fyi we only have Stability credits on this account, no OpenAI"}, {"role": "assistant", "content": "Noted - I'll use Stability AI for image work."}, {"role": "user", "content": "generate a cyberpunk city street at night, rain, neon"}, {"role": "assistant", "content": "Generated city.png (16:9)."}]}
+{"key": "c5d879e5a70938c0", "query": "give me one frame every 2 seconds from the bodycam footage so I can skim through it", "history": []}
+{"key": "baf3e816f8e4fd44", "query": "make the car in ad_draft.png bright yellow instead of blue", "history": []}
+{"key": "9e60f3b66b3b3a5f", "query": "can I get a still from like the middle of it for the youtube cover", "history": [{"role": "user", "content": "trim promo.mp4 to 0:00-0:30"}, {"role": "assistant", "content": "Saved promo_trimmed.mp4 (30s, 1080p)."}]}
+{"key": "0f32331cf9497747", "query": "translate this paragraph into German and then read it aloud as an mp3: 'Thank you for joining our webinar today.'", "history": []}
+{"key": "846d1b3a4d7b07a9", "query": "mi abuela me mand\u00f3 este audio (abuela.m4a), what is she saying? i only really speak english lol", "history": []}
+{"key": "36731317131e2760", "query": "remove the background from product_shot.png", "history": []}
+{"key": "36eb5434d1f574f9", "query": "this photo is tiny and blurry, make it big enough to print as a poster", "history": []}
+{"key": "f0d132797643f5d9", "query": "translate the document contract.docx into French with DeepL and keep the formatting", "history": []}
+{"key": "055a173448f76dc6", "query": "ok use it to read the welcome script: 'Hi, and welcome to the course.'", "history": [{"role": "user", "content": "Clone my voice using these 3 recordings, call it 'Priya narrator'"}, {"role": "assistant", "content": "Created voice 'Priya narrator' (voice_id 9xkTq2LmA7)."}]}
+{"key": "c62478492dae27f8", "query": "find a warm Scottish female voice on ElevenLabs and use it to narrate this: 'Once upon a time in the Highlands...'", "history": []}
+{"key": "e15e3fe7a61dfb36", "query": "grab frames every 10 seconds from match.mp4 and tag what's in the first one", "history": []}
+{"key": "ed787462fc6bd6ce", "query": "create a google calendar event 'Dentist' on Oct 14 at 3pm for an hour", "history": []}
+{"key": "49c989f25d42a7f1", "query": "accept the google calendar invite for event 4h7k2p9q on my primary calendar", "history": []}
+{"key": "14785913e3d726c9", "query": "list my outlook contacts with the last name Garcia", "history": []}
+{"key": "29e1cd24d8b28861", "query": "complete todoist task 8812345901", "history": []}
+{"key": "3d7573e2d6a0a3fd", "query": "get today's daily note from obsidian", "history": []}
+{"key": "da9e0b8ffcf1e486", "query": "block off 2-4 on friday for heads-down work on my gcal so nobody books me", "history": []}
+{"key": "08807d977d627c04", "query": "how slammed is ben@acme.com this week? we're on google workspace", "history": []}
+{"key": "85ca679d9b9c8a05", "query": "don't let me forget to grab the dry cleaning on the way home tomorrow", "history": []}
+{"key": "a04ae60242b2dcb1", "query": "anything in todoist mentioning the landlord?", "history": []}
+{"key": "af68e518e474adf4", "query": "whats the email for our accountant Hiroshi in my work address book? (outlook)", "history": []}
+{"key": "3643668c493aaa00", "query": "under the '## Ideas' heading of Inbox.md in my vault, stick 'try sourdough discard crackers'", "history": []}
+{"key": "9cc809d52cd5b4d9", "query": "find a slot next week when lee@contoso.com and I are both free on outlook, then book a 30 min 'contract review' in it", "history": []}
+{"key": "390c9e1b124232e3", "query": "search my google calendar for the 'quarterly planning' meeting and decline it", "history": []}
+{"key": "8c00dca51556c3be", "query": "create a todoist project called 'Wedding' and add: book venue, send save-the-dates, cake tasting", "history": []}
+{"key": "e7b5511f1b0fabcd", "query": "see if sarah@acme.com and tom@acme.com are free friday afternoon on google calendar, book the retro if so, and add a 'prep retro board' task in todoist", "history": []}
+{"key": "9ece0455618b14c7", "query": "and nairobi?", "history": [{"role": "user", "content": "what time is it in Tokyo?"}, {"role": "assistant", "content": "It's 23:14 on Tuesday in Tokyo (Asia/Tokyo, UTC+9)."}]}
+{"key": "2daf12fd8dbb7a3c", "query": "show me the first one", "history": [{"role": "user", "content": "search my obsidian vault for 'reading list'"}, {"role": "assistant", "content": "2 matches: Reading/2026.md ('## reading list - fiction...') and Inbox.md ('add to reading list: Piranesi')."}]}
+{"key": "3a67bd77032d878d", "query": "great, put a 1h pairing session in at 1 then", "history": [{"role": "user", "content": "check google calendar free/busy for me and kai@acme.com on friday"}, {"role": "assistant", "content": "Both of you are free Friday Oct 9 from 13:00 to 15:00; Kai is busy all morning."}]}
+{"key": "371121334a94d659", "query": "read https://jkatz05.com/post/postgres/pgvector-hnsw-performance/ and then get up-to-date code examples for building a pgvector HNSW index from python", "history": []}
+{"key": "dee8a047a1e2499c", "query": "get the coordinates for the Wikipedia article 'Mount Kilimanjaro'", "history": []}
+{"key": "f58111235a292d93", "query": "brave search 'what is RLHF' with summary enabled and then fetch me the AI summary for it", "history": []}
+{"key": "eb13026909234438", "query": "give me the wiki summary of CRISPR and then find recent research papers on base editing", "history": []}
+{"key": "5b1659a19cf542a1", "query": "search research papers on diffusion models for protein design", "history": []}
+{"key": "072fabcfbd762b12", "query": "best taco trucks in Oakland? then show me photos of the food from whichever is top rated", "history": []}
+{"key": "f5955b6fb9a2a34a", "query": "get recommended papers based on these seed papers: ARXIV:2005.14165 and ARXIV:2203.02155", "history": []}
+{"key": "b3b835a6d8dfdbcf", "query": "start a deep research task: compare carbon capture approaches (DAC vs BECCS) on cost per ton through 2030", "history": []}
+{"key": "1762c9192994bb01", "query": "search for authors named Yoshua Bengio on Semantic Scholar", "history": []}
+{"key": "9dc256ede6bec0e0", "query": "video search for 'how to replace a bike chain'", "history": []}
+{"key": "0fb8061a5f58d58d", "query": "search wikipedia for Treaty of Westphalia", "history": []}
+{"key": "b233526589617b7a", "query": "find me other stuff similar to that one", "history": [{"role": "user", "content": "find the semantic scholar entry for the BERT paper"}, {"role": "assistant", "content": "Found it: 'BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding' (Devlin et al., NAACL 2019). Paper ID: df2b0e26d0599ce3e70df8a9da02e51594e0e992, ~90k citations."}]}
+{"key": "aae33aae6081a443", "query": "is it done yet", "history": [{"role": "user", "content": "start a deep research job on the history of the Basel III endgame rules"}, {"role": "assistant", "content": "Started the research task. Task ID: 01jbz8k2qv6m. It usually takes a minute or two."}]}
+{"key": "90595f9dcad33b2b", "query": "fetch https://blog.cloudflare.com/how-we-built-pingora/ and extract the contents as markdown", "history": []}
+{"key": "21f04573e014420a", "query": "crawl docs.pydantic.dev starting from the base url, max depth 2, only follow /latest/concepts/ pages", "history": []}
+{"key": "6e33c8c13ac59779", "query": "who won the ballon d'or in 2023", "history": []}
+{"key": "8697292cfe325694", "query": "open the third one and tell me what it says", "history": [{"role": "user", "content": "search for pgvector vs qdrant benchmarks"}, {"role": "assistant", "content": "Results:\n1. https://supabase.com/blog/pgvector-vs-pinecone\n2. https://qdrant.tech/benchmarks/\n3. https://jkatz05.com/post/postgres/pgvector-performance-150x-speedup/\n4. https://news.ycombinator.com/item?id=36911283"}]}
+{"key": "097b2f539e806ceb", "query": "list 4-star hotels in Lisbon and get rates for 2 adults from 2026-11-03 to 2026-11-05", "history": []}
+{"key": "1f2f84ee2f37a713", "query": "what are the coordinates of 10 Downing St, London, and how high above sea level is it?", "history": []}
+{"key": "e54c873062307248", "query": "roughly how long is the drive from Austin to San Antonio", "history": []}
+{"key": "32c3bba834c036bb", "query": "make me a picture of a map with pins on our three caf\u00e9s so I can paste it into the newsletter", "history": []}
+{"key": "65564d74a6072de5", "query": "ugh. is it gonna get any better over the next couple days", "history": [{"role": "user", "content": "is the air bad in Lahore today?"}, {"role": "assistant", "content": "Yes - AQI is 5 (Very Poor), with PM2.5 at 210 \u00b5g/m\u00b3."}]}
+{"key": "450dab8038e5c34c", "query": "which of our 4 stores is closest by car to each of these 12 delivery addresses?", "history": []}
+{"key": "e212c2ac16dd4195", "query": "how hot was it in Rome on my birthday last year, 14 June 2025?", "history": []}
+{"key": "bf3f605e8754f183", "query": "cheapest places i could fly to from manchester for a long weekend in feb, budget about \u00a3150", "history": []}
+{"key": "c61863fe589bccca", "query": "when's the next N Judah coming? I'm at Duboce & Church, stop key s-9q8yy6m9tn-duboce~church", "history": []}
+{"key": "9204cd3fed3a7300", "query": "I'm on UA 901 tomorrow - is it on time, and what's the weather looking like in Frankfurt when I land?", "history": []}
+{"key": "13a24ad0eb422b6a", "query": "geocode 1600 Amphitheatre Parkway, Mountain View, CA", "history": []}
+{"key": "587064e55d453527", "query": "is the first one open sundays?", "history": [{"role": "user", "content": "coffee shops near Pike Place Market?"}, {"role": "assistant", "content": "1. Storyville Coffee (place_id ChIJ4e2Qq7JqkFQRk1v6_s8jZ0A)\n2. Le Panier (place_id ChIJ_UnVr7JqkFQR3Y7ZLM6hxbg)\n3. Ghost Alley Espresso (place_id ChIJr4W8tLJqkFQRrCq1qO5aXyk)"}]}
+{"key": "6befde53c235553d", "query": "which bus lines does TriMet run in Portland?", "history": []}
+{"key": "7483de81de819c19", "query": "cheapest week to fly Boston to Reykjavik in March, and are there 4-star hotels in Reykjavik with free parking?", "history": []}
+{"key": "ec758c16c6d8386e", "query": "gonna be freezing in chicago tonight? trying to decide if the dog needs his coat for the late walk", "history": []}
+{"key": "31370fb99c09372b", "query": "what's the address at 34.0522,-118.2437? and make me a static map of it with a pin", "history": []}
+{"key": "6520582e6f7b9b34", "query": "where can I get a decent flat white near Shoreditch High St?", "history": []}
+{"key": "f9724e5cc221b08c", "query": "and the next few days?", "history": [{"role": "user", "content": "what's the weather doing in Seattle right now"}, {"role": "assistant", "content": "Currently 54\u00b0F with light rain, wind 8 mph from the SW, humidity 88%."}]}

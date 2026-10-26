@@ -1,0 +1,78 @@
+{
+ "task_id": "finance-0048",
+ "mode": "search",
+ "loaded": [
+  "alpha_vantage.global_quote",
+  "alpha_vantage.symbol_search",
+  "yahoo_finance.get_stock_actions",
+  "yahoo_finance.get_stock_info",
+  "yahoo_finance.get_yahoo_finance_news"
+ ],
+ "order": [
+  "alpha_vantage.global_quote",
+  "alpha_vantage.symbol_search",
+  "yahoo_finance.get_stock_actions",
+  "yahoo_finance.get_stock_info",
+  "yahoo_finance.get_yahoo_finance_news"
+ ],
+ "scores": {
+  "alpha_vantage.global_quote": 2.0,
+  "alpha_vantage.symbol_search": 2.0,
+  "yahoo_finance.get_stock_actions": 2.0,
+  "yahoo_finance.get_stock_info": 2.0,
+  "yahoo_finance.get_yahoo_finance_news": 2.0
+ },
+ "router_tokens": 0,
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "alpha_vantage.symbol_search",
+   "args": {
+    "keywords": "Hims & Hers Health"
+   }
+  },
+  {
+   "tool": "alpha_vantage.global_quote",
+   "args": {
+    "symbol": "HIMS"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0,
+   "t": 1791321485.5222874
+  },
+  {
+   "type": "request_tools",
+   "capability": "search for a stock ticker symbol by company name and get the latest stock quote",
+   "added": [
+    "alpha_vantage.global_quote",
+    "alpha_vantage.symbol_search",
+    "yahoo_finance.get_stock_actions",
+    "yahoo_finance.get_stock_info",
+    "yahoo_finance.get_yahoo_finance_news"
+   ],
+   "tool_tokens": 550,
+   "t": 1791321494.741878
+  },
+  {
+   "type": "call",
+   "tool": "alpha_vantage__symbol_search",
+   "valid": true,
+   "t": 1791321503.2160578
+  },
+  {
+   "type": "call",
+   "tool": "alpha_vantage__global_quote",
+   "valid": true,
+   "t": 1791321509.5423992
+  }
+ ],
+ "done": true,
+ "t_done": 1791321513.5053084,
+ "final": ""
+}

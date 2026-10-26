@@ -1,0 +1,76 @@
+{
+ "task_id": "dev_platform-0008",
+ "mode": "search",
+ "loaded": [
+  "jira.transition_issue",
+  "jira.get_issue",
+  "jira.update_issue",
+  "jira.create_issue",
+  "jira.search_issues"
+ ],
+ "order": [
+  "jira.transition_issue",
+  "jira.get_issue",
+  "jira.update_issue",
+  "jira.create_issue",
+  "jira.search_issues"
+ ],
+ "scores": {
+  "jira.transition_issue": 2.0,
+  "jira.get_issue": 2.0,
+  "jira.update_issue": 2.0,
+  "jira.create_issue": 2.0,
+  "jira.search_issues": 2.0
+ },
+ "router_tokens": 0,
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "jira.get_issue",
+   "args": {
+    "issue_key": "PAY-311",
+    "fields": "status",
+    "expand": "transitions"
+   }
+  },
+  {
+   "tool": "jira.transition_issue",
+   "args": {
+    "issue_key": "PAY-311",
+    "transition_id": "31"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0
+  },
+  {
+   "type": "request_tools",
+   "capability": "transition a Jira issue to a new workflow status",
+   "added": [
+    "jira.transition_issue",
+    "jira.get_issue",
+    "jira.update_issue",
+    "jira.create_issue",
+    "jira.search_issues"
+   ],
+   "tool_tokens": 1327
+  },
+  {
+   "type": "call",
+   "tool": "jira__get_issue",
+   "valid": true
+  },
+  {
+   "type": "call",
+   "tool": "jira__transition_issue",
+   "valid": true
+  }
+ ],
+ "done": true,
+ "final": ""
+}

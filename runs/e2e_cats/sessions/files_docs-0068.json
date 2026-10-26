@@ -1,0 +1,40 @@
+{
+ "task_id": "files_docs-0068",
+ "mode": "cats",
+ "loaded": [
+  "google_cloud_ai.ocr_pdf_document",
+  "pdf_tools.pdf_extract_tables",
+  "pdf_tools.pdf_extract_text"
+ ],
+ "order": [
+  "google_cloud_ai.ocr_pdf_document",
+  "pdf_tools.pdf_extract_tables",
+  "pdf_tools.pdf_extract_text"
+ ],
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "pdf_tools.pdf_extract_tables",
+   "args": {
+    "path": "~/legal/nda.pdf",
+    "pages": "3",
+    "output_format": "csv"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 3,
+   "tool_tokens": 615
+  },
+  {
+   "type": "call",
+   "tool": "pdf_tools__pdf_extract_tables",
+   "valid": true
+  }
+ ],
+ "done": true,
+ "final": ""
+}

@@ -1,0 +1,89 @@
+{
+ "task_id": "database-0019",
+ "mode": "cats",
+ "loaded": [
+  "mongodb.count",
+  "mysql.describe_table",
+  "mysql.execute_sql",
+  "notion.notion_query_database",
+  "postgres.execute_sql",
+  "postgres.explain_query",
+  "postgres.list_objects",
+  "sentry.search_events",
+  "sqlite.create_table",
+  "sqlite.describe_table",
+  "sqlite.read_query",
+  "sqlite.write_query",
+  "wikipedia.get_sections"
+ ],
+ "order": [
+  "mongodb.count",
+  "mysql.describe_table",
+  "mysql.execute_sql",
+  "notion.notion_query_database",
+  "postgres.execute_sql",
+  "postgres.explain_query",
+  "postgres.list_objects",
+  "sentry.search_events",
+  "sqlite.create_table",
+  "sqlite.describe_table",
+  "sqlite.read_query",
+  "sqlite.write_query",
+  "wikipedia.get_sections"
+ ],
+ "scores": {
+  "mongodb.count": 0.6749412554280888,
+  "mysql.describe_table": 0.6463027481202522,
+  "mysql.execute_sql": 0.47139742041050536,
+  "notion.notion_query_database": 0.1472154101055882,
+  "postgres.execute_sql": 0.31652379346188275,
+  "postgres.explain_query": 0.12081319817678224,
+  "postgres.list_objects": 0.03543978487921931,
+  "sentry.search_events": 0.144334819525111,
+  "sqlite.create_table": 0.062079185971201496,
+  "sqlite.describe_table": 0.3533812626943564,
+  "sqlite.read_query": 0.146352947930333,
+  "sqlite.write_query": 0.14665656219729936,
+  "wikipedia.get_sections": 0.041287028268738556
+ },
+ "router_tokens": 1444,
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "postgres.execute_sql",
+   "args": {
+    "sql": "SELECT column_name, data_type, is_nullable, column_default FROM information_schema.columns WHERE table_name = 'events' ORDER BY ordinal_position;"
+   }
+  },
+  {
+   "tool": "postgres.execute_sql",
+   "args": {
+    "sql": "SELECT COUNT(*) FROM events WHERE created_at >= date_trunc('week', now()) - interval '1 week' AND created_at < date_trunc('week', now());"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 13,
+   "tool_tokens": 1694,
+   "t": 1791320712.4820278
+  },
+  {
+   "type": "call",
+   "tool": "postgres__execute_sql",
+   "valid": true,
+   "t": 1791320726.0275023
+  },
+  {
+   "type": "call",
+   "tool": "postgres__execute_sql",
+   "valid": true,
+   "t": 1791320732.396826
+  }
+ ],
+ "done": true,
+ "t_done": 1791320735.4232857,
+ "final": ""
+}

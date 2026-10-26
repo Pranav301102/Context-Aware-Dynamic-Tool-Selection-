@@ -1,0 +1,131 @@
+{
+ "task_id": "cross-0028",
+ "mode": "cats",
+ "loaded": [
+  "deepl.get_languages",
+  "mongodb.collection_schema",
+  "mongodb.count",
+  "mongodb.create_index",
+  "mongodb.delete_many",
+  "mongodb.find",
+  "mongodb.insert_many",
+  "mongodb.list_collections",
+  "mongodb.update_many",
+  "openai_media.translate_audio",
+  "pinecone.list_indexes",
+  "pinecone.upsert_records",
+  "deepl.translate_text",
+  "deepl.translate_document",
+  "google_cloud_ai.translate_text",
+  "ffmpeg_video.burn_subtitles",
+  "pinecone.create_index_for_model"
+ ],
+ "order": [
+  "deepl.get_languages",
+  "mongodb.collection_schema",
+  "mongodb.count",
+  "mongodb.create_index",
+  "mongodb.delete_many",
+  "mongodb.find",
+  "mongodb.insert_many",
+  "mongodb.list_collections",
+  "mongodb.update_many",
+  "openai_media.translate_audio",
+  "pinecone.list_indexes",
+  "pinecone.upsert_records",
+  "deepl.translate_text",
+  "deepl.translate_document",
+  "google_cloud_ai.translate_text",
+  "ffmpeg_video.burn_subtitles",
+  "pinecone.create_index_for_model"
+ ],
+ "scores": {
+  "deepl.get_languages": 0.0,
+  "mongodb.collection_schema": 0.30759866980167744,
+  "mongodb.count": 0.2031092144105763,
+  "mongodb.create_index": 0.05570784855348987,
+  "mongodb.delete_many": 0.11790068254358953,
+  "mongodb.find": 0.08495165868568866,
+  "mongodb.insert_many": 0.6510636765398722,
+  "mongodb.list_collections": 0.45553068993742,
+  "mongodb.update_many": 0.16880733672470047,
+  "openai_media.translate_audio": 0.0,
+  "pinecone.list_indexes": 0.05784239952976486,
+  "pinecone.upsert_records": 0.07224931174152113,
+  "deepl.translate_text": 2.0,
+  "deepl.translate_document": 2.0,
+  "google_cloud_ai.translate_text": 2.0,
+  "ffmpeg_video.burn_subtitles": 2.0,
+  "pinecone.create_index_for_model": 2.0
+ },
+ "router_tokens": 1450,
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "mongodb.find",
+   "args": {
+    "database": "app",
+    "collection": "catalog",
+    "filter": {
+     "blurb_fr": {
+      "$exists": false
+     }
+    },
+    "projection": {
+     "_id": 1,
+     "name": 1,
+     "blurb_en": 1
+    },
+    "limit": 100
+   }
+  },
+  {
+   "tool": "google_cloud_ai.translate_text",
+   "args": {
+    "contents": [
+     "<English blurb 1>",
+     "<English blurb 2>"
+    ],
+    "sourceLanguageCode": "en",
+    "targetLanguageCode": "fr"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 12,
+   "tool_tokens": 1922,
+   "t": 1791322148.8317773
+  },
+  {
+   "type": "call",
+   "tool": "mongodb__find",
+   "valid": true,
+   "t": 1791322161.58292
+  },
+  {
+   "type": "request_tools",
+   "capability": "translate text from English into French",
+   "added": [
+    "deepl.translate_text",
+    "deepl.translate_document",
+    "google_cloud_ai.translate_text",
+    "ffmpeg_video.burn_subtitles",
+    "pinecone.create_index_for_model"
+   ],
+   "tool_tokens": 2960,
+   "t": 1791322171.8170102
+  },
+  {
+   "type": "call",
+   "tool": "google_cloud_ai__translate_text",
+   "valid": true,
+   "t": 1791322183.432724
+  }
+ ],
+ "done": true,
+ "t_done": 1791322189.933506,
+ "final": ""
+}

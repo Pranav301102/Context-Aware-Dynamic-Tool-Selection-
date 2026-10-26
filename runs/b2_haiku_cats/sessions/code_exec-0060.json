@@ -1,0 +1,47 @@
+{
+ "task_id": "code_exec-0060",
+ "mode": "cats",
+ "loaded": [
+  "code_checker.collect_tests",
+  "code_checker.run_jest",
+  "code_checker.run_pytest_check"
+ ],
+ "order": [
+  "code_checker.collect_tests",
+  "code_checker.run_jest",
+  "code_checker.run_pytest_check"
+ ],
+ "scores": {
+  "code_checker.collect_tests": 0.9319051444412203,
+  "code_checker.run_jest": 0.028263143107651593,
+  "code_checker.run_pytest_check": 0.10859898403244894
+ },
+ "router_tokens": 0,
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "code_checker.collect_tests",
+   "args": {
+    "test_path": "tests/integration"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 3,
+   "tool_tokens": 938,
+   "t": 1791321025.8294587
+  },
+  {
+   "type": "call",
+   "tool": "code_checker__collect_tests",
+   "valid": true,
+   "t": 1791321038.1384392
+  }
+ ],
+ "done": true,
+ "t_done": 1791321042.8333657,
+ "final": ""
+}

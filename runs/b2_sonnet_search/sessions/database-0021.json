@@ -1,0 +1,66 @@
+{
+ "task_id": "database-0021",
+ "mode": "search",
+ "loaded": [
+  "mysql.describe_table",
+  "sqlite.describe_table",
+  "mysql.execute_sql",
+  "postgres.get_object_details",
+  "sqlite.create_table"
+ ],
+ "order": [
+  "mysql.describe_table",
+  "sqlite.describe_table",
+  "mysql.execute_sql",
+  "postgres.get_object_details",
+  "sqlite.create_table"
+ ],
+ "scores": {
+  "mysql.describe_table": 2.0,
+  "sqlite.describe_table": 2.0,
+  "mysql.execute_sql": 2.0,
+  "postgres.get_object_details": 2.0,
+  "sqlite.create_table": 2.0
+ },
+ "router_tokens": 0,
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "mysql.describe_table",
+   "args": {
+    "table": "products"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0,
+   "t": 1791321854.0123088
+  },
+  {
+   "type": "request_tools",
+   "capability": "describe a MySQL table's columns and structure",
+   "added": [
+    "mysql.describe_table",
+    "sqlite.describe_table",
+    "mysql.execute_sql",
+    "postgres.get_object_details",
+    "sqlite.create_table"
+   ],
+   "tool_tokens": 437,
+   "t": 1791321865.345622
+  },
+  {
+   "type": "call",
+   "tool": "mysql__describe_table",
+   "valid": true,
+   "t": 1791321877.7016575
+  }
+ ],
+ "done": true,
+ "t_done": 1791321883.2856476,
+ "final": ""
+}

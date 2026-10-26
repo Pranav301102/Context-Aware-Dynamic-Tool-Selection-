@@ -1,0 +1,38 @@
+{
+ "task_id": "database-0025",
+ "mode": "cats",
+ "loaded": [
+  "mysql.describe_table",
+  "sqlite.create_table",
+  "sqlite.describe_table"
+ ],
+ "order": [
+  "mysql.describe_table",
+  "sqlite.create_table",
+  "sqlite.describe_table"
+ ],
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "sqlite.describe_table",
+   "args": {
+    "table_name": "invoices"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 3,
+   "tool_tokens": 231
+  },
+  {
+   "type": "call",
+   "tool": "sqlite__describe_table",
+   "valid": true
+  }
+ ],
+ "done": true,
+ "final": ""
+}

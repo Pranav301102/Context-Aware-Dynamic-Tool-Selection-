@@ -1,0 +1,41 @@
+{
+ "task_id": "code_exec-0030",
+ "mode": "cats",
+ "loaded": [
+  "code_checker.prettier_format"
+ ],
+ "order": [
+  "code_checker.prettier_format"
+ ],
+ "scores": {
+  "code_checker.prettier_format": 0.95459238057399
+ },
+ "router_tokens": 0,
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "code_checker.prettier_format",
+   "args": {
+    "files": [
+     "src/**/*.tsx"
+    ],
+    "write": true
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 1,
+   "tool_tokens": 206
+  },
+  {
+   "type": "call",
+   "tool": "code_checker__prettier_format",
+   "valid": true
+  }
+ ],
+ "done": true,
+ "final": ""
+}

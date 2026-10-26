@@ -1,0 +1,120 @@
+{
+ "task_id": "cross-0028",
+ "mode": "cats",
+ "loaded": [
+  "deepl.get_languages",
+  "deepl.translate_document",
+  "mongodb.collection_schema",
+  "mongodb.count",
+  "mongodb.delete_many",
+  "mongodb.find",
+  "mongodb.insert_many",
+  "mongodb.list_collections",
+  "mongodb.update_many",
+  "openai_media.translate_audio",
+  "deepl.translate_text",
+  "google_cloud_ai.translate_text",
+  "ffmpeg_video.burn_subtitles",
+  "deepl.rephrase_text",
+  "openai_media.transcribe_audio"
+ ],
+ "order": [
+  "deepl.get_languages",
+  "deepl.translate_document",
+  "mongodb.collection_schema",
+  "mongodb.count",
+  "mongodb.delete_many",
+  "mongodb.find",
+  "mongodb.insert_many",
+  "mongodb.list_collections",
+  "mongodb.update_many",
+  "openai_media.translate_audio",
+  "deepl.translate_text",
+  "google_cloud_ai.translate_text",
+  "ffmpeg_video.burn_subtitles",
+  "deepl.rephrase_text",
+  "openai_media.transcribe_audio"
+ ],
+ "scores": {
+  "deepl.get_languages": 0.08053488146105316,
+  "deepl.translate_document": 0.050154598199390776,
+  "mongodb.collection_schema": 0.19790930356208752,
+  "mongodb.count": 0.1308804800550428,
+  "mongodb.delete_many": 0.06582451799592416,
+  "mongodb.find": 0.04698574183535067,
+  "mongodb.insert_many": 0.5416314634628722,
+  "mongodb.list_collections": 0.3310668025203,
+  "mongodb.update_many": 0.1022802101732665,
+  "openai_media.translate_audio": 0.12096646019725298,
+  "deepl.translate_text": 2.0,
+  "google_cloud_ai.translate_text": 2.0,
+  "ffmpeg_video.burn_subtitles": 2.0,
+  "deepl.rephrase_text": 2.0,
+  "openai_media.transcribe_audio": 2.0
+ },
+ "router_tokens": 0,
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "mongodb.find",
+   "args": {
+    "database": "catalog",
+    "collection": "catalog",
+    "filter": {
+     "blurb_fr": {
+      "$exists": false
+     },
+     "blurb_en": {
+      "$exists": true
+     }
+    },
+    "limit": 50
+   }
+  },
+  {
+   "tool": "deepl.translate_text",
+   "args": {
+    "text": "High quality product with excellent features and durability",
+    "targetLangCode": "fr",
+    "sourceLangCode": "en"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 10,
+   "tool_tokens": 1707,
+   "t": 1791321821.857758
+  },
+  {
+   "type": "call",
+   "tool": "mongodb__find",
+   "valid": true,
+   "t": 1791321833.5019917
+  },
+  {
+   "type": "request_tools",
+   "capability": "translate text to French",
+   "added": [
+    "deepl.translate_text",
+    "google_cloud_ai.translate_text",
+    "ffmpeg_video.burn_subtitles",
+    "deepl.rephrase_text",
+    "openai_media.transcribe_audio"
+   ],
+   "tool_tokens": 2814,
+   "t": 1791321846.6595495
+  },
+  {
+   "type": "call",
+   "tool": "deepl__translate_text",
+   "valid": true,
+   "t": 1791321859.8311749
+  }
+ ],
+ "done": true,
+ "t_done": 1791321867.165931,
+ "final": ""
+}

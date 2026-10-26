@@ -1,0 +1,53 @@
+{
+ "task_id": "media-0045",
+ "mode": "cats",
+ "loaded": [
+  "openai_media.create_image_variation",
+  "openai_media.create_speech",
+  "openai_media.edit_image",
+  "openai_media.translate_audio"
+ ],
+ "order": [
+  "openai_media.create_image_variation",
+  "openai_media.create_speech",
+  "openai_media.edit_image",
+  "openai_media.translate_audio"
+ ],
+ "scores": {
+  "openai_media.create_image_variation": 0.7586478993117957,
+  "openai_media.create_speech": 0.0833245435805081,
+  "openai_media.edit_image": 0.10814241137502341,
+  "openai_media.translate_audio": 0.037822304624853725
+ },
+ "router_tokens": 0,
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "openai_media.create_image_variation",
+   "args": {
+    "image": "moodboard_03.png",
+    "n": 4,
+    "size": "1024x1024",
+    "response_format": "url"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 4,
+   "tool_tokens": 990,
+   "t": 1791322152.050804
+  },
+  {
+   "type": "call",
+   "tool": "openai_media__create_image_variation",
+   "valid": true,
+   "t": 1791322166.0049908
+  }
+ ],
+ "done": true,
+ "t_done": 1791322171.8321714,
+ "final": ""
+}

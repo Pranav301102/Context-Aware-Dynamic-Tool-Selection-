@@ -1,0 +1,84 @@
+{
+ "task_id": "communication-0058",
+ "mode": "search",
+ "loaded": [
+  "gmail.draft_email",
+  "gmail.read_email",
+  "gmail.modify_email",
+  "gmail.create_filter",
+  "gmail.create_label"
+ ],
+ "order": [
+  "gmail.draft_email",
+  "gmail.read_email",
+  "gmail.modify_email",
+  "gmail.create_filter",
+  "gmail.create_label"
+ ],
+ "scores": {
+  "gmail.draft_email": 2.0,
+  "gmail.read_email": 2.0,
+  "gmail.modify_email": 2.0,
+  "gmail.create_filter": 2.0,
+  "gmail.create_label": 2.0
+ },
+ "router_tokens": 0,
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "gmail.read_email",
+   "args": {
+    "messageId": "18b77ef"
+   }
+  },
+  {
+   "tool": "gmail.draft_email",
+   "args": {
+    "to": [
+     "sender@example.com"
+    ],
+    "subject": "Re: Your request",
+    "body": "Hi,\n\nThank you for reaching out and for thinking of me. Unfortunately, I won't be able to take this on at this time, so I'll have to respectfully decline.\n\nI appreciate your understanding and wish you all the best with it.\n\nKind regards",
+    "inReplyTo": "18b77ef",
+    "threadId": "18b77ef"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0,
+   "t": 1791321539.2349393
+  },
+  {
+   "type": "request_tools",
+   "capability": "read a Gmail message by ID and create a reply draft",
+   "added": [
+    "gmail.draft_email",
+    "gmail.read_email",
+    "gmail.modify_email",
+    "gmail.create_filter",
+    "gmail.create_label"
+   ],
+   "tool_tokens": 1074,
+   "t": 1791321551.8014803
+  },
+  {
+   "type": "call",
+   "tool": "gmail__read_email",
+   "valid": true,
+   "t": 1791321562.905044
+  },
+  {
+   "type": "call",
+   "tool": "gmail__draft_email",
+   "valid": true,
+   "t": 1791321575.108265
+  }
+ ],
+ "done": true,
+ "t_done": 1791321577.4759643,
+ "final": ""
+}

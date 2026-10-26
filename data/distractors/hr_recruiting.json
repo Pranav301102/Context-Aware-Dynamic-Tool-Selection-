@@ -1,0 +1,1095 @@
+{
+  "branch": {
+    "id": "hr_recruiting",
+    "name": "HR & Recruiting",
+    "summary": "Recruiting and HR: applicant tracking (candidates, applications, interview scheduling, scorecards), job postings, employee records and onboarding, payroll runs and pay stubs, and PTO / time-off requests."
+  },
+  "toolkits": [
+    {
+      "id": "greenhouse_ats",
+      "name": "Greenhouse Recruiting",
+      "server": "mcp://greenhouse",
+      "summary": "Applicant tracking: candidates, applications, interview stages, scheduled interviews and scorecards.",
+      "tools": [
+        {
+          "name": "list_candidates",
+          "description": "List candidates, optionally filtered by job, email or created/updated date.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "job_id": {
+                "type": "string",
+                "description": "Only candidates who applied to this job."
+              },
+              "email": {
+                "type": "string",
+                "description": "Exact email."
+              },
+              "created_after": {
+                "type": "string",
+                "description": "ISO 8601 timestamp."
+              },
+              "updated_after": {
+                "type": "string",
+                "description": "ISO 8601 timestamp."
+              },
+              "per_page": {
+                "type": "integer",
+                "description": "Page size (max 500).",
+                "default": 100
+              }
+            }
+          }
+        },
+        {
+          "name": "get_candidate",
+          "description": "Get a candidate profile with applications, attachments, tags and recruiter.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "candidate_id": {
+                "type": "string",
+                "description": "Candidate id."
+              }
+            },
+            "required": [
+              "candidate_id"
+            ]
+          }
+        },
+        {
+          "name": "create_candidate",
+          "description": "Add a new candidate and optionally apply them to a job.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "first_name": {
+                "type": "string",
+                "description": "First name."
+              },
+              "last_name": {
+                "type": "string",
+                "description": "Last name."
+              },
+              "emails": {
+                "type": "array",
+                "description": "Email addresses.",
+                "items": {
+                  "type": "object",
+                  "description": "Email.",
+                  "properties": {
+                    "value": {
+                      "type": "string",
+                      "description": "Address."
+                    },
+                    "type": {
+                      "type": "string",
+                      "description": "Type.",
+                      "enum": [
+                        "personal",
+                        "work",
+                        "other"
+                      ]
+                    }
+                  }
+                }
+              },
+              "phone_numbers": {
+                "type": "array",
+                "description": "Phone numbers.",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "company": {
+                "type": "string",
+                "description": "Current company."
+              },
+              "title": {
+                "type": "string",
+                "description": "Current title."
+              },
+              "resume": {
+                "type": "object",
+                "description": "Resume file.",
+                "properties": {
+                  "filename": {
+                    "type": "string",
+                    "description": "File name."
+                  },
+                  "content_base64": {
+                    "type": "string",
+                    "description": "Base64 contents."
+                  }
+                }
+              },
+              "job_id": {
+                "type": "string",
+                "description": "Job to apply the candidate to."
+              },
+              "source_id": {
+                "type": "string",
+                "description": "Source, e.g. referral or LinkedIn."
+              },
+              "recruiter_id": {
+                "type": "string",
+                "description": "Recruiter user id."
+              },
+              "tags": {
+                "type": "array",
+                "description": "Tags.",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": [
+              "first_name",
+              "last_name"
+            ]
+          }
+        },
+        {
+          "name": "add_candidate_note",
+          "description": "Add a note to a candidate's activity feed.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "candidate_id": {
+                "type": "string",
+                "description": "Candidate id."
+              },
+              "body": {
+                "type": "string",
+                "description": "Note text."
+              },
+              "visibility": {
+                "type": "string",
+                "description": "Who can see it.",
+                "enum": [
+                  "admin_only",
+                  "private",
+                  "public"
+                ],
+                "default": "public"
+              }
+            },
+            "required": [
+              "candidate_id",
+              "body"
+            ]
+          }
+        },
+        {
+          "name": "move_application_stage",
+          "description": "Move an application to a different interview stage.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "application_id": {
+                "type": "string",
+                "description": "Application id."
+              },
+              "from_stage_id": {
+                "type": "string",
+                "description": "Current stage."
+              },
+              "to_stage_id": {
+                "type": "string",
+                "description": "Target stage."
+              }
+            },
+            "required": [
+              "application_id",
+              "to_stage_id"
+            ]
+          }
+        },
+        {
+          "name": "reject_application",
+          "description": "Reject an application with a reason, optionally emailing the candidate.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "application_id": {
+                "type": "string",
+                "description": "Application id."
+              },
+              "rejection_reason_id": {
+                "type": "string",
+                "description": "Rejection reason."
+              },
+              "notes": {
+                "type": "string",
+                "description": "Internal notes."
+              },
+              "send_email": {
+                "type": "object",
+                "description": "Rejection email.",
+                "properties": {
+                  "email_template_id": {
+                    "type": "string",
+                    "description": "Template."
+                  },
+                  "send_email_at": {
+                    "type": "string",
+                    "description": "Send at (ISO 8601)."
+                  }
+                }
+              }
+            },
+            "required": [
+              "application_id",
+              "rejection_reason_id"
+            ]
+          }
+        },
+        {
+          "name": "schedule_interview",
+          "description": "Schedule an interview for an application with one or more interviewers and create calendar events for them.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "application_id": {
+                "type": "string",
+                "description": "Application id."
+              },
+              "interview_id": {
+                "type": "string",
+                "description": "Interview step from the job's interview plan."
+              },
+              "interviewers": {
+                "type": "array",
+                "description": "Interviewers.",
+                "items": {
+                  "type": "object",
+                  "description": "Interviewer.",
+                  "properties": {
+                    "user_id": {
+                      "type": "string",
+                      "description": "User id."
+                    },
+                    "response_status": {
+                      "type": "string",
+                      "description": "RSVP.",
+                      "enum": [
+                        "needs_action",
+                        "accepted",
+                        "declined",
+                        "tentative"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "user_id"
+                  ]
+                }
+              },
+              "start": {
+                "type": "string",
+                "description": "Start (ISO 8601)."
+              },
+              "end": {
+                "type": "string",
+                "description": "End (ISO 8601)."
+              },
+              "location": {
+                "type": "string",
+                "description": "Room or address."
+              },
+              "video_conferencing_url": {
+                "type": "string",
+                "description": "Video link."
+              }
+            },
+            "required": [
+              "application_id",
+              "interview_id",
+              "interviewers",
+              "start",
+              "end"
+            ]
+          }
+        },
+        {
+          "name": "list_scheduled_interviews",
+          "description": "List scheduled interviews",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "application_id": {
+                "type": "string",
+                "description": "Application id."
+              },
+              "starts_after": {
+                "type": "string",
+                "description": "ISO 8601."
+              },
+              "ends_before": {
+                "type": "string",
+                "description": "ISO 8601."
+              }
+            }
+          }
+        },
+        {
+          "name": "list_scorecards",
+          "description": "List interviewer scorecards for an application with ratings and overall recommendation.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "application_id": {
+                "type": "string",
+                "description": "Application id."
+              }
+            },
+            "required": [
+              "application_id"
+            ]
+          }
+        },
+        {
+          "name": "list_jobs",
+          "description": "List jobs (requisitions).",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "status": {
+                "type": "string",
+                "description": "Job status.",
+                "enum": [
+                  "open",
+                  "closed",
+                  "draft"
+                ]
+              },
+              "department_id": {
+                "type": "string",
+                "description": "Department."
+              },
+              "office_id": {
+                "type": "string",
+                "description": "Office."
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "workable_jobs",
+      "name": "Workable Job Postings",
+      "server": "mcp://workable",
+      "summary": "Create job postings and publish them to the careers page and external job boards.",
+      "tools": [
+        {
+          "name": "create_job_posting",
+          "description": "Create a draft job posting.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "title": {
+                "type": "string",
+                "description": "Job title."
+              },
+              "department": {
+                "type": "string",
+                "description": "Department."
+              },
+              "location": {
+                "type": "object",
+                "description": "Location.",
+                "properties": {
+                  "city": {
+                    "type": "string",
+                    "description": "City."
+                  },
+                  "region": {
+                    "type": "string",
+                    "description": "State/region."
+                  },
+                  "country_code": {
+                    "type": "string",
+                    "description": "ISO country code."
+                  },
+                  "workplace_type": {
+                    "type": "string",
+                    "description": "Workplace.",
+                    "enum": [
+                      "on_site",
+                      "hybrid",
+                      "remote"
+                    ]
+                  }
+                }
+              },
+              "employment_type": {
+                "type": "string",
+                "description": "Employment type.",
+                "enum": [
+                  "full_time",
+                  "part_time",
+                  "contract",
+                  "temporary",
+                  "internship"
+                ]
+              },
+              "experience_level": {
+                "type": "string",
+                "description": "Level.",
+                "enum": [
+                  "entry",
+                  "associate",
+                  "mid_senior",
+                  "director",
+                  "executive"
+                ]
+              },
+              "description": {
+                "type": "string",
+                "description": "Job description (HTML)."
+              },
+              "requirements": {
+                "type": "string",
+                "description": "Requirements (HTML)."
+              },
+              "benefits": {
+                "type": "string",
+                "description": "Benefits (HTML)."
+              },
+              "salary": {
+                "type": "object",
+                "description": "Salary range.",
+                "properties": {
+                  "min": {
+                    "type": "number",
+                    "description": "Minimum."
+                  },
+                  "max": {
+                    "type": "number",
+                    "description": "Maximum."
+                  },
+                  "currency": {
+                    "type": "string",
+                    "description": "ISO currency.",
+                    "default": "USD"
+                  },
+                  "period": {
+                    "type": "string",
+                    "description": "Pay period.",
+                    "enum": [
+                      "year",
+                      "month",
+                      "hour"
+                    ],
+                    "default": "year"
+                  }
+                }
+              }
+            },
+            "required": [
+              "title",
+              "description"
+            ]
+          }
+        },
+        {
+          "name": "publish_job",
+          "description": "Publish a draft job to the careers page and selected job boards.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "shortcode": {
+                "type": "string",
+                "description": "Job shortcode."
+              },
+              "boards": {
+                "type": "array",
+                "description": "Boards.",
+                "items": {
+                  "type": "string",
+                  "description": "Board.",
+                  "enum": [
+                    "careers_page",
+                    "linkedin",
+                    "indeed",
+                    "glassdoor",
+                    "ziprecruiter"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "shortcode"
+            ]
+          }
+        },
+        {
+          "name": "list_job_postings",
+          "description": "List job postings by state.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "state": {
+                "type": "string",
+                "description": "State.",
+                "enum": [
+                  "draft",
+                  "published",
+                  "closed",
+                  "archived"
+                ]
+              },
+              "limit": {
+                "type": "integer",
+                "description": "Max results.",
+                "default": 50
+              }
+            }
+          }
+        },
+        {
+          "name": "close_job",
+          "description": "Close job.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "shortcode": {
+                "type": "string",
+                "description": "Job shortcode."
+              }
+            },
+            "required": [
+              "shortcode"
+            ]
+          }
+        },
+        {
+          "name": "get_job_pipeline",
+          "description": "Get candidate counts in each hiring pipeline stage for a job.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "shortcode": {
+                "type": "string",
+                "description": "Job shortcode."
+              }
+            },
+            "required": [
+              "shortcode"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "gusto_payroll",
+      "name": "Gusto Payroll",
+      "server": "mcp://gusto",
+      "summary": "Payroll, employee onboarding, compensation and pay stubs for small businesses.",
+      "tools": [
+        {
+          "name": "list_employees",
+          "description": "List employees for a company.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "company_id": {
+                "type": "string",
+                "description": "Company id."
+              },
+              "terminated": {
+                "type": "boolean",
+                "description": "Include terminated employees.",
+                "default": false
+              },
+              "search": {
+                "type": "string",
+                "description": "Name or email."
+              },
+              "page": {
+                "type": "integer",
+                "description": "Page."
+              },
+              "per": {
+                "type": "integer",
+                "description": "Per page.",
+                "default": 25
+              }
+            },
+            "required": [
+              "company_id"
+            ]
+          }
+        },
+        {
+          "name": "get_employee",
+          "description": "Get employee.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "employee_id": {
+                "type": "string",
+                "description": "Employee id."
+              }
+            },
+            "required": [
+              "employee_id"
+            ]
+          }
+        },
+        {
+          "name": "create_employee",
+          "description": "Onboard a new employee: creates the record, job and compensation, and emails the self-onboarding invite.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "company_id": {
+                "type": "string",
+                "description": "Company id."
+              },
+              "first_name": {
+                "type": "string",
+                "description": "First name."
+              },
+              "last_name": {
+                "type": "string",
+                "description": "Last name."
+              },
+              "email": {
+                "type": "string",
+                "description": "Personal email for the onboarding invite."
+              },
+              "date_of_birth": {
+                "type": "string",
+                "description": "Date of birth (YYYY-MM-DD)."
+              },
+              "start_date": {
+                "type": "string",
+                "description": "First day (YYYY-MM-DD)."
+              },
+              "work_location_id": {
+                "type": "string",
+                "description": "Work location."
+              },
+              "job": {
+                "type": "object",
+                "description": "Job and pay.",
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "description": "Job title."
+                  },
+                  "rate": {
+                    "type": "number",
+                    "description": "Pay rate."
+                  },
+                  "payment_unit": {
+                    "type": "string",
+                    "description": "Rate unit.",
+                    "enum": [
+                      "Hour",
+                      "Week",
+                      "Month",
+                      "Year",
+                      "Paycheck"
+                    ]
+                  },
+                  "flsa_status": {
+                    "type": "string",
+                    "description": "FLSA classification.",
+                    "enum": [
+                      "Exempt",
+                      "Nonexempt",
+                      "Owner"
+                    ]
+                  }
+                },
+                "required": [
+                  "title",
+                  "rate",
+                  "payment_unit"
+                ]
+              },
+              "self_onboarding": {
+                "type": "boolean",
+                "description": "Let the employee enter their own tax and bank info.",
+                "default": true
+              }
+            },
+            "required": [
+              "company_id",
+              "first_name",
+              "last_name",
+              "start_date",
+              "job"
+            ]
+          }
+        },
+        {
+          "name": "update_compensation",
+          "description": "Change an employee's pay rate or FLSA status, effective on a date.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "job_id": {
+                "type": "string",
+                "description": "Job id."
+              },
+              "rate": {
+                "type": "number",
+                "description": "New rate."
+              },
+              "payment_unit": {
+                "type": "string",
+                "description": "Rate unit.",
+                "enum": [
+                  "Hour",
+                  "Week",
+                  "Month",
+                  "Year",
+                  "Paycheck"
+                ]
+              },
+              "flsa_status": {
+                "type": "string",
+                "description": "FLSA status.",
+                "enum": [
+                  "Exempt",
+                  "Nonexempt",
+                  "Owner"
+                ]
+              },
+              "effective_date": {
+                "type": "string",
+                "description": "Effective date (YYYY-MM-DD)."
+              }
+            },
+            "required": [
+              "job_id",
+              "rate"
+            ]
+          }
+        },
+        {
+          "name": "list_payrolls",
+          "description": "List payrolls by pay period and processing status.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "company_id": {
+                "type": "string",
+                "description": "Company id."
+              },
+              "processing_statuses": {
+                "type": "array",
+                "description": "Statuses.",
+                "items": {
+                  "type": "string",
+                  "description": "Status.",
+                  "enum": [
+                    "unprocessed",
+                    "processed"
+                  ]
+                }
+              },
+              "payroll_types": {
+                "type": "array",
+                "description": "Types.",
+                "items": {
+                  "type": "string",
+                  "description": "Type.",
+                  "enum": [
+                    "regular",
+                    "off_cycle",
+                    "external"
+                  ]
+                }
+              },
+              "start_date": {
+                "type": "string",
+                "description": "Pay period start (YYYY-MM-DD)."
+              },
+              "end_date": {
+                "type": "string",
+                "description": "Pay period end (YYYY-MM-DD)."
+              }
+            },
+            "required": [
+              "company_id"
+            ]
+          }
+        },
+        {
+          "name": "run_payroll",
+          "description": "Calculate gross-to-net for an unprocessed payroll and optionally submit it. Use submit=false to preview totals.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "company_id": {
+                "type": "string",
+                "description": "Company id."
+              },
+              "payroll_id": {
+                "type": "string",
+                "description": "Payroll id."
+              },
+              "submit": {
+                "type": "boolean",
+                "description": "Submit after calculating.",
+                "default": false
+              }
+            },
+            "required": [
+              "company_id",
+              "payroll_id"
+            ]
+          }
+        },
+        {
+          "name": "get_pay_stub",
+          "description": "Get pay stub",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "payroll_id": {
+                "type": "string",
+                "description": "Payroll id."
+              },
+              "employee_id": {
+                "type": "string",
+                "description": "Employee id."
+              }
+            },
+            "required": [
+              "payroll_id",
+              "employee_id"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "bamboohr",
+      "name": "BambooHR",
+      "server": "mcp://bamboohr",
+      "summary": "HR information system: employee directory and records, time-off (PTO) requests, approvals and balances.",
+      "tools": [
+        {
+          "name": "get_employee_directory",
+          "description": "Get the company directory with names, job titles, departments, managers and work contact info.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "department": {
+                "type": "string",
+                "description": "Department filter."
+              },
+              "location": {
+                "type": "string",
+                "description": "Location filter."
+              }
+            }
+          }
+        },
+        {
+          "name": "request_time_off",
+          "description": "Submit a time-off (PTO) request for an employee.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "employee_id": {
+                "type": "string",
+                "description": "Employee id."
+              },
+              "type": {
+                "type": "string",
+                "description": "Time-off type.",
+                "enum": [
+                  "vacation",
+                  "sick",
+                  "personal",
+                  "bereavement",
+                  "parental",
+                  "jury_duty",
+                  "unpaid"
+                ]
+              },
+              "start": {
+                "type": "string",
+                "description": "First day off (YYYY-MM-DD)."
+              },
+              "end": {
+                "type": "string",
+                "description": "Last day off (YYYY-MM-DD)."
+              },
+              "amount": {
+                "type": "number",
+                "description": "Amount in days or hours, per the policy's unit."
+              },
+              "notes": {
+                "type": "string",
+                "description": "Note to approver."
+              },
+              "status": {
+                "type": "string",
+                "description": "Initial status.",
+                "enum": [
+                  "requested",
+                  "approved"
+                ],
+                "default": "requested"
+              }
+            },
+            "required": [
+              "employee_id",
+              "type",
+              "start",
+              "end"
+            ]
+          }
+        },
+        {
+          "name": "list_time_off_requests",
+          "description": "List time-off requests in a date range.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "start": {
+                "type": "string",
+                "description": "From (YYYY-MM-DD)."
+              },
+              "end": {
+                "type": "string",
+                "description": "To (YYYY-MM-DD)."
+              },
+              "employee_id": {
+                "type": "string",
+                "description": "Employee id."
+              },
+              "status": {
+                "type": "string",
+                "description": "Status.",
+                "enum": [
+                  "requested",
+                  "approved",
+                  "denied",
+                  "canceled",
+                  "superceded"
+                ]
+              },
+              "type": {
+                "type": "string",
+                "description": "Type.",
+                "enum": [
+                  "vacation",
+                  "sick",
+                  "personal",
+                  "bereavement",
+                  "parental",
+                  "jury_duty",
+                  "unpaid"
+                ]
+              }
+            },
+            "required": [
+              "start",
+              "end"
+            ]
+          }
+        },
+        {
+          "name": "update_time_off_request_status",
+          "description": "Approve, deny or cancel a time-off request.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "request_id": {
+                "type": "string",
+                "description": "Request id."
+              },
+              "status": {
+                "type": "string",
+                "description": "New status.",
+                "enum": [
+                  "approved",
+                  "denied",
+                  "canceled"
+                ]
+              },
+              "note": {
+                "type": "string",
+                "description": "Note to employee."
+              }
+            },
+            "required": [
+              "request_id",
+              "status"
+            ]
+          }
+        },
+        {
+          "name": "get_time_off_balance",
+          "description": "Get an employee's PTO balances by type as of a date.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "employee_id": {
+                "type": "string",
+                "description": "Employee id."
+              },
+              "end_date": {
+                "type": "string",
+                "description": "Balance as of (YYYY-MM-DD)."
+              }
+            },
+            "required": [
+              "employee_id"
+            ]
+          }
+        },
+        {
+          "name": "whos_out",
+          "description": "Who's out.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "start": {
+                "type": "string",
+                "description": "From (YYYY-MM-DD)."
+              },
+              "end": {
+                "type": "string",
+                "description": "To (YYYY-MM-DD)."
+              }
+            }
+          }
+        },
+        {
+          "name": "update_employee",
+          "description": "Update fields on an employee record such as job title, department, manager or location.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "employee_id": {
+                "type": "string",
+                "description": "Employee id."
+              },
+              "fields": {
+                "type": "object",
+                "description": "Field name -> new value.",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": [
+              "employee_id",
+              "fields"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

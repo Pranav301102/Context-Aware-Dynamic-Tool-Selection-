@@ -1,0 +1,1137 @@
+{
+  "branch": {
+    "id": "insurance",
+    "name": "Insurance",
+    "summary": "Insurance operations: getting quotes and binding policies, looking up and changing policies, filing and managing claims and claim payments, and underwriting data such as property risk, driving records and loss history."
+  },
+  "toolkits": [
+    {
+      "id": "boost_insurance",
+      "name": "Boost Insurance",
+      "server": "mcp://boost-insurance",
+      "summary": "Embedded insurance-as-a-service: quote, rate and bind renters, home, pet, cyber and small business policies.",
+      "tools": [
+        {
+          "name": "list_products",
+          "description": "Insurance products available to the partner.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "state": {
+                "type": "string",
+                "description": "Two-letter state; filters to products filed there."
+              }
+            }
+          }
+        },
+        {
+          "name": "create_quote",
+          "description": "Create a quote for a product from applicant and risk details. Returns premium, coverages, fees and a quote ID valid for 30 days.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "product": {
+                "type": "string",
+                "enum": [
+                  "renters",
+                  "homeowners",
+                  "auto",
+                  "pet",
+                  "small_business_bop",
+                  "cyber",
+                  "travel"
+                ]
+              },
+              "effective_date": {
+                "type": "string",
+                "description": "YYYY-MM-DD"
+              },
+              "applicant": {
+                "type": "object",
+                "properties": {
+                  "first_name": {
+                    "type": "string"
+                  },
+                  "last_name": {
+                    "type": "string"
+                  },
+                  "date_of_birth": {
+                    "type": "string",
+                    "description": "YYYY-MM-DD"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "phone": {
+                    "type": "string"
+                  },
+                  "address": {
+                    "type": "object",
+                    "properties": {
+                      "line1": {
+                        "type": "string",
+                        "description": "Street address."
+                      },
+                      "line2": {
+                        "type": "string",
+                        "description": "Apartment, suite or unit."
+                      },
+                      "city": {
+                        "type": "string"
+                      },
+                      "state": {
+                        "type": "string",
+                        "description": "State or region code."
+                      },
+                      "postal_code": {
+                        "type": "string"
+                      },
+                      "country": {
+                        "type": "string",
+                        "description": "ISO 3166-1 alpha-2 country code.",
+                        "default": "US"
+                      }
+                    },
+                    "description": "Postal address.",
+                    "required": [
+                      "line1",
+                      "city",
+                      "postal_code"
+                    ]
+                  }
+                },
+                "required": [
+                  "first_name",
+                  "last_name"
+                ]
+              },
+              "risk": {
+                "type": "object",
+                "description": "Product-specific risk details, e.g. dwelling year_built and square_feet, pet species and age, business revenue and NAICS code.",
+                "additionalProperties": true
+              },
+              "coverages": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string"
+                    },
+                    "limit": {
+                      "type": "number"
+                    },
+                    "deductible": {
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "code"
+                  ]
+                }
+              },
+              "payment_plan": {
+                "type": "string",
+                "enum": [
+                  "annual",
+                  "semi_annual",
+                  "monthly"
+                ],
+                "default": "annual"
+              }
+            },
+            "required": [
+              "product",
+              "effective_date",
+              "applicant",
+              "risk"
+            ]
+          }
+        },
+        {
+          "name": "get_quote",
+          "description": "Get a quote.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "quote_id": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "quote_id"
+            ]
+          }
+        },
+        {
+          "name": "update_quote",
+          "description": "Re-rate a quote after changing risk details, coverages or effective date.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "quote_id": {
+                "type": "string"
+              },
+              "risk": {
+                "type": "object",
+                "description": "Fields to change.",
+                "additionalProperties": true
+              },
+              "coverages": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string"
+                    },
+                    "limit": {
+                      "type": "number"
+                    },
+                    "deductible": {
+                      "type": "number"
+                    }
+                  }
+                }
+              },
+              "effective_date": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "quote_id"
+            ]
+          }
+        },
+        {
+          "name": "bind_quote",
+          "description": "Bind a quote to issue a policy. Requires a tokenized payment method and acceptance of the required disclosures.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "quote_id": {
+                "type": "string"
+              },
+              "payment_token": {
+                "type": "string"
+              },
+              "disclosures_accepted": {
+                "type": "boolean",
+                "description": "Applicant accepted the disclosures and signed the application."
+              },
+              "send_documents": {
+                "type": "boolean",
+                "description": "Email policy documents to the insured.",
+                "default": true
+              }
+            },
+            "required": [
+              "quote_id",
+              "payment_token",
+              "disclosures_accepted"
+            ]
+          }
+        },
+        {
+          "name": "send_quote_email",
+          "description": "Email a quote to the applicant.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "quote_id": {
+                "type": "string"
+              },
+              "email": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "quote_id",
+              "email"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "guidewire_policycenter",
+      "name": "Guidewire PolicyCenter",
+      "server": "mcp://guidewire-pc",
+      "summary": "Policy administration: search policies, view coverages, endorsements, renewals, cancellations and policy documents.",
+      "tools": [
+        {
+          "name": "search_policies",
+          "description": "Search policies by policy number, insured name, line of business, status or effective date.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "policy_number": {
+                "type": "string"
+              },
+              "insured_name": {
+                "type": "string"
+              },
+              "line_of_business": {
+                "type": "string",
+                "enum": [
+                  "personal_auto",
+                  "homeowners",
+                  "renters",
+                  "commercial_property",
+                  "general_liability",
+                  "workers_comp",
+                  "commercial_auto"
+                ]
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "in_force",
+                  "expired",
+                  "cancelled",
+                  "pending",
+                  "quoted"
+                ]
+              },
+              "effective_after": {
+                "type": "string",
+                "description": "YYYY-MM-DD"
+              },
+              "limit": {
+                "type": "integer",
+                "default": 25
+              }
+            }
+          }
+        },
+        {
+          "name": "get_policy",
+          "description": "Get a policy as of a date, with optional coverages, vehicles, drivers, locations and billing.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "policy_number": {
+                "type": "string"
+              },
+              "as_of_date": {
+                "type": "string"
+              },
+              "include": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "coverages",
+                    "vehicles",
+                    "drivers",
+                    "locations",
+                    "billing",
+                    "insureds"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "policy_number"
+            ]
+          }
+        },
+        {
+          "name": "start_policy_change",
+          "description": "Start an endorsement (mid-term change) such as adding a vehicle, driver, location or coverage. Returns a job with the premium impact for review before issuing.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "policy_number": {
+                "type": "string"
+              },
+              "effective_date": {
+                "type": "string"
+              },
+              "changes": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "action": {
+                      "type": "string",
+                      "enum": [
+                        "add",
+                        "remove",
+                        "modify"
+                      ]
+                    },
+                    "entity": {
+                      "type": "string",
+                      "enum": [
+                        "vehicle",
+                        "driver",
+                        "coverage",
+                        "location",
+                        "additional_insured",
+                        "lienholder"
+                      ]
+                    },
+                    "details": {
+                      "type": "object",
+                      "description": "Entity fields, e.g. VIN and garaging address for a vehicle.",
+                      "additionalProperties": true
+                    }
+                  },
+                  "required": [
+                    "action",
+                    "entity"
+                  ]
+                }
+              },
+              "description": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "policy_number",
+              "effective_date",
+              "changes"
+            ]
+          }
+        },
+        {
+          "name": "cancel_policy",
+          "description": "Cancel a policy.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "policy_number": {
+                "type": "string"
+              },
+              "cancellation_date": {
+                "type": "string"
+              },
+              "reason": {
+                "type": "string",
+                "enum": [
+                  "insured_request",
+                  "nonpayment",
+                  "underwriting",
+                  "fraud",
+                  "sold_property",
+                  "replaced"
+                ]
+              },
+              "refund_method": {
+                "type": "string",
+                "enum": [
+                  "pro_rata",
+                  "short_rate",
+                  "flat"
+                ],
+                "default": "pro_rata"
+              }
+            },
+            "required": [
+              "policy_number",
+              "cancellation_date",
+              "reason"
+            ]
+          }
+        },
+        {
+          "name": "renew_policy",
+          "description": "Start renewal for a policy.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "policy_number": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "policy_number"
+            ]
+          }
+        },
+        {
+          "name": "get_policy_documents",
+          "description": "List or download policy documents such as declarations pages, ID cards and endorsements.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "policy_number": {
+                "type": "string"
+              },
+              "document_type": {
+                "type": "string",
+                "enum": [
+                  "declarations",
+                  "id_card",
+                  "policy_form",
+                  "endorsement",
+                  "invoice",
+                  "cancellation_notice"
+                ]
+              }
+            },
+            "required": [
+              "policy_number"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "guidewire_claimcenter",
+      "name": "Guidewire ClaimCenter",
+      "server": "mcp://guidewire-cc",
+      "summary": "Claims management: first notice of loss, claim status, adjuster assignment, documents, reserves and payments.",
+      "tools": [
+        {
+          "name": "file_claim",
+          "description": "Report a new claim (first notice of loss) against a policy with loss date, cause, location and description.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "policy_number": {
+                "type": "string"
+              },
+              "loss_date": {
+                "type": "string",
+                "description": "ISO 8601 date-time."
+              },
+              "loss_cause": {
+                "type": "string",
+                "enum": [
+                  "collision",
+                  "theft",
+                  "fire",
+                  "water_damage",
+                  "wind_hail",
+                  "liability",
+                  "glass",
+                  "vandalism",
+                  "medical",
+                  "other"
+                ]
+              },
+              "loss_location": {
+                "type": "object",
+                "properties": {
+                  "line1": {
+                    "type": "string",
+                    "description": "Street address."
+                  },
+                  "line2": {
+                    "type": "string",
+                    "description": "Apartment, suite or unit."
+                  },
+                  "city": {
+                    "type": "string"
+                  },
+                  "state": {
+                    "type": "string",
+                    "description": "State or region code."
+                  },
+                  "postal_code": {
+                    "type": "string"
+                  },
+                  "country": {
+                    "type": "string",
+                    "description": "ISO 3166-1 alpha-2 country code.",
+                    "default": "US"
+                  }
+                },
+                "description": "Where the loss occurred.",
+                "required": [
+                  "line1",
+                  "city",
+                  "postal_code"
+                ]
+              },
+              "description": {
+                "type": "string"
+              },
+              "reported_by": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "relationship": {
+                    "type": "string",
+                    "enum": [
+                      "insured",
+                      "claimant",
+                      "agent",
+                      "attorney",
+                      "other"
+                    ]
+                  },
+                  "phone": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name",
+                  "relationship"
+                ]
+              },
+              "injuries": {
+                "type": "boolean",
+                "default": false
+              },
+              "police_report_number": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "policy_number",
+              "loss_date",
+              "loss_cause",
+              "description"
+            ]
+          }
+        },
+        {
+          "name": "get_claim",
+          "description": "Get claim by number.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "claim_number": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "claim_number"
+            ]
+          }
+        },
+        {
+          "name": "search_claims",
+          "description": "Search claims by policy, claimant, status, loss date or assigned adjuster.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "policy_number": {
+                "type": "string"
+              },
+              "claimant_name": {
+                "type": "string"
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "draft",
+                  "open",
+                  "closed",
+                  "reopened"
+                ]
+              },
+              "loss_date_from": {
+                "type": "string"
+              },
+              "loss_date_to": {
+                "type": "string"
+              },
+              "assigned_adjuster_id": {
+                "type": "string"
+              },
+              "limit": {
+                "type": "integer",
+                "default": 25
+              }
+            }
+          }
+        },
+        {
+          "name": "update_claim",
+          "description": "Update a claim's status, reserves or notes.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "claim_number": {
+                "type": "string"
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "open",
+                  "closed",
+                  "reopened"
+                ]
+              },
+              "reserve_amount": {
+                "type": "number",
+                "description": "New total reserve in USD."
+              },
+              "notes": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "claim_number"
+            ]
+          }
+        },
+        {
+          "name": "assign_adjuster",
+          "description": "Assign a claim to an adjuster or let assignment rules pick one.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "claim_number": {
+                "type": "string"
+              },
+              "adjuster_id": {
+                "type": "string"
+              },
+              "auto_assign": {
+                "type": "boolean",
+                "default": false
+              }
+            },
+            "required": [
+              "claim_number"
+            ]
+          }
+        },
+        {
+          "name": "upload_claim_document",
+          "description": "Attach a document or photo to a claim.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "claim_number": {
+                "type": "string"
+              },
+              "document_url": {
+                "type": "string"
+              },
+              "document_type": {
+                "type": "string",
+                "enum": [
+                  "photo",
+                  "estimate",
+                  "police_report",
+                  "medical_record",
+                  "invoice",
+                  "recorded_statement",
+                  "other"
+                ]
+              },
+              "description": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "claim_number",
+              "document_url",
+              "document_type"
+            ]
+          }
+        },
+        {
+          "name": "list_claim_payments",
+          "description": "Payments issued on a claim.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "claim_number": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "claim_number"
+            ]
+          }
+        },
+        {
+          "name": "create_claim_payment",
+          "description": "Issue a payment on a claim exposure to a payee (insured, repair shop, medical provider).",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "claim_number": {
+                "type": "string"
+              },
+              "exposure_id": {
+                "type": "string"
+              },
+              "payee": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "insured",
+                      "claimant",
+                      "vendor",
+                      "attorney",
+                      "lienholder"
+                    ]
+                  }
+                },
+                "required": [
+                  "name"
+                ]
+              },
+              "amount": {
+                "type": "number"
+              },
+              "payment_type": {
+                "type": "string",
+                "enum": [
+                  "partial",
+                  "final",
+                  "supplemental"
+                ],
+                "default": "partial"
+              },
+              "method": {
+                "type": "string",
+                "enum": [
+                  "check",
+                  "ach",
+                  "virtual_card"
+                ],
+                "default": "ach"
+              },
+              "memo": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "claim_number",
+              "exposure_id",
+              "payee",
+              "amount"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "verisk_underwriting",
+      "name": "Verisk Underwriting Data",
+      "server": "mcp://verisk",
+      "summary": "Underwriting data and decisioning: property risk attributes, motor vehicle reports, prior loss history and referral review.",
+      "tools": [
+        {
+          "name": "get_property_risk",
+          "description": "Property risk attributes for an address: roof condition and age, wildfire, flood and hail scores, construction year and replacement cost estimate.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "address": {
+                "type": "object",
+                "properties": {
+                  "line1": {
+                    "type": "string",
+                    "description": "Street address."
+                  },
+                  "line2": {
+                    "type": "string",
+                    "description": "Apartment, suite or unit."
+                  },
+                  "city": {
+                    "type": "string"
+                  },
+                  "state": {
+                    "type": "string",
+                    "description": "State or region code."
+                  },
+                  "postal_code": {
+                    "type": "string"
+                  },
+                  "country": {
+                    "type": "string",
+                    "description": "ISO 3166-1 alpha-2 country code.",
+                    "default": "US"
+                  }
+                },
+                "description": "Postal address.",
+                "required": [
+                  "line1",
+                  "city",
+                  "postal_code"
+                ]
+              },
+              "include": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "roof",
+                    "wildfire",
+                    "flood",
+                    "hail",
+                    "wind",
+                    "crime",
+                    "replacement_cost",
+                    "distance_to_coast"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "address"
+            ]
+          }
+        },
+        {
+          "name": "order_mvr",
+          "description": "Order a motor vehicle report (MVR) for a driver to see violations, suspensions and accidents.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "driver": {
+                "type": "object",
+                "properties": {
+                  "first_name": {
+                    "type": "string"
+                  },
+                  "last_name": {
+                    "type": "string"
+                  },
+                  "date_of_birth": {
+                    "type": "string"
+                  },
+                  "license_number": {
+                    "type": "string"
+                  },
+                  "license_state": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "last_name",
+                  "date_of_birth",
+                  "license_number",
+                  "license_state"
+                ]
+              },
+              "permissible_purpose": {
+                "type": "string",
+                "enum": [
+                  "underwriting",
+                  "renewal",
+                  "claims"
+                ],
+                "default": "underwriting"
+              }
+            },
+            "required": [
+              "driver"
+            ]
+          }
+        },
+        {
+          "name": "get_clue_report",
+          "description": "Prior claims (CLUE) history.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "subject_type": {
+                "type": "string",
+                "enum": [
+                  "auto",
+                  "property"
+                ]
+              },
+              "name": {
+                "type": "string"
+              },
+              "date_of_birth": {
+                "type": "string"
+              },
+              "address": {
+                "type": "object",
+                "properties": {
+                  "line1": {
+                    "type": "string",
+                    "description": "Street address."
+                  },
+                  "line2": {
+                    "type": "string",
+                    "description": "Apartment, suite or unit."
+                  },
+                  "city": {
+                    "type": "string"
+                  },
+                  "state": {
+                    "type": "string",
+                    "description": "State or region code."
+                  },
+                  "postal_code": {
+                    "type": "string"
+                  },
+                  "country": {
+                    "type": "string",
+                    "description": "ISO 3166-1 alpha-2 country code.",
+                    "default": "US"
+                  }
+                },
+                "description": "Postal address.",
+                "required": [
+                  "line1",
+                  "city",
+                  "postal_code"
+                ]
+              }
+            },
+            "required": [
+              "subject_type"
+            ]
+          }
+        },
+        {
+          "name": "get_insurance_score",
+          "description": "Credit-based insurance score for an applicant where permitted by state law.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "applicant": {
+                "type": "object",
+                "properties": {
+                  "first_name": {
+                    "type": "string"
+                  },
+                  "last_name": {
+                    "type": "string"
+                  },
+                  "date_of_birth": {
+                    "type": "string",
+                    "description": "YYYY-MM-DD"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "phone": {
+                    "type": "string"
+                  },
+                  "address": {
+                    "type": "object",
+                    "properties": {
+                      "line1": {
+                        "type": "string",
+                        "description": "Street address."
+                      },
+                      "line2": {
+                        "type": "string",
+                        "description": "Apartment, suite or unit."
+                      },
+                      "city": {
+                        "type": "string"
+                      },
+                      "state": {
+                        "type": "string",
+                        "description": "State or region code."
+                      },
+                      "postal_code": {
+                        "type": "string"
+                      },
+                      "country": {
+                        "type": "string",
+                        "description": "ISO 3166-1 alpha-2 country code.",
+                        "default": "US"
+                      }
+                    },
+                    "description": "Postal address.",
+                    "required": [
+                      "line1",
+                      "city",
+                      "postal_code"
+                    ]
+                  }
+                },
+                "required": [
+                  "first_name",
+                  "last_name"
+                ]
+              },
+              "line_of_business": {
+                "type": "string",
+                "enum": [
+                  "personal_auto",
+                  "homeowners",
+                  "renters",
+                  "commercial_property",
+                  "general_liability",
+                  "workers_comp",
+                  "commercial_auto"
+                ]
+              }
+            },
+            "required": [
+              "applicant"
+            ]
+          }
+        },
+        {
+          "name": "submit_for_underwriting_review",
+          "description": "Refer a quote or submission to the underwriting queue for manual review with risk notes and attachments.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "quote_id": {
+                "type": "string"
+              },
+              "priority": {
+                "type": "string",
+                "enum": [
+                  "low",
+                  "normal",
+                  "high",
+                  "rush"
+                ],
+                "default": "normal"
+              },
+              "referral_reasons": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "notes": {
+                "type": "string"
+              },
+              "attachments": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Document URLs."
+              }
+            },
+            "required": [
+              "quote_id"
+            ]
+          }
+        },
+        {
+          "name": "get_underwriting_decision",
+          "description": "Decision for a referred submission.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "submission_id": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "submission_id"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

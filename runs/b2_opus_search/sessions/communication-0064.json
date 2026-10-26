@@ -1,0 +1,69 @@
+{
+ "task_id": "communication-0064",
+ "mode": "search",
+ "loaded": [
+  "gmail.draft_email",
+  "gmail.send_email",
+  "mailchimp.create_campaign",
+  "mailchimp.set_campaign_content",
+  "mailchimp.add_or_update_member"
+ ],
+ "order": [
+  "gmail.draft_email",
+  "gmail.send_email",
+  "mailchimp.create_campaign",
+  "mailchimp.set_campaign_content",
+  "mailchimp.add_or_update_member"
+ ],
+ "scores": {
+  "gmail.draft_email": 2.0,
+  "gmail.send_email": 2.0,
+  "mailchimp.create_campaign": 2.0,
+  "mailchimp.set_campaign_content": 2.0,
+  "mailchimp.add_or_update_member": 2.0
+ },
+ "router_tokens": 0,
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "gmail.send_email",
+   "args": {
+    "to": [
+     "board@company.com"
+    ],
+    "cc": [
+     "cfo@company.com"
+    ],
+    "subject": "Q3 update",
+    "body": "Dear Board,\n\nPlease find the Q3 numbers below.\n\nBest regards"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0
+  },
+  {
+   "type": "request_tools",
+   "capability": "send an existing email draft, adding a cc recipient",
+   "added": [
+    "gmail.draft_email",
+    "gmail.send_email",
+    "mailchimp.create_campaign",
+    "mailchimp.set_campaign_content",
+    "mailchimp.add_or_update_member"
+   ],
+   "tool_tokens": 1367
+  },
+  {
+   "type": "call",
+   "tool": "gmail__send_email",
+   "valid": true
+  }
+ ],
+ "done": true,
+ "final": ""
+}

@@ -1,0 +1,68 @@
+{
+ "task_id": "media-0045",
+ "mode": "search",
+ "loaded": [
+  "openai_media.create_image_variation",
+  "openai_media.generate_image",
+  "openai_media.edit_image",
+  "openai_media.create_speech",
+  "stability_ai.generate_image"
+ ],
+ "order": [
+  "openai_media.create_image_variation",
+  "openai_media.generate_image",
+  "openai_media.edit_image",
+  "openai_media.create_speech",
+  "stability_ai.generate_image"
+ ],
+ "scores": {
+  "openai_media.create_image_variation": 2.0,
+  "openai_media.generate_image": 2.0,
+  "openai_media.edit_image": 2.0,
+  "openai_media.create_speech": 2.0,
+  "stability_ai.generate_image": 2.0
+ },
+ "router_tokens": 0,
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "openai_media.create_image_variation",
+   "args": {
+    "image": "moodboard_03.png",
+    "n": 4,
+    "size": "1024x1024"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0,
+   "t": 1791322266.5475097
+  },
+  {
+   "type": "request_tools",
+   "capability": "create image variations using OpenAI's image generation API",
+   "added": [
+    "openai_media.create_image_variation",
+    "openai_media.generate_image",
+    "openai_media.edit_image",
+    "openai_media.create_speech",
+    "stability_ai.generate_image"
+   ],
+   "tool_tokens": 1657,
+   "t": 1791322276.060753
+  },
+  {
+   "type": "call",
+   "tool": "openai_media__create_image_variation",
+   "valid": true,
+   "t": 1791322286.4539275
+  }
+ ],
+ "done": true,
+ "t_done": 1791322290.334812,
+ "final": ""
+}

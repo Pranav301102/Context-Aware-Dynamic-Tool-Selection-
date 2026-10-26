@@ -1,0 +1,55 @@
+{
+ "task_id": "media-0047",
+ "mode": "search",
+ "loaded": [
+  "stability_ai.remove_background",
+  "openai_media.generate_image",
+  "google_cloud_ai.ocr_image",
+  "openai_media.edit_image",
+  "google_cloud_ai.label_image"
+ ],
+ "order": [
+  "stability_ai.remove_background",
+  "openai_media.generate_image",
+  "google_cloud_ai.ocr_image",
+  "openai_media.edit_image",
+  "google_cloud_ai.label_image"
+ ],
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "stability_ai.remove_background",
+   "args": {
+    "imageFileUri": "file://product_shot.png",
+    "outputImageFileName": "product_shot_nobg.png"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0
+  },
+  {
+   "type": "request_tools",
+   "capability": "remove the background from an image file",
+   "added": [
+    "stability_ai.remove_background",
+    "openai_media.generate_image",
+    "google_cloud_ai.ocr_image",
+    "openai_media.edit_image",
+    "google_cloud_ai.label_image"
+   ],
+   "tool_tokens": 1237
+  },
+  {
+   "type": "call",
+   "tool": "stability_ai__remove_background",
+   "valid": true
+  }
+ ],
+ "done": true,
+ "final": ""
+}

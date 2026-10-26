@@ -1,0 +1,42 @@
+{
+ "task_id": "search-0017",
+ "mode": "cats",
+ "loaded": [
+  "alpha_vantage.global_quote",
+  "exa.get_code_context_exa",
+  "mailchimp.schedule_campaign",
+  "postgres.analyze_query_indexes",
+  "postgres.analyze_workload_indexes"
+ ],
+ "order": [
+  "alpha_vantage.global_quote",
+  "exa.get_code_context_exa",
+  "mailchimp.schedule_campaign",
+  "postgres.analyze_query_indexes",
+  "postgres.analyze_workload_indexes"
+ ],
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "exa.get_code_context_exa",
+   "args": {
+    "query": "pgx v5 Go batch inserts examples"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 5,
+   "tool_tokens": 813
+  },
+  {
+   "type": "call",
+   "tool": "exa__get_code_context_exa",
+   "valid": true
+  }
+ ],
+ "done": true,
+ "final": ""
+}

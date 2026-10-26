@@ -1,0 +1,86 @@
+{
+ "task_id": "finance-0063",
+ "mode": "search",
+ "loaded": [
+  "quickbooks.create_purchase",
+  "quickbooks.search_vendors",
+  "quickbooks.search_purchases",
+  "quickbooks.create_bill",
+  "quickbooks.create_invoice"
+ ],
+ "order": [
+  "quickbooks.create_purchase",
+  "quickbooks.search_vendors",
+  "quickbooks.search_purchases",
+  "quickbooks.create_bill",
+  "quickbooks.create_invoice"
+ ],
+ "scores": {
+  "quickbooks.create_purchase": 2.0,
+  "quickbooks.search_vendors": 2.0,
+  "quickbooks.search_purchases": 2.0,
+  "quickbooks.create_bill": 2.0,
+  "quickbooks.create_invoice": 2.0
+ },
+ "router_tokens": 0,
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "quickbooks.create_purchase",
+   "args": {
+    "purchase": {
+     "PaymentType": "CreditCard",
+     "AccountRef": {
+      "value": "Chase",
+      "name": "Chase"
+     },
+     "PrivateNote": "Team lunch at Nopa",
+     "Line": [
+      {
+       "Amount": 212,
+       "Description": "Team lunch at Nopa",
+       "DetailType": "AccountBasedExpenseLineDetail",
+       "AccountBasedExpenseLineDetail": {
+        "AccountRef": {
+         "value": "Meals",
+         "name": "Meals"
+        }
+       }
+      }
+     ]
+    }
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0,
+   "t": 1791320874.626454
+  },
+  {
+   "type": "request_tools",
+   "capability": "record an expense or purchase transaction in QuickBooks with account and vendor",
+   "added": [
+    "quickbooks.create_purchase",
+    "quickbooks.search_vendors",
+    "quickbooks.search_purchases",
+    "quickbooks.create_bill",
+    "quickbooks.create_invoice"
+   ],
+   "tool_tokens": 2037,
+   "t": 1791320882.4230485
+  },
+  {
+   "type": "call",
+   "tool": "quickbooks__create_purchase",
+   "valid": true,
+   "t": 1791320893.4657826
+  }
+ ],
+ "done": true,
+ "t_done": 1791320897.5472233,
+ "final": ""
+}

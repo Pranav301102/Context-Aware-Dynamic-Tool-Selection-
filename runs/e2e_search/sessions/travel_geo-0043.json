@@ -1,0 +1,55 @@
+{
+ "task_id": "travel_geo-0043",
+ "mode": "search",
+ "loaded": [
+  "openweathermap.get_air_pollution",
+  "mapbox.reverse_geocode_tool",
+  "nws_weather.get_latest_observation",
+  "google_maps.maps_reverse_geocode",
+  "google_maps.maps_elevation"
+ ],
+ "order": [
+  "openweathermap.get_air_pollution",
+  "mapbox.reverse_geocode_tool",
+  "nws_weather.get_latest_observation",
+  "google_maps.maps_reverse_geocode",
+  "google_maps.maps_elevation"
+ ],
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "openweathermap.get_air_pollution",
+   "args": {
+    "lat": 28.61,
+    "lon": 77.21
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0
+  },
+  {
+   "type": "request_tools",
+   "capability": "get current air quality index and pollutant concentrations for a latitude/longitude",
+   "added": [
+    "openweathermap.get_air_pollution",
+    "mapbox.reverse_geocode_tool",
+    "nws_weather.get_latest_observation",
+    "google_maps.maps_reverse_geocode",
+    "google_maps.maps_elevation"
+   ],
+   "tool_tokens": 760
+  },
+  {
+   "type": "call",
+   "tool": "openweathermap__get_air_pollution",
+   "valid": true
+  }
+ ],
+ "done": true,
+ "final": ""
+}

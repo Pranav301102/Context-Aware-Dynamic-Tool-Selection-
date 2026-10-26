@@ -1,0 +1,67 @@
+{
+ "task_id": "dev_platform-0065",
+ "mode": "search",
+ "loaded": [
+  "linear.create_comment",
+  "linear.list_issues",
+  "zendesk.create_ticket_comment",
+  "notion.notion_create_comment",
+  "zendesk.get_ticket_comments"
+ ],
+ "order": [
+  "linear.create_comment",
+  "linear.list_issues",
+  "zendesk.create_ticket_comment",
+  "notion.notion_create_comment",
+  "zendesk.get_ticket_comments"
+ ],
+ "scores": {
+  "linear.create_comment": 2.0,
+  "linear.list_issues": 2.0,
+  "zendesk.create_ticket_comment": 2.0,
+  "notion.notion_create_comment": 2.0,
+  "zendesk.get_ticket_comments": 2.0
+ },
+ "router_tokens": 0,
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "linear.create_comment",
+   "args": {
+    "issueId": "ENG-77",
+    "body": "blocked on infra"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0,
+   "t": 1791321914.9435432
+  },
+  {
+   "type": "request_tools",
+   "capability": "create comments on Linear issues",
+   "added": [
+    "linear.create_comment",
+    "linear.list_issues",
+    "zendesk.create_ticket_comment",
+    "notion.notion_create_comment",
+    "zendesk.get_ticket_comments"
+   ],
+   "tool_tokens": 703,
+   "t": 1791321926.4090037
+  },
+  {
+   "type": "call",
+   "tool": "linear__create_comment",
+   "valid": true,
+   "t": 1791321939.7275543
+  }
+ ],
+ "done": true,
+ "t_done": 1791321944.4229798,
+ "final": ""
+}

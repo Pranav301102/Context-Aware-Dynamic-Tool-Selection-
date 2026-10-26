@@ -1,0 +1,101 @@
+{
+ "task_id": "productivity-0048",
+ "mode": "cats",
+ "loaded": [
+  "apple_mcp.calendar",
+  "google_calendar.list_calendars",
+  "google_calendar.list_events",
+  "todoist.add_tasks",
+  "todoist.complete_tasks",
+  "todoist.find_projects",
+  "todoist.find_tasks",
+  "todoist.find_tasks_by_date",
+  "google_calendar.create_event",
+  "google_calendar.update_event",
+  "google_calendar.delete_event",
+  "google_calendar.search_events",
+  "ms365_pim.create_calendar_event"
+ ],
+ "order": [
+  "apple_mcp.calendar",
+  "google_calendar.list_calendars",
+  "google_calendar.list_events",
+  "todoist.add_tasks",
+  "todoist.complete_tasks",
+  "todoist.find_projects",
+  "todoist.find_tasks",
+  "todoist.find_tasks_by_date",
+  "google_calendar.create_event",
+  "google_calendar.update_event",
+  "google_calendar.delete_event",
+  "google_calendar.search_events",
+  "ms365_pim.create_calendar_event"
+ ],
+ "scores": {
+  "apple_mcp.calendar": 0.04657229264701499,
+  "google_calendar.list_calendars": 0.21827238920940753,
+  "google_calendar.list_events": 0.12337319320499174,
+  "todoist.add_tasks": 0.03733501016508713,
+  "todoist.complete_tasks": 0.08885547751199727,
+  "todoist.find_projects": 0.06116932156489002,
+  "todoist.find_tasks": 0.07719468008316838,
+  "todoist.find_tasks_by_date": 0.6048716213998979,
+  "google_calendar.create_event": 2.0,
+  "google_calendar.update_event": 2.0,
+  "google_calendar.delete_event": 2.0,
+  "google_calendar.search_events": 2.0,
+  "ms365_pim.create_calendar_event": 2.0
+ },
+ "router_tokens": 0,
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "todoist.find_tasks_by_date",
+   "args": {
+    "startDate": "today"
+   }
+  },
+  {
+   "tool": "google_calendar.create_event",
+   "args": {
+    "calendarId": "primary",
+    "summary": "Focus: most urgent Todoist task due today",
+    "start": "2026-10-06T14:00:00",
+    "end": "2026-10-06T15:00:00"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 8,
+   "tool_tokens": 1827
+  },
+  {
+   "type": "call",
+   "tool": "todoist__find_tasks_by_date",
+   "valid": true
+  },
+  {
+   "type": "request_tools",
+   "capability": "create a new event on Google Calendar",
+   "added": [
+    "google_calendar.create_event",
+    "google_calendar.update_event",
+    "google_calendar.delete_event",
+    "google_calendar.search_events",
+    "ms365_pim.create_calendar_event"
+   ],
+   "tool_tokens": 4309
+  },
+  {
+   "type": "call",
+   "tool": "google_calendar__create_event",
+   "valid": true
+  }
+ ],
+ "done": true,
+ "t_done": 1791320651.0645037,
+ "final": ""
+}

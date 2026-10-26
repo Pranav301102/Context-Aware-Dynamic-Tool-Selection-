@@ -1,0 +1,67 @@
+{
+ "task_id": "dev_platform-0065",
+ "mode": "search",
+ "loaded": [
+  "linear.create_comment",
+  "github.add_issue_comment",
+  "jira.add_comment",
+  "linear.update_issue",
+  "linear.create_issue"
+ ],
+ "order": [
+  "linear.create_comment",
+  "github.add_issue_comment",
+  "jira.add_comment",
+  "linear.update_issue",
+  "linear.create_issue"
+ ],
+ "scores": {
+  "linear.create_comment": 2.0,
+  "github.add_issue_comment": 2.0,
+  "jira.add_comment": 2.0,
+  "linear.update_issue": 2.0,
+  "linear.create_issue": 2.0
+ },
+ "router_tokens": 0,
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "linear.create_comment",
+   "args": {
+    "issueId": "ENG-77",
+    "body": "blocked on infra"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0,
+   "t": 1791320980.0179682
+  },
+  {
+   "type": "request_tools",
+   "capability": "add a comment to a Linear issue",
+   "added": [
+    "linear.create_comment",
+    "github.add_issue_comment",
+    "jira.add_comment",
+    "linear.update_issue",
+    "linear.create_issue"
+   ],
+   "tool_tokens": 901,
+   "t": 1791320987.9377363
+  },
+  {
+   "type": "call",
+   "tool": "linear__create_comment",
+   "valid": true,
+   "t": 1791320995.8002393
+  }
+ ],
+ "done": true,
+ "t_done": 1791320999.5417588,
+ "final": ""
+}

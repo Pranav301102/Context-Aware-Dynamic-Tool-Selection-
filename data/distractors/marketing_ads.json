@@ -1,0 +1,1469 @@
+{
+  "branch": {
+    "id": "marketing_ads",
+    "name": "Marketing & Ads",
+    "summary": "Paid advertising and search marketing: creating and managing ad campaigns, budgets, keywords and audiences on Google and Meta ad platforms, ad performance reporting, and SEO keyword research and site audits."
+  },
+  "toolkits": [
+    {
+      "id": "google_ads",
+      "name": "Google Ads",
+      "server": "mcp://google-ads",
+      "summary": "Manage Google Ads search, display and Performance Max campaigns, budgets, keywords and reporting.",
+      "tools": [
+        {
+          "name": "list_accessible_customers",
+          "description": "Lists Google Ads customer accounts accessible with the current credentials.",
+          "input_schema": {
+            "type": "object",
+            "properties": {}
+          }
+        },
+        {
+          "name": "list_campaigns",
+          "description": "List campaigns in a Google Ads customer account with their status, budget, channel type and bidding strategy.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "customer_id": {
+                "type": "string",
+                "description": "Google Ads customer ID, 10 digits without dashes."
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "ENABLED",
+                  "PAUSED",
+                  "REMOVED"
+                ],
+                "description": "Filter by campaign status."
+              },
+              "campaign_type": {
+                "type": "string",
+                "enum": [
+                  "SEARCH",
+                  "DISPLAY",
+                  "SHOPPING",
+                  "VIDEO",
+                  "PERFORMANCE_MAX",
+                  "DEMAND_GEN"
+                ],
+                "description": "Filter by advertising channel type."
+              },
+              "page_size": {
+                "type": "integer",
+                "description": "Max campaigns to return.",
+                "default": 50
+              }
+            },
+            "required": [
+              "customer_id"
+            ]
+          }
+        },
+        {
+          "name": "get_campaign",
+          "description": "Get a campaign by ID.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "customer_id": {
+                "type": "string",
+                "description": "Google Ads customer ID, 10 digits without dashes."
+              },
+              "campaign_id": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "customer_id",
+              "campaign_id"
+            ]
+          }
+        },
+        {
+          "name": "create_campaign",
+          "description": "Create a new campaign with a budget and bidding strategy. Campaigns are created PAUSED by default so ads and keywords can be added before serving.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "customer_id": {
+                "type": "string",
+                "description": "Google Ads customer ID, 10 digits without dashes."
+              },
+              "name": {
+                "type": "string",
+                "description": "Campaign name, unique within the account."
+              },
+              "advertising_channel_type": {
+                "type": "string",
+                "enum": [
+                  "SEARCH",
+                  "DISPLAY",
+                  "SHOPPING",
+                  "VIDEO",
+                  "PERFORMANCE_MAX",
+                  "DEMAND_GEN"
+                ]
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "ENABLED",
+                  "PAUSED"
+                ],
+                "default": "PAUSED"
+              },
+              "budget": {
+                "type": "object",
+                "properties": {
+                  "amount_micros": {
+                    "type": "integer",
+                    "description": "Daily budget in micros of the account currency (1,000,000 = 1 unit)."
+                  },
+                  "delivery_method": {
+                    "type": "string",
+                    "enum": [
+                      "STANDARD",
+                      "ACCELERATED"
+                    ],
+                    "default": "STANDARD"
+                  },
+                  "explicitly_shared": {
+                    "type": "boolean",
+                    "description": "Whether the budget can be shared across campaigns.",
+                    "default": false
+                  }
+                },
+                "description": "Campaign budget.",
+                "required": [
+                  "amount_micros"
+                ]
+              },
+              "bidding_strategy": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "MAXIMIZE_CONVERSIONS",
+                      "MAXIMIZE_CONVERSION_VALUE",
+                      "MAXIMIZE_CLICKS",
+                      "TARGET_CPA",
+                      "TARGET_ROAS",
+                      "MANUAL_CPC"
+                    ]
+                  },
+                  "target_cpa_micros": {
+                    "type": "integer",
+                    "description": "Target cost per acquisition, for TARGET_CPA."
+                  },
+                  "target_roas": {
+                    "type": "number",
+                    "description": "Target return on ad spend as a ratio (e.g. 3.5 = 350%), for TARGET_ROAS."
+                  }
+                },
+                "required": [
+                  "type"
+                ]
+              },
+              "start_date": {
+                "type": "string",
+                "description": "YYYY-MM-DD. Defaults to today."
+              },
+              "end_date": {
+                "type": "string",
+                "description": "YYYY-MM-DD. Omit for no end date."
+              },
+              "network_settings": {
+                "type": "object",
+                "properties": {
+                  "target_google_search": {
+                    "type": "boolean",
+                    "description": "Serve on Google Search.",
+                    "default": true
+                  },
+                  "target_search_network": {
+                    "type": "boolean",
+                    "description": "Serve on Search partners."
+                  },
+                  "target_content_network": {
+                    "type": "boolean",
+                    "description": "Serve on the Display Network."
+                  }
+                }
+              },
+              "geo_target_constants": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Location targets as geoTargetConstants resource names, e.g. geoTargetConstants/2840 (United States)."
+              },
+              "language_constants": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Language targets, e.g. languageConstants/1000 (English)."
+              }
+            },
+            "required": [
+              "customer_id",
+              "name",
+              "advertising_channel_type",
+              "budget"
+            ]
+          }
+        },
+        {
+          "name": "update_campaign_budget",
+          "description": "Change the daily amount of a campaign budget. Amounts are in micros (1,000,000 micros = 1 unit of account currency). Shared budgets affect every campaign using them.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "customer_id": {
+                "type": "string",
+                "description": "Google Ads customer ID, 10 digits without dashes."
+              },
+              "campaign_budget_id": {
+                "type": "string"
+              },
+              "amount_micros": {
+                "type": "integer",
+                "description": "New daily budget in micros."
+              }
+            },
+            "required": [
+              "customer_id",
+              "campaign_budget_id",
+              "amount_micros"
+            ]
+          }
+        },
+        {
+          "name": "set_campaign_status",
+          "description": "Pause, enable or remove a campaign.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "customer_id": {
+                "type": "string",
+                "description": "Google Ads customer ID, 10 digits without dashes."
+              },
+              "campaign_id": {
+                "type": "string"
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "ENABLED",
+                  "PAUSED",
+                  "REMOVED"
+                ]
+              }
+            },
+            "required": [
+              "customer_id",
+              "campaign_id",
+              "status"
+            ]
+          }
+        },
+        {
+          "name": "list_ad_groups",
+          "description": "List ad groups in a campaign.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "customer_id": {
+                "type": "string",
+                "description": "Google Ads customer ID, 10 digits without dashes."
+              },
+              "campaign_id": {
+                "type": "string"
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "ENABLED",
+                  "PAUSED",
+                  "REMOVED"
+                ]
+              }
+            },
+            "required": [
+              "customer_id",
+              "campaign_id"
+            ]
+          }
+        },
+        {
+          "name": "create_responsive_search_ad",
+          "description": "Create a responsive search ad in an ad group. Provide 3-15 headlines (max 30 chars) and 2-4 descriptions (max 90 chars); Google tests combinations automatically.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "customer_id": {
+                "type": "string",
+                "description": "Google Ads customer ID, 10 digits without dashes."
+              },
+              "ad_group_id": {
+                "type": "string"
+              },
+              "headlines": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "text": {
+                      "type": "string"
+                    },
+                    "pinned_field": {
+                      "type": "string",
+                      "enum": [
+                        "HEADLINE_1",
+                        "HEADLINE_2",
+                        "HEADLINE_3"
+                      ],
+                      "description": "Optionally pin to a position."
+                    }
+                  },
+                  "required": [
+                    "text"
+                  ]
+                },
+                "minItems": 3,
+                "maxItems": 15
+              },
+              "descriptions": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "2-4 description lines.",
+                "minItems": 2,
+                "maxItems": 4
+              },
+              "final_urls": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Landing page URLs."
+              },
+              "path1": {
+                "type": "string",
+                "description": "Display URL path segment (max 15 chars)."
+              },
+              "path2": {
+                "type": "string",
+                "description": "Second display URL path segment."
+              }
+            },
+            "required": [
+              "customer_id",
+              "ad_group_id",
+              "headlines",
+              "descriptions",
+              "final_urls"
+            ]
+          }
+        },
+        {
+          "name": "add_keywords",
+          "description": "Add keywords to an ad group with match types and optional max CPC bid.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "customer_id": {
+                "type": "string",
+                "description": "Google Ads customer ID, 10 digits without dashes."
+              },
+              "ad_group_id": {
+                "type": "string"
+              },
+              "keywords": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "text": {
+                      "type": "string"
+                    },
+                    "match_type": {
+                      "type": "string",
+                      "enum": [
+                        "EXACT",
+                        "PHRASE",
+                        "BROAD"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "text",
+                    "match_type"
+                  ]
+                }
+              },
+              "cpc_bid_micros": {
+                "type": "integer",
+                "description": "Max CPC bid in micros applied to all keywords."
+              }
+            },
+            "required": [
+              "customer_id",
+              "ad_group_id",
+              "keywords"
+            ]
+          }
+        },
+        {
+          "name": "add_negative_keywords",
+          "description": "Adds negative keywords to a campaign.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "customer_id": {
+                "type": "string",
+                "description": "Google Ads customer ID, 10 digits without dashes."
+              },
+              "campaign_id": {
+                "type": "string"
+              },
+              "keywords": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "match_type": {
+                "type": "string",
+                "enum": [
+                  "EXACT",
+                  "PHRASE",
+                  "BROAD"
+                ],
+                "default": "PHRASE"
+              }
+            },
+            "required": [
+              "customer_id",
+              "campaign_id",
+              "keywords"
+            ]
+          }
+        },
+        {
+          "name": "generate_keyword_ideas",
+          "description": "Generate keyword ideas with average monthly searches, competition and top-of-page bid ranges from seed keywords and/or a landing page URL (Keyword Planner).",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "customer_id": {
+                "type": "string",
+                "description": "Google Ads customer ID, 10 digits without dashes."
+              },
+              "seed_keywords": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Up to 20 seed keywords."
+              },
+              "page_url": {
+                "type": "string",
+                "description": "A URL to extract keyword ideas from."
+              },
+              "language": {
+                "type": "string",
+                "description": "Language constant, e.g. languageConstants/1000.",
+                "default": "languageConstants/1000"
+              },
+              "geo_target_constants": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "include_adult_keywords": {
+                "type": "boolean",
+                "description": "Include adult keyword ideas.",
+                "default": false
+              },
+              "page_size": {
+                "type": "integer",
+                "description": "Max ideas.",
+                "default": 100
+              }
+            },
+            "required": [
+              "customer_id"
+            ]
+          }
+        },
+        {
+          "name": "run_gaql_query",
+          "description": "Execute a Google Ads Query Language (GAQL) query and return rows. Use for custom reports, e.g. SELECT campaign.name, metrics.clicks FROM campaign WHERE segments.date DURING LAST_7_DAYS.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "customer_id": {
+                "type": "string",
+                "description": "Google Ads customer ID, 10 digits without dashes."
+              },
+              "query": {
+                "type": "string",
+                "description": "GAQL query string."
+              },
+              "page_size": {
+                "type": "integer",
+                "description": "Rows per page.",
+                "default": 1000
+              }
+            },
+            "required": [
+              "customer_id",
+              "query"
+            ]
+          }
+        },
+        {
+          "name": "get_campaign_performance",
+          "description": "Get a performance report for one or more campaigns: impressions, clicks, CTR, average CPC, cost, conversions and ROAS over a date range.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "customer_id": {
+                "type": "string",
+                "description": "Google Ads customer ID, 10 digits without dashes."
+              },
+              "campaign_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Campaigns to include. Omit for all."
+              },
+              "date_range": {
+                "type": "string",
+                "enum": [
+                  "TODAY",
+                  "YESTERDAY",
+                  "LAST_7_DAYS",
+                  "LAST_14_DAYS",
+                  "LAST_30_DAYS",
+                  "THIS_MONTH",
+                  "LAST_MONTH",
+                  "CUSTOM"
+                ],
+                "description": "Predefined date range. Use CUSTOM with start_date/end_date.",
+                "default": "LAST_30_DAYS"
+              },
+              "start_date": {
+                "type": "string",
+                "description": "YYYY-MM-DD, for CUSTOM range."
+              },
+              "end_date": {
+                "type": "string",
+                "description": "YYYY-MM-DD, for CUSTOM range."
+              },
+              "segment_by": {
+                "type": "string",
+                "enum": [
+                  "none",
+                  "date",
+                  "device",
+                  "network",
+                  "hour_of_day"
+                ],
+                "default": "none"
+              }
+            },
+            "required": [
+              "customer_id"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "meta_ads",
+      "name": "Meta Ads Manager",
+      "server": "mcp://meta-marketing",
+      "summary": "Create and manage Facebook and Instagram ad campaigns, ad sets, audiences and insights via the Marketing API.",
+      "tools": [
+        {
+          "name": "list_ad_accounts",
+          "description": "List ad accounts the user can access.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "business_id": {
+                "type": "string",
+                "description": "Restrict to ad accounts owned by this Business Manager."
+              },
+              "limit": {
+                "type": "integer",
+                "description": "Page size.",
+                "default": 25
+              }
+            }
+          }
+        },
+        {
+          "name": "create_campaign",
+          "description": "Create a campaign under an ad account. The objective determines which optimization goals are available to its ad sets. Campaigns about housing, employment, credit or politics must declare a special ad category.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "ad_account_id": {
+                "type": "string",
+                "description": "Ad account ID, e.g. act_1234567890."
+              },
+              "name": {
+                "type": "string"
+              },
+              "objective": {
+                "type": "string",
+                "enum": [
+                  "OUTCOME_AWARENESS",
+                  "OUTCOME_TRAFFIC",
+                  "OUTCOME_ENGAGEMENT",
+                  "OUTCOME_LEADS",
+                  "OUTCOME_APP_PROMOTION",
+                  "OUTCOME_SALES"
+                ]
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "ACTIVE",
+                  "PAUSED"
+                ],
+                "default": "PAUSED"
+              },
+              "special_ad_categories": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "NONE",
+                    "EMPLOYMENT",
+                    "HOUSING",
+                    "CREDIT",
+                    "ISSUES_ELECTIONS_POLITICS"
+                  ]
+                },
+                "default": [
+                  "NONE"
+                ]
+              },
+              "daily_budget": {
+                "type": "integer",
+                "description": "Campaign budget optimization daily budget, in cents of the account currency."
+              },
+              "lifetime_budget": {
+                "type": "integer",
+                "description": "Lifetime budget in cents. Requires stop_time on ad sets."
+              },
+              "bid_strategy": {
+                "type": "string",
+                "enum": [
+                  "LOWEST_COST_WITHOUT_CAP",
+                  "LOWEST_COST_WITH_BID_CAP",
+                  "COST_CAP"
+                ]
+              }
+            },
+            "required": [
+              "ad_account_id",
+              "name",
+              "objective"
+            ]
+          }
+        },
+        {
+          "name": "create_ad_set",
+          "description": "Create an ad set with budget, schedule, optimization goal, placements and audience targeting.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "ad_account_id": {
+                "type": "string"
+              },
+              "campaign_id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "daily_budget": {
+                "type": "integer",
+                "description": "Daily budget in cents (omit when the campaign uses CBO)."
+              },
+              "billing_event": {
+                "type": "string",
+                "enum": [
+                  "IMPRESSIONS",
+                  "LINK_CLICKS",
+                  "THRUPLAY"
+                ],
+                "default": "IMPRESSIONS"
+              },
+              "optimization_goal": {
+                "type": "string",
+                "enum": [
+                  "REACH",
+                  "IMPRESSIONS",
+                  "LINK_CLICKS",
+                  "LANDING_PAGE_VIEWS",
+                  "OFFSITE_CONVERSIONS",
+                  "LEAD_GENERATION",
+                  "THRUPLAY"
+                ]
+              },
+              "bid_amount": {
+                "type": "integer",
+                "description": "Bid cap in cents, if using a capped bid strategy."
+              },
+              "targeting": {
+                "type": "object",
+                "properties": {
+                  "geo_locations": {
+                    "type": "object",
+                    "properties": {
+                      "countries": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "description": "ISO country codes."
+                      },
+                      "cities": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "key": {
+                              "type": "string"
+                            },
+                            "radius": {
+                              "type": "integer"
+                            },
+                            "distance_unit": {
+                              "type": "string",
+                              "enum": [
+                                "mile",
+                                "kilometer"
+                              ]
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "age_min": {
+                    "type": "integer",
+                    "description": "Minimum age (13-65).",
+                    "default": 18
+                  },
+                  "age_max": {
+                    "type": "integer",
+                    "description": "Maximum age (13-65).",
+                    "default": 65
+                  },
+                  "genders": {
+                    "type": "array",
+                    "items": {
+                      "type": "integer"
+                    },
+                    "description": "1 = male, 2 = female. Omit for all."
+                  },
+                  "interests": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  },
+                  "custom_audiences": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  },
+                  "excluded_custom_audiences": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  },
+                  "publisher_platforms": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "facebook",
+                        "instagram",
+                        "messenger",
+                        "audience_network"
+                      ]
+                    }
+                  }
+                },
+                "description": "Targeting spec."
+              },
+              "start_time": {
+                "type": "string",
+                "description": "ISO 8601 start time."
+              },
+              "end_time": {
+                "type": "string",
+                "description": "ISO 8601 end time."
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "ACTIVE",
+                  "PAUSED"
+                ],
+                "default": "PAUSED"
+              }
+            },
+            "required": [
+              "ad_account_id",
+              "campaign_id",
+              "name",
+              "optimization_goal",
+              "targeting"
+            ]
+          }
+        },
+        {
+          "name": "list_ads",
+          "description": "List ads in an account or ad set with their creative and effective status.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "ad_account_id": {
+                "type": "string"
+              },
+              "adset_id": {
+                "type": "string"
+              },
+              "effective_status": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "ACTIVE",
+                    "PAUSED",
+                    "DISAPPROVED",
+                    "PENDING_REVIEW",
+                    "WITH_ISSUES",
+                    "ARCHIVED"
+                  ]
+                }
+              },
+              "limit": {
+                "type": "integer",
+                "description": "Page size.",
+                "default": 25
+              }
+            },
+            "required": [
+              "ad_account_id"
+            ]
+          }
+        },
+        {
+          "name": "update_ad_status",
+          "description": "Pause or activate an ad.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "ad_id": {
+                "type": "string"
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "ACTIVE",
+                  "PAUSED",
+                  "ARCHIVED"
+                ]
+              }
+            },
+            "required": [
+              "ad_id",
+              "status"
+            ]
+          }
+        },
+        {
+          "name": "create_custom_audience",
+          "description": "Create a custom audience from a customer list, website visitors (Meta Pixel), app activity or page/video engagement.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "ad_account_id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "subtype": {
+                "type": "string",
+                "enum": [
+                  "CUSTOM",
+                  "WEBSITE",
+                  "APP",
+                  "ENGAGEMENT"
+                ]
+              },
+              "customer_file_source": {
+                "type": "string",
+                "enum": [
+                  "USER_PROVIDED_ONLY",
+                  "PARTNER_PROVIDED_ONLY",
+                  "BOTH_USER_AND_PARTNER_PROVIDED"
+                ],
+                "description": "Required for customer list audiences."
+              },
+              "rule": {
+                "type": "object",
+                "description": "Audience rule for WEBSITE/APP/ENGAGEMENT audiences, e.g. URL contains /checkout.",
+                "additionalProperties": true
+              },
+              "retention_days": {
+                "type": "integer",
+                "description": "How long people stay in the audience (1-180).",
+                "default": 30
+              }
+            },
+            "required": [
+              "ad_account_id",
+              "name",
+              "subtype"
+            ]
+          }
+        },
+        {
+          "name": "add_users_to_audience",
+          "description": "Upload hashed customer identifiers (email, phone, name) to a customer list custom audience. Values must be normalized and SHA-256 hashed.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "audience_id": {
+                "type": "string"
+              },
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "EMAIL",
+                    "PHONE",
+                    "FN",
+                    "LN",
+                    "COUNTRY",
+                    "ZIP",
+                    "EXTERN_ID"
+                  ]
+                },
+                "description": "Column order of each row in data."
+              },
+              "data": {
+                "type": "array",
+                "items": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "description": "Rows of hashed values, one array per person, matching schema."
+              }
+            },
+            "required": [
+              "audience_id",
+              "schema",
+              "data"
+            ]
+          }
+        },
+        {
+          "name": "create_lookalike_audience",
+          "description": "Create a lookalike audience from a source audience.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "ad_account_id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "origin_audience_id": {
+                "type": "string"
+              },
+              "country": {
+                "type": "string",
+                "description": "Target country code."
+              },
+              "ratio": {
+                "type": "number",
+                "description": "Audience size as a fraction of the country population, 0.01-0.20.",
+                "default": 0.01
+              }
+            },
+            "required": [
+              "ad_account_id",
+              "origin_audience_id",
+              "country"
+            ]
+          }
+        },
+        {
+          "name": "get_insights",
+          "description": "Fetch delivery and performance insights (spend, reach, impressions, CPM, CTR, actions, cost per result) for an ad account, campaign, ad set or ad.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "object_id": {
+                "type": "string",
+                "description": "ID of the account (act_...), campaign, ad set or ad."
+              },
+              "level": {
+                "type": "string",
+                "enum": [
+                  "account",
+                  "campaign",
+                  "adset",
+                  "ad"
+                ],
+                "default": "campaign"
+              },
+              "date_preset": {
+                "type": "string",
+                "enum": [
+                  "today",
+                  "yesterday",
+                  "last_7d",
+                  "last_14d",
+                  "last_30d",
+                  "this_month",
+                  "last_month",
+                  "maximum"
+                ]
+              },
+              "time_range": {
+                "type": "object",
+                "properties": {
+                  "since": {
+                    "type": "string",
+                    "description": "YYYY-MM-DD"
+                  },
+                  "until": {
+                    "type": "string",
+                    "description": "YYYY-MM-DD"
+                  }
+                }
+              },
+              "fields": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Metrics to return, e.g. spend, impressions, reach, ctr, cpc, actions."
+              },
+              "breakdowns": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "age",
+                    "gender",
+                    "country",
+                    "region",
+                    "publisher_platform",
+                    "platform_position",
+                    "device_platform"
+                  ]
+                }
+              },
+              "time_increment": {
+                "type": "string",
+                "description": "1 for daily rows, 'monthly', or 'all_days'.",
+                "default": "all_days"
+              }
+            },
+            "required": [
+              "object_id"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "semrush",
+      "name": "Semrush",
+      "server": "mcp://semrush",
+      "summary": "SEO and competitive research: keyword volumes, organic rankings, backlinks, position tracking and site audits.",
+      "tools": [
+        {
+          "name": "keyword_overview",
+          "description": "Get monthly search volume, keyword difficulty, CPC, competition and SERP features for one or more keywords in a regional database.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "keywords": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Up to 100 keywords."
+              },
+              "database": {
+                "type": "string",
+                "description": "Regional database code, e.g. us, uk, de.",
+                "default": "us"
+              }
+            },
+            "required": [
+              "keywords"
+            ]
+          }
+        },
+        {
+          "name": "get_related_keywords",
+          "description": "Related and long-tail keyword suggestions for a phrase.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "keyword": {
+                "type": "string"
+              },
+              "database": {
+                "type": "string",
+                "description": "Regional database.",
+                "default": "us"
+              },
+              "limit": {
+                "type": "integer",
+                "description": "Max rows.",
+                "default": 50
+              },
+              "sort": {
+                "type": "string",
+                "enum": [
+                  "volume_desc",
+                  "difficulty_asc",
+                  "relevance_desc"
+                ],
+                "default": "relevance_desc"
+              }
+            },
+            "required": [
+              "keyword"
+            ]
+          }
+        },
+        {
+          "name": "domain_organic_keywords",
+          "description": "List keywords a domain ranks for in Google's top 100 organic results, with position, search volume, traffic share and ranking URL.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "domain": {
+                "type": "string"
+              },
+              "database": {
+                "type": "string",
+                "description": "Regional database.",
+                "default": "us"
+              },
+              "limit": {
+                "type": "integer",
+                "description": "Max rows.",
+                "default": 100
+              },
+              "position_max": {
+                "type": "integer",
+                "description": "Only keywords ranking at or above this position."
+              },
+              "sort": {
+                "type": "string",
+                "enum": [
+                  "traffic_desc",
+                  "position_asc",
+                  "volume_desc"
+                ],
+                "default": "traffic_desc"
+              }
+            },
+            "required": [
+              "domain"
+            ]
+          }
+        },
+        {
+          "name": "backlinks_overview",
+          "description": "Backlink summary for a domain or URL.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "target": {
+                "type": "string"
+              },
+              "target_type": {
+                "type": "string",
+                "enum": [
+                  "root_domain",
+                  "domain",
+                  "url"
+                ],
+                "default": "root_domain"
+              }
+            },
+            "required": [
+              "target"
+            ]
+          }
+        },
+        {
+          "name": "keyword_gap",
+          "description": "Compare organic keyword overlap between 2-5 domains and find keywords competitors rank for but you don't.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "domains": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "First domain is yours; the rest are competitors.",
+                "minItems": 2,
+                "maxItems": 5
+              },
+              "database": {
+                "type": "string",
+                "description": "Regional database.",
+                "default": "us"
+              },
+              "gap_type": {
+                "type": "string",
+                "enum": [
+                  "missing",
+                  "weak",
+                  "strong",
+                  "untapped",
+                  "unique",
+                  "shared"
+                ],
+                "default": "missing"
+              },
+              "limit": {
+                "type": "integer",
+                "description": "Max rows.",
+                "default": 100
+              }
+            },
+            "required": [
+              "domains"
+            ]
+          }
+        },
+        {
+          "name": "start_site_audit",
+          "description": "Launch an SEO site audit crawl for a project. Checks crawlability, broken links, redirects, duplicate content, Core Web Vitals, hreflang and HTTPS issues.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "project_id": {
+                "type": "string"
+              },
+              "pages_limit": {
+                "type": "integer",
+                "description": "Max pages to crawl.",
+                "default": 500
+              },
+              "crawl_source": {
+                "type": "string",
+                "enum": [
+                  "website",
+                  "sitemap",
+                  "url_list"
+                ],
+                "default": "website"
+              },
+              "user_agent": {
+                "type": "string",
+                "enum": [
+                  "semrushbot_desktop",
+                  "semrushbot_mobile",
+                  "googlebot_desktop",
+                  "googlebot_mobile"
+                ],
+                "default": "semrushbot_mobile"
+              },
+              "respect_robots_txt": {
+                "type": "boolean",
+                "description": "Obey robots.txt disallow rules.",
+                "default": true
+              }
+            },
+            "required": [
+              "project_id"
+            ]
+          }
+        },
+        {
+          "name": "get_site_audit_issues",
+          "description": "Get issues found by the latest site audit, grouped by type with affected page counts.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "project_id": {
+                "type": "string"
+              },
+              "severity": {
+                "type": "string",
+                "enum": [
+                  "error",
+                  "warning",
+                  "notice"
+                ]
+              },
+              "issue_type": {
+                "type": "string",
+                "description": "Filter to one issue type, e.g. broken_internal_links."
+              },
+              "limit": {
+                "type": "integer",
+                "description": "Max issues.",
+                "default": 50
+              }
+            },
+            "required": [
+              "project_id"
+            ]
+          }
+        },
+        {
+          "name": "get_position_tracking",
+          "description": "Daily ranking positions and visibility for keywords tracked in a Position Tracking campaign.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "project_id": {
+                "type": "string"
+              },
+              "date_begin": {
+                "type": "string",
+                "description": "YYYYMMDD"
+              },
+              "date_end": {
+                "type": "string",
+                "description": "YYYYMMDD"
+              },
+              "device": {
+                "type": "string",
+                "enum": [
+                  "desktop",
+                  "mobile"
+                ],
+                "default": "desktop"
+              },
+              "keyword_filter": {
+                "type": "string",
+                "description": "Substring to filter keywords."
+              }
+            },
+            "required": [
+              "project_id"
+            ]
+          }
+        },
+        {
+          "name": "schedule_report",
+          "description": "Schedule a recurring PDF report for a project and email it to a list of recipients.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "project_id": {
+                "type": "string"
+              },
+              "report_template": {
+                "type": "string",
+                "enum": [
+                  "seo_dashboard",
+                  "site_audit",
+                  "position_tracking",
+                  "backlink_audit",
+                  "organic_research"
+                ]
+              },
+              "frequency": {
+                "type": "string",
+                "enum": [
+                  "daily",
+                  "weekly",
+                  "monthly"
+                ],
+                "default": "weekly"
+              },
+              "day_of_week": {
+                "type": "string",
+                "enum": [
+                  "monday",
+                  "tuesday",
+                  "wednesday",
+                  "thursday",
+                  "friday",
+                  "saturday",
+                  "sunday"
+                ]
+              },
+              "recipients": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Email addresses."
+              },
+              "subject": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "project_id",
+              "report_template",
+              "recipients"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

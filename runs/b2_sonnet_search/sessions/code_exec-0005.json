@@ -1,0 +1,102 @@
+{
+ "task_id": "code_exec-0005",
+ "mode": "search",
+ "loaded": [
+  "package_manager.npm_install",
+  "package_manager.npm_audit",
+  "package_manager.npm_run_script",
+  "package_manager.pip_install",
+  "desktop_commander.start_process",
+  "code_checker.run_jest",
+  "circleci.get_job_test_results",
+  "code_checker.run_pytest_check",
+  "code_checker.collect_tests",
+  "circleci.find_flaky_tests"
+ ],
+ "order": [
+  "package_manager.npm_install",
+  "package_manager.npm_audit",
+  "package_manager.npm_run_script",
+  "package_manager.pip_install",
+  "desktop_commander.start_process",
+  "code_checker.run_jest",
+  "circleci.get_job_test_results",
+  "code_checker.run_pytest_check",
+  "code_checker.collect_tests",
+  "circleci.find_flaky_tests"
+ ],
+ "scores": {
+  "package_manager.npm_install": 2.0,
+  "package_manager.npm_audit": 2.0,
+  "package_manager.npm_run_script": 2.0,
+  "package_manager.pip_install": 2.0,
+  "desktop_commander.start_process": 2.0,
+  "code_checker.run_jest": 2.0,
+  "circleci.get_job_test_results": 2.0,
+  "code_checker.run_pytest_check": 2.0,
+  "code_checker.collect_tests": 2.0,
+  "circleci.find_flaky_tests": 2.0
+ },
+ "router_tokens": 0,
+ "escalations": 2,
+ "calls": [
+  {
+   "tool": "package_manager.npm_install",
+   "args": {}
+  },
+  {
+   "tool": "code_checker.run_jest",
+   "args": {}
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0,
+   "t": 1791321096.546659
+  },
+  {
+   "type": "request_tools",
+   "capability": "install npm dependencies from package.json by running a shell command",
+   "added": [
+    "package_manager.npm_install",
+    "package_manager.npm_audit",
+    "package_manager.npm_run_script",
+    "package_manager.pip_install",
+    "desktop_commander.start_process"
+   ],
+   "tool_tokens": 1080,
+   "t": 1791321106.9074833
+  },
+  {
+   "type": "call",
+   "tool": "package_manager__npm_install",
+   "valid": true,
+   "t": 1791321120.077453
+  },
+  {
+   "type": "request_tools",
+   "capability": "run Jest tests and return pass/fail results",
+   "added": [
+    "code_checker.run_jest",
+    "circleci.get_job_test_results",
+    "code_checker.run_pytest_check",
+    "code_checker.collect_tests",
+    "circleci.find_flaky_tests"
+   ],
+   "tool_tokens": 2487,
+   "t": 1791321126.661379
+  },
+  {
+   "type": "call",
+   "tool": "code_checker__run_jest",
+   "valid": true,
+   "t": 1791321137.8593793
+  }
+ ],
+ "done": true,
+ "t_done": 1791321143.0318608,
+ "final": ""
+}

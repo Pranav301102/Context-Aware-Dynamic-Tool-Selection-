@@ -1,0 +1,51 @@
+{
+ "task_id": "communication-0064",
+ "mode": "cats",
+ "loaded": [
+  "gmail.draft_email",
+  "gmail.send_email"
+ ],
+ "order": [
+  "gmail.draft_email",
+  "gmail.send_email"
+ ],
+ "scores": {
+  "gmail.draft_email": 0.6888987600228942,
+  "gmail.send_email": 0.48032711457718286
+ },
+ "router_tokens": 1478,
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "gmail.send_email",
+   "args": {
+    "to": [
+     "board@company.com"
+    ],
+    "cc": [
+     "cfo@company.com"
+    ],
+    "subject": "Q3 update",
+    "body": "Hello Board,\n\nPlease find the Q3 numbers below.\n\nBest regards"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 2,
+   "tool_tokens": 627,
+   "t": 1791320798.6407645
+  },
+  {
+   "type": "call",
+   "tool": "gmail__send_email",
+   "valid": true,
+   "t": 1791320809.6561239
+  }
+ ],
+ "done": true,
+ "t_done": 1791320814.4322789,
+ "final": ""
+}

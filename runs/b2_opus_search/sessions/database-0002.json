@@ -1,0 +1,75 @@
+{
+ "task_id": "database-0002",
+ "mode": "search",
+ "loaded": [
+  "mongodb.update_many",
+  "mongodb.delete_many",
+  "mongodb.count",
+  "mongodb.insert_many",
+  "mongodb.list_collections"
+ ],
+ "order": [
+  "mongodb.update_many",
+  "mongodb.delete_many",
+  "mongodb.count",
+  "mongodb.insert_many",
+  "mongodb.list_collections"
+ ],
+ "scores": {
+  "mongodb.update_many": 2.0,
+  "mongodb.delete_many": 2.0,
+  "mongodb.count": 2.0,
+  "mongodb.insert_many": 2.0,
+  "mongodb.list_collections": 2.0
+ },
+ "router_tokens": 0,
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "mongodb.update_many",
+   "args": {
+    "database": "app",
+    "collection": "users",
+    "filter": {
+     "plan": "trial"
+    },
+    "update": {
+     "$set": {
+      "plan": "free"
+     }
+    }
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0,
+   "t": 1791321484.130335
+  },
+  {
+   "type": "request_tools",
+   "capability": "update many documents in a MongoDB collection matching a filter",
+   "added": [
+    "mongodb.update_many",
+    "mongodb.delete_many",
+    "mongodb.count",
+    "mongodb.insert_many",
+    "mongodb.list_collections"
+   ],
+   "tool_tokens": 650,
+   "t": 1791321494.1209188
+  },
+  {
+   "type": "call",
+   "tool": "mongodb__update_many",
+   "valid": true,
+   "t": 1791321504.9397738
+  }
+ ],
+ "done": true,
+ "t_done": 1791321506.1269577,
+ "final": ""
+}

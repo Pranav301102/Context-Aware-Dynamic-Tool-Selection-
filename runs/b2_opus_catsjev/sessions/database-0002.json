@@ -1,0 +1,55 @@
+{
+ "task_id": "database-0002",
+ "mode": "cats",
+ "loaded": [
+  "mongodb.aggregate",
+  "mongodb.collection_schema",
+  "mongodb.count",
+  "mongodb.create_index",
+  "mongodb.delete_many",
+  "mongodb.find",
+  "mongodb.insert_many",
+  "mongodb.list_collections",
+  "mongodb.update_many",
+  "sqlite.read_query"
+ ],
+ "order": [
+  "mongodb.aggregate",
+  "mongodb.collection_schema",
+  "mongodb.count",
+  "mongodb.create_index",
+  "mongodb.delete_many",
+  "mongodb.find",
+  "mongodb.insert_many",
+  "mongodb.list_collections",
+  "mongodb.update_many",
+  "sqlite.read_query"
+ ],
+ "scores": {
+  "mongodb.aggregate": 0.16918399441956108,
+  "mongodb.collection_schema": 0.26256825158683833,
+  "mongodb.count": 0.22370027435457948,
+  "mongodb.create_index": 0.057829680219191985,
+  "mongodb.delete_many": 0.18794032114294582,
+  "mongodb.find": 0.055611035781734375,
+  "mongodb.insert_many": 0.22586530076398428,
+  "mongodb.list_collections": 0.37531305359863376,
+  "mongodb.update_many": 0.6763889214220469,
+  "sqlite.read_query": 0.03823019046179135
+ },
+ "router_tokens": 1447,
+ "escalations": 0,
+ "calls": [],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 10,
+   "tool_tokens": 1667,
+   "t": 1791321430.2612858
+  }
+ ],
+ "done": true,
+ "t_done": 1791321441.1371653,
+ "final": ""
+}

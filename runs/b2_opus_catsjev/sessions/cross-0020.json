@@ -1,0 +1,101 @@
+{
+ "task_id": "cross-0020",
+ "mode": "cats",
+ "loaded": [
+  "exa.research_paper_search_exa",
+  "notion.notion_create_comment",
+  "notion.notion_create_pages",
+  "notion.notion_fetch",
+  "notion.notion_update_page",
+  "semantic_scholar.get_paper_recommendations",
+  "semantic_scholar.paper_citations",
+  "semantic_scholar.paper_details",
+  "semantic_scholar.paper_references",
+  "semantic_scholar.paper_relevance_search",
+  "semantic_scholar.paper_title_search",
+  "wikipedia.get_article"
+ ],
+ "order": [
+  "exa.research_paper_search_exa",
+  "notion.notion_create_comment",
+  "notion.notion_create_pages",
+  "notion.notion_fetch",
+  "notion.notion_update_page",
+  "semantic_scholar.get_paper_recommendations",
+  "semantic_scholar.paper_citations",
+  "semantic_scholar.paper_details",
+  "semantic_scholar.paper_references",
+  "semantic_scholar.paper_relevance_search",
+  "semantic_scholar.paper_title_search",
+  "wikipedia.get_article"
+ ],
+ "scores": {
+  "exa.research_paper_search_exa": 0.14807728841941417,
+  "notion.notion_create_comment": 0.07514500621600706,
+  "notion.notion_create_pages": 0.0519388720024174,
+  "notion.notion_fetch": 0.08270442377251529,
+  "notion.notion_update_page": 0.10271098503733847,
+  "semantic_scholar.get_paper_recommendations": 0.20293948079474217,
+  "semantic_scholar.paper_citations": 0.3175547167133299,
+  "semantic_scholar.paper_details": 0.0787258727692062,
+  "semantic_scholar.paper_references": 0.15073836311379418,
+  "semantic_scholar.paper_relevance_search": 0.186520206332436,
+  "semantic_scholar.paper_title_search": 0.5403207361325628,
+  "wikipedia.get_article": 0.6275337612054167
+ },
+ "router_tokens": 1487,
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "semantic_scholar.paper_citations",
+   "args": {
+    "paper_id": "ARXIV:1706.03762",
+    "fields": [
+     "title",
+     "authors",
+     "year",
+     "citationCount",
+     "venue"
+    ],
+    "limit": 1000
+   }
+  },
+  {
+   "tool": "notion.notion_create_pages",
+   "args": {
+    "pages": [
+     {
+      "properties": {
+       "title": "Most cited papers building on Attention Is All You Need"
+      },
+      "content": "List of the most cited papers that cite Vaswani et al. (2017), ranked by citation count (from Semantic Scholar)."
+     }
+    ]
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 12,
+   "tool_tokens": 2861,
+   "t": 1791320683.064217
+  },
+  {
+   "type": "call",
+   "tool": "semantic_scholar__paper_citations",
+   "valid": true,
+   "t": 1791320697.7691896
+  },
+  {
+   "type": "call",
+   "tool": "notion__notion_create_pages",
+   "valid": true,
+   "t": 1791320705.3810434
+  }
+ ],
+ "done": true,
+ "t_done": 1791320707.3601127,
+ "final": ""
+}

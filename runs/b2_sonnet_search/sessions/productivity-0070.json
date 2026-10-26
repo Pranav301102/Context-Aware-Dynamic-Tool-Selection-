@@ -1,0 +1,69 @@
+{
+ "task_id": "productivity-0070",
+ "mode": "search",
+ "loaded": [
+  "apple_mcp.reminders",
+  "apple_mcp.calendar",
+  "apple_mcp.notes",
+  "apple_mcp.contacts",
+  "ms365_pim.create_todo_task"
+ ],
+ "order": [
+  "apple_mcp.reminders",
+  "apple_mcp.calendar",
+  "apple_mcp.notes",
+  "apple_mcp.contacts",
+  "ms365_pim.create_todo_task"
+ ],
+ "scores": {
+  "apple_mcp.reminders": 2.0,
+  "apple_mcp.calendar": 2.0,
+  "apple_mcp.notes": 2.0,
+  "apple_mcp.contacts": 2.0,
+  "ms365_pim.create_todo_task": 2.0
+ },
+ "router_tokens": 0,
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "apple_mcp.reminders",
+   "args": {
+    "operation": "create",
+    "name": "Check Gift ideas note",
+    "notes": "See the Apple Note 'Gift ideas': Lego set for Sam, scarf for mum",
+    "dueDate": "2026-12-01T09:00:00"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0,
+   "t": 1791321988.305542
+  },
+  {
+   "type": "request_tools",
+   "capability": "create a reminder for a specific date in Apple Reminders",
+   "added": [
+    "apple_mcp.reminders",
+    "apple_mcp.calendar",
+    "apple_mcp.notes",
+    "apple_mcp.contacts",
+    "ms365_pim.create_todo_task"
+   ],
+   "tool_tokens": 1525,
+   "t": 1791322000.241304
+  },
+  {
+   "type": "call",
+   "tool": "apple_mcp__reminders",
+   "valid": true,
+   "t": 1791322012.406393
+  }
+ ],
+ "done": true,
+ "t_done": 1791322017.5758882,
+ "final": ""
+}

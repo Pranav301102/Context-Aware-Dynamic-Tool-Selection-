@@ -1,0 +1,80 @@
+{
+ "task_id": "media-0064",
+ "mode": "search",
+ "loaded": [
+  "openai_media.transcribe_audio",
+  "openai_media.translate_audio",
+  "deepl.translate_text",
+  "google_cloud_ai.translate_text",
+  "elevenlabs.speech_to_text"
+ ],
+ "order": [
+  "openai_media.transcribe_audio",
+  "openai_media.translate_audio",
+  "deepl.translate_text",
+  "google_cloud_ai.translate_text",
+  "elevenlabs.speech_to_text"
+ ],
+ "scores": {
+  "openai_media.transcribe_audio": 2.0,
+  "openai_media.translate_audio": 2.0,
+  "deepl.translate_text": 2.0,
+  "google_cloud_ai.translate_text": 2.0,
+  "elevenlabs.speech_to_text": 2.0
+ },
+ "router_tokens": 0,
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "openai_media.transcribe_audio",
+   "args": {
+    "file": "lecture.mp3",
+    "response_format": "text"
+   }
+  },
+  {
+   "tool": "deepl.translate_text",
+   "args": {
+    "text": "simulated result of openai_media.transcribe_audio",
+    "targetLangCode": "es"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0,
+   "t": 1791321493.4979703
+  },
+  {
+   "type": "request_tools",
+   "capability": "transcribe audio files to text and translate text to Spanish",
+   "added": [
+    "openai_media.transcribe_audio",
+    "openai_media.translate_audio",
+    "deepl.translate_text",
+    "google_cloud_ai.translate_text",
+    "elevenlabs.speech_to_text"
+   ],
+   "tool_tokens": 1273,
+   "t": 1791321504.1493213
+  },
+  {
+   "type": "call",
+   "tool": "openai_media__transcribe_audio",
+   "valid": true,
+   "t": 1791321513.6721816
+  },
+  {
+   "type": "call",
+   "tool": "deepl__translate_text",
+   "valid": true,
+   "t": 1791321522.9972045
+  }
+ ],
+ "done": true,
+ "t_done": 1791321528.14141,
+ "final": ""
+}

@@ -1,0 +1,69 @@
+{
+ "task_id": "code_exec-0030",
+ "mode": "search",
+ "loaded": [
+  "desktop_commander.start_process",
+  "code_checker.prettier_format",
+  "kubernetes.exec_in_pod",
+  "docker.run_container",
+  "package_manager.npm_run_script"
+ ],
+ "order": [
+  "desktop_commander.start_process",
+  "code_checker.prettier_format",
+  "kubernetes.exec_in_pod",
+  "docker.run_container",
+  "package_manager.npm_run_script"
+ ],
+ "scores": {
+  "desktop_commander.start_process": 2.0,
+  "code_checker.prettier_format": 2.0,
+  "kubernetes.exec_in_pod": 2.0,
+  "docker.run_container": 2.0,
+  "package_manager.npm_run_script": 2.0
+ },
+ "router_tokens": 0,
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "code_checker.prettier_format",
+   "args": {
+    "files": [
+     "src/**/*.tsx"
+    ],
+    "write": true
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0,
+   "t": 1791320683.7218032
+  },
+  {
+   "type": "request_tools",
+   "capability": "run a shell command (e.g. npx prettier) in the project",
+   "added": [
+    "desktop_commander.start_process",
+    "code_checker.prettier_format",
+    "kubernetes.exec_in_pod",
+    "docker.run_container",
+    "package_manager.npm_run_script"
+   ],
+   "tool_tokens": 1442,
+   "t": 1791320693.9699652
+  },
+  {
+   "type": "call",
+   "tool": "code_checker__prettier_format",
+   "valid": true,
+   "t": 1791320704.7543657
+  }
+ ],
+ "done": true,
+ "t_done": 1791320706.442895,
+ "final": ""
+}

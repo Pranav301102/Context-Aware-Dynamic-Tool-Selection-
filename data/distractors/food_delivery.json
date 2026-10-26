@@ -1,0 +1,1109 @@
+{
+  "branch": {
+    "id": "food_delivery",
+    "name": "Food Delivery & Restaurants",
+    "summary": "Restaurants and food delivery: finding restaurants and menus, placing and tracking food orders, managing a restaurant's online menu and incoming orders, dispatching delivery couriers, and booking table reservations."
+  },
+  "toolkits": [
+    {
+      "id": "grubhub",
+      "name": "Grubhub",
+      "server": "mcp://grubhub",
+      "summary": "Order food for delivery or pickup from local restaurants.",
+      "tools": [
+        {
+          "name": "search_restaurants",
+          "description": "Search restaurants that deliver to an address, by cuisine, dish or restaurant name.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "address": {
+                "type": "string",
+                "description": "Delivery address."
+              },
+              "query": {
+                "type": "string",
+                "description": "Cuisine, dish or name, e.g. 'pad thai'."
+              },
+              "order_type": {
+                "type": "string",
+                "description": "Order type.",
+                "enum": [
+                  "delivery",
+                  "pickup"
+                ],
+                "default": "delivery"
+              },
+              "sort": {
+                "type": "string",
+                "description": "Sort.",
+                "enum": [
+                  "default",
+                  "rating",
+                  "delivery_time",
+                  "distance",
+                  "price"
+                ],
+                "default": "default"
+              },
+              "open_now": {
+                "type": "boolean",
+                "description": "Only open restaurants.",
+                "default": true
+              },
+              "max_delivery_fee": {
+                "type": "number",
+                "description": "Max delivery fee."
+              },
+              "dietary": {
+                "type": "array",
+                "description": "Dietary filters.",
+                "items": {
+                  "type": "string",
+                  "description": "Diet.",
+                  "enum": [
+                    "vegetarian",
+                    "vegan",
+                    "gluten_free",
+                    "halal",
+                    "kosher"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "address"
+            ]
+          }
+        },
+        {
+          "name": "get_menu",
+          "description": "Get a restaurant's menu with items, prices and option groups.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "restaurant_id": {
+                "type": "string",
+                "description": "Restaurant id."
+              }
+            },
+            "required": [
+              "restaurant_id"
+            ]
+          }
+        },
+        {
+          "name": "place_order",
+          "description": "Place a food order. Returns the order id and estimated delivery time.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "restaurant_id": {
+                "type": "string",
+                "description": "Restaurant id."
+              },
+              "items": {
+                "type": "array",
+                "description": "Items.",
+                "items": {
+                  "type": "object",
+                  "description": "Line item.",
+                  "properties": {
+                    "menu_item_id": {
+                      "type": "string",
+                      "description": "Menu item."
+                    },
+                    "quantity": {
+                      "type": "integer",
+                      "description": "Quantity.",
+                      "default": 1
+                    },
+                    "options": {
+                      "type": "array",
+                      "description": "Selected option ids.",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "special_instructions": {
+                      "type": "string",
+                      "description": "e.g. 'no onions'."
+                    }
+                  },
+                  "required": [
+                    "menu_item_id"
+                  ]
+                }
+              },
+              "order_type": {
+                "type": "string",
+                "description": "Order type.",
+                "enum": [
+                  "delivery",
+                  "pickup"
+                ],
+                "default": "delivery"
+              },
+              "delivery_address": {
+                "type": "object",
+                "description": "Delivery address.",
+                "properties": {
+                  "line1": {
+                    "type": "string",
+                    "description": "Street."
+                  },
+                  "line2": {
+                    "type": "string",
+                    "description": "Apt."
+                  },
+                  "city": {
+                    "type": "string",
+                    "description": "City."
+                  },
+                  "state": {
+                    "type": "string",
+                    "description": "State."
+                  },
+                  "zip": {
+                    "type": "string",
+                    "description": "ZIP."
+                  },
+                  "instructions": {
+                    "type": "string",
+                    "description": "Drop-off notes."
+                  }
+                }
+              },
+              "scheduled_for": {
+                "type": "string",
+                "description": "Schedule for later (ISO 8601)."
+              },
+              "tip": {
+                "type": "object",
+                "description": "Driver tip.",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "description": "Type.",
+                    "enum": [
+                      "percent",
+                      "amount"
+                    ]
+                  },
+                  "value": {
+                    "type": "number",
+                    "description": "Value."
+                  }
+                }
+              },
+              "payment_method_id": {
+                "type": "string",
+                "description": "Saved payment method."
+              },
+              "promo_code": {
+                "type": "string",
+                "description": "Promo code."
+              }
+            },
+            "required": [
+              "restaurant_id",
+              "items"
+            ]
+          }
+        },
+        {
+          "name": "track_order",
+          "description": "Track order.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "order_id": {
+                "type": "string",
+                "description": "Order id."
+              }
+            },
+            "required": [
+              "order_id"
+            ]
+          }
+        },
+        {
+          "name": "list_past_orders",
+          "description": "List past orders for reordering.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "limit": {
+                "type": "integer",
+                "description": "Max.",
+                "default": 10
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "ubereats_merchant",
+      "name": "Uber Eats Marketplace",
+      "server": "mcp://ubereats-merchant",
+      "summary": "Restaurant-side integration: store status, menus, item availability and incoming orders.",
+      "tools": [
+        {
+          "name": "get_store",
+          "description": "Get store details, hours and whether it is online or paused.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "store_id": {
+                "type": "string",
+                "description": "Store id."
+              }
+            },
+            "required": [
+              "store_id"
+            ]
+          }
+        },
+        {
+          "name": "set_store_status",
+          "description": "Pause or resume a store on the marketplace.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "store_id": {
+                "type": "string",
+                "description": "Store id."
+              },
+              "status": {
+                "type": "string",
+                "description": "Status.",
+                "enum": [
+                  "ONLINE",
+                  "PAUSED"
+                ]
+              },
+              "paused_until": {
+                "type": "string",
+                "description": "Auto-resume time (ISO 8601)."
+              },
+              "reason": {
+                "type": "string",
+                "description": "Reason."
+              }
+            },
+            "required": [
+              "store_id",
+              "status"
+            ]
+          }
+        },
+        {
+          "name": "get_menu",
+          "description": "Get menu.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "store_id": {
+                "type": "string",
+                "description": "Store id."
+              }
+            },
+            "required": [
+              "store_id"
+            ]
+          }
+        },
+        {
+          "name": "upload_menu",
+          "description": "Replace the store's full menu: menus, categories, items, modifier groups and prices.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "store_id": {
+                "type": "string",
+                "description": "Store id."
+              },
+              "menu": {
+                "type": "object",
+                "description": "Full menu payload.",
+                "properties": {
+                  "menus": {
+                    "type": "array",
+                    "description": "Menus with service hours.",
+                    "items": {
+                      "type": "object"
+                    }
+                  },
+                  "categories": {
+                    "type": "array",
+                    "description": "Categories with item ids.",
+                    "items": {
+                      "type": "object"
+                    }
+                  },
+                  "items": {
+                    "type": "array",
+                    "description": "Items with title, price, description, image_url and modifier_group_ids.",
+                    "items": {
+                      "type": "object"
+                    }
+                  },
+                  "modifier_groups": {
+                    "type": "array",
+                    "description": "Modifier groups with min/max selections.",
+                    "items": {
+                      "type": "object"
+                    }
+                  }
+                },
+                "required": [
+                  "menus",
+                  "categories",
+                  "items"
+                ]
+              }
+            },
+            "required": [
+              "store_id",
+              "menu"
+            ]
+          }
+        },
+        {
+          "name": "update_item_availability",
+          "description": "Mark a menu item sold out or available again.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "store_id": {
+                "type": "string",
+                "description": "Store id."
+              },
+              "item_id": {
+                "type": "string",
+                "description": "Item id."
+              },
+              "available": {
+                "type": "boolean",
+                "description": "Available."
+              },
+              "suspend_until": {
+                "type": "string",
+                "description": "Sold out until (ISO 8601)."
+              }
+            },
+            "required": [
+              "store_id",
+              "item_id",
+              "available"
+            ]
+          }
+        },
+        {
+          "name": "list_orders",
+          "description": "List active and recent orders for a store.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "store_id": {
+                "type": "string",
+                "description": "Store id."
+              },
+              "state": {
+                "type": "string",
+                "description": "Order state.",
+                "enum": [
+                  "CREATED",
+                  "ACCEPTED",
+                  "DENIED",
+                  "FINISHED",
+                  "CANCELED"
+                ]
+              },
+              "limit": {
+                "type": "integer",
+                "description": "Max.",
+                "default": 50
+              }
+            },
+            "required": [
+              "store_id"
+            ]
+          }
+        },
+        {
+          "name": "accept_order",
+          "description": "Accept an incoming order and set the pickup-ready time.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "order_id": {
+                "type": "string",
+                "description": "Order id."
+              },
+              "ready_for_pickup_time": {
+                "type": "string",
+                "description": "ISO 8601."
+              }
+            },
+            "required": [
+              "order_id"
+            ]
+          }
+        },
+        {
+          "name": "deny_order",
+          "description": "Deny order.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "order_id": {
+                "type": "string",
+                "description": "Order id."
+              },
+              "reason": {
+                "type": "string",
+                "description": "Reason.",
+                "enum": [
+                  "ITEM_UNAVAILABLE",
+                  "STORE_CLOSED",
+                  "TOO_BUSY",
+                  "KITCHEN_ISSUE",
+                  "OTHER"
+                ]
+              },
+              "explanation": {
+                "type": "string",
+                "description": "Details."
+              }
+            },
+            "required": [
+              "order_id",
+              "reason"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "doordash_drive",
+      "name": "DoorDash Drive",
+      "server": "mcp://doordash-drive",
+      "summary": "On-demand courier delivery: quotes, dispatching Dashers and live delivery tracking.",
+      "tools": [
+        {
+          "name": "create_delivery_quote",
+          "description": "Get a fee and ETA quote for a delivery between a pickup and dropoff address.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "external_delivery_id": {
+                "type": "string",
+                "description": "Your delivery id."
+              },
+              "pickup_address": {
+                "type": "string",
+                "description": "Pickup address."
+              },
+              "dropoff_address": {
+                "type": "string",
+                "description": "Dropoff address."
+              },
+              "order_value": {
+                "type": "integer",
+                "description": "Order subtotal in cents."
+              },
+              "pickup_time": {
+                "type": "string",
+                "description": "ISO 8601."
+              },
+              "dropoff_time": {
+                "type": "string",
+                "description": "ISO 8601."
+              }
+            },
+            "required": [
+              "external_delivery_id",
+              "pickup_address",
+              "dropoff_address"
+            ]
+          }
+        },
+        {
+          "name": "accept_quote",
+          "description": "Accept quote.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "external_delivery_id": {
+                "type": "string",
+                "description": "Delivery id."
+              },
+              "tip": {
+                "type": "integer",
+                "description": "Tip in cents."
+              }
+            },
+            "required": [
+              "external_delivery_id"
+            ]
+          }
+        },
+        {
+          "name": "create_delivery",
+          "description": "Request a courier (Dasher) to pick up an order and deliver it.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "external_delivery_id": {
+                "type": "string",
+                "description": "Your delivery id."
+              },
+              "pickup_address": {
+                "type": "string",
+                "description": "Pickup address."
+              },
+              "pickup_business_name": {
+                "type": "string",
+                "description": "Business name."
+              },
+              "pickup_phone_number": {
+                "type": "string",
+                "description": "Pickup phone."
+              },
+              "pickup_instructions": {
+                "type": "string",
+                "description": "Pickup notes."
+              },
+              "dropoff_address": {
+                "type": "string",
+                "description": "Dropoff address."
+              },
+              "dropoff_contact_given_name": {
+                "type": "string",
+                "description": "Customer name."
+              },
+              "dropoff_phone_number": {
+                "type": "string",
+                "description": "Customer phone."
+              },
+              "dropoff_instructions": {
+                "type": "string",
+                "description": "Dropoff notes."
+              },
+              "order_value": {
+                "type": "integer",
+                "description": "Subtotal in cents."
+              },
+              "items": {
+                "type": "array",
+                "description": "Items.",
+                "items": {
+                  "type": "object",
+                  "description": "Item.",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "description": "Name."
+                    },
+                    "quantity": {
+                      "type": "integer",
+                      "description": "Qty."
+                    }
+                  }
+                }
+              },
+              "tip": {
+                "type": "integer",
+                "description": "Tip in cents."
+              },
+              "contactless_dropoff": {
+                "type": "boolean",
+                "description": "Leave at door.",
+                "default": false
+              },
+              "action_if_undeliverable": {
+                "type": "string",
+                "description": "Fallback.",
+                "enum": [
+                  "return_to_pickup",
+                  "dispose"
+                ],
+                "default": "return_to_pickup"
+              }
+            },
+            "required": [
+              "external_delivery_id",
+              "pickup_address",
+              "pickup_phone_number",
+              "dropoff_address",
+              "dropoff_phone_number"
+            ]
+          }
+        },
+        {
+          "name": "get_delivery",
+          "description": "Get delivery status and the Dasher's name, phone, vehicle and live location.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "external_delivery_id": {
+                "type": "string",
+                "description": "Delivery id."
+              }
+            },
+            "required": [
+              "external_delivery_id"
+            ]
+          }
+        },
+        {
+          "name": "update_delivery",
+          "description": "Update dropoff instructions, phone or tip before pickup.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "external_delivery_id": {
+                "type": "string",
+                "description": "Delivery id."
+              },
+              "dropoff_instructions": {
+                "type": "string",
+                "description": "Notes."
+              },
+              "tip": {
+                "type": "integer",
+                "description": "Tip in cents."
+              },
+              "dropoff_phone_number": {
+                "type": "string",
+                "description": "Phone."
+              }
+            },
+            "required": [
+              "external_delivery_id"
+            ]
+          }
+        },
+        {
+          "name": "cancel_delivery",
+          "description": "Cancel delivery.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "external_delivery_id": {
+                "type": "string",
+                "description": "Delivery id."
+              }
+            },
+            "required": [
+              "external_delivery_id"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "resy",
+      "name": "Resy",
+      "server": "mcp://resy",
+      "summary": "Restaurant table reservations: availability, booking, changes, cancellations and notify lists.",
+      "tools": [
+        {
+          "name": "search_venues",
+          "description": "Find restaurants with open tables for a date and party size.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "location": {
+                "type": "string",
+                "description": "City or neighborhood."
+              },
+              "query": {
+                "type": "string",
+                "description": "Restaurant name or cuisine."
+              },
+              "date": {
+                "type": "string",
+                "description": "Date (YYYY-MM-DD)."
+              },
+              "party_size": {
+                "type": "integer",
+                "description": "Guests.",
+                "default": 2
+              }
+            },
+            "required": [
+              "location"
+            ]
+          }
+        },
+        {
+          "name": "find_availability",
+          "description": "Get available reservation times at a venue for a date and party size.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "venue_id": {
+                "type": "string",
+                "description": "Venue id."
+              },
+              "date": {
+                "type": "string",
+                "description": "Date (YYYY-MM-DD)."
+              },
+              "party_size": {
+                "type": "integer",
+                "description": "Guests."
+              },
+              "seating_type": {
+                "type": "string",
+                "description": "Seating.",
+                "enum": [
+                  "dining_room",
+                  "bar",
+                  "patio",
+                  "counter"
+                ]
+              }
+            },
+            "required": [
+              "venue_id",
+              "date",
+              "party_size"
+            ]
+          }
+        },
+        {
+          "name": "book_reservation",
+          "description": "Book a table using a slot token from find_availability.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "venue_id": {
+                "type": "string",
+                "description": "Venue id."
+              },
+              "config_token": {
+                "type": "string",
+                "description": "Slot token."
+              },
+              "date": {
+                "type": "string",
+                "description": "Date (YYYY-MM-DD)."
+              },
+              "party_size": {
+                "type": "integer",
+                "description": "Guests."
+              },
+              "guest": {
+                "type": "object",
+                "description": "Guest.",
+                "properties": {
+                  "first_name": {
+                    "type": "string",
+                    "description": "First name."
+                  },
+                  "last_name": {
+                    "type": "string",
+                    "description": "Last name."
+                  },
+                  "phone": {
+                    "type": "string",
+                    "description": "Phone."
+                  },
+                  "email": {
+                    "type": "string",
+                    "description": "Email."
+                  }
+                }
+              },
+              "special_requests": {
+                "type": "string",
+                "description": "Requests, e.g. high chair, allergies."
+              },
+              "occasion": {
+                "type": "string",
+                "description": "Occasion.",
+                "enum": [
+                  "birthday",
+                  "anniversary",
+                  "business",
+                  "date_night",
+                  "other"
+                ]
+              }
+            },
+            "required": [
+              "venue_id",
+              "config_token",
+              "party_size"
+            ]
+          }
+        },
+        {
+          "name": "modify_reservation",
+          "description": "Change the time or party size of a reservation, subject to availability.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "reservation_id": {
+                "type": "string",
+                "description": "Reservation id."
+              },
+              "new_time": {
+                "type": "string",
+                "description": "New time (ISO 8601)."
+              },
+              "new_party_size": {
+                "type": "integer",
+                "description": "Guests."
+              }
+            },
+            "required": [
+              "reservation_id"
+            ]
+          }
+        },
+        {
+          "name": "cancel_reservation",
+          "description": "Cancel reservation.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "reservation_id": {
+                "type": "string",
+                "description": "Reservation id."
+              }
+            },
+            "required": [
+              "reservation_id"
+            ]
+          }
+        },
+        {
+          "name": "list_reservations",
+          "description": "List upcoming reservations",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "include_past": {
+                "type": "boolean",
+                "description": "Include past.",
+                "default": false
+              }
+            }
+          }
+        },
+        {
+          "name": "join_waitlist",
+          "description": "Join the notify list for a sold-out venue and time window.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "venue_id": {
+                "type": "string",
+                "description": "Venue id."
+              },
+              "date": {
+                "type": "string",
+                "description": "Date (YYYY-MM-DD)."
+              },
+              "party_size": {
+                "type": "integer",
+                "description": "Guests."
+              },
+              "time_start": {
+                "type": "string",
+                "description": "HH:MM."
+              },
+              "time_end": {
+                "type": "string",
+                "description": "HH:MM."
+              }
+            },
+            "required": [
+              "venue_id",
+              "date",
+              "party_size"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "toast_pos",
+      "name": "Toast POS",
+      "server": "mcp://toast",
+      "summary": "Restaurant point of sale: in-store orders, menus and daily sales.",
+      "tools": [
+        {
+          "name": "list_orders",
+          "description": "List POS orders for a business date or time range.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "restaurant_guid": {
+                "type": "string",
+                "description": "Restaurant GUID."
+              },
+              "business_date": {
+                "type": "string",
+                "description": "yyyymmdd."
+              },
+              "start_date": {
+                "type": "string",
+                "description": "ISO 8601."
+              },
+              "end_date": {
+                "type": "string",
+                "description": "ISO 8601."
+              },
+              "page_size": {
+                "type": "integer",
+                "description": "Page size.",
+                "default": 100
+              }
+            },
+            "required": [
+              "restaurant_guid"
+            ]
+          }
+        },
+        {
+          "name": "get_menus",
+          "description": "Get menus.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "restaurant_guid": {
+                "type": "string",
+                "description": "Restaurant GUID."
+              },
+              "last_modified": {
+                "type": "string",
+                "description": "ISO 8601."
+              }
+            },
+            "required": [
+              "restaurant_guid"
+            ]
+          }
+        },
+        {
+          "name": "create_order",
+          "description": "Create a dine-in, takeout or delivery order on the POS.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "restaurant_guid": {
+                "type": "string",
+                "description": "Restaurant GUID."
+              },
+              "dining_option_guid": {
+                "type": "string",
+                "description": "Dine-in / takeout / delivery option."
+              },
+              "table_guid": {
+                "type": "string",
+                "description": "Table."
+              },
+              "checks": {
+                "type": "array",
+                "description": "Checks.",
+                "items": {
+                  "type": "object",
+                  "description": "Check.",
+                  "properties": {
+                    "selections": {
+                      "type": "array",
+                      "description": "Items.",
+                      "items": {
+                        "type": "object",
+                        "description": "Selection.",
+                        "properties": {
+                          "item_guid": {
+                            "type": "string",
+                            "description": "Menu item."
+                          },
+                          "quantity": {
+                            "type": "number",
+                            "description": "Qty.",
+                            "default": 1
+                          },
+                          "modifiers": {
+                            "type": "array",
+                            "description": "Modifier GUIDs.",
+                            "items": {
+                              "type": "string"
+                            }
+                          }
+                        },
+                        "required": [
+                          "item_guid"
+                        ]
+                      }
+                    }
+                  }
+                }
+              },
+              "customer": {
+                "type": "object",
+                "description": "Customer.",
+                "properties": {
+                  "first_name": {
+                    "type": "string",
+                    "description": "First."
+                  },
+                  "last_name": {
+                    "type": "string",
+                    "description": "Last."
+                  },
+                  "phone": {
+                    "type": "string",
+                    "description": "Phone."
+                  },
+                  "email": {
+                    "type": "string",
+                    "description": "Email."
+                  }
+                }
+              },
+              "promised_date": {
+                "type": "string",
+                "description": "Promised time (ISO 8601)."
+              }
+            },
+            "required": [
+              "restaurant_guid",
+              "dining_option_guid",
+              "checks"
+            ]
+          }
+        },
+        {
+          "name": "get_sales_summary",
+          "description": "Net sales, order count, average check and top-selling items for a business date.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "restaurant_guid": {
+                "type": "string",
+                "description": "Restaurant GUID."
+              },
+              "business_date": {
+                "type": "string",
+                "description": "yyyymmdd."
+              }
+            },
+            "required": [
+              "restaurant_guid",
+              "business_date"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

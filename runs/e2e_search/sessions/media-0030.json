@@ -1,0 +1,54 @@
+{
+ "task_id": "media-0030",
+ "mode": "search",
+ "loaded": [
+  "openai_media.generate_image",
+  "stability_ai.generate_image",
+  "google_cloud_ai.ocr_image",
+  "openai_media.edit_image",
+  "stability_ai.upscale_creative"
+ ],
+ "order": [
+  "openai_media.generate_image",
+  "stability_ai.generate_image",
+  "google_cloud_ai.ocr_image",
+  "openai_media.edit_image",
+  "stability_ai.upscale_creative"
+ ],
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "openai_media.generate_image",
+   "args": {
+    "prompt": "A cute, playful illustration of a cat in an astronaut suit lounging relaxed on the surface of the moon, with Earth and stars in the background, bright cheerful colors, kid-friendly style suitable for a child's birthday card"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0
+  },
+  {
+   "type": "request_tools",
+   "capability": "generate an image from a text prompt",
+   "added": [
+    "openai_media.generate_image",
+    "stability_ai.generate_image",
+    "google_cloud_ai.ocr_image",
+    "openai_media.edit_image",
+    "stability_ai.upscale_creative"
+   ],
+   "tool_tokens": 1600
+  },
+  {
+   "type": "call",
+   "tool": "openai_media__generate_image",
+   "valid": true
+  }
+ ],
+ "done": true,
+ "final": ""
+}

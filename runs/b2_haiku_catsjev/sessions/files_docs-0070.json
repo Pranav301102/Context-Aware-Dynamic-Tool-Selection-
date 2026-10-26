@@ -1,0 +1,75 @@
+{
+ "task_id": "files_docs-0070",
+ "mode": "cats",
+ "loaded": [
+  "confluence.confluence_update_page",
+  "filesystem.edit_file",
+  "filesystem.move_file",
+  "filesystem.read_file",
+  "filesystem.read_multiple_files",
+  "google_drive.gdrive_read_file",
+  "office_docs.convert_contents",
+  "office_docs.convert_to_markdown",
+  "office_docs.docx_search_and_replace"
+ ],
+ "order": [
+  "confluence.confluence_update_page",
+  "filesystem.edit_file",
+  "filesystem.move_file",
+  "filesystem.read_file",
+  "filesystem.read_multiple_files",
+  "google_drive.gdrive_read_file",
+  "office_docs.convert_contents",
+  "office_docs.convert_to_markdown",
+  "office_docs.docx_search_and_replace"
+ ],
+ "scores": {
+  "confluence.confluence_update_page": 0.6239917788167512,
+  "filesystem.edit_file": 0.2842499735325492,
+  "filesystem.move_file": 0.08557752297531648,
+  "filesystem.read_file": 0.06140400712257107,
+  "filesystem.read_multiple_files": 0.24989471974381747,
+  "google_drive.gdrive_read_file": 0.048346603977544755,
+  "office_docs.convert_contents": 0.13501644752136246,
+  "office_docs.convert_to_markdown": 0.05857052743537541,
+  "office_docs.docx_search_and_replace": 0.07908947993810171
+ },
+ "router_tokens": 1479,
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "filesystem.edit_file",
+   "args": {
+    "path": "/home/user/drafts/blogpost.md",
+    "edits": [
+     {
+      "oldText": "Teh short version",
+      "newText": "The short version"
+     },
+     {
+      "oldText": "teh bill tripled",
+      "newText": "the bill tripled"
+     }
+    ]
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 9,
+   "tool_tokens": 1699,
+   "t": 1791322138.3235166
+  },
+  {
+   "type": "call",
+   "tool": "filesystem__edit_file",
+   "valid": true,
+   "t": 1791322150.9461875
+  }
+ ],
+ "done": true,
+ "t_done": 1791322156.389565,
+ "final": ""
+}

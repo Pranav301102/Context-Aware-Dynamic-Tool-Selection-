@@ -1,0 +1,81 @@
+{
+ "task_id": "media-0039",
+ "mode": "search",
+ "loaded": [
+  "openai_media.translate_audio",
+  "elevenlabs.text_to_speech",
+  "deepl.translate_text",
+  "google_cloud_ai.translate_text",
+  "openai_media.create_speech"
+ ],
+ "order": [
+  "openai_media.translate_audio",
+  "elevenlabs.text_to_speech",
+  "deepl.translate_text",
+  "google_cloud_ai.translate_text",
+  "openai_media.create_speech"
+ ],
+ "scores": {
+  "openai_media.translate_audio": 2.0,
+  "elevenlabs.text_to_speech": 2.0,
+  "deepl.translate_text": 2.0,
+  "google_cloud_ai.translate_text": 2.0,
+  "openai_media.create_speech": 2.0
+ },
+ "router_tokens": 0,
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "deepl.translate_text",
+   "args": {
+    "text": "Thank you for joining our webinar today.",
+    "targetLangCode": "de"
+   }
+  },
+  {
+   "tool": "openai_media.create_speech",
+   "args": {
+    "input": "simulated result of deepl.translate_text",
+    "voice": "nova",
+    "response_format": "mp3"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0,
+   "t": 1791322041.6137488
+  },
+  {
+   "type": "request_tools",
+   "capability": "translate text to German and convert text to speech mp3",
+   "added": [
+    "openai_media.translate_audio",
+    "elevenlabs.text_to_speech",
+    "deepl.translate_text",
+    "google_cloud_ai.translate_text",
+    "openai_media.create_speech"
+   ],
+   "tool_tokens": 1346,
+   "t": 1791322055.9882414
+  },
+  {
+   "type": "call",
+   "tool": "deepl__translate_text",
+   "valid": true,
+   "t": 1791322071.7043514
+  },
+  {
+   "type": "call",
+   "tool": "openai_media__create_speech",
+   "valid": true,
+   "t": 1791322083.2949119
+  }
+ ],
+ "done": true,
+ "t_done": 1791322089.6047478,
+ "final": ""
+}

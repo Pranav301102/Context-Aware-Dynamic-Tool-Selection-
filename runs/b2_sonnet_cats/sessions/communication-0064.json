@@ -1,0 +1,54 @@
+{
+ "task_id": "communication-0064",
+ "mode": "cats",
+ "loaded": [
+  "gmail.draft_email",
+  "gmail.send_email",
+  "mailchimp.add_or_update_member",
+  "mailchimp.create_campaign"
+ ],
+ "order": [
+  "gmail.draft_email",
+  "gmail.send_email",
+  "mailchimp.add_or_update_member",
+  "mailchimp.create_campaign"
+ ],
+ "scores": {
+  "gmail.draft_email": 0.6686890107200456,
+  "gmail.send_email": 0.43063353094445855,
+  "mailchimp.add_or_update_member": 0.03335013132446045,
+  "mailchimp.create_campaign": 0.060053915024014956
+ },
+ "router_tokens": 0,
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "gmail.send_email",
+   "args": {
+    "to": [
+     "board@company.com"
+    ],
+    "cc": [
+     "cfo@company.com"
+    ],
+    "subject": "Q3 update",
+    "body": "Hello Board,\n\nPlease find the Q3 numbers below.\n\nBest regards"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 4,
+   "tool_tokens": 1226
+  },
+  {
+   "type": "call",
+   "tool": "gmail__send_email",
+   "valid": true
+  }
+ ],
+ "done": true,
+ "final": ""
+}

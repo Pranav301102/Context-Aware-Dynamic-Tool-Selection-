@@ -1,0 +1,78 @@
+{
+ "task_id": "files_docs-0070",
+ "mode": "cats",
+ "loaded": [
+  "confluence.confluence_update_page",
+  "filesystem.edit_file",
+  "filesystem.read_multiple_files",
+  "github.get_pull_request",
+  "gitlab.create_merge_request",
+  "google_cloud_ai.ocr_image",
+  "jupyter.overwrite_cell_source",
+  "obsidian.obsidian_append_content",
+  "obsidian.obsidian_patch_content",
+  "office_docs.convert_contents"
+ ],
+ "order": [
+  "confluence.confluence_update_page",
+  "filesystem.edit_file",
+  "filesystem.read_multiple_files",
+  "github.get_pull_request",
+  "gitlab.create_merge_request",
+  "google_cloud_ai.ocr_image",
+  "jupyter.overwrite_cell_source",
+  "obsidian.obsidian_append_content",
+  "obsidian.obsidian_patch_content",
+  "office_docs.convert_contents"
+ ],
+ "scores": {
+  "confluence.confluence_update_page": 0.58320764263816,
+  "filesystem.edit_file": 0.21185054474286075,
+  "filesystem.read_multiple_files": 0.19728894284385604,
+  "github.get_pull_request": 0.1699588407494094,
+  "gitlab.create_merge_request": 0.06680628697613901,
+  "google_cloud_ai.ocr_image": 0.06279372529243255,
+  "jupyter.overwrite_cell_source": 0.24869022222431786,
+  "obsidian.obsidian_append_content": 0.09656583009211606,
+  "obsidian.obsidian_patch_content": 0.06174756209291268,
+  "office_docs.convert_contents": 0.08247297734307817
+ },
+ "router_tokens": 0,
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "filesystem.edit_file",
+   "args": {
+    "path": "~/drafts/blogpost.md",
+    "edits": [
+     {
+      "oldText": "Teh short version",
+      "newText": "The short version"
+     },
+     {
+      "oldText": "teh bill",
+      "newText": "the bill"
+     }
+    ]
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 10,
+   "tool_tokens": 2089,
+   "t": 1791321877.6530287
+  },
+  {
+   "type": "call",
+   "tool": "filesystem__edit_file",
+   "valid": true,
+   "t": 1791321892.428688
+  }
+ ],
+ "done": true,
+ "t_done": 1791321898.0021706,
+ "final": ""
+}

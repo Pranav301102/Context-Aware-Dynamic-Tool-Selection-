@@ -1,0 +1,86 @@
+{
+ "task_id": "cross-0025",
+ "mode": "cats",
+ "loaded": [
+  "pinecone.create_index_for_model",
+  "pinecone.describe_index_stats",
+  "pinecone.list_indexes",
+  "pinecone.search_records",
+  "pinecone.upsert_records",
+  "tavily.tavily_crawl",
+  "tavily.tavily_extract",
+  "tavily.tavily_map"
+ ],
+ "order": [
+  "pinecone.create_index_for_model",
+  "pinecone.describe_index_stats",
+  "pinecone.list_indexes",
+  "pinecone.search_records",
+  "pinecone.upsert_records",
+  "tavily.tavily_crawl",
+  "tavily.tavily_extract",
+  "tavily.tavily_map"
+ ],
+ "scores": {
+  "pinecone.create_index_for_model": 0.1066357447839998,
+  "pinecone.describe_index_stats": 0.48149825909318167,
+  "pinecone.list_indexes": 0.07049496845563787,
+  "pinecone.search_records": 0.05790050730044143,
+  "pinecone.upsert_records": 0.7930420201289873,
+  "tavily.tavily_crawl": 0.5253995832453303,
+  "tavily.tavily_extract": 0.07659067573692034,
+  "tavily.tavily_map": 0.03803106453481376
+ },
+ "router_tokens": 0,
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "tavily.tavily_crawl",
+   "args": {
+    "url": "https://docs.pinecone.io",
+    "max_depth": 2,
+    "limit": 50,
+    "format": "markdown"
+   }
+  },
+  {
+   "tool": "pinecone.upsert_records",
+   "args": {
+    "name": "docs-kb",
+    "namespace": "__default__",
+    "records": [
+     {
+      "id": "https://docs.pinecone.io",
+      "chunk_text": "Page content crawled from docs.pinecone.io via Tavily crawl.",
+      "url": "https://docs.pinecone.io",
+      "source": "docs.pinecone.io"
+     }
+    ]
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 8,
+   "tool_tokens": 2145,
+   "t": 1791321162.2746382
+  },
+  {
+   "type": "call",
+   "tool": "tavily__tavily_crawl",
+   "valid": true,
+   "t": 1791321172.6804898
+  },
+  {
+   "type": "call",
+   "tool": "pinecone__upsert_records",
+   "valid": true,
+   "t": 1791321184.3954465
+  }
+ ],
+ "done": true,
+ "t_done": 1791321190.6182027,
+ "final": ""
+}

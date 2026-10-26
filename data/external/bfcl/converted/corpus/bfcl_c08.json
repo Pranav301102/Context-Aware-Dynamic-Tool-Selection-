@@ -1,0 +1,3397 @@
+{
+ "branch": {
+  "id": "bfcl_c08",
+  "name": "weather / forecast / location",
+  "summary": "Functions about weather, forecast, location, temperature, quality, current, air, humidity, retrieve, specified, precipitation, specific."
+ },
+ "toolkits": [
+  {
+   "id": "openweathermap",
+   "name": "OpenWeatherMap",
+   "server": "bfcl://OpenWeatherMap",
+   "summary": "Fetch current weather information for a specified location using the OpenWeatherMap API. Fetches the current weather information for a specified location using the OpenWeatherMap API.",
+   "tools": [
+    {
+     "name": "get_current_weather",
+     "description": "Fetch current weather information for a specified location using the OpenWeatherMap API.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "location",
+       "api_key"
+      ],
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The location for which to fetch weather information, specified in the format of 'City, Country'. For example, 'Seoul, South Korea'. The input must be in English."
+       },
+       "units": {
+        "type": "string",
+        "description": "The unit system to use for temperature and wind speed values. Choose 'metric' for Celsius and meters per second or 'imperial' for Fahrenheit and miles per hour.",
+        "enum": [
+         "metric",
+         "imperial"
+        ],
+        "default": "metric"
+       },
+       "api_key": {
+        "type": "string",
+        "description": "Your personal API key for accessing the OpenWeatherMap service. Keep it confidential."
+       }
+      }
+     }
+    },
+    {
+     "name": "get_current_weather_2",
+     "description": "Fetches the current weather information for a specified location using the OpenWeatherMap API.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "location"
+      ],
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The location for which current weather information is requested, specified in the format of 'City, Country' in English. For example: 'Seoul, South Korea'.",
+        "enum": [
+         "New York, USA",
+         "London, UK",
+         "Seoul, South Korea",
+         "Sydney, Australia",
+         "Tokyo, Japan"
+        ]
+       },
+       "units": {
+        "type": "string",
+        "description": "The unit system used for the weather data. Can be 'metric' for Celsius, 'imperial' for Fahrenheit, or 'standard' for Kelvin.",
+        "enum": [
+         "metric",
+         "imperial",
+         "standard"
+        ],
+        "default": "metric"
+       },
+       "api_key": {
+        "type": "string",
+        "description": "The API key used to authenticate requests to the OpenWeatherMap API. This key should be kept secret.",
+        "default": "YOUR_API_KEY_HERE"
+       }
+      }
+     }
+    },
+    {
+     "name": "get_current_weather_3",
+     "description": "Fetches the current weather information for a specified location using the OpenWeatherMap API.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "location"
+      ],
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The location for which current weather information is requested, specified in the format of 'City, Country' in English. For example: 'Seoul, South Korea'."
+       },
+       "units": {
+        "type": "string",
+        "description": "The unit system used for the weather data. Can be 'metric' for Celsius, 'imperial' for Fahrenheit, or 'standard' for Kelvin.",
+        "enum": [
+         "metric",
+         "imperial",
+         "standard"
+        ],
+        "default": "metric"
+       },
+       "api_key": {
+        "type": "string",
+        "description": "The API key used to authenticate requests to the OpenWeatherMap API. This key should be kept secret.",
+        "default": "YOUR_API_KEY_HERE"
+       }
+      }
+     }
+    }
+   ]
+  },
+  {
+   "id": "api",
+   "name": "api",
+   "server": "bfcl://api",
+   "summary": "Retrieve current weather information for a specified location.",
+   "tools": [
+    {
+     "name": "weather",
+     "description": "Retrieve current weather information for a specified location.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "loc"
+      ],
+      "properties": {
+       "loc": {
+        "type": "string",
+        "description": "The location for which weather information is to be retrieved, in the format of 'City, Country' (e.g., 'Paris, France')."
+       }
+      }
+     }
+    }
+   ]
+  },
+  {
+   "id": "api_name",
+   "name": "api_name",
+   "server": "bfcl://api_name",
+   "summary": "Retrieves the weather forecast for a specified location and date.",
+   "tools": [
+    {
+     "name": "get_weather_forecast",
+     "description": "Retrieves the weather forecast for a specified location and date. The forecast includes temperature, humidity, and weather condition.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "location",
+       "date"
+      ],
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The geographic location for which the weather forecast is requested, in the format of 'City, State' or 'City, Country', such as 'Berkeley, CA' or 'Berlin, Germany'."
+       },
+       "date": {
+        "type": "string",
+        "description": "The date for the requested weather forecast, formatted as 'YYYY-MM-DD'."
+       },
+       "temperature_unit": {
+        "type": "string",
+        "description": "The unit of temperature to be used in the forecast report.",
+        "enum": [
+         "Celsius",
+         "Fahrenheit"
+        ],
+        "default": "Fahrenheit"
+       },
+       "include_humidity": {
+        "type": "boolean",
+        "description": "A boolean indicating whether humidity data should be included in the forecast.",
+        "default": true
+       },
+       "include_condition": {
+        "type": "boolean",
+        "description": "A boolean indicating whether the weather condition (e.g., sunny, rainy) should be included in the forecast.",
+        "default": true
+       }
+      }
+     }
+    }
+   ]
+  },
+  {
+   "id": "environmental_data",
+   "name": "environmental_data",
+   "server": "bfcl://environmental_data",
+   "summary": "Retrieves Air Quality Index (AQI) for specified location over a number of days.",
+   "tools": [
+    {
+     "name": "air_quality_index",
+     "description": "Retrieves Air Quality Index (AQI) for specified location over a number of days.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "Name of the city or town to retrieve air quality index for."
+       },
+       "days": {
+        "type": "integer",
+        "description": "Number of days for which to retrieve data. If not provided, default to today."
+       }
+      },
+      "required": [
+       "location"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "open_meteo_api",
+   "name": "open_meteo_api",
+   "server": "bfcl://open_meteo_api",
+   "summary": "Fetches the current temperature from the Open-Meteo API for a specified location using latitude and longitude coordinates. Fetches the current temperature from the Open-Meteo API for a specified location using latitude and longitude coordinates.",
+   "tools": [
+    {
+     "name": "fetch_weather_data",
+     "description": "Fetches the current temperature from the Open-Meteo API for a specified location using latitude and longitude coordinates.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "coordinates"
+      ],
+      "properties": {
+       "coordinates": {
+        "type": "array",
+        "description": "A tuple containing the latitude and longitude of the location for which the weather data is requested. Latitude and longitude should be in decimal degrees.",
+        "items": {
+         "type": "number"
+        }
+       },
+       "units": {
+        "type": "string",
+        "description": "The unit system in which the temperature will be returned.",
+        "enum": [
+         "Celsius",
+         "Fahrenheit",
+         "Kelvin"
+        ],
+        "default": "Celsius"
+       }
+      }
+     }
+    },
+    {
+     "name": "fetch_weather_data_2",
+     "description": "Fetches the current temperature from the Open-Meteo API for a specified location using latitude and longitude coordinates.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "coordinates"
+      ],
+      "properties": {
+       "coordinates": {
+        "type": "array",
+        "items": {
+         "type": "number"
+        },
+        "description": "An array containing the latitude and longitude of the location for which the weather data is requested. Latitude and longitude should be in decimal degrees."
+       },
+       "units": {
+        "type": "string",
+        "description": "The unit system in which the temperature will be returned.",
+        "enum": [
+         "Celsius",
+         "Fahrenheit",
+         "Kelvin"
+        ],
+        "default": "Celsius"
+       }
+      }
+     }
+    }
+   ]
+  },
+  {
+   "id": "weather",
+   "name": "weather",
+   "server": "bfcl://weather",
+   "summary": "Provides a weather forecast for a specified location and date range including temperature, precipitation, and wind speed. Retrieves the weather forecast for a specified location and date range.",
+   "tools": [
+    {
+     "name": "forecast",
+     "description": "Provides a weather forecast for a specified location and date range including temperature, precipitation, and wind speed.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "location",
+       "start_date",
+       "end_date"
+      ],
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The location for the forecast, in the format of 'City, State (abbr)' or 'City, Country', such as 'San Francisco, CA' or 'Tokyo, Japan'."
+       },
+       "start_date": {
+        "type": "string",
+        "description": "The start date of the forecast period in the format of 'YYYY-MM-DD', such as '2023-04-01'."
+       },
+       "end_date": {
+        "type": "string",
+        "description": "The end date of the forecast period in the format of 'YYYY-MM-DD', such as '2023-04-07'."
+       },
+       "temperature_unit": {
+        "type": "string",
+        "description": "The unit of measurement for temperature, either Celsius or Fahrenheit.",
+        "enum": [
+         "Celsius",
+         "Fahrenheit"
+        ],
+        "default": "Celsius"
+       },
+       "include_precipitation": {
+        "type": "boolean",
+        "description": "A flag indicating whether to include precipitation information in the forecast.",
+        "default": true
+       },
+       "include_wind": {
+        "type": "boolean",
+        "description": "A flag indicating whether to include wind speed information in the forecast.",
+        "default": false
+       }
+      }
+     }
+    },
+    {
+     "name": "forecast_2",
+     "description": "Retrieves the weather forecast for a specified location and date range. The forecast includes details such as temperature, precipitation, and wind speed.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "location",
+       "start_date",
+       "end_date"
+      ],
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The location for which the weather forecast is requested, in the format of 'City, State' or 'City, Country', such as 'Berkeley, CA' or 'London, UK'."
+       },
+       "start_date": {
+        "type": "string",
+        "description": "The start date for the forecast period, in the format of 'YYYY-MM-DD'."
+       },
+       "end_date": {
+        "type": "string",
+        "description": "The end date for the forecast period, in the format of 'YYYY-MM-DD'."
+       },
+       "units": {
+        "type": "string",
+        "description": "The units for temperature and wind speed. For temperature, 'C' for Celsius and 'F' for Fahrenheit. For wind speed, 'km/h' for kilometers per hour and 'mph' for miles per hour.",
+        "enum": [
+         "C",
+         "F",
+         "km/h",
+         "mph"
+        ],
+        "default": "F"
+       },
+       "include_precipitation": {
+        "type": "boolean",
+        "description": "Whether to include precipitation information in the forecast. True includes precipitation data; False excludes it.",
+        "default": true
+       }
+      }
+     }
+    },
+    {
+     "name": "forecast_3",
+     "description": "Retrieves the weather forecast for a specified location and date, including temperature, precipitation, and wind conditions.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "location",
+       "date"
+      ],
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The geographic location for the forecast, in the format 'City, State' or 'City, Country', such as 'San Francisco, CA' or 'London, UK'."
+       },
+       "date": {
+        "type": "string",
+        "description": "The date for which the forecast is being retrieved, formatted as 'YYYY-MM-DD'."
+       },
+       "temperature_unit": {
+        "type": "string",
+        "description": "The unit of measurement for temperature.",
+        "enum": [
+         "Celsius",
+         "Fahrenheit"
+        ],
+        "default": "Fahrenheit"
+       },
+       "include_humidity": {
+        "type": "boolean",
+        "description": "Whether to include humidity percentage in the forecast.",
+        "default": false
+       },
+       "include_wind": {
+        "type": "boolean",
+        "description": "Whether to include wind speed and direction in the forecast.",
+        "default": true
+       }
+      }
+     }
+    },
+    {
+     "name": "get",
+     "description": "Get the current weather conditions, including temperature, wind speed, and precipitation, for a specified city and country.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "city",
+       "country"
+      ],
+      "properties": {
+       "city": {
+        "type": "string",
+        "description": "The name of the city for which to get the weather, in the format of 'City'. For example, 'London' or 'Tokyo'."
+       },
+       "country": {
+        "type": "string",
+        "description": "The country where the city is located, in the format of 'Country'. For example, 'United Kingdom' or 'Japan'.",
+        "enum": [
+         "United States",
+         "United Kingdom",
+         "Canada",
+         "Australia",
+         "Japan"
+        ]
+       },
+       "units": {
+        "type": "string",
+        "description": "The units for temperature and wind speed. 'metric' for Celsius and meters per second, 'imperial' for Fahrenheit and miles per hour.",
+        "enum": [
+         "metric",
+         "imperial"
+        ],
+        "default": "metric"
+       }
+      }
+     }
+    },
+    {
+     "name": "get_2",
+     "description": "Get the current weather conditions, including temperature, wind speed, and precipitation, for a specified city and country.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "city",
+       "country"
+      ],
+      "properties": {
+       "city": {
+        "type": "string",
+        "description": "The name of the city for which to retrieve weather information, such as 'San Francisco'."
+       },
+       "country": {
+        "type": "string",
+        "description": "The ISO country code (2-letter) for the city's country, such as 'US' for the United States."
+       },
+       "units": {
+        "type": "string",
+        "description": "The unit system used for the weather data. Possible values are 'metric' for Celsius, 'imperial' for Fahrenheit, and 'standard' for Kelvin.",
+        "enum": [
+         "metric",
+         "imperial",
+         "standard"
+        ],
+        "default": "metric"
+       },
+       "include_forecast": {
+        "type": "boolean",
+        "description": "A flag indicating whether to include a weather forecast for the next 5 days. If true, the forecast will be included.",
+        "default": false
+       }
+      }
+     }
+    },
+    {
+     "name": "get_3",
+     "description": "Get the current weather conditions, including temperature, wind, and precipitation, for a specified city and country.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "city",
+       "country"
+      ],
+      "properties": {
+       "city": {
+        "type": "string",
+        "description": "The name of the city for which the weather is requested, e.g., 'Los Angeles'."
+       },
+       "country": {
+        "type": "string",
+        "description": "The country where the city is located, e.g., 'US' for the United States. Use ISO 3166-1 alpha-2 country codes."
+       },
+       "units": {
+        "type": "string",
+        "description": "The units for temperature measurement.",
+        "enum": [
+         "metric",
+         "imperial"
+        ],
+        "default": "metric"
+       },
+       "include_forecast": {
+        "type": "boolean",
+        "description": "Whether to include a 5-day weather forecast in the response.",
+        "default": false
+       }
+      }
+     }
+    },
+    {
+     "name": "get_4",
+     "description": "Get the current weather details such as temperature, wind speed, and precipitation for a specified city and country.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "city",
+       "country"
+      ],
+      "properties": {
+       "city": {
+        "type": "string",
+        "description": "The name of the city for which the weather is being requested, such as 'San Francisco'."
+       },
+       "country": {
+        "type": "string",
+        "description": "The country where the city is located, in ISO 3166-1 alpha-2 code format, such as 'US' for the United States."
+       },
+       "units": {
+        "type": "string",
+        "description": "The unit system for the temperature: 'metric' for Celsius, 'imperial' for Fahrenheit. Defaults to 'metric'.",
+        "enum": [
+         "metric",
+         "imperial"
+        ],
+        "default": "metric"
+       },
+       "include_forecast": {
+        "type": "boolean",
+        "description": "A flag to indicate whether to include a weather forecast for the next 5 days. Defaults to false.",
+        "default": false
+       }
+      }
+     }
+    },
+    {
+     "name": "get_by_city_date",
+     "description": "Retrieves the historical weather data based on city and date.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "city": {
+        "type": "string",
+        "description": "The city for which to retrieve the weather."
+       },
+       "date": {
+        "type": "string",
+        "format": "date",
+        "description": "The date for which to retrieve the historical weather data in the format YYYY-MM-DD."
+       }
+      },
+      "required": [
+       "city",
+       "date"
+      ]
+     }
+    },
+    {
+     "name": "get_by_coordinates_date",
+     "description": "Retrieves the historical weather data based on coordinates and date.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "coordinates": {
+        "type": "array",
+        "items": {
+         "type": "number"
+        },
+        "description": "The geographical coordinates for which to retrieve the weather. The first element of the tuple is the latitude and the second is the longitude."
+       },
+       "date": {
+        "type": "string",
+        "format": "date",
+        "description": "The date for which to retrieve the historical weather data in the format YYYY-MM-DD."
+       }
+      },
+      "required": [
+       "coordinates",
+       "date"
+      ]
+     }
+    },
+    {
+     "name": "get_forecast_by_coordinates",
+     "description": "Get the weather forecast for a specific geographical coordinates.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "coordinates": {
+        "type": "array",
+        "items": {
+         "type": "number"
+        },
+        "description": "The geographical coordinates for which to retrieve the weather. The first element of the tuple is the latitude and the second is the longitude."
+       },
+       "days_ahead": {
+        "type": "integer",
+        "description": "Number of days to forecast from current date (optional, default is 7)."
+       }
+      },
+      "required": [
+       "coordinates"
+      ]
+     }
+    },
+    {
+     "name": "get_weather",
+     "description": "Get the current weather conditions, including temperature, wind speed, and precipitation, for a specified city within a country.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "city",
+       "country"
+      ],
+      "properties": {
+       "city": {
+        "type": "string",
+        "description": "The name of the city for which to retrieve the weather, formatted as 'City Name'. Example: 'London' or 'San Francisco'."
+       },
+       "country": {
+        "type": "string",
+        "description": "The full name of the country where the city is located, formatted as 'Country Name'. Example: 'United Kingdom' or 'United States'."
+       }
+      }
+     }
+    },
+    {
+     "name": "get_weather_data",
+     "description": "Retrieves current weather data including temperature, wind speed, and precipitation levels for a specified city and country.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "city",
+       "country"
+      ],
+      "properties": {
+       "city": {
+        "type": "string",
+        "description": "The name of the city for which weather data is being requested, e.g., 'San Francisco'."
+       },
+       "country": {
+        "type": "string",
+        "description": "The country in which the city is located, using ISO 3166-1 alpha-2 country codes, e.g., 'US' for the United States."
+       },
+       "units": {
+        "type": "string",
+        "description": "The unit system for the temperature (Celsius or Fahrenheit) and wind speed (m/s or mph).",
+        "enum": [
+         "metric",
+         "imperial"
+        ],
+        "default": "metric"
+       },
+       "language": {
+        "type": "string",
+        "description": "The language code for the response data, such as 'en' for English or 'es' for Spanish.",
+        "enum": [
+         "en",
+         "es",
+         "fr",
+         "de"
+        ],
+        "default": "en"
+       }
+      }
+     }
+    },
+    {
+     "name": "humidity_forecast",
+     "description": "Retrieve a humidity forecast for a specific location and time frame.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The city that you want to get the humidity for."
+       },
+       "days": {
+        "type": "integer",
+        "description": "Number of days for the forecast."
+       },
+       "min_humidity": {
+        "type": "integer",
+        "description": "Minimum level of humidity (in percentage) to filter the result. Default is 0."
+       }
+      },
+      "required": [
+       "location",
+       "days"
+      ]
+     }
+    },
+    {
+     "name": "humidity_forecast_2",
+     "description": "Retrieve a humidity forecast for a specific location and time frame.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The city that you want to get the humidity for."
+       },
+       "days": {
+        "type": "integer",
+        "description": "Number of days for the forecast."
+       },
+       "min_humidity": {
+        "type": "integer",
+        "description": "Minimum level of humidity (in percentage) to filter the result. Optional parameter. Default is 0."
+       }
+      },
+      "required": [
+       "location",
+       "days"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "weather_forecast",
+   "name": "weather_forecast",
+   "server": "bfcl://weather_forecast",
+   "summary": "Get the weather forecast for a specified date in a given location. Retrieve the current weather forecast for a specific location.",
+   "tools": [
+    {
+     "name": "get",
+     "description": "Get the weather forecast for a specified date in a given location.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "location",
+       "date"
+      ],
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The location for which the weather forecast is requested, in the format of 'City, State', such as 'San Francisco, CA'."
+       },
+       "date": {
+        "type": "string",
+        "description": "The future date for which the weather forecast is requested, in the format of 'YYYY-MM-DD'."
+       },
+       "unit": {
+        "type": "string",
+        "description": "The unit of measurement for temperature values in the weather forecast.",
+        "enum": [
+         "celsius",
+         "fahrenheit"
+        ],
+        "default": "fahrenheit"
+       }
+      }
+     }
+    },
+    {
+     "name": "get_2",
+     "description": "Retrieve the current weather forecast for a specific location.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The location you want to retrieve the weather for."
+       },
+       "hour": {
+        "type": "integer",
+        "description": "The hour of the day in 24-hour format (optional). If not provided, the current hour will be used. Default: 24"
+       }
+      },
+      "required": [
+       "location"
+      ]
+     }
+    },
+    {
+     "name": "get_3",
+     "description": "Retrieve the weather forecast for a specific future date in a given location, presented in the desired temperature unit.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "location",
+       "date"
+      ],
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The location for the forecast, in the format of 'City, State', such as 'San Francisco, CA' or 'New York, NY'."
+       },
+       "date": {
+        "type": "string",
+        "description": "The future date for which the forecast is required. Acceptable values are 'tomorrow', 'the day after tomorrow', or 'in a week'.",
+        "enum": [
+         "tomorrow",
+         "the day after tomorrow",
+         "in a week"
+        ]
+       },
+       "unit": {
+        "type": "string",
+        "description": "The temperature unit for the forecast.",
+        "enum": [
+         "celsius",
+         "fahrenheit"
+        ],
+        "default": "fahrenheit"
+       }
+      }
+     }
+    },
+    {
+     "name": "get_prediction",
+     "description": "Fetches the weather prediction for a specified location and date range, including temperature, precipitation chances, and wind speed.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "location",
+       "start_date",
+       "end_date"
+      ],
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The geographical location for which the weather forecast is requested, in the format of 'City, State' or 'City, Country', such as 'Berkeley, CA' or 'London, UK'."
+       },
+       "start_date": {
+        "type": "string",
+        "description": "The start date for the forecast period, in the format 'YYYY-MM-DD'."
+       },
+       "end_date": {
+        "type": "string",
+        "description": "The end date for the forecast period, in the format 'YYYY-MM-DD'."
+       },
+       "units": {
+        "type": "string",
+        "description": "The unit system used for the weather forecast results.",
+        "enum": [
+         "metric",
+         "imperial"
+        ],
+        "default": "metric"
+       },
+       "include_details": {
+        "type": "boolean",
+        "description": "A flag indicating whether to include detailed forecast information such as hourly data.",
+        "default": false
+       }
+      }
+     }
+    },
+    {
+     "name": "get_prediction_2",
+     "description": "Retrieve weather forecast data for a specified location and date range. The data includes temperature, precipitation, and wind speed.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "location",
+       "start_date",
+       "end_date"
+      ],
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The location for which to retrieve the weather forecast, in the format of 'City, Country' (e.g., 'London, UK')."
+       },
+       "start_date": {
+        "type": "string",
+        "description": "The start date for the forecast period in the format of 'YYYY-MM-DD' (e.g., '2023-04-01')."
+       },
+       "end_date": {
+        "type": "string",
+        "description": "The end date for the forecast period in the format of 'YYYY-MM-DD' (e.g., '2023-04-07')."
+       },
+       "units": {
+        "type": "string",
+        "description": "The unit system used for the weather forecast. Choose 'metric' for Celsius or 'imperial' for Fahrenheit.",
+        "enum": [
+         "metric",
+         "imperial"
+        ],
+        "default": "metric"
+       },
+       "include_details": {
+        "type": "boolean",
+        "description": "Whether to include detailed hourly forecast data or not. If set to false, only daily summaries will be provided.",
+        "default": false
+       }
+      }
+     }
+    }
+   ]
+  },
+  {
+   "id": "bfcl_c08_g0",
+   "name": "weather current conditions",
+   "server": "bfcl://bfcl_c08_g0",
+   "summary": "Functions for weather, current, conditions, city, retrieves, location.",
+   "tools": [
+    {
+     "name": "Weather_1_GetWeather",
+     "description": "Retrieve the current or historical weather conditions for a specified city and date.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "city"
+      ],
+      "properties": {
+       "city": {
+        "type": "string",
+        "description": "The name of the city for which to retrieve weather data, in the format 'City, State/Country' (e.g., 'Denver, CO' or 'Paris, FR')."
+       },
+       "date": {
+        "type": "string",
+        "description": "The date for which to retrieve the weather, in the format 'YYYY-MM-DD' (e.g., '2023-04-12'). If not provided, the current date's weather will be retrieved.",
+        "default": null
+       }
+      }
+     }
+    },
+    {
+     "name": "Weather_1_GetWeather_2",
+     "description": "Retrieve the current or historical weather conditions for a specified city and date.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "city"
+      ],
+      "properties": {
+       "city": {
+        "type": "string",
+        "description": "The name of the city for which to retrieve weather data, in the format 'City, State/Country' (e.g., 'Denver, CO' or 'Paris, France')."
+       },
+       "date": {
+        "type": "string",
+        "description": "The date for which to retrieve the weather, in the format 'YYYY-MM-DD' (e.g., '2023-04-12'). If not provided, the current date's weather will be retrieved.",
+        "default": null
+       }
+      }
+     }
+    },
+    {
+     "name": "Weather_1_GetWeather_3",
+     "description": "Retrieve the weather forecast for a specified city on a given date.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "city"
+      ],
+      "properties": {
+       "city": {
+        "type": "string",
+        "description": "The name of the city for which the weather forecast is required, in the format of 'City, State' or 'City, Country'; e.g., 'New York, NY' or 'London, UK'."
+       },
+       "date": {
+        "type": "string",
+        "description": "The date for which the weather forecast is requested, in the format of 'YYYY-MM-DD'. The default value represents the current date.",
+        "default": "current_date"
+       }
+      }
+     }
+    },
+    {
+     "name": "Weather_1_GetWeather_4",
+     "description": "Retrieve the weather forecast for a specified city on a particular date.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "city"
+      ],
+      "properties": {
+       "city": {
+        "type": "string",
+        "description": "The name of the city for which the weather forecast is requested, such as 'New York, NY' or 'Los Angeles, CA'."
+       },
+       "date": {
+        "type": "string",
+        "description": "The date for which the weather forecast is requested, in the format 'YYYY-MM-DD'. If not provided, the default value represents the current date.",
+        "default": "today"
+       }
+      }
+     }
+    },
+    {
+     "name": "Weather_1_GetWeather_5",
+     "description": "Retrieves the current or historical weather conditions for a specified city and date.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "city"
+      ],
+      "properties": {
+       "city": {
+        "type": "string",
+        "description": "The name of the city for which to retrieve weather data, in the format of 'City, State' or 'City, Country' if the city does not locate in the United States. Examples: 'San Francisco, CA' or 'Paris, FR'."
+       },
+       "date": {
+        "type": "string",
+        "description": "The specific date for the weather query, in the format 'YYYY-MM-DD'. If omitted, defaults to the current date.",
+        "default": "2019-03-01"
+       }
+      }
+     }
+    },
+    {
+     "name": "Weather_1_GetWeather_6",
+     "description": "Retrieves the current or historical weather data for a specified city on a given date.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "city"
+      ],
+      "properties": {
+       "city": {
+        "type": "string",
+        "description": "The name of the city for which to retrieve weather data, such as 'New York, NY'."
+       },
+       "date": {
+        "type": "string",
+        "description": "The date for which to retrieve the weather, in the format 'YYYY-MM-DD'. A default value of 'null' indicates the current date.",
+        "default": null
+       }
+      }
+     }
+    },
+    {
+     "name": "Weather_1_GetWeather_7",
+     "description": "Retrieves the current or historical weather data for a specified city on a given date.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "city"
+      ],
+      "properties": {
+       "city": {
+        "type": "string",
+        "description": "The name of the city for which to retrieve weather data."
+       },
+       "date": {
+        "type": "string",
+        "description": "The date for which to retrieve the weather, in the format 'YYYY-MM-DD'. A default value of 'null' indicates the current date.",
+        "default": null
+       }
+      }
+     }
+    },
+    {
+     "name": "Weather_1_GetWeather_8",
+     "description": "Retrieves the weather forecast for a specified city on a certain date.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "city"
+      ],
+      "properties": {
+       "city": {
+        "type": "string",
+        "description": "The name of the city for which the weather is being requested, such as 'Los Angeles' or 'New York'."
+       },
+       "date": {
+        "type": "string",
+        "description": "The date for which the weather forecast is desired, in the format 'YYYY-MM-DD'. If not provided, the default is the current date.",
+        "default": "current_date"
+       }
+      }
+     }
+    },
+    {
+     "name": "Weather_1_GetWeather_9",
+     "description": "Retrieves the weather forecast for a specified city on a given date.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "city"
+      ],
+      "properties": {
+       "city": {
+        "type": "string",
+        "description": "The name of the city for which to retrieve the weather, such as 'New York, NY' or 'London, UK'."
+       },
+       "date": {
+        "type": "string",
+        "description": "The date for which to retrieve the weather, in the format 'YYYY-MM-DD'. If not provided, defaults to the current date.",
+        "default": "2019-03-01"
+       }
+      }
+     }
+    },
+    {
+     "name": "Weather_1_GetWeather_10",
+     "description": "Retrieves the weather forecast for a specified city on a particular date.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "city"
+      ],
+      "properties": {
+       "city": {
+        "type": "string",
+        "description": "The name of the city for which weather information is requested."
+       },
+       "date": {
+        "type": "string",
+        "description": "The date for which weather information is requested, in the format of 'YYYY-MM-DD'. If not provided, the current date is used.",
+        "default": "2019-03-01"
+       }
+      }
+     }
+    },
+    {
+     "name": "Weather_1_GetWeather_11",
+     "description": "Retrieves the weather information for a specified city on a given date.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "city"
+      ],
+      "properties": {
+       "city": {
+        "type": "string",
+        "description": "The name of the city for which to retrieve weather data, such as 'New York, NY'."
+       },
+       "date": {
+        "type": "string",
+        "description": "The date for which to retrieve the weather, in the format 'YYYY-MM-DD'. If not provided, the current date is used.",
+        "default": "today"
+       }
+      }
+     }
+    },
+    {
+     "name": "current_weather_condition",
+     "description": "Get the current weather conditions of a specific city including temperature and humidity.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "city": {
+        "type": "string",
+        "description": "The city that you want to get the current weather conditions for."
+       },
+       "country": {
+        "type": "string",
+        "description": "The country of the city you specified."
+       },
+       "measurement": {
+        "type": "string",
+        "description": "You can specify which unit to display the temperature in, 'c' for Celsius, 'f' for Fahrenheit. Default is 'c'."
+       }
+      },
+      "required": [
+       "city",
+       "country"
+      ]
+     }
+    },
+    {
+     "name": "fetch_weather_data",
+     "description": "Retrieves weather forecast data for a specific location using the Open-Meteo API.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "latitude",
+       "longitude"
+      ],
+      "properties": {
+       "url": {
+        "type": "string",
+        "description": "The API endpoint for fetching weather data. This should be the full URL, including protocol and domain, without parameters.",
+        "default": "https://api.open-meteo.com/v1/forecast"
+       },
+       "latitude": {
+        "type": "number",
+        "description": "The latitude of the location for which weather data is to be fetched."
+       },
+       "longitude": {
+        "type": "number",
+        "description": "The longitude of the location for which weather data is to be fetched."
+       },
+       "units": {
+        "type": "string",
+        "description": "The units for temperature and wind speed.",
+        "enum": [
+         "metric",
+         "imperial"
+        ],
+        "default": "metric"
+       },
+       "language": {
+        "type": "string",
+        "description": "The language for weather condition texts.",
+        "enum": [
+         "en",
+         "es",
+         "de",
+         "fr"
+        ],
+        "default": "en"
+       }
+      }
+     }
+    },
+    {
+     "name": "get_current_weather",
+     "description": "Fetches the current weather data for a specified location, with an option to select the temperature unit.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "location"
+      ],
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The location for which to get the weather, in the format of 'City, State', such as 'San Francisco, CA' or 'New York, NY'."
+       },
+       "unit": {
+        "type": "string",
+        "description": "The temperature unit in which to display the weather data.",
+        "enum": [
+         "celsius",
+         "fahrenheit"
+        ],
+        "default": "fahrenheit"
+       }
+      }
+     }
+    },
+    {
+     "name": "get_current_weather_2",
+     "description": "Fetches the current weather details for a specified location, considering the preferred unit of measurement.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "location"
+      ],
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The location for which to retrieve weather information, in the format of 'City, State', such as 'Berkeley, CA' or 'New York, NY'."
+       },
+       "unit": {
+        "type": "string",
+        "description": "The unit of measurement for temperature values.",
+        "enum": [
+         "Celsius",
+         "Fahrenheit",
+         "Kelvin"
+        ],
+        "default": "Fahrenheit"
+       }
+      }
+     }
+    },
+    {
+     "name": "get_current_weather_3",
+     "description": "Retrieve the current weather conditions for a specified location in either Celsius or Fahrenheit.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "location"
+      ],
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The location for which to retrieve the weather, in the format of 'City, State', such as 'San Francisco, CA' or 'New York, NY'."
+       },
+       "unit": {
+        "type": "string",
+        "description": "The unit of measurement for the temperature.",
+        "enum": [
+         "celsius",
+         "fahrenheit"
+        ],
+        "default": "fahrenheit"
+       }
+      }
+     }
+    },
+    {
+     "name": "get_current_weather_4",
+     "description": "Retrieve the current weather conditions for a specified location in the desired unit of measurement.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "location"
+      ],
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The location for which to get the weather, in the format of 'City, State', such as 'San Francisco, CA' or 'New York, NY'."
+       },
+       "unit": {
+        "type": "string",
+        "description": "The unit of measurement for the temperature.",
+        "enum": [
+         "celsius",
+         "fahrenheit"
+        ],
+        "default": "fahrenheit"
+       }
+      }
+     }
+    },
+    {
+     "name": "get_current_weather_5",
+     "description": "Retrieve the current weather conditions for a specified location in the desired unit of temperature.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "location"
+      ],
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The location for which to get the weather, in the format of 'City, State', such as 'San Francisco, CA' or 'Austin, TX'."
+       },
+       "unit": {
+        "type": "string",
+        "description": "The unit of temperature for the weather report.",
+        "enum": [
+         "celsius",
+         "fahrenheit"
+        ],
+        "default": "fahrenheit"
+       }
+      }
+     }
+    },
+    {
+     "name": "get_current_weather_6",
+     "description": "Retrieve the current weather conditions for a specified location, with options to choose the temperature unit.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "location"
+      ],
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The location for which to get the weather, in the format of 'City, State', such as 'San Francisco, CA' or 'New York, NY'."
+       },
+       "unit": {
+        "type": "string",
+        "description": "The unit of temperature to be used in the weather report.",
+        "enum": [
+         "celsius",
+         "fahrenheit"
+        ],
+        "default": "fahrenheit"
+       }
+      }
+     }
+    },
+    {
+     "name": "get_current_weather_7",
+     "description": "Retrieve the current weather conditions for a specified location. If using state, then use short form like CA.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "location"
+      ],
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The location for which to get the weather, in the format of 'City, State (abbr)' or 'City, Location', such as 'San Francisco, CA', or 'New York, NY'."
+       },
+       "unit": {
+        "type": "string",
+        "description": "The temperature unit for the weather report.",
+        "enum": [
+         "celsius",
+         "fahrenheit"
+        ],
+        "default": "fahrenheit"
+       }
+      }
+     }
+    },
+    {
+     "name": "get_current_weather_8",
+     "description": "Retrieve the current weather conditions for a specified location. If using state, then use short form like CA.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "location"
+      ],
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The location for which to get the weather, in the format of 'City, State (abbr)', such as 'San Francisco, CA' or 'New York, NY'."
+       },
+       "unit": {
+        "type": "string",
+        "description": "The temperature unit for the weather report.",
+        "enum": [
+         "celsius",
+         "fahrenheit"
+        ],
+        "default": "fahrenheit"
+       }
+      }
+     }
+    },
+    {
+     "name": "get_current_weather_9",
+     "description": "Retrieve the current weather conditions for a specified location.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "location"
+      ],
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The location for which to get the weather, in the format of 'City, State', such as 'San Francisco, CA' or 'New York, NY'."
+       },
+       "unit": {
+        "type": "string",
+        "description": "The temperature unit for the weather report.",
+        "enum": [
+         "celsius",
+         "fahrenheit"
+        ],
+        "default": "fahrenheit"
+       }
+      }
+     }
+    },
+    {
+     "name": "get_current_weather_10",
+     "description": "Retrieve the current weather conditions for a specified location.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "location"
+      ],
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The location for which to obtain weather information, in the format of 'City, State', such as 'San Francisco, CA'."
+       },
+       "unit": {
+        "type": "string",
+        "description": "The temperature unit for the weather report.",
+        "enum": [
+         "celsius",
+         "fahrenheit"
+        ],
+        "default": "fahrenheit"
+       }
+      }
+     }
+    },
+    {
+     "name": "get_current_weather_11",
+     "description": "Retrieves the current temperature and humidity for a specific location.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The city name to get the weather for."
+       },
+       "include_temperature": {
+        "type": "boolean",
+        "description": "Whether to include the temperature in the result. Default is true."
+       },
+       "include_humidity": {
+        "type": "boolean",
+        "description": "Whether to include the humidity in the result. Default is true."
+       }
+      },
+      "required": [
+       "location"
+      ]
+     }
+    },
+    {
+     "name": "get_current_weather_12",
+     "description": "Retrieves the current temperature and humidity for a specific location.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The location to get the weather for."
+       },
+       "include_temperature": {
+        "type": "boolean",
+        "description": "Whether to include the temperature in the result. Default is true."
+       },
+       "include_humidity": {
+        "type": "boolean",
+        "description": "Whether to include the humidity in the result. Default is true."
+       }
+      },
+      "required": [
+       "location"
+      ]
+     }
+    },
+    {
+     "name": "get_current_weather_13",
+     "description": "Retrieves the current weather conditions for a specified city and state. If using state, then use short form like CA.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "location"
+      ],
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The location for which to get the weather, in the format of 'City, State (abbr)' or 'Location, State', such as 'San Francisco, CA' if State exists. 'City, Country' if State for the city doesn't exist. "
+       },
+       "unit": {
+        "type": "string",
+        "description": "The unit of temperature for the weather report.",
+        "enum": [
+         "celsius",
+         "fahrenheit"
+        ],
+        "default": "fahrenheit"
+       }
+      }
+     }
+    },
+    {
+     "name": "get_current_weather_14",
+     "description": "Retrieves the current weather conditions for a specified city and state. If using state, then use short form like CA.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "location"
+      ],
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The location for which to get the weather, in the format of 'City, State (abbr)' or 'Location, State', such as 'San Francisco, CA' or 'Yosemite National Park, CA' if State exists. 'City, Country' if State for the city doesn't exist."
+       },
+       "unit": {
+        "type": "string",
+        "description": "The unit of temperature for the weather report.",
+        "enum": [
+         "celsius",
+         "fahrenheit"
+        ],
+        "default": "fahrenheit"
+       }
+      }
+     }
+    },
+    {
+     "name": "get_current_weather_15",
+     "description": "Retrieves the current weather conditions for a specified city and state. If using state, then use short form like CA.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "location"
+      ],
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The location for which to get the weather, in the format of 'City, State (abbr)', such as 'San Francisco, CA' if State for the city exists. 'City, Country' if State for the city doesn't exist."
+       },
+       "unit": {
+        "type": "string",
+        "description": "The unit of temperature for the weather report.",
+        "enum": [
+         "celsius",
+         "fahrenheit"
+        ],
+        "default": "fahrenheit"
+       }
+      }
+     }
+    },
+    {
+     "name": "get_current_weather_16",
+     "description": "Retrieves the current weather conditions for a specified city and state. If using state, then use short form like CA.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "location"
+      ],
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The location for which to get the weather, in the format of 'City, State', such as 'San Francisco, CA' if State for the city exists. 'City, Country' if State for the city doesn't exist. If using state, then use short form like CA."
+       },
+       "unit": {
+        "type": "string",
+        "description": "The unit of temperature for the weather report.",
+        "enum": [
+         "celsius",
+         "fahrenheit"
+        ],
+        "default": "fahrenheit"
+       }
+      }
+     }
+    },
+    {
+     "name": "get_current_weather_17",
+     "description": "Retrieves the current weather conditions for a specified city and state. If using state, then use short form like CA.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "location"
+      ],
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The location for which to get the weather, in the format of 'City, State', such as 'San Francisco, CA' if State for the city exists. 'City, Country' if State for the city doesn't exist."
+       },
+       "unit": {
+        "type": "string",
+        "description": "The unit of temperature for the weather report.",
+        "enum": [
+         "celsius",
+         "fahrenheit"
+        ],
+        "default": "fahrenheit"
+       }
+      }
+     }
+    },
+    {
+     "name": "get_current_weather_18",
+     "description": "Retrieves the current weather conditions for a specified city and state.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "location"
+      ],
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The location for which to get the weather, in the format of 'City, State (abbr)', such as 'San Francisco, CA' if State for the city exists. 'City, Country' if State for the city doesn't exist."
+       },
+       "unit": {
+        "type": "string",
+        "description": "The unit of temperature for the weather report.",
+        "enum": [
+         "celsius",
+         "fahrenheit"
+        ],
+        "default": "fahrenheit"
+       }
+      }
+     }
+    },
+    {
+     "name": "get_current_weather_19",
+     "description": "Retrieves the current weather conditions for a specified city and state.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "location"
+      ],
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The location for which to get the weather, in the format of 'City, State', such as 'San Francisco, CA' if State for the city exists. 'City, Country' if State for the city doesn't exist. If using state, then use short form like CA."
+       },
+       "unit": {
+        "type": "string",
+        "description": "The unit of temperature for the weather report.",
+        "enum": [
+         "celsius",
+         "fahrenheit"
+        ],
+        "default": "fahrenheit"
+       }
+      }
+     }
+    },
+    {
+     "name": "get_current_weather_20",
+     "description": "Retrieves the current weather conditions for a specified city and state.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "location"
+      ],
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The location for which to get the weather, in the format of 'City, State', such as 'San Francisco, CA' if State for the city exists. 'City, Country' if State for the city doesn't exist. Use short form for state."
+       },
+       "unit": {
+        "type": "string",
+        "description": "The unit of temperature for the weather report.",
+        "enum": [
+         "celsius",
+         "fahrenheit"
+        ],
+        "default": "fahrenheit"
+       }
+      }
+     }
+    },
+    {
+     "name": "get_current_weather_21",
+     "description": "Retrieves the current weather conditions for a specified city and state.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "location"
+      ],
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The location for which to get the weather, in the format of 'City, State', such as 'San Francisco, CA' if State for the city exists. 'City, Country' if State for the city doesn't exist. Use short form for the state"
+       },
+       "unit": {
+        "type": "string",
+        "description": "The unit of temperature for the weather report.",
+        "enum": [
+         "celsius",
+         "fahrenheit"
+        ],
+        "default": "fahrenheit"
+       }
+      }
+     }
+    },
+    {
+     "name": "get_current_weather_22",
+     "description": "Retrieves the current weather conditions for a specified city and state.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "location"
+      ],
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The location for which to get the weather, in the format of 'City, State', such as 'San Francisco, CA' if State for the city exists. 'City, Country' if State for the city doesn't exist. Use short form if using state name"
+       },
+       "unit": {
+        "type": "string",
+        "description": "The unit of temperature for the weather report.",
+        "enum": [
+         "celsius",
+         "fahrenheit"
+        ],
+        "default": "fahrenheit"
+       }
+      }
+     }
+    },
+    {
+     "name": "get_current_weather_23",
+     "description": "Retrieves the current weather conditions for a specified city and state.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "location"
+      ],
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The location for which to get the weather, in the format of 'City, State', such as 'San Francisco, CA' if State for the city exists. 'City, Country' if State for the city doesn't exist."
+       },
+       "unit": {
+        "type": "string",
+        "description": "The unit of temperature for the weather report.",
+        "enum": [
+         "celsius",
+         "fahrenheit"
+        ],
+        "default": "fahrenheit"
+       }
+      }
+     }
+    },
+    {
+     "name": "get_current_weather_24",
+     "description": "Retrieves the current weather conditions for a specified city and state.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "location"
+      ],
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The location for which to retrieve the weather, in the format of 'City, State', such as 'San Francisco, CA' or 'New York, NY'."
+       },
+       "unit": {
+        "type": "string",
+        "description": "The unit of measurement for temperature values.",
+        "enum": [
+         "celsius",
+         "fahrenheit"
+        ],
+        "default": "fahrenheit"
+       }
+      }
+     }
+    },
+    {
+     "name": "get_current_weather_25",
+     "description": "Retrieves the current weather conditions for a specified location in either Celsius or Fahrenheit.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "location"
+      ],
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The location for which to fetch the weather, in the format of 'City, State', such as 'San Francisco, CA' or 'New York, NY'."
+       },
+       "unit": {
+        "type": "string",
+        "description": "The unit of temperature for the weather report.",
+        "enum": [
+         "celsius",
+         "fahrenheit"
+        ],
+        "default": "fahrenheit"
+       }
+      }
+     }
+    },
+    {
+     "name": "get_current_weather_26",
+     "description": "Retrieves the current weather conditions for a specified location in the desired temperature unit.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "location"
+      ],
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The location for which to get the weather, in the format of 'City, State', such as 'San Francisco, CA' or 'New York, NY'."
+       },
+       "unit": {
+        "type": "string",
+        "description": "The temperature unit for the weather report.",
+        "enum": [
+         "celsius",
+         "fahrenheit"
+        ],
+        "default": "fahrenheit"
+       }
+      }
+     }
+    },
+    {
+     "name": "get_current_weather_27",
+     "description": "Retrieves the current weather conditions for a specified location in the desired temperature unit.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "location"
+      ],
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The location for which to get the weather, in the format of 'City, State', such as 'San Francisco, CA' or 'New York, NY'."
+       },
+       "unit": {
+        "type": "string",
+        "description": "The unit of temperature for the weather report.",
+        "enum": [
+         "celsius",
+         "fahrenheit"
+        ],
+        "default": "fahrenheit"
+       }
+      }
+     }
+    },
+    {
+     "name": "get_current_weather_28",
+     "description": "Retrieves the current weather conditions for a specified location, allowing for a choice between Celsius and Fahrenheit units.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "location"
+      ],
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The location for which to get the weather, in the format of 'City, State', such as 'San Francisco, CA' or 'New York, NY'."
+       },
+       "unit": {
+        "type": "string",
+        "description": "The temperature unit for the weather data.",
+        "enum": [
+         "celsius",
+         "fahrenheit"
+        ],
+        "default": "fahrenheit"
+       }
+      }
+     }
+    },
+    {
+     "name": "get_current_weather_29",
+     "description": "Retrieves the current weather conditions for a specified location, including temperature and atmospheric conditions.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "location"
+      ],
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The location for which weather is being requested, in the format of 'City, State', such as 'San Francisco, CA' or 'New York, NY'."
+       },
+       "unit": {
+        "type": "string",
+        "description": "The unit of temperature measurement for the weather report.",
+        "enum": [
+         "celsius",
+         "fahrenheit"
+        ],
+        "default": "fahrenheit"
+       }
+      }
+     }
+    },
+    {
+     "name": "get_current_weather_30",
+     "description": "Retrieves the current weather conditions for a specified location, providing temperature and atmospheric measurements.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "location"
+      ],
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The location for which to get the weather, in the format of 'City, State', such as 'San Francisco, CA'."
+       },
+       "unit": {
+        "type": "string",
+        "description": "The unit of measurement for temperature values.",
+        "enum": [
+         "celsius",
+         "fahrenheit"
+        ],
+        "default": "fahrenheit"
+       }
+      }
+     }
+    },
+    {
+     "name": "get_current_weather_31",
+     "description": "Retrieves the current weather conditions for a specified location, such as 'City, State' or 'City, Country'.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "location"
+      ],
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The location for which the weather is being requested, in the format of 'City, State (abbr)' or 'City, Country', such as 'Berkeley, CA' or 'London, UK'."
+       },
+       "unit": {
+        "type": "string",
+        "description": "The unit system used for weather condition values (e.g., temperature, wind speed).",
+        "enum": [
+         "metric",
+         "imperial"
+        ],
+        "default": "metric"
+       }
+      }
+     }
+    },
+    {
+     "name": "get_current_weather_32",
+     "description": "Retrieves the current weather conditions for a specified location, such as 'City, State' or 'City, Country'.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "location"
+      ],
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The location for which the weather is being requested, in the format of 'City, State' or 'City, Country', such as 'Berkeley, CA' or 'London, UK'."
+       },
+       "unit": {
+        "type": "string",
+        "description": "The unit system used for weather condition values (e.g., temperature, wind speed).",
+        "enum": [
+         "metric",
+         "imperial"
+        ],
+        "default": "metric"
+       }
+      }
+     }
+    },
+    {
+     "name": "get_current_weather_33",
+     "description": "Retrieves the current weather conditions for a specified location, such as 'San Francisco, CA'.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "location"
+      ],
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The location for which to get the weather, in the format of 'City, State (abbr)' or 'City, Country', such as 'San Francisco, CA', 'Paris, France', or 'New York, NY'."
+       },
+       "unit": {
+        "type": "string",
+        "description": "The unit of measurement for temperature values.",
+        "enum": [
+         "celsius",
+         "fahrenheit"
+        ],
+        "default": "fahrenheit"
+       }
+      }
+     }
+    },
+    {
+     "name": "get_current_weather_34",
+     "description": "Retrieves the current weather conditions for a specified location, with options for units of temperature measurement.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "location"
+      ],
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The location for which weather data is to be fetched, in the format of 'City, State (abbr)', such as 'San Francisco, CA'. Or 'City, Country'"
+       },
+       "unit": {
+        "type": "string",
+        "description": "The unit of temperature for the weather report.",
+        "enum": [
+         "celsius",
+         "fahrenheit"
+        ],
+        "default": "fahrenheit"
+       }
+      }
+     }
+    },
+    {
+     "name": "get_current_weather_35",
+     "description": "Retrieves the current weather conditions for a specified location, with options for units of temperature measurement.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "location"
+      ],
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The location for which weather data is to be fetched, in the format of 'City, State', such as 'San Francisco, CA'."
+       },
+       "unit": {
+        "type": "string",
+        "description": "The unit of temperature for the weather report.",
+        "enum": [
+         "celsius",
+         "fahrenheit"
+        ],
+        "default": "fahrenheit"
+       }
+      }
+     }
+    },
+    {
+     "name": "get_current_weather_36",
+     "description": "Retrieves the current weather conditions for a specified location.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "location"
+      ],
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The city and state for which to get the weather, in the format of 'City, State', such as 'San Francisco, CA' or 'New York, NY'."
+       },
+       "unit": {
+        "type": "string",
+        "description": "The unit of measurement for temperature values.",
+        "enum": [
+         "celsius",
+         "fahrenheit"
+        ],
+        "default": "fahrenheit"
+       }
+      }
+     }
+    },
+    {
+     "name": "get_current_weather_37",
+     "description": "Retrieves the current weather conditions for a specified location.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "location"
+      ],
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The city and state of the requested weather data, in the format of 'City, State', such as 'San Francisco, CA' or 'New York, NY'."
+       },
+       "unit": {
+        "type": "string",
+        "description": "The unit of measurement for temperature values.",
+        "enum": [
+         "celsius",
+         "fahrenheit"
+        ],
+        "default": "fahrenheit"
+       }
+      }
+     }
+    },
+    {
+     "name": "get_current_weather_38",
+     "description": "Retrieves the current weather conditions for a specified location.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "location"
+      ],
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The geographical location for the weather data, in the format of 'City, State', such as 'San Francisco, CA' or 'New York, NY'."
+       },
+       "unit": {
+        "type": "string",
+        "description": "The unit of temperature for the weather data.",
+        "enum": [
+         "celsius",
+         "fahrenheit"
+        ],
+        "default": "fahrenheit"
+       }
+      }
+     }
+    },
+    {
+     "name": "get_current_weather_39",
+     "description": "Retrieves the current weather conditions for a specified location.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "location"
+      ],
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The location for which to get the weather, in the format 'City, State', such as 'San Francisco, CA'."
+       },
+       "unit": {
+        "type": "string",
+        "description": "The unit of temperature measurement for the weather data.",
+        "enum": [
+         "celsius",
+         "fahrenheit"
+        ],
+        "default": "fahrenheit"
+       }
+      }
+     }
+    },
+    {
+     "name": "get_current_weather_40",
+     "description": "Retrieves the current weather conditions for a specified location.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "location"
+      ],
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The location for which to get the weather, in the format of 'City, State (abbr)', such as 'San Francisco, CA' or 'New York, NY'. Use short form for the state."
+       },
+       "unit": {
+        "type": "string",
+        "description": "The unit of measurement for temperature values.",
+        "enum": [
+         "celsius",
+         "fahrenheit"
+        ],
+        "default": "fahrenheit"
+       }
+      }
+     }
+    },
+    {
+     "name": "get_current_weather_41",
+     "description": "Retrieves the current weather conditions for a specified location.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "location"
+      ],
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The location for which to get the weather, in the format of 'City, State' (e.g., 'San Francisco, CA'). For state, use short form."
+       },
+       "unit": {
+        "type": "string",
+        "description": "The unit of measurement for temperature values.",
+        "enum": [
+         "celsius",
+         "fahrenheit"
+        ],
+        "default": "fahrenheit"
+       }
+      }
+     }
+    },
+    {
+     "name": "get_current_weather_42",
+     "description": "Retrieves the current weather conditions for a specified location.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "location"
+      ],
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The location for which to get the weather, in the format of 'City, State' (e.g., 'San Francisco, CA'). If city does not have a state, then just mention the name of the city."
+       },
+       "unit": {
+        "type": "string",
+        "description": "The unit of measurement for temperature values.",
+        "enum": [
+         "celsius",
+         "fahrenheit"
+        ],
+        "default": "fahrenheit"
+       }
+      }
+     }
+    },
+    {
+     "name": "get_current_weather_43",
+     "description": "Retrieves the current weather conditions for a specified location.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "location"
+      ],
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The location for which to get the weather, in the format of 'City, State' (e.g., 'San Francisco, CA')."
+       },
+       "unit": {
+        "type": "string",
+        "description": "The unit of measurement for temperature values.",
+        "enum": [
+         "celsius",
+         "fahrenheit"
+        ],
+        "default": "fahrenheit"
+       }
+      }
+     }
+    },
+    {
+     "name": "get_current_weather_44",
+     "description": "Retrieves the current weather conditions for a specified location.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "location"
+      ],
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The location for which to get the weather, in the format of 'City, State', such as 'San Francisco, CA' or 'New York, NY'."
+       },
+       "unit": {
+        "type": "string",
+        "description": "The unit of measurement for temperature values.",
+        "enum": [
+         "celsius",
+         "fahrenheit"
+        ],
+        "default": "fahrenheit"
+       }
+      }
+     }
+    },
+    {
+     "name": "get_current_weather_45",
+     "description": "Retrieves the current weather conditions for a specified location.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "location"
+      ],
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The location for which to get the weather, in the format of 'City, State', such as 'San Francisco, CA' or 'New York, NY'."
+       },
+       "unit": {
+        "type": "string",
+        "description": "The unit of temperature to be returned by the weather API.",
+        "enum": [
+         "celsius",
+         "fahrenheit"
+        ],
+        "default": "fahrenheit"
+       }
+      }
+     }
+    },
+    {
+     "name": "get_current_weather_46",
+     "description": "Retrieves the current weather conditions for a specified location.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "location"
+      ],
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The location for which to get the weather, in the format of 'City, State', such as 'San Francisco, CA'."
+       },
+       "unit": {
+        "type": "string",
+        "description": "The unit of measurement for temperature values.",
+        "enum": [
+         "celsius",
+         "fahrenheit"
+        ],
+        "default": "fahrenheit"
+       }
+      }
+     }
+    },
+    {
+     "name": "get_current_weather_47",
+     "description": "Retrieves the current weather conditions for a specified location.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "location"
+      ],
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The location for which to obtain weather data, in the format of 'City, State', such as 'San Francisco, CA'."
+       },
+       "unit": {
+        "type": "string",
+        "description": "The unit of temperature to be used in the weather report.",
+        "enum": [
+         "celsius",
+         "fahrenheit"
+        ],
+        "default": "fahrenheit"
+       }
+      }
+     }
+    },
+    {
+     "name": "get_current_weather_48",
+     "description": "Retrieves the current weather conditions for a specified location.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "location"
+      ],
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The location for which to retrieve weather, in the format of 'City, State (abbr)' or 'City, Country', such as 'San Francisco, CA' or 'Paris, France'."
+       },
+       "unit": {
+        "type": "string",
+        "description": "The unit of temperature for the weather report.",
+        "enum": [
+         "celsius",
+         "fahrenheit"
+        ],
+        "default": "fahrenheit"
+       }
+      }
+     }
+    },
+    {
+     "name": "get_current_weather_49",
+     "description": "Retrieves the current weather conditions for the specified location.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "location"
+      ],
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The location for which to get the weather, in the format of 'City, State' (e.g., 'San Francisco, CA')."
+       },
+       "unit": {
+        "type": "string",
+        "description": "The temperature unit for the weather report.",
+        "enum": [
+         "celsius",
+         "fahrenheit"
+        ],
+        "default": "fahrenheit"
+       }
+      }
+     }
+    },
+    {
+     "name": "get_current_weather_50",
+     "description": "Retrieves the current weather for a specified city.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "location"
+      ],
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The city for which to get the weather, in the format of 'City, State' or 'City, Country'; for example, 'Austin, TX' or 'Paris, France'."
+       },
+       "format": {
+        "type": "string",
+        "description": "The temperature unit for the weather report.",
+        "enum": [
+         "celsius",
+         "fahrenheit"
+        ],
+        "default": "fahrenheit"
+       }
+      }
+     }
+    },
+    {
+     "name": "get_current_weather_51",
+     "description": "Retrieves the current weather for a specified location in the desired unit of temperature.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "location"
+      ],
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The location for which to get the weather, in the format of 'City, State', such as 'San Francisco, CA' or 'New York, NY'."
+       },
+       "unit": {
+        "type": "string",
+        "description": "The unit of temperature for the weather report.",
+        "enum": [
+         "celsius",
+         "fahrenheit"
+        ],
+        "default": "fahrenheit"
+       }
+      }
+     }
+    },
+    {
+     "name": "get_current_weather_52",
+     "description": "Retrieves the current weather for a specified location, with the option to get the result in either Celsius or Fahrenheit.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The location for which to retrieve the weather, in the format of 'City, State', such as 'San Francisco, CA'. If using state name then use short form."
+       },
+       "unit": {
+        "type": "string",
+        "description": "The unit of temperature for the weather report.",
+        "enum": [
+         "celsius",
+         "fahrenheit"
+        ],
+        "default": "fahrenheit"
+       }
+      },
+      "required": [
+       "location"
+      ]
+     }
+    },
+    {
+     "name": "get_current_weather_53",
+     "description": "Retrieves the current weather for a specified location, with the option to get the result in either Celsius or Fahrenheit.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The location for which to retrieve the weather, in the format of 'City, State', such as 'San Francisco, CA'."
+       },
+       "unit": {
+        "type": "string",
+        "description": "The unit of temperature for the weather report.",
+        "enum": [
+         "celsius",
+         "fahrenheit"
+        ],
+        "default": "fahrenheit"
+       }
+      },
+      "required": [
+       "location"
+      ]
+     }
+    },
+    {
+     "name": "get_current_weather_54",
+     "description": "Retrieves the current weather information for a specified city and state.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "location"
+      ],
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The location for which to get the weather, in the format of 'City, State', such as 'San Francisco, CA' or 'New York, NY'."
+       },
+       "unit": {
+        "type": "string",
+        "description": "The unit of measurement for temperature values.",
+        "enum": [
+         "celsius",
+         "fahrenheit"
+        ],
+        "default": "fahrenheit"
+       }
+      }
+     }
+    },
+    {
+     "name": "get_current_weather_55",
+     "description": "Retrieves the current weather information for a specified geographic location.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "location"
+      ],
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The geographic location for which to fetch the weather data, in the format of 'City, Country' (e.g., 'London, UK')."
+       },
+       "url": {
+        "type": "string",
+        "description": "The API endpoint for fetching weather data. This should be a fully qualified URL pointing to the Open-Meteo API with the appropriate query parameters for latitude and longitude.",
+        "default": "https://api.open-meteo.com/v1/forecast"
+       }
+      }
+     }
+    },
+    {
+     "name": "get_current_weather_56",
+     "description": "Retrieves the current weather information for a specified location using the Open-Meteo API. If using state, then use short form like CA.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "location"
+      ],
+      "properties": {
+       "url": {
+        "type": "string",
+        "description": "The API endpoint for fetching weather data, with a default value pointing to the Open-Meteo API service.",
+        "default": "https://api.open-meteo.com/v1/forecast"
+       },
+       "location": {
+        "type": "string",
+        "description": "The geographical location for which to retrieve weather data, in the format of 'City, State (abbr)' or 'Location, State (abbr)', such as 'San Francisco, CA'."
+       },
+       "unit": {
+        "type": "string",
+        "description": "The unit of measurement for temperature values.",
+        "enum": [
+         "celsius",
+         "fahrenheit"
+        ],
+        "default": "celsius"
+       }
+      }
+     }
+    },
+    {
+     "name": "get_current_weather_57",
+     "description": "Retrieves the current weather information for a specified location using the Open-Meteo API.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "location"
+      ],
+      "properties": {
+       "url": {
+        "type": "string",
+        "description": "The API endpoint for fetching weather data, with a default value pointing to the Open-Meteo API service.",
+        "default": "https://api.open-meteo.com/v1/forecast"
+       },
+       "location": {
+        "type": "string",
+        "description": "The geographical location for which to retrieve weather data, in the format of 'City, State', such as 'San Francisco, CA'. If using state name, then use short form."
+       },
+       "unit": {
+        "type": "string",
+        "description": "The unit of measurement for temperature values.",
+        "enum": [
+         "celsius",
+         "fahrenheit"
+        ],
+        "default": "celsius"
+       }
+      }
+     }
+    },
+    {
+     "name": "get_current_weather_58",
+     "description": "Retrieves the current weather information for a specified location, with an option to select the unit of temperature measurement.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "location"
+      ],
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The city and state of the location for which to retrieve weather data, in the format of 'City, State', such as 'San Francisco, CA' or 'New York, NY'."
+       },
+       "unit": {
+        "type": "string",
+        "description": "The unit of temperature measurement for the weather data.",
+        "enum": [
+         "celsius",
+         "fahrenheit"
+        ],
+        "default": "fahrenheit"
+       }
+      }
+     }
+    },
+    {
+     "name": "get_current_weather_59",
+     "description": "Retrieves the current weather information for a specified location.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "location"
+      ],
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The location for which the current weather is requested, in the format of 'City, State', such as 'San Francisco, CA' or 'New York, NY'. Use short form for state"
+       },
+       "unit": {
+        "type": "string",
+        "description": "The unit of measurement for temperature values.",
+        "enum": [
+         "celsius",
+         "fahrenheit"
+        ],
+        "default": "fahrenheit"
+       }
+      }
+     }
+    },
+    {
+     "name": "get_current_weather_60",
+     "description": "Retrieves the current weather information for a specified location.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "location"
+      ],
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The location for which to get the weather, in the format of 'City, State' or 'City, Country', such as 'San Francisco, CA' or 'London, UK'."
+       },
+       "unit": {
+        "type": "string",
+        "description": "The temperature unit for the weather report.",
+        "enum": [
+         "celsius",
+         "fahrenheit"
+        ],
+        "default": "fahrenheit"
+       }
+      }
+     }
+    },
+    {
+     "name": "get_current_weather_61",
+     "description": "Retrieves the current weather information for a specified location.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "location"
+      ],
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The location for which to get the weather, in the format of 'City, State', such as 'San Francisco, CA' or 'New York, NY'."
+       },
+       "unit": {
+        "type": "string",
+        "description": "The unit of measurement for temperature.",
+        "enum": [
+         "celsius",
+         "fahrenheit"
+        ],
+        "default": "fahrenheit"
+       }
+      }
+     }
+    },
+    {
+     "name": "get_current_weather_62",
+     "description": "Retrieves the current weather information for a specified location.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "location"
+      ],
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The location for which to retrieve weather data, in the format of 'City, State', such as 'San Francisco, CA' or 'New York, NY'."
+       },
+       "unit": {
+        "type": "string",
+        "description": "The unit of measurement for temperature values.",
+        "enum": [
+         "celsius",
+         "fahrenheit"
+        ],
+        "default": "fahrenheit"
+       }
+      }
+     }
+    },
+    {
+     "name": "get_snow_report",
+     "description": "Retrieves the latest snow report for a specified location, providing details about the snow conditions and weather.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "location"
+      ],
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The location for which to get the snow report, in the format of 'City, State' or 'City, Country', such as 'Aspen, CO' or 'Paris, France'."
+       },
+       "unit": {
+        "type": "string",
+        "description": "The temperature unit to be used in the snow report.",
+        "enum": [
+         "celsius",
+         "fahrenheit"
+        ],
+        "default": "fahrenheit"
+       }
+      }
+     }
+    },
+    {
+     "name": "get_snow_report_2",
+     "description": "Retrieves the latest snow report for a specified location, providing details about the snow conditions and weather.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "location"
+      ],
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The location for which to get the snow report, in the format of 'City, State', such as 'Aspen, CO'."
+       },
+       "unit": {
+        "type": "string",
+        "description": "The temperature unit to be used in the snow report.",
+        "enum": [
+         "celsius",
+         "fahrenheit"
+        ],
+        "default": "fahrenheit"
+       }
+      }
+     }
+    },
+    {
+     "name": "get_weather",
+     "description": "Retrieves the current weather for a specified city and state.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "location"
+      ],
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The location for which to get the weather, in the format of 'City, State', such as 'San Francisco, CA'."
+       },
+       "unit": {
+        "type": "string",
+        "description": "The unit of temperature for the weather report.",
+        "enum": [
+         "celsius",
+         "fahrenheit"
+        ],
+        "default": "fahrenheit"
+       }
+      }
+     }
+    },
+    {
+     "name": "get_weather_by_coordinates",
+     "description": "Retrieves current weather data for the specified city using its geographical coordinates.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "city",
+       "lat",
+       "lon"
+      ],
+      "properties": {
+       "city": {
+        "type": "string",
+        "description": "The name of the city, such as 'New York, NY'."
+       },
+       "lat": {
+        "type": "number",
+        "description": "The latitude of the city in decimal degrees."
+       },
+       "lon": {
+        "type": "number",
+        "description": "The longitude of the city in decimal degrees."
+       }
+      }
+     }
+    },
+    {
+     "name": "weather_in_location",
+     "description": "Retrieve the current weather conditions for a specified location, including temperature, humidity, and general conditions.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "location",
+       "unit"
+      ],
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The location for which to retrieve weather conditions, in the format of 'City, Country' (e.g., 'New York, USA')."
+       },
+       "unit": {
+        "type": "string",
+        "description": "The unit of measurement for temperature values, either Celsius ('C') or Fahrenheit ('F').",
+        "enum": [
+         "C",
+         "F"
+        ]
+       },
+       "include_forecast": {
+        "type": "boolean",
+        "description": "Whether to include a 5-day weather forecast in the response.",
+        "default": false
+       }
+      }
+     }
+    },
+    {
+     "name": "weather_in_location_2",
+     "description": "Retrieve the current weather conditions in a specific location.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The location where to retrieve the weather conditions."
+       },
+       "unit": {
+        "type": "string",
+        "enum": [
+         "C",
+         "F"
+        ],
+        "description": "The unit to use for the temperature, either Celsius (C) or Fahrenheit (F)."
+       }
+      },
+      "required": [
+       "location",
+       "unit"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "bfcl_c08_g1",
+   "name": "forecast weather temperature",
+   "server": "bfcl://bfcl_c08_g1",
+   "summary": "Functions for forecast, weather, temperature, humidity, precipitation, location.",
+   "tools": [
+    {
+     "name": "detailed_weather_forecast",
+     "description": "Retrieve a detailed weather forecast for a specific location and duration including optional precipitation details.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The city name that you want to get the weather for."
+       },
+       "duration": {
+        "type": "integer",
+        "description": "Duration in hours for the detailed forecast."
+       },
+       "include_precipitation": {
+        "type": "boolean",
+        "description": "Whether to include precipitation data in the forecast. Default is false."
+       }
+      },
+      "required": [
+       "location",
+       "duration"
+      ]
+     }
+    },
+    {
+     "name": "detailed_weather_forecast_2",
+     "description": "Retrieve a detailed weather forecast for a specific location and duration including optional precipitation details.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The city that you want to get the weather for."
+       },
+       "duration": {
+        "type": "integer",
+        "description": "Duration in hours for the detailed forecast."
+       },
+       "include_precipitation": {
+        "type": "boolean",
+        "description": "Whether to include precipitation data in the forecast. Default is false."
+       }
+      },
+      "required": [
+       "location",
+       "duration"
+      ]
+     }
+    },
+    {
+     "name": "detailed_weather_forecast_3",
+     "description": "Retrieve a detailed weather forecast for a specific location and time frame, including high/low temperatures, humidity, and precipitation.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The city that you want to get the weather for."
+       },
+       "days": {
+        "type": "integer",
+        "description": "Number of days for the forecast."
+       },
+       "details": {
+        "type": "array",
+        "items": {
+         "type": "string",
+         "enum": [
+          "high_low_temperature",
+          "humidity",
+          "precipitation"
+         ]
+        },
+        "description": "Specific weather details required in the forecast."
+       }
+      },
+      "required": [
+       "location",
+       "days",
+       "details"
+      ]
+     }
+    },
+    {
+     "name": "get_n_day_weather_forecast",
+     "description": "Retrieves the weather forecast for a specified number of days for a given city. The forecast includes daily temperature predictions in either Celsius or Fahrenheit.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "location",
+       "num_days"
+      ],
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The name of the city for which the weather forecast is being requested, in the format of 'City, Country' (e.g., 'New York, USA')."
+       },
+       "format": {
+        "type": "string",
+        "description": "The temperature format for the weather forecast. This is auto computed based on the city location.",
+        "enum": [
+         "celsius",
+         "fahrenheit"
+        ],
+        "default": "celsius"
+       },
+       "num_days": {
+        "type": "integer",
+        "description": "The number of days for which the weather forecast is required. Must be a positive integer."
+       }
+      }
+     }
+    },
+    {
+     "name": "get_weather_forecast",
+     "description": "Retrieves the current weather forecast for a specified location, including temperature, precipitation, and wind speed.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "location",
+       "units"
+      ],
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The geographic location for which the weather forecast is requested, in the format of 'City, State' or 'City, Country', such as 'New York, NY' or 'London, UK'."
+       },
+       "units": {
+        "type": "string",
+        "description": "The units of measurement for the weather forecast, either 'metric' or 'imperial'."
+       },
+       "date": {
+        "type": "string",
+        "description": "The date for which the weather forecast is requested, in the format 'YYYY-MM-DD'. If not provided, the default value represents the current date, which is null.",
+        "default": null
+       },
+       "include_hourly": {
+        "type": "boolean",
+        "description": "Specifies whether to include hourly forecast data. If false, only daily summary data will be returned.",
+        "default": false
+       }
+      }
+     }
+    },
+    {
+     "name": "get_weather_forecast_2",
+     "description": "Retrieves the weather forecast for a specified location and date range. The forecast includes temperature, precipitation, and wind speed.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "location",
+       "start_date",
+       "end_date"
+      ],
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The location for which the weather forecast is requested, in the format of 'City, Country' (e.g., 'London, UK')."
+       },
+       "start_date": {
+        "type": "string",
+        "description": "The start date of the period for the weather forecast in the ISO 8601 format (e.g., '2023-04-01')."
+       },
+       "end_date": {
+        "type": "string",
+        "description": "The end date of the period for the weather forecast in the ISO 8601 format (e.g., '2023-04-07')."
+       },
+       "units": {
+        "type": "string",
+        "description": "The unit system in which to return the weather forecast data.",
+        "enum": [
+         "metric",
+         "imperial"
+        ],
+        "default": "metric"
+       },
+       "include_details": {
+        "type": "boolean",
+        "description": "Specifies whether to include detailed forecast information such as humidity and visibility.",
+        "default": false
+       }
+      }
+     }
+    },
+    {
+     "name": "humidity_temperature_forecast",
+     "description": "Retrieve forecast of humidity and temperature for a specific location and for a future date.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The city that you want to get the humidity and temperature forecast for."
+       },
+       "days": {
+        "type": "integer",
+        "description": "Number of future days for which to retrieve the forecast."
+       }
+      },
+      "required": [
+       "location",
+       "days"
+      ]
+     }
+    },
+    {
+     "name": "weather_forecast",
+     "description": "Retrieve a weather forecast for a specific location and time frame.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The city that you want to get the weather for."
+       },
+       "days": {
+        "type": "integer",
+        "description": "Number of days for the forecast."
+       }
+      },
+      "required": [
+       "location",
+       "days"
+      ]
+     }
+    },
+    {
+     "name": "weather_forecast_detailed",
+     "description": "Retrieve a detailed weather forecast for a specific city like Boston and time frame.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The city that you want to get the weather for."
+       },
+       "days": {
+        "type": "integer",
+        "description": "Number of days for the forecast."
+       },
+       "details": {
+        "type": "boolean",
+        "description": "Provide detailed weather information or not.",
+        "default": false
+       }
+      },
+      "required": [
+       "location",
+       "days"
+      ]
+     }
+    },
+    {
+     "name": "weather_forecast_humidity",
+     "description": "Retrieve a humidity forecast for a specific location for a certain number of days.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The city that you want to get the humidity forecast for."
+       },
+       "days": {
+        "type": "integer",
+        "description": "Number of days for the forecast."
+       }
+      },
+      "required": [
+       "location",
+       "days"
+      ]
+     }
+    },
+    {
+     "name": "weather_forecast_precipitation",
+     "description": "Retrieve a precipitation forecast for a specific location for a certain number of days.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The city that you want to get the precipitation forecast for."
+       },
+       "days": {
+        "type": "integer",
+        "description": "Number of days for the forecast."
+       }
+      },
+      "required": [
+       "location",
+       "days"
+      ]
+     }
+    },
+    {
+     "name": "weather_forecast_temperature",
+     "description": "Retrieve a temperature forecast for a specific location for a certain number of days.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The city that you want to get the temperature forecast for."
+       },
+       "days": {
+        "type": "integer",
+        "description": "Number of days for the forecast."
+       }
+      },
+      "required": [
+       "location",
+       "days"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "bfcl_c08_g2",
+   "name": "quality air index",
+   "server": "bfcl://bfcl_c08_g2",
+   "summary": "Functions for quality, air, index, location, retrieve, time.",
+   "tools": [
+    {
+     "name": "air_quality",
+     "description": "Retrieve the air quality index for a specific location.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The city that you want to get the air quality index for."
+       },
+       "date": {
+        "type": "string",
+        "description": "The date (month-day-year) you want to get the air quality index for."
+       }
+      },
+      "required": [
+       "location",
+       "date"
+      ]
+     }
+    },
+    {
+     "name": "air_quality_2",
+     "description": "Retrieve the air quality index for a specific location.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The city that you want to get the air quality index for."
+       },
+       "date": {
+        "type": "string",
+        "description": "The date you want to get the air quality index for. Default is today."
+       }
+      },
+      "required": [
+       "location",
+       "date"
+      ]
+     }
+    },
+    {
+     "name": "air_quality_forecast",
+     "description": "Retrieve an air quality forecast for a specific location and time frame.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The city that you want to get the air quality forecast for."
+       },
+       "days": {
+        "type": "integer",
+        "description": "Number of days for the forecast."
+       }
+      },
+      "required": [
+       "location",
+       "days"
+      ]
+     }
+    },
+    {
+     "name": "get_air_quality",
+     "description": "Retrieve real-time air quality and pollution data for a specific location.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The city that you want to get the air quality data for."
+       },
+       "detail": {
+        "type": "boolean",
+        "description": "If true, additional data like PM2.5, PM10, ozone levels, and pollution sources will be retrieved. Default is false."
+       }
+      },
+      "required": [
+       "location"
+      ]
+     }
+    },
+    {
+     "name": "get_air_quality_2",
+     "description": "Retrieve real-time air quality and pollution data for a specific location.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The city that you want to get the air quality data for."
+       },
+       "detail": {
+        "type": "boolean",
+        "description": "If true, additional data like PM2.5, PM10, ozone levels, and pollution sources will be retrieved. the value is set to false to default."
+       },
+       "historical": {
+        "type": "string",
+        "description": "Optional date (in 'YYYY-MM-DD' format) to retrieve historical data.",
+        "default": "today"
+       }
+      },
+      "required": [
+       "location"
+      ]
+     }
+    },
+    {
+     "name": "get_air_quality_index",
+     "description": "Retrieve the air quality index at a specified location and time.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The location to get the air quality index for."
+       },
+       "time": {
+        "type": "string",
+        "description": "The specific time to check the air quality. Default is the current time."
+       }
+      },
+      "required": [
+       "location",
+       "time"
+      ]
+     }
+    }
+   ]
+  }
+ ]
+}

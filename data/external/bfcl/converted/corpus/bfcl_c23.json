@@ -1,0 +1,3087 @@
+{
+ "branch": {
+  "id": "bfcl_c23",
+  "name": "add / delete / items",
+  "summary": "Functions about add, delete, items, todo, deletes, specified, list, update, item, new, adds, action."
+ },
+ "toolkits": [
+  {
+   "id": "aclapi",
+   "name": "AclApi",
+   "server": "bfcl://AclApi",
+   "summary": "Adds an Access Control List (ACL) mapping to define permissions for users or groups on specified resources.",
+   "tools": [
+    {
+     "name": "add_mapping",
+     "description": "Adds an Access Control List (ACL) mapping to define permissions for users or groups on specified resources.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "resource_id",
+       "user_id",
+       "permissions"
+      ],
+      "properties": {
+       "resource_id": {
+        "type": "string",
+        "description": "The unique identifier for the resource to which the ACL mapping will be applied."
+       },
+       "user_id": {
+        "type": "string",
+        "description": "The unique identifier of the user or group that the ACL mapping will be associated with."
+       },
+       "permissions": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "A list of permission strings that define the access level for the user or group on the resource."
+       },
+       "expiry_date": {
+        "type": "string",
+        "description": "The expiration date for the ACL mapping in the format 'YYYY-MM-DD'. Optional, defaults to null which indicates no expiration.",
+        "default": null
+       }
+      }
+     }
+    }
+   ]
+  },
+  {
+   "id": "battlereigngameapi",
+   "name": "BattleReignGameAPI",
+   "server": "bfcl://BattleReignGameAPI",
+   "summary": "Modify the player's equipment level for specified attributes",
+   "tools": [
+    {
+     "name": "update_player_equipment",
+     "description": "Modify the player's equipment level for specified attributes",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "attribute": {
+        "type": "string",
+        "description": "The attribute of the equipment to modify."
+       },
+       "level": {
+        "type": "integer",
+        "description": "The level to modify the attribute to."
+       },
+       "playerID": {
+        "type": "integer",
+        "description": "Player ID of the player. Default to 123",
+        "default": 123
+       }
+      },
+      "required": [
+       "attribute",
+       "level"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "infrastructureresourcesapi",
+   "name": "InfrastructureResourcesApi",
+   "server": "bfcl://InfrastructureResourcesApi",
+   "summary": "Retrieve information about the software installed on the system, including details like runtime and package manager versions.",
+   "tools": [
+    {
+     "name": "software_versions",
+     "description": "Retrieve information about the software installed on the system, including details like runtime and package manager versions. Optional filters such as `name`, `version`, `origin`, and `type` may be applied to refine the search results.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "time"
+      ],
+      "properties": {
+       "time": {
+        "type": "string",
+        "description": "The time or date when the software information is requested, formatted as 'YYYY-MM-DD HH:MM:SS'."
+       },
+       "origin": {
+        "type": "string",
+        "description": "The source or repository from which the software was installed.",
+        "default": ""
+       },
+       "type": {
+        "type": "string",
+        "description": "The type of software, such as 'runtime' or 'package manager'.",
+        "enum": [
+         "runtime",
+         "package manager",
+         "library",
+         "application"
+        ],
+        "default": ""
+       },
+       "name": {
+        "type": "string",
+        "description": "The name of the software package.",
+        "default": ""
+       },
+       "version": {
+        "type": "string",
+        "description": "The version number of the software package.",
+        "default": ""
+       }
+      }
+     }
+    }
+   ]
+  },
+  {
+   "id": "servicemanager",
+   "name": "ServiceManager",
+   "server": "bfcl://ServiceManager",
+   "summary": "Schedules a new timeout to execute a TimerTask after a specified delay.",
+   "tools": [
+    {
+     "name": "newTimeout",
+     "description": "Schedules a new timeout to execute a TimerTask after a specified delay. If the service manager is shutting down, it returns a dummy timeout instead.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "task": {
+        "type": "string",
+        "description": "The TimerTask to schedule."
+       },
+       "delay": {
+        "type": "integer",
+        "description": "The delay before the task is executed."
+       },
+       "unit": {
+        "type": "string",
+        "description": "The time unit of the delay. Represented by TimeUnit.SECONDS for seconds"
+       }
+      },
+      "required": [
+       "task",
+       "delay",
+       "unit"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "twosum",
+   "name": "TwoSum",
+   "server": "bfcl://TwoSum",
+   "summary": "Finds two numbers in the given array that add up to the target sum and returns their indices.",
+   "tools": [
+    {
+     "name": "twoSum",
+     "description": "Finds two numbers in the given array that add up to the target sum and returns their indices.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "nums": {
+        "type": "array",
+        "description": "An array of integers to search for the two numbers.",
+        "items": {
+         "type": "integer"
+        }
+       },
+       "target": {
+        "type": "integer",
+        "description": "The target sum to find within the array."
+       }
+      },
+      "required": [
+       "nums",
+       "target"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "acl_api",
+   "name": "acl_api",
+   "server": "bfcl://acl_api",
+   "summary": "Retrieve a list of projects assigned to a specified team, with options to exclude inactive or non-root projects. Retrieve a list of projects assigned to the specified team, with options to exclude inactive or non-root projects.",
+   "tools": [
+    {
+     "name": "AclApi_retrieve_projects",
+     "description": "Retrieve a list of projects assigned to a specified team, with options to exclude inactive or non-root projects.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "uuid"
+      ],
+      "properties": {
+       "uuid": {
+        "type": "string",
+        "description": "The unique identifier (UUID) of the team for which to retrieve project mappings."
+       },
+       "excludeInactive": {
+        "type": "boolean",
+        "description": "If true, inactive projects will not be included in the response.",
+        "default": false
+       },
+       "onlyRoot": {
+        "type": "boolean",
+        "description": "If true, only root projects will be returned, excluding any child projects.",
+        "default": false
+       }
+      }
+     }
+    },
+    {
+     "name": "AclApi_retrieve_projects_2",
+     "description": "Retrieve a list of projects assigned to the specified team, with options to exclude inactive or non-root projects.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "uuid"
+      ],
+      "properties": {
+       "uuid": {
+        "type": "string",
+        "description": "The unique identifier (UUID) of the team for which to retrieve assigned projects."
+       },
+       "excludeInactive": {
+        "type": "boolean",
+        "description": "When set to true, inactive projects are excluded from the results.",
+        "default": false
+       },
+       "onlyRoot": {
+        "type": "boolean",
+        "description": "When set to true, only root projects are included in the results, excluding any child projects.",
+        "default": false
+       }
+      }
+     }
+    },
+    {
+     "name": "AclApi_retrieve_projects_3",
+     "description": "Retrieve a list of projects assigned to the specified team, with options to exclude inactive projects and/or omit child projects.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "uuid"
+      ],
+      "properties": {
+       "uuid": {
+        "type": "string",
+        "description": "The unique identifier of the team for which projects are being retrieved."
+       },
+       "excludeInactive": {
+        "type": "boolean",
+        "description": "If set to true, inactive projects will not be included in the response.",
+        "default": false
+       },
+       "onlyRoot": {
+        "type": "boolean",
+        "description": "If set to true, only root projects will be returned, excluding their child projects.",
+        "default": false
+       }
+      }
+     }
+    },
+    {
+     "name": "AclApi_retrieve_projects_4",
+     "description": "Retrieve the list of projects assigned to a specified team, with options to exclude inactive or child projects.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "uuid"
+      ],
+      "properties": {
+       "uuid": {
+        "type": "string",
+        "description": "The UUID of the team for which to retrieve the project mappings."
+       },
+       "excludeInactive": {
+        "type": "boolean",
+        "description": "If set to true, inactive projects will be excluded from the results.",
+        "default": false
+       },
+       "onlyRoot": {
+        "type": "boolean",
+        "description": "If set to true, only root projects will be returned, excluding any child projects.",
+        "default": false
+       }
+      }
+     }
+    },
+    {
+     "name": "AclApi_retrieve_projects_5",
+     "description": "Retrieve the list of projects assigned to a specified team, with options to exclude inactive projects and/or only include root projects.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "uuid"
+      ],
+      "properties": {
+       "uuid": {
+        "type": "string",
+        "description": "The unique identifier of the team for which to retrieve project mappings."
+       },
+       "excludeInactive": {
+        "type": "boolean",
+        "description": "If true, inactive projects will not be included in the response.",
+        "default": false
+       },
+       "onlyRoot": {
+        "type": "boolean",
+        "description": "If true, only root projects will be included in the response.",
+        "default": false
+       }
+      }
+     }
+    },
+    {
+     "name": "add_mapping",
+     "description": "Adds an Access Control List (ACL) mapping to define permissions for a user or group.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "principal_id",
+       "resource_id",
+       "permissions"
+      ],
+      "properties": {
+       "principal_id": {
+        "type": "string",
+        "description": "The unique identifier for the user or group."
+       },
+       "resource_id": {
+        "type": "string",
+        "description": "The unique identifier of the resource for which access is being defined."
+       },
+       "permissions": {
+        "type": "string",
+        "description": "The level of access being granted.",
+        "enum": [
+         "read",
+         "write",
+         "delete",
+         "admin"
+        ]
+       }
+      }
+     }
+    },
+    {
+     "name": "add_mapping_2",
+     "description": "Adds an Access Control List (ACL) mapping to define permissions for users or groups.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "user_id",
+       "resource_id",
+       "permissions"
+      ],
+      "properties": {
+       "user_id": {
+        "type": "string",
+        "description": "The unique identifier of the user for whom the ACL mapping will be added."
+       },
+       "resource_id": {
+        "type": "string",
+        "description": "The unique identifier of the resource to which access is being controlled."
+       },
+       "permissions": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "A list of permissions to be granted, such as ['read', 'write', 'delete']."
+       },
+       "expires_on": {
+        "type": "string",
+        "description": "The date on which the ACL mapping expires, in the format of 'YYYY-MM-DD'.",
+        "default": null
+       }
+      }
+     }
+    },
+    {
+     "name": "delete_mapping",
+     "description": "Removes an ACL (Access Control List) mapping for a specified team and project.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "teamUuid",
+       "projectUuid"
+      ],
+      "properties": {
+       "teamUuid": {
+        "type": "string",
+        "description": "The UUID of the team for which the ACL mapping is to be removed."
+       },
+       "projectUuid": {
+        "type": "string",
+        "description": "The UUID of the project for which the ACL mapping is to be removed."
+       }
+      }
+     }
+    },
+    {
+     "name": "delete_mapping_2",
+     "description": "Removes an Access Control List (ACL) mapping between a specified team and project by their UUIDs.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "teamUuid",
+       "projectUuid"
+      ],
+      "properties": {
+       "teamUuid": {
+        "type": "string",
+        "description": "The universally unique identifier (UUID) of the team for which the ACL mapping is to be removed."
+       },
+       "projectUuid": {
+        "type": "string",
+        "description": "The UUID of the project associated with the team whose ACL mapping is to be deleted."
+       }
+      }
+     }
+    },
+    {
+     "name": "delete_mapping_3",
+     "description": "Removes an Access Control List (ACL) mapping from a specified team and project. This action unlinks the team's access rights from the project.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "teamUuid",
+       "projectUuid"
+      ],
+      "properties": {
+       "teamUuid": {
+        "type": "string",
+        "description": "The UUID of the team from which the ACL mapping will be removed."
+       },
+       "projectUuid": {
+        "type": "string",
+        "description": "The UUID of the project from which the ACL mapping will be removed."
+       }
+      }
+     }
+    }
+   ]
+  },
+  {
+   "id": "inventory",
+   "name": "inventory",
+   "server": "bfcl://inventory",
+   "summary": "Checks the inventory levels for specified items and determines if restocking is required based on minimum threshold levels.",
+   "tools": [
+    {
+     "name": "restock_check",
+     "description": "Checks the inventory levels for specified items and determines if restocking is required based on minimum threshold levels.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "item_ids",
+       "threshold"
+      ],
+      "properties": {
+       "item_ids": {
+        "type": "array",
+        "items": {
+         "type": "integer"
+        },
+        "description": "A list of unique integer identifiers for items to check in the inventory."
+       },
+       "threshold": {
+        "type": "integer",
+        "description": "The minimum inventory level before restocking is triggered."
+       },
+       "include_discontinued": {
+        "type": "boolean",
+        "description": "Whether to include discontinued items in the restock check.",
+        "default": false
+       }
+      }
+     }
+    }
+   ]
+  },
+  {
+   "id": "ldap_api",
+   "name": "ldap_api",
+   "server": "bfcl://ldap_api",
+   "summary": "Adds a new LDAP (Lightweight Directory Access Protocol) mapping to the system, allowing the integration of LDAP user groups with system roles. Adds a new LDAP mapping entry to the directory service, allowing for the synchronization of user data between systems.",
+   "tools": [
+    {
+     "name": "LdapApi_add_mapping1",
+     "description": "Adds a new LDAP (Lightweight Directory Access Protocol) mapping to the system, allowing the integration of LDAP user groups with system roles.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "mapping_name",
+       "user_group",
+       "system_role"
+      ],
+      "properties": {
+       "mapping_name": {
+        "type": "string",
+        "description": "The unique name to identify this LDAP mapping."
+       },
+       "user_group": {
+        "type": "string",
+        "description": "The distinguished name (DN) of the LDAP user group to be mapped."
+       },
+       "system_role": {
+        "type": "string",
+        "description": "The system role to be associated with the LDAP user group."
+       },
+       "description": {
+        "type": "string",
+        "description": "A brief description of the mapping for administrative purposes.",
+        "default": "No description provided"
+       },
+       "is_active": {
+        "type": "boolean",
+        "description": "Indicates whether the mapping is active or not.",
+        "default": true
+       }
+      }
+     }
+    },
+    {
+     "name": "LdapApi_add_mapping_1",
+     "description": "Adds a new LDAP mapping entry to the directory service, allowing for the synchronization of user data between systems.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "mapping_name",
+       "source",
+       "destination"
+      ],
+      "properties": {
+       "mapping_name": {
+        "type": "string",
+        "description": "The unique name for the LDAP mapping."
+       },
+       "source": {
+        "type": "string",
+        "description": "The source object or attribute in the LDAP directory to map from."
+       },
+       "destination": {
+        "type": "string",
+        "description": "The destination object or attribute to which the LDAP source will be mapped."
+       },
+       "mapping_type": {
+        "type": "string",
+        "description": "The type of the mapping, defining how the synchronization should be handled.",
+        "enum": [
+         "simple",
+         "complex",
+         "custom"
+        ],
+        "default": "simple"
+       },
+       "sync_frequency": {
+        "type": "integer",
+        "description": "Frequency at which the mapping synchronization occurs, measured in minutes.",
+        "default": 60
+       }
+      }
+     }
+    },
+    {
+     "name": "LdapApi_add_mapping_1_2",
+     "description": "Adds a new LDAP mapping to the system, linking LDAP groups to system roles.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "ldap_group",
+       "system_role"
+      ],
+      "properties": {
+       "ldap_group": {
+        "type": "string",
+        "description": "The name of the LDAP group to be mapped."
+       },
+       "system_role": {
+        "type": "string",
+        "description": "The corresponding system role to which the LDAP group will be mapped."
+       },
+       "description": {
+        "type": "string",
+        "description": "An optional description of the mapping for reference.",
+        "default": ""
+       }
+      }
+     }
+    },
+    {
+     "name": "LdapApi_retrieve_ldap_groups",
+     "description": "Performs a pass-through query to the configured LDAP server to retrieve the distinguished names (DNs) of all accessible groups. The search results are cached according to the default Alpine CacheManager policy.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "search_base",
+       "search_filter"
+      ],
+      "properties": {
+       "search_base": {
+        "type": "string",
+        "description": "The base DN from which the search should start. For example, 'dc=example,dc=com'."
+       },
+       "search_filter": {
+        "type": "string",
+        "description": "The search filter to apply. For instance, '(objectClass=group)'."
+       },
+       "search_scope": {
+        "type": "string",
+        "description": "The scope of the search. Possible values include 'base', 'onelevel', and 'subtree'.",
+        "enum": [
+         "base",
+         "onelevel",
+         "subtree"
+        ],
+        "default": "subtree"
+       },
+       "return_attributes": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "A list of attributes to return. For example, ['cn', 'member'].",
+        "default": [
+         "dn"
+        ]
+       },
+       "time_limit": {
+        "type": "integer",
+        "description": "Time limit in seconds for the search query. A value of 0 means no limit.",
+        "default": 0
+       },
+       "size_limit": {
+        "type": "integer",
+        "description": "The maximum number of entries to return. A value of 0 indicates no limit.",
+        "default": 0
+       },
+       "cache_policy": {
+        "type": "string",
+        "description": "The caching policy to use for the search results. Default policies could be 'default', 'never', 'always', or 'if_remote'.",
+        "enum": [
+         "default",
+         "never",
+         "always",
+         "if_remote"
+        ],
+        "default": "default"
+       }
+      }
+     }
+    }
+   ]
+  },
+  {
+   "id": "oidc_api",
+   "name": "oidc_api",
+   "server": "bfcl://oidc_api",
+   "summary": "Adds an OpenID Connect (OIDC) provider to client mapping to the system. Adds a new OpenID Connect (OIDC) identity provider to client mapping.",
+   "tools": [
+    {
+     "name": "OidcApi_add_mapping2",
+     "description": "Adds an OpenID Connect (OIDC) provider to client mapping to the system.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "provider",
+       "client_id",
+       "client_secret"
+      ],
+      "properties": {
+       "provider": {
+        "type": "string",
+        "description": "The unique identifier for the OIDC provider."
+       },
+       "client_id": {
+        "type": "string",
+        "description": "The client ID registered with the OIDC provider."
+       },
+       "client_secret": {
+        "type": "string",
+        "description": "The client secret associated with the client ID."
+       },
+       "redirect_uris": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "A list of allowed redirect URIs for the client.",
+        "default": []
+       },
+       "grant_types": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "The grant types the client is allowed to use.",
+        "default": [
+         "authorization_code",
+         "implicit"
+        ]
+       },
+       "response_types": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "The response types the client is allowed to use.",
+        "default": [
+         "code",
+         "token",
+         "id_token"
+        ]
+       }
+      }
+     }
+    },
+    {
+     "name": "OidcApi_add_mapping_2",
+     "description": "Adds a new OpenID Connect (OIDC) identity provider to client mapping. This allows the specified client to use the given OIDC provider for authentication.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "provider_id",
+       "client_id"
+      ],
+      "properties": {
+       "provider_id": {
+        "type": "string",
+        "description": "The unique identifier of the OIDC provider."
+       },
+       "client_id": {
+        "type": "string",
+        "description": "The client identifier for which the mapping is to be added."
+       },
+       "client_secret": {
+        "type": "string",
+        "description": "The client secret corresponding to the client identifier. This is an optional parameter.",
+        "default": null
+       },
+       "redirect_uris": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "A list of allowed redirect URIs for the OIDC client. Each URI should be a well-formed URL.",
+        "default": []
+       },
+       "grant_types": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "A list of grant types permitted for the OIDC client, such as 'authorization_code' and 'implicit'.",
+        "default": [
+         "authorization_code"
+        ]
+       },
+       "response_types": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "A list of response types permitted for the OIDC client, such as 'code' or 'token'.",
+        "default": [
+         "code"
+        ]
+       },
+       "scope": {
+        "type": "string",
+        "description": "The default scope to be requested from the OIDC provider. Typically includes 'openid'.",
+        "default": "openid"
+       },
+       "token_endpoint_auth_method": {
+        "type": "string",
+        "description": "The authentication method to be used at the token endpoint of the OIDC provider. This should match one of the allowed methods supported by the provider.",
+        "enum": [
+         "client_secret_basic",
+         "client_secret_post",
+         "private_key_jwt",
+         "none"
+        ],
+        "default": "client_secret_basic"
+       }
+      }
+     }
+    },
+    {
+     "name": "OidcApi_is_available",
+     "description": "Check whether OpenID Connect authentication is available for the specified application.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "app_id"
+      ],
+      "properties": {
+       "app_id": {
+        "type": "string",
+        "description": "The unique identifier of the application to check for OpenID Connect availability."
+       }
+      }
+     }
+    },
+    {
+     "name": "OidcApi_is_available_2",
+     "description": "Checks if OpenID Connect authentication is supported for the current application, which enables single sign-on capabilities.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "application_id": {
+        "type": "string",
+        "description": "The unique identifier of the application for which to check OpenID Connect availability."
+       }
+      },
+      "required": [
+       "application_id"
+      ]
+     }
+    },
+    {
+     "name": "OidcApi_is_available_3",
+     "description": "Checks whether OpenID Connect authentication is enabled and available for the application.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "application_id"
+      ],
+      "properties": {
+       "application_id": {
+        "type": "string",
+        "description": "The unique identifier of the application for which to check OpenID Connect availability."
+       }
+      }
+     }
+    },
+    {
+     "name": "OidcApi_update_group",
+     "description": "Updates the properties of an existing group identified by its unique ID, with the provided details.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "group_id",
+       "group_details"
+      ],
+      "properties": {
+       "group_id": {
+        "type": "string",
+        "description": "The unique identifier for the group to be updated."
+       },
+       "group_details": {
+        "type": "object",
+        "description": "The details of the group to be updated.",
+        "properties": {
+         "name": {
+          "type": "string",
+          "description": "The new name of the group."
+         },
+         "description": {
+          "type": "string",
+          "description": "A brief summary about the purpose or role of the group."
+         },
+         "active": {
+          "type": "boolean",
+          "description": "Indicates whether the group is active or not.",
+          "default": true
+         }
+        }
+       }
+      }
+     }
+    },
+    {
+     "name": "OidcApi_update_group_2",
+     "description": "Updates the properties of an existing group in the OIDC system, such as the group's name and description.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "group_id"
+      ],
+      "properties": {
+       "group_id": {
+        "type": "string",
+        "description": "The unique identifier of the group to be updated."
+       },
+       "group_name": {
+        "type": "string",
+        "description": "The new name for the group.",
+        "default": null
+       },
+       "group_description": {
+        "type": "string",
+        "description": "A brief description of the group and its purpose.",
+        "default": null
+       },
+       "is_active": {
+        "type": "boolean",
+        "description": "Flag to determine if the group is active or not.",
+        "default": true
+       }
+      }
+     }
+    },
+    {
+     "name": "add_mapping_2",
+     "description": "Adds a mapping between an OpenID Connect (OIDC) provider and the client system to enable authentication.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "provider_id",
+       "client_id"
+      ],
+      "properties": {
+       "provider_id": {
+        "type": "string",
+        "description": "The unique identifier of the OIDC provider."
+       },
+       "client_id": {
+        "type": "string",
+        "description": "The client identifier issued to the client during the registration process."
+       },
+       "client_secret": {
+        "type": "string",
+        "description": "The client secret. It should be kept confidential.",
+        "default": null
+       },
+       "redirect_uris": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "A list of allowed redirect URIs for the client.",
+        "default": []
+       },
+       "grant_types": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "A list of grant types that the client can use. Examples include 'authorization_code' and 'implicit'.",
+        "default": [
+         "authorization_code"
+        ]
+       },
+       "response_types": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "A list of the OAuth 2.0 response types that the client can use. Typically includes 'code' for authorization code flow.",
+        "default": [
+         "code"
+        ]
+       },
+       "scope": {
+        "type": "string",
+        "description": "A space-delimited list of scopes that the client can request during authentication. Example: 'openid profile email'.",
+        "default": "openid"
+       },
+       "token_endpoint_auth_method": {
+        "type": "string",
+        "description": "The requested authentication method for the token endpoint. This method should match one of the client's registered authentication methods.",
+        "enum": [
+         "client_secret_basic",
+         "client_secret_post",
+         "client_secret_jwt",
+         "private_key_jwt",
+         "none"
+        ],
+        "default": "client_secret_basic"
+       }
+      }
+     }
+    },
+    {
+     "name": "update_group",
+     "description": "Updates the properties of an existing group in the OpenID Connect (OIDC) system.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "group_id",
+       "group_details"
+      ],
+      "properties": {
+       "group_id": {
+        "type": "string",
+        "description": "The unique identifier of the group to be updated."
+       },
+       "group_details": {
+        "type": "object",
+        "description": "The details of the group to update.",
+        "properties": {
+         "name": {
+          "type": "string",
+          "description": "The new name for the group."
+         },
+         "description": {
+          "type": "string",
+          "description": "A brief description of the group and its purpose."
+         },
+         "active": {
+          "type": "boolean",
+          "description": "A flag indicating if the group is active or not.",
+          "default": true
+         }
+        }
+       }
+      }
+     }
+    }
+   ]
+  },
+  {
+   "id": "releases_api",
+   "name": "releases_api",
+   "server": "bfcl://releases_api",
+   "summary": "Deletes a specific release identified by a unique release ID. Deletes a specified release from the system using its unique identifier.",
+   "tools": [
+    {
+     "name": "ReleasesApi_delete_release",
+     "description": "Deletes a specific release identified by a unique release ID.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "releaseId"
+      ],
+      "properties": {
+       "releaseId": {
+        "type": "string",
+        "description": "The unique identifier of the release to be deleted. This is typically a UUID."
+       }
+      }
+     }
+    },
+    {
+     "name": "ReleasesApi_delete_release_2",
+     "description": "Deletes a specified release from the system using its unique identifier.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "releaseId"
+      ],
+      "properties": {
+       "releaseId": {
+        "type": "string",
+        "description": "The unique identifier of the release to be deleted."
+       }
+      }
+     }
+    },
+    {
+     "name": "ReleasesApi_get_all_releases",
+     "description": "Retrieve a list of releases with optional filters such as name, start time, and date range. The endpoint can be used to create, update, delete, and fetch details for existing releases.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "releaseId"
+      ],
+      "properties": {
+       "releaseId": {
+        "type": "string",
+        "description": "A unique identifier for each release."
+       },
+       "name": {
+        "type": "string",
+        "description": "The exact name of the release to retrieve, e.g., 'Release-161'.",
+        "default": null
+       },
+       "start": {
+        "type": "integer",
+        "description": "The start time of the release, represented as a UNIX timestamp in milliseconds.",
+        "default": null
+       },
+       "_from": {
+        "type": "integer",
+        "description": "Filter to include only releases with a start time greater than or equal to this UNIX timestamp in milliseconds.",
+        "default": null
+       },
+       "to": {
+        "type": "integer",
+        "description": "Filter to include only releases with a start time less than or equal to this UNIX timestamp in milliseconds.",
+        "default": null
+       },
+       "maxResults": {
+        "type": "integer",
+        "description": "The maximum number of releases to retrieve. Use a positive integer to limit results.",
+        "default": null
+       }
+      }
+     }
+    },
+    {
+     "name": "ReleasesApi_get_all_releases_2",
+     "description": "Retrieves a list of releases based on given filters. It can be used to create, update, delete, and fetch details for existing releases.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "releaseId"
+      ],
+      "properties": {
+       "releaseId": {
+        "type": "string",
+        "description": "A unique identifier for each release."
+       },
+       "name": {
+        "type": "string",
+        "description": "The name of the release to be retrieved, e.g., 'Release-161'.",
+        "default": null
+       },
+       "start": {
+        "type": "integer",
+        "description": "The start time of the release as a UNIX timestamp in milliseconds.",
+        "default": null
+       },
+       "_from": {
+        "type": "integer",
+        "description": "The lower bound for filtering releases based on the start time as a UNIX timestamp in milliseconds.",
+        "default": null
+       },
+       "to": {
+        "type": "integer",
+        "description": "The upper bound for filtering releases based on the start time as a UNIX timestamp in milliseconds.",
+        "default": null
+       },
+       "maxResults": {
+        "type": "integer",
+        "description": "The maximum number of releases to retrieve. If not set, a default server-defined value will be used.",
+        "default": null
+       }
+      }
+     }
+    },
+    {
+     "name": "ReleasesApi_post_release",
+     "description": "Create a new release in the system, assigning it an unique identifier and storing release metadata.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "version",
+       "description"
+      ],
+      "properties": {
+       "version": {
+        "type": "string",
+        "description": "The version number of the release following semantic versioning."
+       },
+       "description": {
+        "type": "string",
+        "description": "A detailed description of the release contents and changes made."
+       },
+       "is_prerelease": {
+        "type": "boolean",
+        "description": "Indicates whether the release is a pre-release version.",
+        "default": false
+       },
+       "release_date": {
+        "type": "string",
+        "description": "The date of the release in the format 'YYYY-MM-DD'. If not provided, defaults to the current date.",
+        "default": "null"
+       },
+       "release_time": {
+        "type": "string",
+        "description": "The time of the release in the format 'HH:MM:SS'. If not provided, defaults to the current time.",
+        "default": "null"
+       }
+      }
+     }
+    },
+    {
+     "name": "ReleasesApi_post_release_2",
+     "description": "Create a new software release entry in the system with the specified details.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "version",
+       "release_date",
+       "status"
+      ],
+      "properties": {
+       "version": {
+        "type": "string",
+        "description": "The version identifier for the release, following semantic versioning, e.g., '1.0.0'."
+       },
+       "release_date": {
+        "type": "string",
+        "description": "The release date in ISO 8601 format, e.g., '2023-04-01'."
+       },
+       "status": {
+        "type": "string",
+        "description": "The current status of the release.",
+        "enum": [
+         "draft",
+         "in progress",
+         "completed",
+         "archived"
+        ]
+       },
+       "description": {
+        "type": "string",
+        "description": "A brief description of the release, including major features and updates.",
+        "default": "No description provided."
+       },
+       "is_critical": {
+        "type": "boolean",
+        "description": "Flag to indicate if the release includes critical updates.",
+        "default": false
+       }
+      }
+     }
+    },
+    {
+     "name": "ReleasesApi_post_release_3",
+     "description": "Creates a new release record in the system with the provided details.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "version",
+       "project_id"
+      ],
+      "properties": {
+       "version": {
+        "type": "string",
+        "description": "The version identifier for the release, following Semantic Versioning, such as '1.0.0'."
+       },
+       "project_id": {
+        "type": "integer",
+        "description": "The unique identifier of the project associated with this release."
+       },
+       "description": {
+        "type": "string",
+        "description": "A brief description of the release and its main features.",
+        "default": "No description provided."
+       },
+       "release_date": {
+        "type": "string",
+        "description": "The release date in the format 'YYYY-MM-DD'.",
+        "default": null
+       }
+      }
+     }
+    },
+    {
+     "name": "ReleasesApi_post_release_4",
+     "description": "Creates a new release within the system, enabling the tracking and management of a new version of a product or a project.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "version",
+       "project_id"
+      ],
+      "properties": {
+       "version": {
+        "type": "string",
+        "description": "The version identifier for the release, following semantic versioning, such as '1.0.0' or '2.1.3-beta'."
+       },
+       "project_id": {
+        "type": "integer",
+        "description": "The unique identifier of the project for which the release is being created."
+       },
+       "description": {
+        "type": "string",
+        "description": "A brief description of the release, outlining major features or changes.",
+        "default": "No description provided."
+       },
+       "release_date": {
+        "type": "string",
+        "description": "The scheduled date for the release in the format 'YYYY-MM-DD'.",
+        "default": "null"
+       },
+       "is_major_release": {
+        "type": "boolean",
+        "description": "A boolean flag indicating if this is a major release or not.",
+        "default": false
+       }
+      }
+     }
+    },
+    {
+     "name": "ReleasesApi_post_release_5",
+     "description": "Creates a new software release entry in the system, allowing tracking and management of software versions.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "version",
+       "release_date"
+      ],
+      "properties": {
+       "version": {
+        "type": "string",
+        "description": "The version identifier for the software release, following semantic versioning, e.g., '1.0.0', '2.1.3'."
+       },
+       "release_date": {
+        "type": "string",
+        "description": "The official release date in the format 'YYYY-MM-DD', such as '2023-03-15'."
+       },
+       "description": {
+        "type": "string",
+        "description": "A brief description of the release and its main features or changes.",
+        "default": "No detailed description provided."
+       },
+       "is_stable": {
+        "type": "boolean",
+        "description": "A flag indicating whether the release is considered stable and production-ready.",
+        "default": false
+       }
+      }
+     }
+    },
+    {
+     "name": "ReleasesApi_post_release_6",
+     "description": "This function initiates the creation of a new software release in the system, handling the necessary data processing and storage.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "version",
+       "release_date"
+      ],
+      "properties": {
+       "version": {
+        "type": "string",
+        "description": "The version identifier for the release, adhering to semantic versioning, e.g., '1.4.2'."
+       },
+       "release_date": {
+        "type": "string",
+        "description": "The scheduled date for the release, in the format of 'YYYY-MM-DD', such as '2023-04-15'."
+       },
+       "description": {
+        "type": "string",
+        "description": "A brief description of the release contents and main features.",
+        "default": "Not provided"
+       },
+       "is_major_release": {
+        "type": "boolean",
+        "description": "A boolean flag indicating whether this release is a major release.",
+        "default": false
+       },
+       "changelog": {
+        "type": "string",
+        "description": "A detailed log of changes included in this release.",
+        "default": "Changelog not available."
+       }
+      }
+     }
+    },
+    {
+     "name": "ReleasesApi_put_release",
+     "description": "Update the properties of an existing release using the release ID.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "releaseId"
+      ],
+      "properties": {
+       "releaseId": {
+        "type": "integer",
+        "description": "The unique identifier of the release to be updated."
+       },
+       "releaseName": {
+        "type": "string",
+        "description": "The new name of the release.",
+        "default": null
+       },
+       "releaseDate": {
+        "type": "string",
+        "description": "The updated release date in the format 'YYYY-MM-DD'.",
+        "default": null
+       },
+       "isPublished": {
+        "type": "boolean",
+        "description": "Flag indicating whether the release is published or not.",
+        "default": false
+       },
+       "changeLog": {
+        "type": "string",
+        "description": "Description of what has changed in this release.",
+        "default": "No changes documented."
+       }
+      }
+     }
+    },
+    {
+     "name": "ReleasesApi_put_release_2",
+     "description": "Updates the details of an existing release using the specified release ID.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "releaseId"
+      ],
+      "properties": {
+       "releaseId": {
+        "type": "string",
+        "description": "The unique identifier of the release to be updated."
+       },
+       "releaseName": {
+        "type": "string",
+        "description": "The new name for the release.",
+        "default": "Unnamed Release"
+       },
+       "releaseDate": {
+        "type": "string",
+        "description": "The release date in the format 'YYYY-MM-DD'.",
+        "default": null
+       },
+       "isMajorRelease": {
+        "type": "boolean",
+        "description": "Indicates whether this is a major release.",
+        "default": false
+       }
+      }
+     }
+    },
+    {
+     "name": "ReleasesApi_put_release_3",
+     "description": "Updates the details of an existing release using the specified release ID.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "releaseId"
+      ],
+      "properties": {
+       "releaseId": {
+        "type": "string",
+        "description": "The unique identifier of the release to be updated."
+       },
+       "release_name": {
+        "type": "string",
+        "description": "The new name of the release.",
+        "default": "Unnamed Release"
+       },
+       "release_date": {
+        "type": "string",
+        "description": "The updated release date in the format of 'YYYY-MM-DD'.",
+        "default": null
+       },
+       "is_active": {
+        "type": "boolean",
+        "description": "Flag indicating whether the release is currently active.",
+        "default": true
+       },
+       "version": {
+        "type": "string",
+        "description": "The new version string for the release.",
+        "default": "1.0.0"
+       }
+      }
+     }
+    }
+   ]
+  },
+  {
+   "id": "repository_api",
+   "name": "repository_api",
+   "server": "bfcl://repository_api",
+   "summary": "Resolves the latest version of a component based on its Package URL from the configured repositories. Resolves the latest version of a specified component from the configured repositories.",
+   "tools": [
+    {
+     "name": "RepositoryApi_get_repository_meta_component",
+     "description": "Resolves the latest version of a component based on its Package URL from the configured repositories.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "purl"
+      ],
+      "properties": {
+       "purl": {
+        "type": "string",
+        "description": "The Package URL (purl) uniquely identifying the component whose latest version needs to be resolved."
+       }
+      }
+     }
+    },
+    {
+     "name": "RepositoryApi_get_repository_meta_component_2",
+     "description": "Resolves the latest version of a specified component from the configured repositories.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "purl"
+      ],
+      "properties": {
+       "purl": {
+        "type": "string",
+        "description": "The Package URL (PURL) for the component whose latest version needs to be resolved."
+       },
+       "include_prereleases": {
+        "type": "boolean",
+        "description": "Flag to include pre-release versions in the resolution process.",
+        "default": false
+       }
+      }
+     }
+    },
+    {
+     "name": "RepositoryApi_get_repository_meta_component_3",
+     "description": "Resolves the latest version of the specified component within the configured repositories.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "purl"
+      ],
+      "properties": {
+       "purl": {
+        "type": "string",
+        "description": "The Package URL (PURL) for the component whose latest version is to be queried. It should conform to the PURL specification."
+       }
+      }
+     }
+    },
+    {
+     "name": "RepositoryApi_update_repository",
+     "description": "Updates the specified details of an existing repository such as name, description, and privacy settings.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "repository_id",
+       "update_data"
+      ],
+      "properties": {
+       "repository_id": {
+        "type": "string",
+        "description": "The unique identifier for the repository to be updated."
+       },
+       "update_data": {
+        "type": "object",
+        "description": "A collection of repository attributes that should be updated.",
+        "properties": {
+         "name": {
+          "type": "string",
+          "description": "The new name for the repository."
+         },
+         "description": {
+          "type": "string",
+          "description": "A brief text description of the repository.",
+          "default": null
+         },
+         "is_private": {
+          "type": "boolean",
+          "description": "A flag indicating whether the repository is private or public.",
+          "default": true
+         }
+        }
+       }
+      }
+     }
+    },
+    {
+     "name": "RepositoryApi_update_repository_2",
+     "description": "Updates the specified repository with new information such as name, description, and visibility settings.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "repository_id",
+       "update_fields"
+      ],
+      "properties": {
+       "repository_id": {
+        "type": "string",
+        "description": "The unique identifier of the repository to be updated."
+       },
+       "update_fields": {
+        "type": "object",
+        "properties": {
+         "name": {
+          "type": "string",
+          "description": "The new name of the repository."
+         },
+         "description": {
+          "type": "string",
+          "description": "A short text describing the repository."
+         },
+         "visibility": {
+          "type": "string",
+          "description": "The visibility level of the repository.",
+          "enum": [
+           "public",
+           "private"
+          ],
+          "default": "public"
+         }
+        },
+        "description": "A collection of fields that need to be updated with their new values."
+       }
+      }
+     }
+    },
+    {
+     "name": "update_repository",
+     "description": "Updates the metadata and settings of an existing repository on the platform.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "repository_id",
+       "repository_data"
+      ],
+      "properties": {
+       "repository_id": {
+        "type": "string",
+        "description": "The unique identifier of the repository to update."
+       },
+       "repository_data": {
+        "type": "object",
+        "description": "A dictionary containing the data to update the repository with.",
+        "properties": {
+         "name": {
+          "type": "string",
+          "description": "The new name of the repository."
+         },
+         "description": {
+          "type": "string",
+          "description": "A brief description of the repository."
+         },
+         "is_private": {
+          "type": "boolean",
+          "description": "Flag to make the repository private or public.",
+          "default": false
+         },
+         "default_branch": {
+          "type": "string",
+          "description": "The name of the default branch for the repository.",
+          "default": "main"
+         }
+        }
+       }
+      }
+     }
+    }
+   ]
+  },
+  {
+   "id": "sli_settings_api",
+   "name": "sli_settings_api",
+   "server": "bfcl://sli_settings_api",
+   "summary": "Deletes a Service Level Indicator (SLI) configuration from the system using the specified identifier.",
+   "tools": [
+    {
+     "name": "SLISettingsApi_delete_sli_config",
+     "description": "Deletes a Service Level Indicator (SLI) configuration from the system using the specified identifier. This action is irreversible.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "id"
+      ],
+      "properties": {
+       "id": {
+        "type": "string",
+        "description": "The unique identifier of the SLI configuration to be deleted."
+       }
+      }
+     }
+    }
+   ]
+  },
+  {
+   "id": "team_api",
+   "name": "team_api",
+   "server": "bfcl://team_api",
+   "summary": "Creates a new team in the system and generates an associated API key for team operations. This function deletes a specified API key from the team's account, removing its access to the API.",
+   "tools": [
+    {
+     "name": "TeamApi_create_team",
+     "description": "Creates a new team in the system and generates an associated API key for team operations.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "team_name",
+       "team_owner_email"
+      ],
+      "properties": {
+       "team_name": {
+        "type": "string",
+        "description": "The name of the new team to be created."
+       },
+       "team_owner_email": {
+        "type": "string",
+        "description": "The email address of the team's owner."
+       },
+       "team_description": {
+        "type": "string",
+        "description": "A brief description of the team and its purpose.",
+        "default": "No description provided."
+       }
+      }
+     }
+    },
+    {
+     "name": "TeamApi_delete_api_key",
+     "description": "This function deletes a specified API key from the team's account, removing its access to the API.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "apikey"
+      ],
+      "properties": {
+       "apikey": {
+        "type": "string",
+        "description": "The unique identifier for the API key that needs to be deleted."
+       }
+      }
+     }
+    },
+    {
+     "name": "TeamApi_delete_team",
+     "description": "Deletes the specified team from the system. The operation cannot be undone once completed.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "team_id"
+      ],
+      "properties": {
+       "team_id": {
+        "type": "string",
+        "description": "The unique identifier of the team to be deleted."
+       },
+       "confirm": {
+        "type": "boolean",
+        "description": "A flag that must be set to true to confirm the deletion of the team. This acts as a safeguard against accidental deletions.",
+        "default": false
+       }
+      }
+     }
+    },
+    {
+     "name": "TeamApi_delete_team_2",
+     "description": "Deletes the specified team from the system. This action cannot be undone.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "team_id"
+      ],
+      "properties": {
+       "team_id": {
+        "type": "string",
+        "description": "The unique identifier of the team to be deleted."
+       },
+       "confirm": {
+        "type": "boolean",
+        "description": "A flag to confirm the deletion operation. Must be set to true to proceed with deletion.",
+        "default": false
+       }
+      }
+     }
+    },
+    {
+     "name": "delete_team",
+     "description": "Deletes the specified team from the database, along with all associated data.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "team_id"
+      ],
+      "properties": {
+       "team_id": {
+        "type": "string",
+        "description": "The unique identifier of the team to be deleted."
+       },
+       "confirm_deletion": {
+        "type": "boolean",
+        "description": "A flag to confirm the deletion operation. Must be set to true to proceed with deletion.",
+        "default": false
+       }
+      }
+     }
+    },
+    {
+     "name": "delete_team_2",
+     "description": "Deletes the specified team from the system. This action is irreversible.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "team_id"
+      ],
+      "properties": {
+       "team_id": {
+        "type": "string",
+        "description": "The unique identifier of the team to be deleted."
+       },
+       "confirm": {
+        "type": "boolean",
+        "description": "A confirmation flag to ensure intentional deletion.",
+        "default": false
+       }
+      }
+     }
+    },
+    {
+     "name": "delete_team_3",
+     "description": "Permanently removes a specified team from the system. This action cannot be undone.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "team_id"
+      ],
+      "properties": {
+       "team_id": {
+        "type": "string",
+        "description": "The unique identifier of the team to be deleted."
+       },
+       "confirm_deletion": {
+        "type": "boolean",
+        "description": "A flag to confirm the deletion request.",
+        "default": false
+       }
+      }
+     }
+    }
+   ]
+  },
+  {
+   "id": "todo",
+   "name": "todo",
+   "server": "bfcl://todo",
+   "summary": "Creates a new todo entry in the list with the provided content. A function to manage a todo list, including adding new items, deleting existing items, or marking items as completed.",
+   "tools": [
+    {
+     "name": "add",
+     "description": "Creates a new todo entry in the list with the provided content.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "content"
+      ],
+      "properties": {
+       "content": {
+        "type": "string",
+        "description": "The text content of the todo item to be added."
+       },
+       "priority": {
+        "type": "string",
+        "description": "The priority level of the todo item.",
+        "enum": [
+         "low",
+         "medium",
+         "high"
+        ],
+        "default": "medium"
+       },
+       "due_date": {
+        "type": "string",
+        "description": "The due date for the todo item in the format 'YYYY-MM-DD', such as '2023-12-31'.",
+        "default": null
+       },
+       "completed": {
+        "type": "boolean",
+        "description": "Flag indicating whether the todo item is completed.",
+        "default": false
+       }
+      }
+     }
+    },
+    {
+     "name": "list_action",
+     "description": "A function to manage a todo list, including adding new items, deleting existing items, or marking items as completed.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "type",
+       "content"
+      ],
+      "properties": {
+       "type": {
+        "type": "string",
+        "description": "The action to perform on the todo list. Possible actions are 'add' to add a new item, 'delete' to remove an item, and 'complete' to mark an item as completed.",
+        "enum": [
+         "add",
+         "delete",
+         "complete"
+        ]
+       },
+       "content": {
+        "type": "string",
+        "description": "The content or description of the todo item that is subject to the action specified by the 'type' parameter."
+       }
+      }
+     }
+    },
+    {
+     "name": "update",
+     "description": "Update a specific to-do item identified by its old content with new content in the to-do list.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "old_content",
+       "new_content"
+      ],
+      "properties": {
+       "old_content": {
+        "type": "string",
+        "description": "The original content of the to-do item that needs to be updated. This is used to find and identify the specific item in the to-do list."
+       },
+       "new_content": {
+        "type": "string",
+        "description": "The new content that will replace the old content of the identified to-do item."
+       }
+      }
+     }
+    }
+   ]
+  },
+  {
+   "id": "todo_manager",
+   "name": "todo_manager",
+   "server": "bfcl://todo_manager",
+   "summary": "Manages a to-do list by allowing the user to add, delete, update, or complete to-do items.",
+   "tools": [
+    {
+     "name": "handle_action",
+     "description": "Manages a to-do list by allowing the user to add, delete, update, or complete to-do items.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "type",
+       "content"
+      ],
+      "properties": {
+       "type": {
+        "type": "string",
+        "description": "The action to be performed on the to-do list.",
+        "enum": [
+         "add",
+         "delete",
+         "update",
+         "complete"
+        ]
+       },
+       "content": {
+        "type": "string",
+        "description": "The content of the to-do item relevant to the action. For 'add' and 'update', it represents the new text of the item. For 'delete', it represents the identifier of the item to remove. For 'complete', it represents the identifier of the item to mark as completed."
+       }
+      }
+     }
+    }
+   ]
+  },
+  {
+   "id": "user_api",
+   "name": "user_api",
+   "server": "bfcl://user_api",
+   "summary": "Associates a user with a specified team, allowing them access to team resources. Creates a new managed user in the system with specified attributes.",
+   "tools": [
+    {
+     "name": "UserApi_add_team_to_user",
+     "description": "Associates a user with a specified team, allowing them access to team resources.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "username",
+       "team_id"
+      ],
+      "properties": {
+       "username": {
+        "type": "string",
+        "description": "The unique identifier of the user to be added to the team."
+       },
+       "team_id": {
+        "type": "integer",
+        "description": "The unique identifier of the team to which the user will be added."
+       }
+      }
+     }
+    },
+    {
+     "name": "UserApi_create_managed_user",
+     "description": "Creates a new managed user in the system with specified attributes.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "username",
+       "email"
+      ],
+      "properties": {
+       "username": {
+        "type": "string",
+        "description": "The unique username for the new user."
+       },
+       "email": {
+        "type": "string",
+        "description": "The email address for the new user."
+       },
+       "password": {
+        "type": "string",
+        "description": "The password for the new user account.",
+        "default": "defaultPassword!123"
+       },
+       "full_name": {
+        "type": "string",
+        "description": "The full name of the user.",
+        "default": "John Doe"
+       },
+       "role": {
+        "type": "string",
+        "description": "The role assigned to the user.",
+        "enum": [
+         "admin",
+         "user",
+         "guest"
+        ],
+        "default": "user"
+       },
+       "is_active": {
+        "type": "boolean",
+        "description": "Indicates whether the user account is active.",
+        "default": true
+       }
+      }
+     }
+    },
+    {
+     "name": "UserApi_delete_ldap_user",
+     "description": "Deletes an LDAP user account from the system using the user's unique identifier.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "user_id"
+      ],
+      "properties": {
+       "user_id": {
+        "type": "string",
+        "description": "The unique identifier of the user to be deleted."
+       },
+       "confirm": {
+        "type": "boolean",
+        "description": "A flag to confirm the deletion of the user account.",
+        "default": false
+       }
+      }
+     }
+    },
+    {
+     "name": "UserApi_delete_ldap_user_2",
+     "description": "Deletes an LDAP user account from the system using the user's unique identifier.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "user_id"
+      ],
+      "properties": {
+       "user_id": {
+        "type": "string",
+        "description": "The unique identifier for the LDAP user to be deleted."
+       },
+       "confirm": {
+        "type": "boolean",
+        "description": "A flag to confirm the deletion of the user. Must be set to true to proceed with deletion.",
+        "default": false
+       }
+      }
+     }
+    },
+    {
+     "name": "UserApi_delete_ldap_user_3",
+     "description": "Deletes an LDAP user from the system by their unique identifier.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "user_id"
+      ],
+      "properties": {
+       "user_id": {
+        "type": "string",
+        "description": "The unique identifier of the user to be deleted."
+       },
+       "confirm": {
+        "type": "boolean",
+        "description": "A flag to confirm the deletion of the user. Must be set to true to proceed with deletion.",
+        "default": false
+       }
+      }
+     }
+    },
+    {
+     "name": "UserApi_delete_ldap_user_4",
+     "description": "Deletes an LDAP user from the system by their unique user ID.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "user_id"
+      ],
+      "properties": {
+       "user_id": {
+        "type": "string",
+        "description": "The unique identifier of the LDAP user to be deleted."
+       },
+       "confirm": {
+        "type": "boolean",
+        "description": "A flag to confirm the deletion of the user. Must be set to true to proceed with deletion.",
+        "default": false
+       }
+      }
+     }
+    },
+    {
+     "name": "UserApi_delete_managed_user",
+     "description": "Permanently removes a user account and its associated data from the system.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "user_id"
+      ],
+      "properties": {
+       "user_id": {
+        "type": "string",
+        "description": "The unique identifier of the user to be deleted."
+       },
+       "confirmation": {
+        "type": "boolean",
+        "description": "A flag to confirm the deletion. Must be set to true to proceed with the deletion.",
+        "default": false
+       },
+       "reason": {
+        "type": "string",
+        "description": "The reason for deleting the user's account.",
+        "enum": [
+         "voluntary",
+         "fraud",
+         "inactive",
+         "other"
+        ],
+        "default": "other"
+       }
+      }
+     }
+    },
+    {
+     "name": "UserApi_delete_managed_user_2",
+     "description": "Permanently removes a user account from the system by their unique identifier.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "user_id"
+      ],
+      "properties": {
+       "user_id": {
+        "type": "string",
+        "description": "The unique identifier of the user to be deleted."
+       },
+       "confirm": {
+        "type": "boolean",
+        "description": "A flag to confirm the deletion of the user. Must be set to true to proceed with deletion.",
+        "default": false
+       }
+      }
+     }
+    },
+    {
+     "name": "UserApi_remove_team_from_user",
+     "description": "This function removes a specified user from a team, effectively revoking their team-related privileges.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "username",
+       "team_id"
+      ],
+      "properties": {
+       "username": {
+        "type": "string",
+        "description": "The unique identifier of the user to be removed from the team."
+       },
+       "team_id": {
+        "type": "integer",
+        "description": "The unique identifier of the team from which the user will be removed."
+       }
+      }
+     }
+    },
+    {
+     "name": "delete_managed_user",
+     "description": "Deletes a managed user from the system by their unique user ID.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "user_id"
+      ],
+      "properties": {
+       "user_id": {
+        "type": "integer",
+        "description": "The unique identifier of the user to be deleted."
+       },
+       "confirm_deletion": {
+        "type": "boolean",
+        "description": "Confirmation flag to proceed with the deletion. Must be set to true to delete the user.",
+        "default": false
+       }
+      }
+     }
+    },
+    {
+     "name": "delete_managed_user_2",
+     "description": "This function permanently removes a user from the system. It requires the user's unique identifier to execute.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "user_id"
+      ],
+      "properties": {
+       "user_id": {
+        "type": "string",
+        "description": "The unique identifier of the user to be deleted."
+       },
+       "confirmation": {
+        "type": "boolean",
+        "description": "A flag to confirm the deletion operation. Must be set to true to proceed.",
+        "default": false
+       }
+      }
+     }
+    }
+   ]
+  },
+  {
+   "id": "bfcl_c23_g0",
+   "name": "items deletes delete",
+   "server": "bfcl://bfcl_c23_g0",
+   "summary": "Functions for items, deletes, delete, getrecommendationsaction, list, recommended.",
+   "tools": [
+    {
+     "name": "cleanup_logs",
+     "description": "Searches for and deletes log files within a specified directory that are older than a specified number of days.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "path",
+       "age_limit"
+      ],
+      "properties": {
+       "path": {
+        "type": "string",
+        "description": "The file path to the directory containing log files. For example, '/var/log/myapp/'."
+       },
+       "age_limit": {
+        "type": "integer",
+        "description": "The age of the log files to delete in days. Files older than this will be deleted. For example, 20 represents log files older than 20 days."
+       },
+       "file_extension": {
+        "type": "string",
+        "description": "The file extension of log files to target, without the dot. For example, 'log' for files ending in .log.",
+        "default": "log"
+       },
+       "simulate": {
+        "type": "boolean",
+        "description": "A flag to simulate the deletion process without actually deleting the files. Set to true for a dry run.",
+        "default": false
+       },
+       "recursive": {
+        "type": "boolean",
+        "description": "Whether to search for log files recursively within subdirectories.",
+        "default": false
+       }
+      }
+     }
+    },
+    {
+     "name": "delete_apdex_configuration",
+     "description": "Deletes the Apdex (Application Performance Index) configuration by its unique identifier.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "id"
+      ],
+      "properties": {
+       "id": {
+        "type": "string",
+        "description": "The unique identifier of the Apdex configuration to be deleted."
+       }
+      }
+     }
+    },
+    {
+     "name": "delete_apdex_configuration_2",
+     "description": "Deletes the specified Apdex configuration by its unique identifier.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "id"
+      ],
+      "properties": {
+       "id": {
+        "type": "string",
+        "description": "The unique identifier of the Apdex configuration to delete."
+       }
+      }
+     }
+    },
+    {
+     "name": "getClothes",
+     "description": "Provides a list of recommended clothing items based on the current temperature.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "temperature"
+      ],
+      "properties": {
+       "temperature": {
+        "type": "integer",
+        "description": "The current temperature in degrees Celsius, for which clothing recommendations will be provided."
+       },
+       "clothing_type": {
+        "type": "string",
+        "description": "The type of clothing to filter recommendations, such as 'outerwear', 'footwear', etc.",
+        "enum": [
+         "outerwear",
+         "footwear",
+         "headgear",
+         "accessories"
+        ],
+        "default": "outerwear"
+       }
+      }
+     }
+    },
+    {
+     "name": "getRecommendationsAction",
+     "description": "Retrieves a list of recommended items based on the image provided.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "image_data"
+      ],
+      "properties": {
+       "image_data": {
+        "type": "string",
+        "description": "Base64 encoded string of the image for which recommendations are being requested."
+       },
+       "threshold": {
+        "type": "number",
+        "description": "The confidence threshold for filtering recommendations, ranging from 0.0 to 1.0.",
+        "default": 0.5
+       },
+       "max_results": {
+        "type": "integer",
+        "description": "The maximum number of recommendations to return.",
+        "default": 10
+       },
+       "include_similar": {
+        "type": "boolean",
+        "description": "A flag to determine whether to include similar items in the recommendations.",
+        "default": true
+       }
+      }
+     }
+    },
+    {
+     "name": "get_items",
+     "description": "Retrieve a list of items that are analyzed for copyright detection purposes.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "items"
+      ],
+      "properties": {
+       "items": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "A list of item descriptors to be analyzed, such as 'yellow logo', 'signature tune', 'unique font'."
+       }
+      }
+     }
+    },
+    {
+     "name": "maybeAddJsSyntheticRestParameter",
+     "description": "This function checks a given function declaration to see if it should add a synthetic rest parameter based on the presence of a variadic type in the last parameter or in the JSDoc tags. It modifies the parameters array directly if necessary.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "declaration": {
+        "type": "string",
+        "description": "The function declaration object to check."
+       },
+       "parameters": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "The array of parameters for the function declaration."
+       }
+      },
+      "required": [
+       "declaration",
+       "parameters"
+      ]
+     }
+    },
+    {
+     "name": "payment_calculation",
+     "description": "Calculate how much a person should pay given the items purchased and their quantities",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "items": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "List of items purchased."
+       },
+       "quantities": {
+        "type": "array",
+        "items": {
+         "type": "integer"
+        },
+        "description": "Quantity of each item purchased in correspondence with the previous items list."
+       }
+      },
+      "required": [
+       "items",
+       "quantities"
+      ]
+     }
+    },
+    {
+     "name": "prioritizeAndSort",
+     "description": "This function sorts an array of objects based on their 'name' property, while prioritizing items based on a specified status.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "items": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "The array of objects to be sorted."
+       },
+       "priorityStatus": {
+        "type": "string",
+        "description": "The status value that should be given priority in the sorting."
+       },
+       "ascending": {
+        "type": "boolean",
+        "description": "A flag indicating whether the sorting should be in ascending (true) or descending (false) order, excluding priority items."
+       }
+      },
+      "required": [
+       "items",
+       "priorityStatus",
+       "ascending"
+      ]
+     }
+    },
+    {
+     "name": "todo_delete",
+     "description": "Deletes a to-do item from the list based on the specified content.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "content"
+      ],
+      "properties": {
+       "content": {
+        "type": "string",
+        "description": "The specific content of the to-do item to be identified and removed from the list."
+       }
+      }
+     }
+    },
+    {
+     "name": "todo_delete_2",
+     "description": "Deletes a todo item from the list based on the specified content.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "content"
+      ],
+      "properties": {
+       "content": {
+        "type": "string",
+        "description": "The text content of the todo item to be identified and deleted."
+       }
+      }
+     }
+    }
+   ]
+  },
+  {
+   "id": "bfcl_c23_g1",
+   "name": "add todo adds",
+   "server": "bfcl://bfcl_c23_g1",
+   "summary": "Functions for add, todo, adds, cart, stars, dates.",
+   "tools": [
+    {
+     "name": "add_dates",
+     "description": "Add days to a specific date.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "date": {
+        "type": "string",
+        "description": "The starting date."
+       },
+       "days_to_add": {
+        "type": "integer",
+        "description": "The number of days to add to the starting date."
+       },
+       "format": {
+        "type": "string",
+        "description": "The desired date format for the returned date.",
+        "default": "YYYY-MM-DD"
+       }
+      },
+      "required": [
+       "date",
+       "days_to_add"
+      ]
+     }
+    },
+    {
+     "name": "add_product_to_cart",
+     "description": "This function allows users to add a product to their cart.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "product_id": {
+        "type": "integer",
+        "description": "The ID of the product"
+       },
+       "quantity": {
+        "type": "integer",
+        "description": "The number of this product to add to the cart"
+       },
+       "cart_id": {
+        "type": "integer",
+        "description": "The ID of the cart, if no ID is given a new cart is created",
+        "default": "0"
+       }
+      },
+      "required": [
+       "product_id",
+       "quantity"
+      ]
+     }
+    },
+    {
+     "name": "add_service_config",
+     "description": "Adds a new service configuration to the application settings, allowing the application to acknowledge and use the service parameters specified.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "service_name",
+       "configurations"
+      ],
+      "properties": {
+       "service_name": {
+        "type": "string",
+        "description": "The unique name of the service for which the configuration is being added."
+       },
+       "configurations": {
+        "type": "object",
+        "description": "A dictionary of key-value pairs representing the configuration settings for the service.",
+        "properties": {
+         "timeout": {
+          "type": "integer",
+          "description": "The time in seconds before a service request times out. Must be a positive integer."
+         },
+         "retry_count": {
+          "type": "integer",
+          "description": "The number of times a failed service call will be retried before giving up. Must be a non-negative integer.",
+          "default": 3
+         },
+         "endpoint": {
+          "type": "string",
+          "description": "The URL endpoint through which the service can be accessed."
+         },
+         "auth_required": {
+          "type": "boolean",
+          "description": "Indicates whether the service requires authentication.",
+          "default": true
+         }
+        }
+       }
+      }
+     }
+    },
+    {
+     "name": "push_git_changes_to_github",
+     "description": "Pushes all changes from a local Git repository to the associated GitHub remote repository. This function will automatically git add all changes.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "directory_name"
+      ],
+      "properties": {
+       "directory_name": {
+        "type": "string",
+        "description": "The name of the local repository directory."
+       },
+       "commit_message": {
+        "type": "string",
+        "description": "The commit message to describe the changes made.",
+        "default": "Update changes"
+       },
+       "branch_name": {
+        "type": "string",
+        "description": "The name of the branch to which the changes will be pushed.",
+        "default": "main"
+       },
+       "force_push": {
+        "type": "boolean",
+        "description": "Indicates whether to forcefully push the changes, potentially overwriting changes on the remote.",
+        "default": false
+       }
+      }
+     }
+    },
+    {
+     "name": "stars_add",
+     "description": "Adds a star to a repository for the authenticated user.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "token"
+      ],
+      "properties": {
+       "token": {
+        "type": "string",
+        "description": "The authentication token of the user."
+       }
+      }
+     }
+    },
+    {
+     "name": "todo",
+     "description": "Manages a todo list allowing the user to add, delete, or update items.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "type",
+       "content"
+      ],
+      "properties": {
+       "type": {
+        "type": "string",
+        "description": "The action to be performed on the todo list.",
+        "enum": [
+         "add",
+         "delete",
+         "update"
+        ]
+       },
+       "content": {
+        "type": "string",
+        "description": "The details of the todo item relevant to the action being performed."
+       }
+      }
+     }
+    },
+    {
+     "name": "todo_2",
+     "description": "Manages a todo list by allowing the user to add, delete, or mark tasks as completed.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "type",
+       "content"
+      ],
+      "properties": {
+       "type": {
+        "type": "string",
+        "description": "The type of action to be performed on the todo list. 'add' to add a new task, 'delete' to remove an existing task, or 'complete' to mark a task as completed.",
+        "enum": [
+         "add",
+         "delete",
+         "complete"
+        ]
+       },
+       "content": {
+        "type": "string",
+        "description": "The content or description of the task for the specified action."
+       }
+      }
+     }
+    },
+    {
+     "name": "todo_add",
+     "description": "Adds a new item to the to-do list for tracking and further processing.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "content"
+      ],
+      "properties": {
+       "content": {
+        "type": "string",
+        "description": "The text description of the to-do item."
+       }
+      }
+     }
+    },
+    {
+     "name": "todo_add_2",
+     "description": "Adds a new item to the to-do list with the specified content.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "content"
+      ],
+      "properties": {
+       "content": {
+        "type": "string",
+        "description": "The text content of the to-do item to be added."
+       }
+      }
+     }
+    }
+   ]
+  },
+  {
+   "id": "bfcl_c23_g2",
+   "name": "reminders complete delete",
+   "server": "bfcl://bfcl_c23_g2",
+   "summary": "Functions for reminders, complete, delete, todoidx, software, versions.",
+   "tools": [
+    {
+     "name": "reminders_complete",
+     "description": "Marks specified reminders as completed and returns the status of the operation.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "token"
+      ],
+      "properties": {
+       "token": {
+        "type": "string",
+        "description": "Authentication token to verify the user's identity."
+       }
+      }
+     }
+    },
+    {
+     "name": "reminders_delete",
+     "description": "Deletes a specified reminder based on the provided token.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "token"
+      ],
+      "properties": {
+       "token": {
+        "type": "string",
+        "description": "Authentication token required to authorize the deletion of the reminder."
+       }
+      }
+     }
+    },
+    {
+     "name": "software_versions",
+     "description": "Retrieve information about the installed software, including runtime and package manager details. Use optional filters to refine the results.",
+     "input_schema": {
+      "type": "object",
+      "required": [],
+      "properties": {
+       "time": {
+        "type": "string",
+        "description": "The time at which the software details were retrieved, in the format 'YYYY-MM-DD HH:MM:SS'.",
+        "default": "null"
+       },
+       "origin": {
+        "type": "string",
+        "description": "The source or repository from which the software was installed.",
+        "default": ""
+       },
+       "type": {
+        "type": "string",
+        "description": "The type of the software, such as 'runtime' or 'package_manager'.",
+        "enum": [
+         "runtime",
+         "package_manager"
+        ],
+        "default": ""
+       },
+       "name": {
+        "type": "string",
+        "description": "The name of the software to filter by.",
+        "default": ""
+       },
+       "version": {
+        "type": "string",
+        "description": "The version of the software to filter by.",
+        "default": ""
+       }
+      }
+     }
+    },
+    {
+     "name": "todoIdx",
+     "description": "Provides functionality for managing a todo list, including the ability to delete an item or mark an item as complete based on its index in the list.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "type",
+       "index"
+      ],
+      "properties": {
+       "type": {
+        "type": "string",
+        "description": "The operation to perform on the todo item. 'delete' will remove the item from the list, while 'complete' will mark the item as completed.",
+        "enum": [
+         "delete",
+         "complete"
+        ]
+       },
+       "index": {
+        "type": "integer",
+        "description": "The zero-based index of the todo item in the list that the specified operation should be applied to."
+       }
+      }
+     }
+    }
+   ]
+  },
+  {
+   "id": "bfcl_c23_g3",
+   "name": "items count inventory",
+   "server": "bfcl://bfcl_c23_g3",
+   "summary": "Functions for items, count, inventory, fibonacci, credential, delete.",
+   "tools": [
+    {
+     "name": "contentUpdater",
+     "description": "This function updates the inner content of a specified div element when the 'update' action is called.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "elementID": {
+        "type": "string",
+        "description": "The ID of the div element whose content is to be updated."
+       },
+       "newContent": {
+        "type": "string",
+        "description": "The new content that will replace the current content of the div element."
+       },
+       "action": {
+        "type": "string",
+        "description": "The action to be performed. In this case, it should be 'update' to change the content."
+       }
+      },
+      "required": [
+       "elementID",
+       "newContent",
+       "action"
+      ]
+     }
+    },
+    {
+     "name": "core_memory_replace",
+     "description": "Replace the contents of core memory. To delete memories, provide an empty string for the 'new_content' parameter.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "name",
+       "old_content",
+       "new_content",
+       "request_heartbeat"
+      ],
+      "properties": {
+       "name": {
+        "type": "string",
+        "description": "The section of the memory to be edited. Possible values are 'persona' for personality traits and 'human' for human-related memories."
+       },
+       "old_content": {
+        "type": "string",
+        "description": "The string to be replaced. Must be an exact match of the existing content."
+       },
+       "new_content": {
+        "type": "string",
+        "description": "The new content to write into the memory. Supports all Unicode characters, including emojis."
+       },
+       "request_heartbeat": {
+        "type": "boolean",
+        "description": "Whether to request an immediate heartbeat after function execution. Set to true to ensure the system is immediately updated with the changes."
+       }
+      }
+     }
+    },
+    {
+     "name": "core_memory_replace_2",
+     "description": "Replaces the contents of a specific section in the core memory. To delete specific memories, provide an empty string for the new_content parameter.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "name",
+       "old_content",
+       "new_content"
+      ],
+      "properties": {
+       "name": {
+        "type": "string",
+        "description": "The section of the memory to be edited. Possible sections include 'persona' or 'human'.",
+        "enum": [
+         "persona",
+         "human"
+        ]
+       },
+       "old_content": {
+        "type": "string",
+        "description": "The string to be replaced. This must be an exact match of the memory content to be replaced."
+       },
+       "new_content": {
+        "type": "string",
+        "description": "The new content to write into the memory. Supports all Unicode characters, including emojis. Use an empty string ('') to signify memory deletion."
+       },
+       "request_heartbeat": {
+        "type": "boolean",
+        "description": "Requests an immediate heartbeat after the function execution. Set to true to ensure the system is responsive for follow-up actions.",
+        "default": false
+       }
+      }
+     }
+    },
+    {
+     "name": "count_items",
+     "description": "Count the number of items in a collection.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "collection": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "The collection of items to count"
+       }
+      },
+      "required": [
+       "collection"
+      ]
+     }
+    },
+    {
+     "name": "delete_synthetic_credential",
+     "description": "Deletes a specific synthetic credential from the system by its unique name.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "name"
+      ],
+      "properties": {
+       "name": {
+        "type": "string",
+        "description": "The unique name identifier of the synthetic credential to be deleted."
+       }
+      }
+     }
+    },
+    {
+     "name": "get_fibonacci_sequence",
+     "description": "Generate a Fibonacci sequence up to a specific number of items.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "count": {
+        "type": "integer",
+        "description": "The number of items to generate"
+       }
+      },
+      "required": [
+       "count"
+      ]
+     }
+    },
+    {
+     "name": "toss_item",
+     "description": "Remove an item of a specified type from the player's inventory.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "item_type"
+      ],
+      "properties": {
+       "item_type": {
+        "type": "string",
+        "description": "The unique identifier for the type of item to be removed from the inventory."
+       }
+      }
+     }
+    },
+    {
+     "name": "trackSubmitWithValidation",
+     "description": "This function tracks the 'submitForm' action on a given object. It only logs the submission when specific validation flags are set; if the flags are not set, the original action is performed without tracking.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "obj": {
+        "type": "string",
+        "description": "The object with the 'submitForm' action to track."
+       },
+       "validationFlags": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "An array of validation flags required to trigger tracking. Possible options are isRequired, isValidEmail."
+       }
+      },
+      "required": [
+       "obj",
+       "validationFlags"
+      ]
+     }
+    },
+    {
+     "name": "update_inventory",
+     "description": "This function updates the inventory levels of products in a store's database after a sales transaction. It reduces the quantity of sold items and flags items for restock if below the minimum threshold.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "transaction_items"
+      ],
+      "properties": {
+       "transaction_items": {
+        "type": "array",
+        "items": {
+         "type": "object"
+        },
+        "description": "A list of items sold in the transaction. Each item is represented by a dictionary detailing the product ID and the quantity sold."
+       },
+       "restock_threshold": {
+        "type": "integer",
+        "description": "The minimum inventory level before an item is flagged for restocking. Expressed in units.",
+        "default": 10
+       },
+       "update_timestamp": {
+        "type": "string",
+        "description": "The timestamp when the inventory update occurs, in the format of 'YYYY-MM-DD HH:MM:SS', such as '2023-01-15 13:45:00'.",
+        "default": null
+       }
+      }
+     }
+    },
+    {
+     "name": "update_inventory_2",
+     "description": "Updates the inventory count for a specific product by adding or subtracting from the current stock level.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "product_id",
+       "change_type",
+       "quantity"
+      ],
+      "properties": {
+       "product_id": {
+        "type": "string",
+        "description": "The unique identifier for the product whose stock is being updated."
+       },
+       "change_type": {
+        "type": "string",
+        "description": "Specifies whether the inventory is being increased or decreased.",
+        "enum": [
+         "add",
+         "subtract"
+        ]
+       },
+       "quantity": {
+        "type": "integer",
+        "description": "The amount by which the inventory level is to be changed, expressed in units of the product."
+       },
+       "reason": {
+        "type": "string",
+        "description": "Optional explanation for the inventory adjustment.",
+        "default": "General adjustment"
+       }
+      }
+     }
+    }
+   ]
+  }
+ ]
+}

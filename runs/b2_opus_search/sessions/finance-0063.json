@@ -1,0 +1,90 @@
+{
+ "task_id": "finance-0063",
+ "mode": "search",
+ "loaded": [
+  "quickbooks.create_purchase",
+  "quickbooks.search_purchases",
+  "quickbooks.create_bill",
+  "quickbooks.create_invoice",
+  "quickbooks.create_customer"
+ ],
+ "order": [
+  "quickbooks.create_purchase",
+  "quickbooks.search_purchases",
+  "quickbooks.create_bill",
+  "quickbooks.create_invoice",
+  "quickbooks.create_customer"
+ ],
+ "scores": {
+  "quickbooks.create_purchase": 2.0,
+  "quickbooks.search_purchases": 2.0,
+  "quickbooks.create_bill": 2.0,
+  "quickbooks.create_invoice": 2.0,
+  "quickbooks.create_customer": 2.0
+ },
+ "router_tokens": 0,
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "quickbooks.create_purchase",
+   "args": {
+    "purchase": {
+     "PaymentType": "CreditCard",
+     "AccountRef": {
+      "value": "Chase",
+      "name": "Chase Credit Card"
+     },
+     "EntityRef": {
+      "value": "Nopa",
+      "type": "Vendor"
+     },
+     "PrivateNote": "Team lunch at Nopa",
+     "Line": [
+      {
+       "Amount": 212,
+       "Description": "Team lunch at Nopa",
+       "DetailType": "AccountBasedExpenseLineDetail",
+       "AccountBasedExpenseLineDetail": {
+        "AccountRef": {
+         "value": "Meals",
+         "name": "Meals"
+        }
+       }
+      }
+     ]
+    }
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0,
+   "t": 1791321001.511985
+  },
+  {
+   "type": "request_tools",
+   "capability": "record an expense / purchase transaction in QuickBooks with account and category",
+   "added": [
+    "quickbooks.create_purchase",
+    "quickbooks.search_purchases",
+    "quickbooks.create_bill",
+    "quickbooks.create_invoice",
+    "quickbooks.create_customer"
+   ],
+   "tool_tokens": 2083,
+   "t": 1791321008.3782308
+  },
+  {
+   "type": "call",
+   "tool": "quickbooks__create_purchase",
+   "valid": true,
+   "t": 1791321018.1609766
+  }
+ ],
+ "done": true,
+ "t_done": 1791321019.2998533,
+ "final": ""
+}

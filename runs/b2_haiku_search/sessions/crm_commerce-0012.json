@@ -1,0 +1,87 @@
+{
+ "task_id": "crm_commerce-0012",
+ "mode": "search",
+ "loaded": [
+  "shopify.refund_order",
+  "shopify.get_orders",
+  "stripe.create_refund",
+  "shopify.get_order_by_id",
+  "shopify.update_order"
+ ],
+ "order": [
+  "shopify.refund_order",
+  "shopify.get_orders",
+  "stripe.create_refund",
+  "shopify.get_order_by_id",
+  "shopify.update_order"
+ ],
+ "scores": {
+  "shopify.refund_order": 2.0,
+  "shopify.get_orders": 2.0,
+  "stripe.create_refund": 2.0,
+  "shopify.get_order_by_id": 2.0,
+  "shopify.update_order": 2.0
+ },
+ "router_tokens": 0,
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "shopify.get_order_by_id",
+   "args": {
+    "orderId": "1042"
+   }
+  },
+  {
+   "tool": "shopify.refund_order",
+   "args": {
+    "orderId": "1042",
+    "refundLineItems": [
+     {
+      "lineItemId": "wool_socks_line_item",
+      "quantity": 1,
+      "restockType": "NO_RESTOCK"
+     }
+    ],
+    "note": "Customer reported one pair of socks arrived torn",
+    "notify": true
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0,
+   "t": 1791322241.354491
+  },
+  {
+   "type": "request_tools",
+   "capability": "process partial refunds on Shopify orders",
+   "added": [
+    "shopify.refund_order",
+    "shopify.get_orders",
+    "stripe.create_refund",
+    "shopify.get_order_by_id",
+    "shopify.update_order"
+   ],
+   "tool_tokens": 970,
+   "t": 1791322251.60679
+  },
+  {
+   "type": "call",
+   "tool": "shopify__get_order_by_id",
+   "valid": true,
+   "t": 1791322261.7969365
+  },
+  {
+   "type": "call",
+   "tool": "shopify__refund_order",
+   "valid": true,
+   "t": 1791322270.9020545
+  }
+ ],
+ "done": true,
+ "t_done": 1791322274.8040442,
+ "final": ""
+}

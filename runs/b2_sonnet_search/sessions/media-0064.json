@@ -1,0 +1,102 @@
+{
+ "task_id": "media-0064",
+ "mode": "search",
+ "loaded": [
+  "elevenlabs.speech_to_text",
+  "openai_media.transcribe_audio",
+  "elevenlabs.speech_to_speech",
+  "elevenlabs.text_to_speech",
+  "openai_media.translate_audio",
+  "deepl.translate_text",
+  "google_cloud_ai.translate_text",
+  "deepl.get_languages",
+  "google_cloud_ai.detect_language",
+  "deepl.translate_document"
+ ],
+ "order": [
+  "elevenlabs.speech_to_text",
+  "openai_media.transcribe_audio",
+  "elevenlabs.speech_to_speech",
+  "elevenlabs.text_to_speech",
+  "openai_media.translate_audio",
+  "deepl.translate_text",
+  "google_cloud_ai.translate_text",
+  "deepl.get_languages",
+  "google_cloud_ai.detect_language",
+  "deepl.translate_document"
+ ],
+ "scores": {
+  "elevenlabs.speech_to_text": 2.0,
+  "openai_media.transcribe_audio": 2.0,
+  "elevenlabs.speech_to_speech": 2.0,
+  "elevenlabs.text_to_speech": 2.0,
+  "openai_media.translate_audio": 2.0,
+  "deepl.translate_text": 2.0,
+  "google_cloud_ai.translate_text": 2.0,
+  "deepl.get_languages": 2.0,
+  "google_cloud_ai.detect_language": 2.0,
+  "deepl.translate_document": 2.0
+ },
+ "router_tokens": 0,
+ "escalations": 2,
+ "calls": [
+  {
+   "tool": "openai_media.transcribe_audio",
+   "args": {
+    "file": "lecture.mp3",
+    "response_format": "text"
+   }
+  },
+  {
+   "tool": "deepl.translate_text",
+   "args": {
+    "text": "simulated result of openai_media.transcribe_audio",
+    "targetLangCode": "es"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0
+  },
+  {
+   "type": "request_tools",
+   "capability": "transcribe an audio file (speech to text)",
+   "added": [
+    "elevenlabs.speech_to_text",
+    "openai_media.transcribe_audio",
+    "elevenlabs.speech_to_speech",
+    "elevenlabs.text_to_speech",
+    "openai_media.translate_audio"
+   ],
+   "tool_tokens": 1537
+  },
+  {
+   "type": "call",
+   "tool": "openai_media__transcribe_audio",
+   "valid": true
+  },
+  {
+   "type": "request_tools",
+   "capability": "translate text into another language such as Spanish",
+   "added": [
+    "deepl.translate_text",
+    "google_cloud_ai.translate_text",
+    "deepl.get_languages",
+    "google_cloud_ai.detect_language",
+    "deepl.translate_document"
+   ],
+   "tool_tokens": 2274
+  },
+  {
+   "type": "call",
+   "tool": "deepl__translate_text",
+   "valid": true
+  }
+ ],
+ "done": true,
+ "final": ""
+}

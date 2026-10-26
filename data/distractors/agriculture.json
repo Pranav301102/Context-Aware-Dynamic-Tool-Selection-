@@ -1,0 +1,842 @@
+{
+  "branch": {
+    "id": "agriculture",
+    "name": "Agriculture",
+    "summary": "Farming and agriculture: in-field weather and soil sensors, crop growth, field boundaries and harvest yield data, irrigation scheduling and water usage, and livestock records such as weights, treatments and pasture moves."
+  },
+  "toolkits": [
+    {
+      "id": "arable",
+      "name": "Arable",
+      "server": "mcp://arable",
+      "summary": "In-field crop and weather sensors: microclimate, soil moisture, evapotranspiration, NDVI and crop alerts.",
+      "tools": [
+        {
+          "name": "list_devices",
+          "description": "List Arable devices and their sites.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "site_id": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        {
+          "name": "get_latest_readings",
+          "description": "Most recent sensor readings for a device: air temperature, humidity, precipitation, solar radiation, canopy NDVI and leaf wetness.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "device": {
+                "type": "string",
+                "description": "Device serial, e.g. C003512."
+              }
+            },
+            "required": [
+              "device"
+            ]
+          }
+        },
+        {
+          "name": "get_daily_data",
+          "description": "Daily aggregated field data for a device over a date range.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "device": {
+                "type": "string"
+              },
+              "start_time": {
+                "type": "string"
+              },
+              "end_time": {
+                "type": "string"
+              },
+              "measures": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "maxT",
+                    "minT",
+                    "precip",
+                    "et",
+                    "crop_water_demand",
+                    "ndvi",
+                    "gdd",
+                    "chlorophyll_index",
+                    "lwet_hrs",
+                    "rh"
+                  ]
+                }
+              },
+              "temp_unit": {
+                "type": "string",
+                "enum": [
+                  "C",
+                  "F"
+                ],
+                "default": "C"
+              },
+              "local_time": {
+                "type": "boolean",
+                "default": true
+              }
+            },
+            "required": [
+              "device",
+              "start_time"
+            ]
+          }
+        },
+        {
+          "name": "get_soil_moisture",
+          "description": "Volumetric soil moisture by depth from a connected soil probe.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "device": {
+                "type": "string"
+              },
+              "depth_cm": {
+                "type": "integer",
+                "enum": [
+                  10,
+                  30,
+                  60,
+                  90
+                ]
+              },
+              "start_time": {
+                "type": "string"
+              },
+              "end_time": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "device"
+            ]
+          }
+        },
+        {
+          "name": "list_alerts",
+          "description": "Field alerts.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "site_id": {
+                "type": "string"
+              },
+              "type": {
+                "type": "string",
+                "enum": [
+                  "frost",
+                  "heat_stress",
+                  "disease_risk",
+                  "irrigation_needed",
+                  "low_battery",
+                  "offline"
+                ]
+              },
+              "since": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        {
+          "name": "get_crop_growth_stage",
+          "description": "Estimated growth stage.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "site_id": {
+                "type": "string"
+              },
+              "crop": {
+                "type": "string",
+                "enum": [
+                  "corn",
+                  "soybean",
+                  "wheat",
+                  "cotton",
+                  "grape",
+                  "almond",
+                  "potato"
+                ]
+              }
+            },
+            "required": [
+              "site_id"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "john_deere_ops",
+      "name": "John Deere Operations Center",
+      "server": "mcp://john-deere",
+      "summary": "Farm operations data: organizations, fields and boundaries, field operations, harvest yield and work plans.",
+      "tools": [
+        {
+          "name": "list_organizations",
+          "description": "List organizations.",
+          "input_schema": {
+            "type": "object",
+            "properties": {}
+          }
+        },
+        {
+          "name": "list_fields",
+          "description": "List fields in an organization, optionally for one farm.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "org_id": {
+                "type": "string"
+              },
+              "farm_id": {
+                "type": "string"
+              },
+              "include_boundaries": {
+                "type": "boolean",
+                "default": false
+              }
+            },
+            "required": [
+              "org_id"
+            ]
+          }
+        },
+        {
+          "name": "get_field_boundaries",
+          "description": "Field boundary polygons.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "org_id": {
+                "type": "string"
+              },
+              "field_id": {
+                "type": "string"
+              },
+              "format": {
+                "type": "string",
+                "enum": [
+                  "geojson",
+                  "shapefile"
+                ],
+                "default": "geojson"
+              }
+            },
+            "required": [
+              "org_id",
+              "field_id"
+            ]
+          }
+        },
+        {
+          "name": "get_harvest_yield",
+          "description": "Harvest results for a field: average yield (bu/ac), moisture, total harvested and yield map for a crop season.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "org_id": {
+                "type": "string"
+              },
+              "field_id": {
+                "type": "string"
+              },
+              "crop_season": {
+                "type": "integer",
+                "description": "Harvest year."
+              },
+              "crop_type": {
+                "type": "string",
+                "enum": [
+                  "CORN_WET",
+                  "SOYBEANS",
+                  "WHEAT_WINTER",
+                  "WHEAT_SPRING",
+                  "COTTON",
+                  "SORGHUM",
+                  "CANOLA"
+                ]
+              },
+              "include_yield_map": {
+                "type": "boolean",
+                "default": false
+              }
+            },
+            "required": [
+              "org_id",
+              "field_id",
+              "crop_season"
+            ]
+          }
+        },
+        {
+          "name": "list_field_operations",
+          "description": "Seeding, application, harvest and tillage operations recorded for a field.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "org_id": {
+                "type": "string"
+              },
+              "field_id": {
+                "type": "string"
+              },
+              "operation_type": {
+                "type": "string",
+                "enum": [
+                  "seeding",
+                  "application",
+                  "harvest",
+                  "tillage"
+                ]
+              },
+              "start_date": {
+                "type": "string"
+              },
+              "end_date": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "org_id",
+              "field_id"
+            ]
+          }
+        },
+        {
+          "name": "create_work_plan",
+          "description": "Create a work plan (prescription) assigning an operation, products and rates to a field, operator and machine.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "org_id": {
+                "type": "string"
+              },
+              "field_id": {
+                "type": "string"
+              },
+              "work_type": {
+                "type": "string",
+                "enum": [
+                  "seeding",
+                  "application",
+                  "tillage",
+                  "harvest"
+                ]
+              },
+              "year": {
+                "type": "integer"
+              },
+              "instructions": {
+                "type": "string"
+              },
+              "inputs": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "product_name": {
+                      "type": "string"
+                    },
+                    "rate": {
+                      "type": "number"
+                    },
+                    "unit": {
+                      "type": "string",
+                      "enum": [
+                        "seeds/ac",
+                        "lb/ac",
+                        "gal/ac",
+                        "oz/ac",
+                        "kg/ha",
+                        "l/ha"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "product_name",
+                    "rate",
+                    "unit"
+                  ]
+                }
+              },
+              "assigned_operator_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "equipment_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": [
+              "org_id",
+              "field_id",
+              "work_type",
+              "year"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "hydrawise",
+      "name": "Hunter Hydrawise",
+      "server": "mcp://hydrawise",
+      "summary": "Smart irrigation controllers: zone status, manual runs, watering programs and water usage.",
+      "tools": [
+        {
+          "name": "list_controllers",
+          "description": "List controllers.",
+          "input_schema": {
+            "type": "object",
+            "properties": {}
+          }
+        },
+        {
+          "name": "get_zone_status",
+          "description": "Status of each irrigation zone: currently watering, next scheduled run and last run duration.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "controller_id": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "controller_id"
+            ]
+          }
+        },
+        {
+          "name": "run_zone",
+          "description": "Start watering a zone now for a set duration.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "controller_id": {
+                "type": "string"
+              },
+              "zone_id": {
+                "type": "string"
+              },
+              "duration_minutes": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 720
+              }
+            },
+            "required": [
+              "zone_id",
+              "duration_minutes"
+            ]
+          }
+        },
+        {
+          "name": "stop_zone",
+          "description": "Stop watering a zone, or all zones on a controller.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "controller_id": {
+                "type": "string"
+              },
+              "zone_id": {
+                "type": "string"
+              },
+              "all_zones": {
+                "type": "boolean",
+                "default": false
+              }
+            },
+            "required": [
+              "controller_id"
+            ]
+          }
+        },
+        {
+          "name": "schedule_irrigation",
+          "description": "Create or replace a watering program for zones with days, start times and run durations; optional predictive weather adjustment skips or scales runs.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "controller_id": {
+                "type": "string"
+              },
+              "program_name": {
+                "type": "string"
+              },
+              "zone_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "days_of_week": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "mon",
+                    "tue",
+                    "wed",
+                    "thu",
+                    "fri",
+                    "sat",
+                    "sun"
+                  ]
+                }
+              },
+              "interval_days": {
+                "type": "integer",
+                "description": "Water every N days instead of fixed weekdays."
+              },
+              "start_times": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "description": "HH:MM 24h."
+                }
+              },
+              "run_minutes": {
+                "type": "integer"
+              },
+              "weather_adjust": {
+                "type": "boolean",
+                "default": true
+              },
+              "effective_from": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "controller_id",
+              "zone_ids",
+              "start_times",
+              "run_minutes"
+            ]
+          }
+        },
+        {
+          "name": "suspend_watering",
+          "description": "Suspend watering for zones until a date (e.g. after rain).",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "controller_id": {
+                "type": "string"
+              },
+              "zone_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "until": {
+                "type": "string"
+              },
+              "reason": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "controller_id",
+              "until"
+            ]
+          }
+        },
+        {
+          "name": "get_water_usage_report",
+          "description": "Water used (gallons or liters) by zone or day over a period, from the flow meter.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "controller_id": {
+                "type": "string"
+              },
+              "start_date": {
+                "type": "string"
+              },
+              "end_date": {
+                "type": "string"
+              },
+              "group_by": {
+                "type": "string",
+                "enum": [
+                  "zone",
+                  "day",
+                  "week"
+                ],
+                "default": "day"
+              }
+            },
+            "required": [
+              "controller_id",
+              "start_date",
+              "end_date"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "farmos",
+      "name": "farmOS",
+      "server": "mcp://farmos",
+      "summary": "Open-source farm record keeping: livestock assets, weights, treatments, movements and inventory logs.",
+      "tools": [
+        {
+          "name": "list_animals",
+          "description": "List animal assets, filtering by species, group, status, sex or current location.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "species": {
+                "type": "string",
+                "description": "Animal type, e.g. Cattle, Sheep, Goat, Pig, Chicken."
+              },
+              "group_id": {
+                "type": "string"
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "active",
+                  "archived"
+                ],
+                "default": "active"
+              },
+              "location_id": {
+                "type": "string"
+              },
+              "sex": {
+                "type": "string",
+                "enum": [
+                  "F",
+                  "M"
+                ]
+              },
+              "limit": {
+                "type": "integer",
+                "default": 50
+              }
+            }
+          }
+        },
+        {
+          "name": "get_animal",
+          "description": "Get an animal.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "animal_id": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "animal_id"
+            ]
+          }
+        },
+        {
+          "name": "create_animal",
+          "description": "Register a new animal asset with ID tag, birthdate, sex, parents and location.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "animal_type": {
+                "type": "string"
+              },
+              "birthdate": {
+                "type": "string"
+              },
+              "sex": {
+                "type": "string",
+                "enum": [
+                  "F",
+                  "M"
+                ]
+              },
+              "is_castrated": {
+                "type": "boolean"
+              },
+              "id_tag": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "ear_tag",
+                      "eid",
+                      "tattoo",
+                      "brand",
+                      "leg_band"
+                    ]
+                  }
+                }
+              },
+              "parent_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "location_id": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "name",
+              "animal_type"
+            ]
+          }
+        },
+        {
+          "name": "record_weight",
+          "description": "Record a weight observation for one or more animals.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "animal_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "value": {
+                "type": "number"
+              },
+              "unit": {
+                "type": "string",
+                "enum": [
+                  "kg",
+                  "lb"
+                ],
+                "default": "kg"
+              },
+              "timestamp": {
+                "type": "string"
+              },
+              "notes": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "animal_ids",
+              "value"
+            ]
+          }
+        },
+        {
+          "name": "log_medical_treatment",
+          "description": "Log a medical treatment (vaccination, dewormer, antibiotic) with dose, route and meat/milk withdrawal period.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "animal_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "product": {
+                "type": "string"
+              },
+              "dose": {
+                "type": "string"
+              },
+              "route": {
+                "type": "string",
+                "enum": [
+                  "oral",
+                  "subcutaneous",
+                  "intramuscular",
+                  "intravenous",
+                  "topical",
+                  "pour_on"
+                ]
+              },
+              "withdrawal_days": {
+                "type": "integer"
+              },
+              "administered_by": {
+                "type": "string"
+              },
+              "timestamp": {
+                "type": "string"
+              },
+              "notes": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "animal_ids",
+              "product"
+            ]
+          }
+        },
+        {
+          "name": "move_animals",
+          "description": "Record a movement log moving animals to a pasture, paddock or barn.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "animal_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "to_location_id": {
+                "type": "string"
+              },
+              "timestamp": {
+                "type": "string"
+              },
+              "done": {
+                "type": "boolean",
+                "default": true
+              }
+            },
+            "required": [
+              "animal_ids",
+              "to_location_id"
+            ]
+          }
+        },
+        {
+          "name": "list_feed_inventory",
+          "description": "Feed and hay inventory.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "location_id": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

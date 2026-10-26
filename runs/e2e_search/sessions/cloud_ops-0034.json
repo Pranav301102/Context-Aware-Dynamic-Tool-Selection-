@@ -1,0 +1,55 @@
+{
+ "task_id": "cloud_ops-0034",
+ "mode": "search",
+ "loaded": [
+  "aws.s3_put_object",
+  "aws.s3_get_object",
+  "aws.s3_list_buckets",
+  "google_cloud_ai.ocr_pdf_document",
+  "google_drive.gdrive_upload_file"
+ ],
+ "order": [
+  "aws.s3_put_object",
+  "aws.s3_get_object",
+  "aws.s3_list_buckets",
+  "google_cloud_ai.ocr_pdf_document",
+  "google_drive.gdrive_upload_file"
+ ],
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "aws.s3_get_object",
+   "args": {
+    "bucket": "acme-tf-state",
+    "key": "infra/prod/terraform.tfstate"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0
+  },
+  {
+   "type": "request_tools",
+   "capability": "read the contents of an object (file) stored in a cloud storage bucket such as S3",
+   "added": [
+    "aws.s3_put_object",
+    "aws.s3_get_object",
+    "aws.s3_list_buckets",
+    "google_cloud_ai.ocr_pdf_document",
+    "google_drive.gdrive_upload_file"
+   ],
+   "tool_tokens": 971
+  },
+  {
+   "type": "call",
+   "tool": "aws__s3_get_object",
+   "valid": true
+  }
+ ],
+ "done": true,
+ "final": ""
+}

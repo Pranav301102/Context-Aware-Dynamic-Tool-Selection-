@@ -1,0 +1,51 @@
+{
+ "task_id": "search-0069",
+ "mode": "cats",
+ "loaded": [
+  "exa.research_paper_search_exa",
+  "semantic_scholar.author_search",
+  "semantic_scholar.paper_citations",
+  "semantic_scholar.paper_details",
+  "semantic_scholar.paper_relevance_search",
+  "semantic_scholar.paper_title_search"
+ ],
+ "order": [
+  "exa.research_paper_search_exa",
+  "semantic_scholar.author_search",
+  "semantic_scholar.paper_citations",
+  "semantic_scholar.paper_details",
+  "semantic_scholar.paper_relevance_search",
+  "semantic_scholar.paper_title_search"
+ ],
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "semantic_scholar.paper_citations",
+   "args": {
+    "paper_id": "0f9cfd3c",
+    "fields": [
+     "title",
+     "authors",
+     "year",
+     "citationCount",
+     "venue"
+    ]
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 6,
+   "tool_tokens": 1589
+  },
+  {
+   "type": "call",
+   "tool": "semantic_scholar__paper_citations",
+   "valid": true
+  }
+ ],
+ "done": true,
+ "final": ""
+}

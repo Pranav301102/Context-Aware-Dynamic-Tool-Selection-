@@ -1,0 +1,61 @@
+{
+ "task_id": "search-0044",
+ "mode": "cats",
+ "loaded": [
+  "exa.research_paper_search_exa",
+  "semantic_scholar.author_papers",
+  "semantic_scholar.author_search",
+  "semantic_scholar.get_paper_recommendations",
+  "semantic_scholar.paper_citations",
+  "semantic_scholar.paper_details",
+  "semantic_scholar.paper_references",
+  "semantic_scholar.paper_relevance_search",
+  "semantic_scholar.paper_title_search"
+ ],
+ "order": [
+  "exa.research_paper_search_exa",
+  "semantic_scholar.author_papers",
+  "semantic_scholar.author_search",
+  "semantic_scholar.get_paper_recommendations",
+  "semantic_scholar.paper_citations",
+  "semantic_scholar.paper_details",
+  "semantic_scholar.paper_references",
+  "semantic_scholar.paper_relevance_search",
+  "semantic_scholar.paper_title_search"
+ ],
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "semantic_scholar.author_search",
+   "args": {
+    "query": "Percy Liang"
+   }
+  },
+  {
+   "tool": "semantic_scholar.author_papers",
+   "args": {
+    "author_id": "1746807"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 9,
+   "tool_tokens": 2315
+  },
+  {
+   "type": "call",
+   "tool": "semantic_scholar__author_search",
+   "valid": true
+  },
+  {
+   "type": "call",
+   "tool": "semantic_scholar__author_papers",
+   "valid": true
+  }
+ ],
+ "done": true,
+ "final": ""
+}

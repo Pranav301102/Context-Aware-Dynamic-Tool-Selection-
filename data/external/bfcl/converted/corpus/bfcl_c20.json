@@ -1,0 +1,928 @@
+{
+ "branch": {
+  "id": "bfcl_c20",
+  "name": "case / court / details",
+  "summary": "Functions about case, court, details, law, lawsuit, retrieve, number, specific, info, fetch, cases, detailed."
+ },
+ "toolkits": [
+  {
+   "id": "case_info",
+   "name": "case_info",
+   "server": "bfcl://case_info",
+   "summary": "Retrieve case details including the judgement from a case id.",
+   "tools": [
+    {
+     "name": "get",
+     "description": "Retrieve case details including the judgement from a case id.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "case_id": {
+        "type": "string",
+        "description": "The unique id for the case."
+       },
+       "case_year": {
+        "type": "string",
+        "description": "The year when the case was conducted."
+       },
+       "judge_name": {
+        "type": "string",
+        "description": "The judge's name in the case.",
+        "default": "Andrew"
+       }
+      },
+      "required": [
+       "case_id",
+       "case_year"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "case_review",
+   "name": "case_review",
+   "server": "bfcl://case_review",
+   "summary": "Retrieve the outcome of a specific law case.",
+   "tools": [
+    {
+     "name": "retrieve_case_outcome",
+     "description": "Retrieve the outcome of a specific law case.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "case_name": {
+        "type": "string",
+        "description": "The full case name (including vs.)."
+       },
+       "case_year": {
+        "type": "integer",
+        "description": "The year the case was tried."
+       },
+       "location": {
+        "type": "string",
+        "description": "The location (City, State) of where the case was tried.",
+        "optional": "true",
+        "default": "CA"
+       }
+      },
+      "required": [
+       "case_name",
+       "case_year"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "court_case",
+   "name": "court_case",
+   "server": "bfcl://court_case",
+   "summary": "Locate details of court cases based on specific parameters like case number and case type. Retrieves details about a court case using its docket number and location.",
+   "tools": [
+    {
+     "name": "find",
+     "description": "Locate details of court cases based on specific parameters like case number and case type.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The city and court where the lawsuit is filed."
+       },
+       "case_number": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "The unique case numbers of the lawsuits."
+       },
+       "case_type": {
+        "type": "string",
+        "enum": [
+         "Civil",
+         "Criminal"
+        ],
+        "description": "Type of the court case.",
+        "default": "Civil"
+       }
+      },
+      "required": [
+       "location",
+       "case_number"
+      ]
+     }
+    },
+    {
+     "name": "search",
+     "description": "Retrieves details about a court case using its docket number and location.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "docket_number": {
+        "type": "string",
+        "description": "The docket number for the case."
+       },
+       "location": {
+        "type": "string",
+        "description": "The location where the case is registered, in the format: city, state, e.g., Dallas, TX."
+       },
+       "full_text": {
+        "type": "boolean",
+        "default": "false",
+        "description": "Option to return the full text of the case ruling."
+       }
+      },
+      "required": [
+       "docket_number",
+       "location"
+      ]
+     }
+    },
+    {
+     "name": "search_2",
+     "description": "Retrieves details about a court case using its docket number and location.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "docket_number": {
+        "type": "string",
+        "description": "The docket number for the case."
+       },
+       "location": {
+        "type": "string",
+        "description": "The location where the case is registered, in the format: state, e.g., Texas"
+       },
+       "full_text": {
+        "type": "boolean",
+        "default": "false",
+        "description": "Option to return the full text of the case ruling."
+       }
+      },
+      "required": [
+       "docket_number",
+       "location"
+      ]
+     }
+    },
+    {
+     "name": "search_3",
+     "description": "Retrieves details about a court case using its docket number and location.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "docket_number": {
+        "type": "string",
+        "description": "The docket number for the case."
+       },
+       "location": {
+        "type": "string",
+        "description": "The location where the case is registered, in the format: city, state, e.g., Dallas, TX."
+       },
+       "full_text": {
+        "type": "boolean",
+        "default": false,
+        "description": "Option to return the full text of the case ruling."
+       }
+      },
+      "required": [
+       "docket_number",
+       "location"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "court_info",
+   "name": "court_info",
+   "server": "bfcl://court_info",
+   "summary": "Retrieves the status and trial dates for court cases from specified county courts.",
+   "tools": [
+    {
+     "name": "get_case_status",
+     "description": "Retrieves the status and trial dates for court cases from specified county courts.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "case_number": {
+        "type": "string",
+        "description": "The specific court case number."
+       },
+       "court": {
+        "type": "string",
+        "description": "The county court where the case is filed."
+       },
+       "details": {
+        "type": "string",
+        "enum": [
+         "status",
+         "trial_date"
+        ],
+        "description": "Specific details required about the court case. Defaults to 'status'."
+       }
+      },
+      "required": [
+       "case_number",
+       "court"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "crime_record",
+   "name": "crime_record",
+   "server": "bfcl://crime_record",
+   "summary": "Retrieve detailed felony crime records using a specific case number and location.",
+   "tools": [
+    {
+     "name": "get_record",
+     "description": "Retrieve detailed felony crime records using a specific case number and location.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "case_number": {
+        "type": "string",
+        "description": "The case number related to the crime."
+       },
+       "county": {
+        "type": "string",
+        "description": "The county in which the crime occurred."
+       },
+       "details": {
+        "type": "boolean",
+        "description": "To get a detailed report, set as true. Defaults to false."
+       }
+      },
+      "required": [
+       "case_number",
+       "county"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "criminal_case_details",
+   "name": "criminal_case_details",
+   "server": "bfcl://criminal_case_details",
+   "summary": "Retrieve the details of a specific criminal case.",
+   "tools": [
+    {
+     "name": "get",
+     "description": "Retrieve the details of a specific criminal case.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "case_number": {
+        "type": "string",
+        "description": "The official number of the case in the judiciary system."
+       },
+       "court_id": {
+        "type": "string",
+        "description": "The ID of the court where the case was held."
+       },
+       "include_hearing_details": {
+        "type": "boolean",
+        "description": "Flag indicating if hearing details should also be retrieved. Default: False"
+       }
+      },
+      "required": [
+       "case_number",
+       "court_id"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "law",
+   "name": "law",
+   "server": "bfcl://law",
+   "summary": "Retrieve the details of a Supreme Court case given its title.",
+   "tools": [
+    {
+     "name": "civil_get_case_details",
+     "description": "Retrieve the details of a Supreme Court case given its title.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "case_title": {
+        "type": "string",
+        "description": "Title of the Supreme Court case."
+       },
+       "include_dissent": {
+        "type": "boolean",
+        "description": "If true, the output will include details of the dissenting opinion."
+       }
+      },
+      "required": [
+       "case_title",
+       "include_dissent"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "law_case",
+   "name": "law_case",
+   "server": "bfcl://law_case",
+   "summary": "Fetches detailed information on a specific case including its history and the litigants involved.",
+   "tools": [
+    {
+     "name": "get_details",
+     "description": "Fetches detailed information on a specific case including its history and the litigants involved.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "case_number": {
+        "type": "string",
+        "description": "The unique number identifying the case."
+       },
+       "include_history": {
+        "type": "boolean",
+        "description": "Flag indicating if case history should be included. Default is false."
+       },
+       "include_litigants": {
+        "type": "boolean",
+        "description": "Flag indicating if litigant details should be included. Default is false."
+       }
+      },
+      "required": [
+       "case_number"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "law_case_search",
+   "name": "law_case_search",
+   "server": "bfcl://law_case_search",
+   "summary": "Search for a historical law case based on specific criteria like the subject and year.",
+   "tools": [
+    {
+     "name": "find_historical",
+     "description": "Search for a historical law case based on specific criteria like the subject and year.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "subject": {
+        "type": "string",
+        "description": "The subject matter of the case, e.g., 'fraud'"
+       },
+       "from_year": {
+        "type": "integer",
+        "description": "The start year for the range of the case. The case should happen after this year."
+       },
+       "to_year": {
+        "type": "integer",
+        "description": "The end year for the range of the case. The case should happen before this year."
+       }
+      },
+      "required": [
+       "subject",
+       "from_year",
+       "to_year"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "lawsuit",
+   "name": "lawsuit",
+   "server": "bfcl://lawsuit",
+   "summary": "Verify the details of a lawsuit case and check its status using case ID. Fetch the details of a lawsuit for a specific company.",
+   "tools": [
+    {
+     "name": "check_case",
+     "description": "Verify the details of a lawsuit case and check its status using case ID.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "case_id": {
+        "type": "integer",
+        "description": "The identification number of the lawsuit case."
+       },
+       "closed_status": {
+        "type": "boolean",
+        "description": "The status of the lawsuit case to be verified."
+       }
+      },
+      "required": [
+       "case_id",
+       "closed_status"
+      ]
+     }
+    },
+    {
+     "name": "fetch_details",
+     "description": "Fetch the details of a lawsuit for a specific company.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "company_name": {
+        "type": "string",
+        "description": "The company involved in the lawsuit."
+       }
+      },
+      "required": [
+       "company_name"
+      ]
+     }
+    },
+    {
+     "name": "judge",
+     "description": "Fetch the judge handling a lawsuit for a specific company.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "company_name": {
+        "type": "string",
+        "description": "The company involved in the lawsuit."
+       },
+       "lawsuit_id": {
+        "type": "integer",
+        "description": "The ID number of the lawsuit. Default to 123",
+        "default": 123
+       }
+      },
+      "required": [
+       "company_name"
+      ]
+     }
+    },
+    {
+     "name": "lookup",
+     "description": "Look up lawsuit cases against a company by year.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "company_name": {
+        "type": "string",
+        "description": "The name of the company."
+       },
+       "year": {
+        "type": "integer",
+        "description": "The year in which the lawsuit was filed."
+       }
+      },
+      "required": [
+       "company_name",
+       "year"
+      ]
+     }
+    },
+    {
+     "name": "settlement_estimate",
+     "description": "Calculate an estimated lawsuit settlement amount based on inputs.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "damage_amount": {
+        "type": "number",
+        "description": "Amount of damages in USD."
+       },
+       "incident_type": {
+        "type": "string",
+        "description": "Type of incident leading to the lawsuit."
+       },
+       "defendant_assets": {
+        "type": "number",
+        "description": "Amount of defendant's assets in USD. Default: 0.1"
+       }
+      },
+      "required": [
+       "damage_amount",
+       "incident_type"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "legal_case",
+   "name": "legal_case",
+   "server": "bfcl://legal_case",
+   "summary": "Fetch detailed legal case information from database. Fetch detailed legal case information from database.",
+   "tools": [
+    {
+     "name": "fetch",
+     "description": "Fetch detailed legal case information from database.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "case_id": {
+        "type": "string",
+        "description": "The ID of the legal case."
+       },
+       "details": {
+        "type": "boolean",
+        "description": "True if need the detail info. "
+       }
+      },
+      "required": [
+       "case_id",
+       "details"
+      ]
+     }
+    },
+    {
+     "name": "fetch_2",
+     "description": "Fetch detailed legal case information from database.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "case_id": {
+        "type": "string",
+        "description": "The ID of the legal case."
+       },
+       "details": {
+        "type": "boolean",
+        "description": "True if need the detail info. Default is false."
+       }
+      },
+      "required": [
+       "case_id",
+       "details"
+      ]
+     }
+    },
+    {
+     "name": "file",
+     "description": "File a new case in a specific court.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "court": {
+        "type": "string",
+        "description": "The name of the court."
+       },
+       "case_type": {
+        "type": "string",
+        "description": "The type of case being filed."
+       },
+       "documents": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "List of documents needed to be filed.",
+        "default": [
+         "document.txt"
+        ]
+       }
+      },
+      "required": [
+       "court",
+       "case_type"
+      ]
+     }
+    },
+    {
+     "name": "find_parties",
+     "description": "Locate legal cases involving a specified party in a particular city",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "party_name": {
+        "type": "string",
+        "description": "The name of the party involved in the case"
+       },
+       "city": {
+        "type": "string",
+        "description": "The city where the case was heard"
+       }
+      },
+      "required": [
+       "party_name",
+       "city"
+      ]
+     }
+    },
+    {
+     "name": "get_summary",
+     "description": "Get a summary of a legal case",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "case_id": {
+        "type": "string",
+        "description": "The unique ID of the case to summarise"
+       },
+       "summary_type": {
+        "type": "string",
+        "description": "Type of the summary to get, e.g., brief, full",
+        "default": "brief"
+       }
+      },
+      "required": [
+       "case_id"
+      ],
+      "optional": [
+       "summary_type"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "bfcl_c20_g0",
+   "name": "case court law",
+   "server": "bfcl://bfcl_c20_g0",
+   "summary": "Functions for case, court, law, lawsuit, details, number.",
+   "tools": [
+    {
+     "name": "fetch_law_case_details",
+     "description": "Fetch details of a specific law case based on case number, year and court.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "case_number": {
+        "type": "integer",
+        "description": "The specific number of the law case."
+       },
+       "court": {
+        "type": "string",
+        "description": "The city name where the court takes place"
+       },
+       "year": {
+        "type": "integer",
+        "description": "The year in which the law case took place."
+       }
+      },
+      "required": [
+       "case_number",
+       "court",
+       "year"
+      ]
+     }
+    },
+    {
+     "name": "find_latest_court_case",
+     "description": "Find the latest court case between two companies.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "company1": {
+        "type": "string",
+        "description": "The name of the first company."
+       },
+       "company2": {
+        "type": "string",
+        "description": "The name of the second company."
+       },
+       "country": {
+        "type": "string",
+        "description": "The country in which the court case is located.",
+        "default": "USA"
+       }
+      },
+      "required": [
+       "company1",
+       "company2"
+      ]
+     }
+    },
+    {
+     "name": "get_case_info",
+     "description": "Retrieve case details using a specific case docket number and court location.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "docket": {
+        "type": "string",
+        "description": "Docket number for the specific court case."
+       },
+       "court": {
+        "type": "string",
+        "description": "Court in which the case was heard."
+       },
+       "info_type": {
+        "type": "string",
+        "description": "Specify the information type needed for the case. i.e., victim, accused, verdict etc."
+       }
+      },
+      "required": [
+       "docket",
+       "court",
+       "info_type"
+      ]
+     }
+    },
+    {
+     "name": "get_case_result",
+     "description": "Retrieve the result of a specific law case based on the year and name of the case.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "case_year": {
+        "type": "integer",
+        "description": "The year when the law case was established."
+       },
+       "case_name": {
+        "type": "string",
+        "description": "The name of the law case."
+       },
+       "jurisdiction": {
+        "type": "string",
+        "description": "The jurisdiction under which the case was adjudged. Default is 'US Supreme Court'."
+       }
+      },
+      "required": [
+       "case_year",
+       "case_name"
+      ]
+     }
+    },
+    {
+     "name": "get_lawsuit_details",
+     "description": "Retrieve details of a lawsuit based on its case number and court location.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "case_number": {
+        "type": "string",
+        "description": "Case number of the lawsuit."
+       },
+       "court_location": {
+        "type": "string",
+        "description": "The location of the court where the lawsuit was filed."
+       },
+       "with_verdict": {
+        "type": "boolean",
+        "description": "Flag to include verdict details if available. Default is False"
+       }
+      },
+      "required": [
+       "case_number",
+       "court_location"
+      ]
+     }
+    },
+    {
+     "name": "get_lawsuit_details_2",
+     "description": "Retrieve the detailed information about a lawsuit based on its case number and the court location.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "case_number": {
+        "type": "string",
+        "description": "The case number of the lawsuit."
+       },
+       "court_location": {
+        "type": "string",
+        "description": "The location of the court where the case is filed."
+       },
+       "additional_details": {
+        "type": "array",
+        "items": {
+         "type": "string",
+         "enum": [
+          "attorneys",
+          "plaintiffs",
+          "defendants",
+          "charges",
+          "court_updates"
+         ]
+        },
+        "description": "Optional. Array containing additional details to be fetched. Default is all."
+       }
+      },
+      "required": [
+       "case_number",
+       "court_location"
+      ]
+     }
+    },
+    {
+     "name": "get_lawsuit_details_3",
+     "description": "Retrieve the detailed information about a lawsuit based on its case number and the court location.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "case_number": {
+        "type": "string",
+        "description": "The case number of the lawsuit."
+       },
+       "court_location": {
+        "type": "string",
+        "description": "The location of the court where the case is filed."
+       },
+       "additional_details": {
+        "type": "array",
+        "items": {
+         "type": "string",
+         "enum": [
+          "attorneys",
+          "plaintiffs",
+          "defendants",
+          "charges",
+          "court_updates"
+         ]
+        },
+        "description": "Optional. Array containing additional details to be fetched. Default is empty array."
+       }
+      },
+      "required": [
+       "case_number",
+       "court_location"
+      ]
+     }
+    },
+    {
+     "name": "law_case_search",
+     "description": "Search and retrieve law cases based on the topic, timeline, and location.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "topic": {
+        "type": "string",
+        "description": "The subject matter of the case."
+       },
+       "year_range": {
+        "type": "array",
+        "items": {
+         "type": "integer"
+        },
+        "description": "The start and end year for searching cases."
+       },
+       "location": {
+        "type": "string",
+        "description": "The location where the case is being heard."
+       },
+       "judicial_system": {
+        "type": "string",
+        "description": "The specific judicial system in which to search (e.g. 'federal', 'state').",
+        "default": "all"
+       }
+      },
+      "required": [
+       "topic",
+       "year_range",
+       "location"
+      ]
+     }
+    },
+    {
+     "name": "lawsuit_info",
+     "description": "Retrieves details of a lawsuit given a case number",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "case_number": {
+        "type": "string",
+        "description": "The unique identifier of the lawsuit case"
+       },
+       "year": {
+        "type": "integer",
+        "description": "The year in which the lawsuit case was initiated",
+        "optional": true,
+        "default": 2000
+       },
+       "location": {
+        "type": "string",
+        "description": "The location or court jurisdiction where the case was filed.",
+        "optional": true,
+        "default": "New York"
+       }
+      },
+      "required": [
+       "case_number"
+      ]
+     }
+    },
+    {
+     "name": "lawsuit_info_2",
+     "description": "Retrieves details of a lawsuit given a case number",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "case_number": {
+        "type": "string",
+        "description": "The unique identifier of the lawsuit case"
+       },
+       "year": {
+        "type": "integer",
+        "description": "The year in which the lawsuit case was initiated. Default is 2023 if not specified.",
+        "optional": true,
+        "default": 2023
+       },
+       "location": {
+        "type": "string",
+        "description": "The location or court jurisdiction where the case was filed. Default is 'all'.",
+        "optional": true
+       }
+      },
+      "required": [
+       "case_number"
+      ]
+     }
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,85 @@
+{
+ "task_id": "productivity-0007",
+ "mode": "cats",
+ "loaded": [
+  "apple_mcp.calendar",
+  "google_calendar.create_event",
+  "google_calendar.update_event",
+  "ms365_pim.create_calendar_event",
+  "ms365_pim.delete_calendar_event",
+  "ms365_pim.find_meeting_times",
+  "ms365_pim.get_calendar_view",
+  "ms365_pim.get_schedule",
+  "ms365_pim.update_calendar_event"
+ ],
+ "order": [
+  "apple_mcp.calendar",
+  "google_calendar.create_event",
+  "google_calendar.update_event",
+  "ms365_pim.create_calendar_event",
+  "ms365_pim.delete_calendar_event",
+  "ms365_pim.find_meeting_times",
+  "ms365_pim.get_calendar_view",
+  "ms365_pim.get_schedule",
+  "ms365_pim.update_calendar_event"
+ ],
+ "scores": {
+  "apple_mcp.calendar": 0.08721914231807942,
+  "google_calendar.create_event": 0.3067021285863401,
+  "google_calendar.update_event": 0.055457566155543835,
+  "ms365_pim.create_calendar_event": 0.8991941045289213,
+  "ms365_pim.delete_calendar_event": 0.11956881978417418,
+  "ms365_pim.find_meeting_times": 0.10404971182625115,
+  "ms365_pim.get_calendar_view": 0.33579374043794263,
+  "ms365_pim.get_schedule": 0.08048509469258384,
+  "ms365_pim.update_calendar_event": 0.2616591538822859
+ },
+ "router_tokens": 1457,
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "ms365_pim.create_calendar_event",
+   "args": {
+    "body": {
+     "subject": "1:1 with Sam",
+     "start": {
+      "dateTime": "2026-10-08T10:00:00",
+      "timeZone": "UTC"
+     },
+     "end": {
+      "dateTime": "2026-10-08T10:30:00",
+      "timeZone": "UTC"
+     },
+     "attendees": [
+      {
+       "emailAddress": {
+        "address": "sam@contoso.com"
+       },
+       "type": "required"
+      }
+     ],
+     "isOnlineMeeting": true,
+     "onlineMeetingProvider": "teamsForBusiness"
+    }
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 9,
+   "tool_tokens": 4898,
+   "t": 1791321503.9520755
+  },
+  {
+   "type": "call",
+   "tool": "ms365_pim__create_calendar_event",
+   "valid": true,
+   "t": 1791321515.7414558
+  }
+ ],
+ "done": true,
+ "t_done": 1791321521.6270304,
+ "final": ""
+}

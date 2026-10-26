@@ -1,0 +1,34 @@
+{
+ "task_id": "crm_commerce-0012",
+ "mode": "cats",
+ "loaded": [
+  "shopify.get_order_by_id",
+  "shopify.get_orders",
+  "shopify.refund_order"
+ ],
+ "order": [
+  "shopify.get_order_by_id",
+  "shopify.get_orders",
+  "shopify.refund_order"
+ ],
+ "scores": {
+  "shopify.get_order_by_id": 0.07050292633332986,
+  "shopify.get_orders": 0.10251317784826389,
+  "shopify.refund_order": 0.6759224609048464
+ },
+ "router_tokens": 0,
+ "escalations": 0,
+ "calls": [],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 3,
+   "tool_tokens": 533,
+   "t": 1791322232.8342707
+  }
+ ],
+ "done": true,
+ "t_done": 1791322247.0674028,
+ "final": ""
+}

@@ -1,0 +1,86 @@
+{
+ "task_id": "productivity-0007",
+ "mode": "search",
+ "loaded": [
+  "ms365_pim.create_calendar_event",
+  "ms_teams.create_online_meeting",
+  "ms365_pim.update_calendar_event",
+  "ms365_pim.delete_calendar_event",
+  "ms365_pim.get_calendar_view"
+ ],
+ "order": [
+  "ms365_pim.create_calendar_event",
+  "ms_teams.create_online_meeting",
+  "ms365_pim.update_calendar_event",
+  "ms365_pim.delete_calendar_event",
+  "ms365_pim.get_calendar_view"
+ ],
+ "scores": {
+  "ms365_pim.create_calendar_event": 2.0,
+  "ms_teams.create_online_meeting": 2.0,
+  "ms365_pim.update_calendar_event": 2.0,
+  "ms365_pim.delete_calendar_event": 2.0,
+  "ms365_pim.get_calendar_view": 2.0
+ },
+ "router_tokens": 0,
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "ms365_pim.create_calendar_event",
+   "args": {
+    "body": {
+     "subject": "1:1 with Sam",
+     "start": {
+      "dateTime": "2026-10-08T10:00:00",
+      "timeZone": "UTC"
+     },
+     "end": {
+      "dateTime": "2026-10-08T10:30:00",
+      "timeZone": "UTC"
+     },
+     "attendees": [
+      {
+       "emailAddress": {
+        "address": "sam@contoso.com"
+       },
+       "type": "required"
+      }
+     ],
+     "isOnlineMeeting": true,
+     "onlineMeetingProvider": "teamsForBusiness"
+    }
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0,
+   "t": 1791321583.7624218
+  },
+  {
+   "type": "request_tools",
+   "capability": "create an Outlook / Microsoft 365 calendar event with a Teams online meeting",
+   "added": [
+    "ms365_pim.create_calendar_event",
+    "ms_teams.create_online_meeting",
+    "ms365_pim.update_calendar_event",
+    "ms365_pim.delete_calendar_event",
+    "ms365_pim.get_calendar_view"
+   ],
+   "tool_tokens": 2620,
+   "t": 1791321597.054897
+  },
+  {
+   "type": "call",
+   "tool": "ms365_pim__create_calendar_event",
+   "valid": true,
+   "t": 1791321612.2757668
+  }
+ ],
+ "done": true,
+ "t_done": 1791321614.4833126,
+ "final": ""
+}

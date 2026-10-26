@@ -1,0 +1,71 @@
+{
+ "task_id": "database-0049",
+ "mode": "search",
+ "loaded": [
+  "mongodb.create_index",
+  "mongodb.list_collections",
+  "mongodb.collection_schema",
+  "mongodb.insert_many",
+  "mongodb.count"
+ ],
+ "order": [
+  "mongodb.create_index",
+  "mongodb.list_collections",
+  "mongodb.collection_schema",
+  "mongodb.insert_many",
+  "mongodb.count"
+ ],
+ "scores": {
+  "mongodb.create_index": 2.0,
+  "mongodb.list_collections": 2.0,
+  "mongodb.collection_schema": 2.0,
+  "mongodb.insert_many": 2.0,
+  "mongodb.count": 2.0
+ },
+ "router_tokens": 0,
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "mongodb.create_index",
+   "args": {
+    "database": "app",
+    "collection": "users",
+    "keys": {
+     "email": 1
+    },
+    "name": "email_1"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0,
+   "t": 1791321195.3220623
+  },
+  {
+   "type": "request_tools",
+   "capability": "create an index on a MongoDB collection field",
+   "added": [
+    "mongodb.create_index",
+    "mongodb.list_collections",
+    "mongodb.collection_schema",
+    "mongodb.insert_many",
+    "mongodb.count"
+   ],
+   "tool_tokens": 599,
+   "t": 1791321208.0518548
+  },
+  {
+   "type": "call",
+   "tool": "mongodb__create_index",
+   "valid": true,
+   "t": 1791321220.8768885
+  }
+ ],
+ "done": true,
+ "t_done": 1791321223.0197687,
+ "final": ""
+}

@@ -1,0 +1,777 @@
+{
+  "branch": {
+    "id": "music_audio",
+    "name": "Music & Audio",
+    "summary": "Music and audio: streaming catalog search, playlists, recommendations and playback control, podcast discovery, music metadata lookup, and automated audio mastering and loudness processing."
+  },
+  "toolkits": [
+    {
+      "id": "spotify",
+      "name": "Spotify",
+      "server": "mcp://spotify",
+      "summary": "Music streaming: search the catalog, manage playlists, get recommendations and control playback.",
+      "tools": [
+        {
+          "name": "search_tracks",
+          "description": "Search the Spotify catalog for tracks. Supports field filters such as artist:, album:, year:, genre: and isrc: in the query.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string",
+                "description": "e.g. 'artist:Radiohead year:1997'."
+              },
+              "market": {
+                "type": "string",
+                "description": "ISO 3166-1 alpha-2 market for track availability."
+              },
+              "limit": {
+                "type": "integer",
+                "default": 20,
+                "minimum": 1,
+                "maximum": 50
+              },
+              "offset": {
+                "type": "integer",
+                "default": 0
+              }
+            },
+            "required": [
+              "query"
+            ]
+          }
+        },
+        {
+          "name": "get_track",
+          "description": "Get track details by Spotify ID.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "track_id": {
+                "type": "string"
+              },
+              "market": {
+                "type": "string",
+                "description": "ISO 3166-1 alpha-2 market for track availability."
+              }
+            },
+            "required": [
+              "track_id"
+            ]
+          }
+        },
+        {
+          "name": "get_artist_top_tracks",
+          "description": "An artist's top tracks in a market.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "artist_id": {
+                "type": "string"
+              },
+              "market": {
+                "type": "string",
+                "description": "ISO 3166-1 alpha-2 market for track availability."
+              }
+            },
+            "required": [
+              "artist_id"
+            ]
+          }
+        },
+        {
+          "name": "get_audio_features",
+          "description": "Tempo, key, mode, energy, danceability, valence, acousticness and loudness for up to 100 tracks.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "track_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "maxItems": 100
+              }
+            },
+            "required": [
+              "track_ids"
+            ]
+          }
+        },
+        {
+          "name": "create_playlist",
+          "description": "Create a playlist for a user. It starts empty; add tracks with add_items_to_playlist.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "user_id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "public": {
+                "type": "boolean",
+                "default": true
+              },
+              "collaborative": {
+                "type": "boolean",
+                "default": false
+              }
+            },
+            "required": [
+              "user_id",
+              "name"
+            ]
+          }
+        },
+        {
+          "name": "add_items_to_playlist",
+          "description": "Add tracks or episodes to a playlist, optionally at a position.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "playlist_id": {
+                "type": "string"
+              },
+              "uris": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Spotify URIs, e.g. spotify:track:4iV5W9uYEdYUVa79Axb7Rh. Max 100.",
+                "maxItems": 100
+              },
+              "position": {
+                "type": "integer",
+                "description": "Zero-based insert position; appends if omitted."
+              }
+            },
+            "required": [
+              "playlist_id",
+              "uris"
+            ]
+          }
+        },
+        {
+          "name": "remove_playlist_items",
+          "description": "Remove tracks from a playlist.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "playlist_id": {
+                "type": "string"
+              },
+              "uris": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "snapshot_id": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "playlist_id",
+              "uris"
+            ]
+          }
+        },
+        {
+          "name": "list_user_playlists",
+          "description": "List playlists owned or followed by a user.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "user_id": {
+                "type": "string",
+                "description": "Omit for the current user."
+              },
+              "limit": {
+                "type": "integer",
+                "default": 20
+              },
+              "offset": {
+                "type": "integer"
+              }
+            }
+          }
+        },
+        {
+          "name": "get_recommendations",
+          "description": "Generate track recommendations from up to 5 seed artists, genres or tracks, tuned with target audio attributes like energy, tempo and mood (valence).",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "seed_artists": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "seed_genres": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "seed_tracks": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "limit": {
+                "type": "integer",
+                "default": 20,
+                "maximum": 100
+              },
+              "target_energy": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "target_tempo": {
+                "type": "number",
+                "description": "BPM."
+              },
+              "target_valence": {
+                "type": "number",
+                "description": "Musical positiveness 0-1."
+              },
+              "target_danceability": {
+                "type": "number"
+              },
+              "min_popularity": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 100
+              },
+              "market": {
+                "type": "string",
+                "description": "ISO 3166-1 alpha-2 market for track availability."
+              }
+            }
+          }
+        },
+        {
+          "name": "start_playback",
+          "description": "Start or resume playback on the user's active device, optionally with a context (album, artist or playlist) or a list of track URIs.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "device_id": {
+                "type": "string"
+              },
+              "context_uri": {
+                "type": "string"
+              },
+              "uris": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "offset": {
+                "type": "object",
+                "properties": {
+                  "position": {
+                    "type": "integer"
+                  },
+                  "uri": {
+                    "type": "string"
+                  }
+                }
+              },
+              "position_ms": {
+                "type": "integer"
+              }
+            }
+          }
+        },
+        {
+          "name": "pause_playback",
+          "description": "Pause playback.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "device_id": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        {
+          "name": "add_to_queue",
+          "description": "Add a track or episode to the end of the playback queue.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "uri": {
+                "type": "string"
+              },
+              "device_id": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "uri"
+            ]
+          }
+        },
+        {
+          "name": "get_currently_playing",
+          "description": "Get the track or episode currently playing, its progress and device.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "market": {
+                "type": "string",
+                "description": "ISO 3166-1 alpha-2 market for track availability."
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "listen_notes",
+      "name": "Listen Notes",
+      "server": "mcp://listen-notes",
+      "summary": "Podcast search engine and directory: search podcasts and episodes, fetch metadata and audio, and browse top charts.",
+      "tools": [
+        {
+          "name": "search_podcasts",
+          "description": "Full-text search over podcasts and episodes. Set type=episode to search individual episodes or type=podcast for shows.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "q": {
+                "type": "string"
+              },
+              "type": {
+                "type": "string",
+                "enum": [
+                  "episode",
+                  "podcast",
+                  "curated"
+                ],
+                "default": "episode"
+              },
+              "language": {
+                "type": "string"
+              },
+              "genre_ids": {
+                "type": "array",
+                "items": {
+                  "type": "integer"
+                }
+              },
+              "len_min": {
+                "type": "integer",
+                "description": "Minimum episode length in minutes."
+              },
+              "len_max": {
+                "type": "integer",
+                "description": "Maximum episode length in minutes."
+              },
+              "published_after": {
+                "type": "integer",
+                "description": "Epoch milliseconds."
+              },
+              "sort_by_date": {
+                "type": "integer",
+                "enum": [
+                  0,
+                  1
+                ],
+                "default": 0,
+                "description": "1 sorts by date, 0 by relevance."
+              },
+              "offset": {
+                "type": "integer"
+              }
+            },
+            "required": [
+              "q"
+            ]
+          }
+        },
+        {
+          "name": "get_podcast",
+          "description": "Podcast metadata and a page of its episodes.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "podcast_id": {
+                "type": "string"
+              },
+              "next_episode_pub_date": {
+                "type": "integer"
+              },
+              "sort": {
+                "type": "string",
+                "enum": [
+                  "recent_first",
+                  "oldest_first"
+                ],
+                "default": "recent_first"
+              }
+            },
+            "required": [
+              "podcast_id"
+            ]
+          }
+        },
+        {
+          "name": "get_episode",
+          "description": "Get episode metadata and audio URL.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "episode_id": {
+                "type": "string"
+              },
+              "show_transcript": {
+                "type": "boolean",
+                "default": false
+              }
+            },
+            "required": [
+              "episode_id"
+            ]
+          }
+        },
+        {
+          "name": "get_best_podcasts",
+          "description": "Top podcasts by genre and region.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "genre_id": {
+                "type": "integer"
+              },
+              "region": {
+                "type": "string",
+                "default": "us"
+              },
+              "page": {
+                "type": "integer"
+              },
+              "safe_mode": {
+                "type": "boolean",
+                "default": false
+              }
+            }
+          }
+        },
+        {
+          "name": "get_podcast_recommendations",
+          "description": "Podcasts similar to a given podcast.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "podcast_id": {
+                "type": "string"
+              },
+              "safe_mode": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "podcast_id"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "auphonic",
+      "name": "Auphonic",
+      "server": "mcp://auphonic",
+      "summary": "Automatic audio post-production and mastering: loudness normalization, leveling, noise reduction and encoding for podcasts and music.",
+      "tools": [
+        {
+          "name": "list_presets",
+          "description": "List saved production presets.",
+          "input_schema": {
+            "type": "object",
+            "properties": {}
+          }
+        },
+        {
+          "name": "create_production",
+          "description": "Create an audio production with processing settings (loudness target, adaptive leveler, noise and hum reduction) and output formats. Call start_production to process it.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "preset_uuid": {
+                "type": "string",
+                "description": "Apply a saved preset; other fields override it."
+              },
+              "title": {
+                "type": "string"
+              },
+              "input_file_url": {
+                "type": "string",
+                "description": "HTTP(S) URL of the source audio."
+              },
+              "algorithms": {
+                "type": "object",
+                "properties": {
+                  "leveler": {
+                    "type": "boolean",
+                    "default": true
+                  },
+                  "normloudness": {
+                    "type": "boolean",
+                    "default": true
+                  },
+                  "loudnesstarget": {
+                    "type": "integer",
+                    "enum": [
+                      -13,
+                      -14,
+                      -16,
+                      -18,
+                      -19,
+                      -20,
+                      -23,
+                      -24,
+                      -26,
+                      -31
+                    ],
+                    "default": -16,
+                    "description": "Integrated loudness target in LUFS."
+                  },
+                  "denoise": {
+                    "type": "boolean",
+                    "default": false
+                  },
+                  "denoisemethod": {
+                    "type": "string",
+                    "enum": [
+                      "static",
+                      "dynamic",
+                      "speech_isolation"
+                    ]
+                  },
+                  "hipfilter": {
+                    "type": "boolean",
+                    "description": "High-pass filter.",
+                    "default": true
+                  }
+                }
+              },
+              "output_files": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "format": {
+                      "type": "string",
+                      "enum": [
+                        "mp3",
+                        "aac",
+                        "flac",
+                        "wav",
+                        "opus",
+                        "vorbis"
+                      ]
+                    },
+                    "bitrate": {
+                      "type": "integer",
+                      "description": "kbps for lossy formats."
+                    },
+                    "ending": {
+                      "type": "string",
+                      "description": "File suffix."
+                    }
+                  },
+                  "required": [
+                    "format"
+                  ]
+                }
+              },
+              "metadata": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string"
+                  },
+                  "artist": {
+                    "type": "string"
+                  },
+                  "album": {
+                    "type": "string"
+                  },
+                  "track": {
+                    "type": "string"
+                  },
+                  "year": {
+                    "type": "string"
+                  }
+                }
+              },
+              "chapters": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "start": {
+                      "type": "string",
+                      "description": "HH:MM:SS"
+                    },
+                    "title": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "required": [
+              "input_file_url"
+            ]
+          }
+        },
+        {
+          "name": "start_production",
+          "description": "Start processing a production.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "uuid": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "uuid"
+            ]
+          }
+        },
+        {
+          "name": "get_production_status",
+          "description": "Poll a production's status (Done, Error, Processing) and, once finished, its loudness statistics and output file URLs.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "uuid": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "uuid"
+            ]
+          }
+        },
+        {
+          "name": "download_output",
+          "description": "Download a processed output file.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "uuid": {
+                "type": "string"
+              },
+              "format": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "uuid"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "musicbrainz",
+      "name": "MusicBrainz",
+      "server": "mcp://musicbrainz",
+      "summary": "Open music encyclopedia: canonical metadata for artists, recordings, releases and ISRCs.",
+      "tools": [
+        {
+          "name": "search_artists",
+          "description": "Search artists by name with optional type and country filters.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string"
+              },
+              "type": {
+                "type": "string",
+                "enum": [
+                  "person",
+                  "group",
+                  "orchestra",
+                  "choir",
+                  "character"
+                ]
+              },
+              "country": {
+                "type": "string"
+              },
+              "limit": {
+                "type": "integer",
+                "default": 25
+              }
+            },
+            "required": [
+              "query"
+            ]
+          }
+        },
+        {
+          "name": "lookup_recording",
+          "description": "Look up a recording by MBID with optional related data.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "mbid": {
+                "type": "string"
+              },
+              "inc": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "artists",
+                    "releases",
+                    "isrcs",
+                    "tags",
+                    "ratings",
+                    "work-rels",
+                    "url-rels"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "mbid"
+            ]
+          }
+        },
+        {
+          "name": "lookup_isrc",
+          "description": "Recordings for an ISRC.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "isrc": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "isrc"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

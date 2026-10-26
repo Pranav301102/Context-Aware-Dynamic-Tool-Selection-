@@ -1,0 +1,64 @@
+{
+ "task_id": "finance-0009",
+ "mode": "search",
+ "loaded": [
+  "frankfurter.get_historical_rates",
+  "alpha_vantage.currency_exchange_rate",
+  "frankfurter.get_latest_rates",
+  "coingecko.get_coin_market_chart",
+  "frankfurter.list_currencies"
+ ],
+ "order": [
+  "frankfurter.get_historical_rates",
+  "alpha_vantage.currency_exchange_rate",
+  "frankfurter.get_latest_rates",
+  "coingecko.get_coin_market_chart",
+  "frankfurter.list_currencies"
+ ],
+ "scores": {
+  "frankfurter.get_historical_rates": 2.0,
+  "alpha_vantage.currency_exchange_rate": 2.0,
+  "frankfurter.get_latest_rates": 2.0,
+  "coingecko.get_coin_market_chart": 2.0,
+  "frankfurter.list_currencies": 2.0
+ },
+ "router_tokens": 0,
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "frankfurter.get_historical_rates",
+   "args": {
+    "date": "2024-03-15",
+    "base": "EUR",
+    "symbols": "CHF"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0
+  },
+  {
+   "type": "request_tools",
+   "capability": "get historical currency exchange rates for a specific past date",
+   "added": [
+    "frankfurter.get_historical_rates",
+    "alpha_vantage.currency_exchange_rate",
+    "frankfurter.get_latest_rates",
+    "coingecko.get_coin_market_chart",
+    "frankfurter.list_currencies"
+   ],
+   "tool_tokens": 711
+  },
+  {
+   "type": "call",
+   "tool": "frankfurter__get_historical_rates",
+   "valid": true
+  }
+ ],
+ "done": true,
+ "final": ""
+}

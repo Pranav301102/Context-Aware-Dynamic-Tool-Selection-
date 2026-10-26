@@ -1,0 +1,95 @@
+{
+ "task_id": "crm_commerce-0037",
+ "mode": "search",
+ "loaded": [
+  "hubspot.hubspot_create_contact",
+  "hubspot.hubspot_create_company",
+  "hubspot.hubspot_create_engagement",
+  "hubspot.hubspot_list_associations",
+  "hubspot.hubspot_create_deal",
+  "mailchimp.add_or_update_member",
+  "mailchimp.list_audiences",
+  "mailchimp.create_campaign",
+  "mailchimp.send_campaign",
+  "mailchimp.set_campaign_content"
+ ],
+ "order": [
+  "hubspot.hubspot_create_contact",
+  "hubspot.hubspot_create_company",
+  "hubspot.hubspot_create_engagement",
+  "hubspot.hubspot_list_associations",
+  "hubspot.hubspot_create_deal",
+  "mailchimp.add_or_update_member",
+  "mailchimp.list_audiences",
+  "mailchimp.create_campaign",
+  "mailchimp.send_campaign",
+  "mailchimp.set_campaign_content"
+ ],
+ "escalations": 2,
+ "calls": [
+  {
+   "tool": "hubspot.hubspot_create_contact",
+   "args": {
+    "firstname": "Omar",
+    "lastname": "Haddad",
+    "email": "omar@haddad.io"
+   }
+  },
+  {
+   "tool": "mailchimp.add_or_update_member",
+   "args": {
+    "list_id": "4ca5b2e1f0",
+    "email_address": "omar@haddad.io",
+    "status_if_new": "subscribed",
+    "merge_fields": {
+     "FNAME": "Omar",
+     "LNAME": "Haddad"
+    }
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0
+  },
+  {
+   "type": "request_tools",
+   "capability": "create a new contact in HubSpot CRM",
+   "added": [
+    "hubspot.hubspot_create_contact",
+    "hubspot.hubspot_create_company",
+    "hubspot.hubspot_create_engagement",
+    "hubspot.hubspot_list_associations",
+    "hubspot.hubspot_create_deal"
+   ],
+   "tool_tokens": 961
+  },
+  {
+   "type": "request_tools",
+   "capability": "add or subscribe a member to a Mailchimp audience list",
+   "added": [
+    "mailchimp.add_or_update_member",
+    "mailchimp.list_audiences",
+    "mailchimp.create_campaign",
+    "mailchimp.send_campaign",
+    "mailchimp.set_campaign_content"
+   ],
+   "tool_tokens": 1858
+  },
+  {
+   "type": "call",
+   "tool": "hubspot__hubspot_create_contact",
+   "valid": true
+  },
+  {
+   "type": "call",
+   "tool": "mailchimp__add_or_update_member",
+   "valid": true
+  }
+ ],
+ "done": true,
+ "final": ""
+}

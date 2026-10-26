@@ -1,0 +1,46 @@
+{
+ "task_id": "media-0070",
+ "mode": "cats",
+ "loaded": [
+  "ffmpeg_video.burn_subtitles",
+  "openai_media.transcribe_audio"
+ ],
+ "order": [
+  "ffmpeg_video.burn_subtitles",
+  "openai_media.transcribe_audio"
+ ],
+ "scores": {
+  "ffmpeg_video.burn_subtitles": 0.9423768178219386,
+  "openai_media.transcribe_audio": 0.048473007255113255
+ },
+ "router_tokens": 0,
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "ffmpeg_video.burn_subtitles",
+   "args": {
+    "input_path": "promo.mp4",
+    "subtitle_path": "subs_en.srt",
+    "output_path": "promo_subtitled.mp4"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 2,
+   "tool_tokens": 558,
+   "t": 1791321983.445308
+  },
+  {
+   "type": "call",
+   "tool": "ffmpeg_video__burn_subtitles",
+   "valid": true,
+   "t": 1791321994.858573
+  }
+ ],
+ "done": true,
+ "t_done": 1791322000.3181832,
+ "final": ""
+}

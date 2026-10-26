@@ -1,0 +1,70 @@
+{
+ "task_id": "dev_platform-0008",
+ "mode": "cats",
+ "loaded": [
+  "jira.add_comment",
+  "jira.create_issue",
+  "jira.get_issue",
+  "jira.search_issues",
+  "jira.transition_issue",
+  "jira.update_issue"
+ ],
+ "order": [
+  "jira.add_comment",
+  "jira.create_issue",
+  "jira.get_issue",
+  "jira.search_issues",
+  "jira.transition_issue",
+  "jira.update_issue"
+ ],
+ "scores": {
+  "jira.add_comment": 0.06297076083872041,
+  "jira.create_issue": 0.05370126098249192,
+  "jira.get_issue": 0.4559443430352613,
+  "jira.search_issues": 0.05332767994064328,
+  "jira.transition_issue": 0.9233434587196726,
+  "jira.update_issue": 0.1249467916905118
+ },
+ "router_tokens": 0,
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "jira.get_issue",
+   "args": {
+    "issue_key": "PAY-311",
+    "expand": "transitions"
+   }
+  },
+  {
+   "tool": "jira.transition_issue",
+   "args": {
+    "issue_key": "PAY-311",
+    "transition_id": "31"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 6,
+   "tool_tokens": 1426,
+   "t": 1791320905.3154614
+  },
+  {
+   "type": "call",
+   "tool": "jira__get_issue",
+   "valid": true,
+   "t": 1791320913.3521633
+  },
+  {
+   "type": "call",
+   "tool": "jira__transition_issue",
+   "valid": true,
+   "t": 1791320921.781908
+  }
+ ],
+ "done": true,
+ "t_done": 1791320925.6522105,
+ "final": ""
+}

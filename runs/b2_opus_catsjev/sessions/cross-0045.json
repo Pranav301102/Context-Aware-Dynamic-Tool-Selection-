@@ -1,0 +1,88 @@
+{
+ "task_id": "cross-0045",
+ "mode": "cats",
+ "loaded": [
+  "deepl.translate_document",
+  "deepl.translate_text",
+  "gmail.send_email",
+  "google_cloud_ai.ocr_pdf_document",
+  "google_cloud_ai.translate_text",
+  "google_drive.gdrive_search",
+  "office_docs.docx_search_and_replace",
+  "openai_media.translate_audio",
+  "pdf_tools.pdf_extract_tables",
+  "pdf_tools.pdf_extract_text",
+  "pdf_tools.pdf_get_metadata",
+  "tavily.tavily_extract"
+ ],
+ "order": [
+  "deepl.translate_document",
+  "deepl.translate_text",
+  "gmail.send_email",
+  "google_cloud_ai.ocr_pdf_document",
+  "google_cloud_ai.translate_text",
+  "google_drive.gdrive_search",
+  "office_docs.docx_search_and_replace",
+  "openai_media.translate_audio",
+  "pdf_tools.pdf_extract_tables",
+  "pdf_tools.pdf_extract_text",
+  "pdf_tools.pdf_get_metadata",
+  "tavily.tavily_extract"
+ ],
+ "scores": {
+  "deepl.translate_document": 0.3114142590662146,
+  "deepl.translate_text": 0.7604928654523027,
+  "gmail.send_email": 0.06749365781691752,
+  "google_cloud_ai.ocr_pdf_document": 0.10339863300062582,
+  "google_cloud_ai.translate_text": 0.28361496253022334,
+  "google_drive.gdrive_search": 0.07908210339181229,
+  "office_docs.docx_search_and_replace": 0.44755625552509526,
+  "openai_media.translate_audio": 0.39346674818761707,
+  "pdf_tools.pdf_extract_tables": 0.4418735316289068,
+  "pdf_tools.pdf_extract_text": 0.8970027381911873,
+  "pdf_tools.pdf_get_metadata": 0.07303810455372384,
+  "tavily.tavily_extract": 0.14964515170678902
+ },
+ "router_tokens": 1444,
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "pdf_tools.pdf_extract_text",
+   "args": {
+    "path": "~/contracts/nda_acme.pdf"
+   }
+  },
+  {
+   "tool": "deepl.translate_text",
+   "args": {
+    "text": "<termination clause text from nda_acme.pdf>",
+    "targetLangCode": "ja",
+    "context": "Legal contract (NDA) termination clause"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 12,
+   "tool_tokens": 2234,
+   "t": 1791321862.169597
+  },
+  {
+   "type": "call",
+   "tool": "pdf_tools__pdf_extract_text",
+   "valid": true,
+   "t": 1791321875.4953709
+  },
+  {
+   "type": "call",
+   "tool": "deepl__translate_text",
+   "valid": true,
+   "t": 1791321888.118447
+  }
+ ],
+ "done": true,
+ "t_done": 1791321895.158146,
+ "final": ""
+}

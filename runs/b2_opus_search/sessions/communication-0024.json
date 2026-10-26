@@ -1,0 +1,67 @@
+{
+ "task_id": "communication-0024",
+ "mode": "search",
+ "loaded": [
+  "gmail.search_emails",
+  "salesforce.salesforce_search_all",
+  "gmail.create_filter",
+  "alpha_vantage.symbol_search",
+  "gmail.modify_email"
+ ],
+ "order": [
+  "gmail.search_emails",
+  "salesforce.salesforce_search_all",
+  "gmail.create_filter",
+  "alpha_vantage.symbol_search",
+  "gmail.modify_email"
+ ],
+ "scores": {
+  "gmail.search_emails": 2.0,
+  "salesforce.salesforce_search_all": 2.0,
+  "gmail.create_filter": 2.0,
+  "alpha_vantage.symbol_search": 2.0,
+  "gmail.modify_email": 2.0
+ },
+ "router_tokens": 0,
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "gmail.search_emails",
+   "args": {
+    "query": "1099 accountant",
+    "maxResults": 10
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0,
+   "t": 1791321779.2552052
+  },
+  {
+   "type": "request_tools",
+   "capability": "search emails in my inbox by keyword",
+   "added": [
+    "gmail.search_emails",
+    "salesforce.salesforce_search_all",
+    "gmail.create_filter",
+    "alpha_vantage.symbol_search",
+    "gmail.modify_email"
+   ],
+   "tool_tokens": 1149,
+   "t": 1791321792.0023446
+  },
+  {
+   "type": "call",
+   "tool": "gmail__search_emails",
+   "valid": true,
+   "t": 1791321806.1326866
+  }
+ ],
+ "done": true,
+ "t_done": 1791321808.0322607,
+ "final": ""
+}

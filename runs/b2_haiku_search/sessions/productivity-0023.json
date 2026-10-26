@@ -1,0 +1,98 @@
+{
+ "task_id": "productivity-0023",
+ "mode": "search",
+ "loaded": [
+  "google_calendar.delete_event",
+  "google_calendar.create_event",
+  "google_calendar.update_event",
+  "google_calendar.list_events",
+  "google_calendar.search_events",
+  "gmail.send_email",
+  "google_calendar.respond_to_event",
+  "discord.send_message",
+  "gmail.draft_email",
+  "ms_teams.send_channel_message"
+ ],
+ "order": [
+  "google_calendar.delete_event",
+  "google_calendar.create_event",
+  "google_calendar.update_event",
+  "google_calendar.list_events",
+  "google_calendar.search_events",
+  "gmail.send_email",
+  "google_calendar.respond_to_event",
+  "discord.send_message",
+  "gmail.draft_email",
+  "ms_teams.send_channel_message"
+ ],
+ "scores": {
+  "google_calendar.delete_event": 2.0,
+  "google_calendar.create_event": 2.0,
+  "google_calendar.update_event": 2.0,
+  "google_calendar.list_events": 2.0,
+  "google_calendar.search_events": 2.0,
+  "gmail.send_email": 2.0,
+  "google_calendar.respond_to_event": 2.0,
+  "discord.send_message": 2.0,
+  "gmail.draft_email": 2.0,
+  "ms_teams.send_channel_message": 2.0
+ },
+ "router_tokens": 0,
+ "escalations": 2,
+ "calls": [
+  {
+   "tool": "gmail.send_email",
+   "args": {
+    "to": [
+     "organizer@example.com"
+    ],
+    "subject": "Unable to Attend Design Crit Tomorrow",
+    "body": "Hi team,\n\nI wanted to let you know that I am unable to attend the design crit scheduled for tomorrow. I apologize for the short notice.\n\nPlease proceed without me, and I hope to catch up on the results afterwards.\n\nThanks for your understanding."
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0,
+   "t": 1791322136.6798804
+  },
+  {
+   "type": "request_tools",
+   "capability": "retrieve Google Calendar events and send messages to event attendees",
+   "added": [
+    "google_calendar.delete_event",
+    "google_calendar.create_event",
+    "google_calendar.update_event",
+    "google_calendar.list_events",
+    "google_calendar.search_events"
+   ],
+   "tool_tokens": 1739,
+   "t": 1791322147.7042336
+  },
+  {
+   "type": "request_tools",
+   "capability": "send email or message to notify people about event cancellation",
+   "added": [
+    "gmail.send_email",
+    "google_calendar.respond_to_event",
+    "discord.send_message",
+    "gmail.draft_email",
+    "ms_teams.send_channel_message"
+   ],
+   "tool_tokens": 3035,
+   "t": 1791322161.9998884
+  },
+  {
+   "type": "call",
+   "tool": "gmail__send_email",
+   "valid": true,
+   "t": 1791322196.3601875
+  }
+ ],
+ "done": true,
+ "t_done": 1791322202.1509705,
+ "final": ""
+}

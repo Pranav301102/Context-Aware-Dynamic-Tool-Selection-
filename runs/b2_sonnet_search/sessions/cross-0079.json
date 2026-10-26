@@ -1,0 +1,106 @@
+{
+ "task_id": "cross-0079",
+ "mode": "search",
+ "loaded": [
+  "frankfurter.get_latest_rates",
+  "frankfurter.get_historical_rates",
+  "alpha_vantage.currency_exchange_rate",
+  "frankfurter.list_currencies",
+  "frankfurter.get_time_series",
+  "gmail.send_email",
+  "gmail.draft_email",
+  "mailchimp.send_campaign",
+  "gmail.read_email",
+  "gmail.create_filter"
+ ],
+ "order": [
+  "frankfurter.get_latest_rates",
+  "frankfurter.get_historical_rates",
+  "alpha_vantage.currency_exchange_rate",
+  "frankfurter.list_currencies",
+  "frankfurter.get_time_series",
+  "gmail.send_email",
+  "gmail.draft_email",
+  "mailchimp.send_campaign",
+  "gmail.read_email",
+  "gmail.create_filter"
+ ],
+ "scores": {
+  "frankfurter.get_latest_rates": 2.0,
+  "frankfurter.get_historical_rates": 2.0,
+  "alpha_vantage.currency_exchange_rate": 2.0,
+  "frankfurter.list_currencies": 2.0,
+  "frankfurter.get_time_series": 2.0,
+  "gmail.send_email": 2.0,
+  "gmail.draft_email": 2.0,
+  "mailchimp.send_campaign": 2.0,
+  "gmail.read_email": 2.0,
+  "gmail.create_filter": 2.0
+ },
+ "router_tokens": 0,
+ "escalations": 2,
+ "calls": [
+  {
+   "tool": "frankfurter.get_latest_rates",
+   "args": {
+    "base": "EUR",
+    "symbols": "USD",
+    "amount": 2400
+   }
+  },
+  {
+   "tool": "gmail.send_email",
+   "args": {
+    "to": [
+     "accounting@acme.com"
+    ],
+    "subject": "2,400 EUR converted to USD (ECB reference rate)",
+    "body": "Hello,\n\nConverting 2,400 EUR to USD at today's ECB reference rate (via Frankfurter) gives the result from the rate lookup.\n\nRegards"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0
+  },
+  {
+   "type": "request_tools",
+   "capability": "convert currency amount using ECB exchange rates",
+   "added": [
+    "frankfurter.get_latest_rates",
+    "frankfurter.get_historical_rates",
+    "alpha_vantage.currency_exchange_rate",
+    "frankfurter.list_currencies",
+    "frankfurter.get_time_series"
+   ],
+   "tool_tokens": 637
+  },
+  {
+   "type": "call",
+   "tool": "frankfurter__get_latest_rates",
+   "valid": true
+  },
+  {
+   "type": "request_tools",
+   "capability": "send an email to a recipient",
+   "added": [
+    "gmail.send_email",
+    "gmail.draft_email",
+    "mailchimp.send_campaign",
+    "gmail.read_email",
+    "gmail.create_filter"
+   ],
+   "tool_tokens": 1790
+  },
+  {
+   "type": "call",
+   "tool": "gmail__send_email",
+   "valid": true
+  }
+ ],
+ "done": true,
+ "final": ""
+}

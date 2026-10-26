@@ -1,0 +1,1734 @@
+{
+ "branch": {
+  "id": "bfcl_c16",
+  "name": "book / room / hotel",
+  "summary": "Functions about book, room, hotel, meeting, location, dates, number, nights, booking, specific, check, specified."
+ },
+ "toolkits": [
+  {
+   "id": "book",
+   "name": "book",
+   "server": "bfcl://book",
+   "summary": "Find a book in a library based on specific criteria like author, genre or publication year.",
+   "tools": [
+    {
+     "name": "find",
+     "description": "Find a book in a library based on specific criteria like author, genre or publication year.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "library": {
+        "type": "string",
+        "description": "The name of the library."
+       },
+       "author": {
+        "type": "string",
+        "description": "Author of the book."
+       },
+       "genre": {
+        "type": "string",
+        "default": "Sci-Fi",
+        "description": "Genre of the book."
+       },
+       "year": {
+        "type": "integer",
+        "default": 2000,
+        "description": "Year of publication."
+       }
+      },
+      "required": [
+       "library",
+       "author"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "festival",
+   "name": "festival",
+   "server": "bfcl://festival",
+   "summary": "Book a ticket for a festival at a specific location with various add-ons like camping access. Book a ticket for a festival at a specific location with various add-ons like camping access.",
+   "tools": [
+    {
+     "name": "book_ticket",
+     "description": "Book a ticket for a festival at a specific location with various add-ons like camping access.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "festival": {
+        "type": "string",
+        "description": "Name of the festival."
+       },
+       "location": {
+        "type": "string",
+        "description": "City where the festival will take place."
+       },
+       "add_ons": {
+        "type": "array",
+        "items": {
+         "type": "string",
+         "enum": [
+          "Camping Pass",
+          "VIP Seating",
+          "Parking Pass"
+         ]
+        },
+        "description": "Add-ons for the festival. Default empty array"
+       }
+      },
+      "required": [
+       "festival",
+       "location"
+      ]
+     }
+    },
+    {
+     "name": "book_ticket_2",
+     "description": "Book a ticket for a festival at a specific location with various add-ons like camping access.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "festival": {
+        "type": "string",
+        "description": "Name of the festival."
+       },
+       "location": {
+        "type": "string",
+        "description": "City where the festival will take place."
+       },
+       "add_ons": {
+        "type": "array",
+        "items": {
+         "type": "string",
+         "enum": [
+          "Camping Pass",
+          "VIP Seating",
+          "Parking Pass"
+         ]
+        },
+        "description": "Add-ons for the festival. Default is 'Camping Pass' if not specified."
+       }
+      },
+      "required": [
+       "festival",
+       "location"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "hotel",
+   "name": "hotel",
+   "server": "bfcl://hotel",
+   "summary": "Book a hotel room given the location, room type, and number of nights and additional services Book a hotel room given the location, room type, and number of nights and additional services",
+   "tools": [
+    {
+     "name": "book",
+     "description": "Book a hotel room given the location, room type, and number of nights and additional services",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "Location of the hotel."
+       },
+       "roomType": {
+        "type": "string",
+        "description": "Type of the room to be booked."
+       },
+       "nights": {
+        "type": "integer",
+        "description": "Number of nights to book the room for."
+       },
+       "additional_services": {
+        "type": "array",
+        "items": {
+         "type": "string",
+         "description": "Additonal services that can be booked.",
+         "enum": [
+          "breakfast",
+          "parking",
+          "spa"
+         ]
+        },
+        "description": "Additional services to be added. Default empty array"
+       }
+      },
+      "required": [
+       "location",
+       "roomType",
+       "nights"
+      ]
+     }
+    },
+    {
+     "name": "book_2",
+     "description": "Book a hotel room given the location, room type, and number of nights and additional services",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "Location of the hotel."
+       },
+       "roomType": {
+        "type": "string",
+        "description": "Type of the room to be booked."
+       },
+       "nights": {
+        "type": "integer",
+        "description": "Number of nights to book the room for."
+       },
+       "additional_services": {
+        "type": "array",
+        "items": {
+         "type": "string",
+         "description": "Additonal services that can be booked."
+        },
+        "description": "Additional services to be added. Default is not use it if not specified."
+       }
+      },
+      "required": [
+       "location",
+       "roomType",
+       "nights"
+      ]
+     }
+    },
+    {
+     "name": "find",
+     "description": "Search for hotels given the location, minimum stars and specific amenities.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The city where you want to find the hotel"
+       },
+       "stars": {
+        "type": "integer",
+        "description": "Minimum number of stars the hotel should have. Default 1"
+       },
+       "amenities": {
+        "type": "array",
+        "items": {
+         "type": "string",
+         "description": "Preferred amenities in hotel. Here are a list of possible option : 'Free WiFi', 'Breakfast Included', 'Gym', 'Free Parking'",
+         "enum": [
+          "Free WiFi",
+          "Breakfast Included",
+          "Gym",
+          "Free Parking"
+         ]
+        },
+        "description": "List of preferred amenities in hotel. Default to empty array"
+       }
+      },
+      "required": [
+       "location",
+       "stars"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "hotel_booking",
+   "name": "hotel_booking",
+   "server": "bfcl://hotel_booking",
+   "summary": "Book a hotel room at the specified location for the specified number of adults and children. Book a hotel room given the city, date, and the number of adults and children.",
+   "tools": [
+    {
+     "name": "book",
+     "description": "Book a hotel room at the specified location for the specified number of adults and children.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "hotel_name": {
+        "type": "string",
+        "description": "The name of the hotel."
+       },
+       "location": {
+        "type": "string",
+        "description": "The city where the hotel is located."
+       },
+       "check_in": {
+        "type": "string",
+        "description": "The check-in date in the format yyyy-mm-dd."
+       },
+       "check_out": {
+        "type": "string",
+        "description": "The check-out date in the format yyyy-mm-dd."
+       },
+       "adults": {
+        "type": "integer",
+        "description": "The number of adults for the booking."
+       },
+       "children": {
+        "type": "integer",
+        "description": "The number of children for the booking."
+       }
+      },
+      "required": [
+       "hotel_name",
+       "location",
+       "check_in",
+       "check_out",
+       "adults",
+       "children"
+      ]
+     }
+    },
+    {
+     "name": "book_2",
+     "description": "Book a hotel room given the city, date, and the number of adults and children.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "city": {
+        "type": "string",
+        "description": "The city where the hotel is located."
+       },
+       "from_date": {
+        "type": "string",
+        "description": "The start date of the booking. The format is MM-DD-YYYY."
+       },
+       "to_date": {
+        "type": "string",
+        "description": "The end date of the booking. The format is MM-DD-YYYY."
+       },
+       "adults": {
+        "type": "integer",
+        "description": "The number of adults for the booking."
+       },
+       "children": {
+        "type": "integer",
+        "description": "The number of children for the booking."
+       },
+       "room_type": {
+        "type": "string",
+        "description": "The type of the room, default is 'Standard'. Options are 'Standard', 'Deluxe', 'Suite'.",
+        "default": "Standard"
+       }
+      },
+      "required": [
+       "city",
+       "from_date",
+       "to_date",
+       "adults",
+       "children"
+      ]
+     }
+    },
+    {
+     "name": "check_availability",
+     "description": "Check room availability for a particular hotel for given dates.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "hotel_name": {
+        "type": "string",
+        "description": "The name of the hotel."
+       },
+       "location": {
+        "type": "string",
+        "description": "The location of the hotel."
+       },
+       "check_in_date": {
+        "type": "string",
+        "description": "The check-in date in YYYY-MM-DD format."
+       },
+       "check_out_date": {
+        "type": "string",
+        "description": "The check-out date in YYYY-MM-DD format."
+       }
+      },
+      "required": [
+       "hotel_name",
+       "location",
+       "check_in_date",
+       "check_out_date"
+      ]
+     }
+    },
+    {
+     "name": "check_availability_2",
+     "description": "Check room availability in a hotel based on certain criteria such as location and dates.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "hotel_name": {
+        "type": "string",
+        "description": "The name of the hotel."
+       },
+       "location": {
+        "type": "string",
+        "description": "The city where the hotel is located."
+       },
+       "check_in_date": {
+        "type": "string",
+        "description": "The check-in date."
+       },
+       "check_out_date": {
+        "type": "string",
+        "description": "The check-out date."
+       },
+       "room_type": {
+        "type": "string",
+        "description": "The type of room.",
+        "default": "double"
+       }
+      },
+      "required": [
+       "hotel_name",
+       "location",
+       "check_in_date",
+       "check_out_date"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "hotel_bookings",
+   "name": "hotel_bookings",
+   "server": "bfcl://hotel_bookings",
+   "summary": "Book a hotel room based on specific criteria like location, room type, and check-in and check-out dates.",
+   "tools": [
+    {
+     "name": "book_room",
+     "description": "Book a hotel room based on specific criteria like location, room type, and check-in and check-out dates.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The city and state where you want to book the hotel, e.g. Los Angeles, CA"
+       },
+       "room_type": {
+        "type": "string",
+        "description": "Preferred type of room in the hotel, e.g. king size, queen size, deluxe, suite etc."
+       },
+       "check_in_date": {
+        "type": "string",
+        "description": "Check-in date for the hotel. Format - DD-MM-YYYY."
+       },
+       "no_of_nights": {
+        "type": "integer",
+        "description": "Number of nights for the stay."
+       },
+       "no_of_rooms": {
+        "type": "integer",
+        "description": "Number of rooms to book. Default is 1.",
+        "default": 1
+       }
+      },
+      "required": [
+       "location",
+       "room_type",
+       "check_in_date",
+       "no_of_nights"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "hotel_room_pricing",
+   "name": "hotel_room_pricing",
+   "server": "bfcl://hotel_room_pricing",
+   "summary": "Get pricing for a specific type of hotel room for specified number of nights.",
+   "tools": [
+    {
+     "name": "get",
+     "description": "Get pricing for a specific type of hotel room for specified number of nights.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "hotelName": {
+        "type": "string",
+        "description": "The name of the hotel e.g. Hilton New York"
+       },
+       "roomType": {
+        "type": "string",
+        "description": "Type of the room to be booked."
+       },
+       "nights": {
+        "type": "integer",
+        "description": "Number of nights to book the room for."
+       }
+      },
+      "required": [
+       "hotelName",
+       "roomType",
+       "nights"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "bfcl_c16_g0",
+   "name": "book hotel room",
+   "server": "bfcl://bfcl_c16_g0",
+   "summary": "Functions for book, hotel, room, dates, location, booking.",
+   "tools": [
+    {
+     "name": "Hotels_2_BookHouse",
+     "description": "Book the selected house for given dates and number of adults, ensuring the house is reserved for the specified time period.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "where_to": {
+        "type": "string",
+        "description": "The location of the house in the format of 'City, State', such as 'Austin, TX' or 'San Francisco, CA'."
+       },
+       "number_of_adults": {
+        "type": "integer",
+        "description": "The number of adults for the reservation. A value of 0 indicates no preference."
+       },
+       "check_in_date": {
+        "type": "string",
+        "description": "The start date for the reservation in the format 'MM/DD/YYYY'. For example, '04/23/2023'."
+       },
+       "check_out_date": {
+        "type": "string",
+        "description": "The end date for the reservation in the format 'MM/DD/YYYY'. For example, '04/27/2023'."
+       }
+      },
+      "required": [
+       "where_to",
+       "number_of_adults",
+       "check_in_date",
+       "check_out_date"
+      ]
+     }
+    },
+    {
+     "name": "Hotels_2_BookHouse_2",
+     "description": "Book the selected house for given dates and the specified number of adults. The location must be in the format of 'City, State (abbr)', such as 'New York, NY'.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "where_to",
+       "number_of_adults",
+       "check_in_date",
+       "check_out_date"
+      ],
+      "properties": {
+       "where_to": {
+        "type": "string",
+        "description": "The location of the house in the format of 'City, State (abbr)', such as 'Berkeley, CA' or 'New York, NY'."
+       },
+       "number_of_adults": {
+        "type": "integer",
+        "description": "The number of adults for the reservation. Must be a positive integer."
+       },
+       "check_in_date": {
+        "type": "string",
+        "description": "The start date for the reservation in the format 'YYYY-MM-DD'."
+       },
+       "check_out_date": {
+        "type": "string",
+        "description": "The end date for the reservation in the format 'YYYY-MM-DD'."
+       }
+      }
+     }
+    },
+    {
+     "name": "Hotels_2_BookHouse_3",
+     "description": "Book the selected house for given dates and the specified number of adults. The location must be in the format of 'City, State', such as 'New York, NY'.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "where_to",
+       "number_of_adults",
+       "check_in_date",
+       "check_out_date"
+      ],
+      "properties": {
+       "where_to": {
+        "type": "string",
+        "description": "The location of the house in the format of 'City, State', such as 'Berkeley, CA' or 'New York, NY'."
+       },
+       "number_of_adults": {
+        "type": "integer",
+        "description": "The number of adults for the reservation. Must be a positive integer."
+       },
+       "check_in_date": {
+        "type": "string",
+        "description": "The start date for the reservation in the format 'YYYY-MM-DD'."
+       },
+       "check_out_date": {
+        "type": "string",
+        "description": "The end date for the reservation in the format 'YYYY-MM-DD'."
+       }
+      }
+     }
+    },
+    {
+     "name": "Hotels_2_BookHouse_4",
+     "description": "Book the selected house for given dates and the specified number of adults.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "where_to",
+       "number_of_adults",
+       "check_in_date",
+       "check_out_date"
+      ],
+      "properties": {
+       "where_to": {
+        "type": "string",
+        "description": "The location of the house in the format of 'City, State', such as 'Berkeley, CA' or 'New York, NY'."
+       },
+       "number_of_adults": {
+        "type": "integer",
+        "description": "The number of adults included in the reservation."
+       },
+       "check_in_date": {
+        "type": "string",
+        "description": "The start date for the reservation, in the format 'YYYY-MM-DD'."
+       },
+       "check_out_date": {
+        "type": "string",
+        "description": "The end date for the reservation, in the format 'YYYY-MM-DD'."
+       }
+      }
+     }
+    },
+    {
+     "name": "Hotels_2_BookHouse_5",
+     "description": "Books a selected house for a specified duration and number of adults.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "where_to",
+       "number_of_adults",
+       "check_in_date",
+       "check_out_date"
+      ],
+      "properties": {
+       "where_to": {
+        "type": "string",
+        "description": "The location of the house to book, in the format of 'City, State', such as 'San Francisco, CA'."
+       },
+       "number_of_adults": {
+        "type": "integer",
+        "description": "The number of adults to include in the reservation."
+       },
+       "check_in_date": {
+        "type": "string",
+        "description": "The check-in date for the reservation in the format 'MM/DD/YYYY'."
+       },
+       "check_out_date": {
+        "type": "string",
+        "description": "The check-out date for the reservation in the format 'MM/DD/YYYY'."
+       }
+      }
+     }
+    },
+    {
+     "name": "Hotels_2_BookHouse_6",
+     "description": "Books the selected house for the specified dates and the number of adults.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "where_to",
+       "number_of_adults",
+       "check_in_date",
+       "check_out_date"
+      ],
+      "properties": {
+       "where_to": {
+        "type": "string",
+        "description": "The location of the house, formatted as 'City, State' or 'City, Country', for example, 'San Francisco, CA' or 'Paris, France'."
+       },
+       "number_of_adults": {
+        "type": "integer",
+        "description": "The number of adults for the reservation. Must be a positive integer."
+       },
+       "check_in_date": {
+        "type": "string",
+        "description": "The start date for the reservation, formatted as 'YYYY-MM-DD'."
+       },
+       "check_out_date": {
+        "type": "string",
+        "description": "The end date for the reservation, formatted as 'YYYY-MM-DD'."
+       }
+      }
+     }
+    },
+    {
+     "name": "Hotels_2_BookHouse_7",
+     "description": "Reserve the specified house for a set duration based on the number of adults and the check-in and check-out dates provided.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "where_to",
+       "check_in_date",
+       "check_out_date"
+      ],
+      "properties": {
+       "where_to": {
+        "type": "string",
+        "description": "The location of the house to be booked, in the format of 'City, State', such as 'Berkeley, CA' or 'New York, NY'."
+       },
+       "number_of_adults": {
+        "type": "integer",
+        "description": "The number of adults included in the reservation. Select 'dontcare' for no preference.",
+        "enum": [
+         "1",
+         "2",
+         "3",
+         "4",
+         "5",
+         "dontcare"
+        ],
+        "default": "dontcare"
+       },
+       "check_in_date": {
+        "type": "string",
+        "description": "The start date for the reservation in the format 'YYYY-MM-DD'."
+       },
+       "check_out_date": {
+        "type": "string",
+        "description": "The end date for the reservation in the format 'YYYY-MM-DD'."
+       }
+      }
+     }
+    },
+    {
+     "name": "Hotels_4_ReserveHotel",
+     "description": "Reserve a specified number of hotel rooms at a selected location for a given duration and check-in date.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "place_name",
+       "check_in_date",
+       "stay_length",
+       "location"
+      ],
+      "properties": {
+       "place_name": {
+        "type": "string",
+        "description": "The name of the hotel or accommodation to reserve.",
+        "default": "dontcare"
+       },
+       "check_in_date": {
+        "type": "string",
+        "description": "The check-in date for the reservation, in the format 'YYYY-MM-DD'."
+       },
+       "stay_length": {
+        "type": "integer",
+        "description": "The length of the stay in number of days."
+       },
+       "location": {
+        "type": "string",
+        "description": "The city or town where the accommodation is located, in the format 'City, State'.",
+        "default": "dontcare"
+       },
+       "number_of_rooms": {
+        "type": "string",
+        "description": "The number of rooms to reserve.",
+        "enum": [
+         "1",
+         "2",
+         "3",
+         "dontcare"
+        ],
+        "default": "dontcare"
+       }
+      }
+     }
+    },
+    {
+     "name": "Hotels_4_ReserveHotel_2",
+     "description": "Reserve a specified number of hotel rooms at a selected location for a given duration and check-in date.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "place_name",
+       "check_in_date",
+       "stay_length",
+       "location"
+      ],
+      "properties": {
+       "place_name": {
+        "type": "string",
+        "description": "The name of the hotel or accommodation to reserve.",
+        "default": "dontcare"
+       },
+       "check_in_date": {
+        "type": "string",
+        "description": "The check-in date for the reservation, in the format 'YYYY-MM-DD'."
+       },
+       "stay_length": {
+        "type": "integer",
+        "description": "The length of the stay in number of days."
+       },
+       "location": {
+        "type": "string",
+        "description": "The city or town where the accommodation is located, in the format 'City, State'."
+       },
+       "number_of_rooms": {
+        "type": "string",
+        "description": "The number of rooms to reserve.",
+        "enum": [
+         "1",
+         "2",
+         "3",
+         "dontcare"
+        ],
+        "default": "dontcare"
+       }
+      }
+     }
+    },
+    {
+     "name": "Hotels_4_ReserveHotel_3",
+     "description": "Reserve a specified number of hotel rooms at a selected location for a given duration and check-in date.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "place_name",
+       "check_in_date",
+       "stay_length",
+       "location"
+      ],
+      "properties": {
+       "place_name": {
+        "type": "string",
+        "description": "The name of the hotel or accommodation to reserve."
+       },
+       "check_in_date": {
+        "type": "string",
+        "description": "The check-in date for the reservation, in the format 'YYYY-MM-DD'."
+       },
+       "stay_length": {
+        "type": "integer",
+        "description": "The length of the stay in number of days."
+       },
+       "location": {
+        "type": "string",
+        "description": "The city or town where the accommodation is located, in the format 'City, State'."
+       },
+       "number_of_rooms": {
+        "type": "string",
+        "description": "The number of rooms to reserve.",
+        "enum": [
+         "1",
+         "2",
+         "3",
+         "dontcare"
+        ],
+        "default": "dontcare"
+       }
+      }
+     }
+    },
+    {
+     "name": "Hotels_4_ReserveHotel_4",
+     "description": "Reserve hotel rooms at a specified location for a given time period.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "place_name",
+       "check_in_date",
+       "stay_length",
+       "location"
+      ],
+      "properties": {
+       "place_name": {
+        "type": "string",
+        "description": "The full name of the hotel or accommodation."
+       },
+       "check_in_date": {
+        "type": "string",
+        "description": "The check-in date for the reservation, in the format 'YYYY-MM-DD'."
+       },
+       "stay_length": {
+        "type": "integer",
+        "description": "The duration of the stay in number of days."
+       },
+       "location": {
+        "type": "string",
+        "description": "The location of the accommodation, in the format of 'City, State' or 'City, Country' if the city does not locate in the United States, such as 'New York, NY' or 'Paris, FR'."
+       },
+       "number_of_rooms": {
+        "type": "string",
+        "description": "The number of rooms to reserve.",
+        "enum": [
+         "1",
+         "2",
+         "3",
+         "dontcare"
+        ],
+        "default": "dontcare"
+       }
+      }
+     }
+    },
+    {
+     "name": "Hotels_4_ReserveHotel_5",
+     "description": "Reserve hotel rooms at a specified location for a given time period.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "place_name",
+       "check_in_date",
+       "stay_length",
+       "location"
+      ],
+      "properties": {
+       "place_name": {
+        "type": "string",
+        "description": "The full name of the hotel or accommodation."
+       },
+       "check_in_date": {
+        "type": "string",
+        "description": "The check-in date for the reservation, in the format 'YYYY-MM-DD'."
+       },
+       "stay_length": {
+        "type": "integer",
+        "description": "The duration of the stay in number of days."
+       },
+       "location": {
+        "type": "string",
+        "description": "The location of the accommodation, in the format of 'City, State' or 'City, Country', such as 'New York, NY' or 'Paris, France'."
+       },
+       "number_of_rooms": {
+        "type": "string",
+        "description": "The number of rooms to reserve.",
+        "enum": [
+         "1",
+         "2",
+         "3",
+         "dontcare"
+        ],
+        "default": "dontcare"
+       }
+      }
+     }
+    },
+    {
+     "name": "Hotels_4_ReserveHotel_6",
+     "description": "Reserve rooms at a selected hotel for given dates.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "place_name",
+       "check_in_date",
+       "stay_length",
+       "location"
+      ],
+      "properties": {
+       "place_name": {
+        "type": "string",
+        "description": "The name of the hotel or accommodation."
+       },
+       "check_in_date": {
+        "type": "string",
+        "description": "The check-in date for the reservation, in the format 'YYYY-MM-DD'."
+       },
+       "stay_length": {
+        "type": "integer",
+        "description": "The length of the stay in number of days."
+       },
+       "location": {
+        "type": "string",
+        "description": "The city or town where the accommodation is located, in the format of 'City, State', such as 'Berkeley, CA' or 'New York, NY'."
+       },
+       "number_of_rooms": {
+        "type": "string",
+        "description": "The number of rooms to reserve.",
+        "enum": [
+         "1",
+         "2",
+         "3",
+         "dontcare"
+        ],
+        "default": "dontcare"
+       }
+      }
+     }
+    },
+    {
+     "name": "Hotels_4_ReserveHotel_7",
+     "description": "Reserve rooms at a selected hotel for given dates.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "place_name",
+       "check_in_date",
+       "stay_length",
+       "location"
+      ],
+      "properties": {
+       "place_name": {
+        "type": "string",
+        "description": "The name of the hotel or accommodation."
+       },
+       "check_in_date": {
+        "type": "string",
+        "description": "The check-in date for the reservation, in the format 'YYYY-MM-DD'."
+       },
+       "stay_length": {
+        "type": "integer",
+        "description": "The length of the stay, in number of days."
+       },
+       "location": {
+        "type": "string",
+        "description": "The city or town where the hotel is located, in the format of 'City, State' or 'City, Country' if the city does not locate in the United States; for example, 'New York, NY' or 'Paris, FR'."
+       },
+       "number_of_rooms": {
+        "type": "string",
+        "description": "The number of rooms to reserve.",
+        "enum": [
+         "1",
+         "2",
+         "3",
+         "dontcare"
+        ],
+        "default": "dontcare"
+       }
+      }
+     }
+    },
+    {
+     "name": "Hotels_4_ReserveHotel_8",
+     "description": "Reserve rooms at a selected hotel for given dates.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "place_name",
+       "check_in_date",
+       "stay_length",
+       "location"
+      ],
+      "properties": {
+       "place_name": {
+        "type": "string",
+        "description": "The name of the hotel or accommodation."
+       },
+       "check_in_date": {
+        "type": "string",
+        "description": "The check-in date for the reservation, in the format 'YYYY-MM-DD'."
+       },
+       "stay_length": {
+        "type": "integer",
+        "description": "The length of the stay, in number of days."
+       },
+       "location": {
+        "type": "string",
+        "description": "The location of the accommodation, in the format 'City, State', such as 'San Francisco, CA'."
+       },
+       "number_of_rooms": {
+        "type": "string",
+        "description": "The number of rooms to reserve.",
+        "enum": [
+         "1",
+         "2",
+         "3",
+         "dontcare"
+        ],
+        "default": "dontcare"
+       }
+      }
+     }
+    },
+    {
+     "name": "Hotels_4_ReserveHotel_9",
+     "description": "Reserve rooms at a selected hotel for given dates.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "place_name": {
+        "type": "string",
+        "description": "The name of the hotel or accommodation."
+       },
+       "check_in_date": {
+        "type": "string",
+        "description": "The check-in date for the reservation, in the format of 'YYYY-MM-DD'."
+       },
+       "stay_length": {
+        "type": "integer",
+        "description": "The length of stay in number of days."
+       },
+       "location": {
+        "type": "string",
+        "description": "The location of the accommodation, in the format of 'City, State' or 'City, Country' if the city does not locate in the United States."
+       },
+       "number_of_rooms": {
+        "type": "string",
+        "description": "The number of rooms to reserve.",
+        "enum": [
+         "1",
+         "2",
+         "3",
+         "dontcare"
+        ],
+        "default": "dontcare"
+       }
+      },
+      "required": [
+       "place_name",
+       "check_in_date",
+       "stay_length",
+       "location"
+      ]
+     }
+    },
+    {
+     "name": "Hotels_4_ReserveHotel_10",
+     "description": "Reserve rooms at a selected hotel for given dates.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "place_name": {
+        "type": "string",
+        "description": "The name of the hotel or accommodation."
+       },
+       "check_in_date": {
+        "type": "string",
+        "description": "The check-in date for the reservation, in the format of 'YYYY-MM-DD'."
+       },
+       "stay_length": {
+        "type": "integer",
+        "description": "The length of stay in number of days."
+       },
+       "location": {
+        "type": "string",
+        "description": "The location of the accommodation, in the format of 'City, State' or 'City, Country'."
+       },
+       "number_of_rooms": {
+        "type": "string",
+        "description": "The number of rooms to reserve.",
+        "enum": [
+         "1",
+         "2",
+         "3",
+         "dontcare"
+        ],
+        "default": "dontcare"
+       }
+      },
+      "required": [
+       "place_name",
+       "check_in_date",
+       "stay_length",
+       "location"
+      ]
+     }
+    },
+    {
+     "name": "Hotels_4_ReserveHotel_11",
+     "description": "Reserves rooms at a specified hotel for given dates.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "place_name",
+       "check_in_date",
+       "stay_length",
+       "location"
+      ],
+      "properties": {
+       "place_name": {
+        "type": "string",
+        "description": "The name of the hotel or accommodation."
+       },
+       "check_in_date": {
+        "type": "string",
+        "description": "The start date for the reservation in the format 'YYYY-MM-DD'."
+       },
+       "stay_length": {
+        "type": "integer",
+        "description": "The length of the stay in number of days."
+       },
+       "location": {
+        "type": "string",
+        "description": "The location of the hotel, in the format of 'City, State', such as 'New York, NY'."
+       },
+       "number_of_rooms": {
+        "type": "string",
+        "description": "The number of rooms to reserve.",
+        "enum": [
+         "1",
+         "2",
+         "3",
+         "dontcare"
+        ],
+        "default": "dontcare"
+       }
+      }
+     }
+    },
+    {
+     "name": "book_hotel",
+     "description": "Book a hotel room in a specified location for certain dates.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The city where the hotel is located."
+       },
+       "check_in_date": {
+        "type": "string",
+        "description": "The date when the guest will check into the hotel."
+       },
+       "check_out_date": {
+        "type": "string",
+        "description": "The date when the guest will check out from the hotel."
+       },
+       "room_type": {
+        "type": "string",
+        "optional": true,
+        "description": "The type of room the guest would prefer. Default: 'double'"
+       }
+      },
+      "required": [
+       "location",
+       "check_in_date",
+       "check_out_date"
+      ]
+     }
+    },
+    {
+     "name": "book_hotel_2",
+     "description": "Book a room in a specific hotel with particular preferences",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "hotel_name": {
+        "type": "string",
+        "description": "The name of the hotel."
+       },
+       "location": {
+        "type": "string",
+        "description": "The location of the hotel."
+       },
+       "room_type": {
+        "type": "string",
+        "description": "The type of room preferred."
+       },
+       "start_date": {
+        "type": "string",
+        "description": "The starting date of the stay in format MM-DD-YYYY."
+       },
+       "stay_duration": {
+        "type": "integer",
+        "description": "The duration of the stay in days."
+       },
+       "view": {
+        "type": "string",
+        "description": "The preferred view from the room, can be ignored if no preference. If none provided, assumes no preference.",
+        "default": "No preference"
+       }
+      },
+      "required": [
+       "hotel_name",
+       "location",
+       "room_type",
+       "start_date",
+       "stay_duration"
+      ]
+     }
+    },
+    {
+     "name": "book_hotel_3",
+     "description": "Book a room of specified type for a particular number of nights at a specific hotel, starting from a specified date.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "hotel_name": {
+        "type": "string",
+        "description": "The name of the hotel."
+       },
+       "location": {
+        "type": "string",
+        "description": "The city in which the hotel is located."
+       },
+       "room_type": {
+        "type": "string",
+        "description": "The type of room to be booked."
+       },
+       "start_date": {
+        "type": "string",
+        "description": "The start date for the booking."
+       },
+       "nights": {
+        "type": "integer",
+        "description": "The number of nights for which the booking is to be made."
+       }
+      },
+      "required": [
+       "hotel_name",
+       "location",
+       "room_type",
+       "start_date",
+       "nights"
+      ]
+     }
+    },
+    {
+     "name": "book_room",
+     "description": "Book a room in a specified hotel.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "hotel_name": {
+        "type": "string",
+        "description": "The name of the hotel."
+       },
+       "room_type": {
+        "type": "string",
+        "description": "The type of room to be booked."
+       },
+       "num_nights": {
+        "type": "integer",
+        "description": "The number of nights to book the room for."
+       }
+      },
+      "required": [
+       "hotel_name",
+       "room_type",
+       "num_nights"
+      ]
+     }
+    },
+    {
+     "name": "flight_book",
+     "description": "Book a flight for a specific route and airlines",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "_from": {
+        "type": "string",
+        "description": "The departure city in full name."
+       },
+       "to": {
+        "type": "string",
+        "description": "The arrival city in full name."
+       },
+       "airlines": {
+        "type": "string",
+        "description": "The preferred airline."
+       }
+      },
+      "required": [
+       "_from",
+       "to",
+       "airlines"
+      ]
+     }
+    },
+    {
+     "name": "hotel_book",
+     "description": "Book a hotel for a specific location for the number of nights",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The city where the hotel is located."
+       },
+       "nights": {
+        "type": "integer",
+        "description": "Number of nights for the stay."
+       }
+      },
+      "required": [
+       "location",
+       "nights"
+      ]
+     }
+    },
+    {
+     "name": "hotel_booking",
+     "description": "Books a hotel room for a specific date range.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "hotel_name": {
+        "type": "string",
+        "description": "The name of the hotel."
+       },
+       "location": {
+        "type": "string",
+        "description": "The city and state, e.g. New York, NY."
+       },
+       "start_date": {
+        "type": "string",
+        "description": "The start date of the reservation. Use format 'YYYY-MM-DD'."
+       },
+       "end_date": {
+        "type": "string",
+        "description": "The end date of the reservation. Use format 'YYYY-MM-DD'."
+       },
+       "rooms": {
+        "type": "integer",
+        "default": 1,
+        "description": "The number of rooms to reserve."
+       }
+      },
+      "required": [
+       "hotel_name",
+       "location",
+       "start_date",
+       "end_date"
+      ]
+     }
+    },
+    {
+     "name": "hotel_booking_2",
+     "description": "Books a hotel room given the location, room type, stay duration and any additional preferences.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The city where you want to book the hotel."
+       },
+       "room_type": {
+        "type": "string",
+        "description": "Type of the room required. Options: 'single', 'double', 'deluxe', etc."
+       },
+       "duration": {
+        "type": "integer",
+        "description": "The number of nights you want to book the hotel for."
+       },
+       "start_date": {
+        "type": "string",
+        "description": "The date when your stay begins."
+       },
+       "preferences": {
+        "type": "array",
+        "items": {
+         "type": "string",
+         "enum": [
+          "pet_friendly",
+          "gym",
+          "swimming_pool",
+          "free_breakfast",
+          "parking"
+         ]
+        },
+        "description": "Optional preferences of stay at the hotel. Default is all if not specified."
+       }
+      },
+      "required": [
+       "location",
+       "room_type",
+       "duration",
+       "start_date"
+      ]
+     }
+    },
+    {
+     "name": "hotel_booking_3",
+     "description": "Books a hotel room given the location, room type, stay duration and any additional preferences.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The city where you want to book the hotel."
+       },
+       "room_type": {
+        "type": "string",
+        "description": "Type of the room required. Options: 'single', 'double', 'deluxe', etc."
+       },
+       "duration": {
+        "type": "integer",
+        "description": "The number of nights you want to book the hotel for."
+       },
+       "start_date": {
+        "type": "string",
+        "description": "The date when your stay begins."
+       },
+       "preferences": {
+        "type": "array",
+        "items": {
+         "type": "string",
+         "enum": [
+          "pet_friendly",
+          "gym",
+          "swimming_pool",
+          "free_breakfast",
+          "parking"
+         ]
+        },
+        "description": "Optional preferences of stay at the hotel. Default is empty array"
+       }
+      },
+      "required": [
+       "location",
+       "room_type",
+       "duration",
+       "start_date"
+      ]
+     }
+    },
+    {
+     "name": "hotel_booking_4",
+     "description": "Books a hotel room given the location, room type, stay duration and any additional preferences.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The city where you want to book the hotel."
+       },
+       "room_type": {
+        "type": "string",
+        "description": "Type of the room required. Options: 'single', 'double', 'deluxe', etc."
+       },
+       "duration": {
+        "type": "integer",
+        "description": "The number of nights you want to book the hotel for."
+       },
+       "start_date": {
+        "type": "string",
+        "description": "The date when your stay begins."
+       },
+       "preferences": {
+        "type": "array",
+        "items": {
+         "type": "string",
+         "enum": [
+          "pet_friendly",
+          "gym",
+          "swimming_pool",
+          "free_breakfast",
+          "parking"
+         ]
+        },
+        "description": "Optional preferences of stay at the hotel. Default is empty array."
+       }
+      },
+      "required": [
+       "location",
+       "room_type",
+       "duration",
+       "start_date"
+      ]
+     }
+    },
+    {
+     "name": "hotel_booking_5",
+     "description": "Books a hotel room given the location, room type, stay duration and any additional preferences.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The city where you want to book the hotel."
+       },
+       "room_type": {
+        "type": "string",
+        "description": "Type of the room required. Options: 'single', 'double', 'deluxe', etc."
+       },
+       "duration": {
+        "type": "integer",
+        "description": "The number of nights you want to book the hotel for."
+       },
+       "start_date": {
+        "type": "string",
+        "description": "The date when your stay begins."
+       },
+       "preferences": {
+        "type": "array",
+        "items": {
+         "type": "string",
+         "enum": [
+          "pet_friendly",
+          "gym",
+          "swimming_pool",
+          "free_breakfast",
+          "parking"
+         ]
+        },
+        "description": "Optional preferences of stay at the hotel. Default is none if not provided."
+       }
+      },
+      "required": [
+       "location",
+       "room_type",
+       "duration",
+       "start_date"
+      ]
+     }
+    },
+    {
+     "name": "hotel_booking_6",
+     "description": "Books a hotel room given the location, room type, stay duration and any additional preferences.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The city where you want to book the hotel."
+       },
+       "room_type": {
+        "type": "string",
+        "description": "Type of the room required. Options: 'single', 'double', 'deluxe', etc."
+       },
+       "duration": {
+        "type": "integer",
+        "description": "The number of nights you want to book the hotel for."
+       },
+       "start_date": {
+        "type": "string",
+        "description": "The date when your stay begins."
+       },
+       "preferences": {
+        "type": "array",
+        "items": {
+         "type": "string",
+         "enum": [
+          "pet_friendly",
+          "gym",
+          "swimming_pool",
+          "free_breakfast",
+          "parking"
+         ]
+        },
+        "description": "Optional preferences of stay at the hotel. Default to use all if not specified."
+       }
+      },
+      "required": [
+       "location",
+       "room_type",
+       "duration",
+       "start_date"
+      ]
+     }
+    },
+    {
+     "name": "hotel_booking_book",
+     "description": "Book a hotel room at the specified location for the specified number of adults and children, ensuring the accommodation dates are available.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "hotel_name",
+       "location",
+       "check_in",
+       "check_out",
+       "adults",
+       "children"
+      ],
+      "properties": {
+       "hotel_name": {
+        "type": "string",
+        "description": "The name of the hotel to book."
+       },
+       "location": {
+        "type": "string",
+        "description": "The location of the hotel, in the format of 'City, State', such as 'San Francisco, CA' or 'New York, NY'."
+       },
+       "check_in": {
+        "type": "string",
+        "description": "The check-in date for the booking, in the format 'YYYY-MM-DD'."
+       },
+       "check_out": {
+        "type": "string",
+        "description": "The check-out date for the booking, in the format 'YYYY-MM-DD'."
+       },
+       "adults": {
+        "type": "integer",
+        "description": "The number of adults included in the booking."
+       },
+       "children": {
+        "type": "integer",
+        "description": "The number of children included in the booking."
+       }
+      }
+     }
+    }
+   ]
+  },
+  {
+   "id": "bfcl_c16_g1",
+   "name": "meeting room rooms",
+   "server": "bfcl://bfcl_c16_g1",
+   "summary": "Functions for meeting, room, rooms, end, start, schedule.",
+   "tools": [
+    {
+     "name": "__book_meeting_room",
+     "description": "Reserves a meeting room by specifying the room name and the start and end times. It also registers a list of attendees.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "meeting_room_name",
+       "start_time",
+       "end_time",
+       "attendees"
+      ],
+      "properties": {
+       "meeting_room_name": {
+        "type": "string",
+        "description": "The full name of the meeting room to be reserved."
+       },
+       "start_time": {
+        "type": "string",
+        "description": "The start time of the meeting in ISO 8601 format, for example '2020-01-01T10:15:30+08:00'."
+       },
+       "end_time": {
+        "type": "string",
+        "description": "The end time of the meeting in ISO 8601 format, for example '2020-01-01T10:15:30+08:00'."
+       },
+       "attendees": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "A list of attendees' names for the meeting, such as ['User1', 'User2']."
+       }
+      }
+     }
+    },
+    {
+     "name": "__get_meeting_room_schedule",
+     "description": "Retrieve the booking details of specified meeting rooms within a given start and end time.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "room_names",
+       "start_time",
+       "end_time"
+      ],
+      "properties": {
+       "room_names": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "A list of meeting room names to check the schedule for, such as ['Room A', 'Room B']."
+       },
+       "start_time": {
+        "type": "string",
+        "description": "The start time for the schedule query in ISO 8601 format, e.g., '2020-01-01T10:15:30+08:00'."
+       },
+       "end_time": {
+        "type": "string",
+        "description": "The end time for the schedule query in ISO 8601 format, e.g., '2020-01-01T18:15:30+08:00'."
+       }
+      }
+     }
+    },
+    {
+     "name": "__query_meeting_room_list",
+     "description": "Retrieves a list of all meeting rooms including their names and capacities.",
+     "input_schema": {
+      "type": "object",
+      "properties": {},
+      "required": []
+     }
+    }
+   ]
+  }
+ ]
+}

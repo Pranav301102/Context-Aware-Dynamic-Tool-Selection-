@@ -1,0 +1,55 @@
+{
+ "task_id": "communication-0011",
+ "mode": "search",
+ "loaded": [
+  "twilio.send_whatsapp_message",
+  "twilio.send_sms",
+  "ms_teams.send_chat_message",
+  "discord.send_message",
+  "twilio.lookup_phone_number"
+ ],
+ "order": [
+  "twilio.send_whatsapp_message",
+  "twilio.send_sms",
+  "ms_teams.send_chat_message",
+  "discord.send_message",
+  "twilio.lookup_phone_number"
+ ],
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "twilio.send_whatsapp_message",
+   "args": {
+    "to": "whatsapp:+447700900123",
+    "body": "Your parcel has shipped"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0
+  },
+  {
+   "type": "request_tools",
+   "capability": "send a WhatsApp message to a phone number",
+   "added": [
+    "twilio.send_whatsapp_message",
+    "twilio.send_sms",
+    "ms_teams.send_chat_message",
+    "discord.send_message",
+    "twilio.lookup_phone_number"
+   ],
+   "tool_tokens": 997
+  },
+  {
+   "type": "call",
+   "tool": "twilio__send_whatsapp_message",
+   "valid": true
+  }
+ ],
+ "done": true,
+ "final": ""
+}

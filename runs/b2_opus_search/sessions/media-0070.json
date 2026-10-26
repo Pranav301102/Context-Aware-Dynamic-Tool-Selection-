@@ -1,0 +1,68 @@
+{
+ "task_id": "media-0070",
+ "mode": "search",
+ "loaded": [
+  "ffmpeg_video.burn_subtitles",
+  "openai_media.transcribe_audio",
+  "ffmpeg_video.convert_video",
+  "ffmpeg_video.concatenate_videos",
+  "ffmpeg_video.probe_media"
+ ],
+ "order": [
+  "ffmpeg_video.burn_subtitles",
+  "openai_media.transcribe_audio",
+  "ffmpeg_video.convert_video",
+  "ffmpeg_video.concatenate_videos",
+  "ffmpeg_video.probe_media"
+ ],
+ "scores": {
+  "ffmpeg_video.burn_subtitles": 2.0,
+  "openai_media.transcribe_audio": 2.0,
+  "ffmpeg_video.convert_video": 2.0,
+  "ffmpeg_video.concatenate_videos": 2.0,
+  "ffmpeg_video.probe_media": 2.0
+ },
+ "router_tokens": 0,
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "ffmpeg_video.burn_subtitles",
+   "args": {
+    "input_path": "promo.mp4",
+    "subtitle_path": "subs_en.srt",
+    "output_path": "promo_subtitled.mp4"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0,
+   "t": 1791321950.6098566
+  },
+  {
+   "type": "request_tools",
+   "capability": "burn (hardcode) an SRT subtitle file into a video",
+   "added": [
+    "ffmpeg_video.burn_subtitles",
+    "openai_media.transcribe_audio",
+    "ffmpeg_video.convert_video",
+    "ffmpeg_video.concatenate_videos",
+    "ffmpeg_video.probe_media"
+   ],
+   "tool_tokens": 1382,
+   "t": 1791321965.019702
+  },
+  {
+   "type": "call",
+   "tool": "ffmpeg_video__burn_subtitles",
+   "valid": true,
+   "t": 1791321978.4686418
+  }
+ ],
+ "done": true,
+ "t_done": 1791321981.4838738,
+ "final": ""
+}

@@ -1,0 +1,79 @@
+{
+ "task_id": "code_exec-0005",
+ "mode": "cats",
+ "loaded": [
+  "code_checker.collect_tests",
+  "code_checker.run_all_checks",
+  "code_checker.run_jest",
+  "code_checker.run_pytest_check",
+  "filesystem.read_multiple_files",
+  "github.list_workflow_runs",
+  "ms_teams.list_teams",
+  "package_manager.npm_install",
+  "package_manager.npm_run_script",
+  "package_manager.pip_install",
+  "package_manager.pip_list"
+ ],
+ "order": [
+  "code_checker.collect_tests",
+  "code_checker.run_all_checks",
+  "code_checker.run_jest",
+  "code_checker.run_pytest_check",
+  "filesystem.read_multiple_files",
+  "github.list_workflow_runs",
+  "ms_teams.list_teams",
+  "package_manager.npm_install",
+  "package_manager.npm_run_script",
+  "package_manager.pip_install",
+  "package_manager.pip_list"
+ ],
+ "scores": {
+  "code_checker.collect_tests": 0.19439062371269578,
+  "code_checker.run_all_checks": 0.19020154850152257,
+  "code_checker.run_jest": 0.9047288800454691,
+  "code_checker.run_pytest_check": 0.25204198833020686,
+  "filesystem.read_multiple_files": 0.31344834164859586,
+  "github.list_workflow_runs": 0.10321171281296897,
+  "ms_teams.list_teams": 0.07622240448440988,
+  "package_manager.npm_install": 0.7501887029113163,
+  "package_manager.npm_run_script": 0.20210895178361132,
+  "package_manager.pip_install": 0.0930028287320272,
+  "package_manager.pip_list": 0.33470596655454105
+ },
+ "router_tokens": 0,
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "package_manager.npm_install",
+   "args": {}
+  },
+  {
+   "tool": "code_checker.run_jest",
+   "args": {}
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 11,
+   "tool_tokens": 2439,
+   "t": 1791320852.2890337
+  },
+  {
+   "type": "call",
+   "tool": "package_manager__npm_install",
+   "valid": true,
+   "t": 1791320860.5713441
+  },
+  {
+   "type": "call",
+   "tool": "code_checker__run_jest",
+   "valid": true,
+   "t": 1791320867.8343542
+  }
+ ],
+ "done": true,
+ "t_done": 1791320871.8490727,
+ "final": ""
+}

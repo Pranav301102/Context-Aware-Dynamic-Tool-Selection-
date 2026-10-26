@@ -1,0 +1,109 @@
+{
+ "task_id": "dev_platform-0047",
+ "mode": "cats",
+ "loaded": [
+  "jira.add_comment",
+  "jira.create_issue",
+  "jira.search_issues",
+  "jira.transition_issue",
+  "jira.update_issue",
+  "jira.get_issue",
+  "sentry.update_issue",
+  "github.get_issue",
+  "sentry.get_issue_details",
+  "stripe.retrieve_balance"
+ ],
+ "order": [
+  "jira.add_comment",
+  "jira.create_issue",
+  "jira.search_issues",
+  "jira.transition_issue",
+  "jira.update_issue",
+  "jira.get_issue",
+  "sentry.update_issue",
+  "github.get_issue",
+  "sentry.get_issue_details",
+  "stripe.retrieve_balance"
+ ],
+ "scores": {
+  "jira.add_comment": 0.12699009904195366,
+  "jira.create_issue": 0.8233019143627465,
+  "jira.search_issues": 0.19279689352926108,
+  "jira.transition_issue": 0.22780824593795623,
+  "jira.update_issue": 0.057725628949954894,
+  "jira.get_issue": 2.0,
+  "sentry.update_issue": 2.0,
+  "github.get_issue": 2.0,
+  "sentry.get_issue_details": 2.0,
+  "stripe.retrieve_balance": 2.0
+ },
+ "router_tokens": 0,
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "jira.create_issue",
+   "args": {
+    "project_key": "PAY",
+    "summary": "Refund rounding error",
+    "issue_type": "Bug"
+   }
+  },
+  {
+   "tool": "jira.get_issue",
+   "args": {
+    "issue_key": "PAY-1",
+    "expand": "transitions"
+   }
+  },
+  {
+   "tool": "jira.transition_issue",
+   "args": {
+    "issue_key": "PAY-1",
+    "transition_id": "11"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 5,
+   "tool_tokens": 1209,
+   "t": 1791321865.1847332
+  },
+  {
+   "type": "call",
+   "tool": "jira__create_issue",
+   "valid": true,
+   "t": 1791321880.8654978
+  },
+  {
+   "type": "request_tools",
+   "capability": "Get a specific Jira issue by key to see its available transitions and current status",
+   "added": [
+    "jira.get_issue",
+    "sentry.update_issue",
+    "github.get_issue",
+    "sentry.get_issue_details",
+    "stripe.retrieve_balance"
+   ],
+   "tool_tokens": 2220,
+   "t": 1791321894.0726733
+  },
+  {
+   "type": "call",
+   "tool": "jira__get_issue",
+   "valid": true,
+   "t": 1791321905.5200174
+  },
+  {
+   "type": "call",
+   "tool": "jira__transition_issue",
+   "valid": true,
+   "t": 1791321918.2502956
+  }
+ ],
+ "done": true,
+ "t_done": 1791321925.311907,
+ "final": ""
+}

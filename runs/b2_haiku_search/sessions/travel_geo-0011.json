@@ -1,0 +1,80 @@
+{
+ "task_id": "travel_geo-0011",
+ "mode": "search",
+ "loaded": [
+  "transitland.search_stops",
+  "transitland.search_operators",
+  "transitland.get_stop_departures",
+  "amadeus_travel.get_flight_status",
+  "mapbox.directions_tool"
+ ],
+ "order": [
+  "transitland.search_stops",
+  "transitland.search_operators",
+  "transitland.get_stop_departures",
+  "amadeus_travel.get_flight_status",
+  "mapbox.directions_tool"
+ ],
+ "scores": {
+  "transitland.search_stops": 2.0,
+  "transitland.search_operators": 2.0,
+  "transitland.get_stop_departures": 2.0,
+  "amadeus_travel.get_flight_status": 2.0,
+  "mapbox.directions_tool": 2.0
+ },
+ "router_tokens": 0,
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "transitland.search_stops",
+   "args": {
+    "search": "Alexanderplatz Berlin",
+    "served_by_route_type": 0,
+    "limit": 5
+   }
+  },
+  {
+   "tool": "transitland.get_stop_departures",
+   "args": {
+    "stop_key": "alexanderplatz_tram_stop"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0,
+   "t": 1791321803.4561386
+  },
+  {
+   "type": "request_tools",
+   "capability": "find nearby transit stops and get public transportation departure schedules",
+   "added": [
+    "transitland.search_stops",
+    "transitland.search_operators",
+    "transitland.get_stop_departures",
+    "amadeus_travel.get_flight_status",
+    "mapbox.directions_tool"
+   ],
+   "tool_tokens": 1397,
+   "t": 1791321815.236324
+  },
+  {
+   "type": "call",
+   "tool": "transitland__search_stops",
+   "valid": true,
+   "t": 1791321826.4813201
+  },
+  {
+   "type": "call",
+   "tool": "transitland__get_stop_departures",
+   "valid": true,
+   "t": 1791321836.052482
+  }
+ ],
+ "done": true,
+ "t_done": 1791321840.2761383,
+ "final": ""
+}

@@ -1,0 +1,66 @@
+{
+ "task_id": "database-0021",
+ "mode": "search",
+ "loaded": [
+  "mysql.describe_table",
+  "mysql.execute_sql",
+  "sqlite.describe_table",
+  "sqlite.read_query",
+  "mysql.list_tables"
+ ],
+ "order": [
+  "mysql.describe_table",
+  "mysql.execute_sql",
+  "sqlite.describe_table",
+  "sqlite.read_query",
+  "mysql.list_tables"
+ ],
+ "scores": {
+  "mysql.describe_table": 2.0,
+  "mysql.execute_sql": 2.0,
+  "sqlite.describe_table": 2.0,
+  "sqlite.read_query": 2.0,
+  "mysql.list_tables": 2.0
+ },
+ "router_tokens": 0,
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "mysql.describe_table",
+   "args": {
+    "table": "products"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0,
+   "t": 1791322174.039992
+  },
+  {
+   "type": "request_tools",
+   "capability": "query MySQL database schema and table structure",
+   "added": [
+    "mysql.describe_table",
+    "mysql.execute_sql",
+    "sqlite.describe_table",
+    "sqlite.read_query",
+    "mysql.list_tables"
+   ],
+   "tool_tokens": 350,
+   "t": 1791322184.7527695
+  },
+  {
+   "type": "call",
+   "tool": "mysql__describe_table",
+   "valid": true,
+   "t": 1791322197.4356651
+  }
+ ],
+ "done": true,
+ "t_done": 1791322202.9529545,
+ "final": ""
+}

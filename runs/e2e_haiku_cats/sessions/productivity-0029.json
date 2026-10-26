@@ -1,0 +1,47 @@
+{
+ "task_id": "productivity-0029",
+ "mode": "cats",
+ "loaded": [
+  "e2b.create_sandbox",
+  "e2b.download_file",
+  "jupyter.insert_cell",
+  "todoist.add_tasks",
+  "todoist.complete_tasks"
+ ],
+ "order": [
+  "e2b.create_sandbox",
+  "e2b.download_file",
+  "jupyter.insert_cell",
+  "todoist.add_tasks",
+  "todoist.complete_tasks"
+ ],
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "todoist.add_tasks",
+   "args": {
+    "tasks": [
+     {
+      "content": "Grab dry cleaning on the way home",
+      "dueString": "tomorrow"
+     }
+    ]
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 5,
+   "tool_tokens": 1017
+  },
+  {
+   "type": "call",
+   "tool": "todoist__add_tasks",
+   "valid": true
+  }
+ ],
+ "done": true,
+ "final": ""
+}

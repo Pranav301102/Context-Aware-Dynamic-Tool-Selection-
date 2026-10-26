@@ -1,0 +1,98 @@
+{
+ "task_id": "finance-0063",
+ "mode": "cats",
+ "loaded": [
+  "ffmpeg_video.trim_video",
+  "google_calendar.create_event",
+  "obsidian.obsidian_patch_content",
+  "quickbooks.create_bill",
+  "quickbooks.create_customer",
+  "quickbooks.create_invoice",
+  "quickbooks.create_purchase",
+  "quickbooks.get_balance_sheet",
+  "quickbooks.get_profit_and_loss",
+  "quickbooks.search_purchases",
+  "quickbooks.search_vendors",
+  "salesforce.salesforce_query_records"
+ ],
+ "order": [
+  "ffmpeg_video.trim_video",
+  "google_calendar.create_event",
+  "obsidian.obsidian_patch_content",
+  "quickbooks.create_bill",
+  "quickbooks.create_customer",
+  "quickbooks.create_invoice",
+  "quickbooks.create_purchase",
+  "quickbooks.get_balance_sheet",
+  "quickbooks.get_profit_and_loss",
+  "quickbooks.search_purchases",
+  "quickbooks.search_vendors",
+  "salesforce.salesforce_query_records"
+ ],
+ "scores": {
+  "ffmpeg_video.trim_video": 0.10861259321690124,
+  "google_calendar.create_event": 0.05481446696113569,
+  "obsidian.obsidian_patch_content": 0.06517532624057185,
+  "quickbooks.create_bill": 0.1873803298242488,
+  "quickbooks.create_customer": 0.11734870902309963,
+  "quickbooks.create_invoice": 0.07812064428922713,
+  "quickbooks.create_purchase": 0.5527954260586312,
+  "quickbooks.get_balance_sheet": 0.16043944116850523,
+  "quickbooks.get_profit_and_loss": 0.11281364020645665,
+  "quickbooks.search_purchases": 0.23067574102398064,
+  "quickbooks.search_vendors": 0.12372119007309793,
+  "salesforce.salesforce_query_records": 0.036463829135449335
+ },
+ "router_tokens": 1483,
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "quickbooks.create_purchase",
+   "args": {
+    "purchase": {
+     "PaymentType": "CreditCard",
+     "AccountRef": {
+      "value": "Chase",
+      "name": "Chase"
+     },
+     "EntityRef": {
+      "value": "Nopa",
+      "type": "Vendor"
+     },
+     "PrivateNote": "Team lunch at Nopa",
+     "Line": [
+      {
+       "Amount": 212,
+       "Description": "Team lunch at Nopa",
+       "DetailType": "AccountBasedExpenseLineDetail",
+       "AccountBasedExpenseLineDetail": {
+        "AccountRef": {
+         "value": "Meals",
+         "name": "Meals"
+        }
+       }
+      }
+     ]
+    }
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 12,
+   "tool_tokens": 4024,
+   "t": 1791321148.9810553
+  },
+  {
+   "type": "call",
+   "tool": "quickbooks__create_purchase",
+   "valid": true,
+   "t": 1791321163.5179026
+  }
+ ],
+ "done": true,
+ "t_done": 1791321170.2106214,
+ "final": ""
+}

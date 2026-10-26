@@ -1,0 +1,4074 @@
+{
+ "branch": {
+  "id": "discovery",
+  "name": "Discovery",
+  "summary": "Discovery MCP servers: 12306-mcp; Airbnb MCP Server; ArXiv MCP Server; Baige (ygocdb.com) MCP Server; BioMCP: Biomedical Model Context Protocol; Crypto Price & Market Analysis MCP Server; Data.gov MCP Server; Deepwiki MCP Server; Fetch MCP Server; Hacker News MCP Server; HowToCook-MCP Server; MCP NPX Fetch; MCP Weather Free; Met Museum MCP Server; Sitemap MCP Server; Time MCP Server; Trends Hub; Web3 Research MCP; Whois MCP; Wikipedia MCP Server; YouTube Transcript Server; duckduckgo-search MCP Server; mcp-simple-arxiv; shadcn-ui MCP Server"
+ },
+ "toolkits": [
+  {
+   "id": "howtocook_mcp",
+   "name": "HowToCook-MCP Server",
+   "server": "mcp://howtocook-mcp",
+   "summary": "An MCP (Model Context Protocol) server based on Anduin2017/HowToCook, allowing AI assistants to recommend recipes, plan meals, and solve the age-old question of \"what should I eat today?\"",
+   "tools": [
+    {
+     "name": "mcp_howtocook_getAllRecipes",
+     "description": "\u83b7\u53d6\u6240\u6709\u83dc\u8c31",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "no_param": {
+        "type": "string",
+        "description": "\u65e0\u53c2\u6570"
+       }
+      },
+      "additionalProperties": false,
+      "$schema": "http://json-schema.org/draft-07/schema#"
+     }
+    },
+    {
+     "name": "mcp_howtocook_getRecipesByCategory",
+     "description": "\u6839\u636e\u5206\u7c7b\u67e5\u8be2\u83dc\u8c31\uff0c\u53ef\u9009\u5206\u7c7b\u6709: \u6c34\u4ea7, \u65e9\u9910, \u8c03\u6599, \u751c\u54c1, \u996e\u54c1, \u8364\u83dc, \u534a\u6210\u54c1\u52a0\u5de5, \u6c64, \u4e3b\u98df, \u7d20\u83dc",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "category": {
+        "type": "string",
+        "enum": [
+         "\u6c34\u4ea7",
+         "\u65e9\u9910",
+         "\u8c03\u6599",
+         "\u751c\u54c1",
+         "\u996e\u54c1",
+         "\u8364\u83dc",
+         "\u534a\u6210\u54c1\u52a0\u5de5",
+         "\u6c64",
+         "\u4e3b\u98df",
+         "\u7d20\u83dc"
+        ],
+        "description": "\u83dc\u8c31\u5206\u7c7b\u540d\u79f0\uff0c\u5982\u6c34\u4ea7\u3001\u65e9\u9910\u3001\u8364\u83dc\u3001\u4e3b\u98df\u7b49"
+       }
+      },
+      "required": [
+       "category"
+      ],
+      "additionalProperties": false,
+      "$schema": "http://json-schema.org/draft-07/schema#"
+     }
+    },
+    {
+     "name": "mcp_howtocook_recommendMeals",
+     "description": "\u6839\u636e\u7528\u6237\u7684\u5fcc\u53e3\u3001\u8fc7\u654f\u539f\u3001\u4eba\u6570\u667a\u80fd\u63a8\u8350\u83dc\u8c31\uff0c\u521b\u5efa\u4e00\u5468\u7684\u81b3\u98df\u8ba1\u5212\u4ee5\u53ca\u5927\u81f4\u7684\u8d2d\u7269\u6e05\u5355",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "allergies": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "\u8fc7\u654f\u539f\u5217\u8868\uff0c\u5982[\"\u5927\u849c\", \"\u867e\"]"
+       },
+       "avoidItems": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "\u5fcc\u53e3\u98df\u6750\u5217\u8868\uff0c\u5982[\"\u8471\", \"\u59dc\"]"
+       },
+       "peopleCount": {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 10,
+        "description": "\u7528\u9910\u4eba\u6570\uff0c1-10\u4e4b\u95f4\u7684\u6574\u6570"
+       }
+      },
+      "required": [
+       "peopleCount"
+      ],
+      "additionalProperties": false,
+      "$schema": "http://json-schema.org/draft-07/schema#"
+     }
+    },
+    {
+     "name": "mcp_howtocook_whatToEat",
+     "description": "\u4e0d\u77e5\u9053\u5403\u4ec0\u4e48\uff1f\u6839\u636e\u4eba\u6570\u76f4\u63a5\u63a8\u8350\u9002\u5408\u7684\u83dc\u54c1\u7ec4\u5408",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "peopleCount": {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 10,
+        "description": "\u7528\u9910\u4eba\u6570\uff0c1-10\u4e4b\u95f4\u7684\u6574\u6570\uff0c\u4f1a\u6839\u636e\u4eba\u6570\u63a8\u8350\u5408\u9002\u6570\u91cf\u7684\u83dc\u54c1"
+       }
+      },
+      "required": [
+       "peopleCount"
+      ],
+      "additionalProperties": false,
+      "$schema": "http://json-schema.org/draft-07/schema#"
+     }
+    },
+    {
+     "name": "mcp_howtocook_getRecipeById",
+     "description": "\u6839\u636e\u83dc\u8c31\u540d\u79f0\u6216ID\u67e5\u8be2\u6307\u5b9a\u83dc\u8c31\u7684\u5b8c\u6574\u8be6\u60c5\uff0c\u5305\u62ec\u98df\u6750\u3001\u6b65\u9aa4\u7b49",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "query": {
+        "type": "string",
+        "description": "\u83dc\u8c31\u540d\u79f0\u6216ID\uff0c\u652f\u6301\u6a21\u7cca\u5339\u914d\u83dc\u8c31\u540d\u79f0"
+       }
+      },
+      "required": [
+       "query"
+      ],
+      "additionalProperties": false,
+      "$schema": "http://json-schema.org/draft-07/schema#"
+     }
+    }
+   ]
+  },
+  {
+   "id": "biomcp",
+   "name": "BioMCP: Biomedical Model Context Protocol",
+   "server": "mcp://biomcp",
+   "summary": "BioMCP is an open source (MIT License) toolkit that empowers AI assistants and agents with specialized biomedical knowledge. Built following the Model Context Protocol (MCP), it connects AI systems to authoritative biomedical data sources, enabling them to answer questions about clinical trials, scientific literature, and genomic variants with precision and depth.",
+   "tools": [
+    {
+     "name": "search",
+     "description": "Search biomedical literature, clinical trials, and genetic variants.\n\n    \u26a0\ufe0f IMPORTANT: Have you used the 'think' tool first? If not, STOP and use it NOW!\n    The 'think' tool is REQUIRED for proper research planning and should be your FIRST step.\n\n    This tool provides access to biomedical data from PubMed/PubTator3, ClinicalTrials.gov,\n    and MyVariant.info. It supports two search modes:\n\n    ## 1. UNIFIED QUERY LANGUAGE\n    Use the 'query' parameter with field-based syntax for precise cross-domain searches.\n\n    Syntax:\n    - Basic: \"gene:BRAF\"\n    - AND logic: \"gene:BRAF AND disease:melanoma\"\n    - OR logic: \"gene:PTEN AND (R173 OR Arg173 OR 'position 173')\"\n    - Domain-specific: \"trials.condition:melanoma AND trials.phase:3\"\n\n    Common fields:\n    - Cross-domain: gene, disease, variant, chemical/drug\n    - Articles: pmid, title, abstract, journal, author\n    - Trials: trials.condition, trials.intervention, trials.phase, trials.status\n    - Variants: variants.hgvs, variants.rsid, variants.significance\n\n    Example:\n    ```\n    await search(\n        query=\"gene:BRAF AND disease:melanoma AND trials.phase:3\",\n        max_results_per_domain=20\n    )\n    ```\n\n    ## 2. DOMAIN-SPECIFIC SEARCH\n    Use the 'domain' parameter with specific filters for targeted searches.\n\n    Domains:\n    - \"article\": Search PubMed/PubTator3 for research articles and preprints ABOUT genes, variants, diseases, or chemicals\n    - \"trial\": Search ClinicalTrials.gov for clinical studies\n    - \"variant\": Search MyVariant.info for genetic variant DATABASE RECORDS (population frequency, clinical significance, etc.) - NOT for articles about variants!\n\n    Example:\n    ```\n    await search(\n        domain=\"article\",\n        genes=[\"BRAF\", \"NRAS\"],\n        diseases=[\"melanoma\"],\n        page_size=50\n    )\n    ```\n\n    ## DOMAIN SELECTION EXAMPLES:\n    - To find ARTICLES about BRAF V600E mutation: domain=\"article\", genes=[\"BRAF\"], variants=[\"V600E\"]\n    - To find VARIANT DATA for BRAF mutations: domain=\"variant\", gene=\"BRAF\"\n    - To find articles about ERBB2 p.D277Y: domain=\"article\", genes=[\"ERBB2\"], variants=[\"p.D277Y\"]\n    - Common mistake: Using domain=\"variant\" when you want articles about a variant\n\n    ## IMPORTANT NOTES:\n    - For complex research questions, use the separate 'think' tool for systematic analysis\n    - The tool returns results in OpenAI MCP format: {\"results\": [{\"id\", \"title\", \"text\", \"url\"}, ...]}\n    - Search results do NOT include metadata (per OpenAI MCP specification)\n    - Use the fetch tool to get detailed metadata for specific records\n    - Use get_schema=True to explore available search fields\n    - Use explain_query=True to understand query parsing (unified mode)\n    - Domain-specific searches use AND logic for multiple values\n    - For OR logic, use the unified query language\n    - NEW: Article search keywords support OR with pipe separator: \"R173|Arg173|p.R173\"\n    - Remember: domain=\"article\" finds LITERATURE, domain=\"variant\" finds DATABASE RECORDS\n\n    ## RETURN FORMAT:\n    All search modes return results in this format:\n    ```json\n    {\n        \"results\": [\n            {\n                \"id\": \"unique_identifier\",\n                \"title\": \"Human-readable title\",\n                \"text\": \"Summary or snippet of content\",\n                \"url\": \"Link to full resource\"\n            }\n        ]\n    }\n    ```",
+     "input_schema": {
+      "properties": {
+       "query": {
+        "title": "Query",
+        "type": "string"
+       },
+       "call_benefit": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "description": "Brief explanation of why this search is being performed and expected benefit. Helps improve search accuracy and provides context for analytics. Highly recommended for better results.",
+        "title": "Call Benefit"
+       },
+       "domain": {
+        "anyOf": [
+         {
+          "enum": [
+           "article",
+           "trial",
+           "variant"
+          ],
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "description": "Domain to search: 'article' for papers/literature ABOUT genes/variants/diseases, 'trial' for clinical studies, 'variant' for genetic variant DATABASE RECORDS (NOT articles about variants)",
+        "title": "Domain"
+       },
+       "genes": {
+        "anyOf": [
+         {
+          "items": {
+           "type": "string"
+          },
+          "type": "array"
+         },
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Genes"
+       },
+       "diseases": {
+        "anyOf": [
+         {
+          "items": {
+           "type": "string"
+          },
+          "type": "array"
+         },
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Diseases"
+       },
+       "variants": {
+        "anyOf": [
+         {
+          "items": {
+           "type": "string"
+          },
+          "type": "array"
+         },
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Variants"
+       },
+       "chemicals": {
+        "anyOf": [
+         {
+          "items": {
+           "type": "string"
+          },
+          "type": "array"
+         },
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Chemicals"
+       },
+       "keywords": {
+        "anyOf": [
+         {
+          "items": {
+           "type": "string"
+          },
+          "type": "array"
+         },
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Keywords"
+       },
+       "conditions": {
+        "anyOf": [
+         {
+          "items": {
+           "type": "string"
+          },
+          "type": "array"
+         },
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Conditions"
+       },
+       "interventions": {
+        "anyOf": [
+         {
+          "items": {
+           "type": "string"
+          },
+          "type": "array"
+         },
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Interventions"
+       },
+       "recruiting_status": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Recruiting Status"
+       },
+       "phase": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Phase"
+       },
+       "significance": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Significance"
+       },
+       "lat": {
+        "anyOf": [
+         {
+          "type": "number"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Lat"
+       },
+       "long": {
+        "anyOf": [
+         {
+          "type": "number"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Long"
+       },
+       "distance": {
+        "anyOf": [
+         {
+          "type": "integer"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Distance"
+       },
+       "page": {
+        "default": 1,
+        "title": "Page",
+        "type": "integer"
+       },
+       "page_size": {
+        "default": 10,
+        "title": "Page Size",
+        "type": "integer"
+       },
+       "max_results_per_domain": {
+        "anyOf": [
+         {
+          "type": "integer"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Max Results Per Domain"
+       },
+       "explain_query": {
+        "default": false,
+        "title": "Explain Query",
+        "type": "boolean"
+       },
+       "get_schema": {
+        "default": false,
+        "title": "Get Schema",
+        "type": "boolean"
+       }
+      },
+      "required": [
+       "query"
+      ],
+      "title": "searchArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "fetch",
+     "description": "Fetch comprehensive details for a specific biomedical record.\n\n    This tool retrieves full information for articles, clinical trials, or genetic variants\n    using their unique identifiers. It returns data in a standardized format suitable for\n    detailed analysis and research.\n\n    ## IDENTIFIER FORMATS:\n    - Articles: PMID (PubMed ID) - e.g., \"35271234\" OR DOI - e.g., \"10.1101/2024.01.20.23288905\"\n    - Trials: NCT ID (ClinicalTrials.gov ID) - e.g., \"NCT04280705\"\n    - Variants: HGVS notation or dbSNP ID - e.g., \"chr7:g.140453136A>T\" or \"rs121913254\"\n\n    The domain is automatically detected from the ID format if not provided:\n    - NCT* \u2192 trial\n    - Contains \"/\" with numeric prefix (DOI) \u2192 article\n    - Pure numeric \u2192 article (PMID)\n    - rs* or contains ':' or 'g.' \u2192 variant\n\n    ## DOMAIN-SPECIFIC OPTIONS:\n\n    ### Articles (domain=\"article\"):\n    - Returns full article metadata, abstract, and full text when available\n    - Supports both PubMed articles (via PMID) and Europe PMC preprints (via DOI)\n    - Includes annotations for genes, diseases, chemicals, and variants (PubMed only)\n    - detail=\"full\" attempts to retrieve full text content (PubMed only)\n\n    ### Clinical Trials (domain=\"trial\"):\n    - detail=None or \"protocol\": Core study information\n    - detail=\"locations\": Study sites and contact information\n    - detail=\"outcomes\": Primary/secondary outcomes and results\n    - detail=\"references\": Related publications and citations\n    - detail=\"all\": Complete trial record with all sections\n\n    ### Variants (domain=\"variant\"):\n    - Returns comprehensive variant information including:\n      - Clinical significance and interpretations\n      - Population frequencies\n      - Gene/protein effects\n      - External database links\n    - detail parameter is ignored (always returns full data)\n\n    ## RETURN FORMAT:\n    All fetch operations return a standardized format:\n    ```json\n    {\n        \"id\": \"unique_identifier\",\n        \"title\": \"Record title or name\",\n        \"text\": \"Full content or comprehensive description\",\n        \"url\": \"Link to original source\",\n        \"metadata\": {\n            // Domain-specific additional fields\n        }\n    }\n    ```\n\n    ## EXAMPLES:\n\n    Fetch article by PMID (domain auto-detected):\n    ```\n    await fetch(id=\"35271234\")\n    ```\n\n    Fetch article by DOI (domain auto-detected):\n    ```\n    await fetch(id=\"10.1101/2024.01.20.23288905\")\n    ```\n\n    Fetch complete trial information (domain auto-detected):\n    ```\n    await fetch(\n        id=\"NCT04280705\",\n        detail=\"all\"\n    )\n    ```\n\n    Fetch variant with clinical interpretations:\n    ```\n    await fetch(id=\"rs121913254\")\n    ```\n\n    Explicitly specify domain (optional):\n    ```\n    await fetch(\n        domain=\"variant\",\n        id=\"chr7:g.140453136A>T\"\n    )\n    ```",
+     "input_schema": {
+      "properties": {
+       "id": {
+        "title": "Id",
+        "type": "string"
+       },
+       "domain": {
+        "anyOf": [
+         {
+          "enum": [
+           "article",
+           "trial",
+           "variant"
+          ],
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "description": "Domain of the record (auto-detected if not provided)",
+        "title": "Domain"
+       },
+       "call_benefit": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "description": "Brief explanation of why this fetch is being performed and expected benefit. Helps provide context for analytics and improves result relevance.",
+        "title": "Call Benefit"
+       },
+       "detail": {
+        "anyOf": [
+         {
+          "enum": [
+           "protocol",
+           "locations",
+           "outcomes",
+           "references",
+           "all",
+           "full"
+          ],
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Detail"
+       }
+      },
+      "required": [
+       "id"
+      ],
+      "title": "fetchArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "think",
+     "description": "REQUIRED FIRST STEP: Perform structured sequential thinking for ANY biomedical research task.\n\n    \ud83d\udea8 IMPORTANT: You MUST use this tool BEFORE any search or fetch operations when:\n    - Researching ANY biomedical topic (genes, diseases, variants, trials)\n    - Planning to use multiple BioMCP tools\n    - Answering questions that require analysis or synthesis\n    - Comparing information from different sources\n    - Making recommendations or drawing conclusions\n\n    \u26a0\ufe0f FAILURE TO USE THIS TOOL FIRST will result in:\n    - Incomplete or poorly structured analysis\n    - Missing important connections between data\n    - Suboptimal search strategies\n    - Overlooked critical information\n\n    Sequential thinking ensures you:\n    1. Fully understand the research question\n    2. Plan an optimal search strategy\n    3. Identify all relevant data sources\n    4. Structure your analysis properly\n    5. Deliver comprehensive, well-reasoned results\n\n    ## Usage Pattern:\n    1. Start with thoughtNumber=1 to initiate analysis\n    2. Progress through numbered thoughts sequentially\n    3. Adjust totalThoughts estimate as understanding develops\n    4. Set nextThoughtNeeded=False only when analysis is complete\n\n    ## Example:\n    ```python\n    # Initial analysis\n    await think(\n        thought=\"Breaking down the relationship between BRAF mutations and melanoma treatment resistance...\",\n        thoughtNumber=1,\n        totalThoughts=5,\n        nextThoughtNeeded=True\n    )\n\n    # Continue analysis\n    await think(\n        thought=\"Examining specific BRAF V600E mutation mechanisms...\",\n        thoughtNumber=2,\n        totalThoughts=5,\n        nextThoughtNeeded=True\n    )\n\n    # Final thought\n    await think(\n        thought=\"Synthesizing findings and proposing research directions...\",\n        thoughtNumber=5,\n        totalThoughts=5,\n        nextThoughtNeeded=False\n    )\n    ```\n\n    ## Important Notes:\n    - Each thought builds on previous ones within a session\n    - State is maintained throughout the MCP session\n    - Use thoughtful, detailed analysis in each step\n    - Revisions and branching are supported through the underlying implementation",
+     "input_schema": {
+      "properties": {
+       "thought": {
+        "description": "Current thinking step for analysis",
+        "title": "Thought",
+        "type": "string"
+       },
+       "thoughtNumber": {
+        "description": "Current thought number, starting at 1",
+        "minimum": 1,
+        "title": "Thoughtnumber",
+        "type": "integer"
+       },
+       "totalThoughts": {
+        "description": "Estimated total thoughts needed for complete analysis",
+        "minimum": 1,
+        "title": "Totalthoughts",
+        "type": "integer"
+       },
+       "nextThoughtNeeded": {
+        "default": true,
+        "description": "Whether more thinking steps are needed after this one",
+        "title": "Nextthoughtneeded",
+        "type": "boolean"
+       }
+      },
+      "required": [
+       "thought",
+       "thoughtNumber",
+       "totalThoughts"
+      ],
+      "title": "thinkArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "article_searcher",
+     "description": "Search PubMed/PubTator3 for research articles and preprints.\n\n    \u26a0\ufe0f PREREQUISITE: Use the 'think' tool FIRST to plan your research strategy!\n\n    Use this tool to find scientific literature ABOUT genes, variants, diseases, or chemicals.\n    Results include articles from PubMed and optionally preprints from bioRxiv/medRxiv.\n\n    Important: This searches for ARTICLES ABOUT these topics, not database records.\n    For genetic variant database records, use variant_searcher instead.\n\n    Example usage:\n    - Find articles about BRAF mutations in melanoma\n    - Search for papers on a specific drug's effects\n    - Locate research on gene-disease associations",
+     "input_schema": {
+      "properties": {
+       "chemicals": {
+        "anyOf": [
+         {
+          "items": {
+           "type": "string"
+          },
+          "type": "array"
+         },
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "description": "Chemical/drug names to search for",
+        "title": "Chemicals"
+       },
+       "diseases": {
+        "anyOf": [
+         {
+          "items": {
+           "type": "string"
+          },
+          "type": "array"
+         },
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "description": "Disease names to search for",
+        "title": "Diseases"
+       },
+       "genes": {
+        "anyOf": [
+         {
+          "items": {
+           "type": "string"
+          },
+          "type": "array"
+         },
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "description": "Gene symbols to search for",
+        "title": "Genes"
+       },
+       "keywords": {
+        "anyOf": [
+         {
+          "items": {
+           "type": "string"
+          },
+          "type": "array"
+         },
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "description": "Free-text keywords to search for",
+        "title": "Keywords"
+       },
+       "variants": {
+        "anyOf": [
+         {
+          "items": {
+           "type": "string"
+          },
+          "type": "array"
+         },
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "description": "Variant strings to search for (e.g., 'V600E', 'p.D277Y')",
+        "title": "Variants"
+       },
+       "include_preprints": {
+        "default": true,
+        "description": "Include preprints from bioRxiv/medRxiv",
+        "title": "Include Preprints",
+        "type": "boolean"
+       },
+       "include_cbioportal": {
+        "default": true,
+        "description": "Include cBioPortal cancer genomics summary when searching by gene",
+        "title": "Include Cbioportal",
+        "type": "boolean"
+       },
+       "page": {
+        "default": 1,
+        "description": "Page number (1-based)",
+        "minimum": 1,
+        "title": "Page",
+        "type": "integer"
+       },
+       "page_size": {
+        "default": 10,
+        "description": "Results per page",
+        "maximum": 100,
+        "minimum": 1,
+        "title": "Page Size",
+        "type": "integer"
+       }
+      },
+      "title": "article_searcherArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "article_getter",
+     "description": "Fetch detailed information for a specific article.\n\n    Retrieves the full abstract and available text for an article by its identifier.\n    Supports:\n    - PubMed IDs (PMID) for published articles\n    - PMC IDs for articles in PubMed Central\n    - DOIs for preprints from Europe PMC\n\n    Returns formatted text including:\n    - Title\n    - Abstract\n    - Full text (when available from PMC for published articles)\n    - Source information (PubMed or Europe PMC)",
+     "input_schema": {
+      "properties": {
+       "pmid": {
+        "description": "Article identifier - either a PubMed ID (e.g., '38768446' or 'PMC11193658') or DOI (e.g., '10.1101/2024.01.20.23288905')",
+        "title": "Pmid",
+        "type": "string"
+       }
+      },
+      "required": [
+       "pmid"
+      ],
+      "title": "article_getterArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "trial_searcher",
+     "description": "Search ClinicalTrials.gov for clinical studies.\n\n    \u26a0\ufe0f PREREQUISITE: Use the 'think' tool FIRST to plan your research strategy!\n\n    Comprehensive search tool for finding clinical trials based on multiple criteria.\n    Supports filtering by conditions, interventions, location, phase, and eligibility.\n\n    Location search notes:\n    - Use either location term OR lat/long coordinates, not both\n    - For city-based searches, AI agents should geocode to lat/long first\n    - Distance parameter only works with lat/long coordinates\n\n    Returns a formatted list of matching trials with key details.",
+     "input_schema": {
+      "properties": {
+       "conditions": {
+        "anyOf": [
+         {
+          "items": {
+           "type": "string"
+          },
+          "type": "array"
+         },
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "description": "Medical conditions to search for",
+        "title": "Conditions"
+       },
+       "interventions": {
+        "anyOf": [
+         {
+          "items": {
+           "type": "string"
+          },
+          "type": "array"
+         },
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "description": "Treatment interventions to search for",
+        "title": "Interventions"
+       },
+       "other_terms": {
+        "anyOf": [
+         {
+          "items": {
+           "type": "string"
+          },
+          "type": "array"
+         },
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "description": "Additional search terms",
+        "title": "Other Terms"
+       },
+       "recruiting_status": {
+        "anyOf": [
+         {
+          "enum": [
+           "OPEN",
+           "CLOSED",
+           "ANY"
+          ],
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "description": "Filter by recruiting status",
+        "title": "Recruiting Status"
+       },
+       "phase": {
+        "anyOf": [
+         {
+          "enum": [
+           "EARLY_PHASE1",
+           "PHASE1",
+           "PHASE2",
+           "PHASE3",
+           "PHASE4",
+           "NOT_APPLICABLE"
+          ],
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "description": "Filter by clinical trial phase",
+        "title": "Phase"
+       },
+       "location": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "description": "Location term for geographic filtering",
+        "title": "Location"
+       },
+       "lat": {
+        "anyOf": [
+         {
+          "maximum": 90,
+          "minimum": -90,
+          "type": "number"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "description": "Latitude for location-based search. AI agents should geocode city names before using.",
+        "title": "Lat"
+       },
+       "long": {
+        "anyOf": [
+         {
+          "maximum": 180,
+          "minimum": -180,
+          "type": "number"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "description": "Longitude for location-based search. AI agents should geocode city names before using.",
+        "title": "Long"
+       },
+       "distance": {
+        "anyOf": [
+         {
+          "minimum": 1,
+          "type": "integer"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "description": "Distance in miles from lat/long coordinates",
+        "title": "Distance"
+       },
+       "age_group": {
+        "anyOf": [
+         {
+          "enum": [
+           "CHILD",
+           "ADULT",
+           "OLDER_ADULT"
+          ],
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "description": "Filter by age group",
+        "title": "Age Group"
+       },
+       "sex": {
+        "anyOf": [
+         {
+          "enum": [
+           "FEMALE",
+           "MALE",
+           "ALL"
+          ],
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "description": "Filter by biological sex",
+        "title": "Sex"
+       },
+       "healthy_volunteers": {
+        "anyOf": [
+         {
+          "enum": [
+           "YES",
+           "NO"
+          ],
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "description": "Filter by healthy volunteer eligibility",
+        "title": "Healthy Volunteers"
+       },
+       "study_type": {
+        "anyOf": [
+         {
+          "enum": [
+           "INTERVENTIONAL",
+           "OBSERVATIONAL",
+           "EXPANDED_ACCESS"
+          ],
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "description": "Filter by study type",
+        "title": "Study Type"
+       },
+       "funder_type": {
+        "anyOf": [
+         {
+          "enum": [
+           "NIH",
+           "OTHER_GOV",
+           "INDUSTRY",
+           "OTHER"
+          ],
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "description": "Filter by funding source",
+        "title": "Funder Type"
+       },
+       "page": {
+        "default": 1,
+        "description": "Page number (1-based)",
+        "minimum": 1,
+        "title": "Page",
+        "type": "integer"
+       },
+       "page_size": {
+        "default": 10,
+        "description": "Results per page",
+        "maximum": 100,
+        "minimum": 1,
+        "title": "Page Size",
+        "type": "integer"
+       }
+      },
+      "title": "trial_searcherArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "trial_getter",
+     "description": "Fetch comprehensive details for a specific clinical trial.\n\n    Retrieves all available information for a clinical trial by its NCT ID.\n    This includes protocol details, locations, outcomes, and references.\n\n    For specific sections only, use the specialized getter tools:\n    - trial_protocol_getter: Core protocol information\n    - trial_locations_getter: Site locations and contacts\n    - trial_outcomes_getter: Primary/secondary outcomes and results\n    - trial_references_getter: Publications and references",
+     "input_schema": {
+      "properties": {
+       "nct_id": {
+        "description": "NCT ID (e.g., 'NCT06524388')",
+        "title": "Nct Id",
+        "type": "string"
+       }
+      },
+      "required": [
+       "nct_id"
+      ],
+      "title": "trial_getterArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "trial_protocol_getter",
+     "description": "Fetch core protocol information for a clinical trial.\n\n    Retrieves essential protocol details including:\n    - Official title and brief summary\n    - Study status and sponsor information\n    - Study design (type, phase, allocation, masking)\n    - Eligibility criteria\n    - Primary completion date",
+     "input_schema": {
+      "properties": {
+       "nct_id": {
+        "description": "NCT ID (e.g., 'NCT06524388')",
+        "title": "Nct Id",
+        "type": "string"
+       }
+      },
+      "required": [
+       "nct_id"
+      ],
+      "title": "trial_protocol_getterArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "trial_references_getter",
+     "description": "Fetch publications and references for a clinical trial.\n\n    Retrieves all linked publications including:\n    - Published results papers\n    - Background literature\n    - Protocol publications\n    - Related analyses\n\n    Includes PubMed IDs when available for easy cross-referencing.",
+     "input_schema": {
+      "properties": {
+       "nct_id": {
+        "description": "NCT ID (e.g., 'NCT06524388')",
+        "title": "Nct Id",
+        "type": "string"
+       }
+      },
+      "required": [
+       "nct_id"
+      ],
+      "title": "trial_references_getterArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "trial_outcomes_getter",
+     "description": "Fetch outcome measures and results for a clinical trial.\n\n    Retrieves detailed outcome information including:\n    - Primary outcome measures\n    - Secondary outcome measures\n    - Results data (if available)\n    - Adverse events (if reported)\n\n    Note: Results are only available for completed trials that have posted data.",
+     "input_schema": {
+      "properties": {
+       "nct_id": {
+        "description": "NCT ID (e.g., 'NCT06524388')",
+        "title": "Nct Id",
+        "type": "string"
+       }
+      },
+      "required": [
+       "nct_id"
+      ],
+      "title": "trial_outcomes_getterArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "trial_locations_getter",
+     "description": "Fetch contact and location details for a clinical trial.\n\n    Retrieves all study locations including:\n    - Facility names and addresses\n    - Principal investigator information\n    - Contact details (when recruiting)\n    - Recruitment status by site\n\n    Useful for finding trials near specific locations or contacting study teams.",
+     "input_schema": {
+      "properties": {
+       "nct_id": {
+        "description": "NCT ID (e.g., 'NCT06524388')",
+        "title": "Nct Id",
+        "type": "string"
+       }
+      },
+      "required": [
+       "nct_id"
+      ],
+      "title": "trial_locations_getterArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "variant_searcher",
+     "description": "Search MyVariant.info for genetic variant DATABASE RECORDS.\n\n    \u26a0\ufe0f PREREQUISITE: Use the 'think' tool FIRST to plan your research strategy!\n\n    Important: This searches for variant DATABASE RECORDS (frequency, significance, etc.),\n    NOT articles about variants. For articles about variants, use article_searcher.\n\n    Searches the comprehensive variant database including:\n    - Population frequencies (gnomAD, 1000 Genomes, etc.)\n    - Clinical significance (ClinVar)\n    - Functional predictions (SIFT, PolyPhen, CADD)\n    - Gene and protein consequences\n\n    Search by various identifiers or filter by clinical/functional criteria.",
+     "input_schema": {
+      "properties": {
+       "gene": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "description": "Gene symbol (e.g., 'BRAF', 'TP53')",
+        "title": "Gene"
+       },
+       "hgvs": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "description": "HGVS notation (genomic, coding, or protein)",
+        "title": "Hgvs"
+       },
+       "hgvsp": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "description": "Protein change in HGVS format (e.g., 'p.V600E')",
+        "title": "Hgvsp"
+       },
+       "hgvsc": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "description": "Coding sequence change (e.g., 'c.1799T>A')",
+        "title": "Hgvsc"
+       },
+       "rsid": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "description": "dbSNP rsID (e.g., 'rs113488022')",
+        "title": "Rsid"
+       },
+       "region": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "description": "Genomic region (e.g., 'chr7:140753336-140753337')",
+        "title": "Region"
+       },
+       "significance": {
+        "anyOf": [
+         {
+          "enum": [
+           "pathogenic",
+           "likely_pathogenic",
+           "uncertain_significance",
+           "likely_benign",
+           "benign",
+           "conflicting"
+          ],
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "description": "Clinical significance filter",
+        "title": "Significance"
+       },
+       "frequency_min": {
+        "anyOf": [
+         {
+          "maximum": 1,
+          "minimum": 0,
+          "type": "number"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "description": "Minimum allele frequency",
+        "title": "Frequency Min"
+       },
+       "frequency_max": {
+        "anyOf": [
+         {
+          "maximum": 1,
+          "minimum": 0,
+          "type": "number"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "description": "Maximum allele frequency",
+        "title": "Frequency Max"
+       },
+       "consequence": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "description": "Variant consequence (e.g., 'missense_variant')",
+        "title": "Consequence"
+       },
+       "cadd_score_min": {
+        "anyOf": [
+         {
+          "type": "number"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "description": "Minimum CADD score for pathogenicity",
+        "title": "Cadd Score Min"
+       },
+       "sift_prediction": {
+        "anyOf": [
+         {
+          "enum": [
+           "deleterious",
+           "tolerated"
+          ],
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "description": "SIFT functional prediction",
+        "title": "Sift Prediction"
+       },
+       "polyphen_prediction": {
+        "anyOf": [
+         {
+          "enum": [
+           "probably_damaging",
+           "possibly_damaging",
+           "benign"
+          ],
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "description": "PolyPhen-2 functional prediction",
+        "title": "Polyphen Prediction"
+       },
+       "include_cbioportal": {
+        "default": true,
+        "description": "Include cBioPortal cancer genomics summary when searching by gene",
+        "title": "Include Cbioportal",
+        "type": "boolean"
+       },
+       "page": {
+        "default": 1,
+        "description": "Page number (1-based)",
+        "minimum": 1,
+        "title": "Page",
+        "type": "integer"
+       },
+       "page_size": {
+        "default": 10,
+        "description": "Results per page",
+        "maximum": 100,
+        "minimum": 1,
+        "title": "Page Size",
+        "type": "integer"
+       }
+      },
+      "title": "variant_searcherArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "variant_getter",
+     "description": "Fetch comprehensive details for a specific genetic variant.\n\n    Retrieves all available information for a variant including:\n    - Gene location and consequences\n    - Population frequencies across databases\n    - Clinical significance from ClinVar\n    - Functional predictions\n    - External annotations (TCGA cancer data, conservation scores)\n\n    Accepts various ID formats:\n    - HGVS: NM_004333.4:c.1799T>A\n    - rsID: rs113488022\n    - MyVariant ID: chr7:g.140753336A>T",
+     "input_schema": {
+      "properties": {
+       "variant_id": {
+        "description": "Variant ID (HGVS, rsID, or MyVariant ID like 'chr7:g.140753336A>T')",
+        "title": "Variant Id",
+        "type": "string"
+       },
+       "include_external": {
+        "default": true,
+        "description": "Include external annotations (TCGA, 1000 Genomes, functional predictions)",
+        "title": "Include External",
+        "type": "boolean"
+       }
+      },
+      "required": [
+       "variant_id"
+      ],
+      "title": "variant_getterArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "alphagenome_predictor",
+     "description": "Predict variant effects on gene regulation using Google DeepMind's AlphaGenome.\n\n    \u26a0\ufe0f PREREQUISITE: Use the 'think' tool FIRST to plan your analysis strategy!\n\n    AlphaGenome provides state-of-the-art predictions for how genetic variants\n    affect gene regulation, including:\n    - Gene expression changes (RNA-seq)\n    - Chromatin accessibility impacts (ATAC-seq, DNase-seq)\n    - Splicing alterations\n    - Promoter activity changes (CAGE)\n\n    This tool requires:\n    1. AlphaGenome to be installed (see error message for instructions)\n    2. An API key from https://deepmind.google.com/science/alphagenome\n\n    API Key Options:\n    - Provide directly via the api_key parameter\n    - Or set ALPHAGENOME_API_KEY environment variable\n\n    Example usage:\n    - Predict regulatory effects of BRAF V600E mutation: chr7:140753336 A>T\n    - Assess non-coding variant impact on gene expression\n    - Evaluate promoter variants in specific tissues\n\n    Note: This is an optional tool that enhances variant interpretation\n    with AI predictions. Standard annotations remain available via variant_getter.",
+     "input_schema": {
+      "properties": {
+       "chromosome": {
+        "description": "Chromosome (e.g., 'chr7', 'chrX')",
+        "title": "Chromosome",
+        "type": "string"
+       },
+       "position": {
+        "description": "1-based genomic position of the variant",
+        "title": "Position",
+        "type": "integer"
+       },
+       "reference": {
+        "description": "Reference allele(s) (e.g., 'A', 'ATG')",
+        "title": "Reference",
+        "type": "string"
+       },
+       "alternate": {
+        "description": "Alternate allele(s) (e.g., 'T', 'A')",
+        "title": "Alternate",
+        "type": "string"
+       },
+       "interval_size": {
+        "default": 131072,
+        "description": "Size of genomic interval to analyze in bp (max 1,000,000)",
+        "maximum": 1000000,
+        "minimum": 2000,
+        "title": "Interval Size",
+        "type": "integer"
+       },
+       "tissue_types": {
+        "anyOf": [
+         {
+          "items": {
+           "type": "string"
+          },
+          "type": "array"
+         },
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "description": "UBERON ontology terms for tissue-specific predictions (e.g., 'UBERON:0002367' for external ear)",
+        "title": "Tissue Types"
+       },
+       "significance_threshold": {
+        "default": 0.5,
+        "description": "Threshold for significant log2 fold changes (default: 0.5)",
+        "maximum": 5.0,
+        "minimum": 0.0,
+        "title": "Significance Threshold",
+        "type": "number"
+       },
+       "api_key": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "description": "AlphaGenome API key. Check if user mentioned 'my AlphaGenome API key is...' in their message. If not provided here and no env var is set, user will be prompted to provide one.",
+        "title": "Api Key"
+       }
+      },
+      "required": [
+       "chromosome",
+       "position",
+       "reference",
+       "alternate"
+      ],
+      "title": "alphagenome_predictorArguments",
+      "type": "object"
+     }
+    }
+   ]
+  },
+  {
+   "id": "duckduckgo_search",
+   "name": "duckduckgo-search MCP Server",
+   "server": "mcp://duckduckgo-search",
+   "summary": "A Model Context Protocol server for DuckDuckGo Search",
+   "tools": [
+    {
+     "name": "duckduckgo_web_search",
+     "description": "Performs a web search using the DuckDuckGo, ideal for general queries, news, articles, and online content. Use this for broad information gathering, recent events, or when you need diverse web sources. Supports content filtering and region-specific searches. Maximum 20 results per request.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "query": {
+        "type": "string",
+        "description": "Search query (max 400 chars)",
+        "maxLength": 400
+       },
+       "count": {
+        "type": "number",
+        "description": "Number of results (1-20, default 10)",
+        "minimum": 1,
+        "maximum": 20,
+        "default": 10
+       },
+       "safeSearch": {
+        "type": "string",
+        "description": "SafeSearch level (strict, moderate, off)",
+        "enum": [
+         "strict",
+         "moderate",
+         "off"
+        ],
+        "default": "moderate"
+       }
+      },
+      "required": [
+       "query"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "ygocdb",
+   "name": "Baige (ygocdb.com) MCP Server",
+   "server": "mcp://ygocdb",
+   "summary": "A server based on Model Context Protocol (MCP) for interacting with the Baige (ygocdb.com) API. Provides a set of tools for querying Yu-Gi-Oh! card information in Chinese.",
+   "tools": [
+    {
+     "name": "search_cards",
+     "description": "\u901a\u8fc7\u5173\u952e\u5b57\u641c\u7d22\u6e38\u620f\u738b\u5361\u724c\uff0c\u53ef\u4ee5\u641c\u7d22\u5361\u724c\u540d\u79f0\u3001\u6548\u679c\u6587\u672c\u7b49\u3002",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "query": {
+        "type": "string",
+        "description": "\u641c\u7d22\u5173\u952e\u5b57\uff0c\u53ef\u4ee5\u662f\u5361\u724c\u540d\u79f0\u3001\u6548\u679c\u63cf\u8ff0\u7b49"
+       }
+      },
+      "required": [
+       "query"
+      ]
+     }
+    },
+    {
+     "name": "get_card_by_id",
+     "description": "\u901a\u8fc7\u5361\u724cID\u83b7\u53d6\u5355\u5f20\u6e38\u620f\u738b\u5361\u724c\u7684\u8be6\u7ec6\u4fe1\u606f",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "id": {
+        "type": "string",
+        "description": "\u6e38\u620f\u738b\u5361\u724cID\uff0c\u901a\u5e38\u4e3a\u516b\u4f4d\u6570\u5b57"
+       }
+      },
+      "required": [
+       "id"
+      ]
+     }
+    },
+    {
+     "name": "get_card_image",
+     "description": "\u901a\u8fc7\u5361\u724cID\u83b7\u53d6\u6e38\u620f\u738b\u5361\u724c\u7684\u56fe\u7247",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "id": {
+        "type": "string",
+        "description": "\u6e38\u620f\u738b\u5361\u724cID\uff0c\u53ef\u4ee5\u4f7f\u7528search_cards\u5de5\u5177\u641c\u7d22"
+       }
+      },
+      "required": [
+       "id"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "trends_hub",
+   "name": "Trends Hub",
+   "server": "mcp://trends-hub",
+   "summary": "\u57fa\u4e8e Model Context Protocol (MCP) \u534f\u8bae\u7684\u5168\u7f51\u70ed\u70b9\u8d8b\u52bf\u4e00\u7ad9\u5f0f\u805a\u5408\u670d\u52a1",
+   "tools": [
+    {
+     "name": "get-36kr-trending",
+     "description": "\u83b7\u53d6 36 \u6c2a\u70ed\u699c\uff0c\u63d0\u4f9b\u521b\u4e1a\u3001\u5546\u4e1a\u3001\u79d1\u6280\u9886\u57df\u7684\u70ed\u95e8\u8d44\u8baf\uff0c\u5305\u542b\u6295\u878d\u8d44\u52a8\u6001\u3001\u65b0\u5174\u4ea7\u4e1a\u5206\u6790\u548c\u5546\u4e1a\u6a21\u5f0f\u521b\u65b0\u4fe1\u606f",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "type": {
+        "anyOf": [
+         {
+          "type": "string",
+          "const": "hot",
+          "description": "\u4eba\u6c14\u699c"
+         },
+         {
+          "type": "string",
+          "const": "video",
+          "description": "\u89c6\u9891\u699c"
+         },
+         {
+          "type": "string",
+          "const": "comment",
+          "description": "\u70ed\u8bae\u699c"
+         },
+         {
+          "type": "string",
+          "const": "collect",
+          "description": "\u6536\u85cf\u699c"
+         }
+        ],
+        "default": "hot",
+        "description": "\u5206\u7c7b"
+       }
+      },
+      "additionalProperties": false,
+      "$schema": "http://json-schema.org/draft-07/schema#"
+     }
+    },
+    {
+     "name": "get-9to5mac-news",
+     "description": "\u83b7\u53d6 9to5Mac \u82f9\u679c\u76f8\u5173\u65b0\u95fb\uff0c\u5305\u542b\u82f9\u679c\u4ea7\u54c1\u53d1\u5e03\u3001iOS \u66f4\u65b0\u3001Mac \u786c\u4ef6\u3001\u5e94\u7528\u63a8\u8350\u53ca\u82f9\u679c\u516c\u53f8\u52a8\u6001\u7684\u82f1\u6587\u8d44\u8baf",
+     "input_schema": {
+      "type": "object",
+      "properties": {},
+      "additionalProperties": false,
+      "$schema": "http://json-schema.org/draft-07/schema#"
+     }
+    },
+    {
+     "name": "get-bbc-news",
+     "description": "\u83b7\u53d6 BBC \u65b0\u95fb\uff0c\u63d0\u4f9b\u5168\u7403\u65b0\u95fb\u3001\u82f1\u56fd\u65b0\u95fb\u3001\u5546\u4e1a\u3001\u653f\u6cbb\u3001\u5065\u5eb7\u3001\u6559\u80b2\u3001\u79d1\u6280\u3001\u5a31\u4e50\u7b49\u8d44\u8baf",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "category": {
+        "anyOf": [
+         {
+          "type": "string",
+          "const": "",
+          "description": "\u70ed\u95e8\u65b0\u95fb"
+         },
+         {
+          "type": "string",
+          "const": "world",
+          "description": "\u56fd\u9645"
+         },
+         {
+          "type": "string",
+          "const": "uk",
+          "description": "\u82f1\u56fd"
+         },
+         {
+          "type": "string",
+          "const": "business",
+          "description": "\u5546\u4e1a"
+         },
+         {
+          "type": "string",
+          "const": "politics",
+          "description": "\u653f\u6cbb"
+         },
+         {
+          "type": "string",
+          "const": "health",
+          "description": "\u5065\u5eb7"
+         },
+         {
+          "type": "string",
+          "const": "education",
+          "description": "\u6559\u80b2"
+         },
+         {
+          "type": "string",
+          "const": "science_and_environment",
+          "description": "\u79d1\u5b66\u4e0e\u73af\u5883"
+         },
+         {
+          "type": "string",
+          "const": "technology",
+          "description": "\u79d1\u6280"
+         },
+         {
+          "type": "string",
+          "const": "entertainment_and_arts",
+          "description": "\u5a31\u4e50\u4e0e\u827a\u672f"
+         }
+        ],
+        "default": ""
+       },
+       "edition": {
+        "anyOf": [
+         {
+          "type": "string",
+          "const": ""
+         },
+         {
+          "type": "string",
+          "const": "uk",
+          "description": "UK"
+         },
+         {
+          "type": "string",
+          "const": "us",
+          "description": "US & Canada"
+         },
+         {
+          "type": "string",
+          "const": "int",
+          "description": "Rest of the world"
+         }
+        ],
+        "default": "",
+        "description": "\u7248\u672c\uff0c\u4ec5\u5bf9 `category` \u4e3a\u7a7a\u6709\u6548"
+       }
+      },
+      "additionalProperties": false,
+      "$schema": "http://json-schema.org/draft-07/schema#"
+     }
+    },
+    {
+     "name": "get-bilibili-rank",
+     "description": "\u83b7\u53d6\u54d4\u54e9\u54d4\u54e9\u89c6\u9891\u6392\u884c\u699c\uff0c\u5305\u542b\u5168\u7ad9\u3001\u52a8\u753b\u3001\u97f3\u4e50\u3001\u6e38\u620f\u7b49\u591a\u4e2a\u5206\u533a\u7684\u70ed\u95e8\u89c6\u9891\uff0c\u53cd\u6620\u5f53\u4e0b\u5e74\u8f7b\u4eba\u7684\u5185\u5bb9\u6d88\u8d39\u8d8b\u52bf",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "type": {
+        "anyOf": [
+         {
+          "type": "number",
+          "const": 0,
+          "description": "\u5168\u7ad9"
+         },
+         {
+          "type": "number",
+          "const": 1,
+          "description": "\u52a8\u753b"
+         },
+         {
+          "type": "number",
+          "const": 3,
+          "description": "\u97f3\u4e50"
+         },
+         {
+          "type": "number",
+          "const": 4,
+          "description": "\u6e38\u620f"
+         },
+         {
+          "type": "number",
+          "const": 5,
+          "description": "\u5a31\u4e50"
+         },
+         {
+          "type": "number",
+          "const": 188,
+          "description": "\u79d1\u6280"
+         },
+         {
+          "type": "number",
+          "const": 119,
+          "description": "\u9b3c\u755c"
+         },
+         {
+          "type": "number",
+          "const": 129,
+          "description": "\u821e\u8e48"
+         },
+         {
+          "type": "number",
+          "const": 155,
+          "description": "\u65f6\u5c1a"
+         },
+         {
+          "type": "number",
+          "const": 160,
+          "description": "\u751f\u6d3b"
+         },
+         {
+          "type": "number",
+          "const": 168,
+          "description": "\u56fd\u521b\u76f8\u5173"
+         },
+         {
+          "type": "number",
+          "const": 181,
+          "description": "\u5f71\u89c6"
+         }
+        ],
+        "default": 0,
+        "description": "\u6392\u884c\u699c\u5206\u533a"
+       }
+      },
+      "additionalProperties": false,
+      "$schema": "http://json-schema.org/draft-07/schema#"
+     }
+    },
+    {
+     "name": "get-douban-rank",
+     "description": "\u83b7\u53d6\u8c46\u74e3\u5b9e\u65f6\u70ed\u95e8\u699c\u5355\uff0c\u63d0\u4f9b\u5f53\u524d\u70ed\u95e8\u7684\u56fe\u4e66\u3001\u7535\u5f71\u3001\u7535\u89c6\u5267\u3001\u7efc\u827a\u7b49\u4f5c\u54c1\u4fe1\u606f\uff0c\u5305\u542b\u8bc4\u5206\u548c\u70ed\u5ea6\u6570\u636e",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "type": {
+        "anyOf": [
+         {
+          "type": "string",
+          "const": "subject",
+          "description": "\u56fe\u4e66\u3001\u7535\u5f71\u3001\u7535\u89c6\u5267\u3001\u7efc\u827a\u7b49"
+         },
+         {
+          "type": "string",
+          "const": "movie",
+          "description": "\u7535\u5f71"
+         },
+         {
+          "type": "string",
+          "const": "tv",
+          "description": "\u7535\u89c6\u5267"
+         }
+        ],
+        "default": "subject"
+       },
+       "start": {
+        "type": "integer",
+        "default": 0
+       },
+       "count": {
+        "type": "integer",
+        "default": 10
+       }
+      },
+      "additionalProperties": false,
+      "$schema": "http://json-schema.org/draft-07/schema#"
+     }
+    },
+    {
+     "name": "get-douyin-trending",
+     "description": "\u83b7\u53d6\u6296\u97f3\u70ed\u641c\u699c\u5355\uff0c\u5c55\u793a\u5f53\u4e0b\u6700\u70ed\u95e8\u7684\u793e\u4f1a\u8bdd\u9898\u3001\u5a31\u4e50\u4e8b\u4ef6\u3001\u7f51\u7edc\u70ed\u70b9\u548c\u6d41\u884c\u8d8b\u52bf",
+     "input_schema": {
+      "type": "object",
+      "properties": {},
+      "additionalProperties": false,
+      "$schema": "http://json-schema.org/draft-07/schema#"
+     }
+    },
+    {
+     "name": "get-gcores-new",
+     "description": "\u83b7\u53d6\u673a\u6838\u7f51\u6e38\u620f\u76f8\u5173\u8d44\u8baf\uff0c\u5305\u542b\u7535\u5b50\u6e38\u620f\u8bc4\u6d4b\u3001\u73a9\u5bb6\u6587\u5316\u3001\u6e38\u620f\u5f00\u53d1\u548c\u6e38\u620f\u5468\u8fb9\u4ea7\u54c1\u7684\u6df1\u5ea6\u5185\u5bb9",
+     "input_schema": {
+      "type": "object",
+      "properties": {},
+      "additionalProperties": false,
+      "$schema": "http://json-schema.org/draft-07/schema#"
+     }
+    },
+    {
+     "name": "get-ifanr-news",
+     "description": "\u83b7\u53d6\u7231\u8303\u513f\u79d1\u6280\u5feb\u8baf\uff0c\u5305\u542b\u6700\u65b0\u7684\u79d1\u6280\u4ea7\u54c1\u3001\u6570\u7801\u8bbe\u5907\u3001\u4e92\u8054\u7f51\u52a8\u6001\u7b49\u524d\u6cbf\u79d1\u6280\u8d44\u8baf",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "limit": {
+        "type": "integer",
+        "default": 20
+       },
+       "offset": {
+        "type": "integer",
+        "default": 0
+       }
+      },
+      "additionalProperties": false,
+      "$schema": "http://json-schema.org/draft-07/schema#"
+     }
+    },
+    {
+     "name": "get-infoq-news",
+     "description": "\u83b7\u53d6 InfoQ \u6280\u672f\u8d44\u8baf\uff0c\u5305\u542b\u8f6f\u4ef6\u5f00\u53d1\u3001\u67b6\u6784\u8bbe\u8ba1\u3001\u4e91\u8ba1\u7b97\u3001AI\u7b49\u4f01\u4e1a\u7ea7\u6280\u672f\u5185\u5bb9\u548c\u524d\u6cbf\u5f00\u53d1\u8005\u52a8\u6001",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "region": {
+        "type": "string",
+        "enum": [
+         "cn",
+         "global"
+        ],
+        "default": "cn"
+       }
+      },
+      "additionalProperties": false,
+      "$schema": "http://json-schema.org/draft-07/schema#"
+     }
+    },
+    {
+     "name": "get-juejin-article-rank",
+     "description": "\u83b7\u53d6\u6398\u91d1\u6587\u7ae0\u699c\uff0c\u5305\u542b\u524d\u7aef\u5f00\u53d1\u3001\u540e\u7aef\u6280\u672f\u3001\u4eba\u5de5\u667a\u80fd\u3001\u79fb\u52a8\u5f00\u53d1\u53ca\u6280\u672f\u67b6\u6784\u7b49\u9886\u57df\u7684\u9ad8\u8d28\u91cf\u4e2d\u6587\u6280\u672f\u6587\u7ae0\u548c\u6559\u7a0b",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "category_id": {
+        "anyOf": [
+         {
+          "type": "string",
+          "const": "6809637769959178254",
+          "description": "\u540e\u7aef"
+         },
+         {
+          "type": "string",
+          "const": "6809637767543259144",
+          "description": "\u524d\u7aef"
+         },
+         {
+          "type": "string",
+          "const": "6809635626879549454",
+          "description": "Android"
+         },
+         {
+          "type": "string",
+          "const": "6809635626661445640",
+          "description": "iOS"
+         },
+         {
+          "type": "string",
+          "const": "6809637773935378440",
+          "description": "\u4eba\u5de5\u667a\u80fd"
+         },
+         {
+          "type": "string",
+          "const": "6809637771511070734",
+          "description": "\u5f00\u53d1\u5de5\u5177"
+         },
+         {
+          "type": "string",
+          "const": "6809637776263217160",
+          "description": "\u4ee3\u7801\u4eba\u751f"
+         },
+         {
+          "type": "string",
+          "const": "6809637772874219534",
+          "description": "\u9605\u8bfb"
+         }
+        ],
+        "default": "6809637769959178254"
+       }
+      },
+      "additionalProperties": false,
+      "$schema": "http://json-schema.org/draft-07/schema#"
+     }
+    },
+    {
+     "name": "get-netease-news-trending",
+     "description": "\u83b7\u53d6\u7f51\u6613\u65b0\u95fb\u70ed\u70b9\u699c\uff0c\u5305\u542b\u65f6\u653f\u8981\u95fb\u3001\u793e\u4f1a\u4e8b\u4ef6\u3001\u8d22\u7ecf\u8d44\u8baf\u3001\u79d1\u6280\u52a8\u6001\u53ca\u5a31\u4e50\u4f53\u80b2\u7684\u5168\u65b9\u4f4d\u4e2d\u6587\u65b0\u95fb\u8d44\u8baf",
+     "input_schema": {
+      "type": "object",
+      "properties": {},
+      "additionalProperties": false,
+      "$schema": "http://json-schema.org/draft-07/schema#"
+     }
+    },
+    {
+     "name": "get-nytimes-news",
+     "description": "\u83b7\u53d6\u7ebd\u7ea6\u65f6\u62a5\u65b0\u95fb\uff0c\u5305\u542b\u56fd\u9645\u653f\u6cbb\u3001\u7ecf\u6d4e\u91d1\u878d\u3001\u793e\u4f1a\u6587\u5316\u3001\u79d1\u5b66\u6280\u672f\u53ca\u827a\u672f\u8bc4\u8bba\u7684\u9ad8\u8d28\u91cf\u82f1\u6587\u6216\u4e2d\u6587\u56fd\u9645\u65b0\u95fb\u8d44\u8baf",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "region": {
+        "anyOf": [
+         {
+          "type": "string",
+          "const": "cn",
+          "description": "\u4e2d\u6587"
+         },
+         {
+          "type": "string",
+          "const": "global",
+          "description": "\u5168\u7403"
+         }
+        ],
+        "default": "cn"
+       },
+       "section": {
+        "type": "string",
+        "default": "HomePage",
+        "description": "\u5206\u7c7b\uff0c\u5f53 `region` \u4e3a `cn` \u65f6\u65e0\u6548\u3002\u53ef\u9009\u503c: Africa, Americas, ArtandDesign, Arts, AsiaPacific, Automobiles, Baseball, Books/Review, Business, Climate, CollegeBasketball, CollegeFootball, Dance, Dealbook, DiningandWine, Economy, Education, EnergyEnvironment, Europe, FashionandStyle, Golf, Health, Hockey, HomePage, Jobs, Lens, MediaandAdvertising, MiddleEast, MostEmailed, MostShared, MostViewed, Movies, Music, NYRegion, Obituaries, PersonalTech, Politics, ProBasketball, ProFootball, RealEstate, Science, SmallBusiness, Soccer, Space, Sports, SundayBookReview, Sunday-Review, Technology, Television, Tennis, Theater, TMagazine, Travel, Upshot, US, Weddings, Well, World, YourMoney"
+       }
+      },
+      "additionalProperties": false,
+      "$schema": "http://json-schema.org/draft-07/schema#"
+     }
+    },
+    {
+     "name": "get-smzdm-rank",
+     "description": "\u83b7\u53d6\u4ec0\u4e48\u503c\u5f97\u4e70\u70ed\u95e8\uff0c\u5305\u542b\u5546\u54c1\u63a8\u8350\u3001\u4f18\u60e0\u4fe1\u606f\u3001\u8d2d\u7269\u653b\u7565\u3001\u4ea7\u54c1\u8bc4\u6d4b\u53ca\u6d88\u8d39\u7ecf\u9a8c\u5206\u4eab\u7684\u5b9e\u7528\u4e2d\u6587\u6d88\u8d39\u7c7b\u8d44\u8baf",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "unit": {
+        "anyOf": [
+         {
+          "type": "number",
+          "const": 1,
+          "description": "\u4eca\u65e5\u70ed\u95e8"
+         },
+         {
+          "type": "number",
+          "const": 7,
+          "description": "\u5468\u70ed\u95e8"
+         },
+         {
+          "type": "number",
+          "const": 30,
+          "description": "\u6708\u70ed\u95e8"
+         }
+        ],
+        "default": 1
+       }
+      },
+      "additionalProperties": false,
+      "$schema": "http://json-schema.org/draft-07/schema#"
+     }
+    },
+    {
+     "name": "get-sspai-rank",
+     "description": "\u83b7\u53d6\u5c11\u6570\u6d3e\u70ed\u699c\uff0c\u5305\u542b\u6570\u7801\u4ea7\u54c1\u8bc4\u6d4b\u3001\u8f6f\u4ef6\u5e94\u7528\u63a8\u8350\u3001\u751f\u6d3b\u65b9\u5f0f\u6307\u5357\u53ca\u6548\u7387\u5de5\u4f5c\u6280\u5de7\u7684\u4f18\u8d28\u4e2d\u6587\u79d1\u6280\u751f\u6d3b\u7c7b\u5185\u5bb9",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "tag": {
+        "type": "string",
+        "enum": [
+         "\u70ed\u95e8\u6587\u7ae0",
+         "\u5e94\u7528\u63a8\u8350",
+         "\u751f\u6d3b\u65b9\u5f0f",
+         "\u6548\u7387\u6280\u5de7",
+         "\u5c11\u6570\u6d3e\u64ad\u5ba2"
+        ],
+        "default": "\u70ed\u95e8\u6587\u7ae0",
+        "description": "\u5206\u7c7b"
+       },
+       "limit": {
+        "type": "integer",
+        "default": 40
+       }
+      },
+      "additionalProperties": false,
+      "$schema": "http://json-schema.org/draft-07/schema#"
+     }
+    },
+    {
+     "name": "get-tencent-news-trending",
+     "description": "\u83b7\u53d6\u817e\u8baf\u65b0\u95fb\u70ed\u70b9\u699c\uff0c\u5305\u542b\u56fd\u5185\u5916\u65f6\u4e8b\u3001\u793e\u4f1a\u70ed\u70b9\u3001\u8d22\u7ecf\u8d44\u8baf\u3001\u5a31\u4e50\u52a8\u6001\u53ca\u4f53\u80b2\u8d5b\u4e8b\u7684\u7efc\u5408\u6027\u4e2d\u6587\u65b0\u95fb\u8d44\u8baf",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "page_size": {
+        "type": "integer",
+        "default": 20
+       }
+      },
+      "additionalProperties": false,
+      "$schema": "http://json-schema.org/draft-07/schema#"
+     }
+    },
+    {
+     "name": "get-thepaper-trending",
+     "description": "\u83b7\u53d6\u6f8e\u6e43\u65b0\u95fb\u70ed\u699c\uff0c\u5305\u542b\u65f6\u653f\u8981\u95fb\u3001\u8d22\u7ecf\u52a8\u6001\u3001\u793e\u4f1a\u4e8b\u4ef6\u3001\u6587\u5316\u6559\u80b2\u53ca\u6df1\u5ea6\u62a5\u9053\u7684\u9ad8\u8d28\u91cf\u4e2d\u6587\u65b0\u95fb\u8d44\u8baf",
+     "input_schema": {
+      "type": "object",
+      "properties": {},
+      "additionalProperties": false,
+      "$schema": "http://json-schema.org/draft-07/schema#"
+     }
+    },
+    {
+     "name": "get-theverge-news",
+     "description": "\u83b7\u53d6 The Verge \u65b0\u95fb\uff0c\u5305\u542b\u79d1\u6280\u521b\u65b0\u3001\u6570\u7801\u4ea7\u54c1\u8bc4\u6d4b\u3001\u4e92\u8054\u7f51\u8d8b\u52bf\u53ca\u79d1\u6280\u516c\u53f8\u52a8\u6001\u7684\u82f1\u6587\u79d1\u6280\u8d44\u8baf",
+     "input_schema": {
+      "type": "object",
+      "properties": {},
+      "additionalProperties": false,
+      "$schema": "http://json-schema.org/draft-07/schema#"
+     }
+    },
+    {
+     "name": "get-toutiao-trending",
+     "description": "\u83b7\u53d6\u4eca\u65e5\u5934\u6761\u70ed\u699c\uff0c\u5305\u542b\u65f6\u653f\u8981\u95fb\u3001\u793e\u4f1a\u4e8b\u4ef6\u3001\u56fd\u9645\u65b0\u95fb\u3001\u79d1\u6280\u53d1\u5c55\u53ca\u5a31\u4e50\u516b\u5366\u7b49\u591a\u9886\u57df\u7684\u70ed\u95e8\u4e2d\u6587\u8d44\u8baf",
+     "input_schema": {
+      "type": "object",
+      "properties": {},
+      "additionalProperties": false,
+      "$schema": "http://json-schema.org/draft-07/schema#"
+     }
+    },
+    {
+     "name": "get-weibo-trending",
+     "description": "\u83b7\u53d6\u5fae\u535a\u70ed\u641c\u699c\uff0c\u5305\u542b\u65f6\u4e8b\u70ed\u70b9\u3001\u793e\u4f1a\u73b0\u8c61\u3001\u5a31\u4e50\u65b0\u95fb\u3001\u660e\u661f\u52a8\u6001\u53ca\u7f51\u7edc\u70ed\u8bae\u8bdd\u9898\u7684\u5b9e\u65f6\u70ed\u95e8\u4e2d\u6587\u8d44\u8baf",
+     "input_schema": {
+      "type": "object",
+      "properties": {},
+      "additionalProperties": false,
+      "$schema": "http://json-schema.org/draft-07/schema#"
+     }
+    },
+    {
+     "name": "get-weread-rank",
+     "description": "\u83b7\u53d6\u5fae\u4fe1\u8bfb\u4e66\u6392\u884c\u699c\uff0c\u5305\u542b\u70ed\u95e8\u5c0f\u8bf4\u3001\u7545\u9500\u4e66\u7c4d\u3001\u65b0\u4e66\u63a8\u8350\u53ca\u5404\u7c7b\u6587\u5b66\u4f5c\u54c1\u7684\u9605\u8bfb\u6570\u636e\u548c\u6392\u540d\u4fe1\u606f",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "category": {
+        "anyOf": [
+         {
+          "type": "string",
+          "const": "rising",
+          "description": "\u98d9\u5347\u699c"
+         },
+         {
+          "type": "string",
+          "const": "hot_search",
+          "description": "\u70ed\u641c\u699c"
+         },
+         {
+          "type": "string",
+          "const": "newbook",
+          "description": "\u65b0\u4e66\u699c"
+         },
+         {
+          "type": "string",
+          "const": "general_novel_rising",
+          "description": "\u5c0f\u8bf4\u699c"
+         },
+         {
+          "type": "string",
+          "const": "all",
+          "description": "\u603b\u699c"
+         }
+        ],
+        "default": "rising",
+        "description": "\u6392\u884c\u699c\u5206\u533a"
+       }
+      },
+      "additionalProperties": false,
+      "$schema": "http://json-schema.org/draft-07/schema#"
+     }
+    },
+    {
+     "name": "get-zhihu-trending",
+     "description": "\u83b7\u53d6\u77e5\u4e4e\u70ed\u699c\uff0c\u5305\u542b\u65f6\u4e8b\u70ed\u70b9\u3001\u793e\u4f1a\u8bdd\u9898\u3001\u79d1\u6280\u52a8\u6001\u3001\u5a31\u4e50\u516b\u5366\u7b49\u591a\u9886\u57df\u7684\u70ed\u95e8\u95ee\u7b54\u548c\u8ba8\u8bba\u7684\u4e2d\u6587\u8d44\u8baf",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "limit": {
+        "type": "number",
+        "default": 50
+       }
+      },
+      "additionalProperties": false,
+      "$schema": "http://json-schema.org/draft-07/schema#"
+     }
+    }
+   ]
+  },
+  {
+   "id": "met_museum",
+   "name": "Met Museum MCP Server",
+   "server": "mcp://met-museum",
+   "summary": "A Model Context Protocol (MCP) server that provides access to the Metropolitan Museum of Art Collection through natural language interactions. This server allows AI models to search The Met's art collection and have art works available as a Resource.",
+   "tools": [
+    {
+     "name": "list-departments",
+     "description": "List all departments in the Metropolitan Museum of Art (Met Museum)",
+     "input_schema": {
+      "type": "object",
+      "properties": {},
+      "additionalProperties": false,
+      "$schema": "http://json-schema.org/draft-07/schema#"
+     }
+    },
+    {
+     "name": "search-museum-objects",
+     "description": "Search for objects in the Metropolitan Museum of Art (Met Museum). Will return Total objects found, followed by a list of Object Ids.The parameter title should be set to true if you want to search for objects by title.The parameter hasImages is false by default, but can be set to true to return objects without images.If the parameter hasImages is true, the parameter title should be false.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "q": {
+        "type": "string",
+        "description": "The search query, Returns a listing of all Object IDs for objects that contain the search query within the object's data"
+       },
+       "hasImages": {
+        "type": "boolean",
+        "default": false,
+        "description": "Only returns objects that have images"
+       },
+       "title": {
+        "type": "boolean",
+        "default": false,
+        "description": "This should be set to true if you want to search for objects by title"
+       },
+       "departmentId": {
+        "type": "number",
+        "description": "Returns objects that are in the specified department. The departmentId should come from the 'list-departments' tool."
+       }
+      },
+      "required": [
+       "q"
+      ],
+      "additionalProperties": false,
+      "$schema": "http://json-schema.org/draft-07/schema#"
+     }
+    },
+    {
+     "name": "get-museum-object",
+     "description": "Get a museum object by its ID, from the Metropolitan Museum of Art Collection",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "objectId": {
+        "type": "number",
+        "description": "The ID of the museum object to retrieve"
+       },
+       "returnImage": {
+        "type": "boolean",
+        "default": true,
+        "description": "Whether to return the image (if available) of the object and add it to the server resources"
+       }
+      },
+      "required": [
+       "objectId"
+      ],
+      "additionalProperties": false,
+      "$schema": "http://json-schema.org/draft-07/schema#"
+     }
+    }
+   ]
+  },
+  {
+   "id": "wikipedia",
+   "name": "Wikipedia MCP Server",
+   "server": "mcp://wikipedia",
+   "summary": "A Model Context Protocol (MCP) server that retrieves information from Wikipedia to provide context to Large Language Models (LLMs). This tool helps AI assistants access factual information from Wikipedia to ground their responses in reliable sources.",
+   "tools": [
+    {
+     "name": "search_wikipedia",
+     "description": "Search Wikipedia for articles matching a query.",
+     "input_schema": {
+      "properties": {
+       "query": {
+        "title": "Query",
+        "type": "string"
+       },
+       "limit": {
+        "default": 10,
+        "title": "Limit",
+        "type": "integer"
+       }
+      },
+      "required": [
+       "query"
+      ],
+      "title": "search_wikipediaArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "get_article",
+     "description": "Get the full content of a Wikipedia article.",
+     "input_schema": {
+      "properties": {
+       "title": {
+        "title": "Title",
+        "type": "string"
+       }
+      },
+      "required": [
+       "title"
+      ],
+      "title": "get_articleArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "get_summary",
+     "description": "Get a summary of a Wikipedia article.",
+     "input_schema": {
+      "properties": {
+       "title": {
+        "title": "Title",
+        "type": "string"
+       }
+      },
+      "required": [
+       "title"
+      ],
+      "title": "get_summaryArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "summarize_article_for_query",
+     "description": "Get a summary of a Wikipedia article tailored to a specific query.",
+     "input_schema": {
+      "properties": {
+       "title": {
+        "title": "Title",
+        "type": "string"
+       },
+       "query": {
+        "title": "Query",
+        "type": "string"
+       },
+       "max_length": {
+        "anyOf": [
+         {
+          "type": "integer"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": 250,
+        "title": "Max Length"
+       }
+      },
+      "required": [
+       "title",
+       "query"
+      ],
+      "title": "summarize_article_for_queryArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "summarize_article_section",
+     "description": "Get a summary of a specific section of a Wikipedia article.",
+     "input_schema": {
+      "properties": {
+       "title": {
+        "title": "Title",
+        "type": "string"
+       },
+       "section_title": {
+        "title": "Section Title",
+        "type": "string"
+       },
+       "max_length": {
+        "anyOf": [
+         {
+          "type": "integer"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": 150,
+        "title": "Max Length"
+       }
+      },
+      "required": [
+       "title",
+       "section_title"
+      ],
+      "title": "summarize_article_sectionArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "extract_key_facts",
+     "description": "Extract key facts from a Wikipedia article, optionally focused on a topic.",
+     "input_schema": {
+      "properties": {
+       "title": {
+        "title": "Title",
+        "type": "string"
+       },
+       "topic_within_article": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Topic Within Article"
+       },
+       "count": {
+        "default": 5,
+        "title": "Count",
+        "type": "integer"
+       }
+      },
+      "required": [
+       "title"
+      ],
+      "title": "extract_key_factsArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "get_related_topics",
+     "description": "Get topics related to a Wikipedia article based on links and categories.",
+     "input_schema": {
+      "properties": {
+       "title": {
+        "title": "Title",
+        "type": "string"
+       },
+       "limit": {
+        "default": 10,
+        "title": "Limit",
+        "type": "integer"
+       }
+      },
+      "required": [
+       "title"
+      ],
+      "title": "get_related_topicsArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "get_sections",
+     "description": "Get the sections of a Wikipedia article.",
+     "input_schema": {
+      "properties": {
+       "title": {
+        "title": "Title",
+        "type": "string"
+       }
+      },
+      "required": [
+       "title"
+      ],
+      "title": "get_sectionsArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "get_links",
+     "description": "Get the links contained within a Wikipedia article.",
+     "input_schema": {
+      "properties": {
+       "title": {
+        "title": "Title",
+        "type": "string"
+       }
+      },
+      "required": [
+       "title"
+      ],
+      "title": "get_linksArguments",
+      "type": "object"
+     }
+    }
+   ]
+  },
+  {
+   "id": "time",
+   "name": "Time MCP Server",
+   "server": "mcp://time",
+   "summary": "A Model Context Protocol server that provides time and timezone conversion capabilities. This server enables LLMs to get current time information and perform timezone conversions using IANA timezone names, with automatic system timezone detection.",
+   "tools": [
+    {
+     "name": "get_current_time",
+     "description": "Get current time in a specific timezones",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "timezone": {
+        "type": "string",
+        "description": "IANA timezone name (e.g., 'America/New_York', 'Europe/London'). Use 'America/New_York' as local timezone if no timezone provided by the user."
+       }
+      },
+      "required": [
+       "timezone"
+      ]
+     }
+    },
+    {
+     "name": "convert_time",
+     "description": "Convert time between timezones",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "source_timezone": {
+        "type": "string",
+        "description": "Source IANA timezone name (e.g., 'America/New_York', 'Europe/London'). Use 'America/New_York' as local timezone if no source timezone provided by the user."
+       },
+       "time": {
+        "type": "string",
+        "description": "Time to convert in 24-hour format (HH:MM)"
+       },
+       "target_timezone": {
+        "type": "string",
+        "description": "Target IANA timezone name (e.g., 'Asia/Tokyo', 'America/San_Francisco'). Use 'America/New_York' as local timezone if no target timezone provided by the user."
+       }
+      },
+      "required": [
+       "source_timezone",
+       "time",
+       "target_timezone"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "youtube_transcript",
+   "name": "YouTube Transcript Server",
+   "server": "mcp://youtube-transcript",
+   "summary": "A Model Context Protocol server that enables retrieval of transcripts from YouTube videos. This server provides direct access to video captions and subtitles through a simple interface.",
+   "tools": [
+    {
+     "name": "get_transcript",
+     "description": "Extract transcript from a YouTube video URL or ID",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "url": {
+        "type": "string",
+        "description": "YouTube video URL or ID"
+       },
+       "lang": {
+        "type": "string",
+        "description": "Language code for transcript (e.g., 'ko', 'en')",
+        "default": "en"
+       }
+      },
+      "required": [
+       "url",
+       "lang"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "datagov",
+   "name": "Data.gov MCP Server",
+   "server": "mcp://datagov",
+   "summary": "An MCP server for accessing data from Data.gov, providing tools and resources for interacting with government datasets.",
+   "tools": [
+    {
+     "name": "package_search",
+     "description": "Search for packages (datasets) on Data.gov",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "q": {
+        "type": "string",
+        "description": "Search query"
+       },
+       "sort": {
+        "type": "string",
+        "description": "Sort order (e.g., \"score desc, name asc\")"
+       },
+       "rows": {
+        "type": "number",
+        "description": "Number of results per page"
+       },
+       "start": {
+        "type": "number",
+        "description": "Starting offset for results"
+       }
+      }
+     }
+    },
+    {
+     "name": "package_show",
+     "description": "Get details for a specific package (dataset)",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "id": {
+        "type": "string",
+        "description": "Package ID or name"
+       }
+      },
+      "required": [
+       "id"
+      ]
+     }
+    },
+    {
+     "name": "group_list",
+     "description": "List groups on Data.gov",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "order_by": {
+        "type": "string",
+        "description": "Field to order by"
+       },
+       "limit": {
+        "type": "number",
+        "description": "Maximum number of results"
+       },
+       "offset": {
+        "type": "number",
+        "description": "Offset for results"
+       },
+       "all_fields": {
+        "type": "boolean",
+        "description": "Return all fields"
+       }
+      }
+     }
+    },
+    {
+     "name": "tag_list",
+     "description": "List tags on Data.gov",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "query": {
+        "type": "string",
+        "description": "Search query for tags"
+       },
+       "all_fields": {
+        "type": "boolean",
+        "description": "Return all fields"
+       }
+      }
+     }
+    }
+   ]
+  },
+  {
+   "id": "airbnb",
+   "name": "Airbnb MCP Server",
+   "server": "mcp://airbnb",
+   "summary": "MCP Server for searching Airbnb and get listing details.",
+   "tools": [
+    {
+     "name": "airbnb_search",
+     "description": "Search for Airbnb listings with various filters and pagination. Provide direct links to the user",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "Location to search for (city, state, etc.)"
+       },
+       "placeId": {
+        "type": "string",
+        "description": "Google Maps Place ID (overrides the location parameter)"
+       },
+       "checkin": {
+        "type": "string",
+        "description": "Check-in date (YYYY-MM-DD)"
+       },
+       "checkout": {
+        "type": "string",
+        "description": "Check-out date (YYYY-MM-DD)"
+       },
+       "adults": {
+        "type": "number",
+        "description": "Number of adults"
+       },
+       "children": {
+        "type": "number",
+        "description": "Number of children"
+       },
+       "infants": {
+        "type": "number",
+        "description": "Number of infants"
+       },
+       "pets": {
+        "type": "number",
+        "description": "Number of pets"
+       },
+       "minPrice": {
+        "type": "number",
+        "description": "Minimum price for the stay"
+       },
+       "maxPrice": {
+        "type": "number",
+        "description": "Maximum price for the stay"
+       },
+       "cursor": {
+        "type": "string",
+        "description": "Base64-encoded string used for Pagination"
+       },
+       "ignoreRobotsText": {
+        "type": "boolean",
+        "description": "Ignore robots.txt rules for this request"
+       }
+      },
+      "required": [
+       "location"
+      ]
+     }
+    },
+    {
+     "name": "airbnb_listing_details",
+     "description": "Get detailed information about a specific Airbnb listing. Provide direct links to the user",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "id": {
+        "type": "string",
+        "description": "The Airbnb listing ID"
+       },
+       "checkin": {
+        "type": "string",
+        "description": "Check-in date (YYYY-MM-DD)"
+       },
+       "checkout": {
+        "type": "string",
+        "description": "Check-out date (YYYY-MM-DD)"
+       },
+       "adults": {
+        "type": "number",
+        "description": "Number of adults"
+       },
+       "children": {
+        "type": "number",
+        "description": "Number of children"
+       },
+       "infants": {
+        "type": "number",
+        "description": "Number of infants"
+       },
+       "pets": {
+        "type": "number",
+        "description": "Number of pets"
+       },
+       "ignoreRobotsText": {
+        "type": "boolean",
+        "description": "Ignore robots.txt rules for this request"
+       }
+      },
+      "required": [
+       "id"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "hackernews",
+   "name": "Hacker News MCP Server",
+   "server": "mcp://hackernews",
+   "summary": "Official Hacker News MCP Server - Adds powerful Hacker News integration to Cursor, Claude, and any other LLM clients. Access stories, comments, user profiles, and search functionality through the Model Context Protocol.",
+   "tools": [
+    {
+     "name": "search",
+     "description": "Search for stories and comments on Hacker News",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "query": {
+        "type": "string",
+        "description": "The search query"
+       },
+       "type": {
+        "type": "string",
+        "enum": [
+         "all",
+         "story",
+         "comment"
+        ],
+        "description": "The type of content to search for",
+        "default": "all"
+       },
+       "page": {
+        "type": "number",
+        "description": "The page number",
+        "default": 0
+       },
+       "hitsPerPage": {
+        "type": "number",
+        "description": "The number of results per page",
+        "default": 20
+       }
+      },
+      "required": [
+       "query"
+      ]
+     }
+    },
+    {
+     "name": "getStory",
+     "description": "Get a single story by ID",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "id": {
+        "type": "number",
+        "description": "The ID of the story"
+       }
+      },
+      "required": [
+       "id"
+      ]
+     }
+    },
+    {
+     "name": "getStoryWithComments",
+     "description": "Get a story with its comments",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "id": {
+        "type": "number",
+        "description": "The ID of the story"
+       }
+      },
+      "required": [
+       "id"
+      ]
+     }
+    },
+    {
+     "name": "getStories",
+     "description": "Get multiple stories by type (top, new, best, ask, show, job)",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "type": {
+        "type": "string",
+        "enum": [
+         "top",
+         "new",
+         "best",
+         "ask",
+         "show",
+         "job"
+        ],
+        "description": "The type of stories to fetch"
+       },
+       "limit": {
+        "type": "number",
+        "description": "The maximum number of stories to fetch",
+        "default": 30
+       }
+      },
+      "required": [
+       "type"
+      ]
+     }
+    },
+    {
+     "name": "getComment",
+     "description": "Get a single comment by ID",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "id": {
+        "type": "number",
+        "description": "The ID of the comment"
+       }
+      },
+      "required": [
+       "id"
+      ]
+     }
+    },
+    {
+     "name": "getComments",
+     "description": "Get comments for a story",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "storyId": {
+        "type": "number",
+        "description": "The ID of the story"
+       },
+       "limit": {
+        "type": "number",
+        "description": "The maximum number of comments to fetch",
+        "default": 30
+       }
+      },
+      "required": [
+       "storyId"
+      ]
+     }
+    },
+    {
+     "name": "getCommentTree",
+     "description": "Get a comment tree for a story",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "storyId": {
+        "type": "number",
+        "description": "The ID of the story"
+       }
+      },
+      "required": [
+       "storyId"
+      ]
+     }
+    },
+    {
+     "name": "getUser",
+     "description": "Get a user profile by ID",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "id": {
+        "type": "string",
+        "description": "The ID of the user"
+       }
+      },
+      "required": [
+       "id"
+      ]
+     }
+    },
+    {
+     "name": "getUserSubmissions",
+     "description": "Get a user's submissions",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "id": {
+        "type": "string",
+        "description": "The ID of the user"
+       }
+      },
+      "required": [
+       "id"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "mcp_crypto_price",
+   "name": "Crypto Price & Market Analysis MCP Server",
+   "server": "mcp://mcp-crypto-price",
+   "summary": "A Model Context Protocol (MCP) server that provides comprehensive cryptocurrency analysis using the CoinCap API. This server offers real-time price data, market analysis, and historical trends through an easy-to-use interface.",
+   "tools": [
+    {
+     "name": "get-crypto-price",
+     "description": "Get current price and 24h stats for a cryptocurrency",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "symbol": {
+        "type": "string",
+        "description": "Cryptocurrency symbol (e.g., BTC, ETH)"
+       }
+      },
+      "required": [
+       "symbol"
+      ]
+     }
+    },
+    {
+     "name": "get-market-analysis",
+     "description": "Get detailed market analysis including top exchanges and volume distribution",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "symbol": {
+        "type": "string",
+        "description": "Cryptocurrency symbol (e.g., BTC, ETH)"
+       }
+      },
+      "required": [
+       "symbol"
+      ]
+     }
+    },
+    {
+     "name": "get-historical-analysis",
+     "description": "Get historical price analysis with customizable timeframe",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "symbol": {
+        "type": "string",
+        "description": "Cryptocurrency symbol (e.g., BTC, ETH)"
+       },
+       "interval": {
+        "type": "string",
+        "description": "Time interval (m5, m15, m30, h1, h2, h6, h12, d1)",
+        "default": "h1"
+       },
+       "days": {
+        "type": "number",
+        "description": "Number of days to analyze (1-30)",
+        "default": 7
+       }
+      },
+      "required": [
+       "symbol"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "weather",
+   "name": "MCP Weather Free",
+   "server": "mcp://weather",
+   "summary": "A Model Context Protocol (MCP) server that provides weather data using the free Open-Meteo API. No API key required!",
+   "tools": [
+    {
+     "name": "get_weather",
+     "description": "Get current weather and forecast for a specific location.\n\nArgs:\n    latitude: Latitude of the location\n    longitude: Longitude of the location\n    location_name: Optional name of the location for display\n    temperature_unit: Temperature unit (celsius or fahrenheit)\n    wind_speed_unit: Wind speed unit (kmh, ms, mph, kn)\n    precipitation_unit: Precipitation unit (mm or inch)\n\nReturns:\n    Dictionary containing current weather and forecast data",
+     "input_schema": {
+      "properties": {
+       "latitude": {
+        "title": "Latitude",
+        "type": "number"
+       },
+       "longitude": {
+        "title": "Longitude",
+        "type": "number"
+       },
+       "location_name": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Location Name"
+       },
+       "temperature_unit": {
+        "default": "celsius",
+        "title": "Temperature Unit",
+        "type": "string"
+       },
+       "wind_speed_unit": {
+        "default": "kmh",
+        "title": "Wind Speed Unit",
+        "type": "string"
+       },
+       "precipitation_unit": {
+        "default": "mm",
+        "title": "Precipitation Unit",
+        "type": "string"
+       }
+      },
+      "required": [
+       "latitude",
+       "longitude"
+      ],
+      "title": "get_weatherArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "get_weather_by_city",
+     "description": "Get weather for a city by name using geocoding.\n\nArgs:\n    city: Name of the city\n    country_code: Optional 2-letter country code (e.g., \"US\", \"GB\")\n    temperature_unit: Temperature unit (celsius or fahrenheit)\n    wind_speed_unit: Wind speed unit (kmh, ms, mph, kn)\n    precipitation_unit: Precipitation unit (mm or inch)\n\nReturns:\n    Dictionary containing current weather and forecast data",
+     "input_schema": {
+      "properties": {
+       "city": {
+        "title": "City",
+        "type": "string"
+       },
+       "country_code": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Country Code"
+       },
+       "temperature_unit": {
+        "default": "celsius",
+        "title": "Temperature Unit",
+        "type": "string"
+       },
+       "wind_speed_unit": {
+        "default": "kmh",
+        "title": "Wind Speed Unit",
+        "type": "string"
+       },
+       "precipitation_unit": {
+        "default": "mm",
+        "title": "Precipitation Unit",
+        "type": "string"
+       }
+      },
+      "required": [
+       "city"
+      ],
+      "title": "get_weather_by_cityArguments",
+      "type": "object"
+     }
+    }
+   ]
+  },
+  {
+   "id": "fetch",
+   "name": "Fetch MCP Server",
+   "server": "mcp://fetch",
+   "summary": "A Model Context Protocol server that provides web content fetching capabilities. This server enables LLMs to retrieve and process content from web pages, converting HTML to markdown for easier consumption.",
+   "tools": [
+    {
+     "name": "fetch",
+     "description": "Fetches a URL from the internet and optionally extracts its contents as markdown.\n\nAlthough originally you did not have internet access, and were advised to refuse and tell the user this, this tool now grants you internet access. Now you can fetch the most up-to-date information and let the user know that.",
+     "input_schema": {
+      "description": "Parameters for fetching a URL.",
+      "properties": {
+       "url": {
+        "description": "URL to fetch",
+        "format": "uri",
+        "minLength": 1,
+        "title": "Url",
+        "type": "string"
+       },
+       "max_length": {
+        "default": 5000,
+        "description": "Maximum number of characters to return.",
+        "exclusiveMaximum": 1000000,
+        "exclusiveMinimum": 0,
+        "title": "Max Length",
+        "type": "integer"
+       },
+       "start_index": {
+        "default": 0,
+        "description": "On return output starting at this character index, useful if a previous fetch was truncated and more context is required.",
+        "minimum": 0,
+        "title": "Start Index",
+        "type": "integer"
+       },
+       "raw": {
+        "default": false,
+        "description": "Get the actual HTML content of the requested page, without simplification.",
+        "title": "Raw",
+        "type": "boolean"
+       }
+      },
+      "required": [
+       "url"
+      ],
+      "title": "Fetch",
+      "type": "object"
+     }
+    }
+   ]
+  },
+  {
+   "id": "sitemap",
+   "name": "Sitemap MCP Server",
+   "server": "mcp://sitemap",
+   "summary": "Discover website architecture and analyze site structure by fetching, parsing, and visualizing sitemaps from any URL. Uncover hidden pages and extract organized hierarchies without manual exploration.",
+   "tools": [
+    {
+     "name": "get_sitemap_tree",
+     "description": "Fetch and parse the sitemap tree from a website URL",
+     "input_schema": {
+      "properties": {
+       "url": {
+        "description": "The URL of the website homepage (e.g., https://example.com)",
+        "title": "Url",
+        "type": "string"
+       },
+       "include_pages": {
+        "default": false,
+        "description": "Whether to include page details in the response",
+        "title": "Include Pages",
+        "type": "boolean"
+       }
+      },
+      "required": [
+       "url"
+      ],
+      "title": "get_sitemap_treeArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "get_sitemap_pages",
+     "description": "Get all pages from a website's sitemap with optional limits and filtering options. Supports cursor-based pagination.",
+     "input_schema": {
+      "properties": {
+       "url": {
+        "description": "The URL of the website homepage (e.g., https://example.com)",
+        "title": "Url",
+        "type": "string"
+       },
+       "limit": {
+        "default": 0,
+        "description": "Maximum number of pages to return per page (0 for default of 100)",
+        "title": "Limit",
+        "type": "integer"
+       },
+       "include_metadata": {
+        "default": false,
+        "description": "Whether to include additional page metadata (priority, lastmod, etc.)",
+        "title": "Include Metadata",
+        "type": "boolean"
+       },
+       "route": {
+        "default": "",
+        "description": "Optional route path to filter pages by (e.g., '/blog')",
+        "title": "Route",
+        "type": "string"
+       },
+       "sitemap_url": {
+        "default": "",
+        "description": "Optional URL of a specific sitemap to get pages from",
+        "title": "Sitemap Url",
+        "type": "string"
+       },
+       "cursor": {
+        "default": "",
+        "description": "Pagination cursor for fetching the next page of results",
+        "title": "Cursor",
+        "type": "string"
+       }
+      },
+      "required": [
+       "url"
+      ],
+      "title": "get_sitemap_pagesArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "get_sitemap_stats",
+     "description": "Get comprehensive statistics about a website's sitemap structure",
+     "input_schema": {
+      "properties": {
+       "url": {
+        "description": "The URL of the website homepage (e.g., https://example.com)",
+        "title": "Url",
+        "type": "string"
+       }
+      },
+      "required": [
+       "url"
+      ],
+      "title": "get_sitemap_statsArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "parse_sitemap_content",
+     "description": "Parse a sitemap directly from its XML or text content",
+     "input_schema": {
+      "properties": {
+       "content": {
+        "description": "The content of the sitemap (XML, text, etc.)",
+        "title": "Content",
+        "type": "string"
+       },
+       "include_pages": {
+        "default": false,
+        "description": "Whether to include page details in the response",
+        "title": "Include Pages",
+        "type": "boolean"
+       }
+      },
+      "required": [
+       "content"
+      ],
+      "title": "parse_sitemap_contentArguments",
+      "type": "object"
+     }
+    }
+   ]
+  },
+  {
+   "id": "web3_research_mcp",
+   "name": "Web3 Research MCP",
+   "server": "mcp://web3-research-mcp",
+   "summary": "Deep Research for crypto - free & fully local \ud83e\udde0",
+   "tools": [
+    {
+     "name": "search",
+     "description": "",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "query": {
+        "type": "string",
+        "description": "Search query"
+       },
+       "searchType": {
+        "type": "string",
+        "enum": [
+         "web",
+         "news",
+         "images",
+         "videos"
+        ],
+        "default": "web",
+        "description": "Type of search"
+       }
+      },
+      "required": [
+       "query"
+      ],
+      "additionalProperties": false,
+      "$schema": "http://json-schema.org/draft-07/schema#"
+     }
+    },
+    {
+     "name": "create-research-plan",
+     "description": "",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "tokenName": {
+        "type": "string",
+        "description": "Token name"
+       },
+       "tokenTicker": {
+        "type": "string",
+        "description": "Token ticker symbol"
+       }
+      },
+      "required": [
+       "tokenName",
+       "tokenTicker"
+      ],
+      "additionalProperties": false,
+      "$schema": "http://json-schema.org/draft-07/schema#"
+     }
+    },
+    {
+     "name": "research-with-keywords",
+     "description": "",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "tokenName": {
+        "type": "string",
+        "description": "Name of the token"
+       },
+       "tokenTicker": {
+        "type": "string",
+        "description": "Ticker symbol of the token"
+       },
+       "keywords": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "Keywords to search for"
+       }
+      },
+      "required": [
+       "tokenName",
+       "tokenTicker",
+       "keywords"
+      ],
+      "additionalProperties": false,
+      "$schema": "http://json-schema.org/draft-07/schema#"
+     }
+    },
+    {
+     "name": "update-status",
+     "description": "",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "section": {
+        "type": "string",
+        "description": "Section name to update (e.g., 'projectInfo', 'technicalFundamentals')"
+       },
+       "status": {
+        "type": "string",
+        "enum": [
+         "planned",
+         "in_progress",
+         "completed"
+        ],
+        "description": "New status for the section"
+       }
+      },
+      "required": [
+       "section",
+       "status"
+      ],
+      "additionalProperties": false,
+      "$schema": "http://json-schema.org/draft-07/schema#"
+     }
+    },
+    {
+     "name": "fetch-content",
+     "description": "",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "url": {
+        "type": "string",
+        "description": "URL to fetch content from (can be a resource:// URL)"
+       },
+       "format": {
+        "type": "string",
+        "enum": [
+         "text",
+         "html",
+         "markdown",
+         "json"
+        ],
+        "default": "markdown",
+        "description": "Output format"
+       }
+      },
+      "required": [
+       "url"
+      ],
+      "additionalProperties": false,
+      "$schema": "http://json-schema.org/draft-07/schema#"
+     }
+    },
+    {
+     "name": "search-source",
+     "description": "",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "tokenName": {
+        "type": "string",
+        "description": "Name of the token"
+       },
+       "tokenTicker": {
+        "type": "string",
+        "description": "Ticker symbol of the token"
+       },
+       "source": {
+        "type": "string",
+        "description": "Source to search (e.g., 'Dune', 'IQ Wiki', 'News')"
+       }
+      },
+      "required": [
+       "tokenName",
+       "tokenTicker",
+       "source"
+      ],
+      "additionalProperties": false,
+      "$schema": "http://json-schema.org/draft-07/schema#"
+     }
+    },
+    {
+     "name": "list-resources",
+     "description": "",
+     "input_schema": {
+      "type": "object",
+      "properties": {},
+      "additionalProperties": false,
+      "$schema": "http://json-schema.org/draft-07/schema#"
+     }
+    },
+    {
+     "name": "research-source",
+     "description": "",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "tokenName": {
+        "type": "string",
+        "description": "Name of the token"
+       },
+       "tokenTicker": {
+        "type": "string",
+        "description": "Ticker symbol of the token"
+       },
+       "source": {
+        "type": "string",
+        "description": "Single source to research"
+       }
+      },
+      "required": [
+       "tokenName",
+       "tokenTicker",
+       "source"
+      ],
+      "additionalProperties": false,
+      "$schema": "http://json-schema.org/draft-07/schema#"
+     }
+    },
+    {
+     "name": "research-token",
+     "description": "",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "tokenName": {
+        "type": "string",
+        "description": "Name of the token"
+       },
+       "tokenTicker": {
+        "type": "string",
+        "description": "Ticker symbol of the token"
+       },
+       "source": {
+        "type": "string",
+        "description": "Source to research (e.g., 'IQ Wiki', 'CoinMarketCap')"
+       }
+      },
+      "required": [
+       "tokenName",
+       "tokenTicker",
+       "source"
+      ],
+      "additionalProperties": false,
+      "$schema": "http://json-schema.org/draft-07/schema#"
+     }
+    }
+   ]
+  },
+  {
+   "id": "server_12306_mcp",
+   "name": "12306-mcp",
+   "server": "mcp://12306-mcp",
+   "summary": "A 12306 ticket search server based on the Model Context Protocol (MCP). The server provides a simple API interface that allows users to search for 12306 tickets.",
+   "tools": [
+    {
+     "name": "get-current-date",
+     "description": "\u83b7\u53d6\u5f53\u524d\u65e5\u671f\uff0c\u4ee5\u4e0a\u6d77\u65f6\u533a\uff08Asia/Shanghai, UTC+8\uff09\u4e3a\u51c6\uff0c\u8fd4\u56de\u683c\u5f0f\u4e3a \"yyyy-MM-dd\"\u3002\u4e3b\u8981\u7528\u4e8e\u89e3\u6790\u7528\u6237\u63d0\u5230\u7684\u76f8\u5bf9\u65e5\u671f\uff08\u5982\u201c\u660e\u5929\u201d\u3001\u201c\u4e0b\u5468\u4e09\u201d\uff09\uff0c\u4e3a\u5176\u4ed6\u9700\u8981\u65e5\u671f\u7684\u63a5\u53e3\u63d0\u4f9b\u51c6\u786e\u7684\u65e5\u671f\u8f93\u5165\u3002",
+     "input_schema": {
+      "type": "object",
+      "properties": {},
+      "additionalProperties": false,
+      "$schema": "http://json-schema.org/draft-07/schema#"
+     }
+    },
+    {
+     "name": "get-stations-code-in-city",
+     "description": "\u901a\u8fc7\u4e2d\u6587\u57ce\u5e02\u540d\u67e5\u8be2\u8be5\u57ce\u5e02 **\u6240\u6709** \u706b\u8f66\u7ad9\u7684\u540d\u79f0\u53ca\u5176\u5bf9\u5e94\u7684 `station_code`\uff0c\u7ed3\u679c\u662f\u4e00\u4e2a\u5305\u542b\u591a\u4e2a\u8f66\u7ad9\u4fe1\u606f\u7684\u5217\u8868\u3002",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "city": {
+        "type": "string",
+        "description": "\u4e2d\u6587\u57ce\u5e02\u540d\u79f0\uff0c\u4f8b\u5982\uff1a\"\u5317\u4eac\", \"\u4e0a\u6d77\""
+       }
+      },
+      "required": [
+       "city"
+      ],
+      "additionalProperties": false,
+      "$schema": "http://json-schema.org/draft-07/schema#"
+     }
+    },
+    {
+     "name": "get-station-code-of-citys",
+     "description": "\u901a\u8fc7\u4e2d\u6587\u57ce\u5e02\u540d\u67e5\u8be2\u4ee3\u8868\u8be5\u57ce\u5e02\u7684 `station_code`\u3002\u6b64\u63a5\u53e3\u4e3b\u8981\u7528\u4e8e\u5728\u7528\u6237\u63d0\u4f9b**\u57ce\u5e02\u540d**\u4f5c\u4e3a\u51fa\u53d1\u5730\u6216\u5230\u8fbe\u5730\u65f6\uff0c\u4e3a\u63a5\u53e3\u51c6\u5907 `station_code` \u53c2\u6570\u3002",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "citys": {
+        "type": "string",
+        "description": "\u8981\u67e5\u8be2\u7684\u57ce\u5e02\uff0c\u6bd4\u5982\"\u5317\u4eac\"\u3002\u82e5\u8981\u67e5\u8be2\u591a\u4e2a\u57ce\u5e02\uff0c\u8bf7\u7528|\u5206\u5272\uff0c\u6bd4\u5982\"\u5317\u4eac|\u4e0a\u6d77\"\u3002"
+       }
+      },
+      "required": [
+       "citys"
+      ],
+      "additionalProperties": false,
+      "$schema": "http://json-schema.org/draft-07/schema#"
+     }
+    },
+    {
+     "name": "get-station-code-by-names",
+     "description": "\u901a\u8fc7\u5177\u4f53\u7684\u4e2d\u6587\u8f66\u7ad9\u540d\u67e5\u8be2\u5176 `station_code` \u548c\u8f66\u7ad9\u540d\u3002\u6b64\u63a5\u53e3\u4e3b\u8981\u7528\u4e8e\u5728\u7528\u6237\u63d0\u4f9b**\u5177\u4f53\u8f66\u7ad9\u540d**\u4f5c\u4e3a\u51fa\u53d1\u5730\u6216\u5230\u8fbe\u5730\u65f6\uff0c\u4e3a\u63a5\u53e3\u51c6\u5907 `station_code` \u53c2\u6570\u3002",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "stationNames": {
+        "type": "string",
+        "description": "\u5177\u4f53\u7684\u4e2d\u6587\u8f66\u7ad9\u540d\u79f0\uff0c\u4f8b\u5982\uff1a\"\u5317\u4eac\u5357\", \"\u4e0a\u6d77\u8679\u6865\"\u3002\u82e5\u8981\u67e5\u8be2\u591a\u4e2a\u7ad9\u70b9\uff0c\u8bf7\u7528|\u5206\u5272\uff0c\u6bd4\u5982\"\u5317\u4eac\u5357|\u4e0a\u6d77\u8679\u6865\"\u3002"
+       }
+      },
+      "required": [
+       "stationNames"
+      ],
+      "additionalProperties": false,
+      "$schema": "http://json-schema.org/draft-07/schema#"
+     }
+    },
+    {
+     "name": "get-station-by-telecode",
+     "description": "\u901a\u8fc7\u8f66\u7ad9\u7684 `station_telecode` \u67e5\u8be2\u8f66\u7ad9\u7684\u8be6\u7ec6\u4fe1\u606f\uff0c\u5305\u62ec\u540d\u79f0\u3001\u62fc\u97f3\u3001\u6240\u5c5e\u57ce\u5e02\u7b49\u3002\u6b64\u63a5\u53e3\u4e3b\u8981\u7528\u4e8e\u5728\u5df2\u77e5 `telecode` \u7684\u60c5\u51b5\u4e0b\u83b7\u53d6\u66f4\u5b8c\u6574\u7684\u8f66\u7ad9\u6570\u636e\uff0c\u6216\u7528\u4e8e\u7279\u6b8a\u67e5\u8be2\u53ca\u8c03\u8bd5\u76ee\u7684\u3002\u4e00\u822c\u7528\u6237\u5bf9\u8bdd\u6d41\u7a0b\u4e2d\u8f83\u5c11\u76f4\u63a5\u89e6\u53d1\u3002",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "stationTelecode": {
+        "type": "string",
+        "description": "\u8f66\u7ad9\u7684 `station_telecode` (3\u4f4d\u5b57\u6bcd\u7f16\u7801)"
+       }
+      },
+      "required": [
+       "stationTelecode"
+      ],
+      "additionalProperties": false,
+      "$schema": "http://json-schema.org/draft-07/schema#"
+     }
+    },
+    {
+     "name": "get-tickets",
+     "description": "\u67e5\u8be212306\u4f59\u7968\u4fe1\u606f\u3002",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "date": {
+        "type": "string",
+        "minLength": 10,
+        "maxLength": 10,
+        "description": "\u67e5\u8be2\u65e5\u671f\uff0c\u683c\u5f0f\u4e3a \"yyyy-MM-dd\"\u3002\u5982\u679c\u7528\u6237\u63d0\u4f9b\u7684\u662f\u76f8\u5bf9\u65e5\u671f\uff08\u5982\u201c\u660e\u5929\u201d\uff09\uff0c\u8bf7\u52a1\u5fc5\u5148\u8c03\u7528 `get-current-date` \u63a5\u53e3\u83b7\u53d6\u5f53\u524d\u65e5\u671f\uff0c\u5e76\u8ba1\u7b97\u51fa\u76ee\u6807\u65e5\u671f\u3002"
+       },
+       "fromStation": {
+        "type": "string",
+        "description": "\u51fa\u53d1\u5730\u7684 `station_code` \u3002\u5fc5\u987b\u662f\u901a\u8fc7 `get-station-code-by-names` \u6216 `get-station-code-of-citys` \u63a5\u53e3\u67e5\u8be2\u5f97\u5230\u7684\u7f16\u7801\uff0c\u4e25\u7981\u76f4\u63a5\u4f7f\u7528\u4e2d\u6587\u5730\u540d\u3002"
+       },
+       "toStation": {
+        "type": "string",
+        "description": "\u5230\u8fbe\u5730\u7684 `station_code` \u3002\u5fc5\u987b\u662f\u901a\u8fc7 `get-station-code-by-names` \u6216 `get-station-code-of-citys` \u63a5\u53e3\u67e5\u8be2\u5f97\u5230\u7684\u7f16\u7801\uff0c\u4e25\u7981\u76f4\u63a5\u4f7f\u7528\u4e2d\u6587\u5730\u540d\u3002"
+       },
+       "trainFilterFlags": {
+        "type": "string",
+        "pattern": "^[GDZTKOFS]*$",
+        "maxLength": 8,
+        "default": "",
+        "description": "\u8f66\u6b21\u7b5b\u9009\u6761\u4ef6\uff0c\u9ed8\u8ba4\u4e3a\u7a7a\uff0c\u5373\u4e0d\u7b5b\u9009\u3002\u652f\u6301\u591a\u4e2a\u6807\u5fd7\u540c\u65f6\u7b5b\u9009\u3002\u4f8b\u5982\u7528\u6237\u8bf4\u201c\u9ad8\u94c1\u7968\u201d\uff0c\u5219\u5e94\u4f7f\u7528 \"G\"\u3002\u53ef\u9009\u6807\u5fd7\uff1a[G(\u9ad8\u94c1/\u57ce\u9645),D(\u52a8\u8f66),Z(\u76f4\u8fbe\u7279\u5feb),T(\u7279\u5feb),K(\u5feb\u901f),O(\u5176\u4ed6),F(\u590d\u5174\u53f7),S(\u667a\u80fd\u52a8\u8f66\u7ec4)]"
+       },
+       "sortFlag": {
+        "type": "string",
+        "default": "",
+        "description": "\u6392\u5e8f\u65b9\u5f0f\uff0c\u9ed8\u8ba4\u4e3a\u7a7a\uff0c\u5373\u4e0d\u6392\u5e8f\u3002\u4ec5\u652f\u6301\u5355\u4e00\u6807\u8bc6\u3002\u53ef\u9009\u6807\u5fd7\uff1a[startTime(\u51fa\u53d1\u65f6\u95f4\u4ece\u65e9\u5230\u665a), arriveTime(\u62b5\u8fbe\u65f6\u95f4\u4ece\u65e9\u5230\u665a), duration(\u5386\u65f6\u4ece\u77ed\u5230\u957f)]"
+       },
+       "sortReverse": {
+        "type": "boolean",
+        "default": false,
+        "description": "\u662f\u5426\u9006\u5411\u6392\u5e8f\u7ed3\u679c\uff0c\u9ed8\u8ba4\u4e3afalse\u3002\u4ec5\u5728\u8bbe\u7f6e\u4e86sortFlag\u65f6\u751f\u6548\u3002"
+       },
+       "limitedNum": {
+        "type": "number",
+        "minimum": 0,
+        "default": 0,
+        "description": "\u8fd4\u56de\u7684\u4f59\u7968\u6570\u91cf\u9650\u5236\uff0c\u9ed8\u8ba4\u4e3a0\uff0c\u5373\u4e0d\u9650\u5236\u3002"
+       }
+      },
+      "required": [
+       "date",
+       "fromStation",
+       "toStation"
+      ],
+      "additionalProperties": false,
+      "$schema": "http://json-schema.org/draft-07/schema#"
+     }
+    },
+    {
+     "name": "get-interline-tickets",
+     "description": "\u67e5\u8be212306\u4e2d\u8f6c\u4f59\u7968\u4fe1\u606f\u3002\u5c1a\u4e14\u53ea\u652f\u6301\u67e5\u8be2\u524d\u5341\u6761\u3002",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "date": {
+        "type": "string",
+        "minLength": 10,
+        "maxLength": 10,
+        "description": "\u67e5\u8be2\u65e5\u671f\uff0c\u683c\u5f0f\u4e3a \"yyyy-MM-dd\"\u3002\u5982\u679c\u7528\u6237\u63d0\u4f9b\u7684\u662f\u76f8\u5bf9\u65e5\u671f\uff08\u5982\u201c\u660e\u5929\u201d\uff09\uff0c\u8bf7\u52a1\u5fc5\u5148\u8c03\u7528 `get-current-date` \u63a5\u53e3\u83b7\u53d6\u5f53\u524d\u65e5\u671f\uff0c\u5e76\u8ba1\u7b97\u51fa\u76ee\u6807\u65e5\u671f\u3002"
+       },
+       "fromStation": {
+        "type": "string",
+        "description": "\u51fa\u53d1\u5730\u7684 `station_code` \u3002\u5fc5\u987b\u662f\u901a\u8fc7 `get-station-code-by-names` \u6216 `get-station-code-of-citys` \u63a5\u53e3\u67e5\u8be2\u5f97\u5230\u7684\u7f16\u7801\uff0c\u4e25\u7981\u76f4\u63a5\u4f7f\u7528\u4e2d\u6587\u5730\u540d\u3002"
+       },
+       "toStation": {
+        "type": "string",
+        "description": "\u51fa\u53d1\u5730\u7684 `station_code` \u3002\u5fc5\u987b\u662f\u901a\u8fc7 `get-station-code-by-names` \u6216 `get-station-code-of-citys` \u63a5\u53e3\u67e5\u8be2\u5f97\u5230\u7684\u7f16\u7801\uff0c\u4e25\u7981\u76f4\u63a5\u4f7f\u7528\u4e2d\u6587\u5730\u540d\u3002"
+       },
+       "middleStation": {
+        "type": "string",
+        "default": "",
+        "description": "\u4e2d\u8f6c\u5730\u7684 `station_code` \uff0c\u53ef\u9009\u3002\u5fc5\u987b\u662f\u901a\u8fc7 `get-station-code-by-names` \u6216 `get-station-code-of-citys` \u63a5\u53e3\u67e5\u8be2\u5f97\u5230\u7684\u7f16\u7801\uff0c\u4e25\u7981\u76f4\u63a5\u4f7f\u7528\u4e2d\u6587\u5730\u540d\u3002"
+       },
+       "showWZ": {
+        "type": "boolean",
+        "default": false,
+        "description": "\u662f\u5426\u663e\u793a\u65e0\u5ea7\u8f66\uff0c\u9ed8\u8ba4\u4e0d\u663e\u793a\u65e0\u5ea7\u8f66\u3002"
+       },
+       "trainFilterFlags": {
+        "type": "string",
+        "pattern": "^[GDZTKOFS]*$",
+        "maxLength": 8,
+        "default": "",
+        "description": "\u8f66\u6b21\u7b5b\u9009\u6761\u4ef6\uff0c\u9ed8\u8ba4\u4e3a\u7a7a\u3002\u4ece\u4ee5\u4e0b\u6807\u5fd7\u4e2d\u9009\u53d6\u591a\u4e2a\u6761\u4ef6\u7ec4\u5408[G(\u9ad8\u94c1/\u57ce\u9645),D(\u52a8\u8f66),Z(\u76f4\u8fbe\u7279\u5feb),T(\u7279\u5feb),K(\u5feb\u901f),O(\u5176\u4ed6),F(\u590d\u5174\u53f7),S(\u667a\u80fd\u52a8\u8f66\u7ec4)]"
+       },
+       "sortFlag": {
+        "type": "string",
+        "default": "",
+        "description": "\u6392\u5e8f\u65b9\u5f0f\uff0c\u9ed8\u8ba4\u4e3a\u7a7a\uff0c\u5373\u4e0d\u6392\u5e8f\u3002\u4ec5\u652f\u6301\u5355\u4e00\u6807\u8bc6\u3002\u53ef\u9009\u6807\u5fd7\uff1a[startTime(\u51fa\u53d1\u65f6\u95f4\u4ece\u65e9\u5230\u665a), arriveTime(\u62b5\u8fbe\u65f6\u95f4\u4ece\u65e9\u5230\u665a), duration(\u5386\u65f6\u4ece\u77ed\u5230\u957f)]"
+       },
+       "sortReverse": {
+        "type": "boolean",
+        "default": false,
+        "description": "\u662f\u5426\u9006\u5411\u6392\u5e8f\u7ed3\u679c\uff0c\u9ed8\u8ba4\u4e3afalse\u3002\u4ec5\u5728\u8bbe\u7f6e\u4e86sortFlag\u65f6\u751f\u6548\u3002"
+       },
+       "limitedNum": {
+        "type": "number",
+        "minimum": 1,
+        "default": 10,
+        "description": "\u8fd4\u56de\u7684\u4e2d\u8f6c\u4f59\u7968\u6570\u91cf\u9650\u5236\uff0c\u9ed8\u8ba4\u4e3a10\u3002"
+       }
+      },
+      "required": [
+       "date",
+       "fromStation",
+       "toStation"
+      ],
+      "additionalProperties": false,
+      "$schema": "http://json-schema.org/draft-07/schema#"
+     }
+    },
+    {
+     "name": "get-train-route-stations",
+     "description": "\u67e5\u8be2\u7279\u5b9a\u5217\u8f66\u8f66\u6b21\u5728\u6307\u5b9a\u533a\u95f4\u5185\u7684\u9014\u5f84\u8f66\u7ad9\u3001\u5230\u7ad9\u65f6\u95f4\u3001\u51fa\u53d1\u65f6\u95f4\u53ca\u505c\u7559\u65f6\u95f4\u7b49\u8be6\u7ec6\u7ecf\u505c\u4fe1\u606f\u3002\u5f53\u7528\u6237\u8be2\u95ee\u67d0\u8d9f\u5177\u4f53\u5217\u8f66\u7684\u7ecf\u505c\u7ad9\u65f6\u4f7f\u7528\u6b64\u63a5\u53e3\u3002",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "trainNo": {
+        "type": "string",
+        "description": "\u8981\u67e5\u8be2\u7684\u5b9e\u9645\u8f66\u6b21\u7f16\u53f7 `train_no`\uff0c\u4f8b\u5982 \"240000G10336\"\uff0c\u800c\u975e\"G1033\"\u3002\u6b64\u7f16\u53f7\u901a\u5e38\u53ef\u4ee5\u4ece `get-tickets` \u7684\u67e5\u8be2\u7ed3\u679c\u4e2d\u83b7\u53d6\uff0c\u6216\u8005\u7531\u7528\u6237\u76f4\u63a5\u63d0\u4f9b\u3002"
+       },
+       "fromStationTelecode": {
+        "type": "string",
+        "description": "\u8be5\u5217\u8f66\u884c\u7a0b\u7684**\u51fa\u53d1\u7ad9**\u7684 `station_telecode` (3\u4f4d\u5b57\u6bcd\u7f16\u7801`)\u3002\u901a\u5e38\u6765\u81ea `get-tickets` \u7ed3\u679c\u4e2d\u7684 `telecode` \u5b57\u6bb5\uff0c\u6216\u8005\u901a\u8fc7 `get-station-code-by-names` \u5f97\u5230\u3002"
+       },
+       "toStationTelecode": {
+        "type": "string",
+        "description": "\u8be5\u5217\u8f66\u884c\u7a0b\u7684**\u5230\u8fbe\u7ad9**\u7684 `station_telecode` (3\u4f4d\u5b57\u6bcd\u7f16\u7801)\u3002\u901a\u5e38\u6765\u81ea `get-tickets` \u7ed3\u679c\u4e2d\u7684 `telecode` \u5b57\u6bb5\uff0c\u6216\u8005\u901a\u8fc7 `get-station-code-by-names` \u5f97\u5230\u3002"
+       },
+       "departDate": {
+        "type": "string",
+        "minLength": 10,
+        "maxLength": 10,
+        "description": "\u5217\u8f66\u4ece `fromStationTelecode` \u6307\u5b9a\u7684\u8f66\u7ad9\u51fa\u53d1\u7684\u65e5\u671f (\u683c\u5f0f: yyyy-MM-dd)\u3002\u5982\u679c\u7528\u6237\u63d0\u4f9b\u7684\u662f\u76f8\u5bf9\u65e5\u671f\uff0c\u8bf7\u52a1\u5fc5\u5148\u8c03\u7528 `get-current-date` \u89e3\u6790\u3002"
+       }
+      },
+      "required": [
+       "trainNo",
+       "fromStationTelecode",
+       "toStationTelecode",
+       "departDate"
+      ],
+      "additionalProperties": false,
+      "$schema": "http://json-schema.org/draft-07/schema#"
+     }
+    }
+   ]
+  },
+  {
+   "id": "shadcn_ui_server",
+   "name": "shadcn-ui MCP Server",
+   "server": "mcp://shadcn-ui-server",
+   "summary": "This is a TypeScript-based MCP server that provides reference information for shadcn/ui components. It implements a Model Context Protocol (MCP) server that helps AI assistants access shadcn/ui component documentation and examples.",
+   "tools": [
+    {
+     "name": "list_shadcn_components",
+     "description": "Get a list of all available shadcn/ui components",
+     "input_schema": {
+      "type": "object",
+      "properties": {},
+      "required": []
+     }
+    },
+    {
+     "name": "get_component_details",
+     "description": "Get detailed information about a specific shadcn/ui component",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "componentName": {
+        "type": "string",
+        "description": "Name of the shadcn/ui component (e.g., \"accordion\", \"button\")"
+       }
+      },
+      "required": [
+       "componentName"
+      ]
+     }
+    },
+    {
+     "name": "get_component_examples",
+     "description": "Get usage examples for a specific shadcn/ui component",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "componentName": {
+        "type": "string",
+        "description": "Name of the shadcn/ui component (e.g., \"accordion\", \"button\")"
+       }
+      },
+      "required": [
+       "componentName"
+      ]
+     }
+    },
+    {
+     "name": "search_components",
+     "description": "Search for shadcn/ui components by keyword",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "query": {
+        "type": "string",
+        "description": "Search query to find relevant components"
+       }
+      },
+      "required": [
+       "query"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "npx_fetch",
+   "name": "MCP NPX Fetch",
+   "server": "mcp://npx_fetch",
+   "summary": "A powerful MCP server for fetching and transforming web content into various formats (HTML, JSON, Markdown, Plain Text) with ease.",
+   "tools": [
+    {
+     "name": "fetch_html",
+     "description": "Fetch a website and return the content as HTML",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "url": {
+        "type": "string",
+        "description": "URL of the website to fetch"
+       },
+       "headers": {
+        "type": "object",
+        "description": "Optional headers to include in the request"
+       }
+      },
+      "required": [
+       "url"
+      ]
+     }
+    },
+    {
+     "name": "fetch_markdown",
+     "description": "Fetch a website and return the content as Markdown",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "url": {
+        "type": "string",
+        "description": "URL of the website to fetch"
+       },
+       "headers": {
+        "type": "object",
+        "description": "Optional headers to include in the request"
+       }
+      },
+      "required": [
+       "url"
+      ]
+     }
+    },
+    {
+     "name": "fetch_txt",
+     "description": "Fetch a website, return the content as plain text (no HTML)",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "url": {
+        "type": "string",
+        "description": "URL of the website to fetch"
+       },
+       "headers": {
+        "type": "object",
+        "description": "Optional headers to include in the request"
+       }
+      },
+      "required": [
+       "url"
+      ]
+     }
+    },
+    {
+     "name": "fetch_json",
+     "description": "Fetch a JSON file from a URL",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "url": {
+        "type": "string",
+        "description": "URL of the JSON to fetch"
+       },
+       "headers": {
+        "type": "object",
+        "description": "Optional headers to include in the request"
+       }
+      },
+      "required": [
+       "url"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "arxiv_mcp_server",
+   "name": "ArXiv MCP Server",
+   "server": "mcp://arxiv-mcp-server",
+   "summary": "The ArXiv MCP Server provides a bridge between AI assistants and arXiv's research repository through the Model Context Protocol (MCP). It allows AI models to search for papers and access their content in a programmatic way.",
+   "tools": [
+    {
+     "name": "search_papers",
+     "description": "Search for papers on arXiv with advanced filtering",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "query": {
+        "type": "string"
+       },
+       "max_results": {
+        "type": "integer"
+       },
+       "date_from": {
+        "type": "string"
+       },
+       "date_to": {
+        "type": "string"
+       },
+       "categories": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        }
+       }
+      },
+      "required": [
+       "query"
+      ]
+     }
+    },
+    {
+     "name": "download_paper",
+     "description": "Download a paper and create a resource for it",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "paper_id": {
+        "type": "string",
+        "description": "The arXiv ID of the paper to download"
+       },
+       "check_status": {
+        "type": "boolean",
+        "description": "If true, only check conversion status without downloading",
+        "default": false
+       }
+      },
+      "required": [
+       "paper_id"
+      ]
+     }
+    },
+    {
+     "name": "list_papers",
+     "description": "List all existing papers available as resources",
+     "input_schema": {
+      "type": "object",
+      "properties": {},
+      "required": []
+     }
+    },
+    {
+     "name": "read_paper",
+     "description": "Read the full content of a stored paper in markdown format",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "paper_id": {
+        "type": "string",
+        "description": "The arXiv ID of the paper to read"
+       }
+      },
+      "required": [
+       "paper_id"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "whois",
+   "name": "Whois MCP",
+   "server": "mcp://whois",
+   "summary": "Model Context Protocol server for whois lookups.",
+   "tools": [
+    {
+     "name": "whois_domain",
+     "description": "Looksup whois information about the domain",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "domain": {
+        "type": "string",
+        "minLength": 1
+       }
+      },
+      "required": [
+       "domain"
+      ],
+      "additionalProperties": false,
+      "$schema": "http://json-schema.org/draft-07/schema#"
+     }
+    },
+    {
+     "name": "whois_tld",
+     "description": "Looksup whois information about the Top Level Domain (TLD)",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "tld": {
+        "type": "string",
+        "minLength": 1
+       }
+      },
+      "required": [
+       "tld"
+      ],
+      "additionalProperties": false,
+      "$schema": "http://json-schema.org/draft-07/schema#"
+     }
+    },
+    {
+     "name": "whois_ip",
+     "description": "Looksup whois information about the IP",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "ip": {
+        "type": "string",
+        "anyOf": [
+         {
+          "format": "ipv4"
+         },
+         {
+          "format": "ipv6"
+         }
+        ]
+       }
+      },
+      "required": [
+       "ip"
+      ],
+      "additionalProperties": false,
+      "$schema": "http://json-schema.org/draft-07/schema#"
+     }
+    },
+    {
+     "name": "whois_as",
+     "description": "Looksup whois information about the Autonomous System Number (ASN)",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "asn": {
+        "type": "string",
+        "pattern": "^AS\\d+$"
+       }
+      },
+      "required": [
+       "asn"
+      ],
+      "additionalProperties": false,
+      "$schema": "http://json-schema.org/draft-07/schema#"
+     }
+    }
+   ]
+  },
+  {
+   "id": "mcp_deepwiki",
+   "name": "Deepwiki MCP Server",
+   "server": "mcp://mcp-deepwiki",
+   "summary": "This is an unofficial Deepwiki MCP Server\nIt takes a Deepwiki URL via MCP, crawls all relevant pages, converts them to Markdown, and returns either one document or a list by page.",
+   "tools": [
+    {
+     "name": "deepwiki_fetch",
+     "description": "Fetch a deepwiki.com repo and return Markdown",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "url": {
+        "type": "string",
+        "description": "should be a URL, owner/repo name (e.g. \"vercel/ai\"), a two-word \"owner repo\" form (e.g. \"vercel ai\"), or a single library keyword"
+       },
+       "maxDepth": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 1,
+        "default": 1,
+        "description": "Can fetch a single site => maxDepth 0 or multiple/all sites => maxDepth 1"
+       },
+       "mode": {
+        "type": "string",
+        "enum": [
+         "aggregate",
+         "pages"
+        ],
+        "default": "aggregate"
+       },
+       "verbose": {
+        "type": "boolean",
+        "default": false
+       }
+      },
+      "required": [
+       "url"
+      ],
+      "additionalProperties": false,
+      "$schema": "http://json-schema.org/draft-07/schema#"
+     }
+    }
+   ]
+  },
+  {
+   "id": "mcp_simple_arxiv",
+   "name": "mcp-simple-arxiv",
+   "server": "mcp://mcp-simple-arxiv",
+   "summary": "An MCP server that provides access to arXiv papers through their API.",
+   "tools": [
+    {
+     "name": "search_papers",
+     "description": "Search for papers on arXiv by title and abstract content.\n            \nYou can use advanced search syntax:\n- Search in title: ti:\"search terms\"\n- Search in abstract: abs:\"search terms\"\n- Search by author: au:\"author name\"\n- Combine terms with: AND, OR, ANDNOT\n- Filter by category: cat:cs.AI (use list_categories tool to see available categories)\n\nExamples:\n- \"machine learning\"  (searches all fields)\n- ti:\"neural networks\" AND cat:cs.AI  (title with category)\n- au:bengio AND ti:\"deep learning\"  (author and title)",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "query": {
+        "type": "string",
+        "description": "Search query to match against paper titles and abstracts"
+       },
+       "max_results": {
+        "type": "number",
+        "description": "Maximum number of results to return (default: 10)",
+        "minimum": 1,
+        "maximum": 50
+       }
+      },
+      "required": [
+       "query"
+      ]
+     }
+    },
+    {
+     "name": "get_paper_data",
+     "description": "Get detailed information about a specific paper including abstract and available formats",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "paper_id": {
+        "type": "string",
+        "description": "arXiv paper ID (e.g., '2103.08220')"
+       }
+      },
+      "required": [
+       "paper_id"
+      ]
+     }
+    },
+    {
+     "name": "list_categories",
+     "description": "List all available arXiv categories and how to use them in search",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "primary_category": {
+        "type": "string",
+        "description": "Optional: filter by primary category (e.g., 'cs' for Computer Science)"
+       }
+      }
+     }
+    },
+    {
+     "name": "update_categories",
+     "description": "Update the stored category taxonomy by fetching the latest version from arxiv.org",
+     "input_schema": {
+      "type": "object",
+      "properties": {}
+     }
+    }
+   ]
+  }
+ ]
+}

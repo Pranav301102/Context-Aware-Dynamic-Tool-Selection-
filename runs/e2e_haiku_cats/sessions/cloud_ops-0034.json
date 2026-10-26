@@ -1,0 +1,89 @@
+{
+ "task_id": "cloud_ops-0034",
+ "mode": "cats",
+ "loaded": [
+  "aws.cloudwatch_describe_alarms",
+  "gitlab.create_issue",
+  "gitlab.get_pipeline_job_output",
+  "gitlab.list_issues",
+  "gitlab.list_pipelines",
+  "gitlab.retry_pipeline",
+  "google_drive.gdrive_upload_file",
+  "filesystem.read_file",
+  "aws.s3_put_object",
+  "github.get_file_contents",
+  "google_cloud_ai.ocr_pdf_document",
+  "aws.s3_get_object",
+  "aws.s3_list_buckets",
+  "aws.s3_list_objects",
+  "grafana.get_current_oncall_users",
+  "grafana.query_prometheus"
+ ],
+ "order": [
+  "aws.cloudwatch_describe_alarms",
+  "gitlab.create_issue",
+  "gitlab.get_pipeline_job_output",
+  "gitlab.list_issues",
+  "gitlab.list_pipelines",
+  "gitlab.retry_pipeline",
+  "google_drive.gdrive_upload_file",
+  "filesystem.read_file",
+  "aws.s3_put_object",
+  "github.get_file_contents",
+  "google_cloud_ai.ocr_pdf_document",
+  "aws.s3_get_object",
+  "aws.s3_list_buckets",
+  "aws.s3_list_objects",
+  "grafana.get_current_oncall_users",
+  "grafana.query_prometheus"
+ ],
+ "escalations": 2,
+ "calls": [
+  {
+   "tool": "aws.s3_get_object",
+   "args": {
+    "bucket": "acme-tf-state",
+    "key": "infra/prod/terraform.tfstate"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 6,
+   "tool_tokens": 1437
+  },
+  {
+   "type": "request_tools",
+   "capability": "read file contents from repositories or cloud storage",
+   "added": [
+    "google_drive.gdrive_upload_file",
+    "filesystem.read_file",
+    "aws.s3_put_object",
+    "github.get_file_contents",
+    "google_cloud_ai.ocr_pdf_document"
+   ],
+   "tool_tokens": 2556
+  },
+  {
+   "type": "request_tools",
+   "capability": "read objects from S3 buckets",
+   "added": [
+    "aws.s3_get_object",
+    "aws.s3_list_buckets",
+    "aws.s3_list_objects",
+    "grafana.get_current_oncall_users",
+    "grafana.query_prometheus"
+   ],
+   "tool_tokens": 3382
+  },
+  {
+   "type": "call",
+   "tool": "aws__s3_get_object",
+   "valid": true
+  }
+ ],
+ "done": true,
+ "final": ""
+}

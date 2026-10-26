@@ -1,0 +1,86 @@
+{
+ "task_id": "cross-0012",
+ "mode": "cats",
+ "loaded": [
+  "aws.s3_put_object",
+  "google_calendar.get_freebusy",
+  "google_drive.gdrive_export_file",
+  "google_drive.gdrive_read_file",
+  "google_drive.gdrive_search",
+  "google_drive.gdrive_share_file",
+  "google_drive.gdrive_upload_file",
+  "ms_teams.create_online_meeting",
+  "notion.notion_search",
+  "slack.get_channel_history",
+  "slack.get_thread_replies",
+  "slack.list_channels",
+  "slack.post_message",
+  "slack.search_messages",
+  "stripe.create_customer",
+  "tavily.tavily_extract"
+ ],
+ "order": [
+  "aws.s3_put_object",
+  "google_calendar.get_freebusy",
+  "google_drive.gdrive_export_file",
+  "google_drive.gdrive_read_file",
+  "google_drive.gdrive_search",
+  "google_drive.gdrive_share_file",
+  "google_drive.gdrive_upload_file",
+  "ms_teams.create_online_meeting",
+  "notion.notion_search",
+  "slack.get_channel_history",
+  "slack.get_thread_replies",
+  "slack.list_channels",
+  "slack.post_message",
+  "slack.search_messages",
+  "stripe.create_customer",
+  "tavily.tavily_extract"
+ ],
+ "scores": {
+  "aws.s3_put_object": 0.04649085006651519,
+  "google_calendar.get_freebusy": 0.15204019925550416,
+  "google_drive.gdrive_export_file": 0.04238357699426265,
+  "google_drive.gdrive_read_file": 0.3417172005336737,
+  "google_drive.gdrive_search": 0.6395034098033617,
+  "google_drive.gdrive_share_file": 0.7726150867089553,
+  "google_drive.gdrive_upload_file": 0.11301028017719252,
+  "ms_teams.create_online_meeting": 0.21855679111484844,
+  "notion.notion_search": 0.2949636059587094,
+  "slack.get_channel_history": 0.08669500260219175,
+  "slack.get_thread_replies": 0.08714487534274179,
+  "slack.list_channels": 0.15262401258324523,
+  "slack.post_message": 0.4968472986400234,
+  "slack.search_messages": 0.44899702211402037,
+  "stripe.create_customer": 0.08098360217696494,
+  "tavily.tavily_extract": 0.04612178146301923
+ },
+ "router_tokens": 1459,
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "google_drive.gdrive_search",
+   "args": {
+    "query": "name contains 'Offsite Agenda'"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 16,
+   "tool_tokens": 3570,
+   "t": 1791321015.8841922
+  },
+  {
+   "type": "call",
+   "tool": "google_drive__gdrive_search",
+   "valid": true,
+   "t": 1791321027.0189233
+  }
+ ],
+ "done": true,
+ "t_done": 1791321048.0944045,
+ "final": ""
+}

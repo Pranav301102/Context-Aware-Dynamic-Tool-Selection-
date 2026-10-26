@@ -1,0 +1,67 @@
+{
+ "task_id": "finance-0006",
+ "mode": "search",
+ "loaded": [
+  "yahoo_finance.get_financial_statement",
+  "alpha_vantage.company_overview",
+  "quickbooks.get_balance_sheet",
+  "quickbooks.get_profit_and_loss",
+  "yahoo_finance.get_stock_info"
+ ],
+ "order": [
+  "yahoo_finance.get_financial_statement",
+  "alpha_vantage.company_overview",
+  "quickbooks.get_balance_sheet",
+  "quickbooks.get_profit_and_loss",
+  "yahoo_finance.get_stock_info"
+ ],
+ "scores": {
+  "yahoo_finance.get_financial_statement": 2.0,
+  "alpha_vantage.company_overview": 2.0,
+  "quickbooks.get_balance_sheet": 2.0,
+  "quickbooks.get_profit_and_loss": 2.0,
+  "yahoo_finance.get_stock_info": 2.0
+ },
+ "router_tokens": 0,
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "yahoo_finance.get_financial_statement",
+   "args": {
+    "ticker": "NVDA",
+    "financial_type": "quarterly_income_stmt"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0,
+   "t": 1791322474.6959321
+  },
+  {
+   "type": "request_tools",
+   "capability": "get a company's quarterly income statement financials",
+   "added": [
+    "yahoo_finance.get_financial_statement",
+    "alpha_vantage.company_overview",
+    "quickbooks.get_balance_sheet",
+    "quickbooks.get_profit_and_loss",
+    "yahoo_finance.get_stock_info"
+   ],
+   "tool_tokens": 776,
+   "t": 1791322480.942381
+  },
+  {
+   "type": "call",
+   "tool": "yahoo_finance__get_financial_statement",
+   "valid": true,
+   "t": 1791322487.7871184
+  }
+ ],
+ "done": true,
+ "t_done": 1791322488.5719593,
+ "final": ""
+}

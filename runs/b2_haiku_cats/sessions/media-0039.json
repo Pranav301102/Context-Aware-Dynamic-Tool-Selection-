@@ -1,0 +1,89 @@
+{
+ "task_id": "media-0039",
+ "mode": "cats",
+ "loaded": [
+  "deepl.rephrase_text",
+  "deepl.translate_document",
+  "deepl.translate_text",
+  "elevenlabs.text_to_speech",
+  "elevenlabs.voice_clone",
+  "ffmpeg_video.concatenate_videos",
+  "ffmpeg_video.convert_video",
+  "ffmpeg_video.extract_audio",
+  "google_cloud_ai.translate_text",
+  "notion.notion_create_pages",
+  "openai_media.create_speech",
+  "openai_media.translate_audio"
+ ],
+ "order": [
+  "deepl.rephrase_text",
+  "deepl.translate_document",
+  "deepl.translate_text",
+  "elevenlabs.text_to_speech",
+  "elevenlabs.voice_clone",
+  "ffmpeg_video.concatenate_videos",
+  "ffmpeg_video.convert_video",
+  "ffmpeg_video.extract_audio",
+  "google_cloud_ai.translate_text",
+  "notion.notion_create_pages",
+  "openai_media.create_speech",
+  "openai_media.translate_audio"
+ ],
+ "scores": {
+  "deepl.rephrase_text": 0.12388411360644769,
+  "deepl.translate_document": 0.1879968764062694,
+  "deepl.translate_text": 0.8156070815187385,
+  "elevenlabs.text_to_speech": 0.42525576421093836,
+  "elevenlabs.voice_clone": 0.052168825864385836,
+  "ffmpeg_video.concatenate_videos": 0.06516951171264646,
+  "ffmpeg_video.convert_video": 0.05615078189695682,
+  "ffmpeg_video.extract_audio": 0.4465634945483645,
+  "google_cloud_ai.translate_text": 0.2901141714566976,
+  "notion.notion_create_pages": 0.06313157450462524,
+  "openai_media.create_speech": 0.1789243269973279,
+  "openai_media.translate_audio": 0.6579659713902754
+ },
+ "router_tokens": 0,
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "deepl.translate_text",
+   "args": {
+    "text": "Thank you for joining our webinar today.",
+    "targetLangCode": "de"
+   }
+  },
+  {
+   "tool": "openai_media.create_speech",
+   "args": {
+    "input": "simulated result of deepl.translate_text",
+    "voice": "nova",
+    "response_format": "mp3"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 12,
+   "tool_tokens": 2929,
+   "t": 1791321377.8628676
+  },
+  {
+   "type": "call",
+   "tool": "deepl__translate_text",
+   "valid": true,
+   "t": 1791321392.3379247
+  },
+  {
+   "type": "call",
+   "tool": "openai_media__create_speech",
+   "valid": true,
+   "t": 1791321404.4754663
+  }
+ ],
+ "done": true,
+ "t_done": 1791321411.4718812,
+ "final": ""
+}

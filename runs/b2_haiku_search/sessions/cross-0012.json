@@ -1,0 +1,145 @@
+{
+ "task_id": "cross-0012",
+ "mode": "search",
+ "loaded": [
+  "google_drive.gdrive_search",
+  "google_drive.gdrive_upload_file",
+  "notion.notion_search",
+  "google_drive.gdrive_share_file",
+  "google_drive.gdrive_read_file",
+  "slack.search_messages",
+  "slack.post_message",
+  "google_drive.gdrive_create_folder",
+  "slack.get_channel_history",
+  "google_drive.gdrive_move_file",
+  "slack.list_channels",
+  "ms_teams.list_channels",
+  "slack.get_thread_replies",
+  "slack.get_users",
+  "ms_teams.get_channel_messages"
+ ],
+ "order": [
+  "google_drive.gdrive_search",
+  "google_drive.gdrive_upload_file",
+  "notion.notion_search",
+  "google_drive.gdrive_share_file",
+  "google_drive.gdrive_read_file",
+  "slack.search_messages",
+  "slack.post_message",
+  "google_drive.gdrive_create_folder",
+  "slack.get_channel_history",
+  "google_drive.gdrive_move_file",
+  "slack.list_channels",
+  "ms_teams.list_channels",
+  "slack.get_thread_replies",
+  "slack.get_users",
+  "ms_teams.get_channel_messages"
+ ],
+ "scores": {
+  "google_drive.gdrive_search": 2.0,
+  "google_drive.gdrive_upload_file": 2.0,
+  "notion.notion_search": 2.0,
+  "google_drive.gdrive_share_file": 2.0,
+  "google_drive.gdrive_read_file": 2.0,
+  "slack.search_messages": 2.0,
+  "slack.post_message": 2.0,
+  "google_drive.gdrive_create_folder": 2.0,
+  "slack.get_channel_history": 2.0,
+  "google_drive.gdrive_move_file": 2.0,
+  "slack.list_channels": 2.0,
+  "ms_teams.list_channels": 2.0,
+  "slack.get_thread_replies": 2.0,
+  "slack.get_users": 2.0,
+  "ms_teams.get_channel_messages": 2.0
+ },
+ "router_tokens": 0,
+ "escalations": 3,
+ "calls": [
+  {
+   "tool": "google_drive.gdrive_search",
+   "args": {
+    "query": "Offsite Agenda"
+   }
+  },
+  {
+   "tool": "slack.list_channels",
+   "args": {}
+  },
+  {
+   "tool": "slack.post_message",
+   "args": {
+    "channel_id": "offsite",
+    "text": "Offsite Agenda document: https://drive.google.com/file/d/offsite_agenda_doc_id"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0,
+   "t": 1791321504.889081
+  },
+  {
+   "type": "request_tools",
+   "capability": "search Google Drive for documents",
+   "added": [
+    "google_drive.gdrive_search",
+    "google_drive.gdrive_upload_file",
+    "notion.notion_search",
+    "google_drive.gdrive_share_file",
+    "google_drive.gdrive_read_file"
+   ],
+   "tool_tokens": 1236,
+   "t": 1791321516.288313
+  },
+  {
+   "type": "call",
+   "tool": "google_drive__gdrive_search",
+   "valid": true,
+   "t": 1791321526.1475031
+  },
+  {
+   "type": "request_tools",
+   "capability": "share Google Drive files and post messages to Slack",
+   "added": [
+    "slack.search_messages",
+    "slack.post_message",
+    "google_drive.gdrive_create_folder",
+    "slack.get_channel_history",
+    "google_drive.gdrive_move_file"
+   ],
+   "tool_tokens": 2022,
+   "t": 1791321538.2046013
+  },
+  {
+   "type": "request_tools",
+   "capability": "get Slack channel ID and list channels",
+   "added": [
+    "slack.list_channels",
+    "ms_teams.list_channels",
+    "slack.get_thread_replies",
+    "slack.get_users",
+    "ms_teams.get_channel_messages"
+   ],
+   "tool_tokens": 2501,
+   "t": 1791321551.9850404
+  },
+  {
+   "type": "call",
+   "tool": "slack__list_channels",
+   "valid": true,
+   "t": 1791321563.3607962
+  },
+  {
+   "type": "call",
+   "tool": "slack__post_message",
+   "valid": true,
+   "t": 1791321585.3448174
+  }
+ ],
+ "done": true,
+ "t_done": 1791321590.9582858,
+ "final": ""
+}

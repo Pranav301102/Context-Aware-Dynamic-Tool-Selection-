@@ -1,0 +1,58 @@
+{
+ "task_id": "travel_geo-0005",
+ "mode": "cats",
+ "loaded": [
+  "google_maps.maps_directions",
+  "google_maps.maps_elevation",
+  "google_maps.maps_geocode",
+  "mapbox.static_map_image_tool",
+  "wikipedia.get_coordinates"
+ ],
+ "order": [
+  "google_maps.maps_directions",
+  "google_maps.maps_elevation",
+  "google_maps.maps_geocode",
+  "mapbox.static_map_image_tool",
+  "wikipedia.get_coordinates"
+ ],
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "google_maps.maps_geocode",
+   "args": {
+    "address": "10 Downing Street, London"
+   }
+  },
+  {
+   "tool": "google_maps.maps_elevation",
+   "args": {
+    "locations": [
+     {
+      "latitude": 51.5033,
+      "longitude": -0.1277
+     }
+    ]
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 5,
+   "tool_tokens": 992
+  },
+  {
+   "type": "call",
+   "tool": "google_maps__maps_geocode",
+   "valid": true
+  },
+  {
+   "type": "call",
+   "tool": "google_maps__maps_elevation",
+   "valid": true
+  }
+ ],
+ "done": true,
+ "final": ""
+}

@@ -1,0 +1,59 @@
+{
+ "task_id": "communication-0060",
+ "mode": "cats",
+ "loaded": [
+  "ms_teams.get_channel_messages",
+  "ms_teams.reply_to_channel_message",
+  "ms_teams.send_channel_message",
+  "ms_teams.send_chat_message",
+  "slack.get_thread_replies",
+  "slack.reply_to_thread"
+ ],
+ "order": [
+  "ms_teams.get_channel_messages",
+  "ms_teams.reply_to_channel_message",
+  "ms_teams.send_channel_message",
+  "ms_teams.send_chat_message",
+  "slack.get_thread_replies",
+  "slack.reply_to_thread"
+ ],
+ "scores": {
+  "ms_teams.get_channel_messages": 0.19520267218980153,
+  "ms_teams.reply_to_channel_message": 0.8006577333517916,
+  "ms_teams.send_channel_message": 0.08502104355032075,
+  "ms_teams.send_chat_message": 0.058733004043354964,
+  "slack.get_thread_replies": 0.0413808926319237,
+  "slack.reply_to_thread": 0.07846654029967608
+ },
+ "router_tokens": 0,
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "ms_teams.reply_to_channel_message",
+   "args": {
+    "team_id": "<ops_team_id>",
+    "channel_id": "<ops_general_channel_id>",
+    "message_id": "1699887766554",
+    "content": "It's me this weekend - I'm on call."
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 6,
+   "tool_tokens": 1032,
+   "t": 1791321725.5915058
+  },
+  {
+   "type": "call",
+   "tool": "ms_teams__reply_to_channel_message",
+   "valid": true,
+   "t": 1791321741.230286
+  }
+ ],
+ "done": true,
+ "t_done": 1791321750.155385,
+ "final": ""
+}

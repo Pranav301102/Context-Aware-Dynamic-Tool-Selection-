@@ -1,0 +1,52 @@
+{
+ "task_id": "dev_platform-0023",
+ "mode": "cats",
+ "loaded": [
+  "github.list_workflow_runs",
+  "sentry.find_releases",
+  "sentry.get_issue_details",
+  "sentry.search_issues"
+ ],
+ "order": [
+  "github.list_workflow_runs",
+  "sentry.find_releases",
+  "sentry.get_issue_details",
+  "sentry.search_issues"
+ ],
+ "scores": {
+  "github.list_workflow_runs": 0.03290728143491521,
+  "sentry.find_releases": 0.5737842203797722,
+  "sentry.get_issue_details": 0.10863707814796233,
+  "sentry.search_issues": 0.13867147870206145
+ },
+ "router_tokens": 0,
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "sentry.search_issues",
+   "args": {
+    "organizationSlug": "acme",
+    "projectSlugOrId": "web-app",
+    "naturalLanguageQuery": "unresolved issues in production with the most events in the last hour"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 4,
+   "tool_tokens": 1330,
+   "t": 1791321558.226783
+  },
+  {
+   "type": "call",
+   "tool": "sentry__search_issues",
+   "valid": true,
+   "t": 1791321570.7796426
+  }
+ ],
+ "done": true,
+ "t_done": 1791321572.8088338,
+ "final": ""
+}

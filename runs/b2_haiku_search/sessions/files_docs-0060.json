@@ -1,0 +1,66 @@
+{
+ "task_id": "files_docs-0060",
+ "mode": "search",
+ "loaded": [
+  "filesystem.read_file",
+  "filesystem.read_multiple_files",
+  "e2b.download_file",
+  "filesystem.get_file_info",
+  "e2b.upload_file"
+ ],
+ "order": [
+  "filesystem.read_file",
+  "filesystem.read_multiple_files",
+  "e2b.download_file",
+  "filesystem.get_file_info",
+  "e2b.upload_file"
+ ],
+ "scores": {
+  "filesystem.read_file": 2.0,
+  "filesystem.read_multiple_files": 2.0,
+  "e2b.download_file": 2.0,
+  "filesystem.get_file_info": 2.0,
+  "e2b.upload_file": 2.0
+ },
+ "router_tokens": 0,
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "filesystem.read_file",
+   "args": {
+    "path": "~/projects/blog/posts/2026-09-29-tailscale-acl.md"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0,
+   "t": 1791321967.7129555
+  },
+  {
+   "type": "request_tools",
+   "capability": "read file contents from the filesystem",
+   "added": [
+    "filesystem.read_file",
+    "filesystem.read_multiple_files",
+    "e2b.download_file",
+    "filesystem.get_file_info",
+    "e2b.upload_file"
+   ],
+   "tool_tokens": 765,
+   "t": 1791321980.5727985
+  },
+  {
+   "type": "call",
+   "tool": "filesystem__read_file",
+   "valid": true,
+   "t": 1791321992.3503783
+  }
+ ],
+ "done": true,
+ "t_done": 1791321998.357363,
+ "final": ""
+}

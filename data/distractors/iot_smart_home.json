@@ -1,0 +1,821 @@
+{
+  "branch": {
+    "id": "iot_smart_home",
+    "name": "IoT & Smart Home",
+    "summary": "Smart home and IoT: listing and controlling connected devices, lights, locks, thermostats and cameras, reading sensor data and history, and creating scenes and automations."
+  },
+  "toolkits": [
+    {
+      "id": "smartthings",
+      "name": "SmartThings",
+      "server": "mcp://smartthings",
+      "summary": "Samsung SmartThings: locations, rooms, devices and their capabilities, scenes and automation rules.",
+      "tools": [
+        {
+          "name": "list_devices",
+          "description": "List devices, optionally filtered by location, room or capability (e.g. switch, temperatureMeasurement, lock).",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "location_id": {
+                "type": "string",
+                "description": "Location id."
+              },
+              "room_id": {
+                "type": "string",
+                "description": "Room id."
+              },
+              "capability": {
+                "type": "string",
+                "description": "Capability id, e.g. 'switch', 'motionSensor', 'lock'."
+              }
+            }
+          }
+        },
+        {
+          "name": "get_device_status",
+          "description": "Get current status of every component and capability of a device.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "device_id": {
+                "type": "string",
+                "description": "Device id."
+              }
+            },
+            "required": [
+              "device_id"
+            ]
+          }
+        },
+        {
+          "name": "execute_device_command",
+          "description": "Send commands to a device, e.g. switch.on, lock.lock, switchLevel.setLevel(50), thermostatCoolingSetpoint.setCoolingSetpoint(72).",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "device_id": {
+                "type": "string",
+                "description": "Device id."
+              },
+              "commands": {
+                "type": "array",
+                "description": "Commands to run in order.",
+                "items": {
+                  "type": "object",
+                  "description": "Command.",
+                  "properties": {
+                    "component": {
+                      "type": "string",
+                      "description": "Component.",
+                      "default": "main"
+                    },
+                    "capability": {
+                      "type": "string",
+                      "description": "Capability id."
+                    },
+                    "command": {
+                      "type": "string",
+                      "description": "Command name."
+                    },
+                    "arguments": {
+                      "type": "array",
+                      "description": "Command arguments.",
+                      "items": {}
+                    }
+                  },
+                  "required": [
+                    "capability",
+                    "command"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "device_id",
+              "commands"
+            ]
+          }
+        },
+        {
+          "name": "list_locations",
+          "description": "List locations.",
+          "input_schema": {
+            "type": "object",
+            "properties": {}
+          }
+        },
+        {
+          "name": "list_rooms",
+          "description": "List rooms in a location.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "location_id": {
+                "type": "string",
+                "description": "Location id."
+              }
+            },
+            "required": [
+              "location_id"
+            ]
+          }
+        },
+        {
+          "name": "list_scenes",
+          "description": "List scenes",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "location_id": {
+                "type": "string",
+                "description": "Location id."
+              }
+            }
+          }
+        },
+        {
+          "name": "execute_scene",
+          "description": "Run a scene.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "scene_id": {
+                "type": "string",
+                "description": "Scene id."
+              }
+            },
+            "required": [
+              "scene_id"
+            ]
+          }
+        },
+        {
+          "name": "create_rule",
+          "description": "Create an automation rule: when a condition is met (device state, time of day, location mode), perform actions.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "location_id": {
+                "type": "string",
+                "description": "Location id."
+              },
+              "name": {
+                "type": "string",
+                "description": "Rule name."
+              },
+              "actions": {
+                "type": "array",
+                "description": "Rule action tree using if / every / sleep / command nodes as defined by the Rules API.",
+                "items": {
+                  "type": "object"
+                }
+              },
+              "time_zone_id": {
+                "type": "string",
+                "description": "IANA time zone for time-based conditions."
+              }
+            },
+            "required": [
+              "location_id",
+              "name",
+              "actions"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "google_nest",
+      "name": "Google Nest Device Access",
+      "server": "mcp://nest-sdm",
+      "summary": "Nest thermostats, cameras and doorbells through the Smart Device Management API.",
+      "tools": [
+        {
+          "name": "list_devices",
+          "description": "List Nest devices (thermostats, cameras, doorbells, displays) with their traits and rooms.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "structure_id": {
+                "type": "string",
+                "description": "Home (structure) id."
+              }
+            }
+          }
+        },
+        {
+          "name": "get_thermostat",
+          "description": "Get a thermostat's ambient temperature, humidity, HVAC status (heating/cooling/off), mode and setpoints.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "device_id": {
+                "type": "string",
+                "description": "Device id."
+              }
+            },
+            "required": [
+              "device_id"
+            ]
+          }
+        },
+        {
+          "name": "set_temperature",
+          "description": "Set the thermostat heat or cool setpoint. In HEATCOOL mode provide both heat_celsius and cool_celsius.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "device_id": {
+                "type": "string",
+                "description": "Device id."
+              },
+              "heat_celsius": {
+                "type": "number",
+                "description": "Heat setpoint in Celsius."
+              },
+              "cool_celsius": {
+                "type": "number",
+                "description": "Cool setpoint in Celsius."
+              }
+            },
+            "required": [
+              "device_id"
+            ]
+          }
+        },
+        {
+          "name": "set_thermostat_mode",
+          "description": "Set thermostat mode.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "device_id": {
+                "type": "string",
+                "description": "Device id."
+              },
+              "mode": {
+                "type": "string",
+                "description": "Mode.",
+                "enum": [
+                  "HEAT",
+                  "COOL",
+                  "HEATCOOL",
+                  "OFF"
+                ]
+              }
+            },
+            "required": [
+              "device_id",
+              "mode"
+            ]
+          }
+        },
+        {
+          "name": "set_eco_mode",
+          "description": "Turn eco mode on or off.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "device_id": {
+                "type": "string",
+                "description": "Device id."
+              },
+              "eco_mode": {
+                "type": "string",
+                "description": "Eco mode.",
+                "enum": [
+                  "MANUAL_ECO",
+                  "OFF"
+                ]
+              }
+            },
+            "required": [
+              "device_id",
+              "eco_mode"
+            ]
+          }
+        },
+        {
+          "name": "set_fan_timer",
+          "description": "Run the HVAC fan for a duration or turn the fan timer off.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "device_id": {
+                "type": "string",
+                "description": "Device id."
+              },
+              "timer_mode": {
+                "type": "string",
+                "description": "Timer.",
+                "enum": [
+                  "ON",
+                  "OFF"
+                ]
+              },
+              "duration_seconds": {
+                "type": "integer",
+                "description": "Duration, up to 43200.",
+                "default": 900
+              }
+            },
+            "required": [
+              "device_id",
+              "timer_mode"
+            ]
+          }
+        },
+        {
+          "name": "generate_camera_stream",
+          "description": "Generate a live stream (WebRTC or RTSP) for a camera or doorbell.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "device_id": {
+                "type": "string",
+                "description": "Device id."
+              },
+              "protocol": {
+                "type": "string",
+                "description": "Protocol.",
+                "enum": [
+                  "WEB_RTC",
+                  "RTSP"
+                ],
+                "default": "WEB_RTC"
+              },
+              "offer_sdp": {
+                "type": "string",
+                "description": "WebRTC SDP offer (WEB_RTC only)."
+              }
+            },
+            "required": [
+              "device_id"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "home_assistant",
+      "name": "Home Assistant",
+      "server": "mcp://home-assistant",
+      "summary": "Local smart home hub: entity states, service calls, automations, history and areas.",
+      "tools": [
+        {
+          "name": "get_states",
+          "description": "Get the state and attributes of entities. Filter by entity_id, domain (light, switch, sensor, climate, binary_sensor...) or area.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "entity_id": {
+                "type": "string",
+                "description": "Single entity id, e.g. 'sensor.living_room_temperature'."
+              },
+              "domain": {
+                "type": "string",
+                "description": "Entity domain."
+              },
+              "area": {
+                "type": "string",
+                "description": "Area name or id."
+              }
+            }
+          }
+        },
+        {
+          "name": "call_service",
+          "description": "Call a Home Assistant service, e.g. light.turn_on, climate.set_temperature, lock.unlock, cover.open_cover.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "domain": {
+                "type": "string",
+                "description": "Service domain, e.g. 'light'."
+              },
+              "service": {
+                "type": "string",
+                "description": "Service name, e.g. 'turn_on'."
+              },
+              "target": {
+                "type": "object",
+                "description": "Targets.",
+                "properties": {
+                  "entity_id": {
+                    "type": "array",
+                    "description": "Entities.",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "area_id": {
+                    "type": "array",
+                    "description": "Areas.",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "device_id": {
+                    "type": "array",
+                    "description": "Devices.",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "service_data": {
+                "type": "object",
+                "description": "Service data, e.g. {\"brightness_pct\": 40, \"color_temp_kelvin\": 2700}.",
+                "additionalProperties": true
+              }
+            },
+            "required": [
+              "domain",
+              "service"
+            ]
+          }
+        },
+        {
+          "name": "get_history",
+          "description": "Get state history for entities over a time window, e.g. temperature, humidity or energy sensors.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "entity_ids": {
+                "type": "array",
+                "description": "Entities.",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "start_time": {
+                "type": "string",
+                "description": "ISO 8601."
+              },
+              "end_time": {
+                "type": "string",
+                "description": "ISO 8601."
+              },
+              "minimal_response": {
+                "type": "boolean",
+                "description": "Only state and last_changed.",
+                "default": true
+              },
+              "significant_changes_only": {
+                "type": "boolean",
+                "description": "Skip attribute-only changes.",
+                "default": true
+              }
+            },
+            "required": [
+              "entity_ids"
+            ]
+          }
+        },
+        {
+          "name": "list_automations",
+          "description": "List automations.",
+          "input_schema": {
+            "type": "object",
+            "properties": {}
+          }
+        },
+        {
+          "name": "create_automation",
+          "description": "Create or update an automation with triggers, conditions and actions (JSON equivalent of automation YAML).",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "alias": {
+                "type": "string",
+                "description": "Automation name."
+              },
+              "description": {
+                "type": "string",
+                "description": "Description."
+              },
+              "mode": {
+                "type": "string",
+                "description": "Run mode.",
+                "enum": [
+                  "single",
+                  "restart",
+                  "queued",
+                  "parallel"
+                ],
+                "default": "single"
+              },
+              "triggers": {
+                "type": "array",
+                "description": "Triggers, e.g. {\"trigger\": \"state\", \"entity_id\": \"binary_sensor.door\", \"to\": \"on\"}.",
+                "items": {
+                  "type": "object"
+                }
+              },
+              "conditions": {
+                "type": "array",
+                "description": "Conditions.",
+                "items": {
+                  "type": "object"
+                }
+              },
+              "actions": {
+                "type": "array",
+                "description": "Actions.",
+                "items": {
+                  "type": "object"
+                }
+              }
+            },
+            "required": [
+              "alias",
+              "triggers",
+              "actions"
+            ]
+          }
+        },
+        {
+          "name": "trigger_automation",
+          "description": "Run an automation now.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "entity_id": {
+                "type": "string",
+                "description": "automation.* entity id."
+              },
+              "skip_condition": {
+                "type": "boolean",
+                "description": "Skip conditions.",
+                "default": true
+              }
+            },
+            "required": [
+              "entity_id"
+            ]
+          }
+        },
+        {
+          "name": "list_areas",
+          "description": "List areas.",
+          "input_schema": {
+            "type": "object",
+            "properties": {}
+          }
+        },
+        {
+          "name": "render_template",
+          "description": "Render a Jinja2 template against current state, e.g. to average several sensors.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "template": {
+                "type": "string",
+                "description": "Template string."
+              }
+            },
+            "required": [
+              "template"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "philips_hue",
+      "name": "Philips Hue",
+      "server": "mcp://hue",
+      "summary": "Control Hue lights, rooms, zones and scenes on a Hue Bridge.",
+      "tools": [
+        {
+          "name": "list_lights",
+          "description": "List lights.",
+          "input_schema": {
+            "type": "object",
+            "properties": {}
+          }
+        },
+        {
+          "name": "set_light_state",
+          "description": "Turn a light on or off and set brightness, color or color temperature.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "light_id": {
+                "type": "string",
+                "description": "Light id."
+              },
+              "on": {
+                "type": "boolean",
+                "description": "On/off."
+              },
+              "brightness": {
+                "type": "number",
+                "description": "Brightness percent (0-100)."
+              },
+              "color": {
+                "type": "object",
+                "description": "CIE xy color.",
+                "properties": {
+                  "x": {
+                    "type": "number"
+                  },
+                  "y": {
+                    "type": "number"
+                  }
+                }
+              },
+              "color_temperature_mirek": {
+                "type": "integer",
+                "description": "Color temperature in mirek (153-500)."
+              },
+              "transition_ms": {
+                "type": "integer",
+                "description": "Transition time."
+              }
+            },
+            "required": [
+              "light_id"
+            ]
+          }
+        },
+        {
+          "name": "list_groups",
+          "description": "List rooms and zones with their lights.",
+          "input_schema": {
+            "type": "object",
+            "properties": {}
+          }
+        },
+        {
+          "name": "set_group_state",
+          "description": "Turn all lights in a room or zone on/off or set brightness.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "group_id": {
+                "type": "string",
+                "description": "Room or zone id."
+              },
+              "on": {
+                "type": "boolean",
+                "description": "On/off."
+              },
+              "brightness": {
+                "type": "number",
+                "description": "Brightness percent."
+              }
+            },
+            "required": [
+              "group_id"
+            ]
+          }
+        },
+        {
+          "name": "recall_scene",
+          "description": "Activate a scene.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "scene_id": {
+                "type": "string",
+                "description": "Scene id."
+              },
+              "duration_ms": {
+                "type": "integer",
+                "description": "Fade duration."
+              }
+            },
+            "required": [
+              "scene_id"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "tuya_iot",
+      "name": "Tuya IoT Cloud",
+      "server": "mcp://tuya",
+      "summary": "Tuya cloud devices and sensors: data points, device logs and commands.",
+      "tools": [
+        {
+          "name": "list_home_devices",
+          "description": "List devices in a Tuya home.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "home_id": {
+                "type": "string",
+                "description": "Home id."
+              }
+            },
+            "required": [
+              "home_id"
+            ]
+          }
+        },
+        {
+          "name": "query_sensor_data",
+          "description": "Get the latest reported data points from a sensor (temperature, humidity, motion, door contact, battery, power).",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "device_id": {
+                "type": "string",
+                "description": "Device id."
+              },
+              "codes": {
+                "type": "array",
+                "description": "Data point codes, e.g. 'va_temperature', 'battery_percentage'.",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": [
+              "device_id"
+            ]
+          }
+        },
+        {
+          "name": "get_device_logs",
+          "description": "Device event log.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "device_id": {
+                "type": "string",
+                "description": "Device id."
+              },
+              "start_time": {
+                "type": "integer",
+                "description": "Epoch ms."
+              },
+              "end_time": {
+                "type": "integer",
+                "description": "Epoch ms."
+              },
+              "type": {
+                "type": "string",
+                "description": "Event type.",
+                "enum": [
+                  "online",
+                  "offline",
+                  "report",
+                  "command"
+                ]
+              },
+              "size": {
+                "type": "integer",
+                "description": "Max entries.",
+                "default": 50
+              }
+            },
+            "required": [
+              "device_id"
+            ]
+          }
+        },
+        {
+          "name": "send_device_command",
+          "description": "Send standard instruction-set commands to a device.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "device_id": {
+                "type": "string",
+                "description": "Device id."
+              },
+              "commands": {
+                "type": "array",
+                "description": "Commands.",
+                "items": {
+                  "type": "object",
+                  "description": "Command.",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "description": "Data point code, e.g. 'switch_1'."
+                    },
+                    "value": {}
+                  },
+                  "required": [
+                    "code",
+                    "value"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "device_id",
+              "commands"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

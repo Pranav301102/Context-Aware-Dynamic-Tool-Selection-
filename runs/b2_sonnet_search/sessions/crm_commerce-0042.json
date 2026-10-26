@@ -1,0 +1,72 @@
+{
+ "task_id": "crm_commerce-0042",
+ "mode": "search",
+ "loaded": [
+  "salesforce.salesforce_convert_lead",
+  "salesforce.salesforce_create_opportunity",
+  "salesforce.salesforce_update_opportunity",
+  "salesforce.salesforce_describe_object",
+  "salesforce.salesforce_create_task"
+ ],
+ "order": [
+  "salesforce.salesforce_convert_lead",
+  "salesforce.salesforce_create_opportunity",
+  "salesforce.salesforce_update_opportunity",
+  "salesforce.salesforce_describe_object",
+  "salesforce.salesforce_create_task"
+ ],
+ "scores": {
+  "salesforce.salesforce_convert_lead": 2.0,
+  "salesforce.salesforce_create_opportunity": 2.0,
+  "salesforce.salesforce_update_opportunity": 2.0,
+  "salesforce.salesforce_describe_object": 2.0,
+  "salesforce.salesforce_create_task": 2.0
+ },
+ "router_tokens": 0,
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "salesforce.salesforce_create_opportunity",
+   "args": {
+    "Name": "Stark Industries - Renewal",
+    "AccountId": "001Ax00000PpT2",
+    "StageName": "Prospecting",
+    "CloseDate": "2027-03-31",
+    "Amount": 75000,
+    "Type": "Existing Customer - Upgrade",
+    "Description": "Potential renewal deal following call with Pepper Potts."
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0,
+   "t": 1791321383.8099103
+  },
+  {
+   "type": "request_tools",
+   "capability": "create an opportunity (deal) in Salesforce",
+   "added": [
+    "salesforce.salesforce_convert_lead",
+    "salesforce.salesforce_create_opportunity",
+    "salesforce.salesforce_update_opportunity",
+    "salesforce.salesforce_describe_object",
+    "salesforce.salesforce_create_task"
+   ],
+   "tool_tokens": 1037,
+   "t": 1791321394.747925
+  },
+  {
+   "type": "call",
+   "tool": "salesforce__salesforce_create_opportunity",
+   "valid": true,
+   "t": 1791321409.1222095
+  }
+ ],
+ "done": true,
+ "t_done": 1791321414.8293903,
+ "final": ""
+}

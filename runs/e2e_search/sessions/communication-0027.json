@@ -1,0 +1,56 @@
+{
+ "task_id": "communication-0027",
+ "mode": "search",
+ "loaded": [
+  "gmail.download_attachment",
+  "gmail.send_email",
+  "gmail.draft_email",
+  "gmail.read_email",
+  "gmail.modify_email"
+ ],
+ "order": [
+  "gmail.download_attachment",
+  "gmail.send_email",
+  "gmail.draft_email",
+  "gmail.read_email",
+  "gmail.modify_email"
+ ],
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "gmail.download_attachment",
+   "args": {
+    "messageId": "18e7c1",
+    "attachmentId": "ANGjdJ9fkL",
+    "savePath": "~/Downloads"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0
+  },
+  {
+   "type": "request_tools",
+   "capability": "download an email attachment by message id and attachment id and save it to a local folder",
+   "added": [
+    "gmail.download_attachment",
+    "gmail.send_email",
+    "gmail.draft_email",
+    "gmail.read_email",
+    "gmail.modify_email"
+   ],
+   "tool_tokens": 1008
+  },
+  {
+   "type": "call",
+   "tool": "gmail__download_attachment",
+   "valid": true
+  }
+ ],
+ "done": true,
+ "final": ""
+}

@@ -1,0 +1,94 @@
+{
+ "task_id": "communication-0058",
+ "mode": "cats",
+ "loaded": [
+  "aws.ec2_manage_instances",
+  "deepl.rephrase_text",
+  "filesystem.list_directory",
+  "gmail.delete_email",
+  "gmail.download_attachment",
+  "gmail.draft_email",
+  "gmail.modify_email",
+  "gmail.read_email",
+  "google_calendar.respond_to_event",
+  "mailchimp.get_campaign_report",
+  "mailchimp.send_campaign",
+  "shopify.create_product",
+  "stripe.create_invoice_item"
+ ],
+ "order": [
+  "aws.ec2_manage_instances",
+  "deepl.rephrase_text",
+  "filesystem.list_directory",
+  "gmail.delete_email",
+  "gmail.download_attachment",
+  "gmail.draft_email",
+  "gmail.modify_email",
+  "gmail.read_email",
+  "google_calendar.respond_to_event",
+  "mailchimp.get_campaign_report",
+  "mailchimp.send_campaign",
+  "shopify.create_product",
+  "stripe.create_invoice_item"
+ ],
+ "scores": {
+  "aws.ec2_manage_instances": 0.07504677652854956,
+  "deepl.rephrase_text": 0.10057554651773327,
+  "filesystem.list_directory": 0.1176484530543464,
+  "gmail.delete_email": 0.1384234879314144,
+  "gmail.download_attachment": 0.03826288619599418,
+  "gmail.draft_email": 0.608586720006005,
+  "gmail.modify_email": 0.41212309735283137,
+  "gmail.read_email": 0.9120753780104995,
+  "google_calendar.respond_to_event": 0.2363915614957364,
+  "mailchimp.get_campaign_report": 0.044956587002409676,
+  "mailchimp.send_campaign": 0.1500028291010292,
+  "shopify.create_product": 0.1974826134150037,
+  "stripe.create_invoice_item": 0.29627485900379436
+ },
+ "router_tokens": 0,
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "gmail.read_email",
+   "args": {
+    "messageId": "18b77ef"
+   }
+  },
+  {
+   "tool": "gmail.draft_email",
+   "args": {
+    "to": [
+     "sender@example.com"
+    ],
+    "subject": "Re: Your invitation",
+    "body": "Hello,\n\nThank you very much for reaching out and for thinking of me. After careful consideration, I am unable to accept at this time. I truly appreciate the opportunity and hope we can stay in touch.\n\nBest regards",
+    "inReplyTo": "18b77ef"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 13,
+   "tool_tokens": 2146,
+   "t": 1791321036.4687872
+  },
+  {
+   "type": "call",
+   "tool": "gmail__read_email",
+   "valid": true,
+   "t": 1791321046.3920517
+  },
+  {
+   "type": "call",
+   "tool": "gmail__draft_email",
+   "valid": true,
+   "t": 1791321057.2600236
+  }
+ ],
+ "done": true,
+ "t_done": 1791321061.546688,
+ "final": ""
+}

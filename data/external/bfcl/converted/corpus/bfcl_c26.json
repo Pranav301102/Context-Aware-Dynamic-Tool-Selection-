@@ -1,0 +1,3778 @@
+{
+ "branch": {
+  "id": "bfcl_c26",
+  "name": "server / identifier / application",
+  "summary": "Functions about server, identifier, application, new, unique, view, views, id, configuration, using, maintenance, retrieve."
+ },
+ "toolkits": [
+  {
+   "id": "applicationsettingsapi",
+   "name": "ApplicationSettingsApi",
+   "server": "bfcl://ApplicationSettingsApi",
+   "summary": "Retrieve all configuration settings for the application, including environment variables, feature toggles, and system behaviors. Retrieve all configuration settings for the application.",
+   "tools": [
+    {
+     "name": "get_application_configs",
+     "description": "Retrieve all configuration settings for the application, including environment variables, feature toggles, and system behaviors.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "environment"
+      ],
+      "properties": {
+       "environment": {
+        "type": "string",
+        "description": "The deployment environment for which the application configurations are being retrieved, such as 'development', 'staging', or 'production'.",
+        "enum": [
+         "development",
+         "staging",
+         "production"
+        ]
+       },
+       "include_sensitive": {
+        "type": "boolean",
+        "description": "A flag indicating whether to include sensitive configurations like API keys and passwords. It is recommended to keep this false unless necessary.",
+        "default": false
+       },
+       "config_type": {
+        "type": "string",
+        "description": "The type of configurations to retrieve, such as 'feature_toggles' or 'system_behaviors'.",
+        "enum": [
+         "all",
+         "feature_toggles",
+         "system_behaviors"
+        ],
+        "default": "all"
+       }
+      }
+     }
+    },
+    {
+     "name": "get_application_configs_2",
+     "description": "Retrieve all configuration settings for the application. This includes settings such as feature toggles, system behaviors, and user preferences.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "environment": {
+        "type": "string",
+        "description": "The application environment for which the configurations are to be fetched, e.g., 'production', 'staging', or 'development'.",
+        "enum": [
+         "production",
+         "staging",
+         "development"
+        ],
+        "default": "production"
+       },
+       "include_sensitive": {
+        "type": "boolean",
+        "description": "Flag to determine if sensitive configurations such as API keys and passwords should be included in the response.",
+        "default": false
+       }
+      },
+      "required": []
+     }
+    },
+    {
+     "name": "get_service_configs",
+     "description": "Retrieve a list of all service configurations for the application, including default settings and overrides.",
+     "input_schema": {
+      "type": "object",
+      "required": [],
+      "properties": {
+       "service_name": {
+        "type": "string",
+        "description": "The name of the specific service to retrieve configurations for, such as 'database' or 'cache'. If omitted, configurations for all services will be returned.",
+        "default": "all"
+       },
+       "include_defaults": {
+        "type": "boolean",
+        "description": "A flag to determine whether to include the application's default service configurations in the response.",
+        "default": true
+       }
+      }
+     }
+    },
+    {
+     "name": "get_service_configs_2",
+     "description": "Retrieve all service configurations for the application, including database settings, external service integration details, and feature flags.",
+     "input_schema": {
+      "type": "object",
+      "required": [],
+      "properties": {
+       "environment": {
+        "type": "string",
+        "description": "The deployment environment for which the service configurations are requested, such as 'development', 'staging', or 'production'.",
+        "enum": [
+         "development",
+         "staging",
+         "production"
+        ],
+        "default": "production"
+       },
+       "include_sensitive": {
+        "type": "boolean",
+        "description": "A flag to determine whether sensitive information like passwords and API keys should be included in the configurations.",
+        "default": false
+       }
+      }
+     }
+    },
+    {
+     "name": "get_service_configs_3",
+     "description": "Retrieve the configuration settings for all services managed by the application.",
+     "input_schema": {
+      "type": "object",
+      "required": [],
+      "properties": {
+       "service_name": {
+        "type": "string",
+        "description": "The name of the service to filter the configurations. If omitted, configurations for all services are returned.",
+        "default": "all"
+       },
+       "include_sensitive": {
+        "type": "boolean",
+        "description": "Flag to determine if sensitive information such as passwords or tokens should be included in the configurations.",
+        "default": false
+       }
+      }
+     }
+    },
+    {
+     "name": "order_service_config",
+     "description": "Configure the order of services for an application according to specified preferences.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "service_order"
+      ],
+      "properties": {
+       "service_order": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "An ordered list of service identifiers that define the sequence in which services should be arranged."
+       },
+       "user_id": {
+        "type": "integer",
+        "description": "The unique identifier of the user for whom the service order is being configured.",
+        "default": null
+       },
+       "preserve_existing": {
+        "type": "boolean",
+        "description": "A flag indicating whether to preserve the existing service order if one exists. If set to 'false', the existing order will be overwritten.",
+        "default": true
+       }
+      }
+     }
+    }
+   ]
+  },
+  {
+   "id": "basic",
+   "name": "Basic",
+   "server": "bfcl://Basic",
+   "summary": "Checks if the sizes of various views of the environment map match the expected size and if the map's empty status is consistent with the expected size.",
+   "tools": [
+    {
+     "name": "checkSizes",
+     "description": "Checks if the sizes of various views of the environment map match the expected size and if the map's empty status is consistent with the expected size.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "environ": {
+        "type": "object",
+        "description": "The environment variable map to check."
+       },
+       "size": {
+        "type": "integer",
+        "description": "The expected size of the environment variable map."
+       }
+      },
+      "required": [
+       "environ",
+       "size"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "ccsduelit",
+   "name": "CCSDuelIT",
+   "server": "bfcl://CCSDuelIT",
+   "summary": "Parses an HttpEntity using the provided entity parser function and parser configuration, and returns the parsed response of type Resp.",
+   "tools": [
+    {
+     "name": "parseEntity",
+     "description": "Parses an HttpEntity using the provided entity parser function and parser configuration, and returns the parsed response of type Resp.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "entity": {
+        "type": "string",
+        "description": "The HttpEntity to parse."
+       },
+       "entityParser": {
+        "type": "string",
+        "description": "The function that will parse the XContentParser into the desired response type."
+       },
+       "parserConfig": {
+        "type": "string",
+        "description": "The configuration for the XContentParser."
+       }
+      },
+      "required": [
+       "entity",
+       "entityParser",
+       "parserConfig"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "db2viewbasedepcache",
+   "name": "DB2ViewBaseDepCache",
+   "server": "bfcl://DB2ViewBaseDepCache",
+   "summary": "Prepares a JDBC statement for querying metadata of a specific DB2 view in a given schema.",
+   "tools": [
+    {
+     "name": "prepareObjectsStatement",
+     "description": "Prepares a JDBC statement for querying metadata of a specific DB2 view in a given schema.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "session": {
+        "type": "string",
+        "description": "The JDBCSession object representing the active database session."
+       },
+       "db2ViewBase": {
+        "type": "string",
+        "description": "The DB2ViewBase object representing the DB2 view for which the statement is being prepared."
+       }
+      },
+      "required": [
+       "session",
+       "db2ViewBase"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "firebirdutils",
+   "name": "FireBirdUtils",
+   "server": "bfcl://FireBirdUtils",
+   "summary": "Generates the SQL script to create or alter a Firebird database view, including the view definition header, based on the server version and the provided source.",
+   "tools": [
+    {
+     "name": "getViewSourceWithHeader",
+     "description": "Generates the SQL script to create or alter a Firebird database view, including the view definition header, based on the server version and the provided source.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "monitor": {
+        "type": "string",
+        "description": "The DBRProgressMonitor to monitor the progress of the operation."
+       },
+       "view": {
+        "type": "string",
+        "description": "The GenericTableBase object representing the view."
+       },
+       "source": {
+        "type": "string",
+        "description": "The SQL source code of the view."
+       }
+      },
+      "required": [
+       "monitor",
+       "view",
+       "source"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "macbaseinstallerbundler",
+   "name": "MacBaseInstallerBundler",
+   "server": "bfcl://MacBaseInstallerBundler",
+   "summary": "Validates the application image and bundler parameters to ensure that the application image directory exists, has a valid name, and checks if it's signed when required.",
+   "tools": [
+    {
+     "name": "validateAppImageAndBundeler",
+     "description": "Validates the application image and bundler parameters to ensure that the application image directory exists, has a valid name, and checks if it's signed when required.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "params": {
+        "type": "object",
+        "description": "A map containing the parameters for the application image and bundler validation."
+       }
+      },
+      "required": [
+       "params"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "macdmgbundler",
+   "name": "MacDmgBundler",
+   "server": "bfcl://MacDmgBundler",
+   "summary": "Prepares a DMG setup script for a macOS application package, including the volume URL, background image file, and installation directory.",
+   "tools": [
+    {
+     "name": "prepareDMGSetupScript",
+     "description": "Prepares a DMG setup script for a macOS application package, including the volume URL, background image file, and installation directory.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "appLocation": {
+        "type": "string",
+        "description": "The file system path string to the application location."
+       },
+       "params": {
+        "type": "object",
+        "description": "A map of parameters that may include the application name, images root, background image folder, and other packaging parameters."
+       }
+      },
+      "required": [
+       "appLocation",
+       "params"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "maintenanceconfigurationapi",
+   "name": "MaintenanceConfigurationApi",
+   "server": "bfcl://MaintenanceConfigurationApi",
+   "summary": "Retrieve the maintenance configuration settings for a given system or application identified by an ID. Retrieve the maintenance configuration settings for a specific system identified by its ID.",
+   "tools": [
+    {
+     "name": "get_maintenance_config",
+     "description": "Retrieve the maintenance configuration settings for a given system or application identified by an ID.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "id"
+      ],
+      "properties": {
+       "id": {
+        "type": "string",
+        "description": "The unique identifier of the system or application for which maintenance configuration is being retrieved."
+       }
+      }
+     }
+    },
+    {
+     "name": "get_maintenance_config_2",
+     "description": "Retrieve the maintenance configuration settings for a specific system identified by its ID.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "id"
+      ],
+      "properties": {
+       "id": {
+        "type": "string",
+        "description": "The unique identifier of the system for which maintenance configuration is being retrieved."
+       }
+      }
+     }
+    }
+   ]
+  },
+  {
+   "id": "saxfilterfactoryimpl",
+   "name": "SAXFilterFactoryImpl",
+   "server": "bfcl://SAXFilterFactoryImpl",
+   "summary": "Resolves an entity using its public identifier and system identifier.",
+   "tools": [
+    {
+     "name": "resolveEntity",
+     "description": "Resolves an entity using its public identifier and system identifier. If the system identifier matches a specific known value, it returns a new InputSource with the system ID converted to a URL; otherwise, it returns null to use the default behavior.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "publicid": {
+        "type": "string",
+        "description": "The public identifier of the entity to resolve."
+       },
+       "sysId": {
+        "type": "string",
+        "description": "The system identifier of the entity to resolve."
+       }
+      },
+      "required": [
+       "publicid",
+       "sysId"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "smshomerecommendsubjectcontroller",
+   "name": "SmsHomeRecommendSubjectController",
+   "server": "bfcl://SmsHomeRecommendSubjectController",
+   "summary": "Updates the sort order of a recommended subject by its ID and returns a common result indicating success or failure.",
+   "tools": [
+    {
+     "name": "updateSort",
+     "description": "Updates the sort order of a recommended subject by its ID and returns a common result indicating success or failure.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "id": {
+        "type": "integer",
+        "description": "The unique identifier of the recommended subject to update."
+       },
+       "sort": {
+        "type": "integer",
+        "description": "The new sort order value for the recommended subject."
+       }
+      },
+      "required": [
+       "id",
+       "sort"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "syntheticsettingsapi",
+   "name": "SyntheticSettingsApi",
+   "server": "bfcl://SyntheticSettingsApi",
+   "summary": "Retrieve details of a specific synthetic location by its identifier. Retrieve the configuration details of a specific synthetic location by its unique identifier.",
+   "tools": [
+    {
+     "name": "get_synthetic_location",
+     "description": "Retrieve details of a specific synthetic location by its identifier.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "id"
+      ],
+      "properties": {
+       "id": {
+        "type": "string",
+        "description": "The unique identifier of the synthetic location."
+       }
+      }
+     }
+    },
+    {
+     "name": "get_synthetic_location_2",
+     "description": "Retrieve the configuration details of a specific synthetic location by its unique identifier.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "id"
+      ],
+      "properties": {
+       "id": {
+        "type": "string",
+        "description": "The unique identifier of the synthetic location."
+       }
+      }
+     }
+    },
+    {
+     "name": "get_synthetic_location_3",
+     "description": "Retrieve the details of a synthetic location identified by its unique ID.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "id"
+      ],
+      "properties": {
+       "id": {
+        "type": "string",
+        "description": "The unique identifier of the synthetic location."
+       }
+      }
+     }
+    },
+    {
+     "name": "get_synthetic_location_4",
+     "description": "Retrieves the details of a synthetic monitoring location based on the specified identifier.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "id"
+      ],
+      "properties": {
+       "id": {
+        "type": "string",
+        "description": "The unique identifier for the synthetic monitoring location."
+       }
+      }
+     }
+    },
+    {
+     "name": "get_synthetic_locations",
+     "description": "Retrieve a list of all synthetic locations available for monitoring. The response can be sorted, filtered, and paginated to obtain the desired subset of locations.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "limit"
+      ],
+      "properties": {
+       "sort": {
+        "type": "string",
+        "description": "The sort order of the results. Possible values are 'asc' for ascending and 'desc' for descending.",
+        "enum": [
+         "asc",
+         "desc"
+        ],
+        "default": "asc"
+       },
+       "offset": {
+        "type": "integer",
+        "description": "The starting index from where the results should be fetched. Useful for pagination.",
+        "default": 0
+       },
+       "limit": {
+        "type": "integer",
+        "description": "The maximum number of results to return. Must be a positive integer to limit the response size."
+       },
+       "filter": {
+        "type": "string",
+        "description": "A filter string to apply to the results, such as filtering by location name or type.",
+        "default": ""
+       }
+      }
+     }
+    },
+    {
+     "name": "get_synthetic_tests",
+     "description": "Retrieve a list of synthetic tests for a given application and location.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "applicationId",
+       "locationId"
+      ],
+      "properties": {
+       "applicationId": {
+        "type": "string",
+        "description": "The unique identifier of the application for which synthetic tests are to be retrieved."
+       },
+       "locationId": {
+        "type": "string",
+        "description": "The unique identifier of the location for which synthetic tests are to be retrieved."
+       }
+      }
+     }
+    },
+    {
+     "name": "get_synthetic_tests_2",
+     "description": "Retrieves a list of all synthetic tests associated with a specified application and location.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "applicationId",
+       "locationId"
+      ],
+      "properties": {
+       "applicationId": {
+        "type": "string",
+        "description": "The unique identifier of the application for which synthetic tests are fetched."
+       },
+       "locationId": {
+        "type": "string",
+        "description": "The unique identifier of the location for which synthetic tests are fetched."
+       }
+      }
+     }
+    }
+   ]
+  },
+  {
+   "id": "vulnerabilityapi",
+   "name": "VulnerabilityApi",
+   "server": "bfcl://VulnerabilityApi",
+   "summary": "Retrieves a list of all identified vulnerabilities associated with a specific software component, allowing for optional inclusion of suppressed vulnerabilities. Retrieve a list of all identified vulnerabilities associated with a given project using its unique identifier (UUID).",
+   "tools": [
+    {
+     "name": "get_vulnerabilities_by_component",
+     "description": "Retrieves a list of all identified vulnerabilities associated with a specific software component, allowing for optional inclusion of suppressed vulnerabilities.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "uuid"
+      ],
+      "properties": {
+       "uuid": {
+        "type": "string",
+        "description": "The universally unique identifier (UUID) of the software component for which vulnerabilities are being queried."
+       },
+       "suppressed": {
+        "type": "boolean",
+        "description": "A flag to determine whether suppressed vulnerabilities should be included in the response. Suppressed vulnerabilities are those that have been flagged as false positives or accepted risks.",
+        "default": false
+       }
+      }
+     }
+    },
+    {
+     "name": "get_vulnerabilities_by_project",
+     "description": "Retrieve a list of all identified vulnerabilities associated with a given project using its unique identifier (UUID).",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "uuid"
+      ],
+      "properties": {
+       "uuid": {
+        "type": "string",
+        "description": "The unique identifier (UUID) of the project for which the vulnerabilities are being queried."
+       },
+       "suppressed": {
+        "type": "boolean",
+        "description": "Indicates whether to include suppressed vulnerabilities in the result. Suppressed vulnerabilities are those that have been marked as ignored or irrelevant.",
+        "default": false
+       }
+      }
+     }
+    }
+   ]
+  },
+  {
+   "id": "waf_tool",
+   "name": "WAF_tool",
+   "server": "bfcl://WAF_tool",
+   "summary": "Detects the presence of a Web Application Firewall (WAF) on the specified website.",
+   "tools": [
+    {
+     "name": "detect",
+     "description": "Detects the presence of a Web Application Firewall (WAF) on the specified website.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "url"
+      ],
+      "properties": {
+       "url": {
+        "type": "string",
+        "description": "The full URL of the website to be checked, including the HTTP or HTTPS schema."
+       },
+       "timeout": {
+        "type": "integer",
+        "description": "The timeout in seconds for the WAF detection process.",
+        "default": 30
+       },
+       "user_agent": {
+        "type": "string",
+        "description": "The User-Agent string to be used in the detection request.",
+        "default": "WAF-tool/1.0"
+       }
+      }
+     }
+    }
+   ]
+  },
+  {
+   "id": "apdex_settings_api",
+   "name": "apdex_settings_api",
+   "server": "bfcl://apdex_settings_api",
+   "summary": "Creates a new Apdex (Application Performance Index) configuration for monitoring and assessing the performance of applications. Creates a new Apdex configuration by setting the threshold values for satisfactory, tolerable, and frustrated user experience levels.",
+   "tools": [
+    {
+     "name": "ApdexSettingsApi_create_apdex_configuration",
+     "description": "Creates a new Apdex (Application Performance Index) configuration for monitoring and assessing the performance of applications.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "name",
+       "thresholds"
+      ],
+      "properties": {
+       "name": {
+        "type": "string",
+        "description": "The name of the new Apdex configuration."
+       },
+       "thresholds": {
+        "type": "object",
+        "description": "Threshold values for categorizing the response times of applications.",
+        "properties": {
+         "satisfied": {
+          "type": "integer",
+          "description": "The maximum response time (in milliseconds) for a user to be considered satisfied."
+         },
+         "tolerating": {
+          "type": "integer",
+          "description": "The maximum response time (in milliseconds) for a user to be considered tolerating before being frustrated."
+         }
+        }
+       },
+       "include_samples": {
+        "type": "boolean",
+        "description": "Flag to include performance samples in the Apdex calculation.",
+        "default": false
+       }
+      }
+     }
+    },
+    {
+     "name": "ApdexSettingsApi_create_apdex_configuration_2",
+     "description": "Creates a new Apdex configuration by setting the threshold values for satisfactory, tolerable, and frustrated user experience levels.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "thresholds"
+      ],
+      "properties": {
+       "thresholds": {
+        "type": "object",
+        "description": "Threshold levels for Apdex score calculations.",
+        "properties": {
+         "satisfactory": {
+          "type": "number",
+          "description": "The threshold for a satisfactory user experience (in seconds)."
+         },
+         "tolerable": {
+          "type": "number",
+          "description": "The threshold for a tolerable user experience (in seconds)."
+         },
+         "frustrated": {
+          "type": "number",
+          "description": "The threshold beyond which the user experience is considered frustrated (in seconds)."
+         }
+        }
+       },
+       "application_id": {
+        "type": "string",
+        "description": "The unique identifier of the application for which the Apdex configuration is created.",
+        "default": "default_app_id"
+       },
+       "enabled": {
+        "type": "boolean",
+        "description": "A flag to enable or disable the Apdex configuration.",
+        "default": true
+       }
+      }
+     }
+    },
+    {
+     "name": "ApdexSettingsApi_create_apdex_configuration_3",
+     "description": "Creates a new Apdex configuration for an application, allowing customization of satisfactory, tolerable, and frustrated response time thresholds.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "application_id",
+       "thresholds"
+      ],
+      "properties": {
+       "application_id": {
+        "type": "string",
+        "description": "The unique identifier for the application for which Apdex configuration is to be created."
+       },
+       "thresholds": {
+        "type": "object",
+        "properties": {
+         "satisfactory": {
+          "type": "number",
+          "description": "The maximum response time (in seconds) for a user action to be considered satisfactory."
+         },
+         "tolerable": {
+          "type": "number",
+          "description": "The maximum response time (in seconds) for a user action to be considered tolerable before frustration sets in."
+         },
+         "frustrated": {
+          "type": "number",
+          "description": "The response time (in seconds) at which a user action is considered frustrated, indicating an unsatisfactory experience."
+         }
+        },
+        "description": "Threshold values defining the Apdex score categories."
+       },
+       "name": {
+        "type": "string",
+        "description": "A human-readable name for the Apdex configuration.",
+        "default": "Default Configuration"
+       },
+       "enabled": {
+        "type": "boolean",
+        "description": "A flag to enable or disable this Apdex configuration.",
+        "default": true
+       }
+      }
+     }
+    },
+    {
+     "name": "ApdexSettingsApi_create_apdex_configuration_4",
+     "description": "Creates a new Apdex configuration setting that defines the threshold for user satisfaction based on response times.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "threshold",
+       "name"
+      ],
+      "properties": {
+       "threshold": {
+        "type": "number",
+        "description": "The response time in seconds under which a transaction is considered satisfactory."
+       },
+       "name": {
+        "type": "string",
+        "description": "The name of the Apdex configuration setting."
+       },
+       "enabled": {
+        "type": "boolean",
+        "description": "A flag indicating if the Apdex configuration is enabled.",
+        "default": true
+       },
+       "tolerated_multiplier": {
+        "type": "number",
+        "description": "Multiplier applied to the threshold to determine when a transaction is tolerated.",
+        "default": 4.0
+       },
+       "frustrated_multiplier": {
+        "type": "number",
+        "description": "Multiplier applied to the threshold to determine when a transaction is considered frustrating.",
+        "default": 8.0
+       }
+      }
+     }
+    },
+    {
+     "name": "ApdexSettingsApi_get_all_apdex_configurations",
+     "description": "Retrieve a list of all Apdex threshold configurations used for applications performance monitoring.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "application_id": {
+        "type": "string",
+        "description": "The unique identifier of the application for which Apdex settings are being retrieved. For example, 'app_12345'.",
+        "default": "all"
+       },
+       "active_only": {
+        "type": "boolean",
+        "description": "A flag to filter the configurations. If set to true, only active Apdex settings are returned.",
+        "default": true
+       }
+      },
+      "required": []
+     }
+    }
+   ]
+  },
+  {
+   "id": "help",
+   "name": "help",
+   "server": "bfcl://help",
+   "summary": "Displays help information about available commands and usage within the application.",
+   "tools": [
+    {
+     "name": "display",
+     "description": "Displays help information about available commands and usage within the application.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "command"
+      ],
+      "properties": {
+       "command": {
+        "type": "string",
+        "description": "The name of the command to display help for. Use 'all' to display help for all commands."
+       },
+       "verbose": {
+        "type": "boolean",
+        "description": "If true, detailed help for each command will be displayed. Otherwise, a summary will be shown.",
+        "default": false
+       }
+      }
+     }
+    }
+   ]
+  },
+  {
+   "id": "license_group_api",
+   "name": "license_group_api",
+   "server": "bfcl://license_group_api",
+   "summary": "This function adds a specified license identified by its UUID to an existing license group, also identified by a UUID. Retrieve the details of a specific license group using its universally unique identifier (UUID).",
+   "tools": [
+    {
+     "name": "LicenseGroupApi_add_license_to_license_group",
+     "description": "This function adds a specified license identified by its UUID to an existing license group, also identified by a UUID.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "uuid",
+       "licenseUuid"
+      ],
+      "properties": {
+       "uuid": {
+        "type": "string",
+        "description": "The UUID of the license group to which the license will be added."
+       },
+       "licenseUuid": {
+        "type": "string",
+        "description": "The UUID of the license to be added to the license group."
+       }
+      }
+     }
+    },
+    {
+     "name": "LicenseGroupApi_get_license_group",
+     "description": "Retrieve the details of a specific license group using its universally unique identifier (UUID).",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "uuid"
+      ],
+      "properties": {
+       "uuid": {
+        "type": "string",
+        "description": "The unique identifier of the license group to retrieve. It must follow the standard UUID format."
+       }
+      }
+     }
+    }
+   ]
+  },
+  {
+   "id": "policy_api",
+   "name": "policy_api",
+   "server": "bfcl://policy_api",
+   "summary": "This method creates a new policy on the server with the provided policy details. Updates the attributes of an existing policy with new values as specified in the request.",
+   "tools": [
+    {
+     "name": "PolicyApi_create_policy",
+     "description": "This method creates a new policy on the server with the provided policy details.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "policy_name",
+       "policy_type",
+       "coverage_amount"
+      ],
+      "properties": {
+       "policy_name": {
+        "type": "string",
+        "description": "The unique name for the policy."
+       },
+       "policy_type": {
+        "type": "string",
+        "description": "The type of policy to be created.",
+        "enum": [
+         "auto",
+         "home",
+         "life",
+         "health"
+        ]
+       },
+       "coverage_amount": {
+        "type": "number",
+        "description": "The total coverage amount for the policy in USD."
+       },
+       "customer_id": {
+        "type": "integer",
+        "description": "The identifier of the customer purchasing the policy.",
+        "default": null
+       },
+       "effective_date": {
+        "type": "string",
+        "description": "The start date of the policy coverage, in the format 'YYYY-MM-DD'. Defaults to the current date if not provided.",
+        "default": null
+       },
+       "terms": {
+        "type": "string",
+        "description": "The terms and conditions text for the policy.",
+        "default": "Standard terms apply. Please review the policy details thoroughly."
+       }
+      }
+     }
+    },
+    {
+     "name": "update_policy",
+     "description": "Updates the attributes of an existing policy with new values as specified in the request.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "policy_id",
+       "policy_data"
+      ],
+      "properties": {
+       "policy_id": {
+        "type": "string",
+        "description": "The unique identifier of the policy to be updated."
+       },
+       "policy_data": {
+        "type": "object",
+        "properties": {
+         "name": {
+          "type": "string",
+          "description": "The name of the policy."
+         },
+         "description": {
+          "type": "string",
+          "description": "A brief description of the policy."
+         },
+         "active": {
+          "type": "boolean",
+          "description": "The status of the policy, where 'true' means active and 'false' means inactive.",
+          "default": true
+         }
+        },
+        "description": "The data containing the new values for the policy attributes."
+       }
+      }
+     }
+    }
+   ]
+  },
+  {
+   "id": "service_api",
+   "name": "service_api",
+   "server": "bfcl://service_api",
+   "summary": "Creates a new service instance with a unique identifier. This function retrieves a list of all services associated with a specific project identified by a universally unique identifier (UUID).",
+   "tools": [
+    {
+     "name": "ServiceApi_create_service",
+     "description": "Creates a new service instance with a unique identifier.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "uuid"
+      ],
+      "properties": {
+       "uuid": {
+        "type": "string",
+        "description": "The unique identifier for the new service. It should be a valid UUID format string."
+       }
+      }
+     }
+    },
+    {
+     "name": "ServiceApi_get_all_services",
+     "description": "This function retrieves a list of all services associated with a specific project identified by a universally unique identifier (UUID).",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "uuid"
+      ],
+      "properties": {
+       "uuid": {
+        "type": "string",
+        "description": "The unique identifier for the project in the format of a UUID string (e.g., '123e4567-e89b-12d3-a456-426614174000')."
+       }
+      }
+     }
+    },
+    {
+     "name": "update_service",
+     "description": "Updates the specified service with new details. This may include changing the service's name, description, or active status.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "service_id",
+       "service_data"
+      ],
+      "properties": {
+       "service_id": {
+        "type": "string",
+        "description": "The unique identifier of the service to be updated."
+       },
+       "service_data": {
+        "type": "object",
+        "properties": {
+         "name": {
+          "type": "string",
+          "description": "The new name of the service."
+         },
+         "description": {
+          "type": "string",
+          "description": "A brief summary of the service and its updates."
+         },
+         "is_active": {
+          "type": "boolean",
+          "description": "The status indicating whether the service is active or not.",
+          "default": true
+         }
+        },
+        "description": "A dictionary containing the new details of the service."
+       }
+      }
+     }
+    }
+   ]
+  },
+  {
+   "id": "website_configuration_api",
+   "name": "website_configuration_api",
+   "server": "bfcl://website_configuration_api",
+   "summary": "This function initializes the configuration for a new website by setting up its name and other essential settings. Retrieves the configuration settings for a specified website by its unique identifier.",
+   "tools": [
+    {
+     "name": "WebsiteConfigurationApi_create_website",
+     "description": "This function initializes the configuration for a new website by setting up its name and other essential settings.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "name"
+      ],
+      "properties": {
+       "name": {
+        "type": "string",
+        "description": "The name of the new website to be configured."
+       }
+      }
+     }
+    },
+    {
+     "name": "WebsiteConfigurationApi_get_website",
+     "description": "Retrieves the configuration settings for a specified website by its unique identifier.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "websiteId"
+      ],
+      "properties": {
+       "websiteId": {
+        "type": "string",
+        "description": "The unique identifier of the website whose configuration is to be retrieved."
+       }
+      }
+     }
+    },
+    {
+     "name": "WebsiteConfigurationApi_rename_website",
+     "description": "Renames an existing website with a new name based on the provided website ID.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "websiteId",
+       "name"
+      ],
+      "properties": {
+       "websiteId": {
+        "type": "string",
+        "description": "The unique identifier of the website to be renamed."
+       },
+       "name": {
+        "type": "string",
+        "description": "The new name for the website."
+       }
+      }
+     }
+    },
+    {
+     "name": "delete_website",
+     "description": "Deletes a website configuration from the system using the specified website ID.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "websiteId"
+      ],
+      "properties": {
+       "websiteId": {
+        "type": "string",
+        "description": "The unique identifier of the website to be removed."
+       }
+      }
+     }
+    },
+    {
+     "name": "get_website_geo_location_configuration",
+     "description": "Retrieve the geographical location configuration settings associated with a specific website, identified by its unique website ID.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "websiteId"
+      ],
+      "properties": {
+       "websiteId": {
+        "type": "string",
+        "description": "The unique identifier of the website for which the geo location configuration is being retrieved. This is typically a UUID."
+       }
+      }
+     }
+    },
+    {
+     "name": "get_websites",
+     "description": "Retrieves a list of website configurations currently set in the system.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "api_key"
+      ],
+      "properties": {
+       "api_key": {
+        "type": "string",
+        "description": "The API key used to authenticate the request."
+       },
+       "status_filter": {
+        "type": "string",
+        "description": "Filter the list of websites by their status.",
+        "enum": [
+         "active",
+         "inactive",
+         "pending"
+        ],
+        "default": "active"
+       },
+       "include_details": {
+        "type": "boolean",
+        "description": "Determines if detailed information for each website should be included in the response.",
+        "default": false
+       }
+      }
+     }
+    }
+   ]
+  },
+  {
+   "id": "bfcl_c26_g0",
+   "name": "connect connection establishes",
+   "server": "bfcl://bfcl_c26_g0",
+   "summary": "Functions for connect, connection, establishes, server, rtm, messaging.",
+   "tools": [
+    {
+     "name": "connect_to_server",
+     "description": "Establishes a connection to a specified server or tests an existing connection.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "nickname"
+      ],
+      "properties": {
+       "nickname": {
+        "type": "string",
+        "description": "The unique identifier or friendly name used to refer to the target server."
+       },
+       "timeout": {
+        "type": "integer",
+        "description": "The maximum amount of time in seconds to wait for the connection attempt before timing out.",
+        "default": 30
+       },
+       "use_ssl": {
+        "type": "boolean",
+        "description": "Determines whether to use SSL encryption for the connection.",
+        "default": true
+       }
+      }
+     }
+    },
+    {
+     "name": "connect_to_server_2",
+     "description": "Establishes a connection to the specified server or checks the status of an existing connection.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "nickname"
+      ],
+      "properties": {
+       "nickname": {
+        "type": "string",
+        "description": "A unique identifier or alias for the server to connect to."
+       },
+       "timeout": {
+        "type": "integer",
+        "description": "The maximum time in seconds to wait for the connection to be established before timing out.",
+        "default": 30
+       },
+       "retry_attempts": {
+        "type": "integer",
+        "description": "The number of attempts to connect to the server in case of failure.",
+        "default": 3
+       },
+       "use_ssl": {
+        "type": "boolean",
+        "description": "Determines whether to use SSL encryption for the connection.",
+        "default": true
+       }
+      }
+     }
+    },
+    {
+     "name": "connect_to_server_3",
+     "description": "Establishes a connection to the specified server or verifies if the connection is possible.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "nickname"
+      ],
+      "properties": {
+       "nickname": {
+        "type": "string",
+        "description": "A unique identifier or alias for the server to which a connection is being established."
+       },
+       "timeout": {
+        "type": "integer",
+        "description": "The maximum amount of time in seconds to wait for the connection to be established before timing out.",
+        "default": 30
+       },
+       "use_ssl": {
+        "type": "boolean",
+        "description": "Specifies whether to use SSL encryption for the connection.",
+        "default": true
+       },
+       "port": {
+        "type": "integer",
+        "description": "The port number on the server to connect to.",
+        "default": 22
+       }
+      }
+     }
+    },
+    {
+     "name": "rtm_connect",
+     "description": "Establishes a Real Time Messaging (RTM) connection with the server using the provided authentication token.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "token"
+      ],
+      "properties": {
+       "token": {
+        "type": "string",
+        "description": "Authentication token to establish RTM connection."
+       },
+       "batch_presence_aware": {
+        "type": "integer",
+        "description": "If set to 1, enables presence change events to be batched. Defaults to 0.",
+        "default": 0
+       },
+       "presence_sub": {
+        "type": "boolean",
+        "description": "If true, subscribes to presence events for users on the team. Defaults to false.",
+        "default": false
+       }
+      }
+     }
+    }
+   ]
+  },
+  {
+   "id": "bfcl_c26_g1",
+   "name": "views view publish",
+   "server": "bfcl://bfcl_c26_g1",
+   "summary": "Functions for views, view, publish, push, trigger, update.",
+   "tools": [
+    {
+     "name": "views_open",
+     "description": "This function opens a new view in the application using a trigger ID and returns the server's response.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "token",
+       "trigger_id",
+       "view"
+      ],
+      "properties": {
+       "token": {
+        "type": "string",
+        "description": "Authentication token used to validate the request."
+       },
+       "trigger_id": {
+        "type": "string",
+        "description": "An identifier that triggers the view to be opened."
+       },
+       "view": {
+        "type": "string",
+        "description": "The encoded view data to be displayed."
+       }
+      }
+     }
+    },
+    {
+     "name": "views_publish",
+     "description": "Publish a view for a specific user using their user ID and a unique hash.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "token",
+       "user_id",
+       "view",
+       "hash"
+      ],
+      "properties": {
+       "token": {
+        "type": "string",
+        "description": "Authentication token required to authorize the publishing action."
+       },
+       "user_id": {
+        "type": "string",
+        "description": "The unique identifier of the user for whom the view is being published."
+       },
+       "view": {
+        "type": "string",
+        "description": "The name of the view to be published."
+       },
+       "hash": {
+        "type": "string",
+        "description": "A unique hash to ensure the request is not processed multiple times."
+       }
+      }
+     }
+    },
+    {
+     "name": "views_push",
+     "description": "Initiates a push event to a view using a trigger identifier and an authentication token.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "token",
+       "trigger_id",
+       "view"
+      ],
+      "properties": {
+       "token": {
+        "type": "string",
+        "description": "Authentication token to validate the push event."
+       },
+       "trigger_id": {
+        "type": "string",
+        "description": "Unique identifier for the trigger causing the view push."
+       },
+       "view": {
+        "type": "string",
+        "description": "Serialized view object that describes the user interface to be pushed."
+       }
+      }
+     }
+    },
+    {
+     "name": "views_update",
+     "description": "Update an existing view in the system with new information based on a unique identifier.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "token",
+       "view_id",
+       "view"
+      ],
+      "properties": {
+       "token": {
+        "type": "string",
+        "description": "Authentication token to verify the user."
+       },
+       "view_id": {
+        "type": "string",
+        "description": "Unique identifier of the view to be updated."
+       },
+       "external_id": {
+        "type": "string",
+        "description": "An optional external identifier for third-party integrations.",
+        "default": ""
+       },
+       "view": {
+        "type": "string",
+        "description": "Serialized string representation of the view data."
+       },
+       "hash": {
+        "type": "string",
+        "description": "An optional hash for verifying the integrity of the view data.",
+        "default": ""
+       }
+      }
+     }
+    }
+   ]
+  },
+  {
+   "id": "bfcl_c26_g2",
+   "name": "server new environment",
+   "server": "bfcl://bfcl_c26_g2",
+   "summary": "Functions for server, new, environment, configurations, open, configuration.",
+   "tools": [
+    {
+     "name": "add_mtnards_server",
+     "description": "Add a new MTNA Rich Data Services (RDS) server configuration to the system environment.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "host",
+       "api_key"
+      ],
+      "properties": {
+       "nickname": {
+        "type": "string",
+        "description": "An alias for the server to easily identify it within the environment.",
+        "default": "rds1"
+       },
+       "host": {
+        "type": "string",
+        "description": "The hostname or IP address of the RDS server."
+       },
+       "api_key": {
+        "type": "string",
+        "description": "The unique API key for authenticating with the RDS server."
+       }
+      }
+     }
+    },
+    {
+     "name": "add_mtnards_server_2",
+     "description": "Add a new MTNA Rich Data Services (RDS) server to the configuration, allowing interaction with the server using the provided API key.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "api_key"
+      ],
+      "properties": {
+       "nickname": {
+        "type": "string",
+        "description": "The server's name or nickname that will be used for identification within the environment.",
+        "default": "Default_Server_Nickname"
+       },
+       "host": {
+        "type": "string",
+        "description": "The hostname or IP address of the server. For example, '192.168.1.10' or 'server.example.com'.",
+        "default": "localhost"
+       },
+       "api_key": {
+        "type": "string",
+        "description": "The API key used for authenticating with the MTNA RDS server. This key should be kept confidential."
+       }
+      }
+     }
+    },
+    {
+     "name": "add_mtnards_server_3",
+     "description": "Add or create a new MTNA Rich Data Services (RDS) server configuration to the system.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "host",
+       "api_key"
+      ],
+      "properties": {
+       "name": {
+        "type": "string",
+        "description": "The server name or nickname used to identify the RDS server within the system.",
+        "default": "RDS"
+       },
+       "host": {
+        "type": "string",
+        "description": "The server hostname or IP address where the RDS server is reachable."
+       },
+       "api_key": {
+        "type": "string",
+        "description": "The API key used for authentication with the RDS server. Keep this key confidential."
+       }
+      }
+     }
+    },
+    {
+     "name": "add_mtnards_server_4",
+     "description": "Adds a new MTN Advanced Rich Data Services (RDS) server configuration to the system.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "host",
+       "api_key"
+      ],
+      "properties": {
+       "nickname": {
+        "type": "string",
+        "description": "An easily recognizable name or alias for the server.",
+        "default": "rds1"
+       },
+       "host": {
+        "type": "string",
+        "description": "The hostname or IP address of the server, such as '192.168.0.1' or 'server.domain.com'."
+       },
+       "api_key": {
+        "type": "string",
+        "description": "The unique API key required to authenticate against the server."
+       }
+      }
+     }
+    },
+    {
+     "name": "add_mtnards_server_5",
+     "description": "Adds a new MTNA (Mobile Telecommunications Network Architecture) Rich Data Services (RDS) server to the environment, allowing for the management and retrieval of rich data.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "api_key"
+      ],
+      "properties": {
+       "nickname": {
+        "type": "string",
+        "description": "A user-friendly name to identify the server. For example, 'primary_db_server'.",
+        "default": "local_rds_server"
+       },
+       "host": {
+        "type": "string",
+        "description": "The hostname or IP address of the RDS server. Defaults to 'localhost' if not specified.",
+        "default": "localhost"
+       },
+       "api_key": {
+        "type": "string",
+        "description": "A unique API key for authenticating requests to the RDS server. This key should be kept secret."
+       }
+      }
+     }
+    },
+    {
+     "name": "add_mtnards_server_6",
+     "description": "Adds a new MTNA Rich Data Services (RDS) server to the environment configuration, allowing it to be recognized and utilized by the system.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "host",
+       "api_key"
+      ],
+      "properties": {
+       "nickname": {
+        "type": "string",
+        "description": "An informal, easy-to-remember name for the server.",
+        "default": "rds1"
+       },
+       "host": {
+        "type": "string",
+        "description": "The server's hostname or IP address. Should be in the format 'hostname.com' or '192.168.0.1'."
+       },
+       "api_key": {
+        "type": "string",
+        "description": "A unique API key for secure access to the server."
+       }
+      }
+     }
+    },
+    {
+     "name": "add_mtnards_server_7",
+     "description": "Adds a new server configuration to the MTNA Rich Data Services (RDS) platform, allowing for data management and analytics operations.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "host",
+       "api_key"
+      ],
+      "properties": {
+       "name": {
+        "type": "string",
+        "description": "An identifiable nickname for the server configuration. If not provided, the default is assumed to be 'localhost'.",
+        "default": "localhost"
+       },
+       "host": {
+        "type": "string",
+        "description": "The server's hostname or IP address, such as 'localhost' or '192.168.1.10'."
+       },
+       "api_key": {
+        "type": "string",
+        "description": "The unique API key required to authenticate against the server."
+       }
+      }
+     }
+    },
+    {
+     "name": "add_mtnards_server_8",
+     "description": "Adds a new server configuration to the MTNA Rich Data Services (RDS) platform, allowing for data management and analytics operations.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "host",
+       "api_key"
+      ],
+      "properties": {
+       "name": {
+        "type": "string",
+        "description": "An identifiable nickname for the server configuration. If not provided, the default is assumed to be the same as 'host'.",
+        "default": "localhost"
+       },
+       "host": {
+        "type": "string",
+        "description": "The server's hostname or IP address, such as 'localhost' or '192.168.1.10'."
+       },
+       "api_key": {
+        "type": "string",
+        "description": "The unique API key required to authenticate against the server."
+       }
+      }
+     }
+    },
+    {
+     "name": "add_mtnards_server_9",
+     "description": "Creates a new configuration for a MTNA Rich Data Services (RDS) server or adds it to an existing list of configurations.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "name": {
+        "type": "string",
+        "description": "The unique server name or nickname to identify the MTNA RDS server configuration. Optional and can be used for easier reference.",
+        "default": "default_server"
+       },
+       "host": {
+        "type": "string",
+        "description": "The hostname or IP address of the MTNA RDS server. If not specified, 'localhost' is used.",
+        "default": "localhost"
+       },
+       "api_key": {
+        "type": "string",
+        "description": "The API key required to authenticate with the MTNA RDS server."
+       }
+      },
+      "required": [
+       "api_key"
+      ]
+     }
+    },
+    {
+     "name": "add_mtnards_server_10",
+     "description": "Registers a new MTNA Rich Data Services (RDS) server with a given nickname and host, and associates it with the provided API key.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "nickname",
+       "api_key"
+      ],
+      "properties": {
+       "nickname": {
+        "type": "string",
+        "description": "A unique nickname for the server, used as an identifier within the environment."
+       },
+       "host": {
+        "type": "string",
+        "description": "The server's hostname or IP address. Assumes 'localhost' if not specified.",
+        "default": "localhost"
+       },
+       "api_key": {
+        "type": "string",
+        "description": "The API key for authenticating with the RDS server. This key should be kept confidential."
+       }
+      }
+     }
+    },
+    {
+     "name": "add_mtnards_server_11",
+     "description": "Registers a new MTNA Rich Data Services (RDS) server with the specified nickname and host within the environment, using the provided API key for authentication.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "host",
+       "api_key"
+      ],
+      "properties": {
+       "nickname": {
+        "type": "string",
+        "description": "A friendly name to identify the RDS server, allowing for easier reference.",
+        "default": "rds1"
+       },
+       "host": {
+        "type": "string",
+        "description": "The fully qualified domain name or IP address of the RDS server."
+       },
+       "api_key": {
+        "type": "string",
+        "description": "The unique API key required to authenticate with the RDS server. This key should be kept confidential."
+       }
+      }
+     }
+    },
+    {
+     "name": "add_postgres_server",
+     "description": "Add a new PostgreSQL server configuration or update an existing one with the provided settings.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "host",
+       "username",
+       "password"
+      ],
+      "properties": {
+       "host": {
+        "type": "string",
+        "description": "The hostname or IP address of the PostgreSQL server."
+       },
+       "port": {
+        "type": "integer",
+        "description": "The port number on which the PostgreSQL server is running. Defaults to the standard PostgreSQL port.",
+        "default": 5432
+       },
+       "database": {
+        "type": "string",
+        "description": "The name of the target database on the PostgreSQL server. If not provided, defaults to 'postgres'.",
+        "default": "postgres"
+       },
+       "username": {
+        "type": "string",
+        "description": "The username for authentication with the PostgreSQL server."
+       },
+       "password": {
+        "type": "string",
+        "description": "The password for authentication with the PostgreSQL server."
+       }
+      }
+     }
+    },
+    {
+     "name": "add_postgres_server_2",
+     "description": "Add a new PostgreSQL server configuration to the environment allowing the application to connect to it.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "nickname",
+       "host",
+       "port",
+       "database",
+       "username",
+       "password"
+      ],
+      "properties": {
+       "nickname": {
+        "type": "string",
+        "description": "A unique and recognizable name to identify the PostgreSQL server."
+       },
+       "host": {
+        "type": "string",
+        "description": "The network address or domain of the PostgreSQL server."
+       },
+       "port": {
+        "type": "integer",
+        "description": "The network port that the PostgreSQL server is listening on."
+       },
+       "database": {
+        "type": "string",
+        "description": "The name of the default database to connect to."
+       },
+       "username": {
+        "type": "string",
+        "description": "The username used to authenticate with the PostgreSQL server."
+       },
+       "password": {
+        "type": "string",
+        "description": "The password used to authenticate with the PostgreSQL server. Must be provided for security reasons."
+       }
+      }
+     }
+    },
+    {
+     "name": "add_postgres_server_3",
+     "description": "Add or create a new PostgreSQL server configuration to the system.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "host"
+      ],
+      "properties": {
+       "nickname": {
+        "type": "string",
+        "description": "The server name or nickname. Used to identify the server in the system.",
+        "default": "pg"
+       },
+       "host": {
+        "type": "string",
+        "description": "The server hostname or IP address where the PostgreSQL server is running."
+       },
+       "port": {
+        "type": "integer",
+        "description": "The port number on which the PostgreSQL server is listening.",
+        "default": 5432
+       },
+       "database": {
+        "type": "string",
+        "description": "The default database name to connect to on the PostgreSQL server.",
+        "default": "postgres"
+       },
+       "username": {
+        "type": "string",
+        "description": "The username for authentication with the PostgreSQL server.",
+        "default": "postgres"
+       },
+       "password": {
+        "type": "string",
+        "description": "The password for authentication with the PostgreSQL server.",
+        "default": "postgres"
+       }
+      }
+     }
+    },
+    {
+     "name": "add_postgres_server_4",
+     "description": "Add or create a new Postgres server configuration to connect to a database.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "nickname"
+      ],
+      "properties": {
+       "nickname": {
+        "type": "string",
+        "description": "The server name or nickname to identify the configuration."
+       },
+       "host": {
+        "type": "string",
+        "description": "The server hostname or IP address.",
+        "default": "localhost"
+       },
+       "port": {
+        "type": "integer",
+        "description": "The server port number for the connection.",
+        "default": 5432
+       },
+       "database": {
+        "type": "string",
+        "description": "The name of the database to connect to.",
+        "default": "postgres"
+       },
+       "username": {
+        "type": "string",
+        "description": "The username for authentication with the Postgres server.",
+        "default": "postgres"
+       },
+       "password": {
+        "type": "string",
+        "description": "The password for authentication with the Postgres server.",
+        "default": "postgres"
+       }
+      }
+     }
+    },
+    {
+     "name": "add_postgres_server_5",
+     "description": "Add or create a new Postgres server configuration to connect to a database.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "nickname",
+       "host",
+       "database",
+       "username",
+       "password"
+      ],
+      "properties": {
+       "nickname": {
+        "type": "string",
+        "description": "A unique nickname to identify the server configuration."
+       },
+       "host": {
+        "type": "string",
+        "description": "The hostname or IP address of the Postgres server, such as 'localhost' or '192.168.1.100'."
+       },
+       "port": {
+        "type": "integer",
+        "description": "The port number on which the Postgres server is running. The default is the standard Postgres port.",
+        "default": 5432
+       },
+       "database": {
+        "type": "string",
+        "description": "The name of the database to connect to, typically 'postgres' for the default database."
+       },
+       "username": {
+        "type": "string",
+        "description": "The username for authenticating with the Postgres server, often 'postgres' by default."
+       },
+       "password": {
+        "type": "string",
+        "description": "The password associated with the username for authentication. Ensure this is kept secure."
+       }
+      }
+     }
+    },
+    {
+     "name": "add_postgres_server_6",
+     "description": "Add or create a new Postgres server configuration with the provided details.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "host",
+       "database",
+       "username",
+       "password"
+      ],
+      "properties": {
+       "host": {
+        "type": "string",
+        "description": "The fully qualified domain name or IP address of the Postgres server."
+       },
+       "port": {
+        "type": "integer",
+        "description": "The port number on which the Postgres server is listening.",
+        "default": 5432
+       },
+       "database": {
+        "type": "string",
+        "description": "The name of the default database to connect to on the Postgres server."
+       },
+       "username": {
+        "type": "string",
+        "description": "The username for authentication with the Postgres server."
+       },
+       "password": {
+        "type": "string",
+        "description": "The password for authentication with the Postgres server."
+       }
+      }
+     }
+    },
+    {
+     "name": "add_postgres_server_7",
+     "description": "Add or create a new Postgres server configuration with the specified details. This allows the application to manage multiple Postgres server instances easily.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "nickname",
+       "host",
+       "port",
+       "database",
+       "username",
+       "password"
+      ],
+      "properties": {
+       "nickname": {
+        "type": "string",
+        "description": "A unique identifier for the server configuration."
+       },
+       "host": {
+        "type": "string",
+        "description": "The hostname or IP address of the Postgres server."
+       },
+       "port": {
+        "type": "integer",
+        "description": "The port number on which the Postgres server is running."
+       },
+       "database": {
+        "type": "string",
+        "description": "The name of the default database to connect to."
+       },
+       "username": {
+        "type": "string",
+        "description": "The username for authentication with the Postgres server."
+       },
+       "password": {
+        "type": "string",
+        "description": "The password for authentication with the Postgres server."
+       }
+      }
+     }
+    },
+    {
+     "name": "add_postgres_server_8",
+     "description": "Add or create a new Postgres server configuration with the specified parameters.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "nickname",
+       "host",
+       "port",
+       "database",
+       "username",
+       "password"
+      ],
+      "properties": {
+       "nickname": {
+        "type": "string",
+        "description": "A unique identifier for the server configuration."
+       },
+       "host": {
+        "type": "string",
+        "description": "The hostname or IP address of the Postgres server."
+       },
+       "port": {
+        "type": "integer",
+        "description": "The port number on which the Postgres server is listening."
+       },
+       "database": {
+        "type": "string",
+        "description": "The name of the default database to connect to."
+       },
+       "username": {
+        "type": "string",
+        "description": "The username for authentication with the Postgres server."
+       },
+       "password": {
+        "type": "string",
+        "description": "The password for authentication with the Postgres server."
+       }
+      }
+     }
+    },
+    {
+     "name": "add_postgres_server_9",
+     "description": "Adds a new PostgreSQL server configuration to the environment, allowing connections to be established with the specified credentials.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "nickname",
+       "host",
+       "port",
+       "database",
+       "username",
+       "password"
+      ],
+      "properties": {
+       "nickname": {
+        "type": "string",
+        "description": "A unique nickname or alias for the PostgreSQL server instance, for easier identification."
+       },
+       "host": {
+        "type": "string",
+        "description": "The hostname or IP address of the PostgreSQL server."
+       },
+       "port": {
+        "type": "integer",
+        "description": "The port number on which the PostgreSQL server is running. The default PostgreSQL port is 5432."
+       },
+       "database": {
+        "type": "string",
+        "description": "The name of the default database to connect to on the PostgreSQL server."
+       },
+       "username": {
+        "type": "string",
+        "description": "The username for authentication with the PostgreSQL server."
+       },
+       "password": {
+        "type": "string",
+        "description": "The password for authentication with the PostgreSQL server. Ensure to use a strong and secure password."
+       }
+      }
+     }
+    },
+    {
+     "name": "add_postgres_server_10",
+     "description": "Adds a new PostgreSQL server configuration to the environment, allowing for future database operations on this server.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "nickname",
+       "host",
+       "port",
+       "database",
+       "username",
+       "password"
+      ],
+      "properties": {
+       "nickname": {
+        "type": "string",
+        "description": "A unique and recognizable name or alias for the server, used for easy identification."
+       },
+       "host": {
+        "type": "string",
+        "description": "The hostname or IP address of the PostgreSQL server."
+       },
+       "port": {
+        "type": "integer",
+        "description": "The network port on which the PostgreSQL server is listening."
+       },
+       "database": {
+        "type": "string",
+        "description": "The default database name to connect to on the PostgreSQL server."
+       },
+       "username": {
+        "type": "string",
+        "description": "The username for authentication with the PostgreSQL server."
+       },
+       "password": {
+        "type": "string",
+        "description": "The password associated with the username for authentication with the PostgreSQL server."
+       }
+      }
+     }
+    },
+    {
+     "name": "add_postgres_server_11",
+     "description": "Adds a new PostgreSQL server configuration to the environment, allowing for subsequent database operations to be performed against it.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "nickname",
+       "host",
+       "port",
+       "database",
+       "username",
+       "password"
+      ],
+      "properties": {
+       "nickname": {
+        "type": "string",
+        "description": "An identifiable nickname or alias for the PostgreSQL server."
+       },
+       "host": {
+        "type": "string",
+        "description": "The hostname or IP address of the PostgreSQL server."
+       },
+       "port": {
+        "type": "integer",
+        "description": "The port number on which the PostgreSQL server is listening."
+       },
+       "database": {
+        "type": "string",
+        "description": "The name of the default database to connect to."
+       },
+       "username": {
+        "type": "string",
+        "description": "The username to authenticate with when connecting to the PostgreSQL server."
+       },
+       "password": {
+        "type": "string",
+        "description": "The password to authenticate with when connecting to the PostgreSQL server. It's recommended to use a strong, unique password."
+       }
+      }
+     }
+    },
+    {
+     "name": "add_postgres_server_12",
+     "description": "Adds a new PostgreSQL server configuration to the system, allowing for future connections and operations.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "host",
+       "port",
+       "database",
+       "username",
+       "password"
+      ],
+      "properties": {
+       "nickname": {
+        "type": "string",
+        "description": "A user-friendly name or alias for the server to easily identify it.",
+        "default": "postgres1"
+       },
+       "host": {
+        "type": "string",
+        "description": "The hostname or IP address of the PostgreSQL server."
+       },
+       "port": {
+        "type": "integer",
+        "description": "The port number on which the PostgreSQL server is listening."
+       },
+       "database": {
+        "type": "string",
+        "description": "The default database name to connect to on the PostgreSQL server."
+       },
+       "username": {
+        "type": "string",
+        "description": "The username for authentication with the PostgreSQL server."
+       },
+       "password": {
+        "type": "string",
+        "description": "The password for authentication with the PostgreSQL server."
+       }
+      }
+     }
+    },
+    {
+     "name": "add_postgres_server_13",
+     "description": "Adds a new Postgres server configuration or updates an existing one. This allows for the management of multiple Postgres server connections.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "nickname",
+       "host",
+       "port",
+       "database",
+       "username",
+       "password"
+      ],
+      "properties": {
+       "nickname": {
+        "type": "string",
+        "description": "A unique name or alias to identify the Postgres server configuration."
+       },
+       "host": {
+        "type": "string",
+        "description": "The hostname or IP address of the Postgres server."
+       },
+       "port": {
+        "type": "integer",
+        "description": "The network port on which the Postgres server is listening."
+       },
+       "database": {
+        "type": "string",
+        "description": "The default database to connect to on the Postgres server."
+       },
+       "username": {
+        "type": "string",
+        "description": "The username for authentication with the Postgres server."
+       },
+       "password": {
+        "type": "string",
+        "description": "The password for authentication with the Postgres server."
+       }
+      }
+     }
+    },
+    {
+     "name": "add_postgres_server_14",
+     "description": "Adds or creates a new PostgreSQL server configuration to connect to a database instance.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "host",
+       "username",
+       "password"
+      ],
+      "properties": {
+       "host": {
+        "type": "string",
+        "description": "The hostname or IP address of the PostgreSQL server."
+       },
+       "port": {
+        "type": "integer",
+        "description": "The port number on which the PostgreSQL server is listening.",
+        "default": 5432
+       },
+       "database": {
+        "type": "string",
+        "description": "The name of the database to connect to.",
+        "default": "postgres"
+       },
+       "username": {
+        "type": "string",
+        "description": "The username for authenticating with the PostgreSQL server."
+       },
+       "password": {
+        "type": "string",
+        "description": "The password for authenticating with the PostgreSQL server."
+       }
+      }
+     }
+    },
+    {
+     "name": "add_postgres_server_15",
+     "description": "Adds or creates a new PostgreSQL server configuration to enable database connections.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "nickname"
+      ],
+      "properties": {
+       "nickname": {
+        "type": "string",
+        "description": "A unique nickname for identifying the PostgreSQL server."
+       },
+       "host": {
+        "type": "string",
+        "description": "The hostname or IP address of the server, such as 'localhost' or '192.168.1.100'.",
+        "default": "localhost"
+       },
+       "port": {
+        "type": "integer",
+        "description": "The port number on which the PostgreSQL server is running. Typically, PostgreSQL uses port 5432.",
+        "default": 5432
+       },
+       "database": {
+        "type": "string",
+        "description": "The name of the default database to connect to. The standard default is 'postgres'.",
+        "default": "postgres"
+       },
+       "username": {
+        "type": "string",
+        "description": "The username for authentication with the PostgreSQL server. The standard default username is 'postgres'.",
+        "default": "postgres"
+       },
+       "password": {
+        "type": "string",
+        "description": "The password associated with the username for authentication. This should be kept secure.",
+        "default": null
+       }
+      }
+     }
+    },
+    {
+     "name": "add_postgres_server_16",
+     "description": "Registers a new PostgreSQL server within the application environment, allowing it to be used for database operations.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "nickname",
+       "host",
+       "port",
+       "database",
+       "username",
+       "password"
+      ],
+      "properties": {
+       "nickname": {
+        "type": "string",
+        "description": "A unique identifier or alias for the server."
+       },
+       "host": {
+        "type": "string",
+        "description": "The server's hostname or IP address."
+       },
+       "port": {
+        "type": "integer",
+        "description": "The network port on which the PostgreSQL server is listening. The default PostgreSQL port is 5432 if not specified.",
+        "default": 5432
+       },
+       "database": {
+        "type": "string",
+        "description": "The default database to use on the server."
+       },
+       "username": {
+        "type": "string",
+        "description": "The username for authentication with the PostgreSQL server."
+       },
+       "password": {
+        "type": "string",
+        "description": "The password associated with the username for authentication. It should be kept secret."
+       }
+      }
+     }
+    },
+    {
+     "name": "add_postgres_server_17",
+     "description": "Registers a new PostgreSQL server within the application environment, allowing it to be used for database operations.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "nickname",
+       "host",
+       "port",
+       "database",
+       "username",
+       "password"
+      ],
+      "properties": {
+       "nickname": {
+        "type": "string",
+        "description": "A unique identifier or alias for the server."
+       },
+       "host": {
+        "type": "string",
+        "description": "The server's hostname or IP address."
+       },
+       "port": {
+        "type": "integer",
+        "description": "The network port on which the PostgreSQL server is listening. The default PostgreSQL port is 5432 if not specified."
+       },
+       "database": {
+        "type": "string",
+        "description": "The default database to use on the server."
+       },
+       "username": {
+        "type": "string",
+        "description": "The username for authentication with the PostgreSQL server."
+       },
+       "password": {
+        "type": "string",
+        "description": "The password associated with the username for authentication. It should be kept secret."
+       }
+      }
+     }
+    },
+    {
+     "name": "add_postgres_server_18",
+     "description": "Registers a new PostgreSQL server within the environment by providing its connection details.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "host",
+       "port",
+       "database",
+       "username",
+       "password"
+      ],
+      "properties": {
+       "nickname": {
+        "type": "string",
+        "description": "A unique alias for the server that will be used for identification within the environment.",
+        "default": "postgres1"
+       },
+       "host": {
+        "type": "string",
+        "description": "The hostname or IP address of the PostgreSQL server."
+       },
+       "port": {
+        "type": "integer",
+        "description": "The port number on which the PostgreSQL server is listening. Typically, PostgreSQL uses port 5432."
+       },
+       "database": {
+        "type": "string",
+        "description": "The name of the default database to connect to on the PostgreSQL server."
+       },
+       "username": {
+        "type": "string",
+        "description": "The username required for authentication with the PostgreSQL server."
+       },
+       "password": {
+        "type": "string",
+        "description": "The password associated with the username for authentication with the PostgreSQL server."
+       }
+      }
+     }
+    },
+    {
+     "name": "add_postgres_server_19",
+     "description": "This function adds or creates a new Postgres server configuration by accepting necessary details such as server nickname, host, port, database, username, and password.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "nickname",
+       "host",
+       "port",
+       "database",
+       "username",
+       "password"
+      ],
+      "properties": {
+       "nickname": {
+        "type": "string",
+        "description": "A unique name or nickname to identify the Postgres server."
+       },
+       "host": {
+        "type": "string",
+        "description": "The hostname or IP address of the Postgres server, such as '127.0.0.1' for localhost."
+       },
+       "port": {
+        "type": "integer",
+        "description": "The port number on which the Postgres server is running. The standard port for Postgres is 5432."
+       },
+       "database": {
+        "type": "string",
+        "description": "The name of the default database to connect to. The default Postgres database is typically named 'postgres'."
+       },
+       "username": {
+        "type": "string",
+        "description": "The username for authentication with the Postgres server. An example username could be 'admin'."
+       },
+       "password": {
+        "type": "string",
+        "description": "The password for authentication with the Postgres server. It is recommended to use a strong password."
+       }
+      }
+     }
+    },
+    {
+     "name": "getUniqueSorted",
+     "description": "This function takes an array of elements and returns a new array of unique elements sorted in ascending order. It does not require any additional parameters for sorting.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "array": {
+        "type": "array",
+        "items": {
+         "type": "integer"
+        },
+        "description": "The array from which to extract unique elements and sort them."
+       }
+      },
+      "required": [
+       "array"
+      ]
+     }
+    },
+    {
+     "name": "get_all_apdex_configurations",
+     "description": "Retrieve a list of all Apdex (Application Performance Index) configurations that define satisfactory thresholds for application response times.",
+     "input_schema": {
+      "type": "object",
+      "required": [],
+      "properties": {
+       "application_id": {
+        "type": "string",
+        "description": "The unique identifier of the application for which to fetch Apdex settings. If not provided, Apdex settings for all applications will be returned.",
+        "default": "all"
+       },
+       "include_thresholds": {
+        "type": "boolean",
+        "description": "Whether to include the threshold values in the response. If false, only the configuration names and IDs will be returned.",
+        "default": true
+       }
+      }
+     }
+    },
+    {
+     "name": "get_all_apdex_configurations_2",
+     "description": "Retrieve a list of all Apdex score configurations from the system, providing an overview of application performance thresholds.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "application_id": {
+        "type": "string",
+        "description": "Unique identifier of the application for which Apdex configurations are requested."
+       },
+       "include_defaults": {
+        "type": "boolean",
+        "description": "Flag to include default Apdex configurations in the response.",
+        "default": true
+       }
+      },
+      "required": [
+       "application_id"
+      ]
+     }
+    },
+    {
+     "name": "get_maintenance_configs",
+     "description": "Retrieve a list of all maintenance configurations for the system, including details such as configuration name, description, and active status.",
+     "input_schema": {
+      "type": "object",
+      "properties": {},
+      "required": []
+     }
+    },
+    {
+     "name": "get_maintenance_configs_2",
+     "description": "Retrieve a list of all maintenance configurations to manage system upkeep.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "api_version"
+      ],
+      "properties": {
+       "api_version": {
+        "type": "string",
+        "description": "The API version used for the request, formatted as 'v[number]', such as 'v1'."
+       },
+       "page": {
+        "type": "integer",
+        "description": "The page number of the maintenance configurations list to fetch.",
+        "default": 1
+       },
+       "size": {
+        "type": "integer",
+        "description": "The number of maintenance configurations per page.",
+        "default": 10
+       },
+       "active_only": {
+        "type": "boolean",
+        "description": "A flag to retrieve only active maintenance configurations.",
+        "default": false
+       }
+      }
+     }
+    },
+    {
+     "name": "list_servers",
+     "description": "List all the servers in the environment based on the specified server type. If no type is specified, all servers are listed.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "type": {
+        "type": "string",
+        "description": "The type of server to filter the list by. If 'all' is specified or this parameter is omitted, servers of all types will be listed.",
+        "enum": [
+         "all",
+         "graphql",
+         "mtna",
+         "openapi",
+         "postgres",
+         "rds",
+         "sql"
+        ],
+        "default": "all"
+       }
+      },
+      "required": []
+     }
+    },
+    {
+     "name": "list_servers_2",
+     "description": "Retrieve a list of all servers within a specified environment, optionally filtered by server type.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "server_type": {
+        "type": "string",
+        "description": "The category of servers to list. If not specified, all server types are included.",
+        "enum": [
+         "all",
+         "graphql",
+         "mtna",
+         "openapi",
+         "postgres",
+         "rds",
+         "sql"
+        ],
+        "default": "all"
+       }
+      },
+      "required": []
+     }
+    },
+    {
+     "name": "list_servers_3",
+     "description": "Retrieve a list of all servers within the specified environment, filtered by server type if provided.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "type": {
+        "type": "string",
+        "description": "The category of servers to list. If not specified, all server types are included.",
+        "enum": [
+         "all",
+         "graphql",
+         "mtna",
+         "openapi",
+         "postgres",
+         "rds",
+         "sql"
+        ],
+        "default": "all"
+       }
+      },
+      "required": []
+     }
+    },
+    {
+     "name": "list_servers_4",
+     "description": "Retrieve a list of all the servers within the specified environment, optionally filtering by server type.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "server_type": {
+        "type": "string",
+        "description": "The type of servers to be listed. If not specified, all server types are included.",
+        "enum": [
+         "all",
+         "graphql",
+         "mtna",
+         "openapi",
+         "postgres",
+         "rds",
+         "sql"
+        ],
+        "default": "all"
+       }
+      },
+      "required": []
+     }
+    },
+    {
+     "name": "list_servers_5",
+     "description": "Retrieves a list of all the servers currently deployed within the specified environment, optionally filtered by server type.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "type": {
+        "type": "string",
+        "description": "Specifies the type of server to filter the list. If not provided, servers of all types are included.",
+        "enum": [
+         "all",
+         "graphql",
+         "mtna",
+         "openapi",
+         "postgres",
+         "rds",
+         "sql"
+        ],
+        "default": "all"
+       }
+      },
+      "required": []
+     }
+    },
+    {
+     "name": "list_servers_6",
+     "description": "Retrieves a list of servers from the specified environment, filtered by the server type if provided.",
+     "input_schema": {
+      "type": "object",
+      "required": [],
+      "properties": {
+       "nickname": {
+        "type": "string",
+        "description": "The nickname represents the type of server to filter the list by. If not specified, all server types will be listed.",
+        "enum": [
+         "all",
+         "postgres",
+         "openapi",
+         "graphql"
+        ],
+        "default": "all"
+       }
+      }
+     }
+    },
+    {
+     "name": "list_servers_7",
+     "description": "Retrieves a list of servers from the specified environment, filtered by the server type if provided.",
+     "input_schema": {
+      "type": "object",
+      "required": [],
+      "properties": {
+       "type": {
+        "type": "string",
+        "description": "Specifies the type of server to filter the list. If omitted or if some other type not in the possible types is mentioned by the user, servers of all types are listed.",
+        "enum": [
+         "all",
+         "postgres",
+         "openapi",
+         "graphql"
+        ],
+        "default": "all"
+       }
+      }
+     }
+    },
+    {
+     "name": "list_servers_8",
+     "description": "Retrieves a list of servers from the specified environment, filtered by the server type if provided.",
+     "input_schema": {
+      "type": "object",
+      "required": [],
+      "properties": {
+       "type": {
+        "type": "string",
+        "description": "Specifies the type of server to filter the list. If omitted, servers of all types are listed.",
+        "enum": [
+         "all",
+         "postgres",
+         "openapi",
+         "graphql"
+        ],
+        "default": "all"
+       }
+      }
+     }
+    },
+    {
+     "name": "nuclei_http",
+     "description": "Scan a specified host for HTTP vulnerabilities using various predefined checks.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "host"
+      ],
+      "properties": {
+       "host": {
+        "type": "string",
+        "description": "The target host or IP to scan, in the format of 'hostname' or 'IP address', such as 'example.com' or '192.168.1.1'."
+       },
+       "timeout": {
+        "type": "integer",
+        "description": "The timeout for the HTTP request in seconds.",
+        "default": 10
+       },
+       "use_tls": {
+        "type": "boolean",
+        "description": "Whether to use TLS/SSL for the HTTP request.",
+        "default": true
+       },
+       "user_agent": {
+        "type": "string",
+        "description": "The User-Agent header to use for the HTTP request.",
+        "default": "Nuclei-Scanner/1.0"
+       },
+       "proxy": {
+        "type": "string",
+        "description": "Optional HTTP proxy to use for the request, in the format 'http://user:password@host:port'.",
+        "default": null
+       }
+      }
+     }
+    },
+    {
+     "name": "open_project",
+     "description": "Initializes a new Data Artifex project or opens an existing one in the specified directory.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "path"
+      ],
+      "properties": {
+       "path": {
+        "type": "string",
+        "description": "The filesystem path to the directory where the project files are located or will be created. The path should be absolute or relative to the current working directory."
+       },
+       "create_new": {
+        "type": "boolean",
+        "description": "A flag indicating whether to create a new project if one does not exist at the specified path.",
+        "default": false
+       },
+       "access_mode": {
+        "type": "string",
+        "description": "The mode in which to open the project. For example, 'read-only' or 'edit'.",
+        "enum": [
+         "read-only",
+         "edit"
+        ],
+        "default": "edit"
+       }
+      }
+     }
+    },
+    {
+     "name": "open_project_2",
+     "description": "Initializes a new Data Artifex project or opens an existing one in the specified directory.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "path"
+      ],
+      "properties": {
+       "path": {
+        "type": "string",
+        "description": "The file system path to the directory where the project will be created or where the existing project is located. The path should be absolute or relative to the current working directory."
+       },
+       "create_new": {
+        "type": "boolean",
+        "description": "A flag indicating whether to create a new project if one does not exist at the given path.",
+        "default": false
+       },
+       "access_mode": {
+        "type": "string",
+        "description": "The mode of access for the project.",
+        "enum": [
+         "readonly",
+         "readwrite"
+        ],
+        "default": "readwrite"
+       }
+      }
+     }
+    },
+    {
+     "name": "open_project_3",
+     "description": "Open an existing Data Artife project located in the specified directory. This function initializes the project environment and loads the configuration files.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "path"
+      ],
+      "properties": {
+       "path": {
+        "type": "string",
+        "description": "The absolute or relative file system path to the directory where the project is located. Example: '/users/username/projects/project1'"
+       },
+       "read_only": {
+        "type": "boolean",
+        "description": "Specifies whether the project should be opened in read-only mode. When set to true, no changes can be made to the project.",
+        "default": false
+       }
+      }
+     }
+    },
+    {
+     "name": "open_project_4",
+     "description": "This function either creates a new Data Artifex project or opens an existing one within the specified directory.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "path"
+      ],
+      "properties": {
+       "path": {
+        "type": "string",
+        "description": "The file system path to the directory where the project is to be created or opened. The path should be absolute or relative to the current working directory."
+       },
+       "create_if_missing": {
+        "type": "boolean",
+        "description": "Determines whether to create a new project if no existing project is found at the specified path.",
+        "default": true
+       },
+       "access_mode": {
+        "type": "string",
+        "description": "The mode in which the project should be opened, either read-only or read-write.",
+        "enum": [
+         "readonly",
+         "readwrite"
+        ],
+        "default": "readwrite"
+       }
+      }
+     }
+    },
+    {
+     "name": "open_times_query",
+     "description": "Searches a user's calendar to find available time slots that can accommodate new events without causing conflicts with existing events. Ideal for scheduling or rescheduling events.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "when",
+       "user_id"
+      ],
+      "properties": {
+       "when": {
+        "type": "string",
+        "description": "The time window to search for open slots, in the format 'YYYY-MM-DD HH:MM to YYYY-MM-DD HH:MM', such as '2023-04-01 09:00 to 2023-04-01 17:00'."
+       },
+       "user_id": {
+        "type": "string",
+        "description": "The unique identifier of the user whose calendar is being queried."
+       },
+       "ignore_all_day_events": {
+        "type": "boolean",
+        "description": "Whether to ignore all-day events when searching for open time slots.",
+        "default": false
+       },
+       "minimum_duration": {
+        "type": "integer",
+        "description": "The minimum duration in minutes for an open time slot to be considered suitable.",
+        "default": 30
+       }
+      }
+     }
+    },
+    {
+     "name": "propertyTransferredToCollectorBuilder",
+     "description": "Tests that a given property is transferred correctly to the ActiveMQCollector.Builder during the setup of a Zipkin server.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "property": {
+        "type": "string",
+        "description": "The property name to be tested."
+       },
+       "value": {
+        "type": "string",
+        "description": "The value of the property to be applied."
+       },
+       "builderExtractor": {
+        "type": "string",
+        "description": "A function that extracts the value from the builder for comparison."
+       }
+      },
+      "required": [
+       "property",
+       "value",
+       "builderExtractor"
+      ]
+     }
+    },
+    {
+     "name": "rename_server",
+     "description": "Renames a server by changing its current identifier to a new one provided by the user.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "_from",
+       "to"
+      ],
+      "properties": {
+       "_from": {
+        "type": "string",
+        "description": "The current server identifier, such as a hostname or IP address."
+       },
+       "to": {
+        "type": "string",
+        "description": "The new server identifier to which the server will be renamed. This should be unique and adhere to naming conventions."
+       }
+      }
+     }
+    },
+    {
+     "name": "rename_server_2",
+     "description": "Renames a server by updating its identifier from the current value to a new value.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "_from",
+       "to"
+      ],
+      "properties": {
+       "_from": {
+        "type": "string",
+        "description": "The current server identifier, such as a name or nickname, that uniquely identifies the server to be renamed."
+       },
+       "to": {
+        "type": "string",
+        "description": "The new server identifier, such as a name or nickname, that the server will be renamed to."
+       }
+      }
+     }
+    }
+   ]
+  },
+  {
+   "id": "bfcl_c26_g3",
+   "name": "identifier province unique",
+   "server": "bfcl://bfcl_c26_g3",
+   "summary": "Functions for identifier, province, unique, service, fetchperson, id.",
+   "tools": [
+    {
+     "name": "fetchPerson",
+     "description": "Retrieves the details of a person using their unique identifier.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "id"
+      ],
+      "properties": {
+       "id": {
+        "type": "integer",
+        "description": "The unique identifier for the person to be fetched."
+       }
+      }
+     }
+    },
+    {
+     "name": "generateNotificationHandler",
+     "description": "This function generates a notification handler for an application, which can filter incoming messages by priority level. It can also be linked to a specific messaging service and categorized under a certain notification type.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "app": {
+        "type": "string",
+        "description": "The application for which to generate the notification handler."
+       },
+       "priorityLevel": {
+        "type": "integer",
+        "description": "The priority level to filter messages. A certain level (e.g., 3) may determine the filtering criteria."
+       },
+       "messagingService": {
+        "type": "string",
+        "description": "The messaging service associated with the notification handler."
+       },
+       "notificationType": {
+        "type": "integer",
+        "description": "The notification type category for the handler."
+       }
+      },
+      "required": [
+       "app",
+       "priorityLevel",
+       "messagingService",
+       "notificationType"
+      ]
+     }
+    },
+    {
+     "name": "get_maintenance_configs_v2",
+     "description": "Retrieve a list of all available maintenance configurations from the system.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "page",
+       "limit"
+      ],
+      "properties": {
+       "page": {
+        "type": "integer",
+        "description": "The page number for pagination. Starts from 1."
+       },
+       "limit": {
+        "type": "integer",
+        "description": "The number of records to return per page. Maximum of 100."
+       },
+       "sort_order": {
+        "type": "string",
+        "description": "The order in which maintenance configurations should be sorted.",
+        "enum": [
+         "asc",
+         "desc"
+        ],
+        "default": "asc"
+       },
+       "filter_by_status": {
+        "type": "string",
+        "description": "Filter configurations by their status, such as 'active' or 'inactive'.",
+        "enum": [
+         "active",
+         "inactive"
+        ],
+        "default": "active"
+       }
+      }
+     }
+    },
+    {
+     "name": "get_maintenance_configs_v2_2",
+     "description": "Retrieve all available maintenance configurations, including details about scheduled times, affected systems, and notification preferences.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "page"
+      ],
+      "properties": {
+       "page": {
+        "type": "integer",
+        "description": "The page number of the results to retrieve, for paginated responses."
+       },
+       "page_size": {
+        "type": "integer",
+        "description": "The number of maintenance configurations to return per page.",
+        "default": 20
+       },
+       "filter_status": {
+        "type": "string",
+        "description": "Filter configurations based on maintenance status.",
+        "enum": [
+         "active",
+         "inactive",
+         "completed"
+        ],
+        "default": "active"
+       },
+       "sort_order": {
+        "type": "string",
+        "description": "The order in which the maintenance configurations should be returned. Ascending or descending.",
+        "enum": [
+         "asc",
+         "desc"
+        ],
+        "default": "asc"
+       }
+      }
+     }
+    },
+    {
+     "name": "get_province_id",
+     "description": "Retrieve the unique identifier (ID) associated with a province name.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "province_name"
+      ],
+      "properties": {
+       "province_name": {
+        "type": "string",
+        "description": "The name of the province for which the ID is requested. For example: 'Bangkok', 'Chiang Mai', 'Chonburi'."
+       },
+       "country_code": {
+        "type": "string",
+        "description": "The ISO country code to ensure the province is identified within the correct country context. For example: 'TH' for Thailand.",
+        "default": "TH"
+       }
+      }
+     }
+    },
+    {
+     "name": "get_service_id",
+     "description": "Retrieve the unique identifier for a specific service based on the service type and location.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "service_id"
+      ],
+      "properties": {
+       "service_id": {
+        "type": "integer",
+        "description": "The ID corresponding to a service type. For example, '1' represents a cleaning service, '2' represents an ironing service, and '3' represents a comprehensive cleaning service."
+       },
+       "province_id": {
+        "type": "integer",
+        "description": "The ID representing a specific province. For example, '1' corresponds to Bangkok, '2' to Chiang Mai, and '3' to Chonburi.",
+        "default": null
+       },
+       "rating": {
+        "type": "number",
+        "description": "The average rating of the service provider's review score. Ratings are represented as floating-point numbers to accommodate fractional scores.",
+        "default": null
+       }
+      }
+     }
+    },
+    {
+     "name": "get_service_id_2",
+     "description": "Retrieve the unique identifier for a specific service based on the service type.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "service_id"
+      ],
+      "properties": {
+       "service_id": {
+        "type": "integer",
+        "description": "The unique identifier of the service. For example, '1' represents cleaning services, and '2' represents ironing services.",
+        "enum": [
+         1,
+         2
+        ]
+       },
+       "unit": {
+        "type": "integer",
+        "description": "The quantity of service units requested.",
+        "default": 1
+       }
+      }
+     }
+    },
+    {
+     "name": "get_service_id_3",
+     "description": "Retrieve the unique identifier for a specific service provided. This identifier is used to reference available housekeeping services such as cleaning or ironing.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "service_id": {
+        "type": "integer",
+        "description": "The unique ID of the service. For example, '1' for cleaning, '2' for ironing.",
+        "enum": [
+         1,
+         2
+        ]
+       },
+       "unit": {
+        "type": "string",
+        "description": "The unit of measurement used for the service count, such as 'session' or 'hour'.",
+        "enum": [
+         "session",
+         "hour"
+        ],
+        "default": "session"
+       }
+      },
+      "required": [
+       "service_id"
+      ]
+     }
+    },
+    {
+     "name": "get_service_id_4",
+     "description": "Retrieve the unique identifier for a specific service type, such as cleaning or ironing services.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "service_id"
+      ],
+      "properties": {
+       "service_id": {
+        "type": "integer",
+        "description": "The unique identifier of the service. For example, '1' represents cleaning service, and '2' represents ironing service.",
+        "enum": [
+         1,
+         2
+        ]
+       },
+       "unit": {
+        "type": "integer",
+        "description": "The unit of measurement for the quantity of service, expressed as the number of service sessions or instances.",
+        "default": 1
+       }
+      }
+     }
+    },
+    {
+     "name": "get_service_id_5",
+     "description": "Retrieve the unique identifier for a specific service within a given province based on the service type and location.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "service_id"
+      ],
+      "properties": {
+       "service_id": {
+        "type": "integer",
+        "description": "The unique identifier of the service. For example, '1' represents a cleaning service, '2' for an ironing service, and '3' for a comprehensive cleaning service."
+       },
+       "province_id": {
+        "type": "integer",
+        "description": "The unique identifier of the province. For instance, '1' for Bangkok, '2' for Chiang Mai, and '3' for Chonburi.",
+        "default": 1
+       },
+       "district_name": {
+        "type": "string",
+        "description": "The name of the district where the service is located, such as 'Watthana' or 'Thon Buri'.",
+        "default": "Not Specified"
+       },
+       "rating": {
+        "type": "number",
+        "description": "The average rating of the service provider's review score, from 0.0 to 5.0, where '4.5' represents a very good rating.",
+        "default": 0.0
+       }
+      }
+     }
+    },
+    {
+     "name": "get_service_id_6",
+     "description": "Retrieve the unique identifier for a specific service within a given province.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "service_id",
+       "province_id"
+      ],
+      "properties": {
+       "service_id": {
+        "type": "integer",
+        "description": "The unique identifier of the service. For example, '1' for cleaning service, '2' for ironing service, and '3' for extensive cleaning service.",
+        "enum": [
+         1,
+         2,
+         3
+        ]
+       },
+       "province_id": {
+        "type": "integer",
+        "description": "The unique identifier of the province where the service is located. For example, '1' for Bangkok, '2' for Chiang Mai, and '3' for Chonburi.",
+        "enum": [
+         1,
+         2,
+         3
+        ]
+       }
+      }
+     }
+    },
+    {
+     "name": "get_service_id_7",
+     "description": "Retrieve the unique identifier of a service based on the service type.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "service_id"
+      ],
+      "properties": {
+       "service_id": {
+        "type": "integer",
+        "description": "The unique identifier of the service. For example, 1 represents a cleaning service, 2 represents an ironing service, and 3 represents a comprehensive cleaning service.",
+        "enum": [
+         1,
+         2,
+         3
+        ]
+       },
+       "unit": {
+        "type": "string",
+        "description": "The measurement unit for quantifying the service, such as 'hours' or 'sessions'.",
+        "default": "hours",
+        "enum": [
+         "hours",
+         "sessions"
+        ]
+       }
+      }
+     }
+    },
+    {
+     "name": "get_service_id_8",
+     "description": "Retrieves the unique identifier of a specific service provided by the housekeeping staff. This ID is used to reference services such as cleaning, ironing, massage, or big cleaning tasks.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "service_id"
+      ],
+      "properties": {
+       "service_id": {
+        "type": "integer",
+        "description": "The unique identifier for a service. For example, 1 represents cleaning, 2 represents ironing, 7 represents massage, and 13 represents big cleaning.",
+        "enum": [
+         1,
+         2,
+         7,
+         13
+        ]
+       },
+       "unit": {
+        "type": "integer",
+        "description": "The number of service units requested. This is usually the quantity of services needed, such as the number of rooms to clean or the number of clothing items to iron.",
+        "default": 1
+       }
+      }
+     }
+    },
+    {
+     "name": "get_synthetic_locations",
+     "description": "Retrieve a list of all synthetic monitoring locations available for configuring synthetic tests.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "limit"
+      ],
+      "properties": {
+       "sort": {
+        "type": "string",
+        "description": "Sort order of the locations. Specify 'asc' for ascending or 'desc' for descending.",
+        "enum": [
+         "asc",
+         "desc"
+        ],
+        "default": "asc"
+       },
+       "offset": {
+        "type": "integer",
+        "description": "The number of locations to skip before starting to collect the result set. Begins at 0.",
+        "default": 0
+       },
+       "limit": {
+        "type": "integer",
+        "description": "The maximum number of locations to return in the response. Must be an integer greater than 0."
+       },
+       "filter": {
+        "type": "string",
+        "description": "A filter string to receive specific locations based on matching criteria, such as 'North America'. The filter is applied to the location's name or attributes.",
+        "default": ""
+       }
+      }
+     }
+    },
+    {
+     "name": "get_synthetic_locations_2",
+     "description": "Retrieves a list of all available synthetic locations for monitoring. The function supports sorting, pagination, and filtering options to organize and select the desired subset of locations.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "sort",
+       "offset",
+       "limit"
+      ],
+      "properties": {
+       "sort": {
+        "type": "string",
+        "description": "Specifies the field to sort by. Options include 'name' for location name, 'id' for unique identifier, 'created_at' for creation date, or 'updated_at' for the last update date.",
+        "enum": [
+         "name",
+         "id",
+         "created_at",
+         "updated_at"
+        ]
+       },
+       "offset": {
+        "type": "integer",
+        "description": "The starting point for the list of locations, used for pagination. Represents the number of records to skip before starting to collect the result set."
+       },
+       "limit": {
+        "type": "integer",
+        "description": "The maximum number of locations to return in a single response. Used for pagination."
+       },
+       "filter": {
+        "type": "string",
+        "description": "A search filter to apply to the list of locations. Defaults to 'status:active' which retrieves only active locations.",
+        "default": "status:active"
+       }
+      }
+     }
+    },
+    {
+     "name": "get_synthetic_locations_3",
+     "description": "Retrieves a list of all synthetic locations available for monitoring. The list can be sorted, filtered, and paginated using the provided parameters.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "sort"
+      ],
+      "properties": {
+       "sort": {
+        "type": "string",
+        "description": "Determines the order of the returned locations list. Use 'asc' for ascending or 'desc' for descending order.",
+        "enum": [
+         "asc",
+         "desc"
+        ]
+       },
+       "offset": {
+        "type": "integer",
+        "description": "The starting point from where to return the locations, useful for pagination. Zero-based index.",
+        "default": 0
+       },
+       "limit": {
+        "type": "integer",
+        "description": "Limits the number of locations to be returned. Must be a positive integer.",
+        "default": 50
+       },
+       "filter": {
+        "type": "string",
+        "description": "A query string to filter the locations based on specific criteria, such as location name or status.",
+        "default": ""
+       }
+      }
+     }
+    },
+    {
+     "name": "look_at",
+     "description": "Orients the view to focus on a specific 3D coordinate in a virtual space.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "x": {
+        "type": "number",
+        "description": "The x coordinate (horizontal axis) to look at. It is specified in meters."
+       },
+       "y": {
+        "type": "number",
+        "description": "The y coordinate (vertical axis) to look at. It is specified in meters."
+       },
+       "z": {
+        "type": "number",
+        "description": "The z coordinate (depth axis) to look at. It is specified in meters."
+       }
+      },
+      "required": [
+       "x",
+       "y",
+       "z"
+      ]
+     }
+    },
+    {
+     "name": "open_asset",
+     "description": "Opens a specified asset by name when the user issues a command. Recognizes phrases like 'Go to', 'Select', and 'Fly to' as instructions to open the asset. Validates the asset name against a list of pre-defined valid names, considering user typos or language differences. Requests clarification if the asset name is unclear.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "asset_name"
+      ],
+      "properties": {
+       "asset_name": {
+        "type": "string",
+        "description": "The exact name of the asset to open. Must be one of the pre-defined valid names such as 'MV32 - LightModel', 'MV32 - Clone Romario', 'Mv32 - Elison 04-oct-2023', 'MV32 - Teste Upload', 'MV32 - Clone upload section', 'MV32 GLTF_TEST', 'FPSO Model Test'. The function is case-sensitive and will ask for clarification if the name does not match exactly.",
+        "enum": [
+         "MV32 - LightModel",
+         "MV32 - Clone Romario",
+         "Mv32 - Elison 04-oct-2023",
+         "MV32 - Teste Upload",
+         "MV32 - Clone upload section",
+         "MV32 GLTF_TEST",
+         "FPSO Model Test"
+        ]
+       },
+       "region_names": {
+        "type": "string",
+        "description": "A comma-separated list of specific region names within the asset, such as 'Engine Room, Deck, Control Room'. If left empty, no specific region is targeted.",
+        "default": ""
+       },
+       "all_regions": {
+        "type": "boolean",
+        "description": "Set to true to open all regions of the asset, otherwise false to open only specified regions.",
+        "default": false
+       },
+       "asking_for_region_info": {
+        "type": "boolean",
+        "description": "Indicates if the user is requesting information about the regions within the asset.",
+        "default": false
+       }
+      }
+     }
+    },
+    {
+     "name": "open_asset_2",
+     "description": "Opens an asset specified by the user using commands such as 'Go to', 'Select', 'Fly to'. Ensures that the asset name matches one of the predefined asset names in a case-sensitive manner. Prompts the user for clarification if the input is ambiguous or incorrect.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "asset_name"
+      ],
+      "properties": {
+       "asset_name": {
+        "type": "string",
+        "description": "The exact, case-sensitive name of the asset to open. Must match one of the predefined names.",
+        "enum": [
+         "MV31",
+         "MV32"
+        ]
+       },
+       "region_names": {
+        "type": "string",
+        "description": "A comma-separated list of region names to open, formatted as 'Region1,Region2'. Optional.",
+        "default": ""
+       },
+       "all_regions": {
+        "type": "boolean",
+        "description": "Whether to open all regions within the asset. True opens all regions, false opens none.",
+        "default": false
+       },
+       "asking_for_region_info": {
+        "type": "boolean",
+        "description": "True if the user is requesting information about the region names, otherwise false.",
+        "default": false
+       }
+      }
+     }
+    },
+    {
+     "name": "view_service_provider_profile",
+     "description": "Retrieve and display the profile details of a specific service provider by their unique identifier.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "professional_id"
+      ],
+      "properties": {
+       "professional_id": {
+        "type": "integer",
+        "description": "The unique identifier of the service provider whose profile is to be viewed."
+       }
+      }
+     }
+    },
+    {
+     "name": "view_service_provider_profile_2",
+     "description": "Retrieve and display the profile details of a specific service provider by using their unique identifier.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "professional_id"
+      ],
+      "properties": {
+       "professional_id": {
+        "type": "integer",
+        "description": "The unique identifier for a service provider."
+       }
+      }
+     }
+    },
+    {
+     "name": "view_service_provider_profile_3",
+     "description": "Retrieve and display the profile information of a specific service provider based on their unique identifier.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "professional_id"
+      ],
+      "properties": {
+       "professional_id": {
+        "type": "integer",
+        "description": "The unique identifier of the service provider whose profile is to be viewed."
+       },
+       "include_reviews": {
+        "type": "boolean",
+        "description": "Indicates whether to include reviews in the profile information. If set to true, the profile will include customer reviews.",
+        "default": false
+       },
+       "include_portfolio": {
+        "type": "boolean",
+        "description": "Specifies if the service provider's portfolio should be included in the profile information. When true, showcases previous work.",
+        "default": false
+       }
+      }
+     }
+    },
+    {
+     "name": "view_service_provider_profile_4",
+     "description": "Retrieve and display the profile information of a specified service provider.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "professional_id"
+      ],
+      "properties": {
+       "professional_id": {
+        "type": "integer",
+        "description": "The unique identifier of the service provider whose profile is to be viewed."
+       }
+      }
+     }
+    },
+    {
+     "name": "view_service_provider_profile_5",
+     "description": "Retrieve and display the profile information of a specified service provider.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "service_id"
+      ],
+      "properties": {
+       "service_id": {
+        "type": "integer",
+        "description": "The unique identifier of the service provider whose profile is to be viewed."
+       }
+      }
+     }
+    },
+    {
+     "name": "view_service_provider_profile_6",
+     "description": "Retrieve the detailed profile information of a specified service provider.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "professional_id"
+      ],
+      "properties": {
+       "professional_id": {
+        "type": "integer",
+        "description": "The unique identifier of the service provider whose profile is to be viewed."
+       }
+      }
+     }
+    },
+    {
+     "name": "view_service_provider_profile_7",
+     "description": "This function retrieves and displays the profile information of a specified service provider based on their unique identifier.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "professional_id"
+      ],
+      "properties": {
+       "professional_id": {
+        "type": "integer",
+        "description": "The unique identifier for the service provider whose profile is being viewed."
+       }
+      }
+     }
+    }
+   ]
+  }
+ ]
+}

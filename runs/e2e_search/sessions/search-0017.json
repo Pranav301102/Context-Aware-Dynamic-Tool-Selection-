@@ -1,0 +1,54 @@
+{
+ "task_id": "search-0017",
+ "mode": "search",
+ "loaded": [
+  "exa.get_code_context_exa",
+  "github.search_code",
+  "wikipedia.get_sections",
+  "brave_search.brave_web_search",
+  "tavily.tavily_map"
+ ],
+ "order": [
+  "exa.get_code_context_exa",
+  "github.search_code",
+  "wikipedia.get_sections",
+  "brave_search.brave_web_search",
+  "tavily.tavily_map"
+ ],
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "exa.get_code_context_exa",
+   "args": {
+    "query": "pgx v5 Go Postgres batch inserts recommended way examples (pgx.Batch SendBatch, CopyFrom)"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0
+  },
+  {
+   "type": "request_tools",
+   "capability": "look up up-to-date documentation and code examples for a programming library",
+   "added": [
+    "exa.get_code_context_exa",
+    "github.search_code",
+    "wikipedia.get_sections",
+    "brave_search.brave_web_search",
+    "tavily.tavily_map"
+   ],
+   "tool_tokens": 1602
+  },
+  {
+   "type": "call",
+   "tool": "exa__get_code_context_exa",
+   "valid": true
+  }
+ ],
+ "done": true,
+ "final": ""
+}

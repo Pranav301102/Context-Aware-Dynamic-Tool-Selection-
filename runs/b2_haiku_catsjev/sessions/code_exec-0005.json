@@ -1,0 +1,86 @@
+{
+ "task_id": "code_exec-0005",
+ "mode": "cats",
+ "loaded": [
+  "code_checker.collect_tests",
+  "code_checker.run_all_checks",
+  "code_checker.run_eslint",
+  "code_checker.run_jest",
+  "code_checker.run_pytest_check",
+  "e2b.run_code",
+  "filesystem.read_multiple_files",
+  "github.list_workflow_runs",
+  "package_manager.npm_install",
+  "package_manager.npm_run_script",
+  "package_manager.pip_install",
+  "package_manager.pip_list"
+ ],
+ "order": [
+  "code_checker.collect_tests",
+  "code_checker.run_all_checks",
+  "code_checker.run_eslint",
+  "code_checker.run_jest",
+  "code_checker.run_pytest_check",
+  "e2b.run_code",
+  "filesystem.read_multiple_files",
+  "github.list_workflow_runs",
+  "package_manager.npm_install",
+  "package_manager.npm_run_script",
+  "package_manager.pip_install",
+  "package_manager.pip_list"
+ ],
+ "scores": {
+  "code_checker.collect_tests": 0.18370690951319102,
+  "code_checker.run_all_checks": 0.1917597539764407,
+  "code_checker.run_eslint": 0.04140156555650013,
+  "code_checker.run_jest": 0.9039530713880393,
+  "code_checker.run_pytest_check": 0.2520296078504307,
+  "e2b.run_code": 0.059892509214018064,
+  "filesystem.read_multiple_files": 0.23659608036049776,
+  "github.list_workflow_runs": 0.0713129833532621,
+  "package_manager.npm_install": 0.7263966454678158,
+  "package_manager.npm_run_script": 0.27469552335742853,
+  "package_manager.pip_install": 0.12926508911372672,
+  "package_manager.pip_list": 0.39842019807114537
+ },
+ "router_tokens": 1438,
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "package_manager.npm_install",
+   "args": {
+    "packages": []
+   }
+  },
+  {
+   "tool": "code_checker.run_jest",
+   "args": {
+    "coverage": false
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 12,
+   "tool_tokens": 2858,
+   "t": 1791322067.8783426
+  },
+  {
+   "type": "call",
+   "tool": "package_manager__npm_install",
+   "valid": true,
+   "t": 1791322079.6614258
+  },
+  {
+   "type": "call",
+   "tool": "code_checker__run_jest",
+   "valid": true,
+   "t": 1791322090.315858
+  }
+ ],
+ "done": true,
+ "t_done": 1791322094.1045291,
+ "final": ""
+}

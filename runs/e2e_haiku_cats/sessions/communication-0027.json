@@ -1,0 +1,36 @@
+{
+ "task_id": "communication-0027",
+ "mode": "cats",
+ "loaded": [
+  "gmail.download_attachment"
+ ],
+ "order": [
+  "gmail.download_attachment"
+ ],
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "gmail.download_attachment",
+   "args": {
+    "messageId": "18e7c1",
+    "attachmentId": "ANGjdJ9fkL",
+    "savePath": "~/Downloads"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 1,
+   "tool_tokens": 149
+  },
+  {
+   "type": "call",
+   "tool": "gmail__download_attachment",
+   "valid": true
+  }
+ ],
+ "done": true,
+ "final": ""
+}

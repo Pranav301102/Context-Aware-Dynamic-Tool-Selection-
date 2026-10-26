@@ -1,0 +1,66 @@
+{
+ "task_id": "productivity-0023",
+ "mode": "search",
+ "loaded": [
+  "google_calendar.respond_to_event",
+  "google_calendar.list_events",
+  "google_calendar.delete_event",
+  "google_calendar.create_event",
+  "google_calendar.search_events"
+ ],
+ "order": [
+  "google_calendar.respond_to_event",
+  "google_calendar.list_events",
+  "google_calendar.delete_event",
+  "google_calendar.create_event",
+  "google_calendar.search_events"
+ ],
+ "scores": {
+  "google_calendar.respond_to_event": 2.0,
+  "google_calendar.list_events": 2.0,
+  "google_calendar.delete_event": 2.0,
+  "google_calendar.create_event": 2.0,
+  "google_calendar.search_events": 2.0
+ },
+ "router_tokens": 0,
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "google_calendar.respond_to_event",
+   "args": {
+    "calendarId": "primary",
+    "eventId": "3vq8xk1",
+    "response": "declined",
+    "comment": "I can't make the design crit tomorrow, so I will be out.",
+    "sendUpdates": "all"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0
+  },
+  {
+   "type": "request_tools",
+   "capability": "get a Google Calendar event by id and decline or respond to it",
+   "added": [
+    "google_calendar.respond_to_event",
+    "google_calendar.list_events",
+    "google_calendar.delete_event",
+    "google_calendar.create_event",
+    "google_calendar.search_events"
+   ],
+   "tool_tokens": 1500
+  },
+  {
+   "type": "call",
+   "tool": "google_calendar__respond_to_event",
+   "valid": true
+  }
+ ],
+ "done": true,
+ "final": ""
+}

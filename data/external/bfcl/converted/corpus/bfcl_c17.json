@@ -1,0 +1,879 @@
+{
+ "branch": {
+  "id": "bfcl_c17",
+  "name": "field / calculate / electric",
+  "summary": "Functions about field, calculate, electric, magnetic, current, distance, voltage, charge, strength, resistance, law, carrying."
+ },
+ "toolkits": [
+  {
+   "id": "compositeruntimefield",
+   "name": "CompositeRuntimeField",
+   "server": "bfcl://CompositeRuntimeField",
+   "summary": "Attempts to create a child runtime field for a composite field, but since composite fields cannot have children, it throws an IllegalArgumentException.",
+   "tools": [
+    {
+     "name": "createChildRuntimeField",
+     "description": "Attempts to create a child runtime field for a composite field, but since composite fields cannot have children, it throws an IllegalArgumentException.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "parserContext": {
+        "type": "string",
+        "description": "The context used for parsing the mapping."
+       },
+       "parent": {
+        "type": "string",
+        "description": "The name of the parent field."
+       },
+       "parentScriptFactory": {
+        "type": "string",
+        "description": "A factory function to create a script for the parent composite field."
+       },
+       "onScriptError": {
+        "type": "string",
+        "description": "The strategy for handling script errors."
+       }
+      },
+      "required": [
+       "parserContext",
+       "parent",
+       "parentScriptFactory",
+       "onScriptError"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "electric_field",
+   "name": "electric_field",
+   "server": "bfcl://electric_field",
+   "summary": "Calculate the electric field based on the amount of charge and distance from the charge",
+   "tools": [
+    {
+     "name": "calculate",
+     "description": "Calculate the electric field based on the amount of charge and distance from the charge",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "Q": {
+        "type": "number",
+        "description": "The amount of charge in coulombs."
+       },
+       "r": {
+        "type": "number",
+        "description": "The distance from the charge in meters."
+       }
+      },
+      "required": [
+       "Q",
+       "r"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "electromagnetism",
+   "name": "electromagnetism",
+   "server": "bfcl://electromagnetism",
+   "summary": "Calculate magnetic field strength using Ampere's Circuital Law. Calculate magnetic field strength using Biot-Savart law.",
+   "tools": [
+    {
+     "name": "ampere_law",
+     "description": "Calculate magnetic field strength using Ampere's Circuital Law. Input the current enclosed by a circular path and the distance from the center of the circle. Can be applied to a cylindrical or spherical symmetry of consistent magnetic field.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "enclosed_current": {
+        "type": "number",
+        "description": "The total current enclosed by the loop. In Amperes."
+       },
+       "radius": {
+        "type": "number",
+        "description": "The radius of the circle or the distance from the center of the circular path. In meters."
+       },
+       "mu0": {
+        "type": "number",
+        "description": "Permeability of free space. Its value is default approximated to be 0.000001256 H/m. Optional"
+       }
+      },
+      "required": [
+       "enclosed_current",
+       "radius"
+      ]
+     }
+    },
+    {
+     "name": "biot_savart_law",
+     "description": "Calculate magnetic field strength using Biot-Savart law. Input the current in Ampere and the distance in meters.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "current": {
+        "type": "integer",
+        "description": "The current in the conductor, in Amperes."
+       },
+       "distance": {
+        "type": "integer",
+        "description": "Distance from the current carrying conductor, in meters."
+       },
+       "mu0": {
+        "type": "number",
+        "description": "Permeability of free space. Its value is default approximated to be 0.000001256 H/m. Optional"
+       }
+      },
+      "required": [
+       "current",
+       "distance"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "magnetic_field",
+   "name": "magnetic_field",
+   "server": "bfcl://magnetic_field",
+   "summary": "Calculate the magnetic field based on the current flowing and the radial distance using Ampere\u2019s law Calculate the magnetic field based on the current flowing and the radial distance.",
+   "tools": [
+    {
+     "name": "calculate",
+     "description": "Calculate the magnetic field based on the current flowing and the radial distance using Ampere\u2019s law",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "I": {
+        "type": "integer",
+        "description": "The electric current flowing in Amperes."
+       },
+       "r": {
+        "type": "number",
+        "description": "The radial distance from the line of current in meters."
+       }
+      },
+      "required": [
+       "I",
+       "r"
+      ]
+     }
+    },
+    {
+     "name": "calculate_2",
+     "description": "Calculate the magnetic field based on the current flowing and the radial distance.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "I": {
+        "type": "number",
+        "description": "The electric current flowing in Amperes."
+       },
+       "r": {
+        "type": "number",
+        "description": "The radial distance from the line of current in meters."
+       }
+      },
+      "required": [
+       "I",
+       "r"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "physics",
+   "name": "physics",
+   "server": "bfcl://physics",
+   "summary": "Calculate the mass of a cone given the radius, height, and density. Calculate the force required to move an object of a particular mass at a particular acceleration.",
+   "tools": [
+    {
+     "name": "calculate_cone_mass",
+     "description": "Calculate the mass of a cone given the radius, height, and density.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "radius": {
+        "type": "number",
+        "description": "Radius of the cone base."
+       },
+       "height": {
+        "type": "number",
+        "description": "Height of the cone."
+       },
+       "density": {
+        "type": "number",
+        "description": "Density of the material the cone is made of."
+       }
+      },
+      "required": [
+       "radius",
+       "height",
+       "density"
+      ]
+     }
+    },
+    {
+     "name": "calculate_force",
+     "description": "Calculate the force required to move an object of a particular mass at a particular acceleration.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "mass": {
+        "type": "integer",
+        "description": "The mass of the object in kg."
+       },
+       "acceleration": {
+        "type": "integer",
+        "description": "The acceleration of the object in m/s^2."
+       }
+      },
+      "required": [
+       "mass",
+       "acceleration"
+      ]
+     }
+    },
+    {
+     "name": "electric_field",
+     "description": "Calculate electric field for a given point charge and distance.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "charge": {
+        "type": "number",
+        "description": "Value of point charge in Coulombs."
+       },
+       "distance": {
+        "type": "number",
+        "description": "Distance from the point charge in meters."
+       }
+      },
+      "required": [
+       "charge",
+       "distance"
+      ]
+     }
+    },
+    {
+     "name": "magnetic_field",
+     "description": "Calculate magnetic field for given current flowing through solenoid.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "current": {
+        "type": "number",
+        "description": "Electric current in Amperes."
+       },
+       "turnsPerMeter": {
+        "type": "number",
+        "description": "Number of turns of solenoid per meter."
+       },
+       "length": {
+        "type": "number",
+        "description": "Length of the solenoid in meters."
+       }
+      },
+      "required": [
+       "current",
+       "turnsPerMeter",
+       "length"
+      ]
+     }
+    },
+    {
+     "name": "wave_velocity",
+     "description": "Calculate the velocity of a wave based on its frequency and wavelength.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "frequency": {
+        "type": "number",
+        "description": "The frequency of the wave in Hz."
+       },
+       "wavelength": {
+        "type": "number",
+        "description": "The wavelength of the wave in m."
+       }
+      },
+      "required": [
+       "frequency",
+       "wavelength"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "resistance_calculator",
+   "name": "resistance_calculator",
+   "server": "bfcl://resistance_calculator",
+   "summary": "Calculate the resistance of an electrical circuit based on current and voltage.",
+   "tools": [
+    {
+     "name": "calculate",
+     "description": "Calculate the resistance of an electrical circuit based on current and voltage.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "I": {
+        "type": "number",
+        "description": "The electric current flowing in Amperes."
+       },
+       "V": {
+        "type": "number",
+        "description": "The voltage difference in Volts."
+       }
+      },
+      "required": [
+       "I",
+       "V"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "bfcl_c17_g0",
+   "name": "field magnetic calculate",
+   "server": "bfcl://bfcl_c17_g0",
+   "summary": "Functions for field, magnetic, calculate, strength, electric, distance.",
+   "tools": [
+    {
+     "name": "calculate_electric_field",
+     "description": "Calculate the electric field produced by a charge at a certain distance.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "charge": {
+        "type": "number",
+        "description": "Charge in coulombs producing the electric field."
+       },
+       "distance": {
+        "type": "number",
+        "description": "Distance from the charge in meters where the field is being measured."
+       },
+       "permitivity": {
+        "type": "number",
+        "description": "Permitivity of the space where field is being calculated, default is for vacuum."
+       }
+      },
+      "required": [
+       "charge",
+       "distance"
+      ]
+     }
+    },
+    {
+     "name": "calculate_electric_field_2",
+     "description": "Calculate the electric field produced by a charge at a certain distance.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "charge": {
+        "type": "integer",
+        "description": "Charge in coulombs producing the electric field."
+       },
+       "distance": {
+        "type": "integer",
+        "description": "Distance from the charge in meters where the field is being measured."
+       },
+       "permitivity": {
+        "type": "number",
+        "description": "Permitivity of the space where field is being calculated, default is 8.854e-12."
+       }
+      },
+      "required": [
+       "charge",
+       "distance"
+      ]
+     }
+    },
+    {
+     "name": "calculate_electric_field_3",
+     "description": "Calculate the electric field produced by a charge at a certain distance.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "charge": {
+        "type": "integer",
+        "description": "Charge in coulombs producing the electric field."
+       },
+       "distance": {
+        "type": "integer",
+        "description": "Distance from the charge in meters where the field is being measured."
+       },
+       "permitivity": {
+        "type": "integer",
+        "description": "Permitivity of the space where field is being calculated, default is for vacuum."
+       }
+      },
+      "required": [
+       "charge",
+       "distance"
+      ]
+     }
+    },
+    {
+     "name": "calculate_electric_field_strength",
+     "description": "Calculate the electric field strength at a certain distance from a point charge.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "charge": {
+        "type": "number",
+        "description": "The charge in Coulombs."
+       },
+       "distance": {
+        "type": "number",
+        "description": "The distance from the charge in meters."
+       },
+       "medium": {
+        "type": "string",
+        "description": "The medium in which the charge and the point of calculation is located. Default is 'vacuum'."
+       }
+      },
+      "required": [
+       "charge",
+       "distance"
+      ]
+     }
+    },
+    {
+     "name": "calculate_electric_field_strength_2",
+     "description": "Calculate the electric field strength at a certain distance from a point charge.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "charge": {
+        "type": "number",
+        "description": "The charge in Coulombs."
+       },
+       "distance": {
+        "type": "integer",
+        "description": "The distance from the charge in meters."
+       },
+       "medium": {
+        "type": "string",
+        "description": "The medium in which the charge and the point of calculation is located. Default is 'vacuum'."
+       }
+      },
+      "required": [
+       "charge",
+       "distance"
+      ]
+     }
+    },
+    {
+     "name": "calculate_electric_field_strength_3",
+     "description": "Calculate the electric field strength at a certain distance from a point charge.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "charge": {
+        "type": "integer",
+        "description": "The charge in Coulombs."
+       },
+       "distance": {
+        "type": "number",
+        "description": "The distance from the charge in meters."
+       },
+       "medium": {
+        "type": "string",
+        "description": "The medium in which the charge and the point of calculation is located. Default is 'vacuum'."
+       }
+      },
+      "required": [
+       "charge",
+       "distance"
+      ]
+     }
+    },
+    {
+     "name": "calculate_em_force",
+     "description": "Calculate the induced electromagnetic force based on Faraday's Law of Electromagnetic Induction, given the magnetic field (in Tesla), change in magnetic field area (in square meters), and the change in time (in seconds).",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "b_field": {
+        "type": "integer",
+        "description": "The magnetic field in Tesla."
+       },
+       "area": {
+        "type": "integer",
+        "description": "The change in area of magnetic field in square meters."
+       },
+       "d_time": {
+        "type": "integer",
+        "description": "The change in time in seconds."
+       }
+      },
+      "required": [
+       "b_field",
+       "area",
+       "d_time"
+      ]
+     }
+    },
+    {
+     "name": "calculate_magnetic_field",
+     "description": "Calculate the magnetic field at a certain distance from a straight wire carrying current using Ampere\u2019s Law.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "current": {
+        "type": "number",
+        "description": "The current flowing through the wire in amperes."
+       },
+       "distance": {
+        "type": "number",
+        "description": "The distance from the wire at which to calculate the magnetic field in meters."
+       },
+       "permeability": {
+        "type": "number",
+        "description": "The permeability of free space. The default value is 4\u03c0 \u00d7 10^\u22127 N/A^2."
+       }
+      },
+      "required": [
+       "current",
+       "distance"
+      ]
+     }
+    },
+    {
+     "name": "calculate_magnetic_field_2",
+     "description": "Calculate the magnetic field produced at the center of a circular loop carrying current.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "current": {
+        "type": "integer",
+        "description": "The current through the circular loop in Amperes."
+       },
+       "radius": {
+        "type": "integer",
+        "description": "The radius of the circular loop in meters."
+       },
+       "permeability": {
+        "type": "number",
+        "description": "The magnetic permeability. Default is 12.57e10 (Vacuum Permeability)."
+       }
+      },
+      "required": [
+       "current",
+       "radius"
+      ]
+     }
+    },
+    {
+     "name": "calculate_magnetic_field_3",
+     "description": "Calculate the magnetic field produced at the center of a circular loop carrying current.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "current": {
+        "type": "integer",
+        "description": "The current through the circular loop in Amperes."
+       },
+       "radius": {
+        "type": "number",
+        "description": "The radius of the circular loop in meters."
+       },
+       "permeability": {
+        "type": "number",
+        "description": "The magnetic permeability. Default is 12.57e10."
+       }
+      },
+      "required": [
+       "current",
+       "radius"
+      ]
+     }
+    },
+    {
+     "name": "calculate_magnetic_field_4",
+     "description": "Calculate the magnetic field produced at the center of a circular loop carrying current.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "current": {
+        "type": "integer",
+        "description": "The current through the circular loop in Amperes."
+       },
+       "radius": {
+        "type": "integer",
+        "description": "The radius of the circular loop in meters."
+       },
+       "permeability": {
+        "type": "number",
+        "description": "The magnetic permeability. Default is permeability in free space, 0.01"
+       }
+      },
+      "required": [
+       "current",
+       "radius"
+      ]
+     }
+    },
+    {
+     "name": "calculate_magnetic_field_5",
+     "description": "Calculate the magnetic field produced at the center of a circular loop carrying current.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "current": {
+        "type": "integer",
+        "description": "The current through the circular loop in Amperes."
+       },
+       "radius": {
+        "type": "number",
+        "description": "The radius of the circular loop in meters."
+       },
+       "permeability": {
+        "type": "integer",
+        "description": "The magnetic permeability. Default is permeability in free space."
+       }
+      },
+      "required": [
+       "current",
+       "radius"
+      ]
+     }
+    },
+    {
+     "name": "calculate_magnetic_field_6",
+     "description": "Calculate the magnetic field produced by a current-carrying wire.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "current": {
+        "type": "number",
+        "description": "The current in the wire in amperes."
+       },
+       "distance": {
+        "type": "number",
+        "description": "The perpendicular distance from the wire in meters."
+       },
+       "permeability": {
+        "type": "number",
+        "description": "The permeability of free space, a constant value. Default 0.1"
+       }
+      },
+      "required": [
+       "current",
+       "distance"
+      ]
+     }
+    },
+    {
+     "name": "calculate_magnetic_field_strength",
+     "description": "Calculate the magnetic field strength at a point a certain distance away from a long wire carrying a current.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "current": {
+        "type": "integer",
+        "description": "The current flowing through the wire in Amperes."
+       },
+       "distance": {
+        "type": "integer",
+        "description": "The perpendicular distance from the wire to the point where the magnetic field is being calculated."
+       },
+       "permeability": {
+        "type": "number",
+        "description": "The permeability of the medium. Default is 12.57e-7 (Vacuum Permeability)."
+       }
+      },
+      "required": [
+       "current",
+       "distance"
+      ]
+     }
+    },
+    {
+     "name": "calculate_wave_amplitude",
+     "description": "Calculate the amplitude of an electromagnetic wave based on its maximum electric field strength.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "max_electric_field_strength": {
+        "type": "number",
+        "description": "The maximum electric field strength of the electromagnetic wave."
+       },
+       "c": {
+        "type": "number",
+        "description": "The speed of light in vacuum, usually denoted as 'c'. Default is 3 * 10^8 m/s"
+       },
+       "wave_frequency": {
+        "type": "number",
+        "description": "The frequency of the electromagnetic wave. Default is 1 Hz"
+       }
+      },
+      "required": [
+       "max_electric_field_strength"
+      ]
+     }
+    },
+    {
+     "name": "get_top_cases",
+     "description": "Retrieve a list of the most influential or landmark cases in a specific field of law.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "field_of_law": {
+        "type": "string",
+        "description": "The specific field of law e.g., constitutional law, criminal law, etc."
+       },
+       "top_number": {
+        "type": "integer",
+        "description": "The number of top cases to retrieve."
+       },
+       "country": {
+        "type": "string",
+        "description": "The country where the law cases should be retrieved from. Default is US."
+       }
+      },
+      "required": [
+       "field_of_law",
+       "top_number"
+      ]
+     }
+    },
+    {
+     "name": "get_top_cases_2",
+     "description": "Retrieve a list of the most influential or landmark cases in a specific field of law.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "field_of_law": {
+        "type": "string",
+        "description": "The specific field of law e.g., constitutional law, criminal law, etc."
+       },
+       "top_number": {
+        "type": "integer",
+        "description": "The number of top cases to retrieve."
+       },
+       "country": {
+        "type": "string",
+        "description": "The country where the law cases should be retrieved from. Default is United States of America."
+       }
+      },
+      "required": [
+       "field_of_law",
+       "top_number"
+      ]
+     }
+    },
+    {
+     "name": "magnetic_field_intensity",
+     "description": "Calculates the magnetic field intensity at a point located at a given distance from a current carrying wire",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "current": {
+        "type": "number",
+        "description": "The current flowing through the wire in Amperes."
+       },
+       "distance": {
+        "type": "number",
+        "description": "The distance from the wire at which magnetic field intensity is required, in meters."
+       },
+       "permeability": {
+        "type": "number",
+        "description": "The permeability of free space, optional, default value is 4*pi*10^-7."
+       }
+      },
+      "required": [
+       "current",
+       "distance"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "bfcl_c17_g1",
+   "name": "voltage electric calculate",
+   "server": "bfcl://bfcl_c17_g1",
+   "summary": "Functions for voltage, electric, calculate, current, resistance, difference.",
+   "tools": [
+    {
+     "name": "calculate_current",
+     "description": "Calculate the electric current by giving the voltage and resistance.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "voltage": {
+        "type": "number",
+        "description": "The electric voltage in volts."
+       },
+       "resistance": {
+        "type": "number",
+        "description": "The electrical resistance in ohms."
+       },
+       "frequency": {
+        "type": "number",
+        "description": "The frequency of the current, default is 50Hz."
+       }
+      },
+      "required": [
+       "voltage",
+       "resistance"
+      ]
+     }
+    },
+    {
+     "name": "calculate_electric_current",
+     "description": "Calculate the electric current through a conductor given voltage and resistance.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "voltage": {
+        "type": "number",
+        "description": "The voltage across the conductor in Volts."
+       },
+       "resistance": {
+        "type": "number",
+        "description": "The resistance of the conductor in Ohms."
+       },
+       "conductance": {
+        "type": "number",
+        "description": "The conductance of the conductor in Siemens. Optional if resistance is provided. Default: 0.3"
+       }
+      },
+      "required": [
+       "voltage",
+       "resistance"
+      ]
+     }
+    },
+    {
+     "name": "calculate_voltage_difference",
+     "description": "Calculate the voltage difference between two points in an electric field.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "electric_field": {
+        "type": "number",
+        "description": "The electric field in newtons per coulomb."
+       },
+       "distance": {
+        "type": "number",
+        "description": "The distance between the two points in the direction of the field in meters."
+       },
+       "charge": {
+        "type": "number",
+        "description": "The charge of the test particle, typically an electron, in coulombs. Default to 0",
+        "default": 0
+       }
+      },
+      "required": [
+       "electric_field",
+       "distance"
+      ]
+     }
+    }
+   ]
+  }
+ ]
+}

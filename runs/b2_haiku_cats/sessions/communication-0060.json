@@ -1,0 +1,62 @@
+{
+ "task_id": "communication-0060",
+ "mode": "cats",
+ "loaded": [
+  "discord.send_message",
+  "ms_teams.get_channel_messages",
+  "ms_teams.reply_to_channel_message",
+  "ms_teams.send_channel_message",
+  "ms_teams.send_chat_message",
+  "slack.get_thread_replies",
+  "slack.reply_to_thread"
+ ],
+ "order": [
+  "discord.send_message",
+  "ms_teams.get_channel_messages",
+  "ms_teams.reply_to_channel_message",
+  "ms_teams.send_channel_message",
+  "ms_teams.send_chat_message",
+  "slack.get_thread_replies",
+  "slack.reply_to_thread"
+ ],
+ "scores": {
+  "discord.send_message": 0.028061730541509136,
+  "ms_teams.get_channel_messages": 0.18384090303740794,
+  "ms_teams.reply_to_channel_message": 0.7878403275571023,
+  "ms_teams.send_channel_message": 0.07633297614891246,
+  "ms_teams.send_chat_message": 0.04996642751779903,
+  "slack.get_thread_replies": 0.035897841182764186,
+  "slack.reply_to_thread": 0.07220075276593955
+ },
+ "router_tokens": 0,
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "ms_teams.reply_to_channel_message",
+   "args": {
+    "team_id": "ops-team-123",
+    "channel_id": "19:general@thread.tacv2",
+    "message_id": "1699887766554",
+    "content": "it's me this weekend"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 7,
+   "tool_tokens": 1140,
+   "t": 1791321378.639889
+  },
+  {
+   "type": "call",
+   "tool": "ms_teams__reply_to_channel_message",
+   "valid": true,
+   "t": 1791321390.4799726
+  }
+ ],
+ "done": true,
+ "t_done": 1791321396.3403435,
+ "final": ""
+}

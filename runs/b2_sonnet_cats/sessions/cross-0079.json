@@ -1,0 +1,84 @@
+{
+ "task_id": "cross-0079",
+ "mode": "cats",
+ "loaded": [
+  "alpha_vantage.currency_exchange_rate",
+  "frankfurter.get_historical_rates",
+  "frankfurter.get_latest_rates",
+  "gmail.draft_email",
+  "gmail.read_email",
+  "gmail.search_emails",
+  "gmail.send_email",
+  "salesforce.salesforce_create_contact",
+  "stripe.create_customer"
+ ],
+ "order": [
+  "alpha_vantage.currency_exchange_rate",
+  "frankfurter.get_historical_rates",
+  "frankfurter.get_latest_rates",
+  "gmail.draft_email",
+  "gmail.read_email",
+  "gmail.search_emails",
+  "gmail.send_email",
+  "salesforce.salesforce_create_contact",
+  "stripe.create_customer"
+ ],
+ "scores": {
+  "alpha_vantage.currency_exchange_rate": 0.1539330029825906,
+  "frankfurter.get_historical_rates": 0.21112119484333045,
+  "frankfurter.get_latest_rates": 0.7815570834100527,
+  "gmail.draft_email": 0.30550992385808423,
+  "gmail.read_email": 0.21290314086956452,
+  "gmail.search_emails": 0.5813133537090892,
+  "gmail.send_email": 0.4660132369114877,
+  "salesforce.salesforce_create_contact": 0.24051151117664785,
+  "stripe.create_customer": 0.7719387041658446
+ },
+ "router_tokens": 0,
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "frankfurter.get_latest_rates",
+   "args": {
+    "base": "EUR",
+    "symbols": "USD",
+    "amount": 2400
+   }
+  },
+  {
+   "tool": "gmail.send_email",
+   "args": {
+    "to": [
+     "accounting@acme.com"
+    ],
+    "subject": "EUR to USD conversion for 2,400 EUR",
+    "body": "Hello, here is the conversion of 2,400 EUR to USD at the current ECB reference rate (Frankfurter latest rates). Best regards"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 9,
+   "tool_tokens": 1600
+  },
+  {
+   "type": "call",
+   "tool": "frankfurter__get_latest_rates",
+   "valid": true
+  },
+  {
+   "type": "show",
+   "n_tools": 9,
+   "tool_tokens": 1600
+  },
+  {
+   "type": "call",
+   "tool": "gmail__send_email",
+   "valid": true
+  }
+ ],
+ "done": true,
+ "final": ""
+}

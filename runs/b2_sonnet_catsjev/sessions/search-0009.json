@@ -1,0 +1,50 @@
+{
+ "task_id": "search-0009",
+ "mode": "cats",
+ "loaded": [
+  "semantic_scholar.paper_details"
+ ],
+ "order": [
+  "semantic_scholar.paper_details"
+ ],
+ "scores": {
+  "semantic_scholar.paper_details": 0.8009198967657819
+ },
+ "router_tokens": 0,
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "semantic_scholar.paper_details",
+   "args": {
+    "paper_id": "DOI:10.1038/s41586-021-03819-2",
+    "fields": [
+     "title",
+     "abstract",
+     "authors",
+     "year",
+     "venue",
+     "citationCount",
+     "influentialCitationCount"
+    ]
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 1,
+   "tool_tokens": 251,
+   "t": 1791321056.1616602
+  },
+  {
+   "type": "call",
+   "tool": "semantic_scholar__paper_details",
+   "valid": true,
+   "t": 1791321066.0689635
+  }
+ ],
+ "done": true,
+ "t_done": 1791321070.5817564,
+ "final": ""
+}

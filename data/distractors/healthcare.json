@@ -1,0 +1,1271 @@
+{
+  "branch": {
+    "id": "healthcare",
+    "name": "Healthcare",
+    "summary": "Clinical and healthcare operations: looking up patients and chart data in an EHR (FHIR labs, conditions, medications), booking and managing clinic appointments, e-prescribing and refills, and insurance eligibility and claims."
+  },
+  "toolkits": [
+    {
+      "id": "epic_fhir",
+      "name": "Epic on FHIR",
+      "server": "mcp://epic-fhir",
+      "summary": "Read and write patient chart data in an Epic EHR through the FHIR R4 API.",
+      "tools": [
+        {
+          "name": "search_patients",
+          "description": "Search for patients in the EHR by demographics. Returns matching FHIR Patient resources with MRN, name, birth date and gender. Provide at least a family name plus birthdate, or an identifier.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "family": {
+                "type": "string",
+                "description": "Patient last name."
+              },
+              "given": {
+                "type": "string",
+                "description": "Patient first name."
+              },
+              "birthdate": {
+                "type": "string",
+                "description": "Date of birth (YYYY-MM-DD).",
+                "format": "date"
+              },
+              "identifier": {
+                "type": "string",
+                "description": "MRN or other identifier in system|value form, e.g. 'urn:oid:1.2.840.114350|203713'."
+              },
+              "gender": {
+                "type": "string",
+                "description": "Administrative gender.",
+                "enum": [
+                  "male",
+                  "female",
+                  "other",
+                  "unknown"
+                ]
+              },
+              "phone": {
+                "type": "string",
+                "description": "Phone number on file."
+              },
+              "address_postal_code": {
+                "type": "string",
+                "description": "ZIP / postal code."
+              },
+              "_count": {
+                "type": "integer",
+                "description": "Max results to return.",
+                "default": 20,
+                "minimum": 1,
+                "maximum": 100
+              }
+            }
+          }
+        },
+        {
+          "name": "get_patient",
+          "description": "Get a Patient resource by FHIR id.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "patient_id": {
+                "type": "string",
+                "description": "FHIR Patient id."
+              }
+            },
+            "required": [
+              "patient_id"
+            ]
+          }
+        },
+        {
+          "name": "list_encounters",
+          "description": "List encounters (office visits, admissions, telehealth sessions) for a patient, newest first.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "patient_id": {
+                "type": "string",
+                "description": "FHIR Patient id."
+              },
+              "status": {
+                "type": "string",
+                "description": "Encounter status.",
+                "enum": [
+                  "planned",
+                  "arrived",
+                  "in-progress",
+                  "finished",
+                  "cancelled"
+                ]
+              },
+              "class": {
+                "type": "string",
+                "description": "Encounter class.",
+                "enum": [
+                  "ambulatory",
+                  "emergency",
+                  "inpatient",
+                  "virtual"
+                ]
+              },
+              "date_from": {
+                "type": "string",
+                "description": "Earliest encounter date (YYYY-MM-DD)."
+              },
+              "date_to": {
+                "type": "string",
+                "description": "Latest encounter date (YYYY-MM-DD)."
+              },
+              "_count": {
+                "type": "integer",
+                "description": "Max results.",
+                "default": 20
+              }
+            },
+            "required": [
+              "patient_id"
+            ]
+          }
+        },
+        {
+          "name": "search_observations",
+          "description": "Search Observation resources for a patient: lab results, vital signs, social history and survey scores. Filter by category or LOINC code and sort by date.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "patient_id": {
+                "type": "string",
+                "description": "FHIR Patient id."
+              },
+              "category": {
+                "type": "string",
+                "description": "Observation category.",
+                "enum": [
+                  "laboratory",
+                  "vital-signs",
+                  "social-history",
+                  "imaging",
+                  "survey"
+                ]
+              },
+              "code": {
+                "type": "string",
+                "description": "LOINC code, e.g. '4548-4' for hemoglobin A1c. Comma-separate multiple codes."
+              },
+              "date": {
+                "type": "string",
+                "description": "FHIR date search expression, e.g. 'ge2024-01-01'."
+              },
+              "_sort": {
+                "type": "string",
+                "description": "Sort order.",
+                "enum": [
+                  "date",
+                  "-date"
+                ],
+                "default": "-date"
+              },
+              "_count": {
+                "type": "integer",
+                "description": "Max results.",
+                "default": 50
+              }
+            },
+            "required": [
+              "patient_id"
+            ]
+          }
+        },
+        {
+          "name": "list_conditions",
+          "description": "Return the patient's problem list and encounter diagnoses (FHIR Condition) with ICD-10 and SNOMED codes.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "patient_id": {
+                "type": "string",
+                "description": "FHIR Patient id."
+              },
+              "clinical_status": {
+                "type": "string",
+                "description": "Filter by clinical status.",
+                "enum": [
+                  "active",
+                  "resolved",
+                  "inactive"
+                ]
+              },
+              "category": {
+                "type": "string",
+                "description": "Condition category.",
+                "enum": [
+                  "problem-list-item",
+                  "encounter-diagnosis",
+                  "health-concern"
+                ]
+              }
+            },
+            "required": [
+              "patient_id"
+            ]
+          }
+        },
+        {
+          "name": "list_allergies",
+          "description": "List AllergyIntolerance records for a patient.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "patient_id": {
+                "type": "string",
+                "description": "FHIR Patient id."
+              }
+            },
+            "required": [
+              "patient_id"
+            ]
+          }
+        },
+        {
+          "name": "list_medication_requests",
+          "description": "List medication orders (MedicationRequest) for a patient, including active outpatient prescriptions and inpatient orders.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "patient_id": {
+                "type": "string",
+                "description": "FHIR Patient id."
+              },
+              "status": {
+                "type": "string",
+                "description": "Order status.",
+                "enum": [
+                  "active",
+                  "completed",
+                  "stopped",
+                  "on-hold",
+                  "cancelled"
+                ]
+              },
+              "intent": {
+                "type": "string",
+                "description": "Request intent.",
+                "enum": [
+                  "order",
+                  "plan",
+                  "proposal"
+                ]
+              }
+            },
+            "required": [
+              "patient_id"
+            ]
+          }
+        },
+        {
+          "name": "create_clinical_note",
+          "description": "Create a DocumentReference containing a clinical note (progress note, discharge summary, consult note) and file it to the patient's chart, optionally linked to an encounter. Notes are created unsigned.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "patient_id": {
+                "type": "string",
+                "description": "FHIR Patient id."
+              },
+              "encounter_id": {
+                "type": "string",
+                "description": "Encounter to attach the note to."
+              },
+              "note_type": {
+                "type": "string",
+                "description": "Kind of note.",
+                "enum": [
+                  "progress_note",
+                  "discharge_summary",
+                  "consult_note",
+                  "history_and_physical",
+                  "telephone_encounter"
+                ]
+              },
+              "content": {
+                "type": "string",
+                "description": "Note body. Plain text, or base64 when content_type is not text/plain."
+              },
+              "content_type": {
+                "type": "string",
+                "description": "MIME type of the content.",
+                "default": "text/plain"
+              },
+              "author_practitioner_id": {
+                "type": "string",
+                "description": "Practitioner id of the author."
+              },
+              "status": {
+                "type": "string",
+                "description": "Document status.",
+                "enum": [
+                  "current",
+                  "preliminary"
+                ],
+                "default": "preliminary"
+              }
+            },
+            "required": [
+              "patient_id",
+              "note_type",
+              "content"
+            ]
+          }
+        },
+        {
+          "name": "send_patient_message",
+          "description": "Send a secure patient portal (MyChart) message to a patient or their proxy.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "patient_id": {
+                "type": "string",
+                "description": "FHIR Patient id."
+              },
+              "subject": {
+                "type": "string",
+                "description": "Message subject."
+              },
+              "body": {
+                "type": "string",
+                "description": "Message text."
+              },
+              "from_practitioner_id": {
+                "type": "string",
+                "description": "Sending provider or pool."
+              },
+              "attachments": {
+                "type": "array",
+                "description": "Optional attachments.",
+                "items": {
+                  "type": "object",
+                  "description": "Attachment.",
+                  "properties": {
+                    "filename": {
+                      "type": "string",
+                      "description": "File name."
+                    },
+                    "content_base64": {
+                      "type": "string",
+                      "description": "Base64 content."
+                    }
+                  }
+                }
+              }
+            },
+            "required": [
+              "patient_id",
+              "body"
+            ]
+          }
+        },
+        {
+          "name": "fhir_search",
+          "description": "Run a raw FHIR search against any supported resource type when no dedicated tool exists.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "resource_type": {
+                "type": "string",
+                "description": "FHIR resource type.",
+                "enum": [
+                  "Patient",
+                  "Practitioner",
+                  "Encounter",
+                  "Observation",
+                  "Condition",
+                  "Procedure",
+                  "Immunization",
+                  "DiagnosticReport",
+                  "DocumentReference",
+                  "MedicationRequest",
+                  "CarePlan",
+                  "Coverage"
+                ]
+              },
+              "params": {
+                "type": "object",
+                "description": "Search parameters as key/value pairs, e.g. {\"patient\": \"e63wRTbP\", \"code\": \"4548-4\"}.",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              "_count": {
+                "type": "integer",
+                "description": "Page size.",
+                "default": 50
+              }
+            },
+            "required": [
+              "resource_type"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "athena_scheduling",
+      "name": "athenahealth Scheduling",
+      "server": "mcp://athenahealth",
+      "summary": "Find open slots and book, reschedule or cancel patient appointments in athenaOne.",
+      "tools": [
+        {
+          "name": "search_open_slots",
+          "description": "Find open appointment slots for a provider, department or appointment type within a date range.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "department_id": {
+                "type": "string",
+                "description": "Department (clinic location) id."
+              },
+              "provider_id": {
+                "type": "string",
+                "description": "Restrict to one provider."
+              },
+              "appointment_type_id": {
+                "type": "string",
+                "description": "Appointment type, e.g. new patient visit, follow-up, annual physical."
+              },
+              "reason_id": {
+                "type": "string",
+                "description": "Patient-facing visit reason id."
+              },
+              "start_date": {
+                "type": "string",
+                "description": "First date to search (YYYY-MM-DD)."
+              },
+              "end_date": {
+                "type": "string",
+                "description": "Last date to search (YYYY-MM-DD). Defaults to start_date + 7 days."
+              },
+              "limit": {
+                "type": "integer",
+                "description": "Max slots.",
+                "default": 25
+              }
+            },
+            "required": [
+              "department_id",
+              "start_date"
+            ]
+          }
+        },
+        {
+          "name": "book_appointment",
+          "description": "Book a patient into an open appointment slot returned by search_open_slots.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "appointment_id": {
+                "type": "string",
+                "description": "Open slot id."
+              },
+              "patient_id": {
+                "type": "string",
+                "description": "athena patient id."
+              },
+              "appointment_type_id": {
+                "type": "string",
+                "description": "Override the slot's appointment type."
+              },
+              "reason_note": {
+                "type": "string",
+                "description": "Reason for visit, shown to the provider."
+              },
+              "insurance": {
+                "type": "object",
+                "description": "Insurance to bill for this visit.",
+                "properties": {
+                  "insurance_package_id": {
+                    "type": "string",
+                    "description": "Payer package id."
+                  },
+                  "policy_number": {
+                    "type": "string",
+                    "description": "Member / policy number."
+                  },
+                  "self_pay": {
+                    "type": "boolean",
+                    "description": "Book as self-pay.",
+                    "default": false
+                  }
+                }
+              },
+              "notify_patient": {
+                "type": "boolean",
+                "description": "Send confirmation by SMS/email.",
+                "default": true
+              }
+            },
+            "required": [
+              "appointment_id",
+              "patient_id"
+            ]
+          }
+        },
+        {
+          "name": "reschedule_appointment",
+          "description": "Move an existing appointment to a different open slot.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "appointment_id": {
+                "type": "string",
+                "description": "Currently booked appointment."
+              },
+              "new_appointment_id": {
+                "type": "string",
+                "description": "Open slot to move to."
+              },
+              "reschedule_reason": {
+                "type": "string",
+                "description": "Reason for the change."
+              }
+            },
+            "required": [
+              "appointment_id",
+              "new_appointment_id"
+            ]
+          }
+        },
+        {
+          "name": "cancel_appointment",
+          "description": "Cancel appointment.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "appointment_id": {
+                "type": "string",
+                "description": "Appointment id."
+              },
+              "patient_id": {
+                "type": "string",
+                "description": "Patient id."
+              },
+              "cancellation_reason": {
+                "type": "string",
+                "description": "Reason.",
+                "enum": [
+                  "patient_cancelled",
+                  "provider_unavailable",
+                  "no_show",
+                  "scheduling_error",
+                  "other"
+                ]
+              },
+              "note": {
+                "type": "string",
+                "description": "Free-text note."
+              }
+            },
+            "required": [
+              "appointment_id"
+            ]
+          }
+        },
+        {
+          "name": "list_appointments",
+          "description": "List booked appointments for a patient, or a department/provider schedule for a date range.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "patient_id": {
+                "type": "string",
+                "description": "Patient id."
+              },
+              "department_id": {
+                "type": "string",
+                "description": "Department id."
+              },
+              "provider_id": {
+                "type": "string",
+                "description": "Provider id."
+              },
+              "start_date": {
+                "type": "string",
+                "description": "From date (YYYY-MM-DD)."
+              },
+              "end_date": {
+                "type": "string",
+                "description": "To date (YYYY-MM-DD)."
+              },
+              "status": {
+                "type": "string",
+                "description": "Appointment status.",
+                "enum": [
+                  "scheduled",
+                  "checked_in",
+                  "checked_out",
+                  "cancelled",
+                  "no_show"
+                ]
+              },
+              "limit": {
+                "type": "integer",
+                "description": "Max results.",
+                "default": 50
+              }
+            }
+          }
+        },
+        {
+          "name": "check_in_patient",
+          "description": "Mark the patient as arrived and checked in for today's appointment.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "appointment_id": {
+                "type": "string",
+                "description": "Appointment id."
+              }
+            },
+            "required": [
+              "appointment_id"
+            ]
+          }
+        },
+        {
+          "name": "list_providers",
+          "description": "List providers",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "department_id": {
+                "type": "string",
+                "description": "Department id."
+              },
+              "specialty": {
+                "type": "string",
+                "description": "Specialty."
+              },
+              "name": {
+                "type": "string",
+                "description": "Name filter."
+              }
+            }
+          }
+        },
+        {
+          "name": "add_to_waitlist",
+          "description": "Put a patient on the waitlist for a provider or department so they are notified when an earlier slot opens.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "patient_id": {
+                "type": "string",
+                "description": "Patient id."
+              },
+              "department_id": {
+                "type": "string",
+                "description": "Department id."
+              },
+              "provider_id": {
+                "type": "string",
+                "description": "Preferred provider."
+              },
+              "appointment_type_id": {
+                "type": "string",
+                "description": "Appointment type."
+              },
+              "priority": {
+                "type": "string",
+                "description": "Waitlist priority.",
+                "enum": [
+                  "low",
+                  "normal",
+                  "high"
+                ],
+                "default": "normal"
+              },
+              "earliest_date": {
+                "type": "string",
+                "description": "Earliest acceptable date (YYYY-MM-DD)."
+              },
+              "latest_date": {
+                "type": "string",
+                "description": "Latest acceptable date (YYYY-MM-DD)."
+              },
+              "preferred_times": {
+                "type": "array",
+                "description": "Preferred times of day.",
+                "items": {
+                  "type": "string",
+                  "description": "Time of day.",
+                  "enum": [
+                    "morning",
+                    "afternoon",
+                    "evening"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "patient_id",
+              "department_id"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "dosespot_erx",
+      "name": "DoseSpot e-Prescribing",
+      "server": "mcp://dosespot",
+      "summary": "Electronic prescribing: write and transmit prescriptions, check drug interactions and handle pharmacy refill requests.",
+      "tools": [
+        {
+          "name": "search_medications",
+          "description": "Search the drug database by name. Returns dispensable products with strength, dose form and NDC.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Drug name, brand or generic."
+              },
+              "include_otc": {
+                "type": "boolean",
+                "description": "Include over-the-counter products.",
+                "default": false
+              }
+            },
+            "required": [
+              "name"
+            ]
+          }
+        },
+        {
+          "name": "check_drug_interactions",
+          "description": "Screen proposed medications against the patient's active medications and allergies. Returns drug-drug and drug-allergy interactions with severity and clinical guidance.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "patient_id": {
+                "type": "string",
+                "description": "DoseSpot patient id."
+              },
+              "proposed_ndcs": {
+                "type": "array",
+                "description": "NDCs of the medications being considered.",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "include_allergies": {
+                "type": "boolean",
+                "description": "Also screen against documented allergies.",
+                "default": true
+              },
+              "min_severity": {
+                "type": "string",
+                "description": "Lowest severity to report.",
+                "enum": [
+                  "minor",
+                  "moderate",
+                  "major",
+                  "contraindicated"
+                ],
+                "default": "moderate"
+              }
+            },
+            "required": [
+              "patient_id",
+              "proposed_ndcs"
+            ]
+          }
+        },
+        {
+          "name": "create_prescription",
+          "description": "Create a pending prescription for a patient. It stays a draft until send_prescription is called. Controlled substances (schedule II-V) require EPCS two-factor signing by the prescriber.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "patient_id": {
+                "type": "string",
+                "description": "Patient id."
+              },
+              "prescriber_id": {
+                "type": "string",
+                "description": "Prescribing clinician id."
+              },
+              "medication": {
+                "type": "object",
+                "description": "Medication to prescribe.",
+                "properties": {
+                  "ndc": {
+                    "type": "string",
+                    "description": "11-digit NDC."
+                  },
+                  "display_name": {
+                    "type": "string",
+                    "description": "Drug name and strength, e.g. 'Amoxicillin 500 mg capsule'."
+                  },
+                  "schedule": {
+                    "type": "string",
+                    "description": "DEA schedule if controlled.",
+                    "enum": [
+                      "II",
+                      "III",
+                      "IV",
+                      "V"
+                    ]
+                  }
+                },
+                "required": [
+                  "ndc"
+                ]
+              },
+              "sig": {
+                "type": "string",
+                "description": "Directions for use, e.g. 'Take 1 capsule by mouth three times daily for 10 days'."
+              },
+              "quantity": {
+                "type": "number",
+                "description": "Quantity to dispense."
+              },
+              "quantity_unit": {
+                "type": "string",
+                "description": "Dispense unit.",
+                "enum": [
+                  "tablet",
+                  "capsule",
+                  "mL",
+                  "g",
+                  "each",
+                  "patch",
+                  "inhaler"
+                ]
+              },
+              "days_supply": {
+                "type": "integer",
+                "description": "Days supply."
+              },
+              "refills": {
+                "type": "integer",
+                "description": "Number of refills.",
+                "minimum": 0,
+                "maximum": 11,
+                "default": 0
+              },
+              "substitutions_allowed": {
+                "type": "boolean",
+                "description": "Allow generic substitution.",
+                "default": true
+              },
+              "pharmacy_id": {
+                "type": "string",
+                "description": "Destination pharmacy."
+              },
+              "diagnosis_codes": {
+                "type": "array",
+                "description": "ICD-10 codes supporting the prescription.",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "note_to_pharmacist": {
+                "type": "string",
+                "description": "Note to pharmacist (max 210 chars)."
+              }
+            },
+            "required": [
+              "patient_id",
+              "prescriber_id",
+              "medication",
+              "sig",
+              "quantity"
+            ]
+          }
+        },
+        {
+          "name": "send_prescription",
+          "description": "Transmit a pending prescription to the pharmacy.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "prescription_id": {
+                "type": "string",
+                "description": "Prescription id."
+              },
+              "pharmacy_id": {
+                "type": "string",
+                "description": "Override destination pharmacy."
+              }
+            },
+            "required": [
+              "prescription_id"
+            ]
+          }
+        },
+        {
+          "name": "cancel_prescription",
+          "description": "Send a CancelRx message to the pharmacy for a previously transmitted prescription.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "prescription_id": {
+                "type": "string",
+                "description": "Prescription id."
+              },
+              "reason": {
+                "type": "string",
+                "description": "Cancellation reason."
+              }
+            },
+            "required": [
+              "prescription_id"
+            ]
+          }
+        },
+        {
+          "name": "get_medication_history",
+          "description": "Retrieve the patient's external medication fill history from pharmacies and PBMs. Requires patient consent on file.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "patient_id": {
+                "type": "string",
+                "description": "Patient id."
+              },
+              "start_date": {
+                "type": "string",
+                "description": "From (YYYY-MM-DD)."
+              },
+              "end_date": {
+                "type": "string",
+                "description": "To (YYYY-MM-DD)."
+              }
+            },
+            "required": [
+              "patient_id"
+            ]
+          }
+        },
+        {
+          "name": "list_refill_requests",
+          "description": "List pending pharmacy refill and renewal requests.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "prescriber_id": {
+                "type": "string",
+                "description": "Prescriber id."
+              },
+              "clinic_id": {
+                "type": "string",
+                "description": "Clinic id."
+              },
+              "status": {
+                "type": "string",
+                "description": "Request status.",
+                "enum": [
+                  "pending",
+                  "approved",
+                  "denied"
+                ],
+                "default": "pending"
+              }
+            }
+          }
+        },
+        {
+          "name": "respond_to_refill_request",
+          "description": "Approve or deny a pharmacy refill request.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "request_id": {
+                "type": "string",
+                "description": "Refill request id."
+              },
+              "action": {
+                "type": "string",
+                "description": "Response.",
+                "enum": [
+                  "approve",
+                  "deny",
+                  "approve_with_changes"
+                ]
+              },
+              "refills": {
+                "type": "integer",
+                "description": "Refills to authorize when approving."
+              },
+              "denial_reason": {
+                "type": "string",
+                "description": "Reason when denying.",
+                "enum": [
+                  "patient_unknown",
+                  "patient_not_under_care",
+                  "needs_appointment",
+                  "medication_discontinued",
+                  "other"
+                ]
+              },
+              "note": {
+                "type": "string",
+                "description": "Note to pharmacy."
+              }
+            },
+            "required": [
+              "request_id",
+              "action"
+            ]
+          }
+        },
+        {
+          "name": "search_pharmacies",
+          "description": "Find pharmacies by name, ZIP code, city or specialty.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Pharmacy name."
+              },
+              "zip": {
+                "type": "string",
+                "description": "ZIP code."
+              },
+              "city": {
+                "type": "string",
+                "description": "City."
+              },
+              "state": {
+                "type": "string",
+                "description": "Two-letter state code."
+              },
+              "specialty": {
+                "type": "string",
+                "description": "Pharmacy type.",
+                "enum": [
+                  "retail",
+                  "mail_order",
+                  "specialty",
+                  "long_term_care",
+                  "24_hour"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "availity_payer",
+      "name": "Availity",
+      "server": "mcp://availity",
+      "summary": "Payer connectivity: real-time insurance eligibility checks, claim submission, claim status and cost estimates.",
+      "tools": [
+        {
+          "name": "check_eligibility",
+          "description": "Run a real-time eligibility and benefits inquiry (X12 270/271) for a member with a payer. Returns coverage status, plan, copays, deductible and out-of-pocket accumulators.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "payer_id": {
+                "type": "string",
+                "description": "Availity payer id."
+              },
+              "member_id": {
+                "type": "string",
+                "description": "Subscriber or member id."
+              },
+              "patient": {
+                "type": "object",
+                "description": "Patient demographics.",
+                "properties": {
+                  "first_name": {
+                    "type": "string",
+                    "description": "First name."
+                  },
+                  "last_name": {
+                    "type": "string",
+                    "description": "Last name."
+                  },
+                  "birth_date": {
+                    "type": "string",
+                    "description": "Date of birth (YYYY-MM-DD)."
+                  }
+                }
+              },
+              "provider_npi": {
+                "type": "string",
+                "description": "Requesting provider NPI."
+              },
+              "service_type_codes": {
+                "type": "array",
+                "description": "X12 service type codes, e.g. '30' (plan coverage), '98' (office visit).",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "as_of_date": {
+                "type": "string",
+                "description": "Date of service (YYYY-MM-DD). Defaults to today."
+              }
+            },
+            "required": [
+              "payer_id",
+              "member_id",
+              "provider_npi"
+            ]
+          }
+        },
+        {
+          "name": "submit_claim",
+          "description": "Submit a professional (837P) claim to a payer.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "payer_id": {
+                "type": "string",
+                "description": "Payer id."
+              },
+              "patient_id": {
+                "type": "string",
+                "description": "Patient account id."
+              },
+              "member_id": {
+                "type": "string",
+                "description": "Member id."
+              },
+              "provider_npi": {
+                "type": "string",
+                "description": "Billing provider NPI."
+              },
+              "service_date": {
+                "type": "string",
+                "description": "Date of service (YYYY-MM-DD)."
+              },
+              "place_of_service": {
+                "type": "string",
+                "description": "CMS place of service code.",
+                "default": "11"
+              },
+              "diagnosis_codes": {
+                "type": "array",
+                "description": "ICD-10 diagnosis codes, primary first.",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "service_lines": {
+                "type": "array",
+                "description": "Billed services.",
+                "items": {
+                  "type": "object",
+                  "description": "Service line.",
+                  "properties": {
+                    "procedure_code": {
+                      "type": "string",
+                      "description": "CPT or HCPCS code."
+                    },
+                    "modifiers": {
+                      "type": "array",
+                      "description": "Modifiers.",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "units": {
+                      "type": "number",
+                      "description": "Units."
+                    },
+                    "charge_amount": {
+                      "type": "number",
+                      "description": "Billed amount in USD."
+                    },
+                    "diagnosis_pointers": {
+                      "type": "array",
+                      "description": "1-based pointers into diagnosis_codes.",
+                      "items": {
+                        "type": "integer"
+                      }
+                    }
+                  },
+                  "required": [
+                    "procedure_code",
+                    "charge_amount"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "payer_id",
+              "member_id",
+              "provider_npi",
+              "service_date",
+              "diagnosis_codes",
+              "service_lines"
+            ]
+          }
+        },
+        {
+          "name": "get_claim_status",
+          "description": "Get claim status.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "claim_id": {
+                "type": "string",
+                "description": "Claim id."
+              },
+              "payer_id": {
+                "type": "string",
+                "description": "Payer id."
+              }
+            },
+            "required": [
+              "claim_id"
+            ]
+          }
+        },
+        {
+          "name": "estimate_patient_cost",
+          "description": "Estimate the patient's out-of-pocket cost for procedures using their remaining deductible, coinsurance and copay.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "payer_id": {
+                "type": "string",
+                "description": "Payer id."
+              },
+              "member_id": {
+                "type": "string",
+                "description": "Member id."
+              },
+              "procedure_codes": {
+                "type": "array",
+                "description": "CPT codes.",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "provider_npi": {
+                "type": "string",
+                "description": "Rendering provider NPI."
+              },
+              "place_of_service": {
+                "type": "string",
+                "description": "Place of service code."
+              }
+            },
+            "required": [
+              "payer_id",
+              "member_id",
+              "procedure_codes"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

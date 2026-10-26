@@ -1,0 +1,4682 @@
+{
+ "branch": {
+  "id": "visualization",
+  "name": "Visualization",
+  "summary": "Visualization MCP servers: Drawing MCP Server; Hugeicons MCP Server; MCP Image Extractor; MCP OKPPT Server; MCP Server Chart; Mindmap MCP Server; Office-PowerPoint-MCP-Server"
+ },
+ "toolkits": [
+  {
+   "id": "hugeicons",
+   "name": "Hugeicons MCP Server",
+   "server": "mcp://hugeicons",
+   "summary": "This is a TypeScript-based MCP server that provides tools and resources for integrating Hugeicons into various platforms. It implements a Model Context Protocol (MCP) server that helps AI assistants provide accurate guidance for using Hugeicons.",
+   "tools": [
+    {
+     "name": "list_icons",
+     "description": "Get a list of all available Hugeicons icons",
+     "input_schema": {
+      "type": "object",
+      "properties": {},
+      "required": []
+     }
+    },
+    {
+     "name": "search_icons",
+     "description": "Search for icons by name or tags. Use commas to search for multiple icons (e.g. 'home, notification, settings')",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "query": {
+        "type": "string",
+        "description": "Search query to find relevant icons. Separate multiple searches with commas"
+       }
+      },
+      "required": [
+       "query"
+      ]
+     }
+    },
+    {
+     "name": "get_platform_usage",
+     "description": "Get platform-specific usage instructions for Hugeicons",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "platform": {
+        "type": "string",
+        "description": "Platform name (react, vue, angular, svelte, react-native, flutter)",
+        "enum": [
+         "react",
+         "vue",
+         "angular",
+         "svelte",
+         "react-native",
+         "flutter"
+        ]
+       }
+      },
+      "required": [
+       "platform"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "image_extractor",
+   "name": "MCP Image Extractor",
+   "server": "mcp://image-extractor",
+   "summary": "MCP server for extracting and converting images to base64 for LLM analysis.",
+   "tools": [
+    {
+     "name": "extract_image_from_file",
+     "description": "Extract and analyze images from local file paths. Supports visual content understanding, OCR text extraction, and object recognition for screenshots, photos, diagrams, and documents.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "file_path": {
+        "type": "string",
+        "description": "Path to the image file to analyze (supports screenshots, photos, diagrams, and documents in PNG, JPG, GIF, WebP formats)"
+       },
+       "resize": {
+        "type": "boolean",
+        "default": true,
+        "description": "For backward compatibility only. Images are always automatically resized to optimal dimensions (max 512x512) for LLM analysis"
+       },
+       "max_width": {
+        "type": "number",
+        "default": 512,
+        "description": "For backward compatibility only. Default maximum width is now 512px"
+       },
+       "max_height": {
+        "type": "number",
+        "default": 512,
+        "description": "For backward compatibility only. Default maximum height is now 512px"
+       }
+      },
+      "required": [
+       "file_path"
+      ],
+      "additionalProperties": false,
+      "$schema": "http://json-schema.org/draft-07/schema#"
+     }
+    },
+    {
+     "name": "extract_image_from_url",
+     "description": "Extract and analyze images from web URLs. Perfect for analyzing web screenshots, online photos, diagrams, or any image accessible via HTTP/HTTPS for visual content analysis and text extraction.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "url": {
+        "type": "string",
+        "description": "URL of the image to analyze for visual content, text extraction, or object recognition (supports web screenshots, photos, diagrams)"
+       },
+       "resize": {
+        "type": "boolean",
+        "default": true,
+        "description": "For backward compatibility only. Images are always automatically resized to optimal dimensions (max 512x512) for LLM analysis"
+       },
+       "max_width": {
+        "type": "number",
+        "default": 512,
+        "description": "For backward compatibility only. Default maximum width is now 512px"
+       },
+       "max_height": {
+        "type": "number",
+        "default": 512,
+        "description": "For backward compatibility only. Default maximum height is now 512px"
+       }
+      },
+      "required": [
+       "url"
+      ],
+      "additionalProperties": false,
+      "$schema": "http://json-schema.org/draft-07/schema#"
+     }
+    },
+    {
+     "name": "extract_image_from_base64",
+     "description": "Extract and analyze images from base64-encoded data. Ideal for processing screenshots from clipboard, dynamically generated images, or images embedded in applications without requiring file system access.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "base64": {
+        "type": "string",
+        "description": "Base64-encoded image data to analyze (useful for screenshots, images from clipboard, or dynamically generated visuals)"
+       },
+       "mime_type": {
+        "type": "string",
+        "default": "image/png",
+        "description": "MIME type of the image (e.g., image/png, image/jpeg)"
+       },
+       "resize": {
+        "type": "boolean",
+        "default": true,
+        "description": "For backward compatibility only. Images are always automatically resized to optimal dimensions (max 512x512) for LLM analysis"
+       },
+       "max_width": {
+        "type": "number",
+        "default": 512,
+        "description": "For backward compatibility only. Default maximum width is now 512px"
+       },
+       "max_height": {
+        "type": "number",
+        "default": 512,
+        "description": "For backward compatibility only. Default maximum height is now 512px"
+       }
+      },
+      "required": [
+       "base64"
+      ],
+      "additionalProperties": false,
+      "$schema": "http://json-schema.org/draft-07/schema#"
+     }
+    }
+   ]
+  },
+  {
+   "id": "mcp_server_chart",
+   "name": "MCP Server Chart",
+   "server": "mcp://mcp-server-chart",
+   "summary": "A Model Context Protocol server for generating charts using AntV.",
+   "tools": [
+    {
+     "name": "generate_area_chart",
+     "description": "Generate a area chart to show data trends under continuous independent variables and observe the overall data trend, such as, displacement = velocity (average or instantaneous) \u00d7 time: s = v \u00d7 t. If the x-axis is time (t) and the y-axis is velocity (v) at each moment, an area chart allows you to observe the trend of velocity over time and infer the distance traveled by the area's size.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "data": {
+        "type": "array",
+        "items": {
+         "type": "object",
+         "properties": {
+          "time": {
+           "type": "string"
+          },
+          "value": {
+           "type": "number"
+          },
+          "group": {
+           "type": "string"
+          }
+         },
+         "required": [
+          "time",
+          "value"
+         ]
+        },
+        "minItems": 1,
+        "description": "Data for area chart, such as, [{ time: '2018', value: 99.9 }]."
+       },
+       "stack": {
+        "type": "boolean",
+        "default": false,
+        "description": "Whether stacking is enabled. When enabled, area charts require a 'group' field in the data."
+       },
+       "theme": {
+        "type": "string",
+        "enum": [
+         "default",
+         "academy"
+        ],
+        "default": "default",
+        "description": "Set the theme for the chart, optional, default is 'default'."
+       },
+       "width": {
+        "type": "number",
+        "default": 600,
+        "description": "Set the width of chart, default is 600."
+       },
+       "height": {
+        "type": "number",
+        "default": 400,
+        "description": "Set the height of chart, default is 400."
+       },
+       "title": {
+        "type": "string",
+        "default": "",
+        "description": "Set the title of chart."
+       },
+       "axisXTitle": {
+        "type": "string",
+        "default": "",
+        "description": "Set the x-axis title of chart."
+       },
+       "axisYTitle": {
+        "type": "string",
+        "default": "",
+        "description": "Set the y-axis title of chart."
+       }
+      },
+      "required": [
+       "data"
+      ],
+      "$schema": "http://json-schema.org/draft-07/schema#"
+     }
+    },
+    {
+     "name": "generate_bar_chart",
+     "description": "Generate a bar chart to show data for numerical comparisons among different categories, such as, comparing categorical data and for horizontal comparisons.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "data": {
+        "type": "array",
+        "items": {
+         "type": "object",
+         "properties": {
+          "category": {
+           "type": "string"
+          },
+          "value": {
+           "type": "number"
+          },
+          "group": {
+           "type": "string"
+          }
+         },
+         "required": [
+          "category",
+          "value"
+         ]
+        },
+        "minItems": 1,
+        "description": "Data for bar chart, such as, [{ category: '\u5206\u7c7b\u4e00', value: 10 }]."
+       },
+       "group": {
+        "type": "boolean",
+        "default": false,
+        "description": "Whether grouping is enabled. When enabled, bar charts require a 'group' field in the data. When `group` is true, `stack` should be false."
+       },
+       "stack": {
+        "type": "boolean",
+        "default": true,
+        "description": "Whether stacking is enabled. When enabled, bar charts require a 'group' field in the data. When `stack` is true, `group` should be false."
+       },
+       "theme": {
+        "type": "string",
+        "enum": [
+         "default",
+         "academy"
+        ],
+        "default": "default",
+        "description": "Set the theme for the chart, optional, default is 'default'."
+       },
+       "width": {
+        "type": "number",
+        "default": 600,
+        "description": "Set the width of chart, default is 600."
+       },
+       "height": {
+        "type": "number",
+        "default": 400,
+        "description": "Set the height of chart, default is 400."
+       },
+       "title": {
+        "type": "string",
+        "default": "",
+        "description": "Set the title of chart."
+       },
+       "axisXTitle": {
+        "type": "string",
+        "default": "",
+        "description": "Set the x-axis title of chart."
+       },
+       "axisYTitle": {
+        "type": "string",
+        "default": "",
+        "description": "Set the y-axis title of chart."
+       }
+      },
+      "required": [
+       "data"
+      ],
+      "$schema": "http://json-schema.org/draft-07/schema#"
+     }
+    },
+    {
+     "name": "generate_boxplot_chart",
+     "description": "Generate a boxplot chart to show data for statistical summaries among different categories, such as, comparing the distribution of data points across categories.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "data": {
+        "type": "array",
+        "items": {
+         "type": "object",
+         "properties": {
+          "category": {
+           "type": "string",
+           "description": "Category of the data point, such as '\u5206\u7c7b\u4e00'."
+          },
+          "value": {
+           "type": "number",
+           "description": "Value of the data point, such as 10."
+          },
+          "group": {
+           "type": "string",
+           "description": "Optional group for the data point, used for grouping in the boxplot."
+          }
+         },
+         "required": [
+          "category",
+          "value"
+         ]
+        },
+        "minItems": 1,
+        "description": "Data for boxplot chart, such as, [{ category: '\u5206\u7c7b\u4e00', value: 10 }] or [{ category: '\u5206\u7c7b\u4e8c', value: 20, group: '\u7ec4\u522b\u4e00' }]."
+       },
+       "theme": {
+        "type": "string",
+        "enum": [
+         "default",
+         "academy"
+        ],
+        "default": "default",
+        "description": "Set the theme for the chart, optional, default is 'default'."
+       },
+       "width": {
+        "type": "number",
+        "default": 600,
+        "description": "Set the width of chart, default is 600."
+       },
+       "height": {
+        "type": "number",
+        "default": 400,
+        "description": "Set the height of chart, default is 400."
+       },
+       "title": {
+        "type": "string",
+        "default": "",
+        "description": "Set the title of chart."
+       },
+       "axisXTitle": {
+        "type": "string",
+        "default": "",
+        "description": "Set the x-axis title of chart."
+       },
+       "axisYTitle": {
+        "type": "string",
+        "default": "",
+        "description": "Set the y-axis title of chart."
+       }
+      },
+      "required": [
+       "data"
+      ],
+      "$schema": "http://json-schema.org/draft-07/schema#"
+     }
+    },
+    {
+     "name": "generate_column_chart",
+     "description": "Generate a column chart, which are best for comparing categorical data, such as, when values are close, column charts are preferable because our eyes are better at judging height than other visual elements like area or angles.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "data": {
+        "type": "array",
+        "items": {
+         "type": "object",
+         "properties": {
+          "category": {
+           "type": "string"
+          },
+          "value": {
+           "type": "number"
+          },
+          "group": {
+           "type": "string"
+          }
+         },
+         "required": [
+          "category",
+          "value"
+         ]
+        },
+        "minItems": 1,
+        "description": "Data for column chart, such as, [{ category: '\u5317\u4eac', value: 825, group: '\u6cb9\u8f66' }]."
+       },
+       "group": {
+        "type": "boolean",
+        "default": true,
+        "description": "Whether grouping is enabled. When enabled, column charts require a 'group' field in the data. When `group` is true, `stack` should be false."
+       },
+       "stack": {
+        "type": "boolean",
+        "default": false,
+        "description": "Whether stacking is enabled. When enabled, column charts require a 'group' field in the data. When `stack` is true, `group` should be false."
+       },
+       "theme": {
+        "type": "string",
+        "enum": [
+         "default",
+         "academy"
+        ],
+        "default": "default",
+        "description": "Set the theme for the chart, optional, default is 'default'."
+       },
+       "width": {
+        "type": "number",
+        "default": 600,
+        "description": "Set the width of chart, default is 600."
+       },
+       "height": {
+        "type": "number",
+        "default": 400,
+        "description": "Set the height of chart, default is 400."
+       },
+       "title": {
+        "type": "string",
+        "default": "",
+        "description": "Set the title of chart."
+       },
+       "axisXTitle": {
+        "type": "string",
+        "default": "",
+        "description": "Set the x-axis title of chart."
+       },
+       "axisYTitle": {
+        "type": "string",
+        "default": "",
+        "description": "Set the y-axis title of chart."
+       }
+      },
+      "required": [
+       "data"
+      ],
+      "$schema": "http://json-schema.org/draft-07/schema#"
+     }
+    },
+    {
+     "name": "generate_district_map",
+     "description": "Generates regional distribution maps, which are usually used to show the administrative divisions and coverage of a dataset. It is not suitable for showing the distribution of specific locations, such as urban administrative divisions, GDP distribution maps of provinces and cities across the country, etc. This tool is limited to generating data maps within China.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "title": {
+        "type": "string",
+        "description": "The map title should not exceed 16 characters. The content should be consistent with the information the map wants to convey and should be accurate, rich, creative, and attractive."
+       },
+       "data": {
+        "type": "object",
+        "properties": {
+         "name": {
+          "type": "string",
+          "description": "Keywords for the Chinese name of an administrative region (must be within China), and must be one of China, province, city, district, or county. The name should be more specific and add attributive descriptions, for example, \"\u897f\u5b89\u5e02\" is better than \"\u897f\u5b89\", \"\u676d\u5dde\u897f\u6e56\u533a\" is better than \"\u897f\u6e56\u533a\". It cannot be a specific place name or a vague name, such as \"\u5176\u5b83\"."
+         },
+         "style": {
+          "type": "object",
+          "properties": {
+           "fillColor": {
+            "type": "string",
+            "description": "Fill color, rgb or rgba format."
+           }
+          },
+          "description": "Style settings."
+         },
+         "colors": {
+          "type": "array",
+          "items": {
+           "type": "string"
+          },
+          "default": [
+           "#1783FF",
+           "#00C9C9",
+           "#F0884D",
+           "#D580FF",
+           "#7863FF",
+           "#60C42D",
+           "#BD8F24",
+           "#FF80CA",
+           "#2491B3",
+           "#17C76F"
+          ],
+          "description": "Data color list, in rgb or rgba format."
+         },
+         "dataType": {
+          "type": "string",
+          "enum": [
+           "number",
+           "enum"
+          ],
+          "description": "The type of the data value, numeric or enumeration type"
+         },
+         "dataLabel": {
+          "type": "string",
+          "description": "Data label, such as \"GDP\""
+         },
+         "dataValue": {
+          "type": "string",
+          "description": "Data value, numeric string or enumeration string."
+         },
+         "dataValueUnit": {
+          "type": "string",
+          "description": "Data unit, such as \"\u4e07\u4ebf\""
+         },
+         "showAllSubdistricts": {
+          "type": "boolean",
+          "default": false,
+          "description": "Whether to display all subdistricts."
+         },
+         "subdistricts": {
+          "type": "array",
+          "items": {
+           "type": "object",
+           "properties": {
+            "name": {
+             "$ref": "#/properties/data/properties/name"
+            },
+            "dataValue": {
+             "type": "string",
+             "description": "Data value, numeric string or enumeration string."
+            },
+            "style": {
+             "$ref": "#/properties/data/properties/style"
+            }
+           },
+           "required": [
+            "name"
+           ]
+          },
+          "description": "Sub-administrative regions are used to display the regional composition or regional distribution of related data."
+         }
+        },
+        "required": [
+         "name"
+        ],
+        "description": "Administrative division data, lower-level administrative divisions are optional. There are usually two scenarios: one is to simply display the regional composition, only `fillColor` needs to be configured, and all administrative divisions are consistent, representing that all blocks are connected as one; the other is the regional data distribution scenario, first determine the `dataType`, `dataValueUnit` and `dataLabel` configurations, `dataValue` should be a meaningful value and consistent with the meaning of dataType, and then determine the style configuration. The `fillColor` configuration represents the default fill color for areas without data. Lower-level administrative divisions do not need `fillColor` configuration, and their fill colors are determined by the `colors` configuration (If `dataType` is \"number\", only one base color (warm color) is needed in the list to calculate the continuous data mapping color band; if `dataType` is \"enum\", the number of color values in the list is equal to the number of enumeration values (contrast colors)). If `subdistricts` has a value, `showAllSubdistricts` must be set to true. For example, {\"title\": \"\u9655\u897f\u7701\u5730\u7ea7\u5e02\u5206\u5e03\u56fe\", \"data\": {\"name\": \"\u9655\u897f\u7701\", \"showAllSubdistricts\": true, \"dataLabel\": \"\u57ce\u5e02\", \"dataType\": \"enum\", \"colors\": [\"#4ECDC4\", \"#A5D8FF\"], \"subdistricts\": [{\"name\": \"\u897f\u5b89\u5e02\", \"dataValue\": \"\u7701\u4f1a\"}, {\"name\": \"\u5b9d\u9e21\u5e02\", \"dataValue\": \"\u5730\u7ea7\u5e02\"}, {\"name\": \"\u54b8\u9633\u5e02\", \"dataValue\": \"\u5730\u7ea7\u5e02\"}, {\"name\": \"\u94dc\u5ddd\u5e02\", \"dataValue\": \"\u5730\u7ea7\u5e02\"}, {\"name\": \"\u6e2d\u5357\u5e02\", \"dataValue\": \"\u5730\u7ea7\u5e02\"}, {\"name\": \"\u5ef6\u5b89\u5e02\", \"dataValue\": \"\u5730\u7ea7\u5e02\"}, {\"name\": \"\u6986\u6797\u5e02\", \"dataValue\": \"\u5730\u7ea7\u5e02\"}, {\"name\": \"\u6c49\u4e2d\u5e02\", \"dataValue\": \"\u5730\u7ea7\u5e02\"}, {\"name\": \"\u5b89\u5eb7\u5e02\", \"dataValue\": \"\u5730\u7ea7\u5e02\"}, {\"name\": \"\u5546\u6d1b\u5e02\", \"dataValue\": \"\u5730\u7ea7\u5e02\"}]}, \"width\": 1000, \"height\": 1000}."
+       },
+       "width": {
+        "type": "number",
+        "default": 1600,
+        "description": "Set the width of map, default is 1600."
+       },
+       "height": {
+        "type": "number",
+        "default": 1000,
+        "description": "Set the height of map, default is 1000."
+       }
+      },
+      "required": [
+       "title",
+       "data"
+      ],
+      "$schema": "http://json-schema.org/draft-07/schema#"
+     }
+    },
+    {
+     "name": "generate_dual_axes_chart",
+     "description": "Generate a dual axes chart which is a combination chart that integrates two different chart types, typically combining a bar chart with a line chart to display both the trend and comparison of data, such as, the trend of sales and profit over time.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "categories": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "minItems": 1,
+        "description": "Categories for dual axes chart, such as, ['2015', '2016', '2017']."
+       },
+       "series": {
+        "type": "array",
+        "items": {
+         "type": "object",
+         "properties": {
+          "type": {
+           "type": "string",
+           "enum": [
+            "column",
+            "line"
+           ],
+           "description": "The optional value can be 'column' or 'line'."
+          },
+          "data": {
+           "type": "array",
+           "items": {
+            "type": "number"
+           },
+           "description": "When type is column, the data represents quantities, such as [91.9, 99.1, 101.6, 114.4, 121]. When type is line, the data represents ratios and its values are recommended to be less than 1, such as [0.055, 0.06, 0.062, 0.07, 0.075]."
+          },
+          "axisYTitle": {
+           "type": "string",
+           "default": "",
+           "description": "Set the y-axis title of the chart series, such as, axisYTitle: '\u9500\u552e\u989d'."
+          }
+         },
+         "required": [
+          "type",
+          "data"
+         ]
+        },
+        "minItems": 1,
+        "description": "Series for dual axes chart, such as, [{ type: 'column', data: [91.9, 99.1, 101.6, 114.4, 121], axisYTitle: '\u9500\u552e\u989d' }, { type: 'line', data: [0.055, 0.06, 0.062, 0.07, 0.075], 'axisYTitle': '\u5229\u6da6\u7387' }]."
+       },
+       "theme": {
+        "type": "string",
+        "enum": [
+         "default",
+         "academy"
+        ],
+        "default": "default",
+        "description": "Set the theme for the chart, optional, default is 'default'."
+       },
+       "width": {
+        "type": "number",
+        "default": 600,
+        "description": "Set the width of chart, default is 600."
+       },
+       "height": {
+        "type": "number",
+        "default": 400,
+        "description": "Set the height of chart, default is 400."
+       },
+       "title": {
+        "type": "string",
+        "default": "",
+        "description": "Set the title of chart."
+       },
+       "axisXTitle": {
+        "type": "string",
+        "default": "",
+        "description": "Set the x-axis title of chart."
+       }
+      },
+      "required": [
+       "categories",
+       "series"
+      ],
+      "$schema": "http://json-schema.org/draft-07/schema#"
+     }
+    },
+    {
+     "name": "generate_fishbone_diagram",
+     "description": "Generate a fishbone diagram chart to uses a fish skeleton, like structure to display the causes or effects of a core problem, with the problem as the fish head and the causes/effects as the fish bones. It suits problems that can be split into multiple related factors.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "data": {
+        "type": "object",
+        "properties": {
+         "name": {
+          "type": "string"
+         },
+         "children": {
+          "type": "array",
+          "items": {
+           "type": "object",
+           "properties": {
+            "name": {
+             "type": "string"
+            },
+            "children": {
+             "type": "array",
+             "items": {
+              "$ref": "#/properties/data/properties/children/items"
+             }
+            }
+           },
+           "required": [
+            "name"
+           ]
+          }
+         }
+        },
+        "required": [
+         "name"
+        ],
+        "description": "Data for fishbone diagram chart, such as, { name: 'main topic', children: [{ name: 'topic 1', children: [{ name: 'subtopic 1-1' }] }."
+       },
+       "theme": {
+        "type": "string",
+        "enum": [
+         "default",
+         "academy"
+        ],
+        "default": "default",
+        "description": "Set the theme for the chart, optional, default is 'default'."
+       },
+       "width": {
+        "type": "number",
+        "default": 600,
+        "description": "Set the width of chart, default is 600."
+       },
+       "height": {
+        "type": "number",
+        "default": 400,
+        "description": "Set the height of chart, default is 400."
+       }
+      },
+      "required": [
+       "data"
+      ],
+      "$schema": "http://json-schema.org/draft-07/schema#"
+     }
+    },
+    {
+     "name": "generate_flow_diagram",
+     "description": "Generate a flow diagram chart to show the steps and decision points of a process or system, such as, scenarios requiring linear process presentation.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "data": {
+        "type": "object",
+        "properties": {
+         "nodes": {
+          "type": "array",
+          "items": {
+           "type": "object",
+           "properties": {
+            "name": {
+             "type": "string"
+            }
+           },
+           "required": [
+            "name"
+           ]
+          },
+          "minItems": 1
+         },
+         "edges": {
+          "type": "array",
+          "items": {
+           "type": "object",
+           "properties": {
+            "source": {
+             "type": "string"
+            },
+            "target": {
+             "type": "string"
+            },
+            "name": {
+             "type": "string",
+             "default": ""
+            }
+           },
+           "required": [
+            "source",
+            "target"
+           ]
+          }
+         }
+        },
+        "required": [
+         "nodes",
+         "edges"
+        ],
+        "description": "Data for flow diagram chart, such as, { nodes: [{ name: 'node1' }, { name: 'node2' }], edges: [{ source: 'node1', target: 'node2', name: 'edge1' }] }."
+       },
+       "theme": {
+        "type": "string",
+        "enum": [
+         "default",
+         "academy"
+        ],
+        "default": "default",
+        "description": "Set the theme for the chart, optional, default is 'default'."
+       },
+       "width": {
+        "type": "number",
+        "default": 600,
+        "description": "Set the width of chart, default is 600."
+       },
+       "height": {
+        "type": "number",
+        "default": 400,
+        "description": "Set the height of chart, default is 400."
+       }
+      },
+      "required": [
+       "data"
+      ],
+      "$schema": "http://json-schema.org/draft-07/schema#"
+     }
+    },
+    {
+     "name": "generate_funnel_chart",
+     "description": "Generate a funnel chart to visualize the progressive reduction of data as it passes through stages, such as, the conversion rates of users from visiting a website to completing a purchase.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "data": {
+        "type": "array",
+        "items": {
+         "type": "object",
+         "properties": {
+          "category": {
+           "type": "string"
+          },
+          "value": {
+           "type": "number"
+          }
+         },
+         "required": [
+          "category",
+          "value"
+         ]
+        },
+        "minItems": 1,
+        "description": "Data for funnel chart, such as, [{ category: '\u6d4f\u89c8\u7f51\u7ad9', value: 50000 }, { category: '\u653e\u5165\u8d2d\u7269\u8f66', value: 35000 }, { category: '\u751f\u6210\u8ba2\u5355', value: 25000 }, { category: '\u652f\u4ed8\u8ba2\u5355', value: 15000 }, { category: '\u5b8c\u6210\u4ea4\u6613', value: 8000 }]."
+       },
+       "theme": {
+        "type": "string",
+        "enum": [
+         "default",
+         "academy"
+        ],
+        "default": "default",
+        "description": "Set the theme for the chart, optional, default is 'default'."
+       },
+       "width": {
+        "type": "number",
+        "default": 600,
+        "description": "Set the width of chart, default is 600."
+       },
+       "height": {
+        "type": "number",
+        "default": 400,
+        "description": "Set the height of chart, default is 400."
+       },
+       "title": {
+        "type": "string",
+        "default": "",
+        "description": "Set the title of chart."
+       }
+      },
+      "required": [
+       "data"
+      ],
+      "$schema": "http://json-schema.org/draft-07/schema#"
+     }
+    },
+    {
+     "name": "generate_histogram_chart",
+     "description": "Generate a histogram chart to show the frequency of data points within a certain range. It can observe data distribution, such as, normal and skewed distributions, and identify data concentration areas and extreme points.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "data": {
+        "type": "array",
+        "items": {
+         "type": "number"
+        },
+        "minItems": 1,
+        "description": "Data for histogram chart, such as, [78, 88, 60, 100, 95]."
+       },
+       "binNumber": {
+        "anyOf": [
+         {
+          "type": "number"
+         },
+         {
+          "not": {}
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "description": "Number of intervals to define the number of intervals in a histogram."
+       },
+       "theme": {
+        "type": "string",
+        "enum": [
+         "default",
+         "academy"
+        ],
+        "default": "default",
+        "description": "Set the theme for the chart, optional, default is 'default'."
+       },
+       "width": {
+        "type": "number",
+        "default": 600,
+        "description": "Set the width of chart, default is 600."
+       },
+       "height": {
+        "type": "number",
+        "default": 400,
+        "description": "Set the height of chart, default is 400."
+       },
+       "title": {
+        "type": "string",
+        "default": "",
+        "description": "Set the title of chart."
+       },
+       "axisXTitle": {
+        "type": "string",
+        "default": "",
+        "description": "Set the x-axis title of chart."
+       },
+       "axisYTitle": {
+        "type": "string",
+        "default": "",
+        "description": "Set the y-axis title of chart."
+       }
+      },
+      "required": [
+       "data"
+      ],
+      "$schema": "http://json-schema.org/draft-07/schema#"
+     }
+    },
+    {
+     "name": "generate_line_chart",
+     "description": "Generate a line chart to show trends over time, such as, the ratio of Apple computer sales to Apple's profits changed from 2000 to 2016.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "data": {
+        "type": "array",
+        "items": {
+         "type": "object",
+         "properties": {
+          "time": {
+           "type": "string"
+          },
+          "value": {
+           "type": "number"
+          }
+         },
+         "required": [
+          "time",
+          "value"
+         ]
+        },
+        "minItems": 1,
+        "description": "Data for line chart, such as, [{ time: '2015', value: 23 }]."
+       },
+       "stack": {
+        "type": "boolean",
+        "default": false,
+        "description": "Whether stacking is enabled. When enabled, line charts require a 'group' field in the data."
+       },
+       "theme": {
+        "type": "string",
+        "enum": [
+         "default",
+         "academy"
+        ],
+        "default": "default",
+        "description": "Set the theme for the chart, optional, default is 'default'."
+       },
+       "width": {
+        "type": "number",
+        "default": 600,
+        "description": "Set the width of chart, default is 600."
+       },
+       "height": {
+        "type": "number",
+        "default": 400,
+        "description": "Set the height of chart, default is 400."
+       },
+       "title": {
+        "type": "string",
+        "default": "",
+        "description": "Set the title of chart."
+       },
+       "axisXTitle": {
+        "type": "string",
+        "default": "",
+        "description": "Set the x-axis title of chart."
+       },
+       "axisYTitle": {
+        "type": "string",
+        "default": "",
+        "description": "Set the y-axis title of chart."
+       }
+      },
+      "required": [
+       "data"
+      ],
+      "$schema": "http://json-schema.org/draft-07/schema#"
+     }
+    },
+    {
+     "name": "generate_liquid_chart",
+     "description": "Generate a liquid chart to visualize a single value as a percentage, such as, the current occupancy rate of a reservoir or the completion percentage of a project.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "percent": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1,
+        "description": "The percentage value to display in the liquid chart, should be a number between 0 and 1, where 1 represents 100%. For example, 0.75 represents 75%."
+       },
+       "shape": {
+        "type": "string",
+        "enum": [
+         "circle",
+         "rect",
+         "pin",
+         "triangle"
+        ],
+        "default": "circle",
+        "description": "The shape of the liquid chart, can be 'circle', 'rect', 'pin', or 'triangle'. Default is 'circle'."
+       },
+       "theme": {
+        "type": "string",
+        "enum": [
+         "default",
+         "academy"
+        ],
+        "default": "default",
+        "description": "Set the theme for the chart, optional, default is 'default'."
+       },
+       "width": {
+        "type": "number",
+        "default": 600,
+        "description": "Set the width of chart, default is 600."
+       },
+       "height": {
+        "type": "number",
+        "default": 400,
+        "description": "Set the height of chart, default is 400."
+       },
+       "title": {
+        "type": "string",
+        "default": "",
+        "description": "Set the title of chart."
+       }
+      },
+      "required": [
+       "percent"
+      ],
+      "$schema": "http://json-schema.org/draft-07/schema#"
+     }
+    },
+    {
+     "name": "generate_mind_map",
+     "description": "Generate a mind map chart to organizes and presents information in a hierarchical structure with branches radiating from a central topic, such as, a diagram showing the relationship between a main topic and its subtopics.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "data": {
+        "type": "object",
+        "properties": {
+         "name": {
+          "type": "string"
+         },
+         "children": {
+          "type": "array",
+          "items": {
+           "type": "object",
+           "properties": {
+            "name": {
+             "type": "string"
+            },
+            "children": {
+             "type": "array",
+             "items": {
+              "$ref": "#/properties/data/properties/children/items"
+             }
+            }
+           },
+           "required": [
+            "name"
+           ]
+          }
+         }
+        },
+        "required": [
+         "name"
+        ],
+        "description": "Data for mind map chart, such as, { name: 'main topic', children: [{ name: 'topic 1', children: [{ name:'subtopic 1-1' }] }."
+       },
+       "theme": {
+        "type": "string",
+        "enum": [
+         "default",
+         "academy"
+        ],
+        "default": "default",
+        "description": "Set the theme for the chart, optional, default is 'default'."
+       },
+       "width": {
+        "type": "number",
+        "default": 600,
+        "description": "Set the width of chart, default is 600."
+       },
+       "height": {
+        "type": "number",
+        "default": 400,
+        "description": "Set the height of chart, default is 400."
+       }
+      },
+      "required": [
+       "data"
+      ],
+      "$schema": "http://json-schema.org/draft-07/schema#"
+     }
+    },
+    {
+     "name": "generate_network_graph",
+     "description": "Generate a network graph chart to show relationships (edges) between entities (nodes), such as, relationships between people in social networks.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "data": {
+        "type": "object",
+        "properties": {
+         "nodes": {
+          "type": "array",
+          "items": {
+           "type": "object",
+           "properties": {
+            "name": {
+             "type": "string"
+            }
+           },
+           "required": [
+            "name"
+           ]
+          },
+          "minItems": 1
+         },
+         "edges": {
+          "type": "array",
+          "items": {
+           "type": "object",
+           "properties": {
+            "source": {
+             "type": "string"
+            },
+            "target": {
+             "type": "string"
+            },
+            "name": {
+             "type": "string",
+             "default": ""
+            }
+           },
+           "required": [
+            "source",
+            "target"
+           ]
+          }
+         }
+        },
+        "required": [
+         "nodes",
+         "edges"
+        ],
+        "description": "Data for network graph chart, such as, { nodes: [{ name: 'node1' }, { name: 'node2' }], edges: [{ source: 'node1', target: 'node2', name: 'edge1' }] }"
+       },
+       "theme": {
+        "type": "string",
+        "enum": [
+         "default",
+         "academy"
+        ],
+        "default": "default",
+        "description": "Set the theme for the chart, optional, default is 'default'."
+       },
+       "width": {
+        "type": "number",
+        "default": 600,
+        "description": "Set the width of chart, default is 600."
+       },
+       "height": {
+        "type": "number",
+        "default": 400,
+        "description": "Set the height of chart, default is 400."
+       }
+      },
+      "required": [
+       "data"
+      ],
+      "$schema": "http://json-schema.org/draft-07/schema#"
+     }
+    },
+    {
+     "name": "generate_organization_chart",
+     "description": "Generate an organization chart to visualize the hierarchical structure of an organization, such as, a diagram showing the relationship between a CEO and their direct reports.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "data": {
+        "type": "object",
+        "properties": {
+         "name": {
+          "type": "string"
+         },
+         "description": {
+          "type": "string"
+         },
+         "children": {
+          "type": "array",
+          "items": {
+           "type": "object",
+           "properties": {
+            "name": {
+             "type": "string"
+            },
+            "description": {
+             "type": "string"
+            },
+            "children": {
+             "type": "array",
+             "items": {
+              "$ref": "#/properties/data/properties/children/items"
+             }
+            }
+           },
+           "required": [
+            "name"
+           ]
+          }
+         }
+        },
+        "required": [
+         "name"
+        ],
+        "description": "Data for organization chart, such as, { name: 'CEO', description: 'Chief Executive Officer', children: [{ name: 'CTO', description: 'Chief Technology Officer', children: [{ name: 'Dev Manager', description: 'Development Manager' }] }] }."
+       },
+       "orient": {
+        "type": "string",
+        "enum": [
+         "horizontal",
+         "vertical"
+        ],
+        "default": "vertical",
+        "description": "Orientation of the organization chart, either horizontal or vertical. Default is vertical, when the level of the chart is more than 3, it is recommended to use horizontal orientation."
+       },
+       "theme": {
+        "type": "string",
+        "enum": [
+         "default",
+         "academy"
+        ],
+        "default": "default",
+        "description": "Set the theme for the chart, optional, default is 'default'."
+       },
+       "width": {
+        "type": "number",
+        "default": 600,
+        "description": "Set the width of chart, default is 600."
+       },
+       "height": {
+        "type": "number",
+        "default": 400,
+        "description": "Set the height of chart, default is 400."
+       }
+      },
+      "required": [
+       "data"
+      ],
+      "$schema": "http://json-schema.org/draft-07/schema#"
+     }
+    },
+    {
+     "name": "generate_path_map",
+     "description": "Generate a route map to display the user's planned route, such as travel guide routes.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "title": {
+        "type": "string",
+        "description": "The map title should not exceed 16 characters. The content should be consistent with the information the map wants to convey and should be accurate, rich, creative, and attractive."
+       },
+       "data": {
+        "type": "array",
+        "items": {
+         "type": "object",
+         "properties": {
+          "data": {
+           "type": "array",
+           "items": {
+            "type": "string"
+           },
+           "minItems": 1,
+           "description": "A list of keywords for the names of points of interest (POIs) in Chinese. These POIs usually contain a group of places with similar locations, so the names should be more descriptive, must adding attributives to indicate that they are different places in the same area, such as \"\u5317\u4eac\u5e02\" is better than \"\u5317\u4eac\", \"\u676d\u5dde\u897f\u6e56\" is better than \"\u897f\u6e56\"; in addition, if you can determine that a location may appear in multiple areas, you can be more specific, such as \"\u676d\u5dde\u897f\u6e56\u7684\u82cf\u5824\u6625\u6653\" is better than \"\u82cf\u5824\u6625\u6653\". The tool will use these keywords to search for specific POIs and query their detailed data, such as latitude and longitude, location photos, etc. For example, [\"\u897f\u5b89\u949f\u697c\", \"\u897f\u5b89\u5927\u5510\u4e0d\u591c\u57ce\", \"\u897f\u5b89\u5927\u96c1\u5854\"]."
+          }
+         },
+         "required": [
+          "data"
+         ],
+         "description": "The route and places along it."
+        },
+        "minItems": 1,
+        "description": "Routes, each group represents all POIs along a route. For example, [{ \"data\": [\"\u897f\u5b89\u949f\u697c\", \"\u897f\u5b89\u5927\u5510\u4e0d\u591c\u57ce\", \"\u897f\u5b89\u5927\u96c1\u5854\"] }, { \"data\": [\"\u897f\u5b89\u66f2\u6c5f\u6c60\u516c\u56ed\", \"\u897f\u5b89\u56de\u6c11\u8857\"] }]"
+       },
+       "width": {
+        "type": "number",
+        "default": 1600,
+        "description": "Set the width of map, default is 1600."
+       },
+       "height": {
+        "type": "number",
+        "default": 1000,
+        "description": "Set the height of map, default is 1000."
+       }
+      },
+      "required": [
+       "title",
+       "data"
+      ],
+      "$schema": "http://json-schema.org/draft-07/schema#"
+     }
+    },
+    {
+     "name": "generate_pie_chart",
+     "description": "Generate a pie chart to show the proportion of parts, such as, market share and budget allocation.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "data": {
+        "type": "array",
+        "items": {
+         "type": "object",
+         "properties": {
+          "category": {
+           "type": "string"
+          },
+          "value": {
+           "type": "number"
+          }
+         },
+         "required": [
+          "category",
+          "value"
+         ]
+        },
+        "minItems": 1,
+        "description": "Data for pie chart, such as, [{ category: '\u5206\u7c7b\u4e00', value: 27 }]."
+       },
+       "innerRadius": {
+        "type": "number",
+        "default": 0,
+        "description": "Set the innerRadius of pie chart, the value between 0 and 1. Set the pie chart as a donut chart. Set the value to 0.6 or number in [0 ,1] to enable it."
+       },
+       "theme": {
+        "type": "string",
+        "enum": [
+         "default",
+         "academy"
+        ],
+        "default": "default",
+        "description": "Set the theme for the chart, optional, default is 'default'."
+       },
+       "width": {
+        "type": "number",
+        "default": 600,
+        "description": "Set the width of chart, default is 600."
+       },
+       "height": {
+        "type": "number",
+        "default": 400,
+        "description": "Set the height of chart, default is 400."
+       },
+       "title": {
+        "type": "string",
+        "default": "",
+        "description": "Set the title of chart."
+       }
+      },
+      "required": [
+       "data"
+      ],
+      "$schema": "http://json-schema.org/draft-07/schema#"
+     }
+    },
+    {
+     "name": "generate_pin_map",
+     "description": "Generate a point map to display the location and distribution of point data on the map, such as the location distribution of attractions, hospitals, supermarkets, etc.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "title": {
+        "type": "string",
+        "description": "The map title should not exceed 16 characters. The content should be consistent with the information the map wants to convey and should be accurate, rich, creative, and attractive."
+       },
+       "data": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "minItems": 1,
+        "description": "A list of keywords for the names of points of interest (POIs) in Chinese. These POIs usually contain a group of places with similar locations, so the names should be more descriptive, must adding attributives to indicate that they are different places in the same area, such as \"\u5317\u4eac\u5e02\" is better than \"\u5317\u4eac\", \"\u676d\u5dde\u897f\u6e56\" is better than \"\u897f\u6e56\"; in addition, if you can determine that a location may appear in multiple areas, you can be more specific, such as \"\u676d\u5dde\u897f\u6e56\u7684\u82cf\u5824\u6625\u6653\" is better than \"\u82cf\u5824\u6625\u6653\". The tool will use these keywords to search for specific POIs and query their detailed data, such as latitude and longitude, location photos, etc. For example, [\"\u897f\u5b89\u949f\u697c\", \"\u897f\u5b89\u5927\u5510\u4e0d\u591c\u57ce\", \"\u897f\u5b89\u5927\u96c1\u5854\"]."
+       },
+       "markerPopup": {
+        "type": "object",
+        "properties": {
+         "type": {
+          "type": "string",
+          "default": "image",
+          "description": "Must be \"image\"."
+         },
+         "width": {
+          "type": "number",
+          "default": 40,
+          "description": "Width of the photo."
+         },
+         "height": {
+          "type": "number",
+          "default": 40,
+          "description": "Height of the photo."
+         },
+         "borderRadius": {
+          "type": "number",
+          "default": 8,
+          "description": "Border radius of the photo."
+         }
+        },
+        "description": "Marker type, one is simple mode, which is just an icon and does not require `markerPopup` configuration; the other is image mode, which displays location photos and requires `markerPopup` configuration. Among them, `width`/`height`/`borderRadius` can be combined to realize rectangular photos and square photos. In addition, when `borderRadius` is half of the width and height, it can also be a circular photo."
+       },
+       "width": {
+        "type": "number",
+        "default": 1600,
+        "description": "Set the width of map, default is 1600."
+       },
+       "height": {
+        "type": "number",
+        "default": 1000,
+        "description": "Set the height of map, default is 1000."
+       }
+      },
+      "required": [
+       "title",
+       "data"
+      ],
+      "$schema": "http://json-schema.org/draft-07/schema#"
+     }
+    },
+    {
+     "name": "generate_radar_chart",
+     "description": "Generate a radar chart to display multidimensional data (four dimensions or more), such as, evaluate Huawei and Apple phones in terms of five dimensions: ease of use, functionality, camera, benchmark scores, and battery life.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "data": {
+        "type": "array",
+        "items": {
+         "type": "object",
+         "properties": {
+          "name": {
+           "type": "string"
+          },
+          "value": {
+           "type": "number"
+          },
+          "group": {
+           "type": "string"
+          }
+         },
+         "required": [
+          "name",
+          "value"
+         ]
+        },
+        "minItems": 1,
+        "description": "Data for radar chart, such as, [{ name: 'Design', value: 70 }]."
+       },
+       "theme": {
+        "type": "string",
+        "enum": [
+         "default",
+         "academy"
+        ],
+        "default": "default",
+        "description": "Set the theme for the chart, optional, default is 'default'."
+       },
+       "width": {
+        "type": "number",
+        "default": 600,
+        "description": "Set the width of chart, default is 600."
+       },
+       "height": {
+        "type": "number",
+        "default": 400,
+        "description": "Set the height of chart, default is 400."
+       },
+       "title": {
+        "type": "string",
+        "default": "",
+        "description": "Set the title of chart."
+       }
+      },
+      "required": [
+       "data"
+      ],
+      "$schema": "http://json-schema.org/draft-07/schema#"
+     }
+    },
+    {
+     "name": "generate_sankey_chart",
+     "description": "Generate a sankey chart to visualize the flow of data between different stages or categories, such as, the user journey from landing on a page to completing a purchase.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "data": {
+        "type": "array",
+        "items": {
+         "type": "object",
+         "properties": {
+          "source": {
+           "type": "string"
+          },
+          "target": {
+           "type": "string"
+          },
+          "value": {
+           "type": "number"
+          }
+         },
+         "required": [
+          "source",
+          "target",
+          "value"
+         ]
+        },
+        "minItems": 1,
+        "description": "Date for sankey chart, such as, [{ source: 'Landing Page', target: 'Product Page', value: 50000 }, { source: 'Product Page', target: 'Add to Cart', value: 35000 }, { source: 'Add to Cart', target: 'Checkout', value: 25000 }, { source: 'Checkout', target: 'Payment', value: 15000 }, { source: 'Payment', target: 'Purchase Completed', value: 8000 }]."
+       },
+       "nodeAlign": {
+        "type": "string",
+        "enum": [
+         "left",
+         "right",
+         "justify",
+         "center"
+        ],
+        "default": "center",
+        "description": "Alignment of nodes in the sankey chart, such as, 'left', 'right', 'justify', or 'center'."
+       },
+       "theme": {
+        "type": "string",
+        "enum": [
+         "default",
+         "academy"
+        ],
+        "default": "default",
+        "description": "Set the theme for the chart, optional, default is 'default'."
+       },
+       "width": {
+        "type": "number",
+        "default": 600,
+        "description": "Set the width of chart, default is 600."
+       },
+       "height": {
+        "type": "number",
+        "default": 400,
+        "description": "Set the height of chart, default is 400."
+       },
+       "title": {
+        "type": "string",
+        "default": "",
+        "description": "Set the title of chart."
+       }
+      },
+      "required": [
+       "data"
+      ],
+      "$schema": "http://json-schema.org/draft-07/schema#"
+     }
+    },
+    {
+     "name": "generate_scatter_chart",
+     "description": "Generate a scatter chart to show the relationship between two variables, helps discover their relationship or trends, such as, the strength of correlation, data distribution patterns.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "data": {
+        "type": "array",
+        "items": {
+         "type": "object",
+         "properties": {
+          "x": {
+           "type": "number"
+          },
+          "y": {
+           "type": "number"
+          }
+         },
+         "required": [
+          "x",
+          "y"
+         ]
+        },
+        "minItems": 1,
+        "description": "Data for scatter chart, such as, [{ x: 10, y: 15 }]."
+       },
+       "theme": {
+        "type": "string",
+        "enum": [
+         "default",
+         "academy"
+        ],
+        "default": "default",
+        "description": "Set the theme for the chart, optional, default is 'default'."
+       },
+       "width": {
+        "type": "number",
+        "default": 600,
+        "description": "Set the width of chart, default is 600."
+       },
+       "height": {
+        "type": "number",
+        "default": 400,
+        "description": "Set the height of chart, default is 400."
+       },
+       "title": {
+        "type": "string",
+        "default": "",
+        "description": "Set the title of chart."
+       },
+       "axisXTitle": {
+        "type": "string",
+        "default": "",
+        "description": "Set the x-axis title of chart."
+       },
+       "axisYTitle": {
+        "type": "string",
+        "default": "",
+        "description": "Set the y-axis title of chart."
+       }
+      },
+      "required": [
+       "data"
+      ],
+      "$schema": "http://json-schema.org/draft-07/schema#"
+     }
+    },
+    {
+     "name": "generate_treemap_chart",
+     "description": "Generate a treemap chart to display hierarchical data and can intuitively show comparisons between items at the same level, such as, show disk space usage with treemap.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "data": {
+        "type": "array",
+        "items": {
+         "type": "object",
+         "properties": {
+          "name": {
+           "type": "string"
+          },
+          "value": {
+           "type": "number"
+          },
+          "children": {
+           "type": "array",
+           "items": {
+            "$ref": "#/properties/data/items"
+           }
+          }
+         },
+         "required": [
+          "name",
+          "value"
+         ]
+        },
+        "minItems": 1,
+        "description": "Data for treemap chart, such as, [{ name: 'Design', value: 70, children: [{ name: 'Tech', value: 20 }] }]."
+       },
+       "theme": {
+        "type": "string",
+        "enum": [
+         "default",
+         "academy"
+        ],
+        "default": "default",
+        "description": "Set the theme for the chart, optional, default is 'default'."
+       },
+       "width": {
+        "type": "number",
+        "default": 600,
+        "description": "Set the width of chart, default is 600."
+       },
+       "height": {
+        "type": "number",
+        "default": 400,
+        "description": "Set the height of chart, default is 400."
+       },
+       "title": {
+        "type": "string",
+        "default": "",
+        "description": "Set the title of chart."
+       }
+      },
+      "required": [
+       "data"
+      ],
+      "$schema": "http://json-schema.org/draft-07/schema#"
+     }
+    },
+    {
+     "name": "generate_venn_chart",
+     "description": "Generate a Venn diagram to visualize the relationships between different sets, showing how they intersect and overlap, such as the commonalities and differences between various groups.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "data": {
+        "type": "array",
+        "items": {
+         "type": "object",
+         "properties": {
+          "label": {
+           "type": "string",
+           "description": "Label for the venn chart segment, such as 'A', 'B', or 'C'."
+          },
+          "value": {
+           "type": "number",
+           "description": "Value for the venn chart segment, such as 10, 20, or 30."
+          },
+          "sets": {
+           "type": "array",
+           "items": {
+            "type": "string"
+           },
+           "description": "Array of set names that this segment belongs to, such as ['A', 'B'] for an intersection between sets A and B."
+          }
+         },
+         "required": [
+          "value",
+          "sets"
+         ]
+        },
+        "minItems": 1,
+        "description": "Data for venn chart, such as, [{ label: 'A', value: 10, sets: ['A'] }, { label: 'B', value: 20, sets: ['B'] }, { label: 'C', value: 30, sets: ['C'] }, { label: 'AB', value: 5, sets: ['A', 'B'] }]."
+       },
+       "theme": {
+        "type": "string",
+        "enum": [
+         "default",
+         "academy"
+        ],
+        "default": "default",
+        "description": "Set the theme for the chart, optional, default is 'default'."
+       },
+       "width": {
+        "type": "number",
+        "default": 600,
+        "description": "Set the width of chart, default is 600."
+       },
+       "height": {
+        "type": "number",
+        "default": 400,
+        "description": "Set the height of chart, default is 400."
+       },
+       "title": {
+        "type": "string",
+        "default": "",
+        "description": "Set the title of chart."
+       }
+      },
+      "required": [
+       "data"
+      ],
+      "$schema": "http://json-schema.org/draft-07/schema#"
+     }
+    },
+    {
+     "name": "generate_violin_chart",
+     "description": "Generate a violin chart to show data for statistical summaries among different categories, such as, comparing the distribution of data points across categories.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "data": {
+        "type": "array",
+        "items": {
+         "type": "object",
+         "properties": {
+          "category": {
+           "type": "string",
+           "description": "Category of the data point, such as '\u5206\u7c7b\u4e00'."
+          },
+          "value": {
+           "type": "number",
+           "description": "Value of the data point, such as 10."
+          },
+          "group": {
+           "type": "string",
+           "description": "Optional group for the data point, used for grouping in the violin chart."
+          }
+         },
+         "required": [
+          "category",
+          "value"
+         ]
+        },
+        "minItems": 1,
+        "description": "Data for violin chart, such as, [{ category: '\u5206\u7c7b\u4e00', value: 10 }] or [{ category: '\u5206\u7c7b\u4e8c', value: 20, group: '\u7ec4\u522b\u4e00' }]."
+       },
+       "theme": {
+        "type": "string",
+        "enum": [
+         "default",
+         "academy"
+        ],
+        "default": "default",
+        "description": "Set the theme for the chart, optional, default is 'default'."
+       },
+       "width": {
+        "type": "number",
+        "default": 600,
+        "description": "Set the width of chart, default is 600."
+       },
+       "height": {
+        "type": "number",
+        "default": 400,
+        "description": "Set the height of chart, default is 400."
+       },
+       "title": {
+        "type": "string",
+        "default": "",
+        "description": "Set the title of chart."
+       },
+       "axisXTitle": {
+        "type": "string",
+        "default": "",
+        "description": "Set the x-axis title of chart."
+       },
+       "axisYTitle": {
+        "type": "string",
+        "default": "",
+        "description": "Set the y-axis title of chart."
+       }
+      },
+      "required": [
+       "data"
+      ],
+      "$schema": "http://json-schema.org/draft-07/schema#"
+     }
+    },
+    {
+     "name": "generate_word_cloud_chart",
+     "description": "Generate a word cloud chart to show word frequency or weight through text size variation, such as, analyzing common words in social media, reviews, or feedback.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "data": {
+        "type": "array",
+        "items": {
+         "type": "object",
+         "properties": {
+          "text": {
+           "type": "string"
+          },
+          "value": {
+           "type": "number"
+          }
+         },
+         "required": [
+          "text",
+          "value"
+         ]
+        },
+        "minItems": 1,
+        "description": "Data for word cloud chart, such as, [{ value: 4.272, text: '\u5f62\u6210' }]."
+       },
+       "theme": {
+        "type": "string",
+        "enum": [
+         "default",
+         "academy"
+        ],
+        "default": "default",
+        "description": "Set the theme for the chart, optional, default is 'default'."
+       },
+       "width": {
+        "type": "number",
+        "default": 600,
+        "description": "Set the width of chart, default is 600."
+       },
+       "height": {
+        "type": "number",
+        "default": 400,
+        "description": "Set the height of chart, default is 400."
+       },
+       "title": {
+        "type": "string",
+        "default": "",
+        "description": "Set the title of chart."
+       }
+      },
+      "required": [
+       "data"
+      ],
+      "$schema": "http://json-schema.org/draft-07/schema#"
+     }
+    }
+   ]
+  },
+  {
+   "id": "okppt",
+   "name": "MCP OKPPT Server",
+   "server": "mcp://okppt",
+   "summary": "\u4e00\u4e2a\u57fa\u4e8eModel Context Protocol (MCP)\u7684\u670d\u52a1\u5668\u5de5\u5177\uff0c\u4e13\u95e8\u7528\u4e8e\u5c06SVG\u56fe\u50cf\u63d2\u5165\u5230PowerPoint\u6f14\u793a\u6587\u7a3f\u4e2d\u3002\u5b83\u80fd\u591f\u4fdd\u7559SVG\u7684\u77e2\u91cf\u7279\u6027\uff0c\u786e\u4fdd\u5728PowerPoint\u4e2d\u663e\u793a\u7684\u56fe\u50cf\u4fdd\u6301\u9ad8\u54c1\u8d28\u548c\u53ef\u7f29\u653e\u6027\u3002",
+   "tools": [
+    {
+     "name": "insert_svg",
+     "description": "\u5c06SVG\u56fe\u50cf\u63d2\u5165\u5230PPTX\u6587\u4ef6\u7684\u6307\u5b9a\u4f4d\u7f6e\u3002(\u5982\u679c\u9700\u8981\u66ff\u6362\u5df2\u6709\u7684\u5e7b\u706f\u7247\uff0c\u8bf7\u7ec4\u5408\u4f7f\u7528`delete_slide`\u548c`insert_blank_slide`\u529f\u80fd)\n\u5982\u679c\u672a\u63d0\u4f9bPPTX\u8def\u5f84\uff0c\u5c06\u81ea\u52a8\u521b\u5efa\u4e00\u4e2a\u4e34\u65f6\u6587\u4ef6\uff0c\u4f4d\u4e8e\u670d\u52a1\u5668\u540c\u7ea7\u76ee\u5f55\u7684tmp\u76ee\u5f55\u3002\n\u5982\u679c\u672a\u63d0\u4f9b\u8f93\u51fa\u8def\u5f84\uff0c\u5c06\u4f7f\u7528\u6807\u51c6\u8f93\u51fa\u76ee\u5f55\uff0c\u4f4d\u4e8e\u670d\u52a1\u5668\u540c\u7ea7\u76ee\u5f55\u7684output\u76ee\u5f55\u3002\n\u5982\u679c\u672a\u63d0\u4f9b\u5750\u6807\uff0c\u9ed8\u8ba4\u5bf9\u9f50\u5e7b\u706f\u7247\u5de6\u4e0a\u89d2\u3002\n\u5982\u679c\u672a\u63d0\u4f9b\u5bbd\u5ea6\u548c\u9ad8\u5ea6\uff0c\u9ed8\u8ba4\u8986\u76d6\u6574\u4e2a\u5e7b\u706f\u7247\uff0816:9\uff09\u3002\n\n\u652f\u6301\u6279\u91cf\u5904\u7406\uff1a\n- \u5982\u679csvg_path\u662f\u5355\u4e2a\u5b57\u7b26\u4e32\u6570\u7ec4\uff0c\u5219\u5c06SVG\u6dfb\u52a0\u5230slide_number\u6307\u5b9a\u7684\u9875\u9762\n- \u5982\u679csvg_path\u662f\u5217\u8868\uff0c\u5219\u4eceslide_number\u5f00\u59cb\u987a\u5e8f\u6dfb\u52a0\u6bcf\u4e2aSVG\uff0c\u5373\u7b2c\u4e00\u4e2aSVG\u6dfb\u52a0\u5230\n  slide_number\u9875\uff0c\u7b2c\u4e8c\u4e2a\u6dfb\u52a0\u5230slide_number+1\u9875\uff0c\u4f9d\u6b64\u7c7b\u63a8\n\nArgs:\n    pptx_path: PPTX\u6587\u4ef6\u8def\u5f84\uff0c\u5982\u679c\u672a\u63d0\u4f9b\u5219\u81ea\u52a8\u521b\u5efa\u4e00\u4e2a\u4e34\u65f6\u6587\u4ef6\uff0c\u6700\u597d\u4f7f\u7528\u82f1\u6587\u8def\u5f84\n    svg_path: SVG\u6587\u4ef6\u8def\u5f84\u6216SVG\u6587\u4ef6\u8def\u5f84\u5217\u8868\uff0c\u6700\u597d\u4f7f\u7528\u82f1\u6587\u8def\u5f84\n    slide_number: \u8d77\u59cb\u5e7b\u706f\u7247\u7f16\u53f7\uff08\u4ece1\u5f00\u59cb\uff09\n    x_inches: X\u5750\u6807\uff08\u82f1\u5bf8\uff09\uff0c\u5982\u679c\u672a\u6307\u5b9a\u5219\u9ed8\u8ba4\u4e3a0\n    y_inches: Y\u5750\u6807\uff08\u82f1\u5bf8\uff09\uff0c\u5982\u679c\u672a\u6307\u5b9a\u5219\u9ed8\u8ba4\u4e3a0\n    width_inches: \u5bbd\u5ea6\uff08\u82f1\u5bf8\uff09\uff0c\u5982\u679c\u672a\u6307\u5b9a\u5219\u4f7f\u7528\u5e7b\u706f\u7247\u5bbd\u5ea6\n    height_inches: \u9ad8\u5ea6\uff08\u82f1\u5bf8\uff09\uff0c\u5982\u679c\u672a\u6307\u5b9a\u5219\u6839\u636e\u5bbd\u5ea6\u8ba1\u7b97\u6216\u4f7f\u7528\u5e7b\u706f\u7247\u9ad8\u5ea6\n    output_path: \u8f93\u51fa\u6587\u4ef6\u8def\u5f84\uff0c\u5982\u679c\u672a\u6307\u5b9a\u5219\u4f7f\u7528\u6807\u51c6\u8f93\u51fa\u76ee\u5f55\n    create_if_not_exists: \u5982\u679c\u4e3aTrue\u4e14PPTX\u6587\u4ef6\u4e0d\u5b58\u5728\uff0c\u5c06\u81ea\u52a8\u521b\u5efa\u4e00\u4e2a\u65b0\u6587\u4ef6\n    \nReturns:\n    \u64cd\u4f5c\u7ed3\u679c\u6d88\u606f\uff0c\u5305\u542b\u8be6\u7ec6\u7684\u9519\u8bef\u4fe1\u606f\uff08\u5982\u679c\u6709\uff09",
+     "input_schema": {
+      "properties": {
+       "pptx_path": {
+        "title": "Pptx Path",
+        "type": "string"
+       },
+       "svg_path": {
+        "items": {
+         "type": "string"
+        },
+        "title": "Svg Path",
+        "type": "array"
+       },
+       "slide_number": {
+        "default": 1,
+        "title": "Slide Number",
+        "type": "integer"
+       },
+       "x_inches": {
+        "default": 0,
+        "title": "X Inches",
+        "type": "number"
+       },
+       "y_inches": {
+        "default": 0,
+        "title": "Y Inches",
+        "type": "number"
+       },
+       "width_inches": {
+        "default": 16,
+        "title": "Width Inches",
+        "type": "number"
+       },
+       "height_inches": {
+        "default": 9,
+        "title": "Height Inches",
+        "type": "number"
+       },
+       "output_path": {
+        "default": "",
+        "title": "Output Path",
+        "type": "string"
+       },
+       "create_if_not_exists": {
+        "default": true,
+        "title": "Create If Not Exists",
+        "type": "boolean"
+       }
+      },
+      "required": [
+       "pptx_path",
+       "svg_path"
+      ],
+      "title": "insert_svgArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "list_files",
+     "description": "\u5217\u51fa\u76ee\u5f55\u4e2d\u7684\u6587\u4ef6\uff0c\u53ef\u9009\u6309\u6587\u4ef6\u7c7b\u578b\u8fc7\u6ee4\u3002\n\u5982\u9700\u67e5\u770bsvg\u6587\u4ef6\u662f\u5426\u6b63\u786e\u4fdd\u5b58\uff0c\u8bf7\u8f93\u5165svg\u6587\u4ef6\u7684\u4fdd\u5b58\u8def\u5f84\u3002\nArgs:\n    directory: \u8981\u5217\u51fa\u6587\u4ef6\u7684\u76ee\u5f55\u8def\u5f84\n    file_type: \u6587\u4ef6\u7c7b\u578b\u8fc7\u6ee4\uff0c\u53ef\u4ee5\u662f \"svg\" \u6216 \"pptx\"\n    \nReturns:\n    \u6587\u4ef6\u5217\u8868\uff08\u6bcf\u884c\u4e00\u4e2a\u6587\u4ef6\uff09",
+     "input_schema": {
+      "properties": {
+       "directory": {
+        "default": ".",
+        "title": "Directory",
+        "type": "string"
+       },
+       "file_type": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "File Type"
+       }
+      },
+      "title": "list_filesArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "get_file_info",
+     "description": "\u83b7\u53d6\u6587\u4ef6\u4fe1\u606f\uff0c\u5982\u5b58\u5728\u72b6\u6001\u3001\u5927\u5c0f\u7b49\u3002\n\nArgs:\n    file_path: \u8981\u67e5\u8be2\u7684\u6587\u4ef6\u8def\u5f84\n    \nReturns:\n    \u6587\u4ef6\u4fe1\u606f",
+     "input_schema": {
+      "properties": {
+       "file_path": {
+        "title": "File Path",
+        "type": "string"
+       }
+      },
+      "required": [
+       "file_path"
+      ],
+      "title": "get_file_infoArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "convert_svg_to_png",
+     "description": "\u5c06SVG\u6587\u4ef6\u8f6c\u6362\u4e3aPNG\u56fe\u50cf\u3002\n\nArgs:\n    svg_path: SVG\u6587\u4ef6\u8def\u5f84\n    output_path: \u8f93\u51faPNG\u6587\u4ef6\u8def\u5f84\uff0c\u5982\u679c\u672a\u6307\u5b9a\u5219\u4f7f\u7528\u76f8\u540c\u6587\u4ef6\u540d\u4f46\u6269\u5c55\u540d\u4e3a.png\n    \nReturns:\n    \u64cd\u4f5c\u7ed3\u679c\u6d88\u606f",
+     "input_schema": {
+      "properties": {
+       "svg_path": {
+        "title": "Svg Path",
+        "type": "string"
+       },
+       "output_path": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Output Path"
+       }
+      },
+      "required": [
+       "svg_path"
+      ],
+      "title": "convert_svg_to_pngArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "get_pptx_info",
+     "description": "\u83b7\u53d6PPTX\u6587\u4ef6\u7684\u57fa\u672c\u4fe1\u606f\uff0c\u5305\u62ec\u5e7b\u706f\u7247\u6570\u91cf\u3002\n\nArgs:\n    pptx_path: PPTX\u6587\u4ef6\u8def\u5f84\n    \nReturns:\n    \u5305\u542b\u6587\u4ef6\u4fe1\u606f\u548c\u5e7b\u706f\u7247\u6570\u91cf\u7684\u5b57\u7b26\u4e32",
+     "input_schema": {
+      "properties": {
+       "pptx_path": {
+        "title": "Pptx Path",
+        "type": "string"
+       }
+      },
+      "required": [
+       "pptx_path"
+      ],
+      "title": "get_pptx_infoArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "save_svg_code",
+     "description": "\u5c06SVG\u4ee3\u7801\u4fdd\u5b58\u4e3aSVG\u6587\u4ef6\u5e76\u8fd4\u56de\u4fdd\u5b58\u7684\u7edd\u5bf9\u8def\u5f84\u3002\n!!!\u6ce8\u610f\uff1a\u7279\u6b8a\u5b57\u7b26\u5982\"&\"\u9700\u8981\u8f6c\u4e49\u4e3a\"&amp;\"\nArgs:\n    svg_code: SVG\u4ee3\u7801\u5185\u5bb9\n    \nReturns:\n    \u64cd\u4f5c\u7ed3\u679c\u6d88\u606f\uff0c\u5305\u542b\u4fdd\u5b58\u7684\u6587\u4ef6\u8def\u5f84\u6216\u9519\u8bef\u4fe1\u606f",
+     "input_schema": {
+      "properties": {
+       "svg_code": {
+        "title": "Svg Code",
+        "type": "string"
+       }
+      },
+      "required": [
+       "svg_code"
+      ],
+      "title": "save_svg_codeArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "delete_slide",
+     "description": "\u4ecePPTX\u6587\u4ef6\u4e2d\u5220\u9664\u6307\u5b9a\u7f16\u53f7\u7684\u5e7b\u706f\u7247\u3002\n\n!!!\u6ce8\u610f\uff1a\n\n\u5728\u4f7f\u7528SVG\u66ff\u6362PPT\u5e7b\u706f\u7247\u5185\u5bb9\u65f6\uff0c\u6211\u4eec\u53d1\u73b0\u4e86\u4e00\u4e9b\u5173\u952e\u70b9\uff0c\u4ee5\u4e0b\u662f\u6b63\u786e\u66ff\u6362PPT\u5185\u5bb9\u7684\u65b9\u6cd5\u603b\u7ed3\uff1a\n\n### \u6b63\u786e\u66ff\u6362PPT\u5185\u5bb9\u7684\u65b9\u6cd5\n\n1. **\u5b8c\u5168\u66ff\u6362\u6cd5**\uff08\u6700\u53ef\u9760\uff09\uff1a\n- \u5220\u9664\u9700\u8981\u66ff\u6362\u7684\u5e7b\u706f\u7247\uff08\u4f7f\u7528`delete_slide`\u529f\u80fd\uff09\n- \u5728\u540c\u4e00\u4f4d\u7f6e\u63d2\u5165\u7a7a\u767d\u5e7b\u706f\u7247\uff08\u4f7f\u7528`insert_blank_slide`\u529f\u80fd\uff09\n- \u5c06\u65b0\u7684SVG\u5185\u5bb9\u63d2\u5165\u5230\u7a7a\u767d\u5e7b\u706f\u7247\uff08\u4f7f\u7528`insert_svg`\u529f\u80fd\uff09\n\n2. **\u65b0\u6587\u4ef6\u6cd5**\uff08\u9002\u5408\u591a\u9875\u4fee\u6539\uff09\uff1a\n- \u521b\u5efa\u5168\u65b0\u7684PPT\u6587\u4ef6\n- \u5c06\u6240\u6709\u9700\u8981\u7684SVG\uff08\u5305\u62ec\u5df2\u4fee\u6539\u7684\uff09\u6309\u987a\u5e8f\u63d2\u5165\u5230\u65b0\u6587\u4ef6\u4e2d\n- \u8fd9\u6837\u53ef\u4ee5\u907f\u514d\u5728\u65e7\u6587\u4ef6\u4e0a\u64cd\u4f5c\u5bfc\u81f4\u7684\u6df7\u6dc6\u548c\u53e0\u52a0\u95ee\u9898\n\n3. **\u6ce8\u610f\u4e8b\u9879**\uff1a\n- \u76f4\u63a5\u5bf9\u73b0\u6709\u5e7b\u706f\u7247\u63d2\u5165SVG\u4f1a\u5bfc\u81f4\u65b0\u5185\u5bb9\u53e0\u52a0\u5728\u539f\u5185\u5bb9\u4e0a\uff0c\u800c\u975e\u66ff\u6362\n- \u6587\u4ef6\u540d\u53ef\u80fd\u4f1a\u968f\u7740\u591a\u6b21\u64cd\u4f5c\u53d8\u5f97\u8fc7\u957f\uff0c\u5f71\u54cd\u53ef\u8bfb\u6027\n- \u6279\u91cf\u63d2\u5165SVG\u65f6\uff0c`svg_path`\u53c2\u6570\u5fc5\u987b\u662f\u6570\u7ec4\u5f62\u5f0f\uff0c\u5373\u4f7f\u53ea\u6709\u4e00\u4e2a\u6587\u4ef6\n- \u64cd\u4f5c\u540e\u5e94\u68c0\u67e5\u8f93\u51fa\u6587\u4ef6\u4ee5\u786e\u8ba4\u4fee\u6539\u662f\u5426\u6210\u529f\n\n### \u63a8\u8350\u5de5\u4f5c\u6d41\n\n1. \u5148\u4fdd\u5b58\u4fee\u6539\u540e\u7684SVG\u5185\u5bb9\u5230\u6587\u4ef6\n2. \u521b\u5efa\u4e00\u4e2a\u5168\u65b0\u7684PPT\u6587\u4ef6\n3. \u6309\u987a\u5e8f\u4e00\u6b21\u6027\u63d2\u5165\u6240\u6709SVG\uff08\u5305\u62ec\u5df2\u4fee\u6539\u548c\u672a\u4fee\u6539\u7684\uff09\n4. \u4f7f\u7528\u7b80\u6d01\u76f4\u89c2\u7684\u6587\u4ef6\u540d\n\n\u8fd9\u79cd\u65b9\u6cd5\u907f\u514d\u4e86\u591a\u6b65\u9aa4\u64cd\u4f5c\u5bfc\u81f4\u7684\u6587\u4ef6\u6df7\u4e71\uff0c\u4e5f\u80fd\u786e\u4fdd\u6bcf\u5f20\u5e7b\u706f\u7247\u90fd\u662f\u5e72\u51c0\u7684\u3001\u4e0d\u5305\u542b\u53e0\u52a0\u5185\u5bb9\u7684\u3002\n\nArgs:\n    pptx_path: PPTX\u6587\u4ef6\u8def\u5f84\n    slide_number: \u8981\u5220\u9664\u7684\u5e7b\u706f\u7247\u7f16\u53f7\uff08\u4ece1\u5f00\u59cb\uff09\n    output_path: \u8f93\u51fa\u6587\u4ef6\u8def\u5f84\uff0c\u5982\u679c\u672a\u6307\u5b9a\u5219\u4f7f\u7528\u6807\u51c6\u8f93\u51fa\u76ee\u5f55\n    \nReturns:\n    \u64cd\u4f5c\u7ed3\u679c\u6d88\u606f",
+     "input_schema": {
+      "properties": {
+       "pptx_path": {
+        "title": "Pptx Path",
+        "type": "string"
+       },
+       "slide_number": {
+        "title": "Slide Number",
+        "type": "integer"
+       },
+       "output_path": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Output Path"
+       }
+      },
+      "required": [
+       "pptx_path",
+       "slide_number"
+      ],
+      "title": "delete_slideArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "insert_blank_slide",
+     "description": "\u5728PPTX\u6587\u4ef6\u7684\u6307\u5b9a\u4f4d\u7f6e\u63d2\u5165\u4e00\u4e2a\u7a7a\u767d\u5e7b\u706f\u7247\u3002\n\n!!!\u6ce8\u610f\uff1a\n\n\u5728\u4f7f\u7528SVG\u66ff\u6362PPT\u5e7b\u706f\u7247\u5185\u5bb9\u65f6\uff0c\u6211\u4eec\u53d1\u73b0\u4e86\u4e00\u4e9b\u5173\u952e\u70b9\uff0c\u4ee5\u4e0b\u662f\u6b63\u786e\u66ff\u6362PPT\u5185\u5bb9\u7684\u65b9\u6cd5\u603b\u7ed3\uff1a\n\n### \u6b63\u786e\u66ff\u6362PPT\u5185\u5bb9\u7684\u65b9\u6cd5\n\n1. **\u5b8c\u5168\u66ff\u6362\u6cd5**\uff08\u6700\u53ef\u9760\uff09\uff1a\n- \u5220\u9664\u9700\u8981\u66ff\u6362\u7684\u5e7b\u706f\u7247\uff08\u4f7f\u7528`delete_slide`\u529f\u80fd\uff09\n- \u5728\u540c\u4e00\u4f4d\u7f6e\u63d2\u5165\u7a7a\u767d\u5e7b\u706f\u7247\uff08\u4f7f\u7528`insert_blank_slide`\u529f\u80fd\uff09\n- \u5c06\u65b0\u7684SVG\u5185\u5bb9\u63d2\u5165\u5230\u7a7a\u767d\u5e7b\u706f\u7247\uff08\u4f7f\u7528`insert_svg`\u529f\u80fd\uff09\n\n2. **\u65b0\u6587\u4ef6\u6cd5**\uff08\u9002\u5408\u591a\u9875\u4fee\u6539\uff09\uff1a\n- \u521b\u5efa\u5168\u65b0\u7684PPT\u6587\u4ef6\n- \u5c06\u6240\u6709\u9700\u8981\u7684SVG\uff08\u5305\u62ec\u5df2\u4fee\u6539\u7684\uff09\u6309\u987a\u5e8f\u63d2\u5165\u5230\u65b0\u6587\u4ef6\u4e2d\n- \u8fd9\u6837\u53ef\u4ee5\u907f\u514d\u5728\u65e7\u6587\u4ef6\u4e0a\u64cd\u4f5c\u5bfc\u81f4\u7684\u6df7\u6dc6\u548c\u53e0\u52a0\u95ee\u9898\n\n3. **\u6ce8\u610f\u4e8b\u9879**\uff1a\n- \u76f4\u63a5\u5bf9\u73b0\u6709\u5e7b\u706f\u7247\u63d2\u5165SVG\u4f1a\u5bfc\u81f4\u65b0\u5185\u5bb9\u53e0\u52a0\u5728\u539f\u5185\u5bb9\u4e0a\uff0c\u800c\u975e\u66ff\u6362\n- \u6587\u4ef6\u540d\u53ef\u80fd\u4f1a\u968f\u7740\u591a\u6b21\u64cd\u4f5c\u53d8\u5f97\u8fc7\u957f\uff0c\u5f71\u54cd\u53ef\u8bfb\u6027\n- \u6279\u91cf\u63d2\u5165SVG\u65f6\uff0c`svg_path`\u53c2\u6570\u5fc5\u987b\u662f\u6570\u7ec4\u5f62\u5f0f\uff0c\u5373\u4f7f\u53ea\u6709\u4e00\u4e2a\u6587\u4ef6\n- \u64cd\u4f5c\u540e\u5e94\u68c0\u67e5\u8f93\u51fa\u6587\u4ef6\u4ee5\u786e\u8ba4\u4fee\u6539\u662f\u5426\u6210\u529f\n\n### \u63a8\u8350\u5de5\u4f5c\u6d41\n\n1. \u5148\u4fdd\u5b58\u4fee\u6539\u540e\u7684SVG\u5185\u5bb9\u5230\u6587\u4ef6\n2. \u521b\u5efa\u4e00\u4e2a\u5168\u65b0\u7684PPT\u6587\u4ef6\n3. \u6309\u987a\u5e8f\u4e00\u6b21\u6027\u63d2\u5165\u6240\u6709SVG\uff08\u5305\u62ec\u5df2\u4fee\u6539\u548c\u672a\u4fee\u6539\u7684\uff09\n4. \u4f7f\u7528\u7b80\u6d01\u76f4\u89c2\u7684\u6587\u4ef6\u540d\n\n\u8fd9\u79cd\u65b9\u6cd5\u907f\u514d\u4e86\u591a\u6b65\u9aa4\u64cd\u4f5c\u5bfc\u81f4\u7684\u6587\u4ef6\u6df7\u4e71\uff0c\u4e5f\u80fd\u786e\u4fdd\u6bcf\u5f20\u5e7b\u706f\u7247\u90fd\u662f\u5e72\u51c0\u7684\u3001\u4e0d\u5305\u542b\u53e0\u52a0\u5185\u5bb9\u7684\u3002\n\nArgs:\n    pptx_path: PPTX\u6587\u4ef6\u8def\u5f84\n    slide_number: \u8981\u63d2\u5165\u5e7b\u706f\u7247\u7684\u4f4d\u7f6e\u7f16\u53f7\uff08\u4ece1\u5f00\u59cb\uff09\n    layout_index: \u5e7b\u706f\u7247\u5e03\u5c40\u7d22\u5f15\uff0c\u9ed8\u8ba4\u4e3a6\uff08\u7a7a\u767d\u5e03\u5c40\uff09\n    output_path: \u8f93\u51fa\u6587\u4ef6\u8def\u5f84\uff0c\u5982\u679c\u672a\u6307\u5b9a\u5219\u4f7f\u7528\u6807\u51c6\u8f93\u51fa\u76ee\u5f55\n    create_if_not_exists: \u5982\u679c\u4e3aTrue\u4e14PPTX\u6587\u4ef6\u4e0d\u5b58\u5728\uff0c\u5c06\u81ea\u52a8\u521b\u5efa\u4e00\u4e2a\u65b0\u6587\u4ef6\n    \nReturns:\n    \u64cd\u4f5c\u7ed3\u679c\u6d88\u606f",
+     "input_schema": {
+      "properties": {
+       "pptx_path": {
+        "title": "Pptx Path",
+        "type": "string"
+       },
+       "slide_number": {
+        "title": "Slide Number",
+        "type": "integer"
+       },
+       "layout_index": {
+        "default": 6,
+        "title": "Layout Index",
+        "type": "integer"
+       },
+       "output_path": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Output Path"
+       },
+       "create_if_not_exists": {
+        "default": true,
+        "title": "Create If Not Exists",
+        "type": "boolean"
+       }
+      },
+      "required": [
+       "pptx_path",
+       "slide_number"
+      ],
+      "title": "insert_blank_slideArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "copy_svg_slide",
+     "description": "\u4e13\u95e8\u7528\u4e8e\u590d\u5236\u5305\u542bSVG\u56fe\u50cf\u7684\u5e7b\u706f\u7247\uff0c\u786e\u4fddSVG\u548c\u76f8\u5173\u5f15\u7528\u90fd\u88ab\u6b63\u786e\u590d\u5236\u3002\n\n\u6b64\u51fd\u6570\u4f7f\u7528\u76f4\u63a5\u64cd\u4f5cPPTX\u5185\u90e8XML\u6587\u4ef6\u7684\u65b9\u5f0f\uff0c\u786e\u4fddSVG\u56fe\u50cf\u53ca\u5176\u5f15\u7528\u5728\u590d\u5236\u8fc7\u7a0b\u4e2d\u5b8c\u5168\u4fdd\u7559\u3002\n\u4e0e\u666e\u901a\u7684copy_slide\u51fd\u6570\u76f8\u6bd4\uff0c\u6b64\u51fd\u6570\u7279\u522b\u5173\u6ce8SVG\u56fe\u50cf\u7684\u590d\u5236\uff0c\u4fdd\u8bc1SVG\u7684\u77e2\u91cf\u5c5e\u6027\u5728\u590d\u5236\u540e\u4f9d\u7136\u53ef\u7528\u3002\n\nArgs:\n    source_pptx_path: \u6e90PPTX\u6587\u4ef6\u8def\u5f84\n    target_pptx_path: \u76ee\u6807PPTX\u6587\u4ef6\u8def\u5f84\uff0c\u5982\u679c\u4e3a\u7a7a\u5219\u521b\u5efa\u65b0\u6587\u4ef6\n    source_slide_number: \u8981\u590d\u5236\u7684\u6e90\u5e7b\u706f\u7247\u9875\u7801\uff08\u4ece1\u5f00\u59cb\uff09\n    target_slide_number: \u8981\u63d2\u5165\u5230\u76ee\u6807\u6587\u4ef6\u7684\u4f4d\u7f6e\uff08\u4ece1\u5f00\u59cb\uff09\uff0c\u5982\u679c\u4e3aNone\u5219\u6dfb\u52a0\u5230\u672b\u5c3e\n    output_path: \u8f93\u51fa\u6587\u4ef6\u8def\u5f84\uff0c\u5982\u679c\u672a\u6307\u5b9a\u5219\u4f7f\u7528\u6807\u51c6\u8f93\u51fa\u76ee\u5f55\n    create_if_not_exists: \u5982\u679c\u4e3aTrue\u4e14\u76ee\u6807PPTX\u6587\u4ef6\u4e0d\u5b58\u5728\uff0c\u5c06\u81ea\u52a8\u521b\u5efa\u4e00\u4e2a\u65b0\u6587\u4ef6\n    \nReturns:\n    \u64cd\u4f5c\u7ed3\u679c\u6d88\u606f",
+     "input_schema": {
+      "properties": {
+       "source_pptx_path": {
+        "title": "Source Pptx Path",
+        "type": "string"
+       },
+       "target_pptx_path": {
+        "default": "",
+        "title": "Target Pptx Path",
+        "type": "string"
+       },
+       "source_slide_number": {
+        "default": 1,
+        "title": "Source Slide Number",
+        "type": "integer"
+       },
+       "target_slide_number": {
+        "anyOf": [
+         {
+          "type": "integer"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Target Slide Number"
+       },
+       "output_path": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Output Path"
+       },
+       "create_if_not_exists": {
+        "default": true,
+        "title": "Create If Not Exists",
+        "type": "boolean"
+       }
+      },
+      "required": [
+       "source_pptx_path"
+      ],
+      "title": "copy_svg_slideArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "svg_prompt",
+     "description": "\u4f7f\u7528SVG\u8bbe\u8ba1\u5b97\u5e08\u89d2\u8272\u63d0\u793a\uff0c\u5f53\u7528\u6237\u5e0c\u671b\u5927\u6a21\u578b\u751f\u6210\u6216\u4f18\u5316ppt\u65f6\uff0c\u4f7f\u7528\u6b64prompt\u5bf9\u7528\u6237\u9700\u6c42\u8fdb\u884c\u7ec6\u5316",
+     "input_schema": {
+      "properties": {
+       "source": {
+        "title": "Source",
+        "type": "string"
+       }
+      },
+      "required": [
+       "source"
+      ],
+      "title": "svg_promptArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "analyze_presentation_layouts",
+     "description": "Analyzes the layout details of a PowerPoint presentation and returns a JSON string of the analysis.",
+     "input_schema": {
+      "properties": {
+       "prs_path": {
+        "title": "Prs Path",
+        "type": "string"
+       },
+       "title": {
+        "default": "\u6f14\u793a\u6587\u7a3f",
+        "title": "Title",
+        "type": "string"
+       }
+      },
+      "required": [
+       "prs_path"
+      ],
+      "title": "analyze_presentation_layoutsArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "add_slide_with_layout",
+     "description": "Inserts a new slide with a specified layout into a presentation and returns a JSON string of the result.",
+     "input_schema": {
+      "properties": {
+       "prs_path": {
+        "title": "Prs Path",
+        "type": "string"
+       },
+       "layout_name": {
+        "title": "Layout Name",
+        "type": "string"
+       },
+       "output_path": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Output Path"
+       },
+       "slide_title": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Slide Title"
+       }
+      },
+      "required": [
+       "prs_path",
+       "layout_name"
+      ],
+      "title": "add_slide_with_layoutArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "clear_placeholders_from_slides",
+     "description": "Clears content from placeholders in specified slides of a presentation and returns a JSON string of the result.",
+     "input_schema": {
+      "properties": {
+       "prs_path": {
+        "title": "Prs Path",
+        "type": "string"
+       },
+       "output_path": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Output Path"
+       },
+       "slide_indices": {
+        "anyOf": [
+         {
+          "items": {
+           "type": "integer"
+          },
+          "type": "array"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Slide Indices"
+       }
+      },
+      "required": [
+       "prs_path"
+      ],
+      "title": "clear_placeholders_from_slidesArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "set_placeholder_value",
+     "description": "Assigns content to a specific placeholder on a specific slide and returns a JSON string of the result.",
+     "input_schema": {
+      "properties": {
+       "prs_path": {
+        "title": "Prs Path",
+        "type": "string"
+       },
+       "slide_idx": {
+        "title": "Slide Idx",
+        "type": "integer"
+       },
+       "placeholder_id": {
+        "title": "Placeholder Id",
+        "type": "integer"
+       },
+       "content_to_set": {
+        "title": "Content To Set",
+        "type": "string"
+       },
+       "output_path": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Output Path"
+       }
+      },
+      "required": [
+       "prs_path",
+       "slide_idx",
+       "placeholder_id",
+       "content_to_set"
+      ],
+      "title": "set_placeholder_valueArguments",
+      "type": "object"
+     }
+    }
+   ]
+  },
+  {
+   "id": "ppt",
+   "name": "Office-PowerPoint-MCP-Server",
+   "server": "mcp://ppt",
+   "summary": "A comprehensive MCP (Model Context Protocol) server for PowerPoint manipulation using python-pptx. Version 2.0 provides 32 powerful tools organized into 11 specialized modules, offering complete PowerPoint creation, management, and professional design capabilities. The server features a modular architecture with enhanced parameter handling, intelligent operation selection, and comprehensive error ",
+   "tools": [
+    {
+     "name": "create_presentation",
+     "description": "Create a new PowerPoint presentation.",
+     "input_schema": {
+      "properties": {
+       "id": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Id"
+       }
+      },
+      "title": "create_presentationArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "create_presentation_from_template",
+     "description": "Create a new PowerPoint presentation from a template file.",
+     "input_schema": {
+      "properties": {
+       "template_path": {
+        "title": "Template Path",
+        "type": "string"
+       },
+       "id": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Id"
+       }
+      },
+      "required": [
+       "template_path"
+      ],
+      "title": "create_presentation_from_templateArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "open_presentation",
+     "description": "Open an existing PowerPoint presentation from a file.",
+     "input_schema": {
+      "properties": {
+       "file_path": {
+        "title": "File Path",
+        "type": "string"
+       },
+       "id": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Id"
+       }
+      },
+      "required": [
+       "file_path"
+      ],
+      "title": "open_presentationArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "save_presentation",
+     "description": "Save a presentation to a file.",
+     "input_schema": {
+      "properties": {
+       "file_path": {
+        "title": "File Path",
+        "type": "string"
+       },
+       "presentation_id": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Presentation Id"
+       }
+      },
+      "required": [
+       "file_path"
+      ],
+      "title": "save_presentationArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "get_presentation_info",
+     "description": "Get information about a presentation.",
+     "input_schema": {
+      "properties": {
+       "presentation_id": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Presentation Id"
+       }
+      },
+      "title": "get_presentation_infoArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "get_template_file_info",
+     "description": "Get information about a template file including layouts and properties.",
+     "input_schema": {
+      "properties": {
+       "template_path": {
+        "title": "Template Path",
+        "type": "string"
+       }
+      },
+      "required": [
+       "template_path"
+      ],
+      "title": "get_template_file_infoArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "set_core_properties",
+     "description": "Set core document properties.",
+     "input_schema": {
+      "properties": {
+       "title": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Title"
+       },
+       "subject": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Subject"
+       },
+       "author": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Author"
+       },
+       "keywords": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Keywords"
+       },
+       "comments": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Comments"
+       },
+       "presentation_id": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Presentation Id"
+       }
+      },
+      "title": "set_core_propertiesArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "add_slide",
+     "description": "Add a new slide to the presentation with optional background styling.",
+     "input_schema": {
+      "properties": {
+       "layout_index": {
+        "default": 1,
+        "title": "Layout Index",
+        "type": "integer"
+       },
+       "title": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Title"
+       },
+       "background_type": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Background Type"
+       },
+       "background_colors": {
+        "anyOf": [
+         {
+          "items": {
+           "items": {
+            "type": "integer"
+           },
+           "type": "array"
+          },
+          "type": "array"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Background Colors"
+       },
+       "gradient_direction": {
+        "default": "horizontal",
+        "title": "Gradient Direction",
+        "type": "string"
+       },
+       "color_scheme": {
+        "default": "modern_blue",
+        "title": "Color Scheme",
+        "type": "string"
+       },
+       "presentation_id": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Presentation Id"
+       }
+      },
+      "title": "add_slideArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "get_slide_info",
+     "description": "Get information about a specific slide.",
+     "input_schema": {
+      "properties": {
+       "slide_index": {
+        "title": "Slide Index",
+        "type": "integer"
+       },
+       "presentation_id": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Presentation Id"
+       }
+      },
+      "required": [
+       "slide_index"
+      ],
+      "title": "get_slide_infoArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "populate_placeholder",
+     "description": "Populate a placeholder with text.",
+     "input_schema": {
+      "properties": {
+       "slide_index": {
+        "title": "Slide Index",
+        "type": "integer"
+       },
+       "placeholder_idx": {
+        "title": "Placeholder Idx",
+        "type": "integer"
+       },
+       "text": {
+        "title": "Text",
+        "type": "string"
+       },
+       "presentation_id": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Presentation Id"
+       }
+      },
+      "required": [
+       "slide_index",
+       "placeholder_idx",
+       "text"
+      ],
+      "title": "populate_placeholderArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "add_bullet_points",
+     "description": "Add bullet points to a placeholder.",
+     "input_schema": {
+      "properties": {
+       "slide_index": {
+        "title": "Slide Index",
+        "type": "integer"
+       },
+       "placeholder_idx": {
+        "title": "Placeholder Idx",
+        "type": "integer"
+       },
+       "bullet_points": {
+        "items": {
+         "type": "string"
+        },
+        "title": "Bullet Points",
+        "type": "array"
+       },
+       "presentation_id": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Presentation Id"
+       }
+      },
+      "required": [
+       "slide_index",
+       "placeholder_idx",
+       "bullet_points"
+      ],
+      "title": "add_bullet_pointsArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "manage_text",
+     "description": "Unified text management tool for adding, formatting, validating text, and formatting multiple text runs.",
+     "input_schema": {
+      "properties": {
+       "slide_index": {
+        "title": "Slide Index",
+        "type": "integer"
+       },
+       "operation": {
+        "title": "Operation",
+        "type": "string"
+       },
+       "left": {
+        "default": 1.0,
+        "title": "Left",
+        "type": "number"
+       },
+       "top": {
+        "default": 1.0,
+        "title": "Top",
+        "type": "number"
+       },
+       "width": {
+        "default": 4.0,
+        "title": "Width",
+        "type": "number"
+       },
+       "height": {
+        "default": 2.0,
+        "title": "Height",
+        "type": "number"
+       },
+       "text": {
+        "default": "",
+        "title": "Text",
+        "type": "string"
+       },
+       "shape_index": {
+        "anyOf": [
+         {
+          "type": "integer"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Shape Index"
+       },
+       "text_runs": {
+        "anyOf": [
+         {
+          "items": {
+           "additionalProperties": true,
+           "type": "object"
+          },
+          "type": "array"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Text Runs"
+       },
+       "font_size": {
+        "anyOf": [
+         {
+          "type": "integer"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Font Size"
+       },
+       "font_name": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Font Name"
+       },
+       "bold": {
+        "anyOf": [
+         {
+          "type": "boolean"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Bold"
+       },
+       "italic": {
+        "anyOf": [
+         {
+          "type": "boolean"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Italic"
+       },
+       "underline": {
+        "anyOf": [
+         {
+          "type": "boolean"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Underline"
+       },
+       "color": {
+        "anyOf": [
+         {
+          "items": {
+           "type": "integer"
+          },
+          "type": "array"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Color"
+       },
+       "bg_color": {
+        "anyOf": [
+         {
+          "items": {
+           "type": "integer"
+          },
+          "type": "array"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Bg Color"
+       },
+       "alignment": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Alignment"
+       },
+       "vertical_alignment": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Vertical Alignment"
+       },
+       "auto_fit": {
+        "default": true,
+        "title": "Auto Fit",
+        "type": "boolean"
+       },
+       "validation_only": {
+        "default": false,
+        "title": "Validation Only",
+        "type": "boolean"
+       },
+       "min_font_size": {
+        "default": 8,
+        "title": "Min Font Size",
+        "type": "integer"
+       },
+       "max_font_size": {
+        "default": 72,
+        "title": "Max Font Size",
+        "type": "integer"
+       },
+       "presentation_id": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Presentation Id"
+       }
+      },
+      "required": [
+       "slide_index",
+       "operation"
+      ],
+      "title": "manage_textArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "manage_image",
+     "description": "Unified image management tool for adding and enhancing images.",
+     "input_schema": {
+      "properties": {
+       "slide_index": {
+        "title": "Slide Index",
+        "type": "integer"
+       },
+       "operation": {
+        "title": "Operation",
+        "type": "string"
+       },
+       "image_source": {
+        "title": "Image Source",
+        "type": "string"
+       },
+       "source_type": {
+        "default": "file",
+        "title": "Source Type",
+        "type": "string"
+       },
+       "left": {
+        "default": 1.0,
+        "title": "Left",
+        "type": "number"
+       },
+       "top": {
+        "default": 1.0,
+        "title": "Top",
+        "type": "number"
+       },
+       "width": {
+        "anyOf": [
+         {
+          "type": "number"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Width"
+       },
+       "height": {
+        "anyOf": [
+         {
+          "type": "number"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Height"
+       },
+       "enhancement_style": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Enhancement Style"
+       },
+       "brightness": {
+        "default": 1.0,
+        "title": "Brightness",
+        "type": "number"
+       },
+       "contrast": {
+        "default": 1.0,
+        "title": "Contrast",
+        "type": "number"
+       },
+       "saturation": {
+        "default": 1.0,
+        "title": "Saturation",
+        "type": "number"
+       },
+       "sharpness": {
+        "default": 1.0,
+        "title": "Sharpness",
+        "type": "number"
+       },
+       "blur_radius": {
+        "default": 0,
+        "title": "Blur Radius",
+        "type": "number"
+       },
+       "filter_type": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Filter Type"
+       },
+       "output_path": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Output Path"
+       },
+       "presentation_id": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Presentation Id"
+       }
+      },
+      "required": [
+       "slide_index",
+       "operation",
+       "image_source"
+      ],
+      "title": "manage_imageArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "add_table",
+     "description": "Add a table to a slide with enhanced formatting options.",
+     "input_schema": {
+      "properties": {
+       "slide_index": {
+        "title": "Slide Index",
+        "type": "integer"
+       },
+       "rows": {
+        "title": "Rows",
+        "type": "integer"
+       },
+       "cols": {
+        "title": "Cols",
+        "type": "integer"
+       },
+       "left": {
+        "title": "Left",
+        "type": "number"
+       },
+       "top": {
+        "title": "Top",
+        "type": "number"
+       },
+       "width": {
+        "title": "Width",
+        "type": "number"
+       },
+       "height": {
+        "title": "Height",
+        "type": "number"
+       },
+       "data": {
+        "anyOf": [
+         {
+          "items": {
+           "items": {
+            "type": "string"
+           },
+           "type": "array"
+          },
+          "type": "array"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Data"
+       },
+       "header_row": {
+        "default": true,
+        "title": "Header Row",
+        "type": "boolean"
+       },
+       "header_font_size": {
+        "default": 12,
+        "title": "Header Font Size",
+        "type": "integer"
+       },
+       "body_font_size": {
+        "default": 10,
+        "title": "Body Font Size",
+        "type": "integer"
+       },
+       "header_bg_color": {
+        "anyOf": [
+         {
+          "items": {
+           "type": "integer"
+          },
+          "type": "array"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Header Bg Color"
+       },
+       "body_bg_color": {
+        "anyOf": [
+         {
+          "items": {
+           "type": "integer"
+          },
+          "type": "array"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Body Bg Color"
+       },
+       "border_color": {
+        "anyOf": [
+         {
+          "items": {
+           "type": "integer"
+          },
+          "type": "array"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Border Color"
+       },
+       "presentation_id": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Presentation Id"
+       }
+      },
+      "required": [
+       "slide_index",
+       "rows",
+       "cols",
+       "left",
+       "top",
+       "width",
+       "height"
+      ],
+      "title": "add_tableArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "format_table_cell",
+     "description": "Format a specific table cell.",
+     "input_schema": {
+      "properties": {
+       "slide_index": {
+        "title": "Slide Index",
+        "type": "integer"
+       },
+       "shape_index": {
+        "title": "Shape Index",
+        "type": "integer"
+       },
+       "row": {
+        "title": "Row",
+        "type": "integer"
+       },
+       "col": {
+        "title": "Col",
+        "type": "integer"
+       },
+       "font_size": {
+        "anyOf": [
+         {
+          "type": "integer"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Font Size"
+       },
+       "font_name": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Font Name"
+       },
+       "bold": {
+        "anyOf": [
+         {
+          "type": "boolean"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Bold"
+       },
+       "italic": {
+        "anyOf": [
+         {
+          "type": "boolean"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Italic"
+       },
+       "color": {
+        "anyOf": [
+         {
+          "items": {
+           "type": "integer"
+          },
+          "type": "array"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Color"
+       },
+       "bg_color": {
+        "anyOf": [
+         {
+          "items": {
+           "type": "integer"
+          },
+          "type": "array"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Bg Color"
+       },
+       "alignment": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Alignment"
+       },
+       "vertical_alignment": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Vertical Alignment"
+       },
+       "presentation_id": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Presentation Id"
+       }
+      },
+      "required": [
+       "slide_index",
+       "shape_index",
+       "row",
+       "col"
+      ],
+      "title": "format_table_cellArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "add_shape",
+     "description": "Add an auto shape to a slide with enhanced options.",
+     "input_schema": {
+      "properties": {
+       "slide_index": {
+        "title": "Slide Index",
+        "type": "integer"
+       },
+       "shape_type": {
+        "title": "Shape Type",
+        "type": "string"
+       },
+       "left": {
+        "title": "Left",
+        "type": "number"
+       },
+       "top": {
+        "title": "Top",
+        "type": "number"
+       },
+       "width": {
+        "title": "Width",
+        "type": "number"
+       },
+       "height": {
+        "title": "Height",
+        "type": "number"
+       },
+       "fill_color": {
+        "anyOf": [
+         {
+          "items": {
+           "type": "integer"
+          },
+          "type": "array"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Fill Color"
+       },
+       "line_color": {
+        "anyOf": [
+         {
+          "items": {
+           "type": "integer"
+          },
+          "type": "array"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Line Color"
+       },
+       "line_width": {
+        "anyOf": [
+         {
+          "type": "number"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Line Width"
+       },
+       "text": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Text"
+       },
+       "font_size": {
+        "anyOf": [
+         {
+          "type": "integer"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Font Size"
+       },
+       "font_color": {
+        "anyOf": [
+         {
+          "items": {
+           "type": "integer"
+          },
+          "type": "array"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Font Color"
+       },
+       "presentation_id": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Presentation Id"
+       }
+      },
+      "required": [
+       "slide_index",
+       "shape_type",
+       "left",
+       "top",
+       "width",
+       "height"
+      ],
+      "title": "add_shapeArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "add_chart",
+     "description": "Add a chart to a slide with comprehensive formatting options.",
+     "input_schema": {
+      "properties": {
+       "slide_index": {
+        "title": "Slide Index",
+        "type": "integer"
+       },
+       "chart_type": {
+        "title": "Chart Type",
+        "type": "string"
+       },
+       "left": {
+        "title": "Left",
+        "type": "number"
+       },
+       "top": {
+        "title": "Top",
+        "type": "number"
+       },
+       "width": {
+        "title": "Width",
+        "type": "number"
+       },
+       "height": {
+        "title": "Height",
+        "type": "number"
+       },
+       "categories": {
+        "items": {
+         "type": "string"
+        },
+        "title": "Categories",
+        "type": "array"
+       },
+       "series_names": {
+        "items": {
+         "type": "string"
+        },
+        "title": "Series Names",
+        "type": "array"
+       },
+       "series_values": {
+        "items": {
+         "items": {
+          "type": "number"
+         },
+         "type": "array"
+        },
+        "title": "Series Values",
+        "type": "array"
+       },
+       "has_legend": {
+        "default": true,
+        "title": "Has Legend",
+        "type": "boolean"
+       },
+       "legend_position": {
+        "default": "right",
+        "title": "Legend Position",
+        "type": "string"
+       },
+       "has_data_labels": {
+        "default": false,
+        "title": "Has Data Labels",
+        "type": "boolean"
+       },
+       "title": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Title"
+       },
+       "x_axis_title": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "X Axis Title"
+       },
+       "y_axis_title": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Y Axis Title"
+       },
+       "color_scheme": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Color Scheme"
+       },
+       "presentation_id": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Presentation Id"
+       }
+      },
+      "required": [
+       "slide_index",
+       "chart_type",
+       "left",
+       "top",
+       "width",
+       "height",
+       "categories",
+       "series_names",
+       "series_values"
+      ],
+      "title": "add_chartArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "apply_professional_design",
+     "description": "Unified professional design tool for themes, slides, and visual enhancements.\nThis applies professional styling and themes rather than structural layout changes.",
+     "input_schema": {
+      "properties": {
+       "operation": {
+        "title": "Operation",
+        "type": "string"
+       },
+       "slide_index": {
+        "anyOf": [
+         {
+          "type": "integer"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Slide Index"
+       },
+       "slide_type": {
+        "default": "title_content",
+        "title": "Slide Type",
+        "type": "string"
+       },
+       "color_scheme": {
+        "default": "modern_blue",
+        "title": "Color Scheme",
+        "type": "string"
+       },
+       "title": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Title"
+       },
+       "content": {
+        "anyOf": [
+         {
+          "items": {
+           "type": "string"
+          },
+          "type": "array"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Content"
+       },
+       "apply_to_existing": {
+        "default": true,
+        "title": "Apply To Existing",
+        "type": "boolean"
+       },
+       "enhance_title": {
+        "default": true,
+        "title": "Enhance Title",
+        "type": "boolean"
+       },
+       "enhance_content": {
+        "default": true,
+        "title": "Enhance Content",
+        "type": "boolean"
+       },
+       "enhance_shapes": {
+        "default": true,
+        "title": "Enhance Shapes",
+        "type": "boolean"
+       },
+       "enhance_charts": {
+        "default": true,
+        "title": "Enhance Charts",
+        "type": "boolean"
+       },
+       "presentation_id": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Presentation Id"
+       }
+      },
+      "required": [
+       "operation"
+      ],
+      "title": "apply_professional_designArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "apply_picture_effects",
+     "description": "Apply multiple picture effects in combination.",
+     "input_schema": {
+      "properties": {
+       "slide_index": {
+        "title": "Slide Index",
+        "type": "integer"
+       },
+       "shape_index": {
+        "title": "Shape Index",
+        "type": "integer"
+       },
+       "effects": {
+        "additionalProperties": {
+         "additionalProperties": true,
+         "type": "object"
+        },
+        "title": "Effects",
+        "type": "object"
+       },
+       "presentation_id": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Presentation Id"
+       }
+      },
+      "required": [
+       "slide_index",
+       "shape_index",
+       "effects"
+      ],
+      "title": "apply_picture_effectsArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "manage_fonts",
+     "description": "Unified font management tool for analysis, optimization, and recommendations.",
+     "input_schema": {
+      "properties": {
+       "operation": {
+        "title": "Operation",
+        "type": "string"
+       },
+       "font_path": {
+        "title": "Font Path",
+        "type": "string"
+       },
+       "output_path": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Output Path"
+       },
+       "presentation_type": {
+        "default": "business",
+        "title": "Presentation Type",
+        "type": "string"
+       },
+       "text_content": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Text Content"
+       }
+      },
+      "required": [
+       "operation",
+       "font_path"
+      ],
+      "title": "manage_fontsArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "list_slide_templates",
+     "description": "List all available slide layout templates.",
+     "input_schema": {
+      "properties": {},
+      "title": "list_slide_templatesArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "apply_slide_template",
+     "description": "Apply a structured layout template to an existing slide.\nThis modifies slide layout and content structure using predefined templates.\n\nArgs:\n    slide_index: Index of the slide to apply template to\n    template_id: ID of the template to apply (e.g., 'title_slide', 'text_with_image')\n    color_scheme: Color scheme to use ('modern_blue', 'corporate_gray', 'elegant_green', 'warm_red')\n    content_mapping: Dictionary mapping element roles to custom content\n    image_paths: Dictionary mapping image element roles to file paths\n    presentation_id: Presentation ID (uses current if None)",
+     "input_schema": {
+      "properties": {
+       "slide_index": {
+        "title": "Slide Index",
+        "type": "integer"
+       },
+       "template_id": {
+        "title": "Template Id",
+        "type": "string"
+       },
+       "color_scheme": {
+        "default": "modern_blue",
+        "title": "Color Scheme",
+        "type": "string"
+       },
+       "content_mapping": {
+        "anyOf": [
+         {
+          "additionalProperties": {
+           "type": "string"
+          },
+          "type": "object"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Content Mapping"
+       },
+       "image_paths": {
+        "anyOf": [
+         {
+          "additionalProperties": {
+           "type": "string"
+          },
+          "type": "object"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Image Paths"
+       },
+       "presentation_id": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Presentation Id"
+       }
+      },
+      "required": [
+       "slide_index",
+       "template_id"
+      ],
+      "title": "apply_slide_templateArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "create_slide_from_template",
+     "description": "Create a new slide using a layout template.\n\nArgs:\n    template_id: ID of the template to use (e.g., 'title_slide', 'text_with_image')\n    color_scheme: Color scheme to use ('modern_blue', 'corporate_gray', 'elegant_green', 'warm_red')\n    content_mapping: Dictionary mapping element roles to custom content\n    image_paths: Dictionary mapping image element roles to file paths\n    layout_index: PowerPoint layout index to use as base (default: 1)\n    presentation_id: Presentation ID (uses current if None)",
+     "input_schema": {
+      "properties": {
+       "template_id": {
+        "title": "Template Id",
+        "type": "string"
+       },
+       "color_scheme": {
+        "default": "modern_blue",
+        "title": "Color Scheme",
+        "type": "string"
+       },
+       "content_mapping": {
+        "anyOf": [
+         {
+          "additionalProperties": {
+           "type": "string"
+          },
+          "type": "object"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Content Mapping"
+       },
+       "image_paths": {
+        "anyOf": [
+         {
+          "additionalProperties": {
+           "type": "string"
+          },
+          "type": "object"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Image Paths"
+       },
+       "layout_index": {
+        "default": 1,
+        "title": "Layout Index",
+        "type": "integer"
+       },
+       "presentation_id": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Presentation Id"
+       }
+      },
+      "required": [
+       "template_id"
+      ],
+      "title": "create_slide_from_templateArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "create_presentation_from_templates",
+     "description": "Create a complete presentation from a sequence of templates.\n\nArgs:\n    template_sequence: List of template configurations, each containing:\n        - template_id: Template to use\n        - content: Content mapping for the template\n        - images: Image path mapping for the template\n    color_scheme: Color scheme to apply to all slides\n    presentation_title: Optional title for the presentation\n    presentation_id: Presentation ID (uses current if None)\n\nExample template_sequence:\n[\n    {\n        \"template_id\": \"title_slide\",\n        \"content\": {\n            \"title\": \"My Presentation\",\n            \"subtitle\": \"Annual Report 2024\",\n            \"author\": \"John Doe\"\n        }\n    },\n    {\n        \"template_id\": \"text_with_image\",\n        \"content\": {\n            \"title\": \"Key Results\",\n            \"content\": \"\u2022 Achievement 1\\n\u2022 Achievement 2\"\n        },\n        \"images\": {\n            \"supporting\": \"/path/to/image.jpg\"\n        }\n    }\n]",
+     "input_schema": {
+      "properties": {
+       "template_sequence": {
+        "items": {
+         "additionalProperties": true,
+         "type": "object"
+        },
+        "title": "Template Sequence",
+        "type": "array"
+       },
+       "color_scheme": {
+        "default": "modern_blue",
+        "title": "Color Scheme",
+        "type": "string"
+       },
+       "presentation_title": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Presentation Title"
+       },
+       "presentation_id": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Presentation Id"
+       }
+      },
+      "required": [
+       "template_sequence"
+      ],
+      "title": "create_presentation_from_templatesArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "get_template_info",
+     "description": "Get detailed information about a specific template.\n\nArgs:\n    template_id: ID of the template to get information about",
+     "input_schema": {
+      "properties": {
+       "template_id": {
+        "title": "Template Id",
+        "type": "string"
+       }
+      },
+      "required": [
+       "template_id"
+      ],
+      "title": "get_template_infoArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "auto_generate_presentation",
+     "description": "Automatically generate a presentation based on topic and preferences.\n\nArgs:\n    topic: Main topic/theme for the presentation\n    slide_count: Number of slides to generate (3-20)\n    presentation_type: Type of presentation ('business', 'academic', 'creative')\n    color_scheme: Color scheme to use\n    include_charts: Whether to include chart slides\n    include_images: Whether to include image placeholders\n    presentation_id: Presentation ID (uses current if None)",
+     "input_schema": {
+      "properties": {
+       "topic": {
+        "title": "Topic",
+        "type": "string"
+       },
+       "slide_count": {
+        "default": 5,
+        "title": "Slide Count",
+        "type": "integer"
+       },
+       "presentation_type": {
+        "default": "business",
+        "title": "Presentation Type",
+        "type": "string"
+       },
+       "color_scheme": {
+        "default": "modern_blue",
+        "title": "Color Scheme",
+        "type": "string"
+       },
+       "include_charts": {
+        "default": true,
+        "title": "Include Charts",
+        "type": "boolean"
+       },
+       "include_images": {
+        "default": false,
+        "title": "Include Images",
+        "type": "boolean"
+       },
+       "presentation_id": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Presentation Id"
+       }
+      },
+      "required": [
+       "topic"
+      ],
+      "title": "auto_generate_presentationArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "optimize_slide_text",
+     "description": "Optimize text elements on a slide for better readability and fit.\n\nArgs:\n    slide_index: Index of the slide to optimize\n    auto_resize: Whether to automatically resize fonts to fit containers\n    auto_wrap: Whether to apply intelligent text wrapping\n    optimize_spacing: Whether to optimize line spacing\n    min_font_size: Minimum allowed font size\n    max_font_size: Maximum allowed font size\n    presentation_id: Presentation ID (uses current if None)",
+     "input_schema": {
+      "properties": {
+       "slide_index": {
+        "title": "Slide Index",
+        "type": "integer"
+       },
+       "auto_resize": {
+        "default": true,
+        "title": "Auto Resize",
+        "type": "boolean"
+       },
+       "auto_wrap": {
+        "default": true,
+        "title": "Auto Wrap",
+        "type": "boolean"
+       },
+       "optimize_spacing": {
+        "default": true,
+        "title": "Optimize Spacing",
+        "type": "boolean"
+       },
+       "min_font_size": {
+        "default": 8,
+        "title": "Min Font Size",
+        "type": "integer"
+       },
+       "max_font_size": {
+        "default": 36,
+        "title": "Max Font Size",
+        "type": "integer"
+       },
+       "presentation_id": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Presentation Id"
+       }
+      },
+      "required": [
+       "slide_index"
+      ],
+      "title": "optimize_slide_textArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "manage_hyperlinks",
+     "description": "Manage hyperlinks in text shapes and runs.\n\nArgs:\n    operation: Operation type (\"add\", \"remove\", \"list\", \"update\")\n    slide_index: Index of the slide (0-based)\n    shape_index: Index of the shape on the slide (0-based)\n    text: Text to make into hyperlink (for \"add\" operation)\n    url: URL for the hyperlink\n    run_index: Index of text run within the shape (0-based)\n    presentation_id: Optional presentation ID (uses current if not provided)\n    \nReturns:\n    Dictionary with operation results",
+     "input_schema": {
+      "properties": {
+       "operation": {
+        "title": "Operation",
+        "type": "string"
+       },
+       "slide_index": {
+        "title": "Slide Index",
+        "type": "integer"
+       },
+       "shape_index": {
+        "default": null,
+        "title": "Shape Index",
+        "type": "integer"
+       },
+       "text": {
+        "default": null,
+        "title": "Text",
+        "type": "string"
+       },
+       "url": {
+        "default": null,
+        "title": "Url",
+        "type": "string"
+       },
+       "run_index": {
+        "default": 0,
+        "title": "Run Index",
+        "type": "integer"
+       },
+       "presentation_id": {
+        "default": null,
+        "title": "Presentation Id",
+        "type": "string"
+       }
+      },
+      "required": [
+       "operation",
+       "slide_index"
+      ],
+      "title": "manage_hyperlinksArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "update_chart_data",
+     "description": "Replace existing chart data with new categories and series.\n\nArgs:\n    slide_index: Index of the slide (0-based)\n    shape_index: Index of the chart shape (0-based)\n    categories: List of category names\n    series_data: List of dictionaries with 'name' and 'values' keys\n    presentation_id: Optional presentation ID (uses current if not provided)\n    \nReturns:\n    Dictionary with operation results",
+     "input_schema": {
+      "properties": {
+       "slide_index": {
+        "title": "Slide Index",
+        "type": "integer"
+       },
+       "shape_index": {
+        "title": "Shape Index",
+        "type": "integer"
+       },
+       "categories": {
+        "items": {
+         "type": "string"
+        },
+        "title": "Categories",
+        "type": "array"
+       },
+       "series_data": {
+        "items": {
+         "additionalProperties": true,
+         "type": "object"
+        },
+        "title": "Series Data",
+        "type": "array"
+       },
+       "presentation_id": {
+        "default": null,
+        "title": "Presentation Id",
+        "type": "string"
+       }
+      },
+      "required": [
+       "slide_index",
+       "shape_index",
+       "categories",
+       "series_data"
+      ],
+      "title": "update_chart_dataArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "add_connector",
+     "description": "Add connector lines/arrows between points on a slide.\n\nArgs:\n    slide_index: Index of the slide (0-based)\n    connector_type: Type of connector (\"straight\", \"elbow\", \"curved\")\n    start_x: Starting X coordinate in inches\n    start_y: Starting Y coordinate in inches\n    end_x: Ending X coordinate in inches  \n    end_y: Ending Y coordinate in inches\n    line_width: Width of the connector line in points\n    color: RGB color as [r, g, b] list\n    presentation_id: Optional presentation ID (uses current if not provided)\n    \nReturns:\n    Dictionary with operation results",
+     "input_schema": {
+      "properties": {
+       "slide_index": {
+        "title": "Slide Index",
+        "type": "integer"
+       },
+       "connector_type": {
+        "title": "Connector Type",
+        "type": "string"
+       },
+       "start_x": {
+        "title": "Start X",
+        "type": "number"
+       },
+       "start_y": {
+        "title": "Start Y",
+        "type": "number"
+       },
+       "end_x": {
+        "title": "End X",
+        "type": "number"
+       },
+       "end_y": {
+        "title": "End Y",
+        "type": "number"
+       },
+       "line_width": {
+        "default": 1.0,
+        "title": "Line Width",
+        "type": "number"
+       },
+       "color": {
+        "default": null,
+        "items": {
+         "type": "integer"
+        },
+        "title": "Color",
+        "type": "array"
+       },
+       "presentation_id": {
+        "default": null,
+        "title": "Presentation Id",
+        "type": "string"
+       }
+      },
+      "required": [
+       "slide_index",
+       "connector_type",
+       "start_x",
+       "start_y",
+       "end_x",
+       "end_y"
+      ],
+      "title": "add_connectorArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "manage_slide_masters",
+     "description": "Access and manage slide master properties and layouts.\n\nArgs:\n    operation: Operation type (\"list\", \"get_layouts\", \"get_info\")\n    master_index: Index of the slide master (0-based)\n    layout_index: Index of specific layout within master (0-based)\n    presentation_id: Optional presentation ID (uses current if not provided)\n    \nReturns:\n    Dictionary with slide master information",
+     "input_schema": {
+      "properties": {
+       "operation": {
+        "title": "Operation",
+        "type": "string"
+       },
+       "master_index": {
+        "default": 0,
+        "title": "Master Index",
+        "type": "integer"
+       },
+       "layout_index": {
+        "default": null,
+        "title": "Layout Index",
+        "type": "integer"
+       },
+       "presentation_id": {
+        "default": null,
+        "title": "Presentation Id",
+        "type": "string"
+       }
+      },
+      "required": [
+       "operation"
+      ],
+      "title": "manage_slide_mastersArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "manage_slide_transitions",
+     "description": "Manage slide transitions and timing.\n\nArgs:\n    slide_index: Index of the slide (0-based)\n    operation: Operation type (\"set\", \"remove\", \"get\")\n    transition_type: Type of transition (basic support)\n    duration: Duration of transition in seconds\n    presentation_id: Optional presentation ID (uses current if not provided)\n    \nReturns:\n    Dictionary with transition information",
+     "input_schema": {
+      "properties": {
+       "slide_index": {
+        "title": "Slide Index",
+        "type": "integer"
+       },
+       "operation": {
+        "title": "Operation",
+        "type": "string"
+       },
+       "transition_type": {
+        "default": null,
+        "title": "Transition Type",
+        "type": "string"
+       },
+       "duration": {
+        "default": 1.0,
+        "title": "Duration",
+        "type": "number"
+       },
+       "presentation_id": {
+        "default": null,
+        "title": "Presentation Id",
+        "type": "string"
+       }
+      },
+      "required": [
+       "slide_index",
+       "operation"
+      ],
+      "title": "manage_slide_transitionsArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "list_presentations",
+     "description": "List all loaded presentations.",
+     "input_schema": {
+      "properties": {},
+      "title": "list_presentationsArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "switch_presentation",
+     "description": "Switch to a different loaded presentation.",
+     "input_schema": {
+      "properties": {
+       "presentation_id": {
+        "title": "Presentation Id",
+        "type": "string"
+       }
+      },
+      "required": [
+       "presentation_id"
+      ],
+      "title": "switch_presentationArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "get_server_info",
+     "description": "Get information about the MCP server.",
+     "input_schema": {
+      "properties": {},
+      "title": "get_server_infoArguments",
+      "type": "object"
+     }
+    }
+   ]
+  },
+  {
+   "id": "painter",
+   "name": "Drawing MCP Server",
+   "server": "mcp://painter",
+   "summary": "A Model Context Protocol (MCP) server that provides drawing capabilities for AI assistants.",
+   "tools": [
+    {
+     "name": "drawing_generateCanvas",
+     "description": "Generate a new drawing canvas with specified width and height.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "width": {
+        "type": "number",
+        "description": "Width of the canvas in pixels"
+       },
+       "height": {
+        "type": "number",
+        "description": "Height of the canvas in pixels"
+       }
+      },
+      "required": [
+       "width",
+       "height"
+      ]
+     }
+    },
+    {
+     "name": "drawing_fillRectangle",
+     "description": "Fill a rectangle on the drawing canvas with a specified color and coordinates.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "x": {
+        "type": "number",
+        "description": "X coordinate of the top-left corner of the rectangle"
+       },
+       "y": {
+        "type": "number",
+        "description": "Y coordinate of the top-left corner of the rectangle"
+       },
+       "width": {
+        "type": "number",
+        "description": "Width of the rectangle"
+       },
+       "height": {
+        "type": "number",
+        "description": "Height of the rectangle"
+       },
+       "color": {
+        "type": "object",
+        "description": "Color to fill the rectangle with (RGB)",
+        "properties": {
+         "r": {
+          "type": "number",
+          "description": "Red component (0-255)"
+         },
+         "g": {
+          "type": "number",
+          "description": "Green component (0-255)"
+         },
+         "b": {
+          "type": "number",
+          "description": "Blue component (0-255)"
+         },
+         "a": {
+          "type": "number",
+          "description": "Alpha component (0-255, optional, default 255)"
+         }
+        },
+        "required": [
+         "r",
+         "g",
+         "b"
+        ]
+       }
+      },
+      "required": [
+       "x",
+       "y",
+       "width",
+       "height",
+       "color"
+      ]
+     }
+    },
+    {
+     "name": "drawing_getCanvasPng",
+     "description": "Get the current drawing canvas as a PNG image (base64 encoded).",
+     "input_schema": {
+      "type": "object",
+      "properties": {},
+      "required": []
+     }
+    },
+    {
+     "name": "drawing_getCanvasData",
+     "description": "Get the current pixel data of the drawing canvas as JSON.",
+     "input_schema": {
+      "type": "object",
+      "properties": {},
+      "required": []
+     }
+    }
+   ]
+  },
+  {
+   "id": "mindmap",
+   "name": "Mindmap MCP Server",
+   "server": "mcp://mindmap",
+   "summary": "A Model Context Protocol (MCP) server for converting Markdown content to interactive mindmaps.",
+   "tools": [
+    {
+     "name": "convert_markdown_to_mindmap",
+     "description": "Convert Markdown content to a mindmap mind map.\n\nArgs:\n    markdown_content: The Markdown content to convert\n\nReturns:\n    Either the HTML content or the file path to the generated HTML, \n    depending on the --return-type server argument",
+     "input_schema": {
+      "properties": {
+       "markdown_content": {
+        "title": "Markdown Content",
+        "type": "string"
+       }
+      },
+      "required": [
+       "markdown_content"
+      ],
+      "title": "convert_markdown_to_mindmapArguments",
+      "type": "object"
+     }
+    }
+   ]
+  }
+ ]
+}

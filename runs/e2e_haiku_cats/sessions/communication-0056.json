@@ -1,0 +1,53 @@
+{
+ "task_id": "communication-0056",
+ "mode": "cats",
+ "loaded": [
+  "slack.add_reaction",
+  "slack.get_thread_replies",
+  "slack.reply_to_thread"
+ ],
+ "order": [
+  "slack.add_reaction",
+  "slack.get_thread_replies",
+  "slack.reply_to_thread"
+ ],
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "slack.add_reaction",
+   "args": {
+    "channel_id": "C0OPS",
+    "timestamp": "1720000000.550000",
+    "reaction": "eyes"
+   }
+  },
+  {
+   "tool": "slack.reply_to_thread",
+   "args": {
+    "channel_id": "C0OPS",
+    "thread_ts": "1720000000.550000",
+    "text": "i'm on it"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 3,
+   "tool_tokens": 378
+  },
+  {
+   "type": "call",
+   "tool": "slack__add_reaction",
+   "valid": true
+  },
+  {
+   "type": "call",
+   "tool": "slack__reply_to_thread",
+   "valid": true
+  }
+ ],
+ "done": true,
+ "final": ""
+}

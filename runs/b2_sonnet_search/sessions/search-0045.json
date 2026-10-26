@@ -1,0 +1,67 @@
+{
+ "task_id": "search-0045",
+ "mode": "search",
+ "loaded": [
+  "brave_search.brave_local_search",
+  "google_maps.maps_search_places",
+  "mapbox.category_search_tool",
+  "mapbox.search_and_geocode_tool",
+  "brave_search.brave_image_search"
+ ],
+ "order": [
+  "brave_search.brave_local_search",
+  "google_maps.maps_search_places",
+  "mapbox.category_search_tool",
+  "mapbox.search_and_geocode_tool",
+  "brave_search.brave_image_search"
+ ],
+ "scores": {
+  "brave_search.brave_local_search": 2.0,
+  "google_maps.maps_search_places": 2.0,
+  "mapbox.category_search_tool": 2.0,
+  "mapbox.search_and_geocode_tool": 2.0,
+  "brave_search.brave_image_search": 2.0
+ },
+ "router_tokens": 0,
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "brave_search.brave_local_search",
+   "args": {
+    "query": "pastelarias near Alfama, Lisbon",
+    "count": 10
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0,
+   "t": 1791321065.6819065
+  },
+  {
+   "type": "request_tools",
+   "capability": "search for local places such as bakeries or cafes near a neighborhood",
+   "added": [
+    "brave_search.brave_local_search",
+    "google_maps.maps_search_places",
+    "mapbox.category_search_tool",
+    "mapbox.search_and_geocode_tool",
+    "brave_search.brave_image_search"
+   ],
+   "tool_tokens": 1495,
+   "t": 1791321074.7179272
+  },
+  {
+   "type": "call",
+   "tool": "brave_search__brave_local_search",
+   "valid": true,
+   "t": 1791321085.3138692
+  }
+ ],
+ "done": true,
+ "t_done": 1791321090.0785646,
+ "final": ""
+}

@@ -1,0 +1,725 @@
+{
+  "branch": {
+    "id": "energy_utilities",
+    "name": "Energy & Utilities",
+    "summary": "Household and utility energy: smart meter electricity and gas consumption, tariffs and unit rates, usage and billing reports, power outage reporting and restoration status, and rooftop solar production and battery monitoring."
+  },
+  "toolkits": [
+    {
+      "id": "octopus_energy",
+      "name": "Octopus Energy",
+      "server": "mcp://octopus-energy",
+      "summary": "Energy supplier account data: smart meter consumption, products, tariffs and unit rates.",
+      "tools": [
+        {
+          "name": "get_account",
+          "description": "Account details, properties, meter points and tariff agreements.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "account_number": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "account_number"
+            ]
+          }
+        },
+        {
+          "name": "get_electricity_consumption",
+          "description": "Half-hourly or aggregated electricity consumption (kWh) from a smart meter. Data typically arrives the following day.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "mpan": {
+                "type": "string",
+                "description": "Meter point administration number."
+              },
+              "serial_number": {
+                "type": "string",
+                "description": "Meter serial number."
+              },
+              "period_from": {
+                "type": "string",
+                "description": "ISO 8601 start."
+              },
+              "period_to": {
+                "type": "string",
+                "description": "ISO 8601 end."
+              },
+              "group_by": {
+                "type": "string",
+                "enum": [
+                  "hour",
+                  "day",
+                  "week",
+                  "month",
+                  "quarter"
+                ]
+              },
+              "order_by": {
+                "type": "string",
+                "enum": [
+                  "period",
+                  "-period"
+                ],
+                "default": "-period"
+              },
+              "page_size": {
+                "type": "integer",
+                "default": 100,
+                "maximum": 25000
+              }
+            },
+            "required": [
+              "mpan",
+              "serial_number"
+            ]
+          }
+        },
+        {
+          "name": "get_gas_consumption",
+          "description": "Gas consumption from a smart meter.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "mprn": {
+                "type": "string"
+              },
+              "serial_number": {
+                "type": "string"
+              },
+              "period_from": {
+                "type": "string"
+              },
+              "period_to": {
+                "type": "string"
+              },
+              "group_by": {
+                "type": "string",
+                "enum": [
+                  "hour",
+                  "day",
+                  "week",
+                  "month",
+                  "quarter"
+                ]
+              }
+            },
+            "required": [
+              "mprn",
+              "serial_number"
+            ]
+          }
+        },
+        {
+          "name": "list_products",
+          "description": "List available energy products (tariffs), filterable by green, variable, tracker or business.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "is_variable": {
+                "type": "boolean"
+              },
+              "is_green": {
+                "type": "boolean"
+              },
+              "is_tracker": {
+                "type": "boolean"
+              },
+              "is_business": {
+                "type": "boolean",
+                "default": false
+              },
+              "available_at": {
+                "type": "string",
+                "description": "ISO datetime; products available at this time."
+              }
+            }
+          }
+        },
+        {
+          "name": "get_tariff_rates",
+          "description": "Unit rates or standing charges for a tariff over a period, including time-of-use and Agile half-hourly prices.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "product_code": {
+                "type": "string"
+              },
+              "tariff_code": {
+                "type": "string"
+              },
+              "rate_type": {
+                "type": "string",
+                "enum": [
+                  "standard-unit-rates",
+                  "day-unit-rates",
+                  "night-unit-rates",
+                  "standing-charges"
+                ],
+                "default": "standard-unit-rates"
+              },
+              "period_from": {
+                "type": "string"
+              },
+              "period_to": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "product_code",
+              "tariff_code"
+            ]
+          }
+        },
+        {
+          "name": "switch_tariff",
+          "description": "Request a switch of a meter point to a different product.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "account_number": {
+                "type": "string"
+              },
+              "mpan_or_mprn": {
+                "type": "string"
+              },
+              "product_code": {
+                "type": "string"
+              },
+              "effective_from": {
+                "type": "string",
+                "description": "YYYY-MM-DD; defaults to the next available date."
+              }
+            },
+            "required": [
+              "account_number",
+              "mpan_or_mprn",
+              "product_code"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "green_button_connect",
+      "name": "Green Button Connect",
+      "server": "mcp://green-button",
+      "summary": "Utility customer energy usage data via the Green Button Connect My Data (ESPI) standard.",
+      "tools": [
+        {
+          "name": "list_usage_points",
+          "description": "List usage points (meters) for a subscription.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "subscription_id": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "subscription_id"
+            ]
+          }
+        },
+        {
+          "name": "get_usage_report",
+          "description": "Get an energy usage report for a meter over a date range, aggregated by interval, with cost where the utility provides it.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "subscription_id": {
+                "type": "string"
+              },
+              "usage_point_id": {
+                "type": "string"
+              },
+              "start_date": {
+                "type": "string",
+                "description": "YYYY-MM-DD"
+              },
+              "end_date": {
+                "type": "string",
+                "description": "YYYY-MM-DD"
+              },
+              "interval": {
+                "type": "string",
+                "enum": [
+                  "15min",
+                  "hourly",
+                  "daily",
+                  "monthly"
+                ],
+                "default": "daily"
+              },
+              "include_cost": {
+                "type": "boolean",
+                "default": true
+              },
+              "format": {
+                "type": "string",
+                "enum": [
+                  "json",
+                  "espi_xml",
+                  "csv"
+                ],
+                "default": "json"
+              }
+            },
+            "required": [
+              "subscription_id",
+              "usage_point_id",
+              "start_date",
+              "end_date"
+            ]
+          }
+        },
+        {
+          "name": "get_interval_readings",
+          "description": "Raw interval readings.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "usage_point_id": {
+                "type": "string"
+              },
+              "published_min": {
+                "type": "string"
+              },
+              "published_max": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "usage_point_id"
+            ]
+          }
+        },
+        {
+          "name": "get_billing_summary",
+          "description": "Bill amounts, billing period, total usage and charges breakdown for a usage point.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "usage_point_id": {
+                "type": "string"
+              },
+              "billing_period": {
+                "type": "string",
+                "description": "YYYY-MM; defaults to the latest."
+              }
+            },
+            "required": [
+              "usage_point_id"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "oracle_nms",
+      "name": "Oracle Utilities Outage Center",
+      "server": "mcp://oracle-nms",
+      "summary": "Utility outage management: report outages and hazards, check restoration estimates and planned maintenance, and subscribe to alerts.",
+      "tools": [
+        {
+          "name": "report_outage",
+          "description": "Report a power outage or electrical hazard (downed line, sparking equipment, flickering lights) at a service address.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "account_number": {
+                "type": "string"
+              },
+              "service_address": {
+                "type": "string",
+                "description": "Used when the account number is unknown."
+              },
+              "issue_type": {
+                "type": "string",
+                "enum": [
+                  "no_power",
+                  "partial_power",
+                  "flickering",
+                  "downed_line",
+                  "sparking_equipment",
+                  "streetlight_out"
+                ]
+              },
+              "description": {
+                "type": "string"
+              },
+              "callback_phone": {
+                "type": "string"
+              },
+              "notify_when_restored": {
+                "type": "boolean",
+                "default": true
+              }
+            },
+            "required": [
+              "issue_type"
+            ]
+          }
+        },
+        {
+          "name": "get_outage_status",
+          "description": "Status and estimated restoration time (ETR) for an outage.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "outage_id": {
+                "type": "string"
+              },
+              "account_number": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        {
+          "name": "list_active_outages",
+          "description": "List current outages in a service area with customers affected, cause and estimated restoration time.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "region": {
+                "type": "string"
+              },
+              "zip_code": {
+                "type": "string"
+              },
+              "min_customers_affected": {
+                "type": "integer"
+              },
+              "cause": {
+                "type": "string",
+                "enum": [
+                  "weather",
+                  "equipment_failure",
+                  "vegetation",
+                  "animal",
+                  "vehicle_accident",
+                  "planned",
+                  "unknown"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "name": "subscribe_outage_alerts",
+          "description": "Subscribe an account to outage and restoration notifications.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "account_number": {
+                "type": "string"
+              },
+              "channels": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "sms",
+                    "email",
+                    "push",
+                    "voice"
+                  ]
+                }
+              },
+              "phone": {
+                "type": "string"
+              },
+              "email": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "account_number",
+              "channels"
+            ]
+          }
+        },
+        {
+          "name": "list_planned_maintenance",
+          "description": "Scheduled maintenance outages.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "region": {
+                "type": "string"
+              },
+              "from_date": {
+                "type": "string"
+              },
+              "to_date": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "enphase_enlighten",
+      "name": "Enphase Enlighten",
+      "server": "mcp://enphase",
+      "summary": "Residential solar monitoring for Enphase microinverter and battery systems.",
+      "tools": [
+        {
+          "name": "list_systems",
+          "description": "List systems.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "page": {
+                "type": "integer"
+              },
+              "size": {
+                "type": "integer",
+                "default": 10
+              }
+            }
+          }
+        },
+        {
+          "name": "get_system_summary",
+          "description": "Current power, energy produced today, lifetime energy and status for a solar system.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "system_id": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "system_id"
+            ]
+          }
+        },
+        {
+          "name": "get_production_readings",
+          "description": "Interval solar energy production (Wh) from production meters and microinverters.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "system_id": {
+                "type": "string"
+              },
+              "start_at": {
+                "type": "integer",
+                "description": "Epoch seconds."
+              },
+              "end_at": {
+                "type": "integer",
+                "description": "Epoch seconds."
+              },
+              "granularity": {
+                "type": "string",
+                "enum": [
+                  "15mins",
+                  "day",
+                  "week"
+                ],
+                "default": "day"
+              }
+            },
+            "required": [
+              "system_id"
+            ]
+          }
+        },
+        {
+          "name": "get_consumption_readings",
+          "description": "Household consumption intervals from consumption CTs.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "system_id": {
+                "type": "string"
+              },
+              "start_at": {
+                "type": "integer"
+              },
+              "granularity": {
+                "type": "string",
+                "enum": [
+                  "15mins",
+                  "day",
+                  "week"
+                ]
+              }
+            },
+            "required": [
+              "system_id"
+            ]
+          }
+        },
+        {
+          "name": "get_energy_lifetime",
+          "description": "Daily production totals over the life of the system or a date range.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "system_id": {
+                "type": "string"
+              },
+              "start_date": {
+                "type": "string"
+              },
+              "end_date": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "system_id"
+            ]
+          }
+        },
+        {
+          "name": "get_battery_status",
+          "description": "State of charge, charge/discharge power and backup reserve of IQ batteries.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "system_id": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "system_id"
+            ]
+          }
+        },
+        {
+          "name": "list_inverters",
+          "description": "Microinverter inventory and last report.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "system_id": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "system_id"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "solaredge_monitoring",
+      "name": "SolarEdge Monitoring",
+      "server": "mcp://solaredge",
+      "summary": "SolarEdge PV site monitoring: energy, power flow and alerts.",
+      "tools": [
+        {
+          "name": "get_site_overview",
+          "description": "Site overview.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "site_id": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "site_id"
+            ]
+          }
+        },
+        {
+          "name": "get_energy_details",
+          "description": "Energy for production, consumption, self-consumption, feed-in and purchased meters over a time range.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "site_id": {
+                "type": "string"
+              },
+              "start_time": {
+                "type": "string",
+                "description": "YYYY-MM-DD hh:mm:ss"
+              },
+              "end_time": {
+                "type": "string"
+              },
+              "time_unit": {
+                "type": "string",
+                "enum": [
+                  "QUARTER_OF_AN_HOUR",
+                  "HOUR",
+                  "DAY",
+                  "WEEK",
+                  "MONTH",
+                  "YEAR"
+                ],
+                "default": "DAY"
+              },
+              "meters": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "PRODUCTION",
+                    "CONSUMPTION",
+                    "SELFCONSUMPTION",
+                    "FEEDIN",
+                    "PURCHASED"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "site_id",
+              "start_time",
+              "end_time"
+            ]
+          }
+        },
+        {
+          "name": "get_power_flow",
+          "description": "Current power flow between PV, grid, load and storage.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "site_id": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "site_id"
+            ]
+          }
+        },
+        {
+          "name": "get_alerts",
+          "description": "Open inverter and optimizer alerts for a site.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "site_id": {
+                "type": "string"
+              },
+              "severity": {
+                "type": "string",
+                "enum": [
+                  "low",
+                  "medium",
+                  "high"
+                ]
+              }
+            },
+            "required": [
+              "site_id"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+{
+ "task_id": "files_docs-0068",
+ "mode": "search",
+ "loaded": [
+  "pdf_tools.pdf_extract_tables",
+  "pdf_tools.pdf_extract_text",
+  "pdf_tools.pdf_get_metadata",
+  "pdf_tools.pdf_split",
+  "office_docs.convert_to_markdown"
+ ],
+ "order": [
+  "pdf_tools.pdf_extract_tables",
+  "pdf_tools.pdf_extract_text",
+  "pdf_tools.pdf_get_metadata",
+  "pdf_tools.pdf_split",
+  "office_docs.convert_to_markdown"
+ ],
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "pdf_tools.pdf_extract_tables",
+   "args": {
+    "path": "~/legal/nda.pdf",
+    "pages": "3",
+    "output_format": "csv"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0
+  },
+  {
+   "type": "request_tools",
+   "capability": "extract tables from a PDF page as CSV",
+   "added": [
+    "pdf_tools.pdf_extract_tables",
+    "pdf_tools.pdf_extract_text",
+    "pdf_tools.pdf_get_metadata",
+    "pdf_tools.pdf_split",
+    "office_docs.convert_to_markdown"
+   ],
+   "tool_tokens": 813
+  },
+  {
+   "type": "call",
+   "tool": "pdf_tools__pdf_extract_tables",
+   "valid": true
+  }
+ ],
+ "done": true,
+ "final": ""
+}

@@ -1,0 +1,16 @@
+{
+ "name": "livemcpbench",
+ "tools": 525,
+ "toolkits": 69,
+ "branches": 8,
+ "tasks": 94,
+ "tasks_dropped_no_resolvable_tool": 1,
+ "annotated_names_unresolved": [
+  "ddg-search",
+  "execute_command",
+  "get_maven_latest_version",
+  "open_document",
+  "trial_references"
+ ],
+ "slots_mean": 2.6702127659574466
+}

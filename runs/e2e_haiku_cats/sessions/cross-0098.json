@@ -1,0 +1,73 @@
+{
+ "task_id": "cross-0098",
+ "mode": "cats",
+ "loaded": [
+  "nws_weather.get_alerts",
+  "openweathermap.get_air_pollution",
+  "openweathermap.get_current_weather",
+  "elevenlabs.text_to_speech",
+  "elevenlabs.speech_to_speech",
+  "openai_media.create_speech",
+  "openai_media.translate_audio",
+  "openai_media.transcribe_audio"
+ ],
+ "order": [
+  "nws_weather.get_alerts",
+  "openweathermap.get_air_pollution",
+  "openweathermap.get_current_weather",
+  "elevenlabs.text_to_speech",
+  "elevenlabs.speech_to_speech",
+  "openai_media.create_speech",
+  "openai_media.translate_audio",
+  "openai_media.transcribe_audio"
+ ],
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "openweathermap.get_air_pollution",
+   "args": {
+    "lat": 28.61,
+    "lon": 77.21
+   }
+  },
+  {
+   "tool": "elevenlabs.text_to_speech",
+   "args": {
+    "text": "Delhi air quality alert. The current air pollution index indicates poor air quality conditions. It is not recommended to run outside at this time. Please consider staying indoors or wearing protective equipment if you must be outside.",
+    "output_format": "mp3_44100_128"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 3,
+   "tool_tokens": 452
+  },
+  {
+   "type": "call",
+   "tool": "openweathermap__get_air_pollution",
+   "valid": true
+  },
+  {
+   "type": "request_tools",
+   "capability": "convert text to speech or generate audio with a spoken voice",
+   "added": [
+    "elevenlabs.text_to_speech",
+    "elevenlabs.speech_to_speech",
+    "openai_media.create_speech",
+    "openai_media.translate_audio",
+    "openai_media.transcribe_audio"
+   ],
+   "tool_tokens": 1892
+  },
+  {
+   "type": "call",
+   "tool": "elevenlabs__text_to_speech",
+   "valid": true
+  }
+ ],
+ "done": true,
+ "final": ""
+}

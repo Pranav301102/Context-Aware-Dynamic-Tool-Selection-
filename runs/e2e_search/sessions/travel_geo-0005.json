@@ -1,0 +1,70 @@
+{
+ "task_id": "travel_geo-0005",
+ "mode": "search",
+ "loaded": [
+  "google_maps.maps_elevation",
+  "google_maps.maps_reverse_geocode",
+  "mapbox.search_and_geocode_tool",
+  "google_maps.maps_geocode",
+  "mapbox.reverse_geocode_tool"
+ ],
+ "order": [
+  "google_maps.maps_elevation",
+  "google_maps.maps_reverse_geocode",
+  "mapbox.search_and_geocode_tool",
+  "google_maps.maps_geocode",
+  "mapbox.reverse_geocode_tool"
+ ],
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "google_maps.maps_geocode",
+   "args": {
+    "address": "10 Downing St, London"
+   }
+  },
+  {
+   "tool": "google_maps.maps_elevation",
+   "args": {
+    "locations": [
+     {
+      "latitude": 51.5034,
+      "longitude": -0.1276
+     }
+    ]
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0
+  },
+  {
+   "type": "request_tools",
+   "capability": "geocode a street address to latitude/longitude and get the elevation above sea level of a location",
+   "added": [
+    "google_maps.maps_elevation",
+    "google_maps.maps_reverse_geocode",
+    "mapbox.search_and_geocode_tool",
+    "google_maps.maps_geocode",
+    "mapbox.reverse_geocode_tool"
+   ],
+   "tool_tokens": 1081
+  },
+  {
+   "type": "call",
+   "tool": "google_maps__maps_geocode",
+   "valid": true
+  },
+  {
+   "type": "call",
+   "tool": "google_maps__maps_elevation",
+   "valid": true
+  }
+ ],
+ "done": true,
+ "final": ""
+}

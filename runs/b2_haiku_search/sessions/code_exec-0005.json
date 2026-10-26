@@ -1,0 +1,74 @@
+{
+ "task_id": "code_exec-0005",
+ "mode": "search",
+ "loaded": [
+  "package_manager.npm_install",
+  "package_manager.npm_audit",
+  "code_checker.run_jest",
+  "package_manager.npm_run_script",
+  "package_manager.pip_install"
+ ],
+ "order": [
+  "package_manager.npm_install",
+  "package_manager.npm_audit",
+  "code_checker.run_jest",
+  "package_manager.npm_run_script",
+  "package_manager.pip_install"
+ ],
+ "scores": {
+  "package_manager.npm_install": 2.0,
+  "package_manager.npm_audit": 2.0,
+  "code_checker.run_jest": 2.0,
+  "package_manager.npm_run_script": 2.0,
+  "package_manager.pip_install": 2.0
+ },
+ "router_tokens": 0,
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "package_manager.npm_install",
+   "args": {}
+  },
+  {
+   "tool": "code_checker.run_jest",
+   "args": {}
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0,
+   "t": 1791322086.5307531
+  },
+  {
+   "type": "request_tools",
+   "capability": "install npm dependencies and run jest tests",
+   "added": [
+    "package_manager.npm_install",
+    "package_manager.npm_audit",
+    "code_checker.run_jest",
+    "package_manager.npm_run_script",
+    "package_manager.pip_install"
+   ],
+   "tool_tokens": 1047,
+   "t": 1791322097.893672
+  },
+  {
+   "type": "call",
+   "tool": "package_manager__npm_install",
+   "valid": true,
+   "t": 1791322109.6040106
+  },
+  {
+   "type": "call",
+   "tool": "code_checker__run_jest",
+   "valid": true,
+   "t": 1791322118.961474
+  }
+ ],
+ "done": true,
+ "t_done": 1791322124.20512,
+ "final": ""
+}

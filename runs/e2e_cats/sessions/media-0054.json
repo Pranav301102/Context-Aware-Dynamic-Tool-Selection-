@@ -1,0 +1,39 @@
+{
+ "task_id": "media-0054",
+ "mode": "cats",
+ "loaded": [
+  "ffmpeg_video.concatenate_videos"
+ ],
+ "order": [
+  "ffmpeg_video.concatenate_videos"
+ ],
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "ffmpeg_video.concatenate_videos",
+   "args": {
+    "input_paths": [
+     "intro.mp4",
+     "main.mp4",
+     "outro.mp4"
+    ],
+    "output_path": "combined.mp4"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 1,
+   "tool_tokens": 203
+  },
+  {
+   "type": "call",
+   "tool": "ffmpeg_video__concatenate_videos",
+   "valid": true
+  }
+ ],
+ "done": true,
+ "final": ""
+}

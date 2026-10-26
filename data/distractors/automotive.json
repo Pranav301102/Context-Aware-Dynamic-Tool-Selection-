@@ -1,0 +1,773 @@
+{
+  "branch": {
+    "id": "automotive",
+    "name": "Automotive",
+    "summary": "Vehicles and driving: connected-car telematics and remote commands, VIN decoding and recalls, dealership service appointments, and finding and using EV charging stations."
+  },
+  "toolkits": [
+    {
+      "id": "smartcar",
+      "name": "Smartcar",
+      "server": "mcp://smartcar",
+      "summary": "Connected-car API: read vehicle telematics (location, odometer, battery, fuel, tires) and send remote commands to connected vehicles.",
+      "tools": [
+        {
+          "name": "list_vehicles",
+          "description": "List vehicle IDs the user has connected and granted access to.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "limit": {
+                "type": "integer",
+                "default": 10
+              },
+              "offset": {
+                "type": "integer",
+                "default": 0
+              }
+            }
+          }
+        },
+        {
+          "name": "get_vehicle_attributes",
+          "description": "Make, model and year of a vehicle.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "vehicle_id": {
+                "type": "string",
+                "description": "Smartcar vehicle ID."
+              }
+            },
+            "required": [
+              "vehicle_id"
+            ]
+          }
+        },
+        {
+          "name": "get_location",
+          "description": "Get the vehicle's last known GPS location (latitude, longitude) and when it was reported.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "vehicle_id": {
+                "type": "string",
+                "description": "Smartcar vehicle ID."
+              }
+            },
+            "required": [
+              "vehicle_id"
+            ]
+          }
+        },
+        {
+          "name": "get_odometer",
+          "description": "Odometer reading.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "vehicle_id": {
+                "type": "string",
+                "description": "Smartcar vehicle ID."
+              },
+              "unit_system": {
+                "type": "string",
+                "enum": [
+                  "metric",
+                  "imperial"
+                ],
+                "description": "Unit system for returned values.",
+                "default": "metric"
+              }
+            },
+            "required": [
+              "vehicle_id"
+            ]
+          }
+        },
+        {
+          "name": "get_battery_level",
+          "description": "Remaining EV battery state of charge (0-1) and estimated electric range.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "vehicle_id": {
+                "type": "string",
+                "description": "Smartcar vehicle ID."
+              },
+              "unit_system": {
+                "type": "string",
+                "enum": [
+                  "metric",
+                  "imperial"
+                ],
+                "description": "Unit system for returned values.",
+                "default": "metric"
+              }
+            },
+            "required": [
+              "vehicle_id"
+            ]
+          }
+        },
+        {
+          "name": "get_fuel_tank",
+          "description": "Remaining fuel as a percentage and amount, plus estimated range, for gas or hybrid vehicles.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "vehicle_id": {
+                "type": "string",
+                "description": "Smartcar vehicle ID."
+              },
+              "unit_system": {
+                "type": "string",
+                "enum": [
+                  "metric",
+                  "imperial"
+                ],
+                "description": "Unit system for returned values.",
+                "default": "metric"
+              }
+            },
+            "required": [
+              "vehicle_id"
+            ]
+          }
+        },
+        {
+          "name": "get_tire_pressure",
+          "description": "Tire pressure for each wheel.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "vehicle_id": {
+                "type": "string",
+                "description": "Smartcar vehicle ID."
+              },
+              "unit_system": {
+                "type": "string",
+                "enum": [
+                  "metric",
+                  "imperial"
+                ],
+                "description": "Unit system for returned values.",
+                "default": "metric"
+              }
+            },
+            "required": [
+              "vehicle_id"
+            ]
+          }
+        },
+        {
+          "name": "get_engine_oil_life",
+          "description": "Remaining engine oil life as a fraction (0-1); 0 means an oil change is due.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "vehicle_id": {
+                "type": "string",
+                "description": "Smartcar vehicle ID."
+              }
+            },
+            "required": [
+              "vehicle_id"
+            ]
+          }
+        },
+        {
+          "name": "lock_unlock_doors",
+          "description": "Lock or unlock the vehicle's doors remotely.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "vehicle_id": {
+                "type": "string",
+                "description": "Smartcar vehicle ID."
+              },
+              "action": {
+                "type": "string",
+                "enum": [
+                  "LOCK",
+                  "UNLOCK"
+                ]
+              }
+            },
+            "required": [
+              "vehicle_id",
+              "action"
+            ]
+          }
+        },
+        {
+          "name": "control_charging",
+          "description": "Start or stop charging an electric vehicle that is plugged in.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "vehicle_id": {
+                "type": "string",
+                "description": "Smartcar vehicle ID."
+              },
+              "action": {
+                "type": "string",
+                "enum": [
+                  "START",
+                  "STOP"
+                ]
+              }
+            },
+            "required": [
+              "vehicle_id",
+              "action"
+            ]
+          }
+        },
+        {
+          "name": "set_charge_limit",
+          "description": "Set the maximum state of charge an EV will charge to.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "vehicle_id": {
+                "type": "string",
+                "description": "Smartcar vehicle ID."
+              },
+              "limit": {
+                "type": "number",
+                "description": "Charge limit between 0.5 and 1.0.",
+                "minimum": 0.5,
+                "maximum": 1.0
+              }
+            },
+            "required": [
+              "vehicle_id",
+              "limit"
+            ]
+          }
+        },
+        {
+          "name": "batch_request",
+          "description": "Fetch several vehicle signals in a single call to save round trips and rate limit.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "vehicle_id": {
+                "type": "string",
+                "description": "Smartcar vehicle ID."
+              },
+              "paths": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "/odometer",
+                    "/location",
+                    "/battery",
+                    "/battery/capacity",
+                    "/fuel",
+                    "/tires/pressure",
+                    "/engine/oil",
+                    "/charge",
+                    "/charge/limit",
+                    "/vin"
+                  ]
+                }
+              },
+              "unit_system": {
+                "type": "string",
+                "enum": [
+                  "metric",
+                  "imperial"
+                ],
+                "description": "Unit system for returned values.",
+                "default": "metric"
+              }
+            },
+            "required": [
+              "vehicle_id",
+              "paths"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "nhtsa_vpic",
+      "name": "NHTSA vPIC",
+      "server": "mcp://nhtsa-vpic",
+      "summary": "US NHTSA vehicle product information catalog: VIN decoding, makes and models, and safety recalls.",
+      "tools": [
+        {
+          "name": "decode_vin",
+          "description": "Decode a 17-character VIN into make, model, model year, trim, body class, engine, fuel type and manufacturing plant. Partial VINs may use * as a wildcard.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "vin": {
+                "type": "string"
+              },
+              "model_year": {
+                "type": "integer",
+                "description": "Model year, helps decode pre-1980 or partial VINs."
+              }
+            },
+            "required": [
+              "vin"
+            ]
+          }
+        },
+        {
+          "name": "decode_vin_batch",
+          "description": "Decode up to 50 VINs at once.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "vins": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Each entry is 'VIN' or 'VIN,model_year'.",
+                "maxItems": 50
+              }
+            },
+            "required": [
+              "vins"
+            ]
+          }
+        },
+        {
+          "name": "get_models_for_make",
+          "description": "List models for a make, optionally limited to a model year and vehicle type.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "make": {
+                "type": "string"
+              },
+              "model_year": {
+                "type": "integer"
+              },
+              "vehicle_type": {
+                "type": "string",
+                "enum": [
+                  "car",
+                  "truck",
+                  "multipurpose passenger vehicle (mpv)",
+                  "motorcycle",
+                  "bus",
+                  "trailer"
+                ]
+              }
+            },
+            "required": [
+              "make"
+            ]
+          }
+        },
+        {
+          "name": "get_recalls",
+          "description": "List safety recalls by make, model and model year, with component, summary, consequence and remedy.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "make": {
+                "type": "string"
+              },
+              "model": {
+                "type": "string"
+              },
+              "model_year": {
+                "type": "integer"
+              }
+            },
+            "required": [
+              "make",
+              "model",
+              "model_year"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "xtime_service",
+      "name": "Xtime Service Scheduling",
+      "server": "mcp://xtime",
+      "summary": "Dealership service department scheduling: service menus, appointment slots, bookings and vehicle service history.",
+      "tools": [
+        {
+          "name": "get_service_menu",
+          "description": "List maintenance and repair services offered by a dealership for a given vehicle, with prices and estimated durations.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "dealer_id": {
+                "type": "string"
+              },
+              "vin": {
+                "type": "string"
+              },
+              "mileage": {
+                "type": "integer",
+                "description": "Current odometer, used to suggest mileage-based maintenance."
+              }
+            },
+            "required": [
+              "dealer_id"
+            ]
+          }
+        },
+        {
+          "name": "find_available_slots",
+          "description": "Find open service appointment slots at a dealership for selected services and transport option.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "dealer_id": {
+                "type": "string"
+              },
+              "service_codes": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Codes from get_service_menu."
+              },
+              "date_from": {
+                "type": "string",
+                "description": "YYYY-MM-DD"
+              },
+              "date_to": {
+                "type": "string",
+                "description": "YYYY-MM-DD"
+              },
+              "transport_option": {
+                "type": "string",
+                "enum": [
+                  "wait",
+                  "drop_off",
+                  "loaner",
+                  "shuttle",
+                  "pickup_delivery"
+                ],
+                "default": "drop_off"
+              },
+              "advisor_id": {
+                "type": "string",
+                "description": "Preferred service advisor."
+              }
+            },
+            "required": [
+              "dealer_id",
+              "date_from"
+            ]
+          }
+        },
+        {
+          "name": "book_service_appointment",
+          "description": "Book a service appointment in an available slot. Sends a confirmation by email/SMS unless disabled.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "dealer_id": {
+                "type": "string"
+              },
+              "slot_id": {
+                "type": "string"
+              },
+              "vin": {
+                "type": "string"
+              },
+              "mileage": {
+                "type": "integer"
+              },
+              "service_codes": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "customer": {
+                "type": "object",
+                "properties": {
+                  "first_name": {
+                    "type": "string"
+                  },
+                  "last_name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "phone": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "last_name",
+                  "phone"
+                ]
+              },
+              "transport_option": {
+                "type": "string",
+                "enum": [
+                  "wait",
+                  "drop_off",
+                  "loaner",
+                  "shuttle",
+                  "pickup_delivery"
+                ]
+              },
+              "concern_notes": {
+                "type": "string",
+                "description": "Customer description of the problem, e.g. 'grinding noise when braking'."
+              },
+              "send_confirmation": {
+                "type": "boolean",
+                "default": true
+              }
+            },
+            "required": [
+              "dealer_id",
+              "slot_id",
+              "vin",
+              "customer"
+            ]
+          }
+        },
+        {
+          "name": "reschedule_appointment",
+          "description": "Move an appointment to a new slot.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "appointment_id": {
+                "type": "string"
+              },
+              "new_slot_id": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "appointment_id",
+              "new_slot_id"
+            ]
+          }
+        },
+        {
+          "name": "cancel_appointment",
+          "description": "Cancel a service appointment.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "appointment_id": {
+                "type": "string"
+              },
+              "reason": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "appointment_id"
+            ]
+          }
+        },
+        {
+          "name": "get_service_history",
+          "description": "Past repair orders for a vehicle: dates, mileage, work performed, parts and cost.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "vin": {
+                "type": "string"
+              },
+              "dealer_id": {
+                "type": "string"
+              },
+              "since": {
+                "type": "string",
+                "description": "YYYY-MM-DD"
+              }
+            },
+            "required": [
+              "vin"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "chargepoint",
+      "name": "ChargePoint",
+      "server": "mcp://chargepoint",
+      "summary": "EV charging network: find charging stations, check port availability and pricing, and start, stop and review charging sessions.",
+      "tools": [
+        {
+          "name": "search_charging_stations",
+          "description": "Find EV charging stations near a location, filtered by connector type, power level, network and real-time availability.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "latitude": {
+                "type": "number"
+              },
+              "longitude": {
+                "type": "number"
+              },
+              "radius_km": {
+                "type": "number",
+                "default": 5
+              },
+              "connector_types": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "J1772",
+                    "CCS1",
+                    "CCS2",
+                    "CHAdeMO",
+                    "NACS",
+                    "Type2"
+                  ]
+                }
+              },
+              "min_power_kw": {
+                "type": "number",
+                "description": "Minimum charger power, e.g. 50 for DC fast charging."
+              },
+              "available_only": {
+                "type": "boolean",
+                "description": "Only stations with a free port now.",
+                "default": false
+              },
+              "free_only": {
+                "type": "boolean",
+                "default": false
+              },
+              "limit": {
+                "type": "integer",
+                "default": 20
+              }
+            },
+            "required": [
+              "latitude",
+              "longitude"
+            ]
+          }
+        },
+        {
+          "name": "get_station_details",
+          "description": "Pricing, opening hours, amenities and port-level status for a station.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "station_id": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "station_id"
+            ]
+          }
+        },
+        {
+          "name": "reserve_port",
+          "description": "Reserve a port for up to 15 minutes.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "station_id": {
+                "type": "string"
+              },
+              "port_id": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "station_id",
+              "port_id"
+            ]
+          }
+        },
+        {
+          "name": "start_charging_session",
+          "description": "Start a charging session on a station port using the driver's payment method.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "station_id": {
+                "type": "string"
+              },
+              "port_id": {
+                "type": "string"
+              },
+              "payment_method_id": {
+                "type": "string"
+              },
+              "max_kwh": {
+                "type": "number",
+                "description": "Stop automatically after this much energy."
+              }
+            },
+            "required": [
+              "station_id",
+              "port_id"
+            ]
+          }
+        },
+        {
+          "name": "stop_charging_session",
+          "description": "Stop an active session.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "session_id": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "session_id"
+            ]
+          }
+        },
+        {
+          "name": "get_charging_session",
+          "description": "Live status of a session: energy delivered (kWh), power, duration and running cost.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "session_id": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "session_id"
+            ]
+          }
+        },
+        {
+          "name": "list_charging_history",
+          "description": "Past charging sessions with location, energy and cost.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "from_date": {
+                "type": "string"
+              },
+              "to_date": {
+                "type": "string"
+              },
+              "limit": {
+                "type": "integer"
+              }
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

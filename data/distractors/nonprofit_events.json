@@ -1,0 +1,1004 @@
+{
+  "branch": {
+    "id": "nonprofit_events",
+    "name": "Nonprofit & Events",
+    "summary": "Nonprofit fundraising and event operations: event ticketing, invitations and check-in, donor records, donations and pledges, volunteer shifts and hours, and venue search and booking."
+  },
+  "toolkits": [
+    {
+      "id": "ticket_tailor",
+      "name": "Ticket Tailor",
+      "server": "mcp://ticket-tailor",
+      "summary": "Event ticketing: create events and ticket types, manage orders and refunds, send invitations and check in attendees.",
+      "tools": [
+        {
+          "name": "list_events",
+          "description": "List events.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "status": {
+                "type": "string",
+                "enum": [
+                  "draft",
+                  "published",
+                  "sales_closed",
+                  "past"
+                ]
+              },
+              "start_after": {
+                "type": "string"
+              },
+              "limit": {
+                "type": "integer",
+                "default": 25
+              }
+            }
+          }
+        },
+        {
+          "name": "create_event",
+          "description": "Create an event with venue, dates and description. The event stays in draft until published.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "venue": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "address": {
+                    "type": "string"
+                  },
+                  "postal_code": {
+                    "type": "string"
+                  },
+                  "country": {
+                    "type": "string"
+                  },
+                  "online_url": {
+                    "type": "string",
+                    "description": "For online events."
+                  }
+                }
+              },
+              "start_at": {
+                "type": "string",
+                "description": "ISO 8601"
+              },
+              "end_at": {
+                "type": "string",
+                "description": "ISO 8601"
+              },
+              "timezone": {
+                "type": "string",
+                "default": "America/New_York"
+              },
+              "currency": {
+                "type": "string",
+                "default": "usd"
+              },
+              "capacity": {
+                "type": "integer"
+              },
+              "is_online": {
+                "type": "boolean",
+                "default": false
+              }
+            },
+            "required": [
+              "name",
+              "start_at",
+              "end_at"
+            ]
+          }
+        },
+        {
+          "name": "get_event",
+          "description": "Get an event.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "event_id": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "event_id"
+            ]
+          }
+        },
+        {
+          "name": "create_ticket_type",
+          "description": "Add a ticket type (e.g. General Admission, VIP, Student) to an event with price, quantity and sale window.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "event_id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "price": {
+                "type": "integer",
+                "description": "Price in minor units (cents). 0 for free tickets."
+              },
+              "quantity": {
+                "type": "integer"
+              },
+              "max_per_order": {
+                "type": "integer",
+                "default": 10
+              },
+              "sale_start": {
+                "type": "string"
+              },
+              "sale_end": {
+                "type": "string"
+              },
+              "visibility": {
+                "type": "string",
+                "enum": [
+                  "visible",
+                  "hidden",
+                  "access_code"
+                ],
+                "default": "visible"
+              },
+              "access_code": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "event_id",
+              "name",
+              "price",
+              "quantity"
+            ]
+          }
+        },
+        {
+          "name": "list_orders",
+          "description": "List ticket orders for an event.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "event_id": {
+                "type": "string"
+              },
+              "created_after": {
+                "type": "string"
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "completed",
+                  "refunded",
+                  "cancelled"
+                ]
+              },
+              "limit": {
+                "type": "integer"
+              }
+            }
+          }
+        },
+        {
+          "name": "issue_complimentary_ticket",
+          "description": "Issue a free ticket to a guest.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "event_id": {
+                "type": "string"
+              },
+              "ticket_type_id": {
+                "type": "string"
+              },
+              "full_name": {
+                "type": "string"
+              },
+              "email": {
+                "type": "string"
+              },
+              "send_email": {
+                "type": "boolean",
+                "default": true
+              }
+            },
+            "required": [
+              "event_id",
+              "ticket_type_id",
+              "full_name",
+              "email"
+            ]
+          }
+        },
+        {
+          "name": "send_invitations",
+          "description": "Email invitations with a booking link (and optional access code for hidden tickets) to a list of contacts for an event. Can be scheduled for later.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "event_id": {
+                "type": "string"
+              },
+              "recipients": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "email": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "email"
+                  ]
+                }
+              },
+              "subject": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              },
+              "access_code": {
+                "type": "string"
+              },
+              "schedule_at": {
+                "type": "string",
+                "description": "ISO 8601; send immediately if omitted."
+              }
+            },
+            "required": [
+              "event_id",
+              "recipients"
+            ]
+          }
+        },
+        {
+          "name": "check_in_attendee",
+          "description": "Check in a ticket by barcode at the door.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "event_id": {
+                "type": "string"
+              },
+              "barcode": {
+                "type": "string"
+              },
+              "quantity": {
+                "type": "integer",
+                "default": 1
+              }
+            },
+            "required": [
+              "event_id",
+              "barcode"
+            ]
+          }
+        },
+        {
+          "name": "refund_order",
+          "description": "Refund an order fully or partially.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "order_id": {
+                "type": "string"
+              },
+              "amount": {
+                "type": "integer",
+                "description": "Minor units; full refund if omitted."
+              },
+              "reason": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "order_id"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "bloomerang",
+      "name": "Bloomerang",
+      "server": "mcp://bloomerang",
+      "summary": "Donor management CRM for nonprofits: constituents, donations, pledges, acknowledgements and retention reporting.",
+      "tools": [
+        {
+          "name": "search_constituents",
+          "description": "Search donors and constituents by name, email, phone or address.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string"
+              },
+              "type": {
+                "type": "string",
+                "enum": [
+                  "individual",
+                  "organization"
+                ]
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "active",
+                  "inactive",
+                  "deceased"
+                ]
+              },
+              "limit": {
+                "type": "integer",
+                "default": 25
+              }
+            },
+            "required": [
+              "query"
+            ]
+          }
+        },
+        {
+          "name": "create_constituent",
+          "description": "Create a donor record with contact details and communication preferences.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": [
+                  "individual",
+                  "organization"
+                ],
+                "default": "individual"
+              },
+              "first_name": {
+                "type": "string"
+              },
+              "last_name": {
+                "type": "string"
+              },
+              "organization_name": {
+                "type": "string"
+              },
+              "email": {
+                "type": "string"
+              },
+              "phone": {
+                "type": "string"
+              },
+              "address": {
+                "type": "object",
+                "properties": {
+                  "line1": {
+                    "type": "string",
+                    "description": "Street address."
+                  },
+                  "line2": {
+                    "type": "string",
+                    "description": "Apartment, suite or unit."
+                  },
+                  "city": {
+                    "type": "string"
+                  },
+                  "state": {
+                    "type": "string",
+                    "description": "State or region code."
+                  },
+                  "postal_code": {
+                    "type": "string"
+                  },
+                  "country": {
+                    "type": "string",
+                    "description": "ISO 3166-1 alpha-2 country code.",
+                    "default": "US"
+                  }
+                },
+                "description": "Postal address.",
+                "required": [
+                  "line1",
+                  "city",
+                  "postal_code"
+                ]
+              },
+              "communication_preferences": {
+                "type": "object",
+                "properties": {
+                  "email_opt_in": {
+                    "type": "boolean",
+                    "default": true
+                  },
+                  "mail_opt_in": {
+                    "type": "boolean",
+                    "default": true
+                  }
+                }
+              },
+              "custom_values": {
+                "type": "object",
+                "description": "Custom field values keyed by field name.",
+                "additionalProperties": true
+              }
+            }
+          }
+        },
+        {
+          "name": "record_donation",
+          "description": "Record a donation for a constituent with fund, campaign, appeal, payment method and optional tribute.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "constituent_id": {
+                "type": "string"
+              },
+              "amount": {
+                "type": "number"
+              },
+              "date": {
+                "type": "string"
+              },
+              "fund_id": {
+                "type": "string"
+              },
+              "campaign_id": {
+                "type": "string"
+              },
+              "appeal_id": {
+                "type": "string"
+              },
+              "method": {
+                "type": "string",
+                "enum": [
+                  "cash",
+                  "check",
+                  "credit_card",
+                  "ach",
+                  "in_kind",
+                  "stock",
+                  "other"
+                ]
+              },
+              "check_number": {
+                "type": "string"
+              },
+              "tribute": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "in_honor",
+                      "in_memory"
+                    ]
+                  },
+                  "name": {
+                    "type": "string"
+                  }
+                }
+              },
+              "note": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "constituent_id",
+              "amount",
+              "fund_id"
+            ]
+          }
+        },
+        {
+          "name": "list_donations",
+          "description": "List donations, filterable by donor, fund, campaign, date and amount.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "constituent_id": {
+                "type": "string"
+              },
+              "campaign_id": {
+                "type": "string"
+              },
+              "fund_id": {
+                "type": "string"
+              },
+              "from_date": {
+                "type": "string"
+              },
+              "to_date": {
+                "type": "string"
+              },
+              "min_amount": {
+                "type": "number"
+              }
+            }
+          }
+        },
+        {
+          "name": "create_pledge",
+          "description": "Create a pledge with installments.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "constituent_id": {
+                "type": "string"
+              },
+              "amount": {
+                "type": "number"
+              },
+              "installment_frequency": {
+                "type": "string",
+                "enum": [
+                  "monthly",
+                  "quarterly",
+                  "annually"
+                ]
+              },
+              "number_of_installments": {
+                "type": "integer"
+              },
+              "start_date": {
+                "type": "string"
+              },
+              "fund_id": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "constituent_id",
+              "amount",
+              "installment_frequency"
+            ]
+          }
+        },
+        {
+          "name": "send_acknowledgement",
+          "description": "Send a thank-you letter/receipt for a donation.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "transaction_id": {
+                "type": "string"
+              },
+              "template_id": {
+                "type": "string"
+              },
+              "channel": {
+                "type": "string",
+                "enum": [
+                  "email",
+                  "print"
+                ],
+                "default": "email"
+              }
+            },
+            "required": [
+              "transaction_id"
+            ]
+          }
+        },
+        {
+          "name": "get_retention_report",
+          "description": "Donor retention rate and counts of new, retained, lapsed and recaptured donors for a period.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "from_date": {
+                "type": "string"
+              },
+              "to_date": {
+                "type": "string"
+              },
+              "segment": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "from_date",
+              "to_date"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "volunteerhub",
+      "name": "VolunteerHub",
+      "server": "mcp://volunteerhub",
+      "summary": "Volunteer management: opportunities and shifts, sign-ups, hours tracking and volunteer rosters.",
+      "tools": [
+        {
+          "name": "list_opportunities",
+          "description": "List volunteer opportunities and shifts with open slots.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "from_date": {
+                "type": "string"
+              },
+              "to_date": {
+                "type": "string"
+              },
+              "group_id": {
+                "type": "string"
+              },
+              "location": {
+                "type": "string"
+              },
+              "has_open_slots": {
+                "type": "boolean",
+                "default": true
+              }
+            }
+          }
+        },
+        {
+          "name": "create_shift",
+          "description": "Create a volunteer shift with slots, location, required skills and minimum age.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "event_name": {
+                "type": "string"
+              },
+              "start": {
+                "type": "string"
+              },
+              "end": {
+                "type": "string"
+              },
+              "slots": {
+                "type": "integer"
+              },
+              "location": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "required_skills": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "min_age": {
+                "type": "integer"
+              }
+            },
+            "required": [
+              "event_name",
+              "start",
+              "end",
+              "slots"
+            ]
+          }
+        },
+        {
+          "name": "register_volunteer",
+          "description": "Sign a volunteer up for a shift; creates the volunteer if new.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "shift_id": {
+                "type": "string"
+              },
+              "volunteer_id": {
+                "type": "string"
+              },
+              "volunteer": {
+                "type": "object",
+                "properties": {
+                  "first_name": {
+                    "type": "string"
+                  },
+                  "last_name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "phone": {
+                    "type": "string"
+                  }
+                }
+              },
+              "waiver_signed": {
+                "type": "boolean",
+                "default": false
+              }
+            },
+            "required": [
+              "shift_id"
+            ]
+          }
+        },
+        {
+          "name": "log_volunteer_hours",
+          "description": "Log hours.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "volunteer_id": {
+                "type": "string"
+              },
+              "shift_id": {
+                "type": "string"
+              },
+              "hours": {
+                "type": "number"
+              },
+              "date": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "volunteer_id",
+              "hours"
+            ]
+          }
+        },
+        {
+          "name": "list_volunteers",
+          "description": "Search the volunteer roster.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string"
+              },
+              "skill": {
+                "type": "string"
+              },
+              "active_since": {
+                "type": "string"
+              },
+              "limit": {
+                "type": "integer"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "tripleseat",
+      "name": "Tripleseat",
+      "server": "mcp://tripleseat",
+      "summary": "Venue and private event booking: find venues and rooms, submit event inquiries and manage bookings and event orders.",
+      "tools": [
+        {
+          "name": "search_venues",
+          "description": "Search event venues and private dining spaces by city, guest count, date availability and amenities.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "city": {
+                "type": "string"
+              },
+              "guest_count": {
+                "type": "integer"
+              },
+              "event_date": {
+                "type": "string"
+              },
+              "amenities": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "av_equipment",
+                    "catering",
+                    "parking",
+                    "wheelchair_accessible",
+                    "outdoor_space",
+                    "stage",
+                    "bar"
+                  ]
+                }
+              },
+              "max_rental_fee": {
+                "type": "number"
+              },
+              "limit": {
+                "type": "integer",
+                "default": 20
+              }
+            },
+            "required": [
+              "city"
+            ]
+          }
+        },
+        {
+          "name": "check_room_availability",
+          "description": "Check whether a room is free.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "venue_id": {
+                "type": "string"
+              },
+              "room_id": {
+                "type": "string"
+              },
+              "date": {
+                "type": "string"
+              },
+              "start_time": {
+                "type": "string"
+              },
+              "end_time": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "venue_id",
+              "date"
+            ]
+          }
+        },
+        {
+          "name": "create_lead",
+          "description": "Submit an event inquiry (lead) to a venue's sales team.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "venue_id": {
+                "type": "string"
+              },
+              "contact": {
+                "type": "object",
+                "properties": {
+                  "first_name": {
+                    "type": "string"
+                  },
+                  "last_name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "phone": {
+                    "type": "string"
+                  },
+                  "organization": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "first_name",
+                  "last_name",
+                  "email"
+                ]
+              },
+              "event_date": {
+                "type": "string"
+              },
+              "start_time": {
+                "type": "string"
+              },
+              "end_time": {
+                "type": "string"
+              },
+              "guest_count": {
+                "type": "integer"
+              },
+              "event_type": {
+                "type": "string",
+                "enum": [
+                  "fundraiser",
+                  "gala",
+                  "conference",
+                  "meeting",
+                  "wedding",
+                  "party",
+                  "other"
+                ]
+              },
+              "budget": {
+                "type": "number"
+              },
+              "notes": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "venue_id",
+              "contact",
+              "event_date",
+              "guest_count"
+            ]
+          }
+        },
+        {
+          "name": "create_booking",
+          "description": "Create a booking and hold rooms.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "venue_id": {
+                "type": "string"
+              },
+              "room_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "event": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "date": {
+                    "type": "string"
+                  },
+                  "start_time": {
+                    "type": "string"
+                  },
+                  "end_time": {
+                    "type": "string"
+                  },
+                  "guest_count": {
+                    "type": "integer"
+                  }
+                }
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "prospect",
+                  "tentative",
+                  "definite"
+                ],
+                "default": "tentative"
+              },
+              "deposit_amount": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "venue_id",
+              "room_ids",
+              "event"
+            ]
+          }
+        },
+        {
+          "name": "get_event_order",
+          "description": "Retrieve the banquet event order (BEO) with menu, timeline, room setup and billing.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "booking_id": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "booking_id"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

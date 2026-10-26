@@ -1,0 +1,1093 @@
+{
+  "branch": {
+    "id": "research_science",
+    "name": "Research & Science",
+    "summary": "Scientific research workflows: electronic lab notebooks and DNA sequences, chemical compound and protein lookups, BLAST searches, literature search, research dataset repositories and citation management."
+  },
+  "toolkits": [
+    {
+      "id": "benchling",
+      "name": "Benchling",
+      "server": "mcp://benchling",
+      "summary": "Electronic lab notebook and molecular biology registry: notebook entries, DNA sequences, registered entities, requests and assay results.",
+      "tools": [
+        {
+          "name": "list_entries",
+          "description": "List notebook entries, filterable by project, folder, author or review status.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "project_id": {
+                "type": "string"
+              },
+              "folder_id": {
+                "type": "string"
+              },
+              "author_id": {
+                "type": "string"
+              },
+              "review_status": {
+                "type": "string",
+                "enum": [
+                  "IN_PROGRESS",
+                  "NEEDS_REVIEW",
+                  "ACCEPTED",
+                  "REJECTED",
+                  "RETRACTED"
+                ]
+              },
+              "modified_at": {
+                "type": "string",
+                "description": "Filter by modification time, e.g. '> 2024-01-01'."
+              },
+              "page_size": {
+                "type": "integer",
+                "description": "Max 100.",
+                "default": 50
+              }
+            }
+          }
+        },
+        {
+          "name": "get_entry",
+          "description": "Get a notebook entry by ID, including its days and notes.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "entry_id": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "entry_id"
+            ]
+          }
+        },
+        {
+          "name": "create_entry",
+          "description": "Create a notebook entry in a folder, optionally from an entry template.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "folder_id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "entry_template_id": {
+                "type": "string"
+              },
+              "author_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "fields": {
+                "type": "object",
+                "description": "Schema field values, keyed by field name.",
+                "additionalProperties": {
+                  "type": "object",
+                  "properties": {
+                    "value": {}
+                  }
+                }
+              }
+            },
+            "required": [
+              "folder_id",
+              "name"
+            ]
+          }
+        },
+        {
+          "name": "search_dna_sequences",
+          "description": "Search DNA sequences by name, base-pair substring, schema or registry.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "bases": {
+                "type": "string",
+                "description": "Exact substring of bases to match."
+              },
+              "schema_id": {
+                "type": "string"
+              },
+              "registry_id": {
+                "type": "string"
+              },
+              "page_size": {
+                "type": "integer"
+              }
+            }
+          }
+        },
+        {
+          "name": "create_dna_sequence",
+          "description": "Create a DNA sequence with bases, topology, annotations and schema fields.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "bases": {
+                "type": "string"
+              },
+              "is_circular": {
+                "type": "boolean",
+                "description": "Circular (plasmid) or linear.",
+                "default": false
+              },
+              "folder_id": {
+                "type": "string"
+              },
+              "schema_id": {
+                "type": "string"
+              },
+              "annotations": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "start": {
+                      "type": "integer",
+                      "description": "0-based start."
+                    },
+                    "end": {
+                      "type": "integer",
+                      "description": "Exclusive end."
+                    },
+                    "strand": {
+                      "type": "integer",
+                      "enum": [
+                        -1,
+                        0,
+                        1
+                      ]
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "color": {
+                      "type": "string",
+                      "description": "Hex color."
+                    }
+                  }
+                }
+              },
+              "fields": {
+                "type": "object",
+                "description": "Schema field values.",
+                "additionalProperties": true
+              }
+            },
+            "required": [
+              "name",
+              "bases",
+              "is_circular",
+              "folder_id"
+            ]
+          }
+        },
+        {
+          "name": "register_entities",
+          "description": "Register entities into a registry with a naming strategy.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "registry_id": {
+                "type": "string"
+              },
+              "entity_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "naming_strategy": {
+                "type": "string",
+                "enum": [
+                  "NEW_IDS",
+                  "IDS_FROM_NAMES",
+                  "DELETE_NAMES",
+                  "SET_FROM_NAME_PARTS",
+                  "KEEP_NAMES"
+                ]
+              }
+            },
+            "required": [
+              "registry_id",
+              "entity_ids",
+              "naming_strategy"
+            ]
+          }
+        },
+        {
+          "name": "list_assay_results",
+          "description": "List assay results for a result schema, optionally filtered by entity or creation date.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "schema_id": {
+                "type": "string"
+              },
+              "entity_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "created_at": {
+                "type": "string"
+              },
+              "page_size": {
+                "type": "integer"
+              }
+            },
+            "required": [
+              "schema_id"
+            ]
+          }
+        },
+        {
+          "name": "create_request",
+          "description": "Create a lab request (e.g. sequencing, cell culture) assigned to a team with sample groups and a scheduled date.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "schema_id": {
+                "type": "string"
+              },
+              "project_id": {
+                "type": "string"
+              },
+              "assignees": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "user_id": {
+                      "type": "string"
+                    },
+                    "team_id": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "scheduled_on": {
+                "type": "string",
+                "description": "YYYY-MM-DD"
+              },
+              "fields": {
+                "type": "object",
+                "description": "Request schema fields.",
+                "additionalProperties": true
+              },
+              "sample_groups": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "description": "Sample group with entity references.",
+                  "additionalProperties": true
+                }
+              }
+            },
+            "required": [
+              "schema_id",
+              "project_id"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "pubchem",
+      "name": "PubChem",
+      "server": "mcp://pubchem",
+      "summary": "NCBI PubChem chemistry database: compound search, properties, synonyms, structure similarity and safety data.",
+      "tools": [
+        {
+          "name": "search_compounds",
+          "description": "Search PubChem compounds by name, synonym, SMILES, InChIKey or molecular formula; returns matching CIDs.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string"
+              },
+              "namespace": {
+                "type": "string",
+                "enum": [
+                  "name",
+                  "smiles",
+                  "inchikey",
+                  "formula",
+                  "cid"
+                ],
+                "default": "name"
+              },
+              "max_records": {
+                "type": "integer",
+                "description": "Maximum CIDs to return.",
+                "default": 10
+              }
+            },
+            "required": [
+              "query"
+            ]
+          }
+        },
+        {
+          "name": "get_compound_properties",
+          "description": "Get computed properties (formula, molecular weight, SMILES, IUPAC name, XLogP, TPSA, H-bond counts) for one or more compounds.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "cids": {
+                "type": "array",
+                "items": {
+                  "type": "integer"
+                },
+                "description": "PubChem compound IDs."
+              },
+              "properties": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "MolecularFormula",
+                    "MolecularWeight",
+                    "CanonicalSMILES",
+                    "IsomericSMILES",
+                    "InChI",
+                    "InChIKey",
+                    "IUPACName",
+                    "XLogP",
+                    "TPSA",
+                    "HBondDonorCount",
+                    "HBondAcceptorCount",
+                    "RotatableBondCount",
+                    "ExactMass",
+                    "Charge"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "cids"
+            ]
+          }
+        },
+        {
+          "name": "get_synonyms",
+          "description": "Get synonyms for a compound CID.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "cid": {
+                "type": "integer"
+              }
+            },
+            "required": [
+              "cid"
+            ]
+          }
+        },
+        {
+          "name": "similarity_search",
+          "description": "Find compounds structurally similar to a query structure using 2D Tanimoto similarity on PubChem fingerprints.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "smiles": {
+                "type": "string"
+              },
+              "threshold": {
+                "type": "integer",
+                "description": "Tanimoto threshold 0-100.",
+                "default": 90
+              },
+              "max_records": {
+                "type": "integer",
+                "description": "Max hits.",
+                "default": 50
+              }
+            },
+            "required": [
+              "smiles"
+            ]
+          }
+        },
+        {
+          "name": "get_safety_data",
+          "description": "Get GHS hazard classification, pictograms and precautionary statements for a compound.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "cid": {
+                "type": "integer"
+              }
+            },
+            "required": [
+              "cid"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "ebi_services",
+      "name": "EMBL-EBI Services",
+      "server": "mcp://ebi",
+      "summary": "EMBL-EBI bioinformatics web services: UniProt protein search, BLAST sequence similarity and Europe PMC literature search.",
+      "tools": [
+        {
+          "name": "search_proteins",
+          "description": "Query UniProtKB for protein entries by gene name, protein name, organism or keyword. Supports UniProt query syntax, e.g. gene:BRCA1 AND organism_id:9606.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string"
+              },
+              "reviewed": {
+                "type": "boolean",
+                "description": "Only Swiss-Prot (reviewed) entries.",
+                "default": false
+              },
+              "fields": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Columns to return, e.g. accession, gene_names, organism_name, length, cc_function."
+              },
+              "format": {
+                "type": "string",
+                "enum": [
+                  "json",
+                  "tsv",
+                  "fasta"
+                ],
+                "default": "json"
+              },
+              "size": {
+                "type": "integer",
+                "description": "Max results (<=500).",
+                "default": 25
+              }
+            },
+            "required": [
+              "query"
+            ]
+          }
+        },
+        {
+          "name": "get_protein_entry",
+          "description": "Get a UniProtKB entry by accession with function, sequence, domains, PTMs and cross-references.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "accession": {
+                "type": "string",
+                "description": "UniProt accession, e.g. P38398."
+              },
+              "include_features": {
+                "type": "boolean",
+                "description": "Include sequence features.",
+                "default": true
+              }
+            },
+            "required": [
+              "accession"
+            ]
+          }
+        },
+        {
+          "name": "run_blast",
+          "description": "Submit a BLAST similarity search against an EBI sequence database. Returns a job ID; results typically take seconds to a few minutes.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "sequence": {
+                "type": "string",
+                "description": "Query sequence in FASTA or raw format."
+              },
+              "program": {
+                "type": "string",
+                "enum": [
+                  "blastp",
+                  "blastn",
+                  "blastx",
+                  "tblastn"
+                ]
+              },
+              "database": {
+                "type": "string",
+                "enum": [
+                  "uniprotkb_swissprot",
+                  "uniprotkb",
+                  "pdb",
+                  "em_rel"
+                ],
+                "default": "uniprotkb_swissprot"
+              },
+              "email": {
+                "type": "string",
+                "description": "Contact email required by EBI."
+              },
+              "exp": {
+                "type": "number",
+                "description": "E-value threshold.",
+                "default": 10
+              },
+              "alignments": {
+                "type": "integer",
+                "description": "Number of alignments to report.",
+                "default": 50
+              },
+              "matrix": {
+                "type": "string",
+                "enum": [
+                  "BLOSUM45",
+                  "BLOSUM62",
+                  "BLOSUM80",
+                  "PAM30",
+                  "PAM70"
+                ],
+                "default": "BLOSUM62"
+              }
+            },
+            "required": [
+              "sequence",
+              "program",
+              "email"
+            ]
+          }
+        },
+        {
+          "name": "get_job_result",
+          "description": "Fetch the result of a BLAST job.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "job_id": {
+                "type": "string"
+              },
+              "result_type": {
+                "type": "string",
+                "enum": [
+                  "out",
+                  "json",
+                  "ids"
+                ],
+                "default": "json"
+              }
+            },
+            "required": [
+              "job_id"
+            ]
+          }
+        },
+        {
+          "name": "search_papers",
+          "description": "Search Europe PMC for journal articles and preprints. Returns title, authors, journal, year, DOI, PMID and open-access status.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string",
+                "description": "Search query; supports fields like TITLE:, AUTH:, JOURNAL:."
+              },
+              "sort": {
+                "type": "string",
+                "enum": [
+                  "relevance",
+                  "date",
+                  "cited"
+                ],
+                "default": "relevance"
+              },
+              "open_access_only": {
+                "type": "boolean",
+                "description": "Only open-access full texts.",
+                "default": false
+              },
+              "include_preprints": {
+                "type": "boolean",
+                "description": "Include preprints (bioRxiv, medRxiv).",
+                "default": true
+              },
+              "from_year": {
+                "type": "integer"
+              },
+              "to_year": {
+                "type": "integer"
+              },
+              "page_size": {
+                "type": "integer",
+                "description": "Max 1000.",
+                "default": 25
+              }
+            },
+            "required": [
+              "query"
+            ]
+          }
+        },
+        {
+          "name": "get_citations",
+          "description": "List articles citing a given article.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "source": {
+                "type": "string",
+                "enum": [
+                  "MED",
+                  "PMC",
+                  "PPR"
+                ],
+                "default": "MED"
+              },
+              "id": {
+                "type": "string",
+                "description": "PMID or source ID."
+              },
+              "page_size": {
+                "type": "integer"
+              }
+            },
+            "required": [
+              "id"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "zenodo",
+      "name": "Zenodo",
+      "server": "mcp://zenodo",
+      "summary": "Open research data repository: search published datasets and software, and deposit new versioned records with DOIs.",
+      "tools": [
+        {
+          "name": "search_records",
+          "description": "Search published Zenodo records (datasets, software, papers) by keyword, community or resource type.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "q": {
+                "type": "string",
+                "description": "Elasticsearch query string."
+              },
+              "type": {
+                "type": "string",
+                "enum": [
+                  "dataset",
+                  "software",
+                  "publication",
+                  "poster",
+                  "presentation",
+                  "image",
+                  "video"
+                ]
+              },
+              "communities": {
+                "type": "string",
+                "description": "Community identifier."
+              },
+              "access_right": {
+                "type": "string",
+                "enum": [
+                  "open",
+                  "embargoed",
+                  "restricted",
+                  "closed"
+                ]
+              },
+              "sort": {
+                "type": "string",
+                "enum": [
+                  "bestmatch",
+                  "mostrecent",
+                  "mostviewed"
+                ],
+                "default": "bestmatch"
+              },
+              "size": {
+                "type": "integer",
+                "description": "Results per page.",
+                "default": 10
+              }
+            },
+            "required": [
+              "q"
+            ]
+          }
+        },
+        {
+          "name": "get_record",
+          "description": "Get a published record with files, versions and citation info.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "record_id": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "record_id"
+            ]
+          }
+        },
+        {
+          "name": "create_deposition",
+          "description": "Create a new draft upload (deposition) with metadata. Files are added separately; the deposition is not public until published.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "metadata": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string"
+                  },
+                  "upload_type": {
+                    "type": "string",
+                    "enum": [
+                      "dataset",
+                      "software",
+                      "publication",
+                      "poster",
+                      "presentation",
+                      "image",
+                      "video",
+                      "other"
+                    ]
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "HTML allowed."
+                  },
+                  "creators": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string",
+                          "description": "Family, Given"
+                        },
+                        "affiliation": {
+                          "type": "string"
+                        },
+                        "orcid": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "name"
+                      ]
+                    }
+                  },
+                  "keywords": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "license": {
+                    "type": "string",
+                    "description": "SPDX id, e.g. cc-by-4.0.",
+                    "default": "cc-by-4.0"
+                  },
+                  "access_right": {
+                    "type": "string",
+                    "enum": [
+                      "open",
+                      "embargoed",
+                      "restricted",
+                      "closed"
+                    ],
+                    "default": "open"
+                  },
+                  "embargo_date": {
+                    "type": "string"
+                  },
+                  "related_identifiers": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "identifier": {
+                          "type": "string"
+                        },
+                        "relation": {
+                          "type": "string",
+                          "enum": [
+                            "isSupplementTo",
+                            "isCitedBy",
+                            "cites",
+                            "isNewVersionOf",
+                            "isPartOf"
+                          ]
+                        }
+                      }
+                    }
+                  }
+                },
+                "required": [
+                  "title",
+                  "upload_type",
+                  "description",
+                  "creators"
+                ]
+              }
+            },
+            "required": [
+              "metadata"
+            ]
+          }
+        },
+        {
+          "name": "upload_file",
+          "description": "Upload a file to a draft deposition's bucket.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "deposition_id": {
+                "type": "string"
+              },
+              "filename": {
+                "type": "string"
+              },
+              "file_url": {
+                "type": "string",
+                "description": "Source URL or local path."
+              }
+            },
+            "required": [
+              "deposition_id",
+              "filename",
+              "file_url"
+            ]
+          }
+        },
+        {
+          "name": "publish_deposition",
+          "description": "Publish a draft deposition. This mints a DOI and cannot be undone.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "deposition_id": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "deposition_id"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "zotero",
+      "name": "Zotero",
+      "server": "mcp://zotero",
+      "summary": "Reference and citation manager: search a Zotero library, add items by DOI, manage collections and export bibliographies.",
+      "tools": [
+        {
+          "name": "search_library",
+          "description": "Search items in a Zotero user or group library by title, creator, year or full text.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "library_type": {
+                "type": "string",
+                "enum": [
+                  "user",
+                  "group"
+                ],
+                "default": "user"
+              },
+              "library_id": {
+                "type": "string"
+              },
+              "q": {
+                "type": "string"
+              },
+              "qmode": {
+                "type": "string",
+                "enum": [
+                  "titleCreatorYear",
+                  "everything"
+                ],
+                "default": "titleCreatorYear"
+              },
+              "item_type": {
+                "type": "string",
+                "description": "e.g. journalArticle, book, preprint."
+              },
+              "tag": {
+                "type": "string"
+              },
+              "sort": {
+                "type": "string",
+                "enum": [
+                  "dateAdded",
+                  "dateModified",
+                  "title",
+                  "creator",
+                  "date"
+                ]
+              },
+              "limit": {
+                "type": "integer",
+                "description": "Max 100.",
+                "default": 25
+              }
+            },
+            "required": [
+              "q"
+            ]
+          }
+        },
+        {
+          "name": "add_item_by_identifier",
+          "description": "Create a library item from a DOI, ISBN, PMID or arXiv ID with metadata filled in automatically.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "identifier": {
+                "type": "string"
+              },
+              "collection_key": {
+                "type": "string"
+              },
+              "tags": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": [
+              "identifier"
+            ]
+          }
+        },
+        {
+          "name": "list_collection_items",
+          "description": "List items in a collection.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "collection_key": {
+                "type": "string"
+              },
+              "limit": {
+                "type": "integer"
+              }
+            },
+            "required": [
+              "collection_key"
+            ]
+          }
+        },
+        {
+          "name": "create_collection",
+          "description": "Create a collection.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "parent_collection_key": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "name"
+            ]
+          }
+        },
+        {
+          "name": "export_bibliography",
+          "description": "Format items as a bibliography or in-text citations in a citation style (APA, Chicago, Nature, IEEE, ...) or export as BibTeX/RIS.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "item_keys": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "style": {
+                "type": "string",
+                "description": "CSL style id.",
+                "default": "apa"
+              },
+              "format": {
+                "type": "string",
+                "enum": [
+                  "bib",
+                  "citation",
+                  "bibtex",
+                  "ris",
+                  "csljson"
+                ],
+                "default": "bib"
+              },
+              "locale": {
+                "type": "string",
+                "description": "Locale for formatting.",
+                "default": "en-US"
+              }
+            },
+            "required": [
+              "item_keys"
+            ]
+          }
+        },
+        {
+          "name": "add_note",
+          "description": "Attach a note to an item.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "item_key": {
+                "type": "string"
+              },
+              "note": {
+                "type": "string",
+                "description": "HTML note content."
+              },
+              "tags": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": [
+              "item_key",
+              "note"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

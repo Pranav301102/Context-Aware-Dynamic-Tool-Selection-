@@ -1,0 +1,1391 @@
+{
+ "branch": {
+  "id": "bfcl_c31",
+  "name": "convert / color / currency",
+  "summary": "Functions about convert, color, currency, conversion, converts, unit, fahrenheit, value, celsius, rgb, temperature, colors."
+ },
+ "toolkits": [
+  {
+   "id": "color_converter",
+   "name": "color_converter",
+   "server": "bfcl://color_converter",
+   "summary": "Convert a color from RGB (Red, Green, Blue) format to Pantone. Retrieve RGB values and hexadecimal codes of a specific color.",
+   "tools": [
+    {
+     "name": "RGB_to_Pantone",
+     "description": "Convert a color from RGB (Red, Green, Blue) format to Pantone.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "red": {
+        "type": "integer",
+        "description": "The red component of the RGB color, ranging from 0 to 255."
+       },
+       "green": {
+        "type": "integer",
+        "description": "The green component of the RGB color, ranging from 0 to 255."
+       },
+       "blue": {
+        "type": "integer",
+        "description": "The blue component of the RGB color, ranging from 0 to 255."
+       }
+      },
+      "required": [
+       "red",
+       "green",
+       "blue"
+      ]
+     }
+    },
+    {
+     "name": "get_color_info",
+     "description": "Retrieve RGB values and hexadecimal codes of a specific color.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "color_name": {
+        "type": "string",
+        "description": "The name of the color."
+       },
+       "conversion_type": {
+        "type": "array",
+        "items": {
+         "type": "string",
+         "enum": [
+          "RGB",
+          "HEX"
+         ]
+        },
+        "description": "The conversion type for the color."
+       }
+      },
+      "required": [
+       "color_name",
+       "conversion_type"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "color_mix",
+   "name": "color_mix",
+   "server": "bfcl://color_mix",
+   "summary": "Mix two colors together based on specific proportions.",
+   "tools": [
+    {
+     "name": "mix_two_colors",
+     "description": "Mix two colors together based on specific proportions.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "color1": {
+        "type": "string",
+        "description": "The hex code of the first color, e.g. #FAEBD7"
+       },
+       "color2": {
+        "type": "string",
+        "description": "The hex code of the second color, e.g. #00FFFF"
+       },
+       "ratio": {
+        "type": "array",
+        "items": {
+         "type": "integer"
+        },
+        "description": "The proportion of the two colors in the mix, default is [1, 1]."
+       }
+      },
+      "required": [
+       "color1",
+       "color2"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "convert",
+   "name": "convert",
+   "server": "bfcl://convert",
+   "summary": "Converts RGB values to Hexadecimal color code.",
+   "tools": [
+    {
+     "name": "rgb_to_hex",
+     "description": "Converts RGB values to Hexadecimal color code.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "r": {
+        "type": "integer",
+        "description": "The Red component."
+       },
+       "g": {
+        "type": "integer",
+        "description": "The Green component."
+       },
+       "b": {
+        "type": "integer",
+        "description": "The Blue component."
+       }
+      },
+      "required": [
+       "r",
+       "g",
+       "b"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "cooking_conversion",
+   "name": "cooking_conversion",
+   "server": "bfcl://cooking_conversion",
+   "summary": "Convert cooking measurements from one unit to another.",
+   "tools": [
+    {
+     "name": "convert",
+     "description": "Convert cooking measurements from one unit to another.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "quantity": {
+        "type": "integer",
+        "description": "The quantity to be converted."
+       },
+       "from_unit": {
+        "type": "string",
+        "description": "The unit to convert from."
+       },
+       "to_unit": {
+        "type": "string",
+        "description": "The unit to convert to."
+       },
+       "item": {
+        "type": "string",
+        "description": "The item to be converted."
+       }
+      },
+      "required": [
+       "quantity",
+       "from_unit",
+       "to_unit",
+       "item"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "currency_conversion",
+   "name": "currency_conversion",
+   "server": "bfcl://currency_conversion",
+   "summary": "Convert a value from one currency to another. Converts a specified amount of money from one currency to another at the latest rate.",
+   "tools": [
+    {
+     "name": "convert",
+     "description": "Convert a value from one currency to another.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "amount": {
+        "type": "integer",
+        "description": "The amount to be converted."
+       },
+       "from_currency": {
+        "type": "string",
+        "description": "The currency to convert from."
+       },
+       "to_currency": {
+        "type": "string",
+        "description": "The currency to convert to."
+       }
+      },
+      "required": [
+       "amount",
+       "from_currency",
+       "to_currency"
+      ]
+     }
+    },
+    {
+     "name": "convert_2",
+     "description": "Converts a specified amount of money from one currency to another at the latest rate.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "from_currency": {
+        "type": "string",
+        "description": "The currency that you want to convert from."
+       },
+       "to_currency": {
+        "type": "string",
+        "description": "The currency that you want to convert to."
+       },
+       "amount": {
+        "type": "number",
+        "description": "The amount of money that you want to convert."
+       }
+      },
+      "required": [
+       "from_currency",
+       "to_currency",
+       "amount"
+      ]
+     }
+    },
+    {
+     "name": "get_latest_rate",
+     "description": "Get the latest currency conversion rate from one currency to another.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "from_currency": {
+        "type": "string",
+        "description": "The currency that you want to convert from."
+       },
+       "to_currency": {
+        "type": "string",
+        "description": "The currency that you want to convert to."
+       }
+      },
+      "required": [
+       "from_currency",
+       "to_currency"
+      ]
+     }
+    },
+    {
+     "name": "get_rate",
+     "description": "Get the currency conversion rate from one currency to another at a specified date.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "from_currency": {
+        "type": "string",
+        "description": "The currency that you want to convert from."
+       },
+       "to_currency": {
+        "type": "string",
+        "description": "The currency that you want to convert to."
+       },
+       "date": {
+        "type": "string",
+        "description": "The date at which the conversion rate applies. Default is the current date.",
+        "default": "today"
+       }
+      },
+      "required": [
+       "from_currency",
+       "to_currency"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "currency_exchange",
+   "name": "currency_exchange",
+   "server": "bfcl://currency_exchange",
+   "summary": "Calculate the exchanged amount of money based on the exchange rate. Convert an amount from a base currency to a target currency based on the current exchange rate.",
+   "tools": [
+    {
+     "name": "calculate",
+     "description": "Calculate the exchanged amount of money based on the exchange rate.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "base_amount": {
+        "type": "number",
+        "description": "The amount of money to be exchanged."
+       },
+       "base_currency": {
+        "type": "string",
+        "description": "The current currency of the money."
+       },
+       "target_currency": {
+        "type": "string",
+        "description": "The currency to be converted to."
+       }
+      },
+      "required": [
+       "base_amount",
+       "base_currency",
+       "target_currency"
+      ]
+     }
+    },
+    {
+     "name": "convert",
+     "description": "Convert an amount from a base currency to a target currency based on the current exchange rate.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "base_currency": {
+        "type": "string",
+        "description": "The currency to convert from."
+       },
+       "target_currency": {
+        "type": "string",
+        "description": "The currency to convert to."
+       },
+       "amount": {
+        "type": "number",
+        "description": "The amount in base currency to convert"
+       }
+      },
+      "required": [
+       "base_currency",
+       "target_currency",
+       "amount"
+      ]
+     }
+    },
+    {
+     "name": "convert_2",
+     "description": "Convert an amount from a base currency to a target currency based on the current exchange rate.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "base_currency": {
+        "type": "string",
+        "description": "The currency to convert from."
+       },
+       "target_currency": {
+        "type": "string",
+        "description": "The currency to convert to."
+       },
+       "amount": {
+        "type": "integer",
+        "description": "The amount in base currency to convert"
+       }
+      },
+      "required": [
+       "base_currency",
+       "target_currency",
+       "amount"
+      ]
+     }
+    },
+    {
+     "name": "convert_3",
+     "description": "Converts a value from one currency to another using the latest exchange rate.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "amount": {
+        "type": "integer",
+        "description": "The amount of money to be converted."
+       },
+       "from_currency": {
+        "type": "string",
+        "description": "The currency to convert from."
+       },
+       "to_currency": {
+        "type": "string",
+        "description": "The currency to convert to."
+       },
+       "live_conversion": {
+        "type": "boolean",
+        "description": "If true, use the latest exchange rate for conversion, else use the last known rate. Default false"
+       }
+      },
+      "required": [
+       "amount",
+       "from_currency",
+       "to_currency"
+      ]
+     }
+    },
+    {
+     "name": "convert_4",
+     "description": "Converts a value from one currency to another using the latest exchange rate.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "amount": {
+        "type": "integer",
+        "description": "The amount of money to be converted."
+       },
+       "from_currency": {
+        "type": "string",
+        "description": "The currency to convert from."
+       },
+       "to_currency": {
+        "type": "string",
+        "description": "The currency to convert to."
+       },
+       "live_conversion": {
+        "type": "boolean",
+        "description": "If true, use the latest exchange rate for conversion, else use the last known rate. Default is true."
+       }
+      },
+      "required": [
+       "amount",
+       "from_currency",
+       "to_currency"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "note_conversion",
+   "name": "note_conversion",
+   "server": "bfcl://note_conversion",
+   "summary": "Converts a note in Western music to Indian classical music.",
+   "tools": [
+    {
+     "name": "indian",
+     "description": "Converts a note in Western music to Indian classical music.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "note": {
+        "type": "string",
+        "description": "The note in Western musical scale."
+       }
+      },
+      "required": [
+       "note"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "psychology",
+   "name": "psychology",
+   "server": "bfcl://psychology",
+   "summary": "Analyze the symbolic representation of a color in personality psychology.",
+   "tools": [
+    {
+     "name": "color_representation",
+     "description": "Analyze the symbolic representation of a color in personality psychology.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "color": {
+        "type": "string",
+        "description": "The color to analyze."
+       },
+       "context": {
+        "type": "string",
+        "description": "The context in which the color is being analyzed, e.g. dream interpretation, room decoration etc."
+       },
+       "individual_traits": {
+        "type": "string",
+        "description": "The individual traits of the person whom color is associated with.",
+        "default": "traits"
+       }
+      },
+      "required": [
+       "color",
+       "context"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "temperature_converter",
+   "name": "temperature_converter",
+   "server": "bfcl://temperature_converter",
+   "summary": "Convert a temperature from one unit to another.",
+   "tools": [
+    {
+     "name": "convert",
+     "description": "Convert a temperature from one unit to another.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "temperature": {
+        "type": "number",
+        "description": "The temperature to convert."
+       },
+       "from_unit": {
+        "type": "string",
+        "description": "The unit to convert from."
+       },
+       "to_unit": {
+        "type": "string",
+        "description": "The unit to convert to."
+       },
+       "round_to": {
+        "type": "integer",
+        "description": "The number of decimal places to round the result to. Defaults to 2."
+       }
+      },
+      "required": [
+       "temperature",
+       "from_unit",
+       "to_unit"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "text_to_speech",
+   "name": "text_to_speech",
+   "server": "bfcl://text_to_speech",
+   "summary": "Converts a given text string into spoken words in an audio format. Converts input text into spoken audio, providing the resulting audio in a specified format.",
+   "tools": [
+    {
+     "name": "convert",
+     "description": "Converts a given text string into spoken words in an audio format.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "text"
+      ],
+      "properties": {
+       "text": {
+        "type": "string",
+        "description": "The text content to be converted into speech."
+       },
+       "language": {
+        "type": "string",
+        "description": "The language in which the text is written, use default if nothing specified",
+        "enum": [
+         "en-US",
+         "es-ES",
+         "de-DE",
+         "fr-FR",
+         "it-IT"
+        ],
+        "default": "en-US"
+       },
+       "gender": {
+        "type": "string",
+        "description": "The gender of the voice used for the text-to-speech conversion, use default if nothing specified",
+        "enum": [
+         "male",
+         "female"
+        ],
+        "default": "female"
+       },
+       "speed": {
+        "type": "number",
+        "description": "The speed at which the speech is narrated, ranging from 0.5 (slow) to 2.0 (fast), use default if nothing specified",
+        "default": 1.0
+       }
+      }
+     }
+    },
+    {
+     "name": "convert_2",
+     "description": "Converts input text into spoken audio, providing the resulting audio in a specified format.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "text"
+      ],
+      "properties": {
+       "text": {
+        "type": "string",
+        "description": "The text to be converted to speech."
+       },
+       "language": {
+        "type": "string",
+        "description": "The language of the input text, use default if nothing specified",
+        "enum": [
+         "en-US",
+         "es-ES",
+         "de-DE",
+         "fr-FR",
+         "it-IT"
+        ],
+        "default": "en-US"
+       },
+       "gender": {
+        "type": "string",
+        "description": "The gender of the voice used for the text-to-speech conversion, use default if nothing specified",
+        "enum": [
+         "male",
+         "female"
+        ],
+        "default": "female"
+       },
+       "format": {
+        "type": "string",
+        "description": "The audio format of the resulting spoken text, use default if nothing specified",
+        "enum": [
+         "mp3",
+         "wav",
+         "ogg"
+        ],
+        "default": "mp3"
+       },
+       "speed": {
+        "type": "number",
+        "description": "The speed of the speech, represented as a float where 1.0 is the normal speed.",
+        "default": 1.0
+       }
+      }
+     }
+    },
+    {
+     "name": "convert_3",
+     "description": "Converts input text into spoken audio, providing the resulting audio in a specified format.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "text"
+      ],
+      "properties": {
+       "text": {
+        "type": "string",
+        "description": "The text to be converted to speech."
+       },
+       "language": {
+        "type": "string",
+        "description": "The language to convert the input text to, use default if nothing specified",
+        "enum": [
+         "en-US",
+         "es-ES",
+         "de-DE",
+         "fr-FR",
+         "it-IT",
+         "zh-CN"
+        ],
+        "default": "en-US"
+       },
+       "gender": {
+        "type": "string",
+        "description": "The gender of the voice used for the text-to-speech conversion, use default if nothing specified",
+        "enum": [
+         "male",
+         "female"
+        ],
+        "default": "female"
+       },
+       "format": {
+        "type": "string",
+        "description": "The audio format of the resulting spoken text, use default if nothing specified",
+        "enum": [
+         "mp3",
+         "wav",
+         "ogg"
+        ],
+        "default": "mp3"
+       },
+       "speed": {
+        "type": "number",
+        "description": "The speed of the speech, represented as a float where 1.0 is the normal speed.",
+        "default": 1.0
+       }
+      }
+     }
+    }
+   ]
+  },
+  {
+   "id": "timezone",
+   "name": "timezone",
+   "server": "bfcl://timezone",
+   "summary": "Convert time from one time zone to another.",
+   "tools": [
+    {
+     "name": "convert",
+     "description": "Convert time from one time zone to another.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "time": {
+        "type": "string",
+        "description": "The local time you want to convert, e.g. 3pm"
+       },
+       "from_timezone": {
+        "type": "string",
+        "description": "The time zone you want to convert from."
+       },
+       "to_timezone": {
+        "type": "string",
+        "description": "The time zone you want to convert to."
+       }
+      },
+      "required": [
+       "time",
+       "from_timezone",
+       "to_timezone"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "unit_conversion",
+   "name": "unit_conversion",
+   "server": "bfcl://unit_conversion",
+   "summary": "Convert a value from one unit to another. Converts a value from one unit to another.",
+   "tools": [
+    {
+     "name": "convert",
+     "description": "Convert a value from one unit to another.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "value": {
+        "type": "number",
+        "description": "The value to be converted."
+       },
+       "from_unit": {
+        "type": "string",
+        "description": "The unit to convert from."
+       },
+       "to_unit": {
+        "type": "string",
+        "description": "The unit to convert to."
+       }
+      },
+      "required": [
+       "value",
+       "from_unit",
+       "to_unit"
+      ]
+     }
+    },
+    {
+     "name": "convert_2",
+     "description": "Converts a value from one unit to another.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "value": {
+        "type": "integer",
+        "description": "The value to be converted."
+       },
+       "from_unit": {
+        "type": "string",
+        "description": "The unit to convert from."
+       },
+       "to_unit": {
+        "type": "string",
+        "description": "The unit to convert to."
+       }
+      },
+      "required": [
+       "value",
+       "from_unit",
+       "to_unit"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "bfcl_c31_g0",
+   "name": "currency convert conversion",
+   "server": "bfcl://bfcl_c31_g0",
+   "summary": "Functions for currency, convert, conversion, fahrenheit, celsius, converts.",
+   "tools": [
+    {
+     "name": "celsius_to_fahrenheit",
+     "description": "Converts a given temperature from Celsius to Fahrenheit.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "celsius"
+      ],
+      "properties": {
+       "celsius": {
+        "type": "number",
+        "description": "The temperature in degrees Celsius to be converted to Fahrenheit."
+       }
+      }
+     }
+    },
+    {
+     "name": "celsius_to_fahrenheit_2",
+     "description": "Converts a temperature given in Celsius to Fahrenheit.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "celsius"
+      ],
+      "properties": {
+       "celsius": {
+        "type": "number",
+        "description": "Temperature in degrees Celsius that needs to be converted to Fahrenheit."
+       }
+      }
+     }
+    },
+    {
+     "name": "celsius_to_fahrenheit_3",
+     "description": "Converts temperature from Celsius to Fahrenheit.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "celsius"
+      ],
+      "properties": {
+       "celsius": {
+        "type": "number",
+        "description": "The temperature in degrees Celsius that needs to be converted to Fahrenheit."
+       }
+      }
+     }
+    },
+    {
+     "name": "convert_celsius_to_fahrenheit",
+     "description": "Convert a temperature from Celsius to Fahrenheit.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "celsius": {
+        "type": "number",
+        "description": "The temperature in Celsius to be converted."
+       },
+       "precision": {
+        "type": "integer",
+        "description": "The decimal precision for the conversion result.",
+        "default": 2
+       }
+      },
+      "required": [
+       "celsius"
+      ]
+     }
+    },
+    {
+     "name": "convert_currency",
+     "description": "Convert a amount from one currency to another at the current exchange rate.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "amount": {
+        "type": "number",
+        "description": "The amount of money you want to convert."
+       },
+       "from_currency": {
+        "type": "string",
+        "description": "The currency to convert from."
+       },
+       "to_currency": {
+        "type": "string",
+        "description": "The currency to convert to."
+       }
+      },
+      "required": [
+       "amount",
+       "from_currency",
+       "to_currency"
+      ]
+     }
+    },
+    {
+     "name": "convert_currency_2",
+     "description": "Converts a given amount of money from one currency to another",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "amount": {
+        "type": "number",
+        "description": "The amount of money to convert"
+       },
+       "from_currency": {
+        "type": "string",
+        "description": "The current currency of the money"
+       },
+       "to_currency": {
+        "type": "string",
+        "description": "The desired currency of the money"
+       }
+      },
+      "required": [
+       "amount",
+       "from_currency",
+       "to_currency"
+      ]
+     }
+    },
+    {
+     "name": "convert_currency_3",
+     "description": "Converts an amount from a particular currency to another currency.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "base_currency": {
+        "type": "string",
+        "description": "The base currency in which the original amount is present."
+       },
+       "target_currency": {
+        "type": "string",
+        "description": "The currency to which you want to convert."
+       },
+       "amount": {
+        "type": "integer",
+        "description": "The amount you want to convert."
+       }
+      },
+      "required": [
+       "base_currency",
+       "target_currency",
+       "amount"
+      ]
+     }
+    },
+    {
+     "name": "currency_conversion",
+     "description": "Convert a specific amount from one currency to another",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "amount": {
+        "type": "number",
+        "description": "Amount to convert."
+       },
+       "from_currency": {
+        "type": "string",
+        "description": "Source currency."
+       },
+       "to_currency": {
+        "type": "string",
+        "description": "Target currency."
+       }
+      },
+      "required": [
+       "amount",
+       "from_currency",
+       "to_currency"
+      ]
+     }
+    },
+    {
+     "name": "currency_conversion_2",
+     "description": "Convert a value from one currency to another.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "amount": {
+        "type": "number",
+        "description": "The amount to be converted."
+       },
+       "from_currency": {
+        "type": "string",
+        "description": "The currency to convert from."
+       },
+       "to_currency": {
+        "type": "string",
+        "description": "The currency to convert to."
+       }
+      },
+      "required": [
+       "amount",
+       "from_currency",
+       "to_currency"
+      ]
+     }
+    },
+    {
+     "name": "currency_conversion_3",
+     "description": "Convert a value from one currency to another.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "amount": {
+        "type": "integer",
+        "description": "The amount to be converted."
+       },
+       "from_currency": {
+        "type": "string",
+        "description": "The currency to convert from."
+       },
+       "to_currency": {
+        "type": "string",
+        "description": "The currency to convert to."
+       }
+      },
+      "required": [
+       "amount",
+       "from_currency",
+       "to_currency"
+      ]
+     }
+    },
+    {
+     "name": "currency_converter",
+     "description": "Calculates the cost in target currency given the amount in base currency and exchange rate",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "base_currency": {
+        "type": "string",
+        "description": "The currency to convert from."
+       },
+       "target_currency": {
+        "type": "string",
+        "description": "The currency to convert to."
+       },
+       "amount": {
+        "type": "number",
+        "description": "The amount in base currency"
+       }
+      },
+      "required": [
+       "base_currency",
+       "target_currency",
+       "amount"
+      ]
+     }
+    },
+    {
+     "name": "currency_converter_2",
+     "description": "Calculates the current cost in target currency given the amount in base currency and exchange rate",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "base_currency": {
+        "type": "string",
+        "description": "The currency to convert from."
+       },
+       "target_currency": {
+        "type": "string",
+        "description": "The currency to convert to."
+       },
+       "amount": {
+        "type": "number",
+        "description": "The amount in base currency"
+       }
+      },
+      "required": [
+       "base_currency",
+       "target_currency",
+       "amount"
+      ]
+     }
+    },
+    {
+     "name": "currency_converter_3",
+     "description": "Converts a value from one currency to another.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "base_currency": {
+        "type": "string",
+        "description": "The base currency you want to convert from."
+       },
+       "target_currency": {
+        "type": "string",
+        "description": "The target currency you want to convert to."
+       },
+       "amount": {
+        "type": "number",
+        "description": "The amount of money you want to convert."
+       }
+      },
+      "required": [
+       "base_currency",
+       "target_currency",
+       "amount"
+      ]
+     }
+    },
+    {
+     "name": "fahrenheit_to_celsius",
+     "description": "Convert a temperature from Fahrenheit to Celsius. This function takes a temperature value in Fahrenheit and returns the converted temperature in Celsius.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "fahrenheit"
+      ],
+      "properties": {
+       "fahrenheit": {
+        "type": "number",
+        "description": "Temperature in degrees Fahrenheit."
+       }
+      }
+     }
+    },
+    {
+     "name": "fahrenheit_to_celsius_2",
+     "description": "Convert a temperature from Fahrenheit to Celsius.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "fahrenheit"
+      ],
+      "properties": {
+       "fahrenheit": {
+        "type": "number",
+        "description": "The temperature in degrees Fahrenheit that needs to be converted to Celsius."
+       }
+      }
+     }
+    },
+    {
+     "name": "fahrenheit_to_celsius_3",
+     "description": "Converts a temperature from Fahrenheit to Celsius.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "fahrenheit"
+      ],
+      "properties": {
+       "fahrenheit": {
+        "type": "number",
+        "description": "The temperature in degrees Fahrenheit to be converted to Celsius."
+       }
+      }
+     }
+    },
+    {
+     "name": "get_conversion_cost",
+     "description": "Convert a value from one currency to another including conversion charges.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "amount": {
+        "type": "integer",
+        "description": "The amount of money to be converted."
+       },
+       "from_currency": {
+        "type": "string",
+        "description": "The current currency of the amount."
+       },
+       "to_currency": {
+        "type": "string",
+        "description": "The target currency."
+       }
+      },
+      "required": [
+       "amount",
+       "from_currency",
+       "to_currency"
+      ]
+     }
+    },
+    {
+     "name": "process_transactions",
+     "description": "This function processes a batch of financial transactions, applies currency conversion rates, and optionally filters transactions based on a status code.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "transactions",
+       "conversion_rates"
+      ],
+      "properties": {
+       "transactions": {
+        "type": "array",
+        "items": {
+         "type": "object"
+        },
+        "description": "A list of transactions, each transaction is represented as a dictionary containing details such as the transaction ID, amount, and currency."
+       },
+       "conversion_rates": {
+        "type": "object",
+        "properties": {
+         "USD": {
+          "type": "number",
+          "description": "Conversion rate from USD to the target currency."
+         },
+         "EUR": {
+          "type": "number",
+          "description": "Conversion rate from EUR to the target currency."
+         },
+         "GBP": {
+          "type": "number",
+          "description": "Conversion rate from GBP to the target currency."
+         }
+        },
+        "description": "A dictionary mapping currency codes to their respective conversion rates into the target currency."
+       },
+       "target_currency": {
+        "type": "string",
+        "description": "The currency to which all transaction amounts should be converted. Must be a valid ISO currency code.",
+        "enum": [
+         "USD",
+         "EUR",
+         "GBP"
+        ],
+        "default": "USD"
+       },
+       "filter_status": {
+        "type": "string",
+        "description": "Optional filter to include only transactions with a specified status code. Valid statuses are 'pending', 'completed', and 'cancelled'.",
+        "enum": [
+         "pending",
+         "completed",
+         "cancelled"
+        ],
+        "default": null
+       }
+      }
+     }
+    },
+    {
+     "name": "unit_conversion",
+     "description": "Convert a value from one unit to another.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "value": {
+        "type": "number",
+        "description": "The value to be converted."
+       },
+       "from_unit": {
+        "type": "string",
+        "description": "The unit to convert from."
+       },
+       "to_unit": {
+        "type": "string",
+        "description": "The unit to convert to."
+       }
+      },
+      "required": [
+       "value",
+       "from_unit",
+       "to_unit"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "bfcl_c31_g1",
+   "name": "color paint colors",
+   "server": "bfcl://bfcl_c31_g1",
+   "summary": "Functions for color, paint, colors, skin, complimentary, rgb.",
+   "tools": [
+    {
+     "name": "color_complimentary",
+     "description": "Determine the color complimentary to the given one. Complimentary colors provide a strong contrast.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "color": {
+        "type": "string",
+        "description": "The base color that you want to find the complement of."
+       },
+       "color_format": {
+        "type": "string",
+        "description": "Format to receive the complimentary color, options are RGB or HEX.",
+        "default": "RGB"
+       }
+      },
+      "required": [
+       "color"
+      ]
+     }
+    },
+    {
+     "name": "get_skin_color",
+     "description": "Retrieves the specified skin color value. If the skin color is not specified, an error is raised.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "skin_color"
+      ],
+      "properties": {
+       "skin_color": {
+        "type": "string",
+        "description": "The specified skin color to retrieve. Must be a known color name.",
+        "enum": [
+         "fair",
+         "light",
+         "medium",
+         "tan",
+         "dark",
+         "deep"
+        ]
+       }
+      }
+     }
+    },
+    {
+     "name": "identify_color_rgb",
+     "description": "This function identifies the RGB values of a named color.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "color_name": {
+        "type": "string",
+        "description": "Name of the color."
+       },
+       "standard": {
+        "type": "string",
+        "description": "The color standard (e.g. basic, pantone). Default is 'basic'"
+       }
+      },
+      "required": [
+       "color_name"
+      ]
+     }
+    },
+    {
+     "name": "mix_paint_color",
+     "description": "Combine two primary paint colors and adjust the resulting color's lightness level.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "color1": {
+        "type": "string",
+        "description": "The first primary color to be mixed."
+       },
+       "color2": {
+        "type": "string",
+        "description": "The second primary color to be mixed."
+       },
+       "lightness": {
+        "type": "integer",
+        "description": "The desired lightness level of the resulting color in percentage. The default level is set to 50%."
+       }
+      },
+      "required": [
+       "color1",
+       "color2"
+      ]
+     }
+    },
+    {
+     "name": "mix_paint_color_2",
+     "description": "Combine two primary paint colors and adjust the resulting color's lightness level.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "color1": {
+        "type": "string",
+        "description": "The first primary color to be mixed."
+       },
+       "color2": {
+        "type": "string",
+        "description": "The second primary color to be mixed."
+       },
+       "lightness": {
+        "type": "integer",
+        "description": "The desired lightness level of the resulting color in percentage. The default level is set to 50."
+       }
+      },
+      "required": [
+       "color1",
+       "color2"
+      ]
+     }
+    },
+    {
+     "name": "paint_color_mixture",
+     "description": "Gives a combination of primary colors to mix for creating a certain color. This function requires type of paint and color.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "paint_type": {
+        "type": "string",
+        "description": "The type of paint (Watercolor, Oil, Acrylic)."
+       },
+       "color": {
+        "type": "string",
+        "description": "The color to be produced from the mixture."
+       }
+      },
+      "required": [
+       "paint_type",
+       "color"
+      ]
+     }
+    }
+   ]
+  }
+ ]
+}

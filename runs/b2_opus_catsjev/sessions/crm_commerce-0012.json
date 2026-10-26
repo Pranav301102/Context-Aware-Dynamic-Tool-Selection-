@@ -1,0 +1,56 @@
+{
+ "task_id": "crm_commerce-0012",
+ "mode": "cats",
+ "loaded": [
+  "shopify.get_order_by_id",
+  "shopify.get_orders",
+  "shopify.refund_order"
+ ],
+ "order": [
+  "shopify.get_order_by_id",
+  "shopify.get_orders",
+  "shopify.refund_order"
+ ],
+ "scores": {
+  "shopify.get_order_by_id": 0.07050293535563848,
+  "shopify.get_orders": 0.10251321196750346,
+  "shopify.refund_order": 0.6759224463636085
+ },
+ "router_tokens": 0,
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "shopify.refund_order",
+   "args": {
+    "orderId": "1042",
+    "refundLineItems": [
+     {
+      "lineItemId": "<wool_socks_line_item_id>",
+      "quantity": 1,
+      "restockType": "NO_RESTOCK"
+     }
+    ],
+    "note": "One pair of Wool Socks arrived torn - refund for one pair, no restock.",
+    "notify": true
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 3,
+   "tool_tokens": 533,
+   "t": 1791321377.0227373
+  },
+  {
+   "type": "call",
+   "tool": "shopify__refund_order",
+   "valid": true,
+   "t": 1791321399.096627
+  }
+ ],
+ "done": true,
+ "t_done": 1791321402.6790016,
+ "final": ""
+}

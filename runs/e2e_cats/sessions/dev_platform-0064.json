@@ -1,0 +1,53 @@
+{
+ "task_id": "dev_platform-0064",
+ "mode": "cats",
+ "loaded": [
+  "circleci.get_build_failure_logs",
+  "circleci.rerun_workflow",
+  "datadog.get_logs",
+  "github.get_job_logs",
+  "github.list_workflow_runs",
+  "github.rerun_failed_jobs",
+  "gitlab.get_pipeline_job_output",
+  "grafana.query_loki_logs",
+  "kubernetes.kubectl_logs"
+ ],
+ "order": [
+  "circleci.get_build_failure_logs",
+  "circleci.rerun_workflow",
+  "datadog.get_logs",
+  "github.get_job_logs",
+  "github.list_workflow_runs",
+  "github.rerun_failed_jobs",
+  "gitlab.get_pipeline_job_output",
+  "grafana.query_loki_logs",
+  "kubernetes.kubectl_logs"
+ ],
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "github.get_job_logs",
+   "args": {
+    "owner": "acme",
+    "repo": "web",
+    "job_id": 55601,
+    "return_content": true
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 9,
+   "tool_tokens": 2282
+  },
+  {
+   "type": "call",
+   "tool": "github__get_job_logs",
+   "valid": true
+  }
+ ],
+ "done": true,
+ "final": ""
+}

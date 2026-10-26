@@ -1,0 +1,76 @@
+{
+ "task_id": "cloud_ops-0058",
+ "mode": "cats",
+ "loaded": [
+  "datadog.list_incidents",
+  "pagerduty.add_note_to_incident",
+  "pagerduty.create_incident",
+  "pagerduty.get_incident",
+  "pagerduty.list_incidents",
+  "pagerduty.manage_incidents"
+ ],
+ "order": [
+  "datadog.list_incidents",
+  "pagerduty.add_note_to_incident",
+  "pagerduty.create_incident",
+  "pagerduty.get_incident",
+  "pagerduty.list_incidents",
+  "pagerduty.manage_incidents"
+ ],
+ "scores": {
+  "datadog.list_incidents": 0.24993966158579267,
+  "pagerduty.add_note_to_incident": 0.805901139589873,
+  "pagerduty.create_incident": 0.1022054496305591,
+  "pagerduty.get_incident": 0.7215214119937657,
+  "pagerduty.list_incidents": 0.34140378695560436,
+  "pagerduty.manage_incidents": 0.25584967835575434
+ },
+ "router_tokens": 1457,
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "pagerduty.list_incidents",
+   "args": {
+    "query_model": {
+     "statuses": [
+      "triggered",
+      "acknowledged"
+     ],
+     "since": "2026-10-05T00:00:00Z",
+     "until": "2026-10-06T00:00:00Z",
+     "request_scope": "all",
+     "limit": 50
+    }
+   }
+  },
+  {
+   "tool": "pagerduty.add_note_to_incident",
+   "args": {
+    "incident_id": "INC001",
+    "note": "This was the synthetic check misfiring"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 6,
+   "tool_tokens": 1226,
+   "t": 1791322104.762712
+  },
+  {
+   "type": "call",
+   "tool": "pagerduty__list_incidents",
+   "valid": true,
+   "t": 1791322116.3743625
+  },
+  {
+   "type": "call",
+   "tool": "pagerduty__add_note_to_incident",
+   "valid": true,
+   "t": 1791322138.6601317
+  }
+ ],
+ "done": false
+}

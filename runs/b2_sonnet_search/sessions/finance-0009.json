@@ -1,0 +1,64 @@
+{
+ "task_id": "finance-0009",
+ "mode": "search",
+ "loaded": [
+  "frankfurter.get_historical_rates",
+  "openweathermap.get_historical_weather",
+  "alpha_vantage.currency_exchange_rate",
+  "yahoo_finance.get_historical_stock_prices",
+  "frankfurter.get_time_series"
+ ],
+ "order": [
+  "frankfurter.get_historical_rates",
+  "openweathermap.get_historical_weather",
+  "alpha_vantage.currency_exchange_rate",
+  "yahoo_finance.get_historical_stock_prices",
+  "frankfurter.get_time_series"
+ ],
+ "scores": {
+  "frankfurter.get_historical_rates": 2.0,
+  "openweathermap.get_historical_weather": 2.0,
+  "alpha_vantage.currency_exchange_rate": 2.0,
+  "yahoo_finance.get_historical_stock_prices": 2.0,
+  "frankfurter.get_time_series": 2.0
+ },
+ "router_tokens": 0,
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "frankfurter.get_historical_rates",
+   "args": {
+    "date": "2024-03-15",
+    "base": "EUR",
+    "symbols": "CHF"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0
+  },
+  {
+   "type": "request_tools",
+   "capability": "get historical exchange rate for a specific past date",
+   "added": [
+    "frankfurter.get_historical_rates",
+    "openweathermap.get_historical_weather",
+    "alpha_vantage.currency_exchange_rate",
+    "yahoo_finance.get_historical_stock_prices",
+    "frankfurter.get_time_series"
+   ],
+   "tool_tokens": 947
+  },
+  {
+   "type": "call",
+   "tool": "frankfurter__get_historical_rates",
+   "valid": true
+  }
+ ],
+ "done": true,
+ "final": ""
+}

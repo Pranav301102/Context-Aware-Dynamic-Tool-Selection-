@@ -1,0 +1,83 @@
+{
+ "task_id": "search-0024",
+ "mode": "cats",
+ "loaded": [
+  "brave_search.brave_video_search",
+  "elevenlabs.speech_to_text",
+  "exa.linkedin_search_exa",
+  "exa.web_search_exa",
+  "ffmpeg_video.burn_subtitles",
+  "ffmpeg_video.concatenate_videos",
+  "ffmpeg_video.convert_video",
+  "google_calendar.update_event",
+  "semantic_scholar.paper_relevance_search",
+  "tavily.tavily_crawl"
+ ],
+ "order": [
+  "brave_search.brave_video_search",
+  "elevenlabs.speech_to_text",
+  "exa.linkedin_search_exa",
+  "exa.web_search_exa",
+  "ffmpeg_video.burn_subtitles",
+  "ffmpeg_video.concatenate_videos",
+  "ffmpeg_video.convert_video",
+  "google_calendar.update_event",
+  "semantic_scholar.paper_relevance_search",
+  "tavily.tavily_crawl"
+ ],
+ "scores": {
+  "brave_search.brave_video_search": 0.20256417962778164,
+  "elevenlabs.speech_to_text": 0.31573733849526303,
+  "exa.linkedin_search_exa": 0.792312845951891,
+  "exa.web_search_exa": 0.09203043454647676,
+  "ffmpeg_video.burn_subtitles": 0.22138984416265875,
+  "ffmpeg_video.concatenate_videos": 0.23851742545594445,
+  "ffmpeg_video.convert_video": 0.5686004405768538,
+  "google_calendar.update_event": 0.13626526244180748,
+  "semantic_scholar.paper_relevance_search": 0.047825202188918836,
+  "tavily.tavily_crawl": 0.039188113644423525
+ },
+ "router_tokens": 0,
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "exa.linkedin_search_exa",
+   "args": {
+    "query": "CTO Supabase",
+    "searchType": "profiles",
+    "numResults": 5
+   }
+  },
+  {
+   "tool": "brave_search.brave_video_search",
+   "args": {
+    "query": "Supabase CTO conference talk",
+    "count": 20
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 10,
+   "tool_tokens": 3371,
+   "t": 1791321518.6278033
+  },
+  {
+   "type": "call",
+   "tool": "exa__linkedin_search_exa",
+   "valid": true,
+   "t": 1791321529.654371
+  },
+  {
+   "type": "call",
+   "tool": "brave_search__brave_video_search",
+   "valid": true,
+   "t": 1791321540.2167096
+  }
+ ],
+ "done": true,
+ "t_done": 1791321543.8855424,
+ "final": ""
+}

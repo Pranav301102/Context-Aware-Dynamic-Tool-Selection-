@@ -1,0 +1,914 @@
+{
+  "branch": {
+    "id": "gaming",
+    "name": "Gaming",
+    "summary": "Video games: player profiles, stats and achievements, match history and live games, matchmaking and lobbies, leaderboards, player inventories, virtual currency and in-game store purchases."
+  },
+  "toolkits": [
+    {
+      "id": "steam_web",
+      "name": "Steam Web API",
+      "server": "mcp://steam",
+      "summary": "Steam player profiles, game libraries, achievements, friends and store data.",
+      "tools": [
+        {
+          "name": "get_player_summary",
+          "description": "Get public profile info for Steam users: persona name, avatar, online status and the game they are playing.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "steam_ids": {
+                "type": "array",
+                "description": "64-bit SteamIDs (max 100).",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": [
+              "steam_ids"
+            ]
+          }
+        },
+        {
+          "name": "resolve_vanity_url",
+          "description": "Resolve vanity URL.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "vanity_url": {
+                "type": "string",
+                "description": "Custom profile name."
+              }
+            },
+            "required": [
+              "vanity_url"
+            ]
+          }
+        },
+        {
+          "name": "get_owned_games",
+          "description": "List games a player owns with total and recent playtime.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "steam_id": {
+                "type": "string",
+                "description": "SteamID."
+              },
+              "include_appinfo": {
+                "type": "boolean",
+                "description": "Include names and icons.",
+                "default": true
+              },
+              "include_played_free_games": {
+                "type": "boolean",
+                "description": "Include free games played.",
+                "default": false
+              }
+            },
+            "required": [
+              "steam_id"
+            ]
+          }
+        },
+        {
+          "name": "get_player_achievements",
+          "description": "Get a player's unlocked achievements for a game.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "steam_id": {
+                "type": "string",
+                "description": "SteamID."
+              },
+              "app_id": {
+                "type": "integer",
+                "description": "Game app id."
+              },
+              "language": {
+                "type": "string",
+                "description": "Language.",
+                "default": "english"
+              }
+            },
+            "required": [
+              "steam_id",
+              "app_id"
+            ]
+          }
+        },
+        {
+          "name": "get_friend_list",
+          "description": "Get friend list.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "steam_id": {
+                "type": "string",
+                "description": "SteamID."
+              },
+              "relationship": {
+                "type": "string",
+                "description": "Relationship.",
+                "enum": [
+                  "all",
+                  "friend"
+                ],
+                "default": "friend"
+              }
+            },
+            "required": [
+              "steam_id"
+            ]
+          }
+        },
+        {
+          "name": "get_app_details",
+          "description": "Store details for a game: price, current discount, genres, release date, Metacritic score and system requirements.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "app_id": {
+                "type": "integer",
+                "description": "App id."
+              },
+              "country_code": {
+                "type": "string",
+                "description": "Store region for pricing.",
+                "default": "us"
+              },
+              "language": {
+                "type": "string",
+                "description": "Language."
+              }
+            },
+            "required": [
+              "app_id"
+            ]
+          }
+        },
+        {
+          "name": "get_news_for_app",
+          "description": "Get news",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "app_id": {
+                "type": "integer",
+                "description": "App id."
+              },
+              "count": {
+                "type": "integer",
+                "description": "Items.",
+                "default": 5
+              },
+              "max_length": {
+                "type": "integer",
+                "description": "Truncate contents."
+              }
+            },
+            "required": [
+              "app_id"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "playfab_economy",
+      "name": "PlayFab Economy",
+      "server": "mcp://playfab-economy",
+      "summary": "Azure PlayFab catalog, in-game store, player inventory and virtual currencies.",
+      "tools": [
+        {
+          "name": "get_catalog_items",
+          "description": "Search the title's catalog of items, bundles and currencies.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "search": {
+                "type": "string",
+                "description": "Text search."
+              },
+              "filter": {
+                "type": "string",
+                "description": "OData filter, e.g. \"ContentType eq 'skin'\"."
+              },
+              "order_by": {
+                "type": "string",
+                "description": "Sort expression."
+              },
+              "count": {
+                "type": "integer",
+                "description": "Max results.",
+                "default": 50
+              }
+            }
+          }
+        },
+        {
+          "name": "get_store_items",
+          "description": "Get the items and prices in a store (e.g. the daily shop).",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "store_id": {
+                "type": "string",
+                "description": "Store id."
+              },
+              "player_id": {
+                "type": "string",
+                "description": "Personalize prices for this player."
+              }
+            },
+            "required": [
+              "store_id"
+            ]
+          }
+        },
+        {
+          "name": "purchase_item",
+          "description": "Purchase an item from a store for a player, paying with virtual currency.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "player_id": {
+                "type": "string",
+                "description": "Player entity id."
+              },
+              "item_id": {
+                "type": "string",
+                "description": "Item id."
+              },
+              "store_id": {
+                "type": "string",
+                "description": "Store id."
+              },
+              "price": {
+                "type": "object",
+                "description": "Expected price.",
+                "properties": {
+                  "currency_code": {
+                    "type": "string",
+                    "description": "Currency, e.g. 'GEMS'."
+                  },
+                  "amount": {
+                    "type": "integer",
+                    "description": "Amount."
+                  }
+                },
+                "required": [
+                  "currency_code",
+                  "amount"
+                ]
+              },
+              "amount": {
+                "type": "integer",
+                "description": "Quantity.",
+                "default": 1
+              }
+            },
+            "required": [
+              "player_id",
+              "item_id",
+              "price"
+            ]
+          }
+        },
+        {
+          "name": "get_player_inventory",
+          "description": "Get a player's inventory.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "player_id": {
+                "type": "string",
+                "description": "Player entity id."
+              },
+              "collection_id": {
+                "type": "string",
+                "description": "Inventory collection.",
+                "default": "default"
+              },
+              "filter": {
+                "type": "string",
+                "description": "OData filter."
+              },
+              "count": {
+                "type": "integer",
+                "description": "Max items."
+              }
+            },
+            "required": [
+              "player_id"
+            ]
+          }
+        },
+        {
+          "name": "grant_items",
+          "description": "Grant items to a player's inventory, e.g. rewards or compensation.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "player_id": {
+                "type": "string",
+                "description": "Player entity id."
+              },
+              "items": {
+                "type": "array",
+                "description": "Items.",
+                "items": {
+                  "type": "object",
+                  "description": "Grant.",
+                  "properties": {
+                    "item_id": {
+                      "type": "string",
+                      "description": "Item id."
+                    },
+                    "amount": {
+                      "type": "integer",
+                      "description": "Quantity.",
+                      "default": 1
+                    },
+                    "duration_seconds": {
+                      "type": "integer",
+                      "description": "Time-limited items."
+                    }
+                  },
+                  "required": [
+                    "item_id"
+                  ]
+                }
+              },
+              "reason": {
+                "type": "string",
+                "description": "Audit reason."
+              }
+            },
+            "required": [
+              "player_id",
+              "items"
+            ]
+          }
+        },
+        {
+          "name": "add_virtual_currency",
+          "description": "Add virtual currency.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "player_id": {
+                "type": "string",
+                "description": "Player entity id."
+              },
+              "currency_code": {
+                "type": "string",
+                "description": "Currency."
+              },
+              "amount": {
+                "type": "integer",
+                "description": "Amount."
+              }
+            },
+            "required": [
+              "player_id",
+              "currency_code",
+              "amount"
+            ]
+          }
+        },
+        {
+          "name": "list_transactions",
+          "description": "List a player's purchase and inventory transaction history.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "player_id": {
+                "type": "string",
+                "description": "Player entity id."
+              },
+              "since": {
+                "type": "string",
+                "description": "ISO 8601."
+              },
+              "count": {
+                "type": "integer",
+                "description": "Max.",
+                "default": 50
+              }
+            },
+            "required": [
+              "player_id"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "playfab_multiplayer",
+      "name": "PlayFab Multiplayer & Leaderboards",
+      "server": "mcp://playfab-multiplayer",
+      "summary": "Matchmaking tickets and matches, lobbies, player statistics and leaderboards.",
+      "tools": [
+        {
+          "name": "create_matchmaking_ticket",
+          "description": "Create a matchmaking ticket for a player or party in a queue. Poll get_matchmaking_ticket until status is Matched.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "queue_name": {
+                "type": "string",
+                "description": "Matchmaking queue, e.g. 'ranked_5v5'."
+              },
+              "creator": {
+                "type": "object",
+                "description": "Ticket creator.",
+                "properties": {
+                  "entity_id": {
+                    "type": "string",
+                    "description": "Player entity id."
+                  },
+                  "attributes": {
+                    "type": "object",
+                    "description": "Matchmaking attributes.",
+                    "properties": {
+                      "skill": {
+                        "type": "number",
+                        "description": "Skill rating."
+                      },
+                      "latencies": {
+                        "type": "array",
+                        "description": "Region latencies.",
+                        "items": {
+                          "type": "object",
+                          "description": "Latency.",
+                          "properties": {
+                            "region": {
+                              "type": "string",
+                              "description": "Region."
+                            },
+                            "latency_ms": {
+                              "type": "integer",
+                              "description": "Ping."
+                            }
+                          }
+                        }
+                      },
+                      "game_mode": {
+                        "type": "string",
+                        "description": "Preferred mode."
+                      }
+                    }
+                  }
+                },
+                "required": [
+                  "entity_id"
+                ]
+              },
+              "members_to_match_with": {
+                "type": "array",
+                "description": "Party member entity ids.",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "giveup_after_seconds": {
+                "type": "integer",
+                "description": "Give up after.",
+                "default": 120
+              }
+            },
+            "required": [
+              "queue_name",
+              "creator"
+            ]
+          }
+        },
+        {
+          "name": "get_matchmaking_ticket",
+          "description": "Get ticket status.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "queue_name": {
+                "type": "string",
+                "description": "Queue."
+              },
+              "ticket_id": {
+                "type": "string",
+                "description": "Ticket id."
+              }
+            },
+            "required": [
+              "queue_name",
+              "ticket_id"
+            ]
+          }
+        },
+        {
+          "name": "cancel_matchmaking_ticket",
+          "description": "Cancel a matchmaking ticket.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "queue_name": {
+                "type": "string",
+                "description": "Queue."
+              },
+              "ticket_id": {
+                "type": "string",
+                "description": "Ticket id."
+              }
+            },
+            "required": [
+              "queue_name",
+              "ticket_id"
+            ]
+          }
+        },
+        {
+          "name": "get_match",
+          "description": "Get match details: members, team arrangement and server connection info.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "queue_name": {
+                "type": "string",
+                "description": "Queue."
+              },
+              "match_id": {
+                "type": "string",
+                "description": "Match id."
+              },
+              "return_member_attributes": {
+                "type": "boolean",
+                "description": "Include attributes.",
+                "default": false
+              }
+            },
+            "required": [
+              "queue_name",
+              "match_id"
+            ]
+          }
+        },
+        {
+          "name": "create_lobby",
+          "description": "Create a lobby players can join with a connection string.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "owner_id": {
+                "type": "string",
+                "description": "Owner entity id."
+              },
+              "max_players": {
+                "type": "integer",
+                "description": "Max players.",
+                "default": 8
+              },
+              "access_policy": {
+                "type": "string",
+                "description": "Who can find it.",
+                "enum": [
+                  "Public",
+                  "Friends",
+                  "Private"
+                ],
+                "default": "Public"
+              },
+              "lobby_data": {
+                "type": "object",
+                "description": "Lobby properties visible to members.",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              "search_data": {
+                "type": "object",
+                "description": "Searchable properties, e.g. {\"string_key1\": \"map_dust\"}.",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": [
+              "owner_id"
+            ]
+          }
+        },
+        {
+          "name": "get_leaderboard",
+          "description": "Get top-ranked players on a statistic leaderboard.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "statistic_name": {
+                "type": "string",
+                "description": "Statistic, e.g. 'season_kills'."
+              },
+              "start_position": {
+                "type": "integer",
+                "description": "Start rank.",
+                "default": 0
+              },
+              "max_results": {
+                "type": "integer",
+                "description": "Max results (max 100).",
+                "default": 10
+              },
+              "version": {
+                "type": "integer",
+                "description": "Leaderboard version (season)."
+              }
+            },
+            "required": [
+              "statistic_name"
+            ]
+          }
+        },
+        {
+          "name": "get_leaderboard_around_player",
+          "description": "Leaderboard entries centered on a player.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "statistic_name": {
+                "type": "string",
+                "description": "Statistic."
+              },
+              "player_id": {
+                "type": "string",
+                "description": "Player id."
+              },
+              "max_results": {
+                "type": "integer",
+                "description": "Entries.",
+                "default": 11
+              }
+            },
+            "required": [
+              "statistic_name",
+              "player_id"
+            ]
+          }
+        },
+        {
+          "name": "update_player_statistics",
+          "description": "Update player statistics (score, kills, wins). Leaderboards update automatically.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "player_id": {
+                "type": "string",
+                "description": "Player id."
+              },
+              "statistics": {
+                "type": "array",
+                "description": "Values.",
+                "items": {
+                  "type": "object",
+                  "description": "Statistic.",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "description": "Name."
+                    },
+                    "value": {
+                      "type": "integer",
+                      "description": "Value."
+                    }
+                  },
+                  "required": [
+                    "name",
+                    "value"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "player_id",
+              "statistics"
+            ]
+          }
+        },
+        {
+          "name": "get_player_statistics",
+          "description": "Get player statistics.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "player_id": {
+                "type": "string",
+                "description": "Player id."
+              },
+              "statistic_names": {
+                "type": "array",
+                "description": "Names; omit for all.",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": [
+              "player_id"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "riot_games",
+      "name": "Riot Games API",
+      "server": "mcp://riot",
+      "summary": "League of Legends and Valorant accounts, ranked standings, match history and live games.",
+      "tools": [
+        {
+          "name": "get_account_by_riot_id",
+          "description": "Look up a Riot account (PUUID) by game name and tag line.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "game_name": {
+                "type": "string",
+                "description": "Game name."
+              },
+              "tag_line": {
+                "type": "string",
+                "description": "Tag line without '#'."
+              },
+              "region": {
+                "type": "string",
+                "description": "Routing region.",
+                "enum": [
+                  "americas",
+                  "europe",
+                  "asia",
+                  "sea"
+                ],
+                "default": "americas"
+              }
+            },
+            "required": [
+              "game_name",
+              "tag_line"
+            ]
+          }
+        },
+        {
+          "name": "get_match_ids",
+          "description": "List recent match ids for a player.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "puuid": {
+                "type": "string",
+                "description": "Player PUUID."
+              },
+              "queue": {
+                "type": "integer",
+                "description": "Queue id, e.g. 420 ranked solo."
+              },
+              "type": {
+                "type": "string",
+                "description": "Match type.",
+                "enum": [
+                  "ranked",
+                  "normal",
+                  "tourney",
+                  "tutorial"
+                ]
+              },
+              "start_time": {
+                "type": "integer",
+                "description": "Epoch seconds."
+              },
+              "count": {
+                "type": "integer",
+                "description": "Max ids.",
+                "default": 20
+              }
+            },
+            "required": [
+              "puuid"
+            ]
+          }
+        },
+        {
+          "name": "get_match",
+          "description": "Get match.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "match_id": {
+                "type": "string",
+                "description": "Match id, e.g. 'NA1_4893472932'."
+              }
+            },
+            "required": [
+              "match_id"
+            ]
+          }
+        },
+        {
+          "name": "get_ranked_entries",
+          "description": "Get ranked tier, division, LP and win/loss record for a player in each queue.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "puuid": {
+                "type": "string",
+                "description": "Player PUUID."
+              },
+              "platform": {
+                "type": "string",
+                "description": "Platform.",
+                "enum": [
+                  "na1",
+                  "euw1",
+                  "eun1",
+                  "kr",
+                  "br1",
+                  "jp1",
+                  "oc1",
+                  "la1"
+                ]
+              }
+            },
+            "required": [
+              "puuid",
+              "platform"
+            ]
+          }
+        },
+        {
+          "name": "get_live_game",
+          "description": "Get the game a player is currently in, if any.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "puuid": {
+                "type": "string",
+                "description": "Player PUUID."
+              },
+              "platform": {
+                "type": "string",
+                "description": "Platform.",
+                "enum": [
+                  "na1",
+                  "euw1",
+                  "eun1",
+                  "kr",
+                  "br1",
+                  "jp1",
+                  "oc1",
+                  "la1"
+                ]
+              }
+            },
+            "required": [
+              "puuid",
+              "platform"
+            ]
+          }
+        },
+        {
+          "name": "get_champion_mastery",
+          "description": "Champion mastery.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "puuid": {
+                "type": "string",
+                "description": "Player PUUID."
+              },
+              "platform": {
+                "type": "string",
+                "description": "Platform.",
+                "enum": [
+                  "na1",
+                  "euw1",
+                  "eun1",
+                  "kr",
+                  "br1",
+                  "jp1",
+                  "oc1",
+                  "la1"
+                ]
+              },
+              "top": {
+                "type": "integer",
+                "description": "Top N champions."
+              }
+            },
+            "required": [
+              "puuid",
+              "platform"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

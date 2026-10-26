@@ -1,0 +1,102 @@
+{
+ "task_id": "database-0019",
+ "mode": "search",
+ "loaded": [
+  "mysql.describe_table",
+  "sqlite.describe_table",
+  "mysql.execute_sql",
+  "postgres.explain_query",
+  "sqlite.read_query",
+  "postgres.get_object_details",
+  "postgres.execute_sql",
+  "postgres.get_top_queries",
+  "postgres.list_objects",
+  "postgres.apply_migration"
+ ],
+ "order": [
+  "mysql.describe_table",
+  "sqlite.describe_table",
+  "mysql.execute_sql",
+  "postgres.explain_query",
+  "sqlite.read_query",
+  "postgres.get_object_details",
+  "postgres.execute_sql",
+  "postgres.get_top_queries",
+  "postgres.list_objects",
+  "postgres.apply_migration"
+ ],
+ "scores": {
+  "mysql.describe_table": 2.0,
+  "sqlite.describe_table": 2.0,
+  "mysql.execute_sql": 2.0,
+  "postgres.explain_query": 2.0,
+  "sqlite.read_query": 2.0,
+  "postgres.get_object_details": 2.0,
+  "postgres.execute_sql": 2.0,
+  "postgres.get_top_queries": 2.0,
+  "postgres.list_objects": 2.0,
+  "postgres.apply_migration": 2.0
+ },
+ "router_tokens": 0,
+ "escalations": 2,
+ "calls": [
+  {
+   "tool": "postgres.get_object_details",
+   "args": {
+    "schema_name": "public",
+    "object_name": "events",
+    "object_type": "table"
+   }
+  },
+  {
+   "tool": "postgres.execute_sql",
+   "args": {
+    "sql": "SELECT count(*) FROM public.events WHERE created_at >= date_trunc('week', now()) - interval '1 week' AND created_at < date_trunc('week', now());"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0
+  },
+  {
+   "type": "request_tools",
+   "capability": "describe a PostgreSQL table's columns and run a SQL query",
+   "added": [
+    "mysql.describe_table",
+    "sqlite.describe_table",
+    "mysql.execute_sql",
+    "postgres.explain_query",
+    "sqlite.read_query"
+   ],
+   "tool_tokens": 575
+  },
+  {
+   "type": "request_tools",
+   "capability": "Postgres: get object details for a table (columns, types) and execute a read-only SQL query on a Postgres database",
+   "added": [
+    "postgres.get_object_details",
+    "postgres.execute_sql",
+    "postgres.get_top_queries",
+    "postgres.list_objects",
+    "postgres.apply_migration"
+   ],
+   "tool_tokens": 1226
+  },
+  {
+   "type": "call",
+   "tool": "postgres__get_object_details",
+   "valid": true
+  },
+  {
+   "type": "call",
+   "tool": "postgres__execute_sql",
+   "valid": true
+  }
+ ],
+ "done": true,
+ "final": ""
+}

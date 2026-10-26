@@ -1,0 +1,104 @@
+{
+ "task_id": "productivity-0048",
+ "mode": "search",
+ "loaded": [
+  "todoist.find_tasks_by_date",
+  "todoist.complete_tasks",
+  "todoist.find_projects",
+  "todoist.add_tasks",
+  "todoist.update_tasks",
+  "google_calendar.create_event",
+  "google_calendar.list_events",
+  "apple_mcp.calendar",
+  "google_calendar.delete_event",
+  "google_calendar.search_events"
+ ],
+ "order": [
+  "todoist.find_tasks_by_date",
+  "todoist.complete_tasks",
+  "todoist.find_projects",
+  "todoist.add_tasks",
+  "todoist.update_tasks",
+  "google_calendar.create_event",
+  "google_calendar.list_events",
+  "apple_mcp.calendar",
+  "google_calendar.delete_event",
+  "google_calendar.search_events"
+ ],
+ "scores": {
+  "todoist.find_tasks_by_date": 2.0,
+  "todoist.complete_tasks": 2.0,
+  "todoist.find_projects": 2.0,
+  "todoist.add_tasks": 2.0,
+  "todoist.update_tasks": 2.0,
+  "google_calendar.create_event": 2.0,
+  "google_calendar.list_events": 2.0,
+  "apple_mcp.calendar": 2.0,
+  "google_calendar.delete_event": 2.0,
+  "google_calendar.search_events": 2.0
+ },
+ "router_tokens": 0,
+ "escalations": 2,
+ "calls": [
+  {
+   "tool": "todoist.find_tasks_by_date",
+   "args": {
+    "startDate": "today"
+   }
+  },
+  {
+   "tool": "google_calendar.create_event",
+   "args": {
+    "calendarId": "primary",
+    "summary": "Focus: most urgent Todoist task due today",
+    "description": "Time blocked for the highest-priority Todoist task due today.",
+    "start": "2026-10-06T14:00:00",
+    "end": "2026-10-06T15:00:00"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0
+  },
+  {
+   "type": "request_tools",
+   "capability": "list Todoist tasks due today",
+   "added": [
+    "todoist.find_tasks_by_date",
+    "todoist.complete_tasks",
+    "todoist.find_projects",
+    "todoist.add_tasks",
+    "todoist.update_tasks"
+   ],
+   "tool_tokens": 1150
+  },
+  {
+   "type": "call",
+   "tool": "todoist__find_tasks_by_date",
+   "valid": true
+  },
+  {
+   "type": "request_tools",
+   "capability": "create an event on Google Calendar",
+   "added": [
+    "google_calendar.create_event",
+    "google_calendar.list_events",
+    "apple_mcp.calendar",
+    "google_calendar.delete_event",
+    "google_calendar.search_events"
+   ],
+   "tool_tokens": 2886
+  },
+  {
+   "type": "call",
+   "tool": "google_calendar__create_event",
+   "valid": true
+  }
+ ],
+ "done": true,
+ "final": ""
+}

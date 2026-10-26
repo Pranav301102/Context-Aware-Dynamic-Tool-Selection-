@@ -1,0 +1,91 @@
+{
+ "task_id": "cross-0118",
+ "mode": "cats",
+ "loaded": [
+  "github.create_issue",
+  "jira.create_issue",
+  "linear.create_comment",
+  "linear.create_issue",
+  "linear.list_issues",
+  "linear.update_issue",
+  "zendesk.create_ticket",
+  "zendesk.create_ticket_comment",
+  "zendesk.get_ticket",
+  "zendesk.get_ticket_comments",
+  "zendesk.get_tickets",
+  "zendesk.search",
+  "zendesk.update_ticket"
+ ],
+ "order": [
+  "github.create_issue",
+  "jira.create_issue",
+  "linear.create_comment",
+  "linear.create_issue",
+  "linear.list_issues",
+  "linear.update_issue",
+  "zendesk.create_ticket",
+  "zendesk.create_ticket_comment",
+  "zendesk.get_ticket",
+  "zendesk.get_ticket_comments",
+  "zendesk.get_tickets",
+  "zendesk.search",
+  "zendesk.update_ticket"
+ ],
+ "scores": {
+  "github.create_issue": 0.08663058168975092,
+  "jira.create_issue": 0.12947650617209872,
+  "linear.create_comment": 0.7721408668317575,
+  "linear.create_issue": 0.6695413598868367,
+  "linear.list_issues": 0.12901092328527286,
+  "linear.update_issue": 0.1897343442068125,
+  "zendesk.create_ticket": 0.46284359002718556,
+  "zendesk.create_ticket_comment": 0.1127318007692057,
+  "zendesk.get_ticket": 0.2587227229271016,
+  "zendesk.get_ticket_comments": 0.13631026893784215,
+  "zendesk.get_tickets": 0.49231155322210046,
+  "zendesk.search": 0.8769017513581034,
+  "zendesk.update_ticket": 0.10468787545469736
+ },
+ "router_tokens": 1448,
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "zendesk.search",
+   "args": {
+    "query": "type:ticket tag:bug created>2026-09-29"
+   }
+  },
+  {
+   "tool": "linear.create_issue",
+   "args": {
+    "title": "Summary of Zendesk bug tickets from this week",
+    "team": "Engineering",
+    "description": "Created based on Zendesk search results for tickets tagged bug created this week. Review and prioritize accordingly."
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 13,
+   "tool_tokens": 2636,
+   "t": 1791321631.1822565
+  },
+  {
+   "type": "call",
+   "tool": "zendesk__search",
+   "valid": true,
+   "t": 1791321646.3588805
+  },
+  {
+   "type": "call",
+   "tool": "linear__create_issue",
+   "valid": true,
+   "t": 1791321660.622943
+  }
+ ],
+ "done": true,
+ "t_done": 1791321665.5672712,
+ "final": ""
+}

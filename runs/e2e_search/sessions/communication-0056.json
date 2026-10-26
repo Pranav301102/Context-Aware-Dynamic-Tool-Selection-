@@ -1,0 +1,69 @@
+{
+ "task_id": "communication-0056",
+ "mode": "search",
+ "loaded": [
+  "slack.add_reaction",
+  "slack.reply_to_thread",
+  "slack.get_thread_replies",
+  "discord.add_reaction",
+  "slack.post_message"
+ ],
+ "order": [
+  "slack.add_reaction",
+  "slack.reply_to_thread",
+  "slack.get_thread_replies",
+  "discord.add_reaction",
+  "slack.post_message"
+ ],
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "slack.add_reaction",
+   "args": {
+    "channel_id": "C0OPS",
+    "timestamp": "1720000000.550000",
+    "reaction": "eyes"
+   }
+  },
+  {
+   "tool": "slack.reply_to_thread",
+   "args": {
+    "channel_id": "C0OPS",
+    "thread_ts": "1720000000.550000",
+    "text": "I'm on it"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0
+  },
+  {
+   "type": "request_tools",
+   "capability": "add an emoji reaction to a Slack message and reply in the message's thread",
+   "added": [
+    "slack.add_reaction",
+    "slack.reply_to_thread",
+    "slack.get_thread_replies",
+    "discord.add_reaction",
+    "slack.post_message"
+   ],
+   "tool_tokens": 566
+  },
+  {
+   "type": "call",
+   "tool": "slack__add_reaction",
+   "valid": true
+  },
+  {
+   "type": "call",
+   "tool": "slack__reply_to_thread",
+   "valid": true
+  }
+ ],
+ "done": true,
+ "final": ""
+}

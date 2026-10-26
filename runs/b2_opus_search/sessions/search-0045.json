@@ -1,0 +1,71 @@
+{
+ "task_id": "search-0045",
+ "mode": "search",
+ "loaded": [
+  "google_maps.maps_search_places",
+  "brave_search.brave_local_search",
+  "mapbox.search_and_geocode_tool",
+  "mapbox.category_search_tool",
+  "amadeus_travel.search_hotels_by_geocode"
+ ],
+ "order": [
+  "google_maps.maps_search_places",
+  "brave_search.brave_local_search",
+  "mapbox.search_and_geocode_tool",
+  "mapbox.category_search_tool",
+  "amadeus_travel.search_hotels_by_geocode"
+ ],
+ "scores": {
+  "google_maps.maps_search_places": 2.0,
+  "brave_search.brave_local_search": 2.0,
+  "mapbox.search_and_geocode_tool": 2.0,
+  "mapbox.category_search_tool": 2.0,
+  "amadeus_travel.search_hotels_by_geocode": 2.0
+ },
+ "router_tokens": 0,
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "google_maps.maps_search_places",
+   "args": {
+    "query": "pastelaria",
+    "location": {
+     "latitude": 38.7114,
+     "longitude": -9.13
+    },
+    "radius": 1000
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0,
+   "t": 1791321229.9562569
+  },
+  {
+   "type": "request_tools",
+   "capability": "search for nearby places (bakeries) around a location",
+   "added": [
+    "google_maps.maps_search_places",
+    "brave_search.brave_local_search",
+    "mapbox.search_and_geocode_tool",
+    "mapbox.category_search_tool",
+    "amadeus_travel.search_hotels_by_geocode"
+   ],
+   "tool_tokens": 1410,
+   "t": 1791321242.2535262
+  },
+  {
+   "type": "call",
+   "tool": "google_maps__maps_search_places",
+   "valid": true,
+   "t": 1791321257.1479902
+  }
+ ],
+ "done": true,
+ "t_done": 1791321259.8098075,
+ "final": ""
+}

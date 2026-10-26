@@ -1,0 +1,60 @@
+{
+ "task_id": "communication-0048",
+ "mode": "cats",
+ "loaded": [
+  "gmail.create_filter",
+  "gmail.create_label",
+  "gmail.delete_email",
+  "gmail.download_attachment",
+  "gmail.list_email_labels",
+  "gmail.modify_email",
+  "gmail.read_email"
+ ],
+ "order": [
+  "gmail.create_filter",
+  "gmail.create_label",
+  "gmail.delete_email",
+  "gmail.download_attachment",
+  "gmail.list_email_labels",
+  "gmail.modify_email",
+  "gmail.read_email"
+ ],
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "gmail.create_label",
+   "args": {
+    "name": "Vendors"
+   }
+  },
+  {
+   "tool": "gmail.modify_email",
+   "args": {
+    "messageId": "18a9bd2",
+    "addLabelIds": [
+     "Vendors"
+    ]
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 7,
+   "tool_tokens": 1014
+  },
+  {
+   "type": "call",
+   "tool": "gmail__create_label",
+   "valid": true
+  },
+  {
+   "type": "call",
+   "tool": "gmail__modify_email",
+   "valid": true
+  }
+ ],
+ "done": true,
+ "final": ""
+}

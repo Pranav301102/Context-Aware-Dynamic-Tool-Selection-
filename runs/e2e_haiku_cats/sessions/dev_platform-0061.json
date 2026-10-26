@@ -1,0 +1,43 @@
+{
+ "task_id": "dev_platform-0061",
+ "mode": "cats",
+ "loaded": [
+  "circleci.get_build_failure_logs",
+  "circleci.get_job_test_results",
+  "circleci.get_latest_pipeline_status",
+  "circleci.rerun_workflow",
+  "github.rerun_failed_jobs"
+ ],
+ "order": [
+  "circleci.get_build_failure_logs",
+  "circleci.get_job_test_results",
+  "circleci.get_latest_pipeline_status",
+  "circleci.rerun_workflow",
+  "github.rerun_failed_jobs"
+ ],
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "circleci.rerun_workflow",
+   "args": {
+    "workflowId": "7c1e2d44-9f0a",
+    "fromFailed": true
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 5,
+   "tool_tokens": 1086
+  },
+  {
+   "type": "call",
+   "tool": "circleci__rerun_workflow",
+   "valid": true
+  }
+ ],
+ "done": true,
+ "final": ""
+}

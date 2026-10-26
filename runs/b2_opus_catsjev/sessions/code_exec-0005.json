@@ -1,0 +1,82 @@
+{
+ "task_id": "code_exec-0005",
+ "mode": "cats",
+ "loaded": [
+  "code_checker.collect_tests",
+  "code_checker.run_all_checks",
+  "code_checker.run_eslint",
+  "code_checker.run_jest",
+  "code_checker.run_pytest_check",
+  "e2b.run_code",
+  "filesystem.read_multiple_files",
+  "github.list_workflow_runs",
+  "package_manager.npm_install",
+  "package_manager.npm_run_script",
+  "package_manager.pip_install",
+  "package_manager.pip_list"
+ ],
+ "order": [
+  "code_checker.collect_tests",
+  "code_checker.run_all_checks",
+  "code_checker.run_eslint",
+  "code_checker.run_jest",
+  "code_checker.run_pytest_check",
+  "e2b.run_code",
+  "filesystem.read_multiple_files",
+  "github.list_workflow_runs",
+  "package_manager.npm_install",
+  "package_manager.npm_run_script",
+  "package_manager.pip_install",
+  "package_manager.pip_list"
+ ],
+ "scores": {
+  "code_checker.collect_tests": 0.18370686754242693,
+  "code_checker.run_all_checks": 0.1917597672529572,
+  "code_checker.run_eslint": 0.041401575373064076,
+  "code_checker.run_jest": 0.9039531032608552,
+  "code_checker.run_pytest_check": 0.2520296079872556,
+  "e2b.run_code": 0.05989252423016538,
+  "filesystem.read_multiple_files": 0.23659608562153048,
+  "github.list_workflow_runs": 0.07131299695425644,
+  "package_manager.npm_install": 0.7263966364792247,
+  "package_manager.npm_run_script": 0.2746955260253533,
+  "package_manager.pip_install": 0.12926511579061073,
+  "package_manager.pip_list": 0.3984200859596052
+ },
+ "router_tokens": 1438,
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "package_manager.npm_install",
+   "args": {}
+  },
+  {
+   "tool": "code_checker.run_jest",
+   "args": {}
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 12,
+   "tool_tokens": 2858,
+   "t": 1791321249.317748
+  },
+  {
+   "type": "call",
+   "tool": "package_manager__npm_install",
+   "valid": true,
+   "t": 1791321263.3217137
+  },
+  {
+   "type": "call",
+   "tool": "code_checker__run_jest",
+   "valid": true,
+   "t": 1791321270.2019572
+  }
+ ],
+ "done": true,
+ "t_done": 1791321273.2174397,
+ "final": ""
+}

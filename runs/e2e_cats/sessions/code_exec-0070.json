@@ -1,0 +1,44 @@
+{
+ "task_id": "code_exec-0070",
+ "mode": "cats",
+ "loaded": [
+  "jupyter.execute_ipython",
+  "jupyter.insert_cell",
+  "jupyter.insert_execute_code_cell",
+  "jupyter.list_notebooks",
+  "jupyter.restart_notebook",
+  "jupyter.use_notebook"
+ ],
+ "order": [
+  "jupyter.execute_ipython",
+  "jupyter.insert_cell",
+  "jupyter.insert_execute_code_cell",
+  "jupyter.list_notebooks",
+  "jupyter.restart_notebook",
+  "jupyter.use_notebook"
+ ],
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "jupyter.execute_ipython",
+   "args": {
+    "code": "df.shape"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 6,
+   "tool_tokens": 700
+  },
+  {
+   "type": "call",
+   "tool": "jupyter__execute_ipython",
+   "valid": true
+  }
+ ],
+ "done": true,
+ "final": ""
+}

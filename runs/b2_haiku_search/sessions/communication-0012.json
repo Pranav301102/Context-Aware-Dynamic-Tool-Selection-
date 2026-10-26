@@ -1,0 +1,67 @@
+{
+ "task_id": "communication-0012",
+ "mode": "search",
+ "loaded": [
+  "discord.send_message",
+  "discord.add_reaction",
+  "discord.create_text_channel",
+  "discord.read_messages",
+  "discord.create_forum_post"
+ ],
+ "order": [
+  "discord.send_message",
+  "discord.add_reaction",
+  "discord.create_text_channel",
+  "discord.read_messages",
+  "discord.create_forum_post"
+ ],
+ "scores": {
+  "discord.send_message": 2.0,
+  "discord.add_reaction": 2.0,
+  "discord.create_text_channel": 2.0,
+  "discord.read_messages": 2.0,
+  "discord.create_forum_post": 2.0
+ },
+ "router_tokens": 0,
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "discord.send_message",
+   "args": {
+    "channelId": "112233445566",
+    "message": "Game night is Friday at 8pm!"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0,
+   "t": 1791321942.7048275
+  },
+  {
+   "type": "request_tools",
+   "capability": "Send a message to a Discord channel",
+   "added": [
+    "discord.send_message",
+    "discord.add_reaction",
+    "discord.create_text_channel",
+    "discord.read_messages",
+    "discord.create_forum_post"
+   ],
+   "tool_tokens": 547,
+   "t": 1791321956.363606
+  },
+  {
+   "type": "call",
+   "tool": "discord__send_message",
+   "valid": true,
+   "t": 1791321967.7487638
+  }
+ ],
+ "done": true,
+ "t_done": 1791321971.6614096,
+ "final": ""
+}

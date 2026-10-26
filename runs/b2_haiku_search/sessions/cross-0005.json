@@ -1,0 +1,92 @@
+{
+ "task_id": "cross-0005",
+ "mode": "search",
+ "loaded": [
+  "code_checker.run_pytest_check",
+  "code_checker.run_all_checks",
+  "code_checker.collect_tests",
+  "code_checker.run_jest",
+  "circleci.get_job_test_results",
+  "github.search_issues",
+  "github.list_issues",
+  "github.create_issue",
+  "github.get_issue",
+  "github.get_file_contents"
+ ],
+ "order": [
+  "code_checker.run_pytest_check",
+  "code_checker.run_all_checks",
+  "code_checker.collect_tests",
+  "code_checker.run_jest",
+  "circleci.get_job_test_results",
+  "github.search_issues",
+  "github.list_issues",
+  "github.create_issue",
+  "github.get_issue",
+  "github.get_file_contents"
+ ],
+ "scores": {
+  "code_checker.run_pytest_check": 2.0,
+  "code_checker.run_all_checks": 2.0,
+  "code_checker.collect_tests": 2.0,
+  "code_checker.run_jest": 2.0,
+  "circleci.get_job_test_results": 2.0,
+  "github.search_issues": 2.0,
+  "github.list_issues": 2.0,
+  "github.create_issue": 2.0,
+  "github.get_issue": 2.0,
+  "github.get_file_contents": 2.0
+ },
+ "router_tokens": 0,
+ "escalations": 2,
+ "calls": [
+  {
+   "tool": "code_checker.run_pytest_check",
+   "args": {}
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0,
+   "t": 1791321644.2018938
+  },
+  {
+   "type": "request_tools",
+   "capability": "run pytest tests and get test results",
+   "added": [
+    "code_checker.run_pytest_check",
+    "code_checker.run_all_checks",
+    "code_checker.collect_tests",
+    "code_checker.run_jest",
+    "circleci.get_job_test_results"
+   ],
+   "tool_tokens": 1360,
+   "t": 1791321658.041756
+  },
+  {
+   "type": "call",
+   "tool": "code_checker__run_pytest_check",
+   "valid": true,
+   "t": 1791321671.4520493
+  },
+  {
+   "type": "request_tools",
+   "capability": "create GitHub issues in a repository",
+   "added": [
+    "github.search_issues",
+    "github.list_issues",
+    "github.create_issue",
+    "github.get_issue",
+    "github.get_file_contents"
+   ],
+   "tool_tokens": 2543,
+   "t": 1791321686.3579931
+  }
+ ],
+ "done": true,
+ "t_done": 1791321703.4690578,
+ "final": ""
+}

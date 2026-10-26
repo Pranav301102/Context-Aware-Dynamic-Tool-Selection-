@@ -1,0 +1,69 @@
+{
+ "task_id": "productivity-0023",
+ "mode": "cats",
+ "loaded": [
+  "discord.send_message",
+  "google_calendar.create_event",
+  "google_calendar.delete_event",
+  "google_calendar.list_events",
+  "google_calendar.respond_to_event",
+  "google_calendar.update_event",
+  "ms365_pim.delete_calendar_event",
+  "ms365_pim.update_calendar_event",
+  "pagerduty.manage_incidents",
+  "wikipedia.get_summary"
+ ],
+ "order": [
+  "discord.send_message",
+  "google_calendar.create_event",
+  "google_calendar.delete_event",
+  "google_calendar.list_events",
+  "google_calendar.respond_to_event",
+  "google_calendar.update_event",
+  "ms365_pim.delete_calendar_event",
+  "ms365_pim.update_calendar_event",
+  "pagerduty.manage_incidents",
+  "wikipedia.get_summary"
+ ],
+ "scores": {
+  "discord.send_message": 0.04542660738490853,
+  "google_calendar.create_event": 0.19366299627555203,
+  "google_calendar.delete_event": 0.0404185039718986,
+  "google_calendar.list_events": 0.25182181324208364,
+  "google_calendar.respond_to_event": 0.7173723507036028,
+  "google_calendar.update_event": 0.2060179536701627,
+  "ms365_pim.delete_calendar_event": 0.05133353758726443,
+  "ms365_pim.update_calendar_event": 0.07997105048542524,
+  "pagerduty.manage_incidents": 0.23272019936948926,
+  "wikipedia.get_summary": 0.04848997241304909
+ },
+ "router_tokens": 0,
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "google_calendar.respond_to_event",
+   "args": {
+    "calendarId": "primary",
+    "eventId": "3vq8xk1",
+    "response": "declined",
+    "comment": "Sorry, I can't make it tomorrow - I'm out.",
+    "sendUpdates": "all"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 10,
+   "tool_tokens": 3266
+  },
+  {
+   "type": "call",
+   "tool": "google_calendar__respond_to_event",
+   "valid": true
+  }
+ ],
+ "done": true,
+ "final": ""
+}

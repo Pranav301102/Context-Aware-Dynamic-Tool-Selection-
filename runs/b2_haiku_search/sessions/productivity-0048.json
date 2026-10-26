@@ -1,0 +1,114 @@
+{
+ "task_id": "productivity-0048",
+ "mode": "search",
+ "loaded": [
+  "google_calendar.create_event",
+  "apple_mcp.calendar",
+  "google_calendar.list_events",
+  "todoist.complete_tasks",
+  "google_calendar.search_events",
+  "todoist.update_tasks",
+  "todoist.find_tasks_by_date",
+  "todoist.add_tasks",
+  "todoist.find_projects",
+  "todoist.find_tasks"
+ ],
+ "order": [
+  "google_calendar.create_event",
+  "apple_mcp.calendar",
+  "google_calendar.list_events",
+  "todoist.complete_tasks",
+  "google_calendar.search_events",
+  "todoist.update_tasks",
+  "todoist.find_tasks_by_date",
+  "todoist.add_tasks",
+  "todoist.find_projects",
+  "todoist.find_tasks"
+ ],
+ "scores": {
+  "google_calendar.create_event": 2.0,
+  "apple_mcp.calendar": 2.0,
+  "google_calendar.list_events": 2.0,
+  "todoist.complete_tasks": 2.0,
+  "google_calendar.search_events": 2.0,
+  "todoist.update_tasks": 2.0,
+  "todoist.find_tasks_by_date": 2.0,
+  "todoist.add_tasks": 2.0,
+  "todoist.find_projects": 2.0,
+  "todoist.find_tasks": 2.0
+ },
+ "router_tokens": 0,
+ "escalations": 2,
+ "calls": [
+  {
+   "tool": "todoist.find_tasks_by_date",
+   "args": {
+    "startDate": "today",
+    "daysCount": 1,
+    "overdueOption": "include-overdue",
+    "limit": 50
+   }
+  },
+  {
+   "tool": "google_calendar.create_event",
+   "args": {
+    "calendarId": "primary",
+    "summary": "Most Urgent Todoist Task",
+    "description": "Blocking time for the most urgent task from Todoist",
+    "start": "2026-10-06T14:00:00",
+    "end": "2026-10-06T15:00:00",
+    "timeZone": "UTC"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0,
+   "t": 1791321607.3445294
+  },
+  {
+   "type": "request_tools",
+   "capability": "check tasks in Todoist and create events on Google Calendar",
+   "added": [
+    "google_calendar.create_event",
+    "apple_mcp.calendar",
+    "google_calendar.list_events",
+    "todoist.complete_tasks",
+    "google_calendar.search_events"
+   ],
+   "tool_tokens": 1681,
+   "t": 1791321622.264293
+  },
+  {
+   "type": "request_tools",
+   "capability": "list and retrieve tasks from Todoist with due dates and priority levels",
+   "added": [
+    "todoist.update_tasks",
+    "todoist.find_tasks_by_date",
+    "todoist.add_tasks",
+    "todoist.find_projects",
+    "todoist.find_tasks"
+   ],
+   "tool_tokens": 2990,
+   "t": 1791321636.3827796
+  },
+  {
+   "type": "call",
+   "tool": "todoist__find_tasks_by_date",
+   "valid": true,
+   "t": 1791321648.24947
+  },
+  {
+   "type": "call",
+   "tool": "google_calendar__create_event",
+   "valid": true,
+   "t": 1791321661.500686
+  }
+ ],
+ "done": true,
+ "t_done": 1791321666.2177787,
+ "final": ""
+}

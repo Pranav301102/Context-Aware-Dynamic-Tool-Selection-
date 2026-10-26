@@ -1,0 +1,109 @@
+{
+ "task_id": "search-0024",
+ "mode": "search",
+ "loaded": [
+  "exa.linkedin_search_exa",
+  "semantic_scholar.paper_title_search",
+  "exa.company_research_exa",
+  "brave_search.brave_summarizer",
+  "wikipedia.search_wikipedia",
+  "ffmpeg_video.extract_thumbnail",
+  "brave_search.brave_video_search",
+  "ffmpeg_video.convert_video",
+  "exa.web_search_exa",
+  "ffmpeg_video.concatenate_videos"
+ ],
+ "order": [
+  "exa.linkedin_search_exa",
+  "semantic_scholar.paper_title_search",
+  "exa.company_research_exa",
+  "brave_search.brave_summarizer",
+  "wikipedia.search_wikipedia",
+  "ffmpeg_video.extract_thumbnail",
+  "brave_search.brave_video_search",
+  "ffmpeg_video.convert_video",
+  "exa.web_search_exa",
+  "ffmpeg_video.concatenate_videos"
+ ],
+ "scores": {
+  "exa.linkedin_search_exa": 2.0,
+  "semantic_scholar.paper_title_search": 2.0,
+  "exa.company_research_exa": 2.0,
+  "brave_search.brave_summarizer": 2.0,
+  "wikipedia.search_wikipedia": 2.0,
+  "ffmpeg_video.extract_thumbnail": 2.0,
+  "brave_search.brave_video_search": 2.0,
+  "ffmpeg_video.convert_video": 2.0,
+  "exa.web_search_exa": 2.0,
+  "ffmpeg_video.concatenate_videos": 2.0
+ },
+ "router_tokens": 0,
+ "escalations": 2,
+ "calls": [
+  {
+   "tool": "exa.linkedin_search_exa",
+   "args": {
+    "query": "CTO of Supabase",
+    "searchType": "profiles",
+    "numResults": 5
+   }
+  },
+  {
+   "tool": "brave_search.brave_video_search",
+   "args": {
+    "query": "Ant Wilson Supabase CTO conference talk",
+    "count": 10
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0,
+   "t": 1791321207.0101092
+  },
+  {
+   "type": "request_tools",
+   "capability": "search LinkedIn for a person by company and job title",
+   "added": [
+    "exa.linkedin_search_exa",
+    "semantic_scholar.paper_title_search",
+    "exa.company_research_exa",
+    "brave_search.brave_summarizer",
+    "wikipedia.search_wikipedia"
+   ],
+   "tool_tokens": 651,
+   "t": 1791321218.1943786
+  },
+  {
+   "type": "call",
+   "tool": "exa__linkedin_search_exa",
+   "valid": true,
+   "t": 1791321233.0246904
+  },
+  {
+   "type": "request_tools",
+   "capability": "search YouTube for videos of conference talks",
+   "added": [
+    "ffmpeg_video.extract_thumbnail",
+    "brave_search.brave_video_search",
+    "ffmpeg_video.convert_video",
+    "exa.web_search_exa",
+    "ffmpeg_video.concatenate_videos"
+   ],
+   "tool_tokens": 1815,
+   "t": 1791321241.9794548
+  },
+  {
+   "type": "call",
+   "tool": "brave_search__brave_video_search",
+   "valid": true,
+   "t": 1791321253.45848
+  }
+ ],
+ "done": true,
+ "t_done": 1791321259.1121447,
+ "final": ""
+}

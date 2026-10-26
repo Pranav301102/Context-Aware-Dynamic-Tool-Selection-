@@ -1,0 +1,80 @@
+{
+ "task_id": "dev_platform-0008",
+ "mode": "search",
+ "loaded": [
+  "jira.transition_issue",
+  "jira.update_issue",
+  "jira.get_issue",
+  "jira.search_issues",
+  "jira.add_comment"
+ ],
+ "order": [
+  "jira.transition_issue",
+  "jira.update_issue",
+  "jira.get_issue",
+  "jira.search_issues",
+  "jira.add_comment"
+ ],
+ "scores": {
+  "jira.transition_issue": 2.0,
+  "jira.update_issue": 2.0,
+  "jira.get_issue": 2.0,
+  "jira.search_issues": 2.0,
+  "jira.add_comment": 2.0
+ },
+ "router_tokens": 0,
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "jira.get_issue",
+   "args": {
+    "issue_key": "PAY-311",
+    "expand": "transitions"
+   }
+  },
+  {
+   "tool": "jira.transition_issue",
+   "args": {
+    "issue_key": "PAY-311",
+    "transition_id": "11"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0,
+   "t": 1791322211.3288136
+  },
+  {
+   "type": "request_tools",
+   "capability": "update Jira issues and transition them to different statuses",
+   "added": [
+    "jira.transition_issue",
+    "jira.update_issue",
+    "jira.get_issue",
+    "jira.search_issues",
+    "jira.add_comment"
+   ],
+   "tool_tokens": 984,
+   "t": 1791322223.1289566
+  },
+  {
+   "type": "call",
+   "tool": "jira__get_issue",
+   "valid": true,
+   "t": 1791322236.422109
+  },
+  {
+   "type": "call",
+   "tool": "jira__transition_issue",
+   "valid": true,
+   "t": 1791322249.7999644
+  }
+ ],
+ "done": true,
+ "t_done": 1791322258.802508,
+ "final": ""
+}

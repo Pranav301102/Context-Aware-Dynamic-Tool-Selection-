@@ -1,0 +1,2390 @@
+{
+ "branch": {
+  "id": "miscellaneous",
+  "name": "Miscellaneous",
+  "summary": "Miscellaneous MCP servers: Basic Memory; Calculator MCP Server; Knowledge Graph Memory Server; MCP Music Analysis; MCP TaskManager; Playwright MCP Server; Puppeteer; Sequential Thinking MCP Server"
+ },
+ "toolkits": [
+  {
+   "id": "sequential_thinking",
+   "name": "Sequential Thinking MCP Server",
+   "server": "mcp://sequential-thinking",
+   "summary": "An MCP server implementation that provides a tool for dynamic and reflective problem-solving through a structured thinking process.",
+   "tools": [
+    {
+     "name": "sequentialthinking",
+     "description": "A detailed tool for dynamic and reflective problem-solving through thoughts.\nThis tool helps analyze problems through a flexible thinking process that can adapt and evolve.\nEach thought can build on, question, or revise previous insights as understanding deepens.\n\nWhen to use this tool:\n- Breaking down complex problems into steps\n- Planning and design with room for revision\n- Analysis that might need course correction\n- Problems where the full scope might not be clear initially\n- Problems that require a multi-step solution\n- Tasks that need to maintain context over multiple steps\n- Situations where irrelevant information needs to be filtered out\n\nKey features:\n- You can adjust total_thoughts up or down as you progress\n- You can question or revise previous thoughts\n- You can add more thoughts even after reaching what seemed like the end\n- You can express uncertainty and explore alternative approaches\n- Not every thought needs to build linearly - you can branch or backtrack\n- Generates a solution hypothesis\n- Verifies the hypothesis based on the Chain of Thought steps\n- Repeats the process until satisfied\n- Provides a correct answer\n\nParameters explained:\n- thought: Your current thinking step, which can include:\n* Regular analytical steps\n* Revisions of previous thoughts\n* Questions about previous decisions\n* Realizations about needing more analysis\n* Changes in approach\n* Hypothesis generation\n* Hypothesis verification\n- next_thought_needed: True if you need more thinking, even if at what seemed like the end\n- thought_number: Current number in sequence (can go beyond initial total if needed)\n- total_thoughts: Current estimate of thoughts needed (can be adjusted up/down)\n- is_revision: A boolean indicating if this thought revises previous thinking\n- revises_thought: If is_revision is true, which thought number is being reconsidered\n- branch_from_thought: If branching, which thought number is the branching point\n- branch_id: Identifier for the current branch (if any)\n- needs_more_thoughts: If reaching end but realizing more thoughts needed\n\nYou should:\n1. Start with an initial estimate of needed thoughts, but be ready to adjust\n2. Feel free to question or revise previous thoughts\n3. Don't hesitate to add more thoughts if needed, even at the \"end\"\n4. Express uncertainty when present\n5. Mark thoughts that revise previous thinking or branch into new paths\n6. Ignore information that is irrelevant to the current step\n7. Generate a solution hypothesis when appropriate\n8. Verify the hypothesis based on the Chain of Thought steps\n9. Repeat the process until satisfied with the solution\n10. Provide a single, ideally correct answer as the final output\n11. Only set next_thought_needed to false when truly done and a satisfactory answer is reached",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "thought": {
+        "type": "string",
+        "description": "Your current thinking step"
+       },
+       "nextThoughtNeeded": {
+        "type": "boolean",
+        "description": "Whether another thought step is needed"
+       },
+       "thoughtNumber": {
+        "type": "integer",
+        "description": "Current thought number",
+        "minimum": 1
+       },
+       "totalThoughts": {
+        "type": "integer",
+        "description": "Estimated total thoughts needed",
+        "minimum": 1
+       },
+       "isRevision": {
+        "type": "boolean",
+        "description": "Whether this revises previous thinking"
+       },
+       "revisesThought": {
+        "type": "integer",
+        "description": "Which thought is being reconsidered",
+        "minimum": 1
+       },
+       "branchFromThought": {
+        "type": "integer",
+        "description": "Branching point thought number",
+        "minimum": 1
+       },
+       "branchId": {
+        "type": "string",
+        "description": "Branch identifier"
+       },
+       "needsMoreThoughts": {
+        "type": "boolean",
+        "description": "If more thoughts are needed"
+       }
+      },
+      "required": [
+       "thought",
+       "nextThoughtNeeded",
+       "thoughtNumber",
+       "totalThoughts"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "playwright",
+   "name": "Playwright MCP Server",
+   "server": "mcp://playwright",
+   "summary": "A Model Context Protocol server that provides browser automation capabilities using Playwright. This server enables LLMs to interact with web pages, take screenshots, generate test code, web scraps the page and execute JavaScript in a real browser environment.",
+   "tools": [
+    {
+     "name": "start_codegen_session",
+     "description": "Start a new code generation session to record Playwright actions",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "options": {
+        "type": "object",
+        "description": "Code generation options",
+        "properties": {
+         "outputPath": {
+          "type": "string",
+          "description": "Directory path where generated tests will be saved (use absolute path)"
+         },
+         "testNamePrefix": {
+          "type": "string",
+          "description": "Prefix to use for generated test names (default: 'GeneratedTest')"
+         },
+         "includeComments": {
+          "type": "boolean",
+          "description": "Whether to include descriptive comments in generated tests"
+         }
+        },
+        "required": [
+         "outputPath"
+        ]
+       }
+      },
+      "required": [
+       "options"
+      ]
+     }
+    },
+    {
+     "name": "end_codegen_session",
+     "description": "End a code generation session and generate the test file",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "sessionId": {
+        "type": "string",
+        "description": "ID of the session to end"
+       }
+      },
+      "required": [
+       "sessionId"
+      ]
+     }
+    },
+    {
+     "name": "get_codegen_session",
+     "description": "Get information about a code generation session",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "sessionId": {
+        "type": "string",
+        "description": "ID of the session to retrieve"
+       }
+      },
+      "required": [
+       "sessionId"
+      ]
+     }
+    },
+    {
+     "name": "clear_codegen_session",
+     "description": "Clear a code generation session without generating a test",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "sessionId": {
+        "type": "string",
+        "description": "ID of the session to clear"
+       }
+      },
+      "required": [
+       "sessionId"
+      ]
+     }
+    },
+    {
+     "name": "playwright_navigate",
+     "description": "Navigate to a URL",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "url": {
+        "type": "string",
+        "description": "URL to navigate to the website specified"
+       },
+       "browserType": {
+        "type": "string",
+        "description": "Browser type to use (chromium, firefox, webkit). Defaults to chromium",
+        "enum": [
+         "chromium",
+         "firefox",
+         "webkit"
+        ]
+       },
+       "width": {
+        "type": "number",
+        "description": "Viewport width in pixels (default: 1280)"
+       },
+       "height": {
+        "type": "number",
+        "description": "Viewport height in pixels (default: 720)"
+       },
+       "timeout": {
+        "type": "number",
+        "description": "Navigation timeout in milliseconds"
+       },
+       "waitUntil": {
+        "type": "string",
+        "description": "Navigation wait condition"
+       },
+       "headless": {
+        "type": "boolean",
+        "description": "Run browser in headless mode (default: false)"
+       }
+      },
+      "required": [
+       "url"
+      ]
+     }
+    },
+    {
+     "name": "playwright_screenshot",
+     "description": "Take a screenshot of the current page or a specific element",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "name": {
+        "type": "string",
+        "description": "Name for the screenshot"
+       },
+       "selector": {
+        "type": "string",
+        "description": "CSS selector for element to screenshot"
+       },
+       "width": {
+        "type": "number",
+        "description": "Width in pixels (default: 800)"
+       },
+       "height": {
+        "type": "number",
+        "description": "Height in pixels (default: 600)"
+       },
+       "storeBase64": {
+        "type": "boolean",
+        "description": "Store screenshot in base64 format (default: true)"
+       },
+       "fullPage": {
+        "type": "boolean",
+        "description": "Store screenshot of the entire page (default: false)"
+       },
+       "savePng": {
+        "type": "boolean",
+        "description": "Save screenshot as PNG file (default: false)"
+       },
+       "downloadsDir": {
+        "type": "string",
+        "description": "Custom downloads directory path (default: user's Downloads folder)"
+       }
+      },
+      "required": [
+       "name"
+      ]
+     }
+    },
+    {
+     "name": "playwright_click",
+     "description": "Click an element on the page",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "selector": {
+        "type": "string",
+        "description": "CSS selector for the element to click"
+       }
+      },
+      "required": [
+       "selector"
+      ]
+     }
+    },
+    {
+     "name": "playwright_iframe_click",
+     "description": "Click an element in an iframe on the page",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "iframeSelector": {
+        "type": "string",
+        "description": "CSS selector for the iframe containing the element to click"
+       },
+       "selector": {
+        "type": "string",
+        "description": "CSS selector for the element to click"
+       }
+      },
+      "required": [
+       "iframeSelector",
+       "selector"
+      ]
+     }
+    },
+    {
+     "name": "playwright_iframe_fill",
+     "description": "Fill an element in an iframe on the page",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "iframeSelector": {
+        "type": "string",
+        "description": "CSS selector for the iframe containing the element to fill"
+       },
+       "selector": {
+        "type": "string",
+        "description": "CSS selector for the element to fill"
+       },
+       "value": {
+        "type": "string",
+        "description": "Value to fill"
+       }
+      },
+      "required": [
+       "iframeSelector",
+       "selector",
+       "value"
+      ]
+     }
+    },
+    {
+     "name": "playwright_fill",
+     "description": "fill out an input field",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "selector": {
+        "type": "string",
+        "description": "CSS selector for input field"
+       },
+       "value": {
+        "type": "string",
+        "description": "Value to fill"
+       }
+      },
+      "required": [
+       "selector",
+       "value"
+      ]
+     }
+    },
+    {
+     "name": "playwright_select",
+     "description": "Select an element on the page with Select tag",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "selector": {
+        "type": "string",
+        "description": "CSS selector for element to select"
+       },
+       "value": {
+        "type": "string",
+        "description": "Value to select"
+       }
+      },
+      "required": [
+       "selector",
+       "value"
+      ]
+     }
+    },
+    {
+     "name": "playwright_hover",
+     "description": "Hover an element on the page",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "selector": {
+        "type": "string",
+        "description": "CSS selector for element to hover"
+       }
+      },
+      "required": [
+       "selector"
+      ]
+     }
+    },
+    {
+     "name": "playwright_upload_file",
+     "description": "Upload a file to an input[type='file'] element on the page",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "selector": {
+        "type": "string",
+        "description": "CSS selector for the file input element"
+       },
+       "filePath": {
+        "type": "string",
+        "description": "Absolute path to the file to upload"
+       }
+      },
+      "required": [
+       "selector",
+       "filePath"
+      ]
+     }
+    },
+    {
+     "name": "playwright_evaluate",
+     "description": "Execute JavaScript in the browser console",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "script": {
+        "type": "string",
+        "description": "JavaScript code to execute"
+       }
+      },
+      "required": [
+       "script"
+      ]
+     }
+    },
+    {
+     "name": "playwright_console_logs",
+     "description": "Retrieve console logs from the browser with filtering options",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "type": {
+        "type": "string",
+        "description": "Type of logs to retrieve (all, error, warning, log, info, debug, exception)",
+        "enum": [
+         "all",
+         "error",
+         "warning",
+         "log",
+         "info",
+         "debug",
+         "exception"
+        ]
+       },
+       "search": {
+        "type": "string",
+        "description": "Text to search for in logs (handles text with square brackets)"
+       },
+       "limit": {
+        "type": "number",
+        "description": "Maximum number of logs to return"
+       },
+       "clear": {
+        "type": "boolean",
+        "description": "Whether to clear logs after retrieval (default: false)"
+       }
+      },
+      "required": []
+     }
+    },
+    {
+     "name": "playwright_close",
+     "description": "Close the browser and release all resources",
+     "input_schema": {
+      "type": "object",
+      "properties": {},
+      "required": []
+     }
+    },
+    {
+     "name": "playwright_get",
+     "description": "Perform an HTTP GET request",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "url": {
+        "type": "string",
+        "description": "URL to perform GET operation"
+       }
+      },
+      "required": [
+       "url"
+      ]
+     }
+    },
+    {
+     "name": "playwright_post",
+     "description": "Perform an HTTP POST request",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "url": {
+        "type": "string",
+        "description": "URL to perform POST operation"
+       },
+       "value": {
+        "type": "string",
+        "description": "Data to post in the body"
+       },
+       "token": {
+        "type": "string",
+        "description": "Bearer token for authorization"
+       },
+       "headers": {
+        "type": "object",
+        "description": "Additional headers to include in the request",
+        "additionalProperties": {
+         "type": "string"
+        }
+       }
+      },
+      "required": [
+       "url",
+       "value"
+      ]
+     }
+    },
+    {
+     "name": "playwright_put",
+     "description": "Perform an HTTP PUT request",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "url": {
+        "type": "string",
+        "description": "URL to perform PUT operation"
+       },
+       "value": {
+        "type": "string",
+        "description": "Data to PUT in the body"
+       }
+      },
+      "required": [
+       "url",
+       "value"
+      ]
+     }
+    },
+    {
+     "name": "playwright_patch",
+     "description": "Perform an HTTP PATCH request",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "url": {
+        "type": "string",
+        "description": "URL to perform PUT operation"
+       },
+       "value": {
+        "type": "string",
+        "description": "Data to PATCH in the body"
+       }
+      },
+      "required": [
+       "url",
+       "value"
+      ]
+     }
+    },
+    {
+     "name": "playwright_delete",
+     "description": "Perform an HTTP DELETE request",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "url": {
+        "type": "string",
+        "description": "URL to perform DELETE operation"
+       }
+      },
+      "required": [
+       "url"
+      ]
+     }
+    },
+    {
+     "name": "playwright_expect_response",
+     "description": "Ask Playwright to start waiting for a HTTP response. This tool initiates the wait operation but does not wait for its completion.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "id": {
+        "type": "string",
+        "description": "Unique & arbitrary identifier to be used for retrieving this response later with `Playwright_assert_response`."
+       },
+       "url": {
+        "type": "string",
+        "description": "URL pattern to match in the response."
+       }
+      },
+      "required": [
+       "id",
+       "url"
+      ]
+     }
+    },
+    {
+     "name": "playwright_assert_response",
+     "description": "Wait for and validate a previously initiated HTTP response wait operation.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "id": {
+        "type": "string",
+        "description": "Identifier of the HTTP response initially expected using `Playwright_expect_response`."
+       },
+       "value": {
+        "type": "string",
+        "description": "Data to expect in the body of the HTTP response. If provided, the assertion will fail if this value is not found in the response body."
+       }
+      },
+      "required": [
+       "id"
+      ]
+     }
+    },
+    {
+     "name": "playwright_custom_user_agent",
+     "description": "Set a custom User Agent for the browser",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "userAgent": {
+        "type": "string",
+        "description": "Custom User Agent for the Playwright browser instance"
+       }
+      },
+      "required": [
+       "userAgent"
+      ]
+     }
+    },
+    {
+     "name": "playwright_get_visible_text",
+     "description": "Get the visible text content of the current page",
+     "input_schema": {
+      "type": "object",
+      "properties": {},
+      "required": []
+     }
+    },
+    {
+     "name": "playwright_get_visible_html",
+     "description": "Get the HTML content of the current page. By default, all <script> tags are removed from the output unless removeScripts is explicitly set to false.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "selector": {
+        "type": "string",
+        "description": "CSS selector to limit the HTML to a specific container"
+       },
+       "removeScripts": {
+        "type": "boolean",
+        "description": "Remove all script tags from the HTML (default: true)"
+       },
+       "removeComments": {
+        "type": "boolean",
+        "description": "Remove all HTML comments (default: false)"
+       },
+       "removeStyles": {
+        "type": "boolean",
+        "description": "Remove all style tags from the HTML (default: false)"
+       },
+       "removeMeta": {
+        "type": "boolean",
+        "description": "Remove all meta tags from the HTML (default: false)"
+       },
+       "cleanHtml": {
+        "type": "boolean",
+        "description": "Perform comprehensive HTML cleaning (default: false)"
+       },
+       "minify": {
+        "type": "boolean",
+        "description": "Minify the HTML output (default: false)"
+       },
+       "maxLength": {
+        "type": "number",
+        "description": "Maximum number of characters to return (default: 20000)"
+       }
+      },
+      "required": []
+     }
+    },
+    {
+     "name": "playwright_go_back",
+     "description": "Navigate back in browser history",
+     "input_schema": {
+      "type": "object",
+      "properties": {},
+      "required": []
+     }
+    },
+    {
+     "name": "playwright_go_forward",
+     "description": "Navigate forward in browser history",
+     "input_schema": {
+      "type": "object",
+      "properties": {},
+      "required": []
+     }
+    },
+    {
+     "name": "playwright_drag",
+     "description": "Drag an element to a target location",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "sourceSelector": {
+        "type": "string",
+        "description": "CSS selector for the element to drag"
+       },
+       "targetSelector": {
+        "type": "string",
+        "description": "CSS selector for the target location"
+       }
+      },
+      "required": [
+       "sourceSelector",
+       "targetSelector"
+      ]
+     }
+    },
+    {
+     "name": "playwright_press_key",
+     "description": "Press a keyboard key",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "key": {
+        "type": "string",
+        "description": "Key to press (e.g. 'Enter', 'ArrowDown', 'a')"
+       },
+       "selector": {
+        "type": "string",
+        "description": "Optional CSS selector to focus before pressing key"
+       }
+      },
+      "required": [
+       "key"
+      ]
+     }
+    },
+    {
+     "name": "playwright_save_as_pdf",
+     "description": "Save the current page as a PDF file",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "outputPath": {
+        "type": "string",
+        "description": "Directory path where PDF will be saved"
+       },
+       "filename": {
+        "type": "string",
+        "description": "Name of the PDF file (default: page.pdf)"
+       },
+       "format": {
+        "type": "string",
+        "description": "Page format (e.g. 'A4', 'Letter')"
+       },
+       "printBackground": {
+        "type": "boolean",
+        "description": "Whether to print background graphics"
+       },
+       "margin": {
+        "type": "object",
+        "description": "Page margins",
+        "properties": {
+         "top": {
+          "type": "string"
+         },
+         "right": {
+          "type": "string"
+         },
+         "bottom": {
+          "type": "string"
+         },
+         "left": {
+          "type": "string"
+         }
+        }
+       }
+      },
+      "required": [
+       "outputPath"
+      ]
+     }
+    },
+    {
+     "name": "playwright_click_and_switch_tab",
+     "description": "Click a link and switch to the newly opened tab",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "selector": {
+        "type": "string",
+        "description": "CSS selector for the link to click"
+       }
+      },
+      "required": [
+       "selector"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "memory",
+   "name": "Knowledge Graph Memory Server",
+   "server": "mcp://memory",
+   "summary": "A basic implementation of persistent memory using a local knowledge graph. This lets Claude remember information about the user across chats.",
+   "tools": [
+    {
+     "name": "create_entities",
+     "description": "Create multiple new entities in the knowledge graph",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "entities": {
+        "type": "array",
+        "items": {
+         "type": "object",
+         "properties": {
+          "name": {
+           "type": "string",
+           "description": "The name of the entity"
+          },
+          "entityType": {
+           "type": "string",
+           "description": "The type of the entity"
+          },
+          "observations": {
+           "type": "array",
+           "items": {
+            "type": "string"
+           },
+           "description": "An array of observation contents associated with the entity"
+          }
+         },
+         "required": [
+          "name",
+          "entityType",
+          "observations"
+         ]
+        }
+       }
+      },
+      "required": [
+       "entities"
+      ]
+     }
+    },
+    {
+     "name": "create_relations",
+     "description": "Create multiple new relations between entities in the knowledge graph. Relations should be in active voice",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "relations": {
+        "type": "array",
+        "items": {
+         "type": "object",
+         "properties": {
+          "from": {
+           "type": "string",
+           "description": "The name of the entity where the relation starts"
+          },
+          "to": {
+           "type": "string",
+           "description": "The name of the entity where the relation ends"
+          },
+          "relationType": {
+           "type": "string",
+           "description": "The type of the relation"
+          }
+         },
+         "required": [
+          "from",
+          "to",
+          "relationType"
+         ]
+        }
+       }
+      },
+      "required": [
+       "relations"
+      ]
+     }
+    },
+    {
+     "name": "add_observations",
+     "description": "Add new observations to existing entities in the knowledge graph",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "observations": {
+        "type": "array",
+        "items": {
+         "type": "object",
+         "properties": {
+          "entityName": {
+           "type": "string",
+           "description": "The name of the entity to add the observations to"
+          },
+          "contents": {
+           "type": "array",
+           "items": {
+            "type": "string"
+           },
+           "description": "An array of observation contents to add"
+          }
+         },
+         "required": [
+          "entityName",
+          "contents"
+         ]
+        }
+       }
+      },
+      "required": [
+       "observations"
+      ]
+     }
+    },
+    {
+     "name": "delete_entities",
+     "description": "Delete multiple entities and their associated relations from the knowledge graph",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "entityNames": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "An array of entity names to delete"
+       }
+      },
+      "required": [
+       "entityNames"
+      ]
+     }
+    },
+    {
+     "name": "delete_observations",
+     "description": "Delete specific observations from entities in the knowledge graph",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "deletions": {
+        "type": "array",
+        "items": {
+         "type": "object",
+         "properties": {
+          "entityName": {
+           "type": "string",
+           "description": "The name of the entity containing the observations"
+          },
+          "observations": {
+           "type": "array",
+           "items": {
+            "type": "string"
+           },
+           "description": "An array of observations to delete"
+          }
+         },
+         "required": [
+          "entityName",
+          "observations"
+         ]
+        }
+       }
+      },
+      "required": [
+       "deletions"
+      ]
+     }
+    },
+    {
+     "name": "delete_relations",
+     "description": "Delete multiple relations from the knowledge graph",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "relations": {
+        "type": "array",
+        "items": {
+         "type": "object",
+         "properties": {
+          "from": {
+           "type": "string",
+           "description": "The name of the entity where the relation starts"
+          },
+          "to": {
+           "type": "string",
+           "description": "The name of the entity where the relation ends"
+          },
+          "relationType": {
+           "type": "string",
+           "description": "The type of the relation"
+          }
+         },
+         "required": [
+          "from",
+          "to",
+          "relationType"
+         ]
+        },
+        "description": "An array of relations to delete"
+       }
+      },
+      "required": [
+       "relations"
+      ]
+     }
+    },
+    {
+     "name": "read_graph",
+     "description": "Read the entire knowledge graph",
+     "input_schema": {
+      "type": "object",
+      "properties": {}
+     }
+    },
+    {
+     "name": "search_nodes",
+     "description": "Search for nodes in the knowledge graph based on a query",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "query": {
+        "type": "string",
+        "description": "The search query to match against entity names, types, and observation content"
+       }
+      },
+      "required": [
+       "query"
+      ]
+     }
+    },
+    {
+     "name": "open_nodes",
+     "description": "Open specific nodes in the knowledge graph by their names",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "names": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "An array of entity names to retrieve"
+       }
+      },
+      "required": [
+       "names"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "calculator",
+   "name": "Calculator MCP Server",
+   "server": "mcp://calculator",
+   "summary": "A Model Context Protocol server for calculating. This server enables LLMs to use calculator for precise numerical calculations.",
+   "tools": [
+    {
+     "name": "calculate",
+     "description": "Calculates/evaluates the given expression.",
+     "input_schema": {
+      "properties": {
+       "expression": {
+        "title": "Expression",
+        "type": "string"
+       }
+      },
+      "required": [
+       "expression"
+      ],
+      "title": "calculateArguments",
+      "type": "object"
+     }
+    }
+   ]
+  },
+  {
+   "id": "taskmanager",
+   "name": "MCP TaskManager",
+   "server": "mcp://taskmanager",
+   "summary": "Model Context Protocol server for Task Management. This allows Claude Desktop (or any MCP client) to manage and execute tasks in a queue-based system.",
+   "tools": [
+    {
+     "name": "request_planning",
+     "description": "Register a new user request and plan its associated tasks. You must provide 'originalRequest' and 'tasks', and optionally 'splitDetails'.\n\nThis tool initiates a new workflow for handling a user's request. The workflow is as follows:\n1. Use 'request_planning' to register a request and its tasks.\n2. After adding tasks, you MUST use 'get_next_task' to retrieve the first task. A progress table will be displayed.\n3. Use 'get_next_task' to retrieve the next uncompleted task.\n4. **IMPORTANT:** After marking a task as done, the assistant MUST NOT proceed to another task without the user's approval. The user must explicitly approve the completed task using 'approve_task_completion'. A progress table will be displayed before each approval request.\n5. Once a task is approved, you can proceed to 'get_next_task' again to fetch the next pending task.\n6. Repeat this cycle until all tasks are done.\n7. After all tasks are completed (and approved), 'get_next_task' will indicate that all tasks are done and that the request awaits approval for full completion.\n8. The user must then approve the entire request's completion using 'approve_request_completion'. If the user does not approve and wants more tasks, you can again use 'request_planning' to add new tasks and continue the cycle.\n\nThe critical point is to always wait for user approval after completing each task and after all tasks are done, wait for request completion approval. Do not proceed automatically.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "originalRequest": {
+        "type": "string"
+       },
+       "splitDetails": {
+        "type": "string"
+       },
+       "tasks": {
+        "type": "array",
+        "items": {
+         "type": "object",
+         "properties": {
+          "title": {
+           "type": "string"
+          },
+          "description": {
+           "type": "string"
+          }
+         },
+         "required": [
+          "title",
+          "description"
+         ]
+        }
+       }
+      },
+      "required": [
+       "originalRequest",
+       "tasks"
+      ]
+     }
+    },
+    {
+     "name": "get_next_task",
+     "description": "Given a 'requestId', return the next pending task (not done yet). If all tasks are completed, it will indicate that no more tasks are left and that you must wait for the request completion approval.\n\nA progress table showing the current status of all tasks will be displayed with each response.\n\nIf the same task is returned again or if no new task is provided after a task was marked as done but not yet approved, you MUST NOT proceed. In such a scenario, you must prompt the user for approval via 'approve_task_completion' before calling 'get_next_task' again. Do not skip the user's approval step.\nIn other words:\n- After calling 'mark_task_done', do not call 'get_next_task' again until 'approve_task_completion' is called by the user.\n- If 'get_next_task' returns 'all_tasks_done', it means all tasks have been completed. At this point, you must not start a new request or do anything else until the user decides to 'approve_request_completion' or possibly add more tasks via 'request_planning'.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "requestId": {
+        "type": "string"
+       }
+      },
+      "required": [
+       "requestId"
+      ]
+     }
+    },
+    {
+     "name": "mark_task_done",
+     "description": "Mark a given task as done after you've completed it. Provide 'requestId' and 'taskId', and optionally 'completedDetails'.\n\nAfter marking a task as done, a progress table will be displayed showing the updated status of all tasks.\n\nAfter this, DO NOT proceed to 'get_next_task' again until the user has explicitly approved this completed task using 'approve_task_completion'.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "requestId": {
+        "type": "string"
+       },
+       "taskId": {
+        "type": "string"
+       },
+       "completedDetails": {
+        "type": "string"
+       }
+      },
+      "required": [
+       "requestId",
+       "taskId"
+      ]
+     }
+    },
+    {
+     "name": "approve_task_completion",
+     "description": "Once the assistant has marked a task as done using 'mark_task_done', the user must call this tool to approve that the task is genuinely completed. Only after this approval can you proceed to 'get_next_task' to move on.\n\nA progress table will be displayed before requesting approval, showing the current status of all tasks.\n\nIf the user does not approve, do not call 'get_next_task'. Instead, the user may request changes, or even re-plan tasks by using 'request_planning' again.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "requestId": {
+        "type": "string"
+       },
+       "taskId": {
+        "type": "string"
+       }
+      },
+      "required": [
+       "requestId",
+       "taskId"
+      ]
+     }
+    },
+    {
+     "name": "approve_request_completion",
+     "description": "After all tasks are done and approved, this tool finalizes the entire request. The user must call this to confirm that the request is fully completed.\n\nA progress table showing the final status of all tasks will be displayed before requesting final approval.\n\nIf not approved, the user can add new tasks using 'request_planning' and continue the process.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "requestId": {
+        "type": "string"
+       }
+      },
+      "required": [
+       "requestId"
+      ]
+     }
+    },
+    {
+     "name": "open_task_details",
+     "description": "Get details of a specific task by 'taskId'. This is for inspecting task information at any point.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "taskId": {
+        "type": "string"
+       }
+      },
+      "required": [
+       "taskId"
+      ]
+     }
+    },
+    {
+     "name": "list_requests",
+     "description": "List all requests with their basic information and summary of tasks. This provides a quick overview of all requests in the system.",
+     "input_schema": {
+      "type": "object",
+      "properties": {}
+     }
+    },
+    {
+     "name": "add_tasks_to_request",
+     "description": "Add new tasks to an existing request. This allows extending a request with additional tasks.\n\nA progress table will be displayed showing all tasks including the newly added ones.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "requestId": {
+        "type": "string"
+       },
+       "tasks": {
+        "type": "array",
+        "items": {
+         "type": "object",
+         "properties": {
+          "title": {
+           "type": "string"
+          },
+          "description": {
+           "type": "string"
+          }
+         },
+         "required": [
+          "title",
+          "description"
+         ]
+        }
+       }
+      },
+      "required": [
+       "requestId",
+       "tasks"
+      ]
+     }
+    },
+    {
+     "name": "update_task",
+     "description": "Update an existing task's title and/or description. Only uncompleted tasks can be updated.\n\nA progress table will be displayed showing the updated task information.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "requestId": {
+        "type": "string"
+       },
+       "taskId": {
+        "type": "string"
+       },
+       "title": {
+        "type": "string"
+       },
+       "description": {
+        "type": "string"
+       }
+      },
+      "required": [
+       "requestId",
+       "taskId"
+      ]
+     }
+    },
+    {
+     "name": "delete_task",
+     "description": "Delete a specific task from a request. Only uncompleted tasks can be deleted.\n\nA progress table will be displayed showing the remaining tasks after deletion.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "requestId": {
+        "type": "string"
+       },
+       "taskId": {
+        "type": "string"
+       }
+      },
+      "required": [
+       "requestId",
+       "taskId"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "basic_memory",
+   "name": "Basic Memory",
+   "server": "mcp://basic-memory",
+   "summary": "Basic Memory lets you build persistent knowledge through natural conversations with Large Language Models (LLMs) like Claude, while keeping everything in simple Markdown files on your computer. It uses the Model Context Protocol (MCP) to enable any compatible LLM to read and write to your local knowledge base.",
+   "tools": [
+    {
+     "name": "delete_note",
+     "description": "Delete a note by title or permalink",
+     "input_schema": {
+      "properties": {
+       "identifier": {
+        "title": "Identifier",
+        "type": "string"
+       },
+       "project": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Project"
+       }
+      },
+      "required": [
+       "identifier"
+      ],
+      "type": "object"
+     }
+    },
+    {
+     "name": "read_content",
+     "description": "Read a file's raw content by path or permalink",
+     "input_schema": {
+      "properties": {
+       "path": {
+        "title": "Path",
+        "type": "string"
+       },
+       "project": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Project"
+       }
+      },
+      "required": [
+       "path"
+      ],
+      "type": "object"
+     }
+    },
+    {
+     "name": "build_context",
+     "description": "Build context from a memory:// URI to continue conversations naturally.\n    \n    Use this to follow up on previous discussions or explore related topics.\n    \n    Memory URL Format:\n    - Use paths like \"folder/note\" or \"memory://folder/note\" \n    - Pattern matching: \"folder/*\" matches all notes in folder\n    - Valid characters: letters, numbers, hyphens, underscores, forward slashes\n    - Avoid: double slashes (//), angle brackets (<>), quotes, pipes (|)\n    - Examples: \"specs/search\", \"projects/basic-memory\", \"notes/*\"\n    \n    Timeframes support natural language like:\n    - \"2 days ago\", \"last week\", \"today\", \"3 months ago\"\n    - Or standard formats like \"7d\", \"24h\"",
+     "input_schema": {
+      "properties": {
+       "url": {
+        "maxLength": 2028,
+        "minLength": 1,
+        "title": "Url",
+        "type": "string"
+       },
+       "depth": {
+        "anyOf": [
+         {
+          "type": "integer"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": 1,
+        "title": "Depth"
+       },
+       "timeframe": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": "7d",
+        "title": "Timeframe"
+       },
+       "page": {
+        "default": 1,
+        "title": "Page",
+        "type": "integer"
+       },
+       "page_size": {
+        "default": 10,
+        "title": "Page Size",
+        "type": "integer"
+       },
+       "max_related": {
+        "default": 10,
+        "title": "Max Related",
+        "type": "integer"
+       },
+       "project": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Project"
+       }
+      },
+      "required": [
+       "url"
+      ],
+      "type": "object"
+     }
+    },
+    {
+     "name": "recent_activity",
+     "description": "Get recent activity from across the knowledge base.\n\n    Timeframe supports natural language formats like:\n    - \"2 days ago\"  \n    - \"last week\"\n    - \"yesterday\" \n    - \"today\"\n    - \"3 weeks ago\"\n    Or standard formats like \"7d\"",
+     "input_schema": {
+      "properties": {
+       "type": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "items": {
+           "type": "string"
+          },
+          "type": "array"
+         }
+        ],
+        "default": "",
+        "title": "Type"
+       },
+       "depth": {
+        "default": 1,
+        "title": "Depth",
+        "type": "integer"
+       },
+       "timeframe": {
+        "default": "7d",
+        "title": "Timeframe",
+        "type": "string"
+       },
+       "page": {
+        "default": 1,
+        "title": "Page",
+        "type": "integer"
+       },
+       "page_size": {
+        "default": 10,
+        "title": "Page Size",
+        "type": "integer"
+       },
+       "max_related": {
+        "default": 10,
+        "title": "Max Related",
+        "type": "integer"
+       },
+       "project": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Project"
+       }
+      },
+      "type": "object"
+     }
+    },
+    {
+     "name": "search_notes",
+     "description": "Search across all content in the knowledge base with advanced syntax support.",
+     "input_schema": {
+      "properties": {
+       "query": {
+        "title": "Query",
+        "type": "string"
+       },
+       "page": {
+        "default": 1,
+        "title": "Page",
+        "type": "integer"
+       },
+       "page_size": {
+        "default": 10,
+        "title": "Page Size",
+        "type": "integer"
+       },
+       "search_type": {
+        "default": "text",
+        "title": "Search Type",
+        "type": "string"
+       },
+       "types": {
+        "anyOf": [
+         {
+          "items": {
+           "type": "string"
+          },
+          "type": "array"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Types"
+       },
+       "entity_types": {
+        "anyOf": [
+         {
+          "items": {
+           "type": "string"
+          },
+          "type": "array"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Entity Types"
+       },
+       "after_date": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "After Date"
+       },
+       "project": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Project"
+       }
+      },
+      "required": [
+       "query"
+      ],
+      "type": "object"
+     }
+    },
+    {
+     "name": "read_note",
+     "description": "Read a markdown note by title or permalink.",
+     "input_schema": {
+      "properties": {
+       "identifier": {
+        "title": "Identifier",
+        "type": "string"
+       },
+       "page": {
+        "default": 1,
+        "title": "Page",
+        "type": "integer"
+       },
+       "page_size": {
+        "default": 10,
+        "title": "Page Size",
+        "type": "integer"
+       },
+       "project": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Project"
+       }
+      },
+      "required": [
+       "identifier"
+      ],
+      "type": "object"
+     }
+    },
+    {
+     "name": "view_note",
+     "description": "View a note as a formatted artifact for better readability.",
+     "input_schema": {
+      "properties": {
+       "identifier": {
+        "title": "Identifier",
+        "type": "string"
+       },
+       "page": {
+        "default": 1,
+        "title": "Page",
+        "type": "integer"
+       },
+       "page_size": {
+        "default": 10,
+        "title": "Page Size",
+        "type": "integer"
+       },
+       "project": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Project"
+       }
+      },
+      "required": [
+       "identifier"
+      ],
+      "type": "object"
+     }
+    },
+    {
+     "name": "write_note",
+     "description": "Create or update a markdown note. Returns a markdown formatted summary of the semantic content.",
+     "input_schema": {
+      "properties": {
+       "title": {
+        "title": "Title",
+        "type": "string"
+       },
+       "content": {
+        "title": "Content",
+        "type": "string"
+       },
+       "folder": {
+        "title": "Folder",
+        "type": "string"
+       },
+       "tags": {
+        "default": null,
+        "title": "Tags"
+       },
+       "entity_type": {
+        "default": "note",
+        "title": "Entity Type",
+        "type": "string"
+       },
+       "project": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Project"
+       }
+      },
+      "required": [
+       "title",
+       "content",
+       "folder"
+      ],
+      "type": "object"
+     }
+    },
+    {
+     "name": "canvas",
+     "description": "Create an Obsidian canvas file to visualize concepts and connections.",
+     "input_schema": {
+      "properties": {
+       "nodes": {
+        "items": {
+         "additionalProperties": true,
+         "type": "object"
+        },
+        "title": "Nodes",
+        "type": "array"
+       },
+       "edges": {
+        "items": {
+         "additionalProperties": true,
+         "type": "object"
+        },
+        "title": "Edges",
+        "type": "array"
+       },
+       "title": {
+        "title": "Title",
+        "type": "string"
+       },
+       "folder": {
+        "title": "Folder",
+        "type": "string"
+       },
+       "project": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Project"
+       }
+      },
+      "required": [
+       "nodes",
+       "edges",
+       "title",
+       "folder"
+      ],
+      "type": "object"
+     }
+    },
+    {
+     "name": "list_directory",
+     "description": "List directory contents with filtering and depth control.",
+     "input_schema": {
+      "properties": {
+       "dir_name": {
+        "default": "/",
+        "title": "Dir Name",
+        "type": "string"
+       },
+       "depth": {
+        "default": 1,
+        "title": "Depth",
+        "type": "integer"
+       },
+       "file_name_glob": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "File Name Glob"
+       },
+       "project": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Project"
+       }
+      },
+      "type": "object"
+     }
+    },
+    {
+     "name": "edit_note",
+     "description": "Edit an existing markdown note using various operations like append, prepend, find_replace, or replace_section.",
+     "input_schema": {
+      "properties": {
+       "identifier": {
+        "title": "Identifier",
+        "type": "string"
+       },
+       "operation": {
+        "title": "Operation",
+        "type": "string"
+       },
+       "content": {
+        "title": "Content",
+        "type": "string"
+       },
+       "section": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Section"
+       },
+       "find_text": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Find Text"
+       },
+       "expected_replacements": {
+        "default": 1,
+        "title": "Expected Replacements",
+        "type": "integer"
+       },
+       "project": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Project"
+       }
+      },
+      "required": [
+       "identifier",
+       "operation",
+       "content"
+      ],
+      "type": "object"
+     }
+    },
+    {
+     "name": "move_note",
+     "description": "Move a note to a new location, updating database and maintaining links.",
+     "input_schema": {
+      "properties": {
+       "identifier": {
+        "title": "Identifier",
+        "type": "string"
+       },
+       "destination_path": {
+        "title": "Destination Path",
+        "type": "string"
+       },
+       "project": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Project"
+       }
+      },
+      "required": [
+       "identifier",
+       "destination_path"
+      ],
+      "type": "object"
+     }
+    },
+    {
+     "name": "sync_status",
+     "description": "Check the status of file synchronization and background operations.\n    \n    Use this tool to:\n    - Check if file sync is in progress or completed\n    - Get detailed sync progress information  \n    - Understand if your files are fully indexed\n    - Get specific error details if sync operations failed\n    - Monitor initial project setup and legacy migration\n    \n    This covers all sync operations including:\n    - Initial project setup and file indexing\n    - Legacy project migration to unified database\n    - Ongoing file monitoring and updates\n    - Background processing of knowledge graphs",
+     "input_schema": {
+      "properties": {
+       "project": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Project"
+       }
+      },
+      "type": "object"
+     }
+    },
+    {
+     "name": "list_memory_projects",
+     "description": "List all available projects with their status.\n\nShows all Basic Memory projects that are available, indicating which one\nis currently active and which is the default.\n\nReturns:\n    Formatted list of projects with status indicators\n\nExample:\n    list_memory_projects()",
+     "input_schema": {
+      "properties": {
+       "_compatibility": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Compatibility"
+       }
+      },
+      "type": "object"
+     }
+    },
+    {
+     "name": "switch_project",
+     "description": "Switch to a different project context.\n\nChanges the active project context for all subsequent tool calls.\nShows a project summary after switching successfully.\n\nArgs:\n    project_name: Name of the project to switch to\n\nReturns:\n    Confirmation message with project summary\n\nExample:\n    switch_project(\"work-notes\")\n    switch_project(\"personal-journal\")",
+     "input_schema": {
+      "properties": {
+       "project_name": {
+        "title": "Project Name",
+        "type": "string"
+       }
+      },
+      "required": [
+       "project_name"
+      ],
+      "type": "object"
+     }
+    },
+    {
+     "name": "get_current_project",
+     "description": "Show the currently active project and basic stats.\n\nDisplays which project is currently active and provides basic information\nabout it.\n\nReturns:\n    Current project name and basic statistics\n\nExample:\n    get_current_project()",
+     "input_schema": {
+      "properties": {
+       "_compatibility": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Compatibility"
+       }
+      },
+      "type": "object"
+     }
+    },
+    {
+     "name": "set_default_project",
+     "description": "Set default project in config. Requires restart to take effect.\n\nUpdates the configuration to use a different default project. This change\nonly takes effect after restarting the Basic Memory server.\n\nArgs:\n    project_name: Name of the project to set as default\n\nReturns:\n    Confirmation message about config update\n\nExample:\n    set_default_project(\"work-notes\")",
+     "input_schema": {
+      "properties": {
+       "project_name": {
+        "title": "Project Name",
+        "type": "string"
+       }
+      },
+      "required": [
+       "project_name"
+      ],
+      "type": "object"
+     }
+    },
+    {
+     "name": "create_memory_project",
+     "description": "Create a new Basic Memory project.\n\nCreates a new project with the specified name and path. The project directory\nwill be created if it doesn't exist. Optionally sets the new project as default.\n\nArgs:\n    project_name: Name for the new project (must be unique)\n    project_path: File system path where the project will be stored\n    set_default: Whether to set this project as the default (optional, defaults to False)\n\nReturns:\n    Confirmation message with project details\n\nExample:\n    create_memory_project(\"my-research\", \"~/Documents/research\")\n    create_memory_project(\"work-notes\", \"/home/user/work\", set_default=True)",
+     "input_schema": {
+      "properties": {
+       "project_name": {
+        "title": "Project Name",
+        "type": "string"
+       },
+       "project_path": {
+        "title": "Project Path",
+        "type": "string"
+       },
+       "set_default": {
+        "default": false,
+        "title": "Set Default",
+        "type": "boolean"
+       }
+      },
+      "required": [
+       "project_name",
+       "project_path"
+      ],
+      "type": "object"
+     }
+    },
+    {
+     "name": "delete_project",
+     "description": "Delete a Basic Memory project.\n\nRemoves a project from the configuration and database. This does NOT delete\nthe actual files on disk - only removes the project from Basic Memory's\nconfiguration and database records.\n\nArgs:\n    project_name: Name of the project to delete\n\nReturns:\n    Confirmation message about project deletion\n\nExample:\n    delete_project(\"old-project\")\n\nWarning:\n    This action cannot be undone. The project will need to be re-added\n    to access its content through Basic Memory again.",
+     "input_schema": {
+      "properties": {
+       "project_name": {
+        "title": "Project Name",
+        "type": "string"
+       }
+      },
+      "required": [
+       "project_name"
+      ],
+      "type": "object"
+     }
+    }
+   ]
+  },
+  {
+   "id": "puppeteer",
+   "name": "Puppeteer",
+   "server": "mcp://puppeteer",
+   "summary": "A Model Context Protocol server that provides browser automation capabilities using Puppeteer. This server enables LLMs to interact with web pages, take screenshots, and execute JavaScript in a real browser environment.",
+   "tools": [
+    {
+     "name": "puppeteer_navigate",
+     "description": "Navigate to a URL",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "url": {
+        "type": "string",
+        "description": "URL to navigate to"
+       },
+       "launchOptions": {
+        "type": "object",
+        "description": "PuppeteerJS LaunchOptions. Default null. If changed and not null, browser restarts. Example: { headless: true, args: ['--no-sandbox'] }"
+       },
+       "allowDangerous": {
+        "type": "boolean",
+        "description": "Allow dangerous LaunchOptions that reduce security. When false, dangerous args like --no-sandbox will throw errors. Default false."
+       }
+      },
+      "required": [
+       "url"
+      ]
+     }
+    },
+    {
+     "name": "puppeteer_screenshot",
+     "description": "Take a screenshot of the current page or a specific element",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "name": {
+        "type": "string",
+        "description": "Name for the screenshot"
+       },
+       "selector": {
+        "type": "string",
+        "description": "CSS selector for element to screenshot"
+       },
+       "width": {
+        "type": "number",
+        "description": "Width in pixels (default: 800)"
+       },
+       "height": {
+        "type": "number",
+        "description": "Height in pixels (default: 600)"
+       },
+       "encoded": {
+        "type": "boolean",
+        "description": "If true, capture the screenshot as a base64-encoded data URI (as text) instead of binary image content. Default false."
+       }
+      },
+      "required": [
+       "name"
+      ]
+     }
+    },
+    {
+     "name": "puppeteer_click",
+     "description": "Click an element on the page",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "selector": {
+        "type": "string",
+        "description": "CSS selector for element to click"
+       }
+      },
+      "required": [
+       "selector"
+      ]
+     }
+    },
+    {
+     "name": "puppeteer_fill",
+     "description": "Fill out an input field",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "selector": {
+        "type": "string",
+        "description": "CSS selector for input field"
+       },
+       "value": {
+        "type": "string",
+        "description": "Value to fill"
+       }
+      },
+      "required": [
+       "selector",
+       "value"
+      ]
+     }
+    },
+    {
+     "name": "puppeteer_select",
+     "description": "Select an element on the page with Select tag",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "selector": {
+        "type": "string",
+        "description": "CSS selector for element to select"
+       },
+       "value": {
+        "type": "string",
+        "description": "Value to select"
+       }
+      },
+      "required": [
+       "selector",
+       "value"
+      ]
+     }
+    },
+    {
+     "name": "puppeteer_hover",
+     "description": "Hover an element on the page",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "selector": {
+        "type": "string",
+        "description": "CSS selector for element to hover"
+       }
+      },
+      "required": [
+       "selector"
+      ]
+     }
+    },
+    {
+     "name": "puppeteer_evaluate",
+     "description": "Execute JavaScript in the browser console",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "script": {
+        "type": "string",
+        "description": "JavaScript code to execute"
+       }
+      },
+      "required": [
+       "script"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "music_analysis",
+   "name": "MCP Music Analysis",
+   "server": "mcp://music-analysis",
+   "summary": "This repository contains a Model Context Provider (MCP) that uses MCP and librosa for audio analysis on audio in local, youtube link, or audio link.",
+   "tools": [
+    {
+     "name": "load",
+     "description": "Loads an audio file and returns the path to the audio time series\nOffset and duration are optional, in seconds.\nBe careful, you will never know the name of the song.",
+     "input_schema": {
+      "properties": {
+       "file_path": {
+        "title": "File Path",
+        "type": "string"
+       },
+       "offset": {
+        "default": 0.0,
+        "title": "Offset",
+        "type": "number"
+       },
+       "duration": {
+        "default": null,
+        "title": "Duration",
+        "type": "number"
+       }
+      },
+      "required": [
+       "file_path"
+      ],
+      "title": "loadArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "get_duration",
+     "description": "Returns the total duration (in seconds) of the given audio time series.",
+     "input_schema": {
+      "properties": {
+       "path_audio_time_series_y": {
+        "title": "Path Audio Time Series Y",
+        "type": "string"
+       }
+      },
+      "required": [
+       "path_audio_time_series_y"
+      ],
+      "title": "get_durationArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "tempo",
+     "description": "Estimates the tempo (in BPM) of the given audio time series using librosa.\nOffset and duration are optional, in seconds.",
+     "input_schema": {
+      "properties": {
+       "path_audio_time_series_y": {
+        "title": "Path Audio Time Series Y",
+        "type": "string"
+       },
+       "hop_length": {
+        "default": 512,
+        "title": "Hop Length",
+        "type": "integer"
+       },
+       "start_bpm": {
+        "default": 120,
+        "title": "Start Bpm",
+        "type": "number"
+       },
+       "std_bpm": {
+        "default": 1.0,
+        "title": "Std Bpm",
+        "type": "number"
+       },
+       "ac_size": {
+        "default": 8.0,
+        "title": "Ac Size",
+        "type": "number"
+       },
+       "max_tempo": {
+        "default": 320.0,
+        "title": "Max Tempo",
+        "type": "number"
+       }
+      },
+      "required": [
+       "path_audio_time_series_y"
+      ],
+      "title": "tempoArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "chroma_cqt",
+     "description": "Computes the chroma CQT of the given audio time series using librosa.\nThe chroma CQT is a representation of the audio signal in terms of its\nchromatic content, which is useful for music analysis.\nThe chroma CQT is computed using the following parameters:\n- path_audio_time_series_y: The path to the audio time series (CSV file).\n    It's sometimes better to take harmonics only\n- hop_length: The number of samples between frames.\n- fmin: The minimum frequency of the chroma feature.\n- n_chroma: The number of chroma bins (default is 12).\n- n_octaves: The number of octaves to include in the chroma feature.\nThe chroma CQT is saved to a CSV file with the following columns:\n- note: The note name (C, C#, D, etc.).\n- time: The time position of the note in seconds.\n- amplitude: The amplitude of the note at that time.\nThe path to the CSV file is returned.",
+     "input_schema": {
+      "properties": {
+       "path_audio_time_series_y": {
+        "title": "Path Audio Time Series Y",
+        "type": "string"
+       },
+       "hop_length": {
+        "default": 512,
+        "title": "Hop Length",
+        "type": "integer"
+       },
+       "fmin": {
+        "default": null,
+        "title": "Fmin",
+        "type": "number"
+       },
+       "n_chroma": {
+        "default": 12,
+        "title": "N Chroma",
+        "type": "integer"
+       },
+       "n_octaves": {
+        "default": 7,
+        "title": "N Octaves",
+        "type": "integer"
+       }
+      },
+      "required": [
+       "path_audio_time_series_y"
+      ],
+      "title": "chroma_cqtArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "mfcc",
+     "description": "Computes the MFCC of the given audio time series using librosa.\nThe MFCC is a representation of the audio signal in terms of its\nspectral content, which is useful for music analysis.\nThe MFCC is computed using the following parameters:\n- path_audio_time_series_y: The path to the audio time series (CSV file).\n    It's sometimes better to take harmonics only",
+     "input_schema": {
+      "properties": {
+       "path_audio_time_series_y": {
+        "title": "Path Audio Time Series Y",
+        "type": "string"
+       }
+      },
+      "required": [
+       "path_audio_time_series_y"
+      ],
+      "title": "mfccArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "beat_track",
+     "description": "Computes the beat track of the given audio time series using librosa.\nThe beat track is a representation of the audio signal in terms of its\nrhythmic content, which is useful for music analysis.\nThe beat track is computed using the following parameters:\n- hop_length: The number of samples between frames.\n- start_bpm: The initial estimate of the tempo (in BPM).\n- tightness: The tightness of the beat tracking (default is 100).\n- units: The units of the beat track (default is \"frames\"). It can be frames, samples, time.",
+     "input_schema": {
+      "properties": {
+       "path_audio_time_series_y": {
+        "title": "Path Audio Time Series Y",
+        "type": "string"
+       },
+       "hop_length": {
+        "default": 512,
+        "title": "Hop Length",
+        "type": "integer"
+       },
+       "start_bpm": {
+        "default": 120,
+        "title": "Start Bpm",
+        "type": "number"
+       },
+       "tightness": {
+        "default": 100,
+        "title": "Tightness",
+        "type": "integer"
+       },
+       "units": {
+        "default": "frames",
+        "title": "Units",
+        "type": "string"
+       }
+      },
+      "required": [
+       "path_audio_time_series_y"
+      ],
+      "title": "beat_trackArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "download_from_url",
+     "description": "Downloads a file from a given URL and returns the path to the downloaded file.\nBe careful, you will never know the name of the song.",
+     "input_schema": {
+      "properties": {
+       "url": {
+        "title": "Url",
+        "type": "string"
+       }
+      },
+      "required": [
+       "url"
+      ],
+      "title": "download_from_urlArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "download_from_youtube",
+     "description": "Downloads a file from a given youtube URL and returns the path to the downloaded file.\nBe careful, you will never know the name of the song.",
+     "input_schema": {
+      "properties": {
+       "youtube_url": {
+        "title": "Youtube Url",
+        "type": "string"
+       }
+      },
+      "required": [
+       "youtube_url"
+      ],
+      "title": "download_from_youtubeArguments",
+      "type": "object"
+     }
+    }
+   ]
+  }
+ ]
+}

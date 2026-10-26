@@ -1,0 +1,3981 @@
+{
+ "branch": {
+  "id": "bfcl_c18",
+  "name": "calculate / probability / given",
+  "summary": "Functions about calculate, probability, given, final, velocity, based, energy, time, tax, calculator, initial, angle."
+ },
+ "toolkits": [
+  {
+   "id": "alimony_calculator",
+   "name": "alimony_calculator",
+   "server": "bfcl://alimony_calculator",
+   "summary": "Calculate the amount of alimony one spouse would have to pay to the other spouse in the state of California.",
+   "tools": [
+    {
+     "name": "ca_calculate",
+     "description": "Calculate the amount of alimony one spouse would have to pay to the other spouse in the state of California.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "payor_income": {
+        "type": "integer",
+        "description": "The monthly gross income of the payor spouse."
+       },
+       "recipient_income": {
+        "type": "integer",
+        "description": "The monthly gross income of the recipient spouse."
+       },
+       "duration": {
+        "type": "integer",
+        "description": "The duration of the alimony in years."
+       }
+      },
+      "required": [
+       "payor_income",
+       "recipient_income",
+       "duration"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "angletoxaxis",
+   "name": "angleToXAxis",
+   "server": "bfcl://angleToXAxis",
+   "summary": "Calculate the angle between two points with respect to x-axis. Calculate the angle between two points with respect to x-axis.",
+   "tools": [
+    {
+     "name": "calculate",
+     "description": "Calculate the angle between two points with respect to x-axis.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "pointA": {
+        "type": "array",
+        "items": {
+         "type": "integer"
+        },
+        "description": "Coordinates for Point A."
+       },
+       "pointB": {
+        "type": "array",
+        "items": {
+         "type": "integer"
+        },
+        "description": "Coordinates for Point B."
+       },
+       "rounding": {
+        "type": "integer",
+        "description": "Optional: The number of decimals to round off the result.",
+        "default": 2
+       }
+      },
+      "required": [
+       "pointA",
+       "pointB"
+      ]
+     }
+    },
+    {
+     "name": "calculate_2",
+     "description": "Calculate the angle between two points with respect to x-axis.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "pointA": {
+        "type": "array",
+        "items": {
+         "type": "integer"
+        },
+        "description": "Coordinates for Point A."
+       },
+       "pointB": {
+        "type": "array",
+        "items": {
+         "type": "integer"
+        },
+        "description": "Coordinates for Point B."
+       },
+       "rounding": {
+        "type": "integer",
+        "description": "Optional: The number of decimals to round off the result. Default 0"
+       }
+      },
+      "required": [
+       "pointA",
+       "pointB"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "architecture_capacity",
+   "name": "architecture_capacity",
+   "server": "bfcl://architecture_capacity",
+   "summary": "Calculate the maximum seating capacity of a certain architectural structure.",
+   "tools": [
+    {
+     "name": "evaluate_capacity",
+     "description": "Calculate the maximum seating capacity of a certain architectural structure.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "structure_name": {
+        "type": "string",
+        "description": "The name of the architectural structure."
+       },
+       "area_per_person": {
+        "type": "integer",
+        "description": "The average space a person takes up in sq ft. This value differs based on the use-case, eg: standing concert, football match etc.",
+        "default": 6
+       }
+      },
+      "required": [
+       "structure_name",
+       "area_per_person"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "bank",
+   "name": "bank",
+   "server": "bfcl://bank",
+   "summary": "Calculate the balance of a specified bank account based on the transactions. Retrieve transaction history for a specific bank account over a specified time frame.",
+   "tools": [
+    {
+     "name": "calculate_balance",
+     "description": "Calculate the balance of a specified bank account based on the transactions.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "account": {
+        "type": "string",
+        "description": "The account number for which balance is to be calculated."
+       },
+       "transactions": {
+        "type": "array",
+        "description": "Transaction array Default is empty array.",
+        "items": {
+         "type": "object",
+         "properties": {
+          "amount": {
+           "type": "number",
+           "description": "The amount of the transaction. Default 0"
+          },
+          "type": {
+           "type": "string",
+           "enum": [
+            "credit",
+            "debit"
+           ],
+           "description": "Type of the transaction. Default is credit.",
+           "default": "credit"
+          }
+         }
+        },
+        "default": []
+       },
+       "starting_balance": {
+        "type": "number",
+        "description": "The starting balance of the account, if known. Default 0.0"
+       }
+      },
+      "required": [
+       "account"
+      ]
+     }
+    },
+    {
+     "name": "get_transaction_history",
+     "description": "Retrieve transaction history for a specific bank account over a specified time frame.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "account": {
+        "type": "string",
+        "description": "The account number for which transaction history is required."
+       },
+       "days": {
+        "type": "integer",
+        "description": "Number of past days for which to retrieve the transaction history."
+       }
+      },
+      "required": [
+       "account",
+       "days"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "bank_account",
+   "name": "bank_account",
+   "server": "bfcl://bank_account",
+   "summary": "Calculate the amount of interest accrued over a given time period. Transfer a given amount from one account to another.",
+   "tools": [
+    {
+     "name": "calculate_interest",
+     "description": "Calculate the amount of interest accrued over a given time period.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "principal": {
+        "type": "number",
+        "description": "The initial amount of money."
+       },
+       "rate": {
+        "type": "number",
+        "description": "The annual interest rate as a decimal."
+       },
+       "time": {
+        "type": "integer",
+        "description": "The number of years the money is invested for."
+       }
+      },
+      "required": [
+       "principal",
+       "rate",
+       "time"
+      ]
+     }
+    },
+    {
+     "name": "transfer",
+     "description": "Transfer a given amount from one account to another.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "from_account": {
+        "type": "string",
+        "description": "The account to transfer from."
+       },
+       "to_account": {
+        "type": "string",
+        "description": "The account to transfer to."
+       },
+       "amount": {
+        "type": "number",
+        "description": "The amount to be transferred."
+       }
+      },
+      "required": [
+       "from_account",
+       "to_account",
+       "amount"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "biological",
+   "name": "biological",
+   "server": "bfcl://biological",
+   "summary": "Calculate the biomass from the energy given the energy conversion efficiency. Calculate energy from amount of substance based on its molecular composition.",
+   "tools": [
+    {
+     "name": "calc_biomass",
+     "description": "Calculate the biomass from the energy given the energy conversion efficiency.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "energy": {
+        "type": "number",
+        "description": "The total energy produced."
+       },
+       "efficiency": {
+        "type": "number",
+        "description": "The conversion efficiency, default value is 10%.",
+        "default": 0.1
+       }
+      },
+      "required": [
+       "energy"
+      ]
+     }
+    },
+    {
+     "name": "calc_energy",
+     "description": "Calculate energy from amount of substance based on its molecular composition.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "mols": {
+        "type": "integer",
+        "description": "Amount of substance in moles."
+       },
+       "substance": {
+        "type": "string",
+        "description": "The chemical formula of the substance."
+       },
+       "joules_per_mol": {
+        "type": "integer",
+        "description": "The energy produced or required for the reaction, default value for glucose is 2800 kJ/mol",
+        "default": 2800
+       }
+      },
+      "required": [
+       "mols",
+       "substance"
+      ]
+     }
+    },
+    {
+     "name": "calc_energy_2",
+     "description": "Calculate energy from amount of substance based on its molecular composition.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "mols": {
+        "type": "number",
+        "description": "Amount of substance in moles."
+       },
+       "substance": {
+        "type": "string",
+        "description": "The chemical formula of the substance."
+       },
+       "joules_per_mol": {
+        "type": "number",
+        "description": "The energy produced or required for the reaction, default value for glucose is 2800 kJ/mol",
+        "default": 2800.0
+       }
+      },
+      "required": [
+       "mols",
+       "substance"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "calculate",
+   "name": "calculate",
+   "server": "bfcl://calculate",
+   "summary": "Calculate your weight on different planets given your weight on earth Calculate your weight on different planets given your weight on earth",
+   "tools": [
+    {
+     "name": "weight_in_space",
+     "description": "Calculate your weight on different planets given your weight on earth",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "weight_earth_kg": {
+        "type": "number",
+        "description": "Your weight on Earth in Kilograms."
+       },
+       "planet": {
+        "type": "string",
+        "description": "The planet you want to know your weight on."
+       }
+      },
+      "required": [
+       "weight_earth_kg",
+       "planet"
+      ]
+     }
+    },
+    {
+     "name": "weight_in_space_2",
+     "description": "Calculate your weight on different planets given your weight on earth",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "weight_earth_kg": {
+        "type": "integer",
+        "description": "Your weight on Earth in Kilograms."
+       },
+       "planet": {
+        "type": "string",
+        "description": "The planet you want to know your weight on."
+       }
+      },
+      "required": [
+       "weight_earth_kg",
+       "planet"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "card_game_probability",
+   "name": "card_game_probability",
+   "server": "bfcl://card_game_probability",
+   "summary": "Calculate the probability of drawing a certain card or suit from a deck of cards.",
+   "tools": [
+    {
+     "name": "calculate",
+     "description": "Calculate the probability of drawing a certain card or suit from a deck of cards.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "total_cards": {
+        "type": "integer",
+        "description": "Total number of cards in the deck."
+       },
+       "desired_cards": {
+        "type": "integer",
+        "description": "Number of cards in the deck that satisfy the conditions."
+       },
+       "cards_drawn": {
+        "type": "integer",
+        "default": 1,
+        "description": "Number of cards drawn from the deck."
+       }
+      },
+      "required": [
+       "total_cards",
+       "desired_cards"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "confidence_interval",
+   "name": "confidence_interval",
+   "server": "bfcl://confidence_interval",
+   "summary": "Calculate the confidence interval for a mean.",
+   "tools": [
+    {
+     "name": "calculate",
+     "description": "Calculate the confidence interval for a mean.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "sample_std_dev": {
+        "type": "integer",
+        "description": "The standard deviation of the sample."
+       },
+       "sample_size": {
+        "type": "integer",
+        "description": "The size of the sample."
+       },
+       "sample_mean": {
+        "type": "integer",
+        "description": "The mean of the sample."
+       },
+       "confidence_level": {
+        "type": "number",
+        "description": "The level of confidence. Default is 0.9."
+       }
+      },
+      "required": [
+       "sample_std_dev",
+       "sample_size",
+       "sample_mean"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "correlation",
+   "name": "correlation",
+   "server": "bfcl://correlation",
+   "summary": "Calculate the correlation coefficient between two arrays of numbers.",
+   "tools": [
+    {
+     "name": "calculate",
+     "description": "Calculate the correlation coefficient between two arrays of numbers.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "array1": {
+        "type": "array",
+        "items": {
+         "type": "integer"
+        },
+        "description": "The first array of numbers."
+       },
+       "array2": {
+        "type": "array",
+        "items": {
+         "type": "integer"
+        },
+        "description": "The second array of numbers."
+       },
+       "type": {
+        "type": "string",
+        "enum": [
+         "pearson",
+         "spearman"
+        ],
+        "description": "Optional: The type of correlation coefficient to calculate. Default is 'pearson'."
+       }
+      },
+      "required": [
+       "array1",
+       "array2"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "cosine_similarity",
+   "name": "cosine_similarity",
+   "server": "bfcl://cosine_similarity",
+   "summary": "Calculate the cosine similarity between two vectors.",
+   "tools": [
+    {
+     "name": "calculate",
+     "description": "Calculate the cosine similarity between two vectors.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "vector1": {
+        "type": "array",
+        "items": {
+         "type": "integer"
+        },
+        "description": "The first vector for calculating cosine similarity."
+       },
+       "vector2": {
+        "type": "array",
+        "items": {
+         "type": "integer"
+        },
+        "description": "The second vector for calculating cosine similarity."
+       },
+       "rounding": {
+        "type": "integer",
+        "description": "Optional: The number of decimals to round off the result. Default 0"
+       }
+      },
+      "required": [
+       "vector1",
+       "vector2"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "deck_of_cards",
+   "name": "deck_of_cards",
+   "server": "bfcl://deck_of_cards",
+   "summary": "Compute the probability of drawing a specific suit from a given deck of cards.",
+   "tools": [
+    {
+     "name": "odds",
+     "description": "Compute the probability of drawing a specific suit from a given deck of cards.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "suit": {
+        "type": "string",
+        "description": "The card suit. Valid values include: 'spades', 'clubs', 'hearts', 'diamonds'."
+       },
+       "deck_type": {
+        "type": "string",
+        "description": "Type of deck, normal deck includes joker, and without_joker deck excludes joker.",
+        "default": "normal"
+       }
+      },
+      "required": [
+       "suit",
+       "deck_type"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "energy_calculator",
+   "name": "energy_calculator",
+   "server": "bfcl://energy_calculator",
+   "summary": "Calculate the energy needed to heat a substance from an initial to a final temperature.",
+   "tools": [
+    {
+     "name": "calculate",
+     "description": "Calculate the energy needed to heat a substance from an initial to a final temperature.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "substance": {
+        "type": "string",
+        "description": "The substance to be heated."
+       },
+       "mass": {
+        "type": "number",
+        "description": "The mass of the substance in grams."
+       },
+       "initial_temperature": {
+        "type": "number",
+        "description": "The initial temperature of the substance in degrees Celsius."
+       },
+       "final_temperature": {
+        "type": "number",
+        "description": "The final temperature of the substance in degrees Celsius."
+       },
+       "unit": {
+        "type": "string",
+        "description": "The unit to report the energy in. Options are 'joules' and 'calories'. Defaults to 'joules'."
+       }
+      },
+      "required": [
+       "substance",
+       "mass",
+       "initial_temperature",
+       "final_temperature"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "entropy_change",
+   "name": "entropy_change",
+   "server": "bfcl://entropy_change",
+   "summary": "Calculate the change in entropy for a mass of a specific substance under set initial and final conditions.",
+   "tools": [
+    {
+     "name": "calculate",
+     "description": "Calculate the change in entropy for a mass of a specific substance under set initial and final conditions.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "substance": {
+        "type": "string",
+        "description": "The substance for which the change in entropy is calculated."
+       },
+       "mass": {
+        "type": "integer",
+        "description": "The mass of the substance in kg."
+       },
+       "initial_temperature": {
+        "type": "integer",
+        "description": "The initial temperature of the substance in degree Celsius."
+       },
+       "final_temperature": {
+        "type": "integer",
+        "description": "The final temperature of the substance in degree Celsius."
+       },
+       "pressure": {
+        "type": "integer",
+        "default": 1,
+        "description": "The pressure the substance is under in atmospheres."
+       }
+      },
+      "required": [
+       "substance",
+       "mass",
+       "initial_temperature",
+       "final_temperature"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "financial_ratios",
+   "name": "financial_ratios",
+   "server": "bfcl://financial_ratios",
+   "summary": "Calculate the return on assets (ROA) for a company. Calculate the return on equity (ROE) for a company.",
+   "tools": [
+    {
+     "name": "calculate_ROA",
+     "description": "Calculate the return on assets (ROA) for a company.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "net_income": {
+        "type": "number",
+        "description": "Net income for the period."
+       },
+       "total_assets": {
+        "type": "number",
+        "description": "Total average assets for the period."
+       }
+      },
+      "required": [
+       "net_income",
+       "total_assets"
+      ]
+     }
+    },
+    {
+     "name": "calculate_ROE",
+     "description": "Calculate the return on equity (ROE) for a company.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "net_income": {
+        "type": "number",
+        "description": "Net income for the period."
+       },
+       "shareholder_equity": {
+        "type": "number",
+        "description": "Average shareholder equity for the period."
+       }
+      },
+      "required": [
+       "net_income",
+       "shareholder_equity"
+      ]
+     }
+    },
+    {
+     "name": "interest_coverage",
+     "description": "Calculate a company's interest coverage ratio given the company name and duration",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "company_name": {
+        "type": "string",
+        "description": "The name of the company."
+       },
+       "years": {
+        "type": "integer",
+        "description": "Number of past years to calculate the ratio."
+       }
+      },
+      "required": [
+       "company_name",
+       "years"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "math_roots",
+   "name": "math_roots",
+   "server": "bfcl://math_roots",
+   "summary": "Calculate the roots of a quadratic equation. Calculate the roots of a quadratic equation.",
+   "tools": [
+    {
+     "name": "quadratic",
+     "description": "Calculate the roots of a quadratic equation.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "a": {
+        "type": "number",
+        "description": "Coefficient of the second-degree term."
+       },
+       "b": {
+        "type": "number",
+        "description": "Coefficient of the first-degree term."
+       },
+       "c": {
+        "type": "number",
+        "description": "Constant term."
+       }
+      },
+      "required": [
+       "a",
+       "b",
+       "c"
+      ]
+     }
+    },
+    {
+     "name": "quadratic_2",
+     "description": "Calculate the roots of a quadratic equation.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "a": {
+        "type": "integer",
+        "description": "Coefficient of the second-degree term."
+       },
+       "b": {
+        "type": "integer",
+        "description": "Coefficient of the first-degree term."
+       },
+       "c": {
+        "type": "integer",
+        "description": "Constant term."
+       }
+      },
+      "required": [
+       "a",
+       "b",
+       "c"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "physical",
+   "name": "physical",
+   "server": "bfcl://physical",
+   "summary": "Calculate the work from energy.",
+   "tools": [
+    {
+     "name": "calc_work",
+     "description": "Calculate the work from energy.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "energy": {
+        "type": "number",
+        "description": "The total energy produced."
+       },
+       "distance": {
+        "type": "number",
+        "description": "The distance over which the work is done."
+       }
+      },
+      "required": [
+       "energy",
+       "distance"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "poker_probability",
+   "name": "poker_probability",
+   "server": "bfcl://poker_probability",
+   "summary": "Calculate the probability of getting a full house in a poker game.",
+   "tools": [
+    {
+     "name": "full_house",
+     "description": "Calculate the probability of getting a full house in a poker game.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "deck_size": {
+        "type": "integer",
+        "description": "The size of the deck. Default is 52."
+       },
+       "hand_size": {
+        "type": "integer",
+        "description": "The size of the hand. Default is 5."
+       }
+      },
+      "required": [
+       "deck_size",
+       "hand_size"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "prob_dist",
+   "name": "prob_dist",
+   "server": "bfcl://prob_dist",
+   "summary": "Compute the probability of having 'success' outcome from binomial distribution.",
+   "tools": [
+    {
+     "name": "binomial",
+     "description": "Compute the probability of having 'success' outcome from binomial distribution.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "trials": {
+        "type": "integer",
+        "description": "The number of independent experiments."
+       },
+       "successes": {
+        "type": "integer",
+        "description": "The number of success events."
+       },
+       "p": {
+        "type": "number",
+        "description": "The probability of success on any given trial, defaults to 0.5"
+       }
+      },
+      "required": [
+       "trials",
+       "successes"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "probabilities",
+   "name": "probabilities",
+   "server": "bfcl://probabilities",
+   "summary": "Calculate the probability of an event.",
+   "tools": [
+    {
+     "name": "calculate_single",
+     "description": "Calculate the probability of an event.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "total_outcomes": {
+        "type": "integer",
+        "description": "The total number of outcomes."
+       },
+       "event_outcomes": {
+        "type": "integer",
+        "description": "The number of outcomes where the event occurs."
+       },
+       "round": {
+        "type": "integer",
+        "description": "Round the answer to a specified number of decimal places. Defaults to 2."
+       }
+      },
+      "required": [
+       "total_outcomes",
+       "event_outcomes"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "probability",
+   "name": "probability",
+   "server": "bfcl://probability",
+   "summary": "Calculate the probability of getting a specific number of heads after tossing a coin multiple times. Calculate the population based on the probability and sample size",
+   "tools": [
+    {
+     "name": "coin_toss_heads",
+     "description": "Calculate the probability of getting a specific number of heads after tossing a coin multiple times.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "coin_tosses": {
+        "type": "integer",
+        "description": "The number of times the coin is tossed."
+       },
+       "heads_needed": {
+        "type": "integer",
+        "description": "The specific number of heads you want to get after coin tosses."
+       },
+       "coin_type": {
+        "type": "string",
+        "default": "fair",
+        "description": "The type of the coin. Default is 'fair'. Possible values are 'fair', 'double_heads', 'double_tails'.",
+        "enum": [
+         "fair",
+         "double_heads",
+         "double_tails"
+        ]
+       }
+      },
+      "required": [
+       "coin_tosses",
+       "heads_needed"
+      ]
+     }
+    },
+    {
+     "name": "determine_population",
+     "description": "Calculate the population based on the probability and sample size",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "probability": {
+        "type": "number",
+        "description": "Probability of a certain outcome."
+       },
+       "sample_size": {
+        "type": "integer",
+        "description": "Total number of events in sample."
+       },
+       "round": {
+        "type": "boolean",
+        "description": "Should the answer be rounded up to nearest integer? Default is true"
+       }
+      },
+      "required": [
+       "probability",
+       "sample_size"
+      ]
+     }
+    },
+    {
+     "name": "dice_roll",
+     "description": "Calculate the probability of rolling a certain number on a six-sided die a certain number of times in a row.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "desired_number": {
+        "type": "integer",
+        "description": "The number you want to roll."
+       },
+       "number_of_rolls": {
+        "type": "integer",
+        "description": "How many times you want to roll that number in a row."
+       },
+       "die_sides": {
+        "type": "integer",
+        "description": "The number of sides on the die (optional; default is 6)."
+       }
+      },
+      "required": [
+       "desired_number",
+       "number_of_rolls"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "route_planner",
+   "name": "route_planner",
+   "server": "bfcl://route_planner",
+   "summary": "Determines the best route between two points.",
+   "tools": [
+    {
+     "name": "calculate_route",
+     "description": "Determines the best route between two points.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "start": {
+        "type": "string",
+        "description": "The starting point of the journey."
+       },
+       "destination": {
+        "type": "string",
+        "description": "The destination of the journey."
+       },
+       "method": {
+        "type": "string",
+        "enum": [
+         "fastest",
+         "shortest",
+         "balanced"
+        ],
+        "description": "The method to use when calculating the route (default is 'fastest').",
+        "default": "fastest"
+       }
+      },
+      "required": [
+       "start",
+       "destination"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "solar_panel",
+   "name": "solar_panel",
+   "server": "bfcl://solar_panel",
+   "summary": "Calculate the number of solar panels needed for a house based on the square footage and average sunlight hours.",
+   "tools": [
+    {
+     "name": "calculate_need",
+     "description": "Calculate the number of solar panels needed for a house based on the square footage and average sunlight hours.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "square_footage": {
+        "type": "number",
+        "description": "The square footage of the house."
+       },
+       "average_sunlight_hours": {
+        "type": "number",
+        "description": "The average hours of sunlight received."
+       },
+       "usage_efficiency": {
+        "type": "number",
+        "default": 0.8,
+        "description": "The efficiency of energy usage in the home, default is 0.8."
+       }
+      },
+      "required": [
+       "square_footage",
+       "average_sunlight_hours"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "thermo",
+   "name": "thermo",
+   "server": "bfcl://thermo",
+   "summary": "Calculate the energy required or released during a phase change using mass, the phase transition temperature and the specific latent heat.",
+   "tools": [
+    {
+     "name": "calculate_energy",
+     "description": "Calculate the energy required or released during a phase change using mass, the phase transition temperature and the specific latent heat.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "mass": {
+        "type": "integer",
+        "description": "Mass of the substance in grams."
+       },
+       "phase_transition": {
+        "type": "string",
+        "description": "Phase transition. Can be 'melting', 'freezing', 'vaporization', 'condensation'."
+       },
+       "substance": {
+        "type": "string",
+        "description": "The substance which is undergoing phase change, default is 'water'"
+       }
+      },
+      "required": [
+       "mass",
+       "phase_transition"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "thermodynamics",
+   "name": "thermodynamics",
+   "server": "bfcl://thermodynamics",
+   "summary": "Calculate gas pressure in a closed chamber due to heating Calculate the pressure of a gas in a closed chamber after heating, using the ideal gas law.",
+   "tools": [
+    {
+     "name": "calc_gas_pressure",
+     "description": "Calculate gas pressure in a closed chamber due to heating",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "volume": {
+        "type": "number",
+        "description": "The volume of the chamber in cubic meters."
+       },
+       "initial_temperature": {
+        "type": "number",
+        "description": "The initial temperature of the gas in degree Celsius."
+       },
+       "final_temperature": {
+        "type": "number",
+        "description": "The final temperature of the gas in degree Celsius."
+       },
+       "initial_pressure": {
+        "type": "number",
+        "description": "The initial pressure of the gas in Pascal. Default is standard atmospheric pressure."
+       }
+      },
+      "required": [
+       "volume",
+       "initial_temperature",
+       "final_temperature"
+      ]
+     }
+    },
+    {
+     "name": "calc_gas_pressure_2",
+     "description": "Calculate the pressure of a gas in a closed chamber after heating, using the ideal gas law. Assumes that the amount of gas and the system volume remain constant.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "volume",
+       "initial_temperature",
+       "final_temperature"
+      ],
+      "properties": {
+       "volume": {
+        "type": "number",
+        "description": "The volume of the chamber in cubic meters (m\u00b3)."
+       },
+       "initial_temperature": {
+        "type": "number",
+        "description": "The initial temperature of the gas in degrees Celsius (\u00b0C)."
+       },
+       "final_temperature": {
+        "type": "number",
+        "description": "The final temperature of the gas in degrees Celsius (\u00b0C) after heating."
+       },
+       "initial_pressure": {
+        "type": "number",
+        "description": "The initial pressure of the gas in Pascals (Pa). If not provided, the standard atmospheric pressure at sea level is assumed.",
+        "default": 101325
+       }
+      }
+     }
+    },
+    {
+     "name": "calculate_boiling_point",
+     "description": "Calculate the boiling point of a given substance at a specific pressure, considering standard atmospheric conditions.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "substance",
+       "pressure"
+      ],
+      "properties": {
+       "substance": {
+        "type": "string",
+        "description": "The name of the substance for which the boiling point is to be calculated."
+       },
+       "pressure": {
+        "type": "number",
+        "description": "The pressure at which the boiling point is to be calculated, expressed in kilopascals (kPa)."
+       },
+       "unit": {
+        "type": "string",
+        "description": "The unit of measurement for pressure, with 'kPa' as the default unit.",
+        "enum": [
+         "kPa",
+         "atm",
+         "mmHg",
+         "psi"
+        ],
+        "default": "kPa"
+       }
+      }
+     }
+    },
+    {
+     "name": "calculate_boiling_point_2",
+     "description": "Calculate the boiling point of a given substance at a specific pressure, provided in kilopascals (kPa) or atmospheres (atm).",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "substance",
+       "pressure"
+      ],
+      "properties": {
+       "substance": {
+        "type": "string",
+        "description": "The chemical name of the substance for which to calculate the boiling point, such as 'water' or 'ethanol'."
+       },
+       "pressure": {
+        "type": "number",
+        "description": "The pressure at which to calculate the boiling point, expressed in the unit specified by the 'unit' parameter."
+       },
+       "unit": {
+        "type": "string",
+        "description": "The unit of measurement for the pressure value. Accepts either 'kPa' or 'atm'.",
+        "enum": [
+         "kPa",
+         "atm"
+        ],
+        "default": "kPa"
+       }
+      }
+     }
+    },
+    {
+     "name": "calculate_boiling_point_3",
+     "description": "Calculate the boiling point of a given substance at a specific pressure.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "substance": {
+        "type": "string",
+        "description": "The substance for which to calculate the boiling point."
+       },
+       "pressure": {
+        "type": "number",
+        "description": "The pressure at which to calculate the boiling point."
+       },
+       "unit": {
+        "type": "string",
+        "description": "The unit of the pressure. Default is 'kPa'."
+       }
+      },
+      "required": [
+       "substance",
+       "pressure"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "bfcl_c18_g0",
+   "name": "weight molecular compound",
+   "server": "bfcl://bfcl_c18_g0",
+   "summary": "Functions for weight, molecular, compound, calculate, neuronal, formula.",
+   "tools": [
+    {
+     "name": "calculate_molecular_weight",
+     "description": "Calculate the molecular weight of a compound given the compound formula.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "compound": {
+        "type": "string",
+        "description": "The molecular formula of the compound."
+       },
+       "to_unit": {
+        "type": "string",
+        "description": "The unit in which to return the result. Default is 'grams/mole'"
+       }
+      },
+      "required": [
+       "compound",
+       "to_unit"
+      ]
+     }
+    },
+    {
+     "name": "calculate_molecular_weight_2",
+     "description": "Calculate the molecular weight of a compound given the compound formula.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "compound": {
+        "type": "string",
+        "description": "The molecular formula of the compound."
+       },
+       "to_unit": {
+        "type": "string",
+        "description": "The unit in which to return the result."
+       }
+      },
+      "required": [
+       "compound",
+       "to_unit"
+      ]
+     }
+    },
+    {
+     "name": "calculate_neuronal_activity",
+     "description": "Calculate the neuronal activity (rate of firing) based on a given input synaptic rate, weight of inputs, and decay rate. Higher input or weight increases firing rate and higher decay rate decreases it.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "input_synaptic_rate": {
+        "type": "integer",
+        "description": "The synaptic input rate, usually represented as number of inputs per second."
+       },
+       "weight": {
+        "type": "number",
+        "description": "The weight of the input, denoting its influence on the neuron's state. Default is 1.0."
+       },
+       "decay_rate": {
+        "type": "number",
+        "description": "The rate at which the neuron's potential decays in the absence of inputs."
+       }
+      },
+      "required": [
+       "input_synaptic_rate",
+       "decay_rate"
+      ],
+      "optional": [
+       "weight"
+      ]
+     }
+    },
+    {
+     "name": "calculate_neuronal_activity_2",
+     "description": "Calculate the neuronal activity (rate of firing) based on a given input synaptic rate, weight of inputs, and decay rate. Higher input or weight increases firing rate and higher decay rate decreases it.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "input_synaptic_rate": {
+        "type": "integer",
+        "description": "The synaptic input rate, usually represented as number of inputs per second."
+       },
+       "weight": {
+        "type": "number",
+        "description": "The weight of the input, denoting its influence on the neuron's state. Default is 1.0."
+       },
+       "decay_rate": {
+        "type": "number",
+        "description": "The rate at which the neuron's potential decays in the absence of inputs."
+       }
+      },
+      "required": [
+       "input_synaptic_rate",
+       "decay_rate"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "bfcl_c18_g1",
+   "name": "tax calculate income",
+   "server": "bfcl://bfcl_c18_g1",
+   "summary": "Functions for tax, calculate, income, tip, sales, gains.",
+   "tools": [
+    {
+     "name": "CalculateTax",
+     "description": "Calculate the income tax based on the annual income, tax rate, and other deductions.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "annual_income": {
+        "type": "number",
+        "description": "The annual income of the person."
+       },
+       "tax_rate": {
+        "type": "number",
+        "description": "The tax rate."
+       },
+       "other_deductions": {
+        "type": "number",
+        "description": "Any other deductions."
+       }
+      },
+      "required": [
+       "annual_income",
+       "tax_rate",
+       "other_deductions"
+      ]
+     }
+    },
+    {
+     "name": "calculate_capital_gains_tax",
+     "description": "Calculate the capital gains tax for a given gains type and amount",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "short_term_gain": {
+        "type": "integer",
+        "description": "The short term capital gain amount."
+       },
+       "long_term_gain": {
+        "type": "integer",
+        "description": "The long term capital gain amount."
+       },
+       "state": {
+        "type": "string",
+        "description": "The state where the income is generated.",
+        "default": "federal"
+       }
+      },
+      "required": [
+       "short_term_gain",
+       "long_term_gain"
+      ]
+     }
+    },
+    {
+     "name": "calculate_return_on_equity",
+     "description": "Calculate a company's return on equity based on its net income, shareholder's equity, and dividends paid.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "net_income": {
+        "type": "integer",
+        "description": "The company's net income."
+       },
+       "shareholder_equity": {
+        "type": "integer",
+        "description": "The company's total shareholder's equity."
+       },
+       "dividends_paid": {
+        "type": "integer",
+        "description": "The total dividends paid by the company. Optional. If not given, assumes it's 0 as default."
+       }
+      },
+      "required": [
+       "net_income",
+       "shareholder_equity"
+      ]
+     }
+    },
+    {
+     "name": "calculate_return_on_equity_2",
+     "description": "Calculate a company's return on equity based on its net income, shareholder's equity, and dividends paid.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "net_income": {
+        "type": "integer",
+        "description": "The company's net income."
+       },
+       "shareholder_equity": {
+        "type": "integer",
+        "description": "The company's total shareholder's equity."
+       },
+       "dividends_paid": {
+        "type": "integer",
+        "description": "The total dividends paid by the company. Optional. If not given, default it's 0."
+       }
+      },
+      "required": [
+       "net_income",
+       "shareholder_equity"
+      ]
+     }
+    },
+    {
+     "name": "calculate_return_on_equity_3",
+     "description": "Calculate a company's return on equity based on its net income, shareholder's equity, and dividends paid.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "net_income": {
+        "type": "integer",
+        "description": "The company's net income."
+       },
+       "shareholder_equity": {
+        "type": "integer",
+        "description": "The company's total shareholder's equity."
+       },
+       "dividends_paid": {
+        "type": "integer",
+        "description": "The total dividends paid by the company. Optional. If not given, default to 0."
+       }
+      },
+      "required": [
+       "net_income",
+       "shareholder_equity"
+      ]
+     }
+    },
+    {
+     "name": "calculate_sales_tax",
+     "description": "Calculate the sales tax for a given purchase amount in a specific city and state.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "purchase_amount": {
+        "type": "number",
+        "description": "The purchase amount."
+       },
+       "city": {
+        "type": "string",
+        "description": "The city where the purchase is made."
+       },
+       "state": {
+        "type": "string",
+        "description": "The state where the purchase is made."
+       }
+      },
+      "required": [
+       "purchase_amount",
+       "city",
+       "state"
+      ]
+     }
+    },
+    {
+     "name": "calculate_standard_deviation",
+     "description": "This function calculates the standard deviation across different scores for a specific student.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "gradeDict": {
+        "type": "object",
+        "description": "A dictionary where keys represent subjects and values represent scores"
+       }
+      },
+      "required": [
+       "gradeDict"
+      ]
+     }
+    },
+    {
+     "name": "calculate_tax",
+     "description": "Calculates the applicable sales tax for a given purchase amount and jurisdiction. The function returns the total amount with tax.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "purchase_amount",
+       "state"
+      ],
+      "properties": {
+       "purchase_amount": {
+        "type": "number",
+        "description": "The total purchase amount in dollars."
+       },
+       "state": {
+        "type": "string",
+        "description": "The U.S. state abbreviation where the purchase is made, such as 'CA' for California or 'NY' for New York."
+       },
+       "county": {
+        "type": "string",
+        "description": "The county within the state where the purchase is made. This is optional and used to calculate local tax rates.",
+        "default": null
+       },
+       "city": {
+        "type": "string",
+        "description": "The city within the county for local tax rates. Optional and only used if the county is provided.",
+        "default": null
+       },
+       "tax_exempt": {
+        "type": "boolean",
+        "description": "Indicates whether the purchase is tax-exempt.",
+        "default": false
+       },
+       "discount_rate": {
+        "type": "number",
+        "description": "The discount rate as a percentage if applicable. Optional.",
+        "default": 0.0
+       },
+       "apply_special_tax": {
+        "type": "boolean",
+        "description": "A flag to apply special tax rules based on item type or promotions. Optional.",
+        "default": false
+       }
+      }
+     }
+    },
+    {
+     "name": "calculate_tax_2",
+     "description": "Calculates the applicable tax for a given income amount. It applies different tax rates based on specified income brackets.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "income"
+      ],
+      "properties": {
+       "income": {
+        "type": "number",
+        "description": "The total income for which the tax needs to be calculated, in dollars."
+       },
+       "filing_status": {
+        "type": "string",
+        "description": "The filing status of the taxpayer, which affects the tax brackets.",
+        "enum": [
+         "single",
+         "married_filing_jointly",
+         "married_filing_separately",
+         "head_of_household"
+        ],
+        "default": "single"
+       },
+       "tax_year": {
+        "type": "integer",
+        "description": "The tax year for which the calculation is being done. The year format should be YYYY, such as 2022.",
+        "default": 2022
+       },
+       "deductions": {
+        "type": "number",
+        "description": "The total amount of deductions claimed, in dollars.",
+        "default": 0.0
+       },
+       "credits": {
+        "type": "number",
+        "description": "The total amount of tax credits claimed to reduce the amount of tax owed, in dollars.",
+        "default": 0.0
+       }
+      }
+     }
+    },
+    {
+     "name": "calculate_tax_3",
+     "description": "Calculates the tax owed based on income and location, taking into account various tax brackets and regional tax rates.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "income",
+       "location"
+      ],
+      "properties": {
+       "income": {
+        "type": "number",
+        "description": "The annual taxable income of the individual in US dollars."
+       },
+       "location": {
+        "type": "string",
+        "description": "The location of the individual, in the format of 'City, State', such as 'Berkeley, CA' or 'New York, NY'."
+       },
+       "filing_status": {
+        "type": "string",
+        "description": "The tax filing status of the individual.",
+        "enum": [
+         "single",
+         "married_filing_jointly",
+         "married_filing_separately",
+         "head_of_household"
+        ],
+        "default": "single"
+       },
+       "dependents": {
+        "type": "integer",
+        "description": "The number of dependents claimed by the individual.",
+        "default": 0
+       },
+       "deductions": {
+        "type": "number",
+        "description": "The total amount of deductions claimed by the individual in US dollars.",
+        "default": 0.0
+       }
+      }
+     }
+    },
+    {
+     "name": "calculate_tax_4",
+     "description": "Computes the tax amount based on the taxable income and applicable tax brackets.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "taxable_income",
+       "tax_brackets"
+      ],
+      "properties": {
+       "taxable_income": {
+        "type": "number",
+        "description": "The total income subject to tax, in dollars."
+       },
+       "tax_brackets": {
+        "type": "array",
+        "items": {
+         "type": "object"
+        },
+        "description": "A list of tax brackets. Each bracket is a dict containing the upper limit and corresponding tax rate."
+       },
+       "filing_status": {
+        "type": "string",
+        "description": "The tax filing status of the individual.",
+        "enum": [
+         "single",
+         "married_filing_jointly",
+         "married_filing_separately",
+         "head_of_household"
+        ],
+        "default": "single"
+       },
+       "state": {
+        "type": "string",
+        "description": "The state for which the tax is being calculated. This should be in the two-letter state code format, such as 'CA' for California.",
+        "default": "CA"
+       }
+      }
+     }
+    },
+    {
+     "name": "calculate_tax_5",
+     "description": "Computes the tax for a given income amount, considering various deductions and tax rates based on filing status.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "income",
+       "filing_status"
+      ],
+      "properties": {
+       "income": {
+        "type": "number",
+        "description": "The total income amount in dollars for which the tax is to be calculated."
+       },
+       "filing_status": {
+        "type": "string",
+        "description": "The filing status of the taxpayer.",
+        "enum": [
+         "single",
+         "married_filing_jointly",
+         "married_filing_separately",
+         "head_of_household"
+        ]
+       },
+       "deductions": {
+        "type": "number",
+        "description": "The total amount of deductions in dollars the taxpayer is claiming. Defaults to 0 if not provided.",
+        "default": 0.0
+       },
+       "exemptions": {
+        "type": "integer",
+        "description": "The number of exemptions the taxpayer is claiming, typically one per dependent. Defaults to 1 if not provided.",
+        "default": 1
+       },
+       "tax_year": {
+        "type": "integer",
+        "description": "The tax year for which the calculation is made. Defaults to the current year if not specified.",
+        "default": 2023
+       }
+      }
+     }
+    },
+    {
+     "name": "calculate_tax_6",
+     "description": "Determines the amount of tax owed for a given income. It takes into account various deductions and tax credits.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "income",
+       "filing_status"
+      ],
+      "properties": {
+       "income": {
+        "type": "number",
+        "description": "The total income of the individual for the year in dollars."
+       },
+       "filing_status": {
+        "type": "string",
+        "description": "The tax filing status of the individual.",
+        "enum": [
+         "single",
+         "married_filing_jointly",
+         "married_filing_separately",
+         "head_of_household"
+        ]
+       },
+       "deductions": {
+        "type": "number",
+        "description": "The total amount of deductions the individual is claiming in dollars.",
+        "default": 0
+       },
+       "tax_credits": {
+        "type": "number",
+        "description": "The total amount of tax credits the individual is claiming in dollars.",
+        "default": 0
+       },
+       "state": {
+        "type": "string",
+        "description": "The state in which the individual resides, used for determining state-specific taxes.",
+        "default": "federal"
+       }
+      }
+     }
+    },
+    {
+     "name": "calculate_tax_7",
+     "description": "Determines the total tax amount for a given income, considering various tax brackets and deductions.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "income",
+       "filing_status"
+      ],
+      "properties": {
+       "income": {
+        "type": "number",
+        "description": "The total income of the individual for which tax needs to be calculated, in dollars."
+       },
+       "filing_status": {
+        "type": "string",
+        "description": "The filing status of the individual, which affects the tax brackets.",
+        "enum": [
+         "single",
+         "married_filing_jointly",
+         "married_filing_separately",
+         "head_of_household"
+        ]
+       },
+       "deductions": {
+        "type": "number",
+        "description": "The total value of deductions the individual is claiming, in dollars.",
+        "default": 0.0
+       },
+       "exemptions": {
+        "type": "integer",
+        "description": "The number of exemptions the individual is claiming.",
+        "default": 1
+       },
+       "tax_credits": {
+        "type": "array",
+        "items": {
+         "type": "number"
+        },
+        "description": "A list of tax credits the individual is eligible for, each in dollars.",
+        "default": []
+       }
+      }
+     }
+    },
+    {
+     "name": "calculate_tip",
+     "description": "Calculate the tip amount for a restaurant bill.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "bill_amount": {
+        "type": "number",
+        "description": "The total restaurant bill amount."
+       },
+       "tip_percentage": {
+        "type": "number",
+        "description": "The tip percentage as a decimal."
+       },
+       "split_bill": {
+        "type": "integer",
+        "description": "The number of people to split the bill with. This parameter is optional.",
+        "default": 1
+       }
+      },
+      "required": [
+       "bill_amount",
+       "tip_percentage"
+      ]
+     }
+    },
+    {
+     "name": "calculate_tip_2",
+     "description": "Calculate the total tip amount for a given total bill and tip percentage.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "bill_total": {
+        "type": "number",
+        "description": "The total bill amount."
+       },
+       "tip_percentage": {
+        "type": "number",
+        "description": "The tip percentage."
+       },
+       "split": {
+        "type": "integer",
+        "description": "Number of people the tip is split between. Default is 1."
+       }
+      },
+      "required": [
+       "bill_total",
+       "tip_percentage"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "bfcl_c18_g2",
+   "name": "probability calculate binomial",
+   "server": "bfcl://bfcl_c18_g2",
+   "summary": "Functions for probability, calculate, binomial, calculator, appearing, dice.",
+   "tools": [
+    {
+     "name": "calc_binomial_prob",
+     "description": "Calculates the probability of an outcome based on the binomial distribution",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "num_trials": {
+        "type": "integer",
+        "description": "Number of independent experiments."
+       },
+       "num_success": {
+        "type": "integer",
+        "description": "Number of times the event of interest has occurred."
+       },
+       "prob_success": {
+        "type": "number",
+        "description": "Probability of the event of interest on any single experiment."
+       }
+      },
+      "required": [
+       "num_trials",
+       "num_success",
+       "prob_success"
+      ]
+     }
+    },
+    {
+     "name": "calculate_binomial_probability",
+     "description": "Calculates the binomial probability given the number of trials, successes and the probability of success on an individual trial.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "number_of_trials": {
+        "type": "integer",
+        "description": "The total number of trials."
+       },
+       "number_of_successes": {
+        "type": "integer",
+        "description": "The desired number of successful outcomes."
+       },
+       "probability_of_success": {
+        "type": "number",
+        "description": "The probability of a successful outcome on any given trial.",
+        "default": 0.5
+       }
+      },
+      "required": [
+       "number_of_trials",
+       "number_of_successes"
+      ]
+     }
+    },
+    {
+     "name": "calculate_probability",
+     "description": "Calculate the probability of an event.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "total_outcomes": {
+        "type": "integer",
+        "description": "Total number of possible outcomes."
+       },
+       "favorable_outcomes": {
+        "type": "integer",
+        "description": "Number of outcomes considered as 'successful'."
+       },
+       "round_to": {
+        "type": "integer",
+        "description": "Number of decimal places to round the result to.",
+        "default": 2
+       }
+      },
+      "required": [
+       "total_outcomes",
+       "favorable_outcomes"
+      ]
+     }
+    },
+    {
+     "name": "dice_roll_probability",
+     "description": "Calculate the probability of a specific sum appearing from rolling two dice.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "desired_sum": {
+        "type": "integer",
+        "description": "The sum for which to calculate the probability."
+       },
+       "n_rolls": {
+        "type": "integer",
+        "description": "Number of dice to be rolled. Default is 1",
+        "optional": true
+       },
+       "sides_per_die": {
+        "type": "integer",
+        "description": "Number of sides on each die."
+       }
+      },
+      "required": [
+       "desired_sum",
+       "sides_per_die"
+      ]
+     }
+    },
+    {
+     "name": "flip_coin_probability",
+     "description": "Calculate the probability of a specific outcome appearing from flipping a coin.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "desired_outcome": {
+        "type": "string",
+        "description": "The outcome for which to calculate the probability."
+       },
+       "n_flips": {
+        "type": "integer",
+        "description": "Number of coins to be flipped. Default 1",
+        "optional": true
+       }
+      },
+      "required": [
+       "desired_outcome"
+      ]
+     }
+    },
+    {
+     "name": "monopoly_odds_calculator",
+     "description": "Calculates the probability of rolling a certain sum with two dice, commonly used in board game like Monopoly.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "number": {
+        "type": "integer",
+        "description": "The number for which the odds are calculated."
+       },
+       "dice_number": {
+        "type": "integer",
+        "description": "The number of dice involved in the roll."
+       },
+       "dice_faces": {
+        "type": "integer",
+        "description": "The number of faces on a single die. Default is 6 for standard six-faced die."
+       }
+      },
+      "required": [
+       "number",
+       "dice_number"
+      ]
+     }
+    },
+    {
+     "name": "probability_calculator",
+     "description": "Calculate the probability of an event",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "total_outcomes": {
+        "type": "integer",
+        "description": "The total number of possible outcomes."
+       },
+       "event_outcomes": {
+        "type": "integer",
+        "description": "The number of outcomes that we are interested in."
+       },
+       "return_decimal": {
+        "type": "boolean",
+        "description": "True if the return format should be decimal, False if it should be a percentage. Default is False."
+       }
+      },
+      "required": [
+       "total_outcomes",
+       "event_outcomes"
+      ]
+     }
+    },
+    {
+     "name": "shuffle_card_probability",
+     "description": "Calculate the probability of a specific card appearing from a shuffled deck.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "desired_card": {
+        "type": "string",
+        "description": "The card for which to calculate the probability."
+       },
+       "n_decks": {
+        "type": "integer",
+        "description": "Number of decks to shuffle. Default 1",
+        "optional": true
+       }
+      },
+      "required": [
+       "desired_card"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "bfcl_c18_g3",
+   "name": "calculate water time",
+   "server": "bfcl://bfcl_c18_g3",
+   "summary": "Functions for calculate, water, time, compound, traded, cooking.",
+   "tools": [
+    {
+     "name": "calculate_cooking_time",
+     "description": "Calculate the cooking time for a roast chicken.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "weight_kg": {
+        "type": "number",
+        "description": "The weight of the chicken in kilograms."
+       },
+       "cooking_method": {
+        "type": "string",
+        "description": "The method of cooking, defaults to 'roast'."
+       },
+       "temp_celsius": {
+        "type": "integer",
+        "description": "The cooking temperature in degrees celsius, defaults to 180."
+       }
+      },
+      "required": [
+       "weight_kg"
+      ]
+     }
+    },
+    {
+     "name": "calculate_daily_water_intake",
+     "description": "Calculate the recommended daily water intake for a person based on their weight.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "weight": {
+        "type": "integer",
+        "description": "The weight of the person in kilograms."
+       },
+       "activity_level": {
+        "type": "string",
+        "description": "The level of physical activity of the person. Default is 'moderate'."
+       },
+       "climate": {
+        "type": "string",
+        "description": "The climate of the area where the person lives. Default is 'temperate'."
+       }
+      },
+      "required": [
+       "weight"
+      ]
+     }
+    },
+    {
+     "name": "calculate_vehicle_emission",
+     "description": "Calculate the annual carbon emissions produced by a specific type of vehicle based on mileage.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "vehicle_type": {
+        "type": "string",
+        "description": "The type of vehicle. 'gas' refers to a gasoline vehicle, 'diesel' refers to a diesel vehicle, and 'EV' refers to an electric vehicle."
+       },
+       "miles_driven": {
+        "type": "integer",
+        "description": "The number of miles driven per year."
+       },
+       "emission_factor": {
+        "type": "number",
+        "description": "Optional emission factor to calculate emissions, in g/mile. Default factor is 355.48."
+       }
+      },
+      "required": [
+       "vehicle_type",
+       "miles_driven"
+      ]
+     }
+    },
+    {
+     "name": "calculate_vehicle_emission_2",
+     "description": "Calculate the annual carbon emissions produced by a specific type of vehicle based on mileage.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "vehicle_type": {
+        "type": "string",
+        "description": "The type of vehicle. 'gas' refers to a gasoline vehicle, 'diesel' refers to a diesel vehicle, and 'EV' refers to an electric vehicle."
+       },
+       "miles_driven": {
+        "type": "integer",
+        "description": "The number of miles driven per year."
+       },
+       "emission_factor": {
+        "type": "number",
+        "description": "Optional emission factor to calculate emissions. Default factor is set for gas vehicles of 1.4"
+       }
+      },
+      "required": [
+       "vehicle_type",
+       "miles_driven"
+      ]
+     }
+    },
+    {
+     "name": "calculate_water_needs",
+     "description": "Calculate the weekly watering needs of a plant based on its type, location, and time of year.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "plant_type": {
+        "type": "string",
+        "description": "The type of plant, e.g. 'cactus'"
+       },
+       "location": {
+        "type": "string",
+        "description": "The location where the plant is situated, e.g. 'Arizona'"
+       },
+       "season": {
+        "type": "string",
+        "enum": [
+         "spring",
+         "summer",
+         "autumn",
+         "winter"
+        ],
+        "description": "The current season. Default: 'winter'"
+       }
+      },
+      "required": [
+       "plant_type",
+       "location"
+      ]
+     }
+    },
+    {
+     "name": "compound_interest",
+     "description": "Calculate compound interest for a certain time period.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "principal": {
+        "type": "integer",
+        "description": "The initial amount of money that was invested or loaned out."
+       },
+       "annual_rate": {
+        "type": "number",
+        "description": "The interest rate for a year as a percentage."
+       },
+       "compounding_freq": {
+        "type": "string",
+        "enum": [
+         "monthly",
+         "quarterly",
+         "annually"
+        ],
+        "description": "The number of times that interest is compounded per unit period."
+       },
+       "time_in_years": {
+        "type": "integer",
+        "description": "The time the money is invested for in years."
+       }
+      },
+      "required": [
+       "principal",
+       "annual_rate",
+       "compounding_freq",
+       "time_in_years"
+      ]
+     }
+    },
+    {
+     "name": "hydration_calculator",
+     "description": "Calculate the amount of water to drink in a day given the hours of exercise.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "exercise_time": {
+        "type": "number",
+        "description": "The number of hours of exercise."
+       }
+      },
+      "required": [
+       "exercise_time"
+      ]
+     }
+    },
+    {
+     "name": "volume_traded",
+     "description": "Calculate the total volume of stocks traded over a certain period of time",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "company": {
+        "type": "string",
+        "description": "Name of the company to get data for"
+       },
+       "days": {
+        "type": "integer",
+        "description": "Number of past days to calculate volume traded for"
+       },
+       "data_source": {
+        "type": "string",
+        "description": "Source to fetch the financial data. default is 'yahoo finance'"
+       }
+      },
+      "required": [
+       "company",
+       "days"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "bfcl_c18_g4",
+   "name": "integral calculate definite",
+   "server": "bfcl://bfcl_c18_g4",
+   "summary": "Functions for integral, calculate, definite, derivative, function, variable.",
+   "tools": [
+    {
+     "name": "calculate_derivative",
+     "description": "Calculate the derivative of a polynomial function.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "function": {
+        "type": "string",
+        "description": "The polynomial function."
+       },
+       "x_value": {
+        "type": "number",
+        "description": "The x-value at which the derivative is calculated. Optional, default to 0.00."
+       }
+      },
+      "required": [
+       "function"
+      ]
+     }
+    },
+    {
+     "name": "calculate_derivative_2",
+     "description": "Calculate the derivative of a polynomial function.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "function": {
+        "type": "string",
+        "description": "The polynomial function."
+       },
+       "x_value": {
+        "type": "integer",
+        "description": "The x-value at which the derivative is calculated. Optional, if not given, the function will return a function of the derivative instead of a specific value. default is 0."
+       }
+      },
+      "required": [
+       "function"
+      ]
+     }
+    },
+    {
+     "name": "calculate_derivative_3",
+     "description": "Calculate the derivative of a single-variable function.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "func": {
+        "type": "string",
+        "description": "The function to be differentiated."
+       },
+       "x_value": {
+        "type": "integer",
+        "description": "The x-value at which the derivative should be calculated."
+       },
+       "order": {
+        "type": "integer",
+        "description": "The order of the derivative (optional). Default is 1st order.",
+        "default": 1
+       }
+      },
+      "required": [
+       "func",
+       "x_value"
+      ]
+     }
+    },
+    {
+     "name": "calculate_integral",
+     "description": "Calculate the definite integral of a single-variable function.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "func": {
+        "type": "string",
+        "description": "The function to be integrated."
+       },
+       "a": {
+        "type": "integer",
+        "description": "The lower bound of the integration."
+       },
+       "b": {
+        "type": "integer",
+        "description": "The upper bound of the integration."
+       }
+      },
+      "required": [
+       "func",
+       "a",
+       "b"
+      ]
+     }
+    },
+    {
+     "name": "integral",
+     "description": "Calculate the definite integral of a function over an interval [a, b].",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "function": {
+        "type": "string",
+        "description": "The function to integrate."
+       },
+       "a": {
+        "type": "number",
+        "description": "The lower bound of the interval."
+       },
+       "b": {
+        "type": "number",
+        "description": "The upper bound of the interval."
+       }
+      },
+      "required": [
+       "function",
+       "a",
+       "b"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "bfcl_c18_g5",
+   "name": "calculate angle vector",
+   "server": "bfcl://bfcl_c18_g5",
+   "summary": "Functions for calculate, angle, vector, based, frequency, factorial.",
+   "tools": [
+    {
+     "name": "calculate_age",
+     "description": "Calculate the age of a person based on their birthdate.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "birthdate": {
+        "type": "string",
+        "description": "The person's date of birth. The format should be YYYY-MM-DD."
+       },
+       "current_date": {
+        "type": "string",
+        "description": "The current date. The format should be YYYY-MM-DD."
+       }
+      },
+      "required": [
+       "birthdate",
+       "current_date"
+      ]
+     }
+    },
+    {
+     "name": "calculate_battle_outcome",
+     "description": "Predicts the outcome of a historical battle based on the strategies, army size and other influencing factors.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "battle_name": {
+        "type": "string",
+        "description": "The name of the historical battle."
+       },
+       "strategy_type": {
+        "type": "string",
+        "description": "The strategy employed in the battle."
+       },
+       "weather_condition": {
+        "type": "string",
+        "description": "Weather condition during the battle.",
+        "default": "snowing"
+       }
+      },
+      "required": [
+       "battle_name",
+       "strategy_type"
+      ]
+     }
+    },
+    {
+     "name": "calculate_big_five_traits",
+     "description": "Calculate the big five personality traits based on a set of questions answered by the user.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "answers": {
+        "type": "array",
+        "items": {
+         "type": "integer"
+        },
+        "description": "Answers to a set of questions rated on a scale from 1 to 5."
+       },
+       "calculate_percentile": {
+        "type": "boolean",
+        "description": "If true, the percentile rank for each trait will also be calculated."
+       },
+       "average_answers": {
+        "type": "boolean",
+        "description": "If true, answers will be averaged across each trait's questions.",
+        "default": true
+       }
+      },
+      "required": [
+       "answers",
+       "calculate_percentile"
+      ]
+     }
+    },
+    {
+     "name": "calculate_biodiversity_index",
+     "description": "Calculate the biodiversity index of a specific environment or biome using species richness and species evenness.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "species_richness": {
+        "type": "integer",
+        "description": "The number of different species in a specific environment."
+       },
+       "species_evenness": {
+        "type": "integer",
+        "description": "The relative abundance of the different species in an environment."
+       },
+       "region": {
+        "type": "string",
+        "description": "The specific environment or biome to be measured.",
+        "enum": [
+         "Tropical Rainforest",
+         "Desert",
+         "Tundra",
+         "Grassland",
+         "Ocean"
+        ],
+        "default": "Desert"
+       }
+      },
+      "required": [
+       "species_richness",
+       "species_evenness"
+      ]
+     }
+    },
+    {
+     "name": "calculate_boiling_point",
+     "description": "Calculate the boiling point of a given substance at a given pressure.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "substance": {
+        "type": "string",
+        "description": "The chemical name of the substance."
+       },
+       "pressure": {
+        "type": "number",
+        "description": "The external pressure. Default is 1 atm (atmospheric pressure)."
+       }
+      },
+      "required": [
+       "substance",
+       "pressure"
+      ]
+     }
+    },
+    {
+     "name": "calculate_cell_density",
+     "description": "Calculate the cell density of a biological sample based on its optical density and the experiment dilution.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "optical_density": {
+        "type": "number",
+        "description": "The optical density of the sample, usually obtained from a spectrophotometer reading."
+       },
+       "dilution": {
+        "type": "integer",
+        "description": "The dilution factor applied during the experiment."
+       },
+       "calibration_factor": {
+        "type": "number",
+        "description": "The calibration factor to adjust the density, default value is 1e9 assuming cell density is in CFU/mL."
+       }
+      },
+      "required": [
+       "optical_density",
+       "dilution"
+      ]
+     }
+    },
+    {
+     "name": "calculate_clock_angle",
+     "description": "Calculate the angle between the hour and minute hands of a clock at a given time.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "hours": {
+        "type": "integer",
+        "description": "The hour on the clock face."
+       },
+       "minutes": {
+        "type": "integer",
+        "description": "The minutes on the clock face."
+       },
+       "round_to": {
+        "type": "integer",
+        "description": "The number of decimal places to round the result to, default is 2."
+       }
+      },
+      "required": [
+       "hours",
+       "minutes"
+      ]
+     }
+    },
+    {
+     "name": "calculate_entropy_change",
+     "description": "Calculate the entropy change for an isothermal and reversible process.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "initial_temp": {
+        "type": "number",
+        "description": "The initial temperature in Kelvin."
+       },
+       "final_temp": {
+        "type": "number",
+        "description": "The final temperature in Kelvin."
+       },
+       "heat_capacity": {
+        "type": "number",
+        "description": "The heat capacity in J/K."
+       },
+       "isothermal": {
+        "type": "boolean",
+        "description": "Whether the process is isothermal. Default is True."
+       }
+      },
+      "required": [
+       "initial_temp",
+       "final_temp",
+       "heat_capacity"
+      ]
+     }
+    },
+    {
+     "name": "calculate_entropy_change_2",
+     "description": "Calculate the entropy change for an isothermal and reversible process.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "initial_temp": {
+        "type": "integer",
+        "description": "The initial temperature in Kelvin."
+       },
+       "final_temp": {
+        "type": "integer",
+        "description": "The final temperature in Kelvin."
+       },
+       "heat_capacity": {
+        "type": "number",
+        "description": "The heat capacity in J/K."
+       },
+       "isothermal": {
+        "type": "boolean",
+        "description": "Whether the process is isothermal. Default is True."
+       }
+      },
+      "required": [
+       "initial_temp",
+       "final_temp",
+       "heat_capacity"
+      ]
+     }
+    },
+    {
+     "name": "calculate_entropy_change_3",
+     "description": "Calculate the entropy change for an isothermal and reversible process.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "initial_temp": {
+        "type": "integer",
+        "description": "The initial temperature in Kelvin."
+       },
+       "final_temp": {
+        "type": "integer",
+        "description": "The final temperature in Kelvin."
+       },
+       "heat_capacity": {
+        "type": "integer",
+        "description": "The heat capacity in J/K."
+       },
+       "isothermal": {
+        "type": "boolean",
+        "description": "Whether the process is isothermal. Default is True."
+       }
+      },
+      "required": [
+       "initial_temp",
+       "final_temp",
+       "heat_capacity"
+      ]
+     }
+    },
+    {
+     "name": "calculate_factorial",
+     "description": "Calculate the factorial of a given number.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "number": {
+        "type": "integer",
+        "description": "The number of which you want to calculate the factorial."
+       }
+      },
+      "required": [
+       "number"
+      ]
+     }
+    },
+    {
+     "name": "calculate_fitness",
+     "description": "Calculate the expected evolutionary fitness of a creature based on the individual values and contributions of its traits.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "trait_values": {
+        "type": "array",
+        "items": {
+         "type": "number"
+        },
+        "description": "List of trait values, which are decimal numbers between 0 and 1, where 1 represents the trait maximally contributing to fitness."
+       },
+       "trait_contributions": {
+        "type": "array",
+        "items": {
+         "type": "number"
+        },
+        "description": "List of the percentage contributions of each trait to the overall fitness, which must sum to 1."
+       }
+      },
+      "required": [
+       "trait_values",
+       "trait_contributions"
+      ]
+     }
+    },
+    {
+     "name": "calculate_genotype_frequency",
+     "description": "Calculate the frequency of homozygous dominant genotype based on the allele frequency using Hardy Weinberg Principle.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "allele_frequency": {
+        "type": "number",
+        "description": "The frequency of the dominant allele in the population."
+       },
+       "genotype": {
+        "type": "string",
+        "description": "The genotype which frequency is needed, default is homozygous dominant. ",
+        "enum": [
+         "AA",
+         "Aa",
+         "aa"
+        ]
+       }
+      },
+      "required": [
+       "allele_frequency",
+       "genotype"
+      ]
+     }
+    },
+    {
+     "name": "calculate_genotype_frequency_2",
+     "description": "Calculate the frequency of homozygous dominant genotype based on the allele frequency using Hardy Weinberg Principle.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "allele_frequency": {
+        "type": "number",
+        "description": "The frequency of the dominant allele in the population."
+       },
+       "genotype": {
+        "type": "string",
+        "description": "The genotype which frequency is needed.",
+        "enum": [
+         "AA",
+         "Aa",
+         "aa"
+        ]
+       }
+      },
+      "required": [
+       "allele_frequency",
+       "genotype"
+      ]
+     }
+    },
+    {
+     "name": "calculate_heat",
+     "description": "Calculate the heat required to raise the temperature of a substance using its specific heat capacity formula: heat = mass * specific_heat * change_in_temp.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "mass",
+       "specific_heat",
+       "change_in_temp"
+      ],
+      "properties": {
+       "mass": {
+        "type": "number",
+        "description": "The mass of the substance in kilograms (kg)."
+       },
+       "specific_heat": {
+        "type": "number",
+        "description": "The specific heat capacity of the substance in joules per kilogram per degree Celsius (J/kg\u00b0C). For example, water has a specific heat capacity of approximately 4.184 J/kg\u00b0C."
+       },
+       "change_in_temp": {
+        "type": "number",
+        "description": "The desired change in temperature in degrees Celsius (\u00b0C)."
+       }
+      }
+     }
+    },
+    {
+     "name": "calculate_heat_2",
+     "description": "Calculate the heat required to raise the temperature of a substance using its specific heat.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "mass": {
+        "type": "number",
+        "description": "The mass of the substance in kilograms."
+       },
+       "specific_heat": {
+        "type": "number",
+        "description": "The specific heat of the substance in J/kg.\u00b0C. For water, it is 4.184 J/kg.\u00b0C"
+       },
+       "change_in_temp": {
+        "type": "number",
+        "description": "The change in temperature in degrees Celsius."
+       }
+      },
+      "required": [
+       "mass",
+       "specific_heat",
+       "change_in_temp"
+      ]
+     }
+    },
+    {
+     "name": "calculate_mass",
+     "description": "Calculate the mass of a gas given its quantity and molar mass.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "quantity": {
+        "type": "number",
+        "description": "The quantity of the gas."
+       },
+       "molar_mass": {
+        "type": "number",
+        "description": "The molar mass of the gas."
+       }
+      },
+      "required": [
+       "quantity",
+       "molar_mass"
+      ]
+     }
+    },
+    {
+     "name": "calculate_mass_2",
+     "description": "Calculate the mass of a gas given its quantity and molar mass.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "quantity": {
+        "type": "integer",
+        "description": "The quantity of the gas."
+       },
+       "molar_mass": {
+        "type": "integer",
+        "description": "The molar mass of the gas."
+       }
+      },
+      "required": [
+       "quantity",
+       "molar_mass"
+      ]
+     }
+    },
+    {
+     "name": "calculate_paint_mix",
+     "description": "Calculate the proportions of different paint colors required to obtain a specific color shade.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "target_color": {
+        "type": "string",
+        "description": "The target color to mix."
+       },
+       "available_colors": {
+        "type": "array",
+        "items": {
+         "type": "string",
+         "description": "List of available colors."
+        }
+       },
+       "shade_level": {
+        "type": "integer",
+        "description": "Intensity of the shade on a scale of 1-10. Optional parameter. Default is 5."
+       }
+      },
+      "required": [
+       "target_color",
+       "available_colors"
+      ]
+     }
+    },
+    {
+     "name": "calculate_projectile_range",
+     "description": "Calculate the range of a projectile launched at an angle with initial velocity, using the kinematic equation.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "initial_velocity": {
+        "type": "number",
+        "description": "The initial velocity at which projectile is launched."
+       },
+       "angle": {
+        "type": "number",
+        "description": "The angle at which projectile is launched. This should be in degrees."
+       },
+       "time": {
+        "type": "number",
+        "description": "The time in seconds after which the range is to be calculated.",
+        "default": 0.5
+       }
+      },
+      "required": [
+       "initial_velocity",
+       "angle"
+      ]
+     }
+    },
+    {
+     "name": "calculate_resonant_frequency",
+     "description": "Calculate the resonant frequency of an LC (inductor-capacitor) circuit.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "inductance": {
+        "type": "number",
+        "description": "The inductance (L) in henries (H)."
+       },
+       "capacitance": {
+        "type": "number",
+        "description": "The capacitance (C) in farads (F)."
+       },
+       "round_off": {
+        "type": "integer",
+        "description": "Rounding off the result to a certain decimal places, default is 2."
+       }
+      },
+      "required": [
+       "inductance",
+       "capacitance"
+      ]
+     }
+    },
+    {
+     "name": "calculate_score",
+     "description": "Calculate the score in a video game based on the number of enemies defeated, coins collected, and power-ups acquired.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "enemies_defeated": {
+        "type": "integer",
+        "description": "The number of enemies the player has defeated."
+       },
+       "coins_collected": {
+        "type": "integer",
+        "description": "The number of coins the player has collected."
+       },
+       "power_ups": {
+        "type": "integer",
+        "description": "The number of power-ups the player has acquired.",
+        "default": 3
+       }
+      },
+      "required": [
+       "enemies_defeated",
+       "coins_collected"
+      ]
+     }
+    },
+    {
+     "name": "calculate_slope_gradient",
+     "description": "Calculate the slope gradient between two geographical coordinates.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "point1": {
+        "type": "array",
+        "items": {
+         "type": "number"
+        },
+        "description": "The geographic coordinates for the first point [Latitude, Longitude]."
+       },
+       "point2": {
+        "type": "array",
+        "items": {
+         "type": "number"
+        },
+        "description": "The geographic coordinates for the second point [Latitude, Longitude]."
+       },
+       "unit": {
+        "type": "string",
+        "enum": [
+         "degree",
+         "percent",
+         "ratio"
+        ],
+        "description": "The unit for the slope gradient. Default is 'degree'."
+       }
+      },
+      "required": [
+       "point1",
+       "point2"
+      ]
+     }
+    },
+    {
+     "name": "calculate_svm",
+     "description": "Calculate the Support Vector Machine(SVM) model",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "train_data": {
+        "type": "string",
+        "description": "The training data for the SVM model. Should include the class labels."
+       },
+       "test_data": {
+        "type": "string",
+        "description": "The test data for the SVM model. This data will be used to verify the model."
+       },
+       "C": {
+        "type": "number",
+        "description": "The Regularization parameter. The strength of the regularization is inversely proportional to C. Must be strictly positive. Default is 1.0."
+       }
+      },
+      "required": [
+       "train_data",
+       "test_data"
+      ]
+     }
+    },
+    {
+     "name": "calculate_vector_angle",
+     "description": "Calculate the angle of a vector based on its X and Y components.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "X_component": {
+        "type": "number",
+        "description": "The X component of the vector."
+       },
+       "Y_component": {
+        "type": "number",
+        "description": "The Y component of the vector."
+       },
+       "use_degrees": {
+        "type": "boolean",
+        "description": "If true, the result will be in degrees. If false, the result will be in radians. Default is false."
+       }
+      },
+      "required": [
+       "X_component",
+       "Y_component"
+      ]
+     }
+    },
+    {
+     "name": "calculate_winning_percentage",
+     "description": "Calculate the winning percentage for a particular basketball team in a given season.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "team": {
+        "type": "string",
+        "description": "The name of the basketball team."
+       },
+       "season": {
+        "type": "integer",
+        "description": "The season (year) you want to find winning percentage for."
+       }
+      },
+      "required": [
+       "team",
+       "season"
+      ]
+     }
+    },
+    {
+     "name": "get_dominant_trait",
+     "description": "Calculate the dominant genetic trait of an organism based on its genetic makeup.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "allele1": {
+        "type": "string",
+        "description": "The first allele of the organism."
+       },
+       "allele2": {
+        "type": "string",
+        "description": "The second allele of the organism."
+       },
+       "inheritance_pattern": {
+        "type": "string",
+        "description": "The type of inheritance pattern (could be dominant, recessive, or co-dominant). Default is 'dominant'."
+       }
+      },
+      "required": [
+       "allele1",
+       "allele2"
+      ]
+     }
+    },
+    {
+     "name": "get_third_chord",
+     "description": "Calculate the third major chord in a given key.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "key": {
+        "type": "string",
+        "description": "The key of the scale."
+       },
+       "type": {
+        "type": "string",
+        "description": "Type of the scale, either major or minor. Default is 'major'."
+       }
+      },
+      "required": [
+       "key"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "bfcl_c18_g6",
+   "name": "velocity final acceleration",
+   "server": "bfcl://bfcl_c18_g6",
+   "summary": "Functions for velocity, final, acceleration, calculate, object, initial.",
+   "tools": [
+    {
+     "name": "calc_heat_capacity",
+     "description": "Calculate the heat capacity at constant pressure of air using its temperature and volume.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "temp": {
+        "type": "integer",
+        "description": "The temperature of the gas in Kelvin."
+       },
+       "volume": {
+        "type": "integer",
+        "description": "The volume of the gas in m^3."
+       },
+       "gas": {
+        "type": "string",
+        "description": "Type of gas, with 'air' as default."
+       }
+      },
+      "required": [
+       "temp",
+       "volume"
+      ]
+     }
+    },
+    {
+     "name": "calc_heat_capacity_2",
+     "description": "Calculate the heat capacity at constant pressure of air using its temperature and volume.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "temp": {
+        "type": "integer",
+        "description": "The temperature of the gas in Kelvin."
+       },
+       "volume": {
+        "type": "number",
+        "description": "The volume of the gas in m^3."
+       },
+       "gas": {
+        "type": "string",
+        "description": "Type of gas, with air as default."
+       }
+      },
+      "required": [
+       "temp",
+       "volume"
+      ]
+     }
+    },
+    {
+     "name": "calc_heat_capacity_3",
+     "description": "Calculate the heat capacity at constant pressure of air using its temperature and volume.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "temp": {
+        "type": "integer",
+        "description": "The temperature of the gas in Kelvin."
+       },
+       "volume": {
+        "type": "integer",
+        "description": "The volume of the gas in m^3."
+       },
+       "gas": {
+        "type": "string",
+        "description": "Type of gas, with air as default."
+       }
+      },
+      "required": [
+       "temp",
+       "volume"
+      ]
+     }
+    },
+    {
+     "name": "calculateFinalVelocity",
+     "description": "This function calculates the final velocity of an object in free fall after a certain time, taking into account the acceleration due to gravity and the initial velocity.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "time": {
+        "type": "number",
+        "description": "The time in seconds for which the object has been in free fall."
+       },
+       "gravity": {
+        "type": "number",
+        "description": "The acceleration due to gravity, typically in m/s^2."
+       },
+       "initialVelocity": {
+        "type": "number",
+        "description": "The initial velocity of the object in m/s at the start of the free fall."
+       }
+      },
+      "required": [
+       "time",
+       "gravity",
+       "initialVelocity"
+      ]
+     }
+    },
+    {
+     "name": "calculate_displacement",
+     "description": "Calculates the displacement of an object in motion given initial velocity, time, and acceleration.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "initial_velocity": {
+        "type": "number",
+        "description": "The initial velocity of the object in m/s."
+       },
+       "time": {
+        "type": "number",
+        "description": "The time in seconds that the object has been in motion."
+       },
+       "acceleration": {
+        "type": "number",
+        "description": "The acceleration of the object in m/s^2.",
+        "default": 0
+       }
+      },
+      "required": [
+       "initial_velocity",
+       "time"
+      ]
+     }
+    },
+    {
+     "name": "calculate_displacement_2",
+     "description": "Calculates the displacement of an object in motion given initial velocity, time, and acceleration.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "initial_velocity": {
+        "type": "number",
+        "description": "The initial velocity of the object in m/s."
+       },
+       "time": {
+        "type": "integer",
+        "description": "The time in seconds that the object has been in motion."
+       },
+       "acceleration": {
+        "type": "number",
+        "description": "The acceleration of the object in m/s^2.",
+        "default": 0
+       }
+      },
+      "required": [
+       "initial_velocity",
+       "time"
+      ]
+     }
+    },
+    {
+     "name": "calculate_displacement_3",
+     "description": "Calculates the displacement of an object in motion given initial velocity, time, and acceleration.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "initial_velocity": {
+        "type": "integer",
+        "description": "The initial velocity of the object in m/s."
+       },
+       "time": {
+        "type": "integer",
+        "description": "The time in seconds that the object has been in motion."
+       },
+       "acceleration": {
+        "type": "number",
+        "description": "The acceleration of the object in m/s^2.",
+        "default": 0
+       }
+      },
+      "required": [
+       "initial_velocity",
+       "time"
+      ]
+     }
+    },
+    {
+     "name": "calculate_displacement_4",
+     "description": "Calculates the displacement of an object in motion given initial velocity, time, and acceleration.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "initial_velocity": {
+        "type": "integer",
+        "description": "The initial velocity of the object in m/s."
+       },
+       "time": {
+        "type": "integer",
+        "description": "The time in seconds that the object has been in motion."
+       },
+       "acceleration": {
+        "type": "integer",
+        "description": "The acceleration of the object in m/s^2.",
+        "default": 0
+       }
+      },
+      "required": [
+       "initial_velocity",
+       "time"
+      ]
+     }
+    },
+    {
+     "name": "calculate_final_speed",
+     "description": "Calculate the final speed of an object dropped from a certain height without air resistance.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "initial_velocity": {
+        "type": "integer",
+        "description": "The initial velocity of the object."
+       },
+       "height": {
+        "type": "integer",
+        "description": "The height from which the object is dropped."
+       },
+       "gravity": {
+        "type": "number",
+        "description": "The gravitational acceleration. Default is 9.8 m/s^2."
+       }
+      },
+      "required": [
+       "initial_velocity",
+       "height"
+      ]
+     }
+    },
+    {
+     "name": "calculate_final_speed_2",
+     "description": "Calculate the final speed of an object in free fall after a certain time, neglecting air resistance. The acceleration due to gravity is considered as -9.81 m/s^2",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "initial_speed": {
+        "type": "integer",
+        "description": "The initial speed of the object in m/s. Default is 0 for an object at rest."
+       },
+       "time": {
+        "type": "integer",
+        "description": "The time in seconds for which the object is in free fall."
+       },
+       "gravity": {
+        "type": "number",
+        "description": "The acceleration due to gravity. Default is -9.81 m/s^2."
+       }
+      },
+      "required": [
+       "time"
+      ]
+     }
+    },
+    {
+     "name": "calculate_final_temperature",
+     "description": "Calculate the final temperature when different quantities of the same gas at different temperatures are mixed.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "quantity1": {
+        "type": "number",
+        "description": "The quantity of the first sample of gas."
+       },
+       "temperature1": {
+        "type": "number",
+        "description": "The temperature of the first sample of gas."
+       },
+       "quantity2": {
+        "type": "number",
+        "description": "The quantity of the second sample of gas."
+       },
+       "temperature2": {
+        "type": "number",
+        "description": "The temperature of the second sample of gas."
+       }
+      },
+      "required": [
+       "quantity1",
+       "temperature1",
+       "quantity2",
+       "temperature2"
+      ]
+     }
+    },
+    {
+     "name": "calculate_final_temperature_2",
+     "description": "Calculate the final temperature when different quantities of the same gas at different temperatures are mixed.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "quantity1": {
+        "type": "integer",
+        "description": "The quantity of the first sample of gas."
+       },
+       "temperature1": {
+        "type": "integer",
+        "description": "The temperature of the first sample of gas."
+       },
+       "quantity2": {
+        "type": "integer",
+        "description": "The quantity of the second sample of gas."
+       },
+       "temperature2": {
+        "type": "integer",
+        "description": "The temperature of the second sample of gas."
+       }
+      },
+      "required": [
+       "quantity1",
+       "temperature1",
+       "quantity2",
+       "temperature2"
+      ]
+     }
+    },
+    {
+     "name": "calculate_final_temperature_3",
+     "description": "Calculates the final equilibrium temperature after mixing two bodies with different masses and temperatures",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "mass1": {
+        "type": "integer",
+        "description": "The mass of the first body (kg)."
+       },
+       "temperature1": {
+        "type": "integer",
+        "description": "The initial temperature of the first body (Celsius)."
+       },
+       "mass2": {
+        "type": "integer",
+        "description": "The mass of the second body (kg)."
+       },
+       "temperature2": {
+        "type": "integer",
+        "description": "The initial temperature of the second body (Celsius)."
+       },
+       "specific_heat_capacity": {
+        "type": "number",
+        "description": "The specific heat capacity of the bodies in kJ/kg/K. If not provided, will default to that of water at room temperature, which is 4.2 kJ/kg/K."
+       }
+      },
+      "required": [
+       "mass1",
+       "temperature1",
+       "mass2",
+       "temperature2"
+      ]
+     }
+    },
+    {
+     "name": "calculate_final_velocity",
+     "description": "Calculate the final velocity of a free falling object given the height it's dropped from, the initial velocity and acceleration due to gravity. Ignore air resistance.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "height": {
+        "type": "integer",
+        "description": "The height the object is dropped from, in meters."
+       },
+       "initial_velocity": {
+        "type": "integer",
+        "description": "The initial velocity of the object in m/s. Default is zero."
+       },
+       "gravity": {
+        "type": "number",
+        "description": "Acceleration due to gravity. Default value is 9.81 m/s^2, earth's gravity."
+       }
+      },
+      "required": [
+       "height"
+      ]
+     }
+    },
+    {
+     "name": "calculate_final_velocity_2",
+     "description": "Calculate the final velocity of a free falling object given the height it's dropped from, the initial velocity and acceleration due to gravity. Ignore air resistance.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "height": {
+        "type": "integer",
+        "description": "The height the object is dropped from, in meters."
+       },
+       "initial_velocity": {
+        "type": "integer",
+        "description": "The initial velocity of the object in m/s. Default is zero."
+       },
+       "gravity": {
+        "type": "number",
+        "description": "Acceleration due to gravity. Default value is approximately 9.81 m/s^2, earth's gravity."
+       }
+      },
+      "required": [
+       "height"
+      ]
+     }
+    },
+    {
+     "name": "calculate_final_velocity_3",
+     "description": "Calculate the final velocity of an object under constant acceleration, knowing its initial velocity, acceleration, and time of acceleration.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "initial_velocity": {
+        "type": "integer",
+        "description": "The initial velocity of the object."
+       },
+       "acceleration": {
+        "type": "number",
+        "description": "The acceleration of the object."
+       },
+       "time": {
+        "type": "integer",
+        "description": "The time of acceleration."
+       }
+      },
+      "required": [
+       "initial_velocity",
+       "acceleration",
+       "time"
+      ]
+     }
+    },
+    {
+     "name": "calculate_final_velocity_4",
+     "description": "Calculate the final velocity of an object under constant acceleration, knowing its initial velocity, acceleration, and time of acceleration.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "initial_velocity": {
+        "type": "integer",
+        "description": "The initial velocity of the object."
+       },
+       "acceleration": {
+        "type": "integer",
+        "description": "The acceleration of the object."
+       },
+       "time": {
+        "type": "integer",
+        "description": "The time of acceleration."
+       }
+      },
+      "required": [
+       "initial_velocity",
+       "acceleration",
+       "time"
+      ]
+     }
+    },
+    {
+     "name": "calculate_maximum_height",
+     "description": "Calculate the maximum height an object will reach if it's thrown straight upwards with an initial velocity, ignoring air resistance.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "initial_velocity": {
+        "type": "number",
+        "description": "The initial velocity in meters per second."
+       },
+       "gravity": {
+        "type": "number",
+        "description": "The acceleration due to gravity in meters per second squared, default value is 9.8."
+       }
+      },
+      "required": [
+       "initial_velocity"
+      ]
+     }
+    },
+    {
+     "name": "final_velocity",
+     "description": "Calculate the final velocity of an object given its initial velocity, acceleration, and time.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "initial_velocity": {
+        "type": "integer",
+        "description": "The initial velocity of the object in meters/second."
+       },
+       "acceleration": {
+        "type": "integer",
+        "description": "The acceleration of the object in meters/second^2."
+       },
+       "time": {
+        "type": "integer",
+        "description": "The time over which the acceleration is applied in seconds."
+       }
+      },
+      "required": [
+       "initial_velocity",
+       "acceleration",
+       "time"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "bfcl_c18_g7",
+   "name": "cost calculate potential",
+   "server": "bfcl://bfcl_c18_g7",
+   "summary": "Functions for cost, calculate, potential, construction, litigation, electrostatic.",
+   "tools": [
+    {
+     "name": "calculate_construction_cost",
+     "description": "Calculate the estimated cost of construction for a particular building project.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "building_type": {
+        "type": "string",
+        "description": "The type of the building. E.g. skyscraper, house, warehouse"
+       },
+       "location": {
+        "type": "string",
+        "description": "The location of the building."
+       },
+       "materials": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "The list of materials to be used in the construction."
+       },
+       "labor_cost": {
+        "type": "number",
+        "default": 0,
+        "description": "The cost of labor per day."
+       }
+      },
+      "required": [
+       "building_type",
+       "location",
+       "materials"
+      ]
+     }
+    },
+    {
+     "name": "calculate_electrostatic_potential",
+     "description": "Calculate the electrostatic potential between two charged bodies using the principle of Coulomb's Law.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "charge1": {
+        "type": "number",
+        "description": "The quantity of charge on the first body."
+       },
+       "charge2": {
+        "type": "number",
+        "description": "The quantity of charge on the second body."
+       },
+       "distance": {
+        "type": "number",
+        "description": "The distance between the two bodies."
+       },
+       "constant": {
+        "type": "number",
+        "description": "The value of the electrostatic constant. Default is 8.99e9."
+       }
+      },
+      "required": [
+       "charge1",
+       "charge2",
+       "distance"
+      ]
+     }
+    },
+    {
+     "name": "calculate_electrostatic_potential_2",
+     "description": "Calculate the electrostatic potential between two charged bodies using the principle of Coulomb's Law.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "charge1": {
+        "type": "number",
+        "description": "The quantity of charge on the first body."
+       },
+       "charge2": {
+        "type": "number",
+        "description": "The quantity of charge on the second body."
+       },
+       "distance": {
+        "type": "number",
+        "description": "The distance between the two bodies."
+       },
+       "constant": {
+        "type": "number",
+        "description": "The value of the electrostatic constant. Default is 898755178.73"
+       }
+      },
+      "required": [
+       "charge1",
+       "charge2",
+       "distance"
+      ]
+     }
+    },
+    {
+     "name": "calculate_emission_savings",
+     "description": "Calculate potential greenhouse gas emissions saved by switching to renewable energy sources.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "energy_type": {
+        "type": "string",
+        "description": "Type of the renewable energy source."
+       },
+       "usage_duration": {
+        "type": "integer",
+        "description": "Usage duration in months."
+       },
+       "region": {
+        "type": "string",
+        "description": "The region where you use energy.",
+        "default": "West"
+       }
+      },
+      "required": [
+       "energy_type",
+       "usage_duration"
+      ]
+     }
+    },
+    {
+     "name": "calculate_emission_savings_2",
+     "description": "Calculate potential greenhouse gas emissions saved by switching to renewable energy sources.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "energy_type": {
+        "type": "string",
+        "description": "Type of the renewable energy source."
+       },
+       "usage_duration": {
+        "type": "integer",
+        "description": "Usage duration in months."
+       },
+       "region": {
+        "type": "string",
+        "description": "The region where you use energy. Default is 'Texas'."
+       }
+      },
+      "required": [
+       "energy_type",
+       "usage_duration"
+      ]
+     }
+    },
+    {
+     "name": "calculate_emission_savings_3",
+     "description": "Calculate potential greenhouse gas emissions saved by switching to renewable energy sources.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "energy_type": {
+        "type": "string",
+        "description": "Type of the renewable energy source."
+       },
+       "usage_duration": {
+        "type": "integer",
+        "description": "Usage duration in months."
+       },
+       "region": {
+        "type": "string",
+        "description": "The region where you use energy. Default is 'USA'"
+       }
+      },
+      "required": [
+       "energy_type",
+       "usage_duration"
+      ]
+     }
+    },
+    {
+     "name": "calculate_emission_savings_4",
+     "description": "Calculate potential greenhouse gas emissions saved by switching to renewable energy sources.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "energy_type": {
+        "type": "string",
+        "description": "Type of the renewable energy source."
+       },
+       "usage_duration": {
+        "type": "integer",
+        "description": "Usage duration in months."
+       },
+       "region": {
+        "type": "string",
+        "description": "The region where you use energy. Default is 'global'."
+       }
+      },
+      "required": [
+       "energy_type",
+       "usage_duration"
+      ]
+     }
+    },
+    {
+     "name": "calculate_litigation_cost",
+     "description": "Calculate the potential cost of a lawsuit based on its length and complexity.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "length_in_days": {
+        "type": "integer",
+        "description": "The expected length of the trial in days."
+       },
+       "complexity": {
+        "type": "string",
+        "enum": [
+         "low",
+         "medium",
+         "high"
+        ],
+        "description": "The complexity of the lawsuit."
+       },
+       "extra_expenses": {
+        "type": "boolean",
+        "description": "Does this lawsuit involve extra expenses such as private investigators, travel, etc.?",
+        "default": false
+       }
+      },
+      "required": [
+       "length_in_days",
+       "complexity"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "bfcl_c18_g8",
+   "name": "fibonacci calculate sequence",
+   "server": "bfcl://bfcl_c18_g8",
+   "summary": "Functions for fibonacci, calculate, sequence, steps, calorie, calculation.",
+   "tools": [
+    {
+     "name": "calculate_fibonacci",
+     "description": "Calculate the Fibonacci series up to a specific position.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "position": {
+        "type": "integer",
+        "description": "The position up to which you want to calculate the Fibonacci series."
+       }
+      },
+      "required": [
+       "position"
+      ]
+     }
+    },
+    {
+     "name": "calculate_fibonacci_sequence",
+     "description": "Calculates fibonacci sequence up to a specified limit.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "limit": {
+        "type": "integer",
+        "description": "The upper limit of the fibonacci sequence to be calculated."
+       },
+       "show_sequence": {
+        "type": "boolean",
+        "description": "Optional parameter to decide whether to print the fibonacci sequence or not. Default is False."
+       }
+      },
+      "required": [
+       "limit"
+      ]
+     }
+    },
+    {
+     "name": "steps_calorie_calculation",
+     "description": "Calculate how many steps you need to walk to burn a specified amount of calories.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "calorie": {
+        "type": "number",
+        "description": "The amount of calories to burn."
+       }
+      },
+      "required": [
+       "calorie"
+      ]
+     }
+    }
+   ]
+  }
+ ]
+}

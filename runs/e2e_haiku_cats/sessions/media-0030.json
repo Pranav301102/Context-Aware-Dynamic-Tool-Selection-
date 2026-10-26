@@ -1,0 +1,40 @@
+{
+ "task_id": "media-0030",
+ "mode": "cats",
+ "loaded": [
+  "google_cloud_ai.ocr_image",
+  "openai_media.generate_image",
+  "stability_ai.generate_image"
+ ],
+ "order": [
+  "google_cloud_ai.ocr_image",
+  "openai_media.generate_image",
+  "stability_ai.generate_image"
+ ],
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "stability_ai.generate_image",
+   "args": {
+    "prompt": "astronaut cat lounging on the moon, cute and fun for a kid's birthday card",
+    "outputImageFileName": "astronaut_cat_moon",
+    "stylePreset": "comic-book"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 3,
+   "tool_tokens": 1038
+  },
+  {
+   "type": "call",
+   "tool": "stability_ai__generate_image",
+   "valid": true
+  }
+ ],
+ "done": true,
+ "final": ""
+}

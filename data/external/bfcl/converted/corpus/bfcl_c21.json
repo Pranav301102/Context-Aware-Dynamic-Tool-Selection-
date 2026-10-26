@@ -1,0 +1,2244 @@
+{
+ "branch": {
+  "id": "bfcl_c21",
+  "name": "team / player / sports",
+  "summary": "Functions about team, player, sports, stats, retrieve, ranking, league, season, specific, soccer, statistics, football."
+ },
+ "toolkits": [
+  {
+   "id": "basketball",
+   "name": "basketball",
+   "server": "bfcl://basketball",
+   "summary": "Get the detailed statistical data from a specific basketball game Get the detailed statistical data from a specific basketball game",
+   "tools": [
+    {
+     "name": "game_stats_get",
+     "description": "Get the detailed statistical data from a specific basketball game",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "team1": {
+        "type": "string",
+        "description": "One of the competing teams in the game."
+       },
+       "team2": {
+        "type": "string",
+        "description": "One of the competing teams in the game."
+       },
+       "date": {
+        "type": "string",
+        "description": "The date when the game occurred."
+       },
+       "stats_fields": {
+        "type": "array",
+        "description": "List of statistical categories to be fetched, including total points, total assists, total rebounds, turnovers. Default to empty list",
+        "items": {
+         "type": "string"
+        }
+       }
+      },
+      "required": [
+       "team1",
+       "team2",
+       "date"
+      ]
+     }
+    },
+    {
+     "name": "game_stats_get_2",
+     "description": "Get the detailed statistical data from a specific basketball game",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "team1": {
+        "type": "string",
+        "description": "One of the competing teams in the game."
+       },
+       "team2": {
+        "type": "string",
+        "description": "One of the competing teams in the game."
+       },
+       "date": {
+        "type": "string",
+        "description": "The date when the game occurred."
+       },
+       "stats_fields": {
+        "type": "array",
+        "description": "List of statistical categories to be fetched, including total points, total assists, total rebounds, turnovers.",
+        "items": {
+         "type": "string"
+        }
+       }
+      },
+      "required": [
+       "team1",
+       "team2",
+       "date",
+       "stats_fields"
+      ]
+     }
+    },
+    {
+     "name": "player_stats_get",
+     "description": "Get current statistics for a specified basketball player",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "player_name": {
+        "type": "string",
+        "description": "The name of the player."
+       },
+       "stats_fields": {
+        "type": "array",
+        "description": "List of statistical categories to be fetched, including points, assists, rebounds, minutes.",
+        "items": {
+         "type": "string"
+        }
+       }
+      },
+      "required": [
+       "player_name",
+       "stats_fields"
+      ]
+     }
+    },
+    {
+     "name": "team_stats_get",
+     "description": "Get current statistics for a specific basketball team",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "team_name": {
+        "type": "string",
+        "description": "The name of the team."
+       },
+       "stats_fields": {
+        "type": "array",
+        "description": "List of statistical categories to be fetched, including total points, total assists, total rebounds, win rate.",
+        "items": {
+         "type": "string"
+        }
+       }
+      },
+      "required": [
+       "team_name",
+       "stats_fields"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "basketball_scores",
+   "name": "basketball_scores",
+   "server": "bfcl://basketball_scores",
+   "summary": "Retrieve basketball scores for a specific team and league within a certain range of rounds.",
+   "tools": [
+    {
+     "name": "get_scores",
+     "description": "Retrieve basketball scores for a specific team and league within a certain range of rounds.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "team": {
+        "type": "string",
+        "description": "The basketball team whose scores are to be retrieved."
+       },
+       "league": {
+        "type": "string",
+        "description": "The league in which the team competes."
+       },
+       "rounds": {
+        "type": "integer",
+        "description": "Number of past rounds for which to retrieve the scores."
+       }
+      },
+      "required": [
+       "team",
+       "league",
+       "rounds"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "celebrity_net_worth",
+   "name": "celebrity_net_worth",
+   "server": "bfcl://celebrity_net_worth",
+   "summary": "Get the total net worth of a sports celebrity based on most recent data.",
+   "tools": [
+    {
+     "name": "get",
+     "description": "Get the total net worth of a sports celebrity based on most recent data.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "name": {
+        "type": "string",
+        "description": "The full name of the sports celebrity."
+       },
+       "currency": {
+        "type": "string",
+        "description": "The currency in which the net worth will be returned. Default is 'USD'."
+       }
+      },
+      "required": [
+       "name",
+       "currency"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "league_stats",
+   "name": "league_stats",
+   "server": "bfcl://league_stats",
+   "summary": "Fetch the top scorer of a specified football league. Fetch the top scorer of a specified football league.",
+   "tools": [
+    {
+     "name": "get_top_scorer",
+     "description": "Fetch the top scorer of a specified football league.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "league_name": {
+        "type": "string",
+        "description": "The name of the football league."
+       },
+       "season": {
+        "type": "string",
+        "description": "Season for which to fetch stats (optional). Default ''"
+       }
+      },
+      "required": [
+       "league_name"
+      ]
+     }
+    },
+    {
+     "name": "get_top_scorer_2",
+     "description": "Fetch the top scorer of a specified football league.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "league_name": {
+        "type": "string",
+        "description": "The name of the football league."
+       },
+       "season": {
+        "type": "string",
+        "description": "Season for which to fetch stats (optional). Default is '2019-2020' if not specified."
+       }
+      },
+      "required": [
+       "league_name"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "museum_data",
+   "name": "museum_data",
+   "server": "bfcl://museum_data",
+   "summary": "Retrieve visitation statistics for museums.",
+   "tools": [
+    {
+     "name": "get_visit_stats",
+     "description": "Retrieve visitation statistics for museums.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "city": {
+        "type": "string",
+        "description": "The city where the museum is located."
+       },
+       "year": {
+        "type": "integer",
+        "description": "The year for which data is to be fetched."
+       },
+       "month": {
+        "type": "integer",
+        "description": "The month for which data is to be fetched (Optional).",
+        "default": 12
+       }
+      },
+      "required": [
+       "city",
+       "year"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "nfl_data",
+   "name": "nfl_data",
+   "server": "bfcl://nfl_data",
+   "summary": "Retrieve the record of an NFL player in a specified season.",
+   "tools": [
+    {
+     "name": "player_record",
+     "description": "Retrieve the record of an NFL player in a specified season.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "player_name": {
+        "type": "string",
+        "description": "The name of the NFL player."
+       },
+       "season_year": {
+        "type": "integer",
+        "description": "The year of the NFL season."
+       },
+       "team": {
+        "type": "string",
+        "description": "The NFL team that the player played for in that season. Default is all teams if not specified."
+       }
+      },
+      "required": [
+       "player_name",
+       "season_year"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "player_stats",
+   "name": "player_stats",
+   "server": "bfcl://player_stats",
+   "summary": "Retrieve average scoring details of a specific basketball player. Get last game statistics for a specific player in basketball",
+   "tools": [
+    {
+     "name": "average_scoring",
+     "description": "Retrieve average scoring details of a specific basketball player.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "player_name": {
+        "type": "string",
+        "description": "The name of the basketball player."
+       },
+       "season": {
+        "type": "string",
+        "description": "The specific season to get statistics for."
+       },
+       "league": {
+        "type": "string",
+        "default": "NBA",
+        "description": "The league the player belongs to."
+       }
+      },
+      "required": [
+       "player_name",
+       "season"
+      ]
+     }
+    },
+    {
+     "name": "getLastGame",
+     "description": "Get last game statistics for a specific player in basketball",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "player_name": {
+        "type": "string",
+        "description": "The name of the basketball player."
+       },
+       "team": {
+        "type": "string",
+        "description": "The team that player currently plays for."
+       },
+       "metrics": {
+        "type": "array",
+        "items": {
+         "type": "string",
+         "enum": [
+          "Points",
+          "Rebounds",
+          "Assists",
+          "Blocks"
+         ]
+        },
+        "description": "Specific metrics to retrieve. If no value is specified, all available metrics will be returned by default."
+       }
+      },
+      "required": [
+       "player_name",
+       "team"
+      ]
+     }
+    },
+    {
+     "name": "get_all_time_goals",
+     "description": "Fetch all-time goals scored by a particular football player for a specified team.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "player_name": {
+        "type": "string",
+        "description": "The name of the football player."
+       },
+       "team_name": {
+        "type": "string",
+        "description": "The name of the team for which player has played."
+       },
+       "competition": {
+        "type": "string",
+        "description": "Competition for which to fetch stats (optional). Default ''"
+       }
+      },
+      "required": [
+       "player_name",
+       "team_name"
+      ]
+     }
+    },
+    {
+     "name": "get_all_time_goals_2",
+     "description": "Fetch all-time goals scored by a particular football player for a specified team.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "player_name": {
+        "type": "string",
+        "description": "The name of the football player."
+       },
+       "team_name": {
+        "type": "string",
+        "description": "The name of the team for which player has played."
+       },
+       "competition": {
+        "type": "string",
+        "description": "Competition for which to fetch stats (optional). Default is 'Premier League' if not specified."
+       }
+      },
+      "required": [
+       "player_name",
+       "team_name"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "player_status",
+   "name": "player_status",
+   "server": "bfcl://player_status",
+   "summary": "Check a player's status in a team for a particular season.",
+   "tools": [
+    {
+     "name": "check",
+     "description": "Check a player's status in a team for a particular season.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "team": {
+        "type": "string",
+        "description": "The team where the player plays."
+       },
+       "player_id": {
+        "type": "integer",
+        "description": "The id of the player."
+       },
+       "season": {
+        "type": "integer",
+        "description": "The season for which player's status need to be checked. Optional. Default is season 2023."
+       }
+      },
+      "required": [
+       "team",
+       "player_id"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "soccer",
+   "name": "soccer",
+   "server": "bfcl://soccer",
+   "summary": "Retrieve the details of the last match played by a specified soccer club.",
+   "tools": [
+    {
+     "name": "get_last_match",
+     "description": "Retrieve the details of the last match played by a specified soccer club.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "team_name": {
+        "type": "string",
+        "description": "The name of the soccer club."
+       },
+       "include_stats": {
+        "type": "boolean",
+        "description": "If true, include match statistics like possession, shots on target etc. Default is false."
+       }
+      },
+      "required": [
+       "team_name"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "soccer_scores",
+   "name": "soccer_scores",
+   "server": "bfcl://soccer_scores",
+   "summary": "Retrieve soccer scores for a specific team and league within a certain range of rounds.",
+   "tools": [
+    {
+     "name": "get_scores",
+     "description": "Retrieve soccer scores for a specific team and league within a certain range of rounds.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "team": {
+        "type": "string",
+        "description": "The soccer team whose scores are to be retrieved."
+       },
+       "league": {
+        "type": "string",
+        "description": "The league in which the team competes."
+       },
+       "rounds": {
+        "type": "integer",
+        "description": "Number of past rounds for which to retrieve the scores."
+       }
+      },
+      "required": [
+       "team",
+       "league",
+       "rounds"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "soccer_stat",
+   "name": "soccer_stat",
+   "server": "bfcl://soccer_stat",
+   "summary": "Retrieve soccer player statistics for a given season. Retrieve soccer player statistics for a given season.",
+   "tools": [
+    {
+     "name": "get_player_stats",
+     "description": "Retrieve soccer player statistics for a given season.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "player_name": {
+        "type": "string",
+        "description": "Name of the player."
+       },
+       "season": {
+        "type": "string",
+        "description": "Soccer season, usually specified by two years."
+       },
+       "league": {
+        "type": "string",
+        "description": "Optional - the soccer league, defaults to all leagues if not specified."
+       }
+      },
+      "required": [
+       "player_name",
+       "season"
+      ]
+     }
+    },
+    {
+     "name": "get_player_stats_2",
+     "description": "Retrieve soccer player statistics for a given season.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "player_name": {
+        "type": "string",
+        "description": "Name of the player."
+       },
+       "season": {
+        "type": "string",
+        "description": "Soccer season, usually specified by two years."
+       },
+       "league": {
+        "type": "string",
+        "description": "Optional - the soccer league, defaults to all leagues. Default 'all'"
+       }
+      },
+      "required": [
+       "player_name",
+       "season"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "soccer_stats",
+   "name": "soccer_stats",
+   "server": "bfcl://soccer_stats",
+   "summary": "Retrieve the results of the most recent match between two football teams.",
+   "tools": [
+    {
+     "name": "get_last_match_result",
+     "description": "Retrieve the results of the most recent match between two football teams.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "team1": {
+        "type": "string",
+        "description": "The name of the first team."
+       },
+       "team2": {
+        "type": "string",
+        "description": "The name of the second team."
+       },
+       "season": {
+        "type": "string",
+        "description": "The football season in question (Optional). Default: 'spring'"
+       }
+      },
+      "required": [
+       "team1",
+       "team2"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "sports",
+   "name": "sports",
+   "server": "bfcl://sports",
+   "summary": "Returns the results of a given match between two teams. Retrieve the match schedule for a specific sports team.",
+   "tools": [
+    {
+     "name": "match_results",
+     "description": "Returns the results of a given match between two teams.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "team1": {
+        "type": "string",
+        "description": "The name of the first team."
+       },
+       "team2": {
+        "type": "string",
+        "description": "The name of the second team."
+       },
+       "season": {
+        "type": "string",
+        "description": "The season when the match happened. Default is the current season."
+       }
+      },
+      "required": [
+       "team1",
+       "team2"
+      ]
+     }
+    },
+    {
+     "name": "match_schedule",
+     "description": "Retrieve the match schedule for a specific sports team.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "team_name": {
+        "type": "string",
+        "description": "The name of the sports team."
+       },
+       "num_matches": {
+        "type": "integer",
+        "description": "The number of upcoming matches you want to get."
+       },
+       "league": {
+        "type": "string",
+        "description": "The sports league of the team. This is an optional parameter. Default 'all'"
+       }
+      },
+      "required": [
+       "team_name",
+       "num_matches"
+      ]
+     }
+    },
+    {
+     "name": "match_schedule_2",
+     "description": "Retrieve the match schedule for a specific sports team.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "team_name": {
+        "type": "string",
+        "description": "The name of the sports team."
+       },
+       "num_matches": {
+        "type": "integer",
+        "description": "The number of upcoming matches you want to get."
+       },
+       "league": {
+        "type": "string",
+        "description": "The sports league of the team. This is an optional parameter. Default is 'English Premier League'."
+       }
+      },
+      "required": [
+       "team_name",
+       "num_matches"
+      ]
+     }
+    },
+    {
+     "name": "match_schedule_3",
+     "description": "Retrieve the match schedule for a specific sports team.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "team_name": {
+        "type": "string",
+        "description": "The name of the sports team."
+       },
+       "num_matches": {
+        "type": "integer",
+        "description": "The number of upcoming matches you want to get."
+       },
+       "league": {
+        "type": "string",
+        "description": "The sports league of the team. This is an optional parameter. Default is 'NBA'"
+       }
+      },
+      "required": [
+       "team_name",
+       "num_matches"
+      ]
+     }
+    },
+    {
+     "name": "ranking_get_champion",
+     "description": "Retrieve the champion of a specific sports event for a given year.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "event": {
+        "type": "string",
+        "description": "The sports event."
+       },
+       "year": {
+        "type": "integer",
+        "description": "The year of the sports event."
+       }
+      },
+      "required": [
+       "event",
+       "year"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "sports_analysis",
+   "name": "sports_analysis",
+   "server": "bfcl://sports_analysis",
+   "summary": "Retrieves the player with most goals in a specific football league",
+   "tools": [
+    {
+     "name": "get_top_scorer",
+     "description": "Retrieves the player with most goals in a specific football league",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "league": {
+        "type": "string",
+        "description": "The football league name. Eg. Premier League"
+       },
+       "season": {
+        "type": "string",
+        "description": "The season in format yyyy/yyyy. Eg. 2020/2021"
+       },
+       "team": {
+        "type": "string",
+        "description": "Optionally the specific team to consider. Eg. Liverpool",
+        "default": "Liverpool"
+       }
+      },
+      "required": [
+       "league",
+       "season"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "sports_analyzer",
+   "name": "sports_analyzer",
+   "server": "bfcl://sports_analyzer",
+   "summary": "Retrieve the schedule of cricket matches for a specific date.",
+   "tools": [
+    {
+     "name": "get_schedule",
+     "description": "Retrieve the schedule of cricket matches for a specific date.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "date": {
+        "type": "string",
+        "description": "The date for which to get the schedule of matches."
+       },
+       "sport": {
+        "type": "string",
+        "description": "The type of sport. Default is cricket."
+       },
+       "country": {
+        "type": "string",
+        "description": "The country for which to get the schedule. If not provided, all countries will be included. Default: 'USA'"
+       }
+      },
+      "required": [
+       "date",
+       "sport"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "sports_celebrity",
+   "name": "sports_celebrity",
+   "server": "bfcl://sports_celebrity",
+   "summary": "Returns a list of major achievements of a particular sports celebrity.",
+   "tools": [
+    {
+     "name": "get_major_achievements",
+     "description": "Returns a list of major achievements of a particular sports celebrity.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "celebrity_name": {
+        "type": "string",
+        "description": "Name of the sports celebrity."
+       },
+       "sports": {
+        "type": "string",
+        "description": "Type of sports the celebrity involved in. Default is Football."
+       },
+       "team": {
+        "type": "string",
+        "description": "Optional. Team where celebrity currently plays. Default is 'all'"
+       }
+      },
+      "required": [
+       "celebrity_name"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "sports_data",
+   "name": "sports_data",
+   "server": "bfcl://sports_data",
+   "summary": "Returns the record for the most points scored by a player in his career in NBA, including the player name, total points scored, and career span. Returns the record for the most points scored by a single player in one game of NBA, including the player name, points scored, and game date.",
+   "tools": [
+    {
+     "name": "basketball_most_points_career",
+     "description": "Returns the record for the most points scored by a player in his career in NBA, including the player name, total points scored, and career span.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "league": {
+        "type": "string",
+        "description": "The specific basketball league for which to fetch the record. In this case, 'NBA'."
+       }
+      },
+      "required": [
+       "league"
+      ]
+     }
+    },
+    {
+     "name": "basketball_most_points_single_game",
+     "description": "Returns the record for the most points scored by a single player in one game of NBA, including the player name, points scored, and game date.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "league": {
+        "type": "string",
+        "description": "The specific basketball league for which to fetch the record. In this case, 'NBA'."
+       }
+      },
+      "required": [
+       "league"
+      ]
+     }
+    },
+    {
+     "name": "basketball_most_points_single_season",
+     "description": "Returns the record for the most points scored by a single player in one season of NBA, including the player name, points scored, and season.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "league": {
+        "type": "string",
+        "description": "The specific basketball league for which to fetch the record. In this case, 'NBA'."
+       }
+      },
+      "required": [
+       "league"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "sports_db",
+   "name": "sports_db",
+   "server": "bfcl://sports_db",
+   "summary": "Find the profile information of a sports athlete based on their full name. Find the profile information of a sports athlete based on their full name.",
+   "tools": [
+    {
+     "name": "find_athlete",
+     "description": "Find the profile information of a sports athlete based on their full name.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "name": {
+        "type": "string",
+        "description": "The full name of the athlete."
+       },
+       "team": {
+        "type": "string",
+        "description": "The team the athlete belong to. Default is ''"
+       },
+       "sport": {
+        "type": "string",
+        "description": "The sport that athlete plays.",
+        "enum": [
+         "Basketball",
+         "Baseball",
+         "Football",
+         "Soccer"
+        ]
+       }
+      },
+      "required": [
+       "name",
+       "sport"
+      ]
+     }
+    },
+    {
+     "name": "find_athlete_2",
+     "description": "Find the profile information of a sports athlete based on their full name.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "name": {
+        "type": "string",
+        "description": "The full name of the athlete."
+       },
+       "team": {
+        "type": "string",
+        "description": "The team the athlete belongs to. Default to all teams if not specified."
+       },
+       "sport": {
+        "type": "string",
+        "description": "The sport that athlete plays.",
+        "enum": [
+         "Basketball",
+         "Baseball",
+         "Football",
+         "Soccer"
+        ]
+       }
+      },
+      "required": [
+       "name",
+       "sport"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "sports_ranking",
+   "name": "sports_ranking",
+   "server": "bfcl://sports_ranking",
+   "summary": "Retrieve the most valuable player of a particular sport season Retrieve the current ranking of a specific team in a particular league.",
+   "tools": [
+    {
+     "name": "get_MVP",
+     "description": "Retrieve the most valuable player of a particular sport season",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "season": {
+        "type": "string",
+        "description": "The season to look for MVP."
+       },
+       "sport_type": {
+        "type": "string",
+        "description": "The type of sport to look for MVP."
+       },
+       "team": {
+        "type": "string",
+        "description": "Specific team to look for MVP, Default is all teams"
+       }
+      },
+      "required": [
+       "season",
+       "sport_type"
+      ]
+     }
+    },
+    {
+     "name": "get_current",
+     "description": "Retrieve the current ranking of a specific team in a particular league.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "team": {
+        "type": "string",
+        "description": "The name of the team whose ranking is sought."
+       },
+       "league": {
+        "type": "string",
+        "description": "The league in which the team participates."
+       },
+       "season": {
+        "type": "string",
+        "description": "The season for which the ranking is sought. Defaults to the current season '2023-2024' if not provided."
+       }
+      },
+      "required": [
+       "team",
+       "league"
+      ]
+     }
+    },
+    {
+     "name": "get_current_2",
+     "description": "Retrieve the current ranking of a specific team in a particular league.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "team": {
+        "type": "string",
+        "description": "The name of the team whose ranking is sought."
+       },
+       "league": {
+        "type": "string",
+        "description": "The league in which the team participates."
+       },
+       "season": {
+        "type": "string",
+        "description": "The season for which the ranking is sought. Defaults to the current season if not provided."
+       }
+      },
+      "required": [
+       "team",
+       "league"
+      ]
+     }
+    },
+    {
+     "name": "get_team_position",
+     "description": "Retrieve a team's position and stats in the basketball league for a given season.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "team": {
+        "type": "string",
+        "description": "The name of the team."
+       },
+       "season": {
+        "type": "string",
+        "description": "The season for which data should be fetched."
+       },
+       "detailed": {
+        "type": "boolean",
+        "description": "Flag to retrieve detailed stats or just the position.",
+        "default": false
+       }
+      },
+      "required": [
+       "team",
+       "season"
+      ]
+     }
+    },
+    {
+     "name": "get_team_ranking",
+     "description": "Retrieve the ranking of a specific team in a particular sport league.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "team_name": {
+        "type": "string",
+        "description": "The name of the team."
+       },
+       "sport_league": {
+        "type": "string",
+        "description": "The league that the team is in."
+       },
+       "season": {
+        "type": "integer",
+        "optional": "true",
+        "description": "The season for which the ranking is requested. If not provided, the most recent season is considered. Default: 1"
+       }
+      },
+      "required": [
+       "team_name",
+       "sport_league"
+      ]
+     }
+    },
+    {
+     "name": "get_top_player",
+     "description": "Get the top player in a specific sport.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "sport": {
+        "type": "string",
+        "description": "The type of sport."
+       },
+       "gender": {
+        "type": "string",
+        "description": "The gender of the sport category. Optional.",
+        "default": "men"
+       }
+      },
+      "required": [
+       "sport"
+      ]
+     }
+    },
+    {
+     "name": "get_top_ranked",
+     "description": "Get the current top ranked athlete for a specific sport.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "sport": {
+        "type": "string",
+        "description": "The sport to get the ranking for."
+       },
+       "gender": {
+        "type": "string",
+        "description": "The gender category."
+       },
+       "year": {
+        "type": "integer",
+        "description": "The year for which the ranking is required.",
+        "default": "The current year"
+       }
+      },
+      "required": [
+       "sport",
+       "gender"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "sports_stats",
+   "name": "sports_stats",
+   "server": "bfcl://sports_stats",
+   "summary": "Compute the performance score of a soccer player given his game stats for a specific tournament in a season. Retrieve statistics of a specific player for a given season and league.",
+   "tools": [
+    {
+     "name": "get_performance",
+     "description": "Compute the performance score of a soccer player given his game stats for a specific tournament in a season.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "player_name": {
+        "type": "string",
+        "description": "Name of the player."
+       },
+       "tournament": {
+        "type": "string",
+        "description": "Name of the soccer tournament."
+       },
+       "season": {
+        "type": "string",
+        "description": "Specific season in format 'YYYY-YYYY'."
+       },
+       "performance_indicator": {
+        "type": "array",
+        "items": {
+         "type": "string",
+         "enum": [
+          "Goals Scored",
+          "Assists Made",
+          "Saves Made",
+          "Cards Received"
+         ]
+        },
+        "description": "Array of performance indicators. Use as much as possible. Default to use all if not specified."
+       }
+      },
+      "required": [
+       "player_name",
+       "tournament",
+       "season"
+      ]
+     }
+    },
+    {
+     "name": "get_player_stats",
+     "description": "Retrieve statistics of a specific player for a given season and league.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "player_name": {
+        "type": "string",
+        "description": "The name of the player."
+       },
+       "season": {
+        "type": "string",
+        "description": "The season of the statistics, e.g. '2020-2021'."
+       },
+       "league": {
+        "type": "string",
+        "description": "The league of the player's sport, e.g. 'NBA'.",
+        "default": "NBA"
+       }
+      },
+      "required": [
+       "player_name",
+       "season"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "sports_team",
+   "name": "sports_team",
+   "server": "bfcl://sports_team",
+   "summary": "Fetches the schedule of the specified sports team for the specified number of games in the given league. Fetches the schedule of the specified sports team for the specified number of games in the given league.",
+   "tools": [
+    {
+     "name": "get_schedule",
+     "description": "Fetches the schedule of the specified sports team for the specified number of games in the given league.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "team_name": {
+        "type": "string",
+        "description": "The name of the sports team."
+       },
+       "num_of_games": {
+        "type": "integer",
+        "description": "Number of games for which to fetch the schedule."
+       },
+       "league": {
+        "type": "string",
+        "description": "The name of the sports league. If not provided, the function will fetch the schedule for all games, regardless of the league."
+       },
+       "location": {
+        "type": "string",
+        "description": "Optional. The city or venue where games are to be held. If not provided, all venues will be considered by default."
+       }
+      },
+      "required": [
+       "team_name",
+       "num_of_games",
+       "league"
+      ]
+     }
+    },
+    {
+     "name": "get_schedule_2",
+     "description": "Fetches the schedule of the specified sports team for the specified number of games in the given league.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "team_name": {
+        "type": "string",
+        "description": "The name of the sports team."
+       },
+       "num_of_games": {
+        "type": "integer",
+        "description": "Number of games for which to fetch the schedule."
+       },
+       "league": {
+        "type": "string",
+        "description": "The name of the sports league. If not provided, the function will fetch the schedule for all games, regardless of the league."
+       },
+       "location": {
+        "type": "string",
+        "description": "Optional. The city or venue where games are to be held. If not provided, all venues will be considered. Default to ''."
+       }
+      },
+      "required": [
+       "team_name",
+       "num_of_games",
+       "league"
+      ]
+     }
+    },
+    {
+     "name": "get_schedule_3",
+     "description": "Fetches the schedule of the specified sports team for the specified number of games in the given league.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "team_name": {
+        "type": "string",
+        "description": "The name of the sports team."
+       },
+       "num_of_games": {
+        "type": "integer",
+        "description": "Number of games for which to fetch the schedule."
+       },
+       "league": {
+        "type": "string",
+        "description": "The name of the sports league. If not provided, the function will fetch the schedule for all games, regardless of the league."
+       },
+       "location": {
+        "type": "string",
+        "description": "Optional. The city or venue where games are to be held. If not provided, default that all venues will be considered."
+       }
+      },
+      "required": [
+       "team_name",
+       "num_of_games",
+       "league"
+      ]
+     }
+    },
+    {
+     "name": "get_top_scorer",
+     "description": "Retrieve the top scorer of a sports team in a specific season.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "team": {
+        "type": "string",
+        "description": "The name of the sports team."
+       },
+       "season": {
+        "type": "string",
+        "description": "The season of interest, e.g. 2020-2021 NBA season."
+       },
+       "league": {
+        "type": "string",
+        "description": "The league the team is part of. Default is 'NBA'."
+       }
+      },
+      "required": [
+       "team",
+       "season"
+      ]
+     }
+    },
+    {
+     "name": "standing",
+     "description": "Retrieve the current standing/ranking of a sports team in its respective league.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "team_name": {
+        "type": "string",
+        "description": "The name of the sports team."
+       },
+       "league": {
+        "type": "string",
+        "description": "The league in which the team participates."
+       },
+       "season_year": {
+        "type": "integer",
+        "optional": true,
+        "description": "The season year for which the standing is needed. If not provided, current year is assumed. Default: 1994"
+       }
+      },
+      "required": [
+       "team_name",
+       "league"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "team_score",
+   "name": "team_score",
+   "server": "bfcl://team_score",
+   "summary": "Retrieve the score of the most recent game for a specified sports team. Retrieve the score of the most recent game for a specified sports team.",
+   "tools": [
+    {
+     "name": "get_latest",
+     "description": "Retrieve the score of the most recent game for a specified sports team.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "team": {
+        "type": "string",
+        "description": "Name of the sports team."
+       },
+       "include_opponent": {
+        "type": "boolean",
+        "description": "Include the name of the opponent team in the return.",
+        "default": "false"
+       }
+      },
+      "required": [
+       "team"
+      ]
+     }
+    },
+    {
+     "name": "get_latest_2",
+     "description": "Retrieve the score of the most recent game for a specified sports team.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "team": {
+        "type": "string",
+        "description": "Name of the sports team."
+       },
+       "include_opponent": {
+        "type": "boolean",
+        "description": "Include the name of the opponent team in the return.",
+        "default": false
+       }
+      },
+      "required": [
+       "team"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "team_stats",
+   "name": "team_stats",
+   "server": "bfcl://team_stats",
+   "summary": "Fetch the top scorer of a specified football team. Fetch the top scorer of a specified football team.",
+   "tools": [
+    {
+     "name": "get_top_scorer",
+     "description": "Fetch the top scorer of a specified football team.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "team_name": {
+        "type": "string",
+        "description": "The name of the football team."
+       },
+       "competition": {
+        "type": "string",
+        "description": "Competition for which to fetch stats (optional). Default ''"
+       }
+      },
+      "required": [
+       "team_name"
+      ]
+     }
+    },
+    {
+     "name": "get_top_scorer_2",
+     "description": "Fetch the top scorer of a specified football team.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "team_name": {
+        "type": "string",
+        "description": "The name of the football team."
+       },
+       "competition": {
+        "type": "string",
+        "description": "Competition for which to fetch stats (optional). Default is 'Premier League' if not specified."
+       }
+      },
+      "required": [
+       "team_name"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "bfcl_c21_g0",
+   "name": "team ranking info",
+   "server": "bfcl://bfcl_c21_g0",
+   "summary": "Functions for team, ranking, info, information, competition, retrieve.",
+   "tools": [
+    {
+     "name": "getTopAssists",
+     "description": "Returns the top assist makers for a specific competition and team",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "competition": {
+        "type": "string",
+        "description": "The name of the competition (for example, 'UEFA Champions League')."
+       },
+       "team": {
+        "type": "string",
+        "description": "The name of the team (for example, 'Barcelona')."
+       },
+       "number": {
+        "type": "integer",
+        "description": "The number of top assist makers to retrieve."
+       }
+      },
+      "required": [
+       "competition",
+       "team",
+       "number"
+      ]
+     }
+    },
+    {
+     "name": "getTopGoalScorers",
+     "description": "Returns the top goal scorers for a specific competition and team",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "competition": {
+        "type": "string",
+        "description": "The name of the competition (for example, 'UEFA Champions League')."
+       },
+       "team": {
+        "type": "string",
+        "description": "The name of the team (for example, 'Barcelona')."
+       },
+       "number": {
+        "type": "integer",
+        "description": "The number of top goal scorers to retrieve."
+       }
+      },
+      "required": [
+       "competition",
+       "team",
+       "number"
+      ]
+     }
+    },
+    {
+     "name": "get_discoverer",
+     "description": "Get the person or team who made a particular scientific discovery",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "discovery": {
+        "type": "string",
+        "description": "The discovery for which the discoverer's information is needed."
+       },
+       "detail": {
+        "type": "boolean",
+        "description": "Optional flag to get additional details about the discoverer, such as birth date and nationality. Defaults to false."
+       }
+      },
+      "required": [
+       "discovery",
+       "detail"
+      ]
+     }
+    },
+    {
+     "name": "get_team_info",
+     "description": "Retrieve information for a specific team, such as championships won.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "team": {
+        "type": "string",
+        "description": "The name of the team."
+       },
+       "info": {
+        "type": "string",
+        "description": "The information sought. E.g., 'championships_won'."
+       }
+      },
+      "required": [
+       "team",
+       "info"
+      ]
+     }
+    },
+    {
+     "name": "get_team_rank",
+     "description": "Get the team ranking in a sports league based on season and type.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "team_name": {
+        "type": "string",
+        "description": "The name of the sports team."
+       },
+       "league": {
+        "type": "string",
+        "description": "The name of the league in which the team competes."
+       },
+       "season": {
+        "type": "string",
+        "description": "The season for which the team's ranking is sought."
+       },
+       "type": {
+        "type": "string",
+        "description": "Type of the season: regular or playoff.",
+        "enum": [
+         "regular",
+         "playoff"
+        ]
+       }
+      },
+      "required": [
+       "team_name",
+       "league",
+       "season",
+       "type"
+      ]
+     }
+    },
+    {
+     "name": "get_team_ranking",
+     "description": "Retrieve the FIFA ranking of a specific soccer team for a certain year.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "team_name": {
+        "type": "string",
+        "description": "The name of the soccer team."
+       },
+       "year": {
+        "type": "integer",
+        "description": "The year for which the ranking is to be retrieved."
+       },
+       "gender": {
+        "type": "string",
+        "description": "The gender of the team. It can be either 'men' or 'women'. Default is 'men'."
+       }
+      },
+      "required": [
+       "team_name",
+       "year"
+      ]
+     }
+    },
+    {
+     "name": "get_team_ranking_2",
+     "description": "Retrieve the current ranking of a football team in a specific league.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "team": {
+        "type": "string",
+        "description": "The name of the football team."
+       },
+       "league": {
+        "type": "string",
+        "description": "The league the team is competing in. E.g. UEFA Champions League, La Liga."
+       }
+      },
+      "required": [
+       "team",
+       "league"
+      ]
+     }
+    },
+    {
+     "name": "get_team_score",
+     "description": "Retrieves the latest game score, individual player stats, and team stats for a specified sports team.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "team_name": {
+        "type": "string",
+        "description": "The name of the sports team."
+       },
+       "league": {
+        "type": "string",
+        "description": "The league that the team is part of."
+       },
+       "include_player_stats": {
+        "type": "boolean",
+        "default": false,
+        "description": "Indicates if individual player statistics should be included in the result. Default is false."
+       }
+      },
+      "required": [
+       "team_name",
+       "league"
+      ]
+     }
+    },
+    {
+     "name": "team_accessLogs",
+     "description": "Retrieves access logs for a team, filtered by the given criteria such as date and pagination options.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "token"
+      ],
+      "properties": {
+       "token": {
+        "type": "string",
+        "description": "Authentication token to validate access to the logs."
+       },
+       "before": {
+        "type": "string",
+        "description": "A timestamp representing the end date and time for the log retrieval, formatted as 'YYYY-MM-DD HH:MM:SS'.",
+        "default": null
+       },
+       "count": {
+        "type": "integer",
+        "description": "The number of log entries to return per page.",
+        "default": 100
+       },
+       "page": {
+        "type": "integer",
+        "description": "Page number of the logs to retrieve, starting at 1.",
+        "default": 1
+       }
+      }
+     }
+    },
+    {
+     "name": "team_billableInfo",
+     "description": "Retrieve billable information for a specified user within a team.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "token",
+       "user"
+      ],
+      "properties": {
+       "token": {
+        "type": "string",
+        "description": "Authentication token to verify the caller's identity."
+       },
+       "user": {
+        "type": "string",
+        "description": "Unique identifier for the user whose billable information is being requested."
+       }
+      }
+     }
+    },
+    {
+     "name": "team_info",
+     "description": "Retrieves information about a specific team using an access token for authentication.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "token",
+       "team"
+      ],
+      "properties": {
+       "token": {
+        "type": "string",
+        "description": "The access token used for authenticating the API request."
+       },
+       "team": {
+        "type": "string",
+        "description": "The unique identifier or name of the team to retrieve information for."
+       }
+      }
+     }
+    },
+    {
+     "name": "team_integrationLogs",
+     "description": "Retrieve a list of integration logs for a team, filtered by various parameters.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "token": {
+        "type": "string",
+        "description": "Authentication token to validate the request."
+       },
+       "app_id": {
+        "type": "string",
+        "description": "Unique identifier of the application."
+       },
+       "change_type": {
+        "type": "string",
+        "description": "Type of change to filter logs, such as 'create', 'update', or 'delete'.",
+        "enum": [
+         "create",
+         "update",
+         "delete"
+        ],
+        "default": "create"
+       },
+       "count": {
+        "type": "integer",
+        "description": "The number of log entries to return per page.",
+        "default": 50
+       },
+       "page": {
+        "type": "integer",
+        "description": "Page number of the log entries to retrieve.",
+        "default": 1
+       },
+       "service_id": {
+        "type": "string",
+        "description": "Unique identifier of the service to filter logs.",
+        "default": null
+       },
+       "user": {
+        "type": "string",
+        "description": "Username to filter the logs by user activity.",
+        "default": null
+       }
+      },
+      "required": [
+       "token",
+       "app_id"
+      ]
+     }
+    },
+    {
+     "name": "team_profile_get",
+     "description": "Retrieve the profile information of a team based on visibility settings.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "token",
+       "visibility"
+      ],
+      "properties": {
+       "token": {
+        "type": "string",
+        "description": "The authentication token required to access the team profile."
+       },
+       "visibility": {
+        "type": "string",
+        "description": "The visibility level of the team profile information.",
+        "enum": [
+         "public",
+         "private",
+         "internal"
+        ]
+       }
+      }
+     }
+    }
+   ]
+  },
+  {
+   "id": "bfcl_c21_g1",
+   "name": "player stats statistics",
+   "server": "bfcl://bfcl_c21_g1",
+   "summary": "Functions for player, stats, statistics, career, nba, record.",
+   "tools": [
+    {
+     "name": "get_career_stats",
+     "description": "Retrieve the career statistics of a basketball player based on the player's name.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "player_name": {
+        "type": "string",
+        "description": "The name of the basketball player."
+       },
+       "team": {
+        "type": "string",
+        "description": "The team that the player currently plays for or has played for (Optional). Default to use all teams if not specified."
+       }
+      },
+      "required": [
+       "player_name"
+      ]
+     }
+    },
+    {
+     "name": "get_defense_ranking",
+     "description": "Retrieve the defence ranking of NBA teams in a specified season.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "season": {
+        "type": "integer",
+        "description": "The NBA season to get defence ranking from."
+       },
+       "top": {
+        "type": "integer",
+        "default": 1,
+        "description": "Number of top teams in defence ranking to fetch."
+       }
+      },
+      "required": [
+       "season"
+      ]
+     }
+    },
+    {
+     "name": "get_match_stats",
+     "description": "Retrieve the match statistics of a particular team in a specified sports tournament.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "team_name": {
+        "type": "string",
+        "description": "The name of the team."
+       },
+       "tournament": {
+        "type": "string",
+        "description": "The name of the sports tournament."
+       },
+       "year": {
+        "type": "integer",
+        "description": "The year in which the tournament took place. (Optional)",
+        "default": 1994
+       }
+      },
+      "required": [
+       "team_name",
+       "tournament"
+      ]
+     }
+    },
+    {
+     "name": "get_nba_player_stats",
+     "description": "Retrieves statistics of an NBA player's career, including points, assists, rebounds, steals, blocks and number of championships won.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "player_name": {
+        "type": "string",
+        "description": "The name of the NBA player."
+       },
+       "stat_type": {
+        "type": "string",
+        "enum": [
+         "points",
+         "assists",
+         "rebounds",
+         "steals",
+         "blocks",
+         "championships"
+        ],
+        "description": "Type of statistics to retrieve."
+       }
+      },
+      "required": [
+       "player_name",
+       "stat_type"
+      ]
+     }
+    },
+    {
+     "name": "get_player_record",
+     "description": "Retrieve record stats for a specific player and stat type.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "player": {
+        "type": "string",
+        "description": "The name of the player."
+       },
+       "stat": {
+        "type": "string",
+        "description": "The type of statistic. E.g., 'highest_scoring_game', 'total_championships'."
+       }
+      },
+      "required": [
+       "player",
+       "stat"
+      ]
+     }
+    },
+    {
+     "name": "player_statistic",
+     "description": "Retrieves detailed player's statistics for a specific year.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "player_name": {
+        "type": "string",
+        "description": "The player's name."
+       },
+       "year": {
+        "type": "integer",
+        "description": "Year for which the statistics will be displayed."
+       },
+       "team_name": {
+        "type": "string",
+        "description": "The name of the team(optional). Default is 'all'"
+       }
+      },
+      "required": [
+       "player_name",
+       "year"
+      ]
+     }
+    },
+    {
+     "name": "player_statistic_2",
+     "description": "Retrieves detailed player's statistics for a specific year.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "player_name": {
+        "type": "string",
+        "description": "The player's name."
+       },
+       "year": {
+        "type": "integer",
+        "description": "Year for which the statistics will be displayed."
+       },
+       "team_name": {
+        "type": "string",
+        "description": "The name of the team(optional). Default is all if not specified."
+       }
+      },
+      "required": [
+       "player_name",
+       "year"
+      ]
+     }
+    },
+    {
+     "name": "player_statistic_3",
+     "description": "Retrieves detailed player's statistics for a specific year.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "player_name": {
+        "type": "string",
+        "description": "The player's name."
+       },
+       "year": {
+        "type": "integer",
+        "description": "Year for which the statistics will be displayed."
+       },
+       "team_name": {
+        "type": "string",
+        "description": "The name of the team(optional). Default to not use it if not specified."
+       }
+      },
+      "required": [
+       "player_name",
+       "year"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "bfcl_c21_g2",
+   "name": "sports ranking sport",
+   "server": "bfcl://bfcl_c21_g2",
+   "summary": "Functions for sports, ranking, sport, team, celebrity, league.",
+   "tools": [
+    {
+     "name": "find_top_sports_celebrity",
+     "description": "Fetches information about a top sports celebrity including basic information, match records, endorsements and net worth.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "name": {
+        "type": "string",
+        "description": "Name of the celebrity."
+       },
+       "year": {
+        "type": "integer",
+        "description": "The year in which the celebrity rose to fame or importance."
+       },
+       "sports_type": {
+        "type": "string",
+        "description": "The type of sport the celebrity is known for, e.g. Tennis, Basketball, Football.",
+        "default": "All"
+       }
+      },
+      "required": [
+       "name",
+       "year"
+      ]
+     }
+    },
+    {
+     "name": "get_sport_ranking",
+     "description": "Retrieve the current world ranking of a sportsperson based on the sport and player's name.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "sport": {
+        "type": "string",
+        "description": "Name of the sport."
+       },
+       "player_name": {
+        "type": "string",
+        "description": "Name of the player."
+       },
+       "gender": {
+        "type": "string",
+        "description": "Gender of the player. This is optional. The possible values are male or female.",
+        "default": "all"
+       }
+      },
+      "required": [
+       "sport",
+       "player_name"
+      ]
+     }
+    },
+    {
+     "name": "get_sport_team_details",
+     "description": "Retrieve information about a sports team including roster, previous results, upcoming matches, etc.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "team_name": {
+        "type": "string",
+        "description": "The name of the team."
+       },
+       "details": {
+        "type": "array",
+        "items": {
+         "type": "string",
+         "enum": [
+          "roster",
+          "results",
+          "upcoming_matches"
+         ]
+        },
+        "description": "Specific details about the team you want to retrieve."
+       }
+      },
+      "required": [
+       "team_name",
+       "details"
+      ]
+     }
+    },
+    {
+     "name": "sports_ranking",
+     "description": "Fetch the ranking of a specific sports team in a specific league",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "team": {
+        "type": "string",
+        "description": "The name of the team."
+       },
+       "league": {
+        "type": "string",
+        "description": "The name of the league."
+       },
+       "season": {
+        "type": "integer",
+        "description": "Optional parameter to specify the season, default is 2023 if not specified."
+       }
+      },
+      "required": [
+       "team",
+       "league"
+      ]
+     }
+    },
+    {
+     "name": "sports_ranking_2",
+     "description": "Fetch the ranking of a specific sports team in a specific league",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "team": {
+        "type": "string",
+        "description": "The name of the team."
+       },
+       "league": {
+        "type": "string",
+        "description": "The name of the league."
+       },
+       "season": {
+        "type": "integer",
+        "description": "Optional parameter to specify the season, default is the current season '2023' if not specified."
+       }
+      },
+      "required": [
+       "team",
+       "league"
+      ]
+     }
+    },
+    {
+     "name": "sports_ranking_3",
+     "description": "Fetch the ranking of a specific sports team in a specific league",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "team": {
+        "type": "string",
+        "description": "The name of the team."
+       },
+       "league": {
+        "type": "string",
+        "description": "The name of the league."
+       },
+       "season": {
+        "type": "integer",
+        "description": "Optional parameter to specify the season, default is the current season, 2024"
+       }
+      },
+      "required": [
+       "team",
+       "league"
+      ]
+     }
+    },
+    {
+     "name": "sports_ranking_4",
+     "description": "Fetch the ranking of a specific sports team in a specific league",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "team": {
+        "type": "string",
+        "description": "The name of the team."
+       },
+       "league": {
+        "type": "string",
+        "description": "The name of the league."
+       },
+       "season": {
+        "type": "integer",
+        "description": "Optional parameter to specify the season, default is the current season."
+       }
+      },
+      "required": [
+       "team",
+       "league"
+      ]
+     }
+    },
+    {
+     "name": "sports_ranking_5",
+     "description": "Get the ranking of a team in a given sports league and season.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "team": {
+        "type": "string",
+        "description": "The name of the team."
+       },
+       "league": {
+        "type": "string",
+        "description": "The name of the sports league."
+       },
+       "season": {
+        "type": "string",
+        "description": "The season for which ranking needs to be obtained."
+       }
+      },
+      "required": [
+       "team",
+       "league",
+       "season"
+      ]
+     }
+    }
+   ]
+  }
+ ]
+}

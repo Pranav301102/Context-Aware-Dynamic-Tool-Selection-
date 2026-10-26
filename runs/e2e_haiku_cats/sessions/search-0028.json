@@ -1,0 +1,42 @@
+{
+ "task_id": "search-0028",
+ "mode": "cats",
+ "loaded": [
+  "brave_search.brave_local_search",
+  "brave_search.brave_news_search",
+  "google_maps.maps_directions",
+  "mapbox.category_search_tool",
+  "transitland.search_operators"
+ ],
+ "order": [
+  "brave_search.brave_local_search",
+  "brave_search.brave_news_search",
+  "google_maps.maps_directions",
+  "mapbox.category_search_tool",
+  "transitland.search_operators"
+ ],
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "brave_search.brave_news_search",
+   "args": {
+    "query": "Seattle teachers strike"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 5,
+   "tool_tokens": 1246
+  },
+  {
+   "type": "call",
+   "tool": "brave_search__brave_news_search",
+   "valid": true
+  }
+ ],
+ "done": true,
+ "final": ""
+}

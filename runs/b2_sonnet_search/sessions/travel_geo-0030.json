@@ -1,0 +1,68 @@
+{
+ "task_id": "travel_geo-0030",
+ "mode": "search",
+ "loaded": [
+  "nws_weather.get_forecast",
+  "nws_weather.get_hourly_forecast",
+  "openweathermap.get_forecast",
+  "openweathermap.get_air_pollution",
+  "nws_weather.get_alerts"
+ ],
+ "order": [
+  "nws_weather.get_forecast",
+  "nws_weather.get_hourly_forecast",
+  "openweathermap.get_forecast",
+  "openweathermap.get_air_pollution",
+  "nws_weather.get_alerts"
+ ],
+ "scores": {
+  "nws_weather.get_forecast": 2.0,
+  "nws_weather.get_hourly_forecast": 2.0,
+  "openweathermap.get_forecast": 2.0,
+  "openweathermap.get_air_pollution": 2.0,
+  "nws_weather.get_alerts": 2.0
+ },
+ "router_tokens": 0,
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "openweathermap.get_forecast",
+   "args": {
+    "location": "Leeds,GB",
+    "units": "metric",
+    "cnt": 16
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0,
+   "t": 1791322450.9090302
+  },
+  {
+   "type": "request_tools",
+   "capability": "get weather forecast for a city for tomorrow",
+   "added": [
+    "nws_weather.get_forecast",
+    "nws_weather.get_hourly_forecast",
+    "openweathermap.get_forecast",
+    "openweathermap.get_air_pollution",
+    "nws_weather.get_alerts"
+   ],
+   "tool_tokens": 685,
+   "t": 1791322457.5623412
+  },
+  {
+   "type": "call",
+   "tool": "openweathermap__get_forecast",
+   "valid": true,
+   "t": 1791322464.117049
+  }
+ ],
+ "done": true,
+ "t_done": 1791322467.5122652,
+ "final": ""
+}

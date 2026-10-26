@@ -1,0 +1,58 @@
+{
+ "task_id": "travel_geo-0014",
+ "mode": "cats",
+ "loaded": [
+  "mapbox.directions_tool",
+  "mapbox.matrix_tool",
+  "transitland.get_route",
+  "transitland.search_routes",
+  "transitland.search_stops"
+ ],
+ "order": [
+  "mapbox.directions_tool",
+  "mapbox.matrix_tool",
+  "transitland.get_route",
+  "transitland.search_routes",
+  "transitland.search_stops"
+ ],
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "mapbox.directions_tool",
+   "args": {
+    "coordinates": [
+     {
+      "longitude": 4.1453,
+      "latitude": 51.9496
+     },
+     {
+      "longitude": 6.7623,
+      "latitude": 51.4344
+     }
+    ],
+    "routing_profile": "mapbox/driving",
+    "exclude": [
+     "ferry"
+    ],
+    "max_height": 4.1,
+    "max_weight": 38,
+    "steps": true
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 5,
+   "tool_tokens": 1461
+  },
+  {
+   "type": "call",
+   "tool": "mapbox__directions_tool",
+   "valid": true
+  }
+ ],
+ "done": true,
+ "final": ""
+}

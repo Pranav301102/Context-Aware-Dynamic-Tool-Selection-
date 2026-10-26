@@ -1,0 +1,111 @@
+{
+ "task_id": "cross-0012",
+ "mode": "cats",
+ "loaded": [
+  "aws.s3_put_object",
+  "google_calendar.get_freebusy",
+  "google_calendar.search_events",
+  "google_drive.gdrive_read_file",
+  "google_drive.gdrive_search",
+  "google_drive.gdrive_share_file",
+  "google_drive.gdrive_upload_file",
+  "ms_teams.create_online_meeting",
+  "notion.notion_search",
+  "slack.get_channel_history",
+  "slack.get_thread_replies",
+  "slack.list_channels",
+  "slack.post_message",
+  "slack.search_messages",
+  "stripe.create_customer",
+  "tavily.tavily_extract"
+ ],
+ "order": [
+  "aws.s3_put_object",
+  "google_calendar.get_freebusy",
+  "google_calendar.search_events",
+  "google_drive.gdrive_read_file",
+  "google_drive.gdrive_search",
+  "google_drive.gdrive_share_file",
+  "google_drive.gdrive_upload_file",
+  "ms_teams.create_online_meeting",
+  "notion.notion_search",
+  "slack.get_channel_history",
+  "slack.get_thread_replies",
+  "slack.list_channels",
+  "slack.post_message",
+  "slack.search_messages",
+  "stripe.create_customer",
+  "tavily.tavily_extract"
+ ],
+ "scores": {
+  "aws.s3_put_object": 0.07428206481451147,
+  "google_calendar.get_freebusy": 0.2157608236540779,
+  "google_calendar.search_events": 0.06117072377386313,
+  "google_drive.gdrive_read_file": 0.3654680036498934,
+  "google_drive.gdrive_search": 0.6575192782874885,
+  "google_drive.gdrive_share_file": 0.7879781407505045,
+  "google_drive.gdrive_upload_file": 0.11549675222877237,
+  "ms_teams.create_online_meeting": 0.3140075043415327,
+  "notion.notion_search": 0.2856383117009224,
+  "slack.get_channel_history": 0.09518301532344953,
+  "slack.get_thread_replies": 0.1005346350551363,
+  "slack.list_channels": 0.1629753909615398,
+  "slack.post_message": 0.5181762713664703,
+  "slack.search_messages": 0.4908695696036916,
+  "stripe.create_customer": 0.12133784084558627,
+  "tavily.tavily_extract": 0.06925023697405444
+ },
+ "router_tokens": 0,
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "google_drive.gdrive_search",
+   "args": {
+    "query": "Offsite Agenda"
+   }
+  },
+  {
+   "tool": "slack.list_channels",
+   "args": {
+    "limit": 100
+   }
+  },
+  {
+   "tool": "slack.post_message",
+   "args": {
+    "channel_id": "C-offsite-channel",
+    "text": "Here is the link to the Offsite Agenda document: https://docs.google.com/document/d/offsite-agenda-doc-id/edit"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 16,
+   "tool_tokens": 3493,
+   "t": 1791321027.180065
+  },
+  {
+   "type": "call",
+   "tool": "google_drive__gdrive_search",
+   "valid": true,
+   "t": 1791321041.776666
+  },
+  {
+   "type": "call",
+   "tool": "slack__list_channels",
+   "valid": true,
+   "t": 1791321065.8887649
+  },
+  {
+   "type": "call",
+   "tool": "slack__post_message",
+   "valid": true,
+   "t": 1791321084.7217607
+  }
+ ],
+ "done": true,
+ "t_done": 1791321089.5550513,
+ "final": ""
+}

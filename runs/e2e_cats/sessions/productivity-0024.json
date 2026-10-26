@@ -1,0 +1,73 @@
+{
+ "task_id": "productivity-0024",
+ "mode": "cats",
+ "loaded": [
+  "hubspot.hubspot_create_company",
+  "hubspot.hubspot_create_contact",
+  "ms365_pim.create_calendar_event",
+  "ms365_pim.find_meeting_times",
+  "ms365_pim.get_schedule",
+  "ms365_pim.list_outlook_contacts"
+ ],
+ "order": [
+  "hubspot.hubspot_create_company",
+  "hubspot.hubspot_create_contact",
+  "ms365_pim.create_calendar_event",
+  "ms365_pim.find_meeting_times",
+  "ms365_pim.get_schedule",
+  "ms365_pim.list_outlook_contacts"
+ ],
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "ms365_pim.find_meeting_times",
+   "args": {
+    "attendees": [
+     {
+      "emailAddress": {
+       "address": "priya@contoso.com"
+      },
+      "type": "required"
+     },
+     {
+      "emailAddress": {
+       "address": "marco@contoso.com"
+      },
+      "type": "required"
+     }
+    ],
+    "timeConstraint": {
+     "activityDomain": "work",
+     "timeSlots": [
+      {
+       "start": {
+        "dateTime": "2026-10-12T09:00:00",
+        "timeZone": "UTC"
+       },
+       "end": {
+        "dateTime": "2026-10-16T17:00:00",
+        "timeZone": "UTC"
+       }
+      }
+     ]
+    },
+    "meetingDuration": "PT1H"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 6,
+   "tool_tokens": 2434
+  },
+  {
+   "type": "call",
+   "tool": "ms365_pim__find_meeting_times",
+   "valid": true
+  }
+ ],
+ "done": true,
+ "final": ""
+}

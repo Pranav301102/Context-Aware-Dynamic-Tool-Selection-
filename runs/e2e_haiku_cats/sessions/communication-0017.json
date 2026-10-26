@@ -1,0 +1,36 @@
+{
+ "task_id": "communication-0017",
+ "mode": "cats",
+ "loaded": [
+  "slack.get_user_profile",
+  "slack.get_users"
+ ],
+ "order": [
+  "slack.get_user_profile",
+  "slack.get_users"
+ ],
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "slack.get_user_profile",
+   "args": {
+    "user_id": "U07QWERTY"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 2,
+   "tool_tokens": 164
+  },
+  {
+   "type": "call",
+   "tool": "slack__get_user_profile",
+   "valid": true
+  }
+ ],
+ "done": true,
+ "final": ""
+}

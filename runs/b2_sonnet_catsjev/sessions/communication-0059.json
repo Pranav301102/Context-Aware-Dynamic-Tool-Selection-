@@ -1,0 +1,69 @@
+{
+ "task_id": "communication-0059",
+ "mode": "cats",
+ "loaded": [
+  "discord.add_reaction",
+  "discord.create_forum_post",
+  "discord.create_text_channel",
+  "discord.read_messages",
+  "discord.send_message",
+  "slack.add_reaction",
+  "slack.get_channel_history",
+  "slack.list_channels",
+  "slack.post_message",
+  "slack.search_messages"
+ ],
+ "order": [
+  "discord.add_reaction",
+  "discord.create_forum_post",
+  "discord.create_text_channel",
+  "discord.read_messages",
+  "discord.send_message",
+  "slack.add_reaction",
+  "slack.get_channel_history",
+  "slack.list_channels",
+  "slack.post_message",
+  "slack.search_messages"
+ ],
+ "scores": {
+  "discord.add_reaction": 0.06950778644022883,
+  "discord.create_forum_post": 0.1861745462418454,
+  "discord.create_text_channel": 0.05127717130431706,
+  "discord.read_messages": 0.23021960282612858,
+  "discord.send_message": 0.18850671509559772,
+  "slack.add_reaction": 0.05591013577678524,
+  "slack.get_channel_history": 0.17567944074933417,
+  "slack.list_channels": 0.07345043950671183,
+  "slack.post_message": 0.6324398703198517,
+  "slack.search_messages": 0.07733166918165017
+ },
+ "router_tokens": 0,
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "discord.send_message",
+   "args": {
+    "channelId": "424242",
+    "message": "deploy starting, expect 5 min of downtime"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 10,
+   "tool_tokens": 1327,
+   "t": 1791321893.2723355
+  },
+  {
+   "type": "call",
+   "tool": "discord__send_message",
+   "valid": true,
+   "t": 1791321904.5451872
+  }
+ ],
+ "done": true,
+ "t_done": 1791321910.0182993,
+ "final": ""
+}

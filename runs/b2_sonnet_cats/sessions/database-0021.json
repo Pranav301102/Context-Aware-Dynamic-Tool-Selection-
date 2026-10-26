@@ -1,0 +1,56 @@
+{
+ "task_id": "database-0021",
+ "mode": "cats",
+ "loaded": [
+  "mysql.describe_table",
+  "mysql.execute_sql",
+  "postgres.get_object_details",
+  "sqlite.create_table",
+  "sqlite.describe_table",
+  "sqlite.read_query"
+ ],
+ "order": [
+  "mysql.describe_table",
+  "mysql.execute_sql",
+  "postgres.get_object_details",
+  "sqlite.create_table",
+  "sqlite.describe_table",
+  "sqlite.read_query"
+ ],
+ "scores": {
+  "mysql.describe_table": 0.48508272991084167,
+  "mysql.execute_sql": 0.03920054684865005,
+  "postgres.get_object_details": 0.03006936179096478,
+  "sqlite.create_table": 0.03348473852793551,
+  "sqlite.describe_table": 0.20725124415519536,
+  "sqlite.read_query": 0.1366079375328122
+ },
+ "router_tokens": 0,
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "mysql.describe_table",
+   "args": {
+    "table": "products"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 6,
+   "tool_tokens": 500,
+   "t": 1791321341.6923323
+  },
+  {
+   "type": "call",
+   "tool": "mysql__describe_table",
+   "valid": true,
+   "t": 1791321353.723187
+  }
+ ],
+ "done": true,
+ "t_done": 1791321357.9508762,
+ "final": ""
+}

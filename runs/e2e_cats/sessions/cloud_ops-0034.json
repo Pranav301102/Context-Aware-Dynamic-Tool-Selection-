@@ -1,0 +1,67 @@
+{
+ "task_id": "cloud_ops-0034",
+ "mode": "cats",
+ "loaded": [
+  "aws.cloudwatch_describe_alarms",
+  "gitlab.create_issue",
+  "gitlab.get_pipeline_job_output",
+  "gitlab.list_issues",
+  "gitlab.list_pipelines",
+  "gitlab.retry_pipeline",
+  "aws.s3_get_object",
+  "aws.s3_put_object",
+  "aws.s3_list_objects",
+  "aws.s3_list_buckets",
+  "docker.list_containers"
+ ],
+ "order": [
+  "aws.cloudwatch_describe_alarms",
+  "gitlab.create_issue",
+  "gitlab.get_pipeline_job_output",
+  "gitlab.list_issues",
+  "gitlab.list_pipelines",
+  "gitlab.retry_pipeline",
+  "aws.s3_get_object",
+  "aws.s3_put_object",
+  "aws.s3_list_objects",
+  "aws.s3_list_buckets",
+  "docker.list_containers"
+ ],
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "aws.s3_get_object",
+   "args": {
+    "bucket": "acme-tf-state",
+    "key": "infra/prod/terraform.tfstate"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 6,
+   "tool_tokens": 1437
+  },
+  {
+   "type": "request_tools",
+   "capability": "read the contents of an object/file stored in an S3 bucket (get object by bucket name and key)",
+   "added": [
+    "aws.s3_get_object",
+    "aws.s3_put_object",
+    "aws.s3_list_objects",
+    "aws.s3_list_buckets",
+    "docker.list_containers"
+   ],
+   "tool_tokens": 2381
+  },
+  {
+   "type": "call",
+   "tool": "aws__s3_get_object",
+   "valid": true
+  }
+ ],
+ "done": true,
+ "final": ""
+}

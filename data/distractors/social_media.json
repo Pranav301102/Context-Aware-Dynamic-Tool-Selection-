@@ -1,0 +1,1094 @@
+{
+  "branch": {
+    "id": "social_media",
+    "name": "Social Media",
+    "summary": "Social media management: publishing and scheduling posts on X, LinkedIn and Instagram, replying to comments and mentions, follower and post engagement analytics, and social listening for brand mentions and sentiment."
+  },
+  "toolkits": [
+    {
+      "id": "x_api",
+      "name": "X (Twitter) API v2",
+      "server": "mcp://x",
+      "summary": "Publish, search and read posts, mentions, followers and engagement metrics on X.",
+      "tools": [
+        {
+          "name": "create_post",
+          "description": "Publish a post on X. Supports replies, quote posts, polls and media uploaded with upload_media.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "text": {
+                "type": "string",
+                "description": "Post text (max 280 characters for standard accounts)."
+              },
+              "reply_to_post_id": {
+                "type": "string",
+                "description": "Post to reply to."
+              },
+              "quote_post_id": {
+                "type": "string",
+                "description": "Post to quote."
+              },
+              "media_ids": {
+                "type": "array",
+                "description": "Media ids from upload_media (max 4).",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "poll": {
+                "type": "object",
+                "description": "Poll.",
+                "properties": {
+                  "options": {
+                    "type": "array",
+                    "description": "2-4 options.",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "duration_minutes": {
+                    "type": "integer",
+                    "description": "Duration.",
+                    "default": 1440
+                  }
+                },
+                "required": [
+                  "options"
+                ]
+              },
+              "reply_settings": {
+                "type": "string",
+                "description": "Who can reply.",
+                "enum": [
+                  "everyone",
+                  "mentionedUsers",
+                  "following"
+                ],
+                "default": "everyone"
+              }
+            },
+            "required": [
+              "text"
+            ]
+          }
+        },
+        {
+          "name": "delete_post",
+          "description": "Delete a post.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "post_id": {
+                "type": "string",
+                "description": "Post id."
+              }
+            },
+            "required": [
+              "post_id"
+            ]
+          }
+        },
+        {
+          "name": "search_recent_posts",
+          "description": "Search posts from the last 7 days using X query operators such as from:, #hashtag, -is:retweet and lang:.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string",
+                "description": "Search query."
+              },
+              "max_results": {
+                "type": "integer",
+                "description": "10-100.",
+                "default": 10
+              },
+              "start_time": {
+                "type": "string",
+                "description": "ISO 8601."
+              },
+              "end_time": {
+                "type": "string",
+                "description": "ISO 8601."
+              },
+              "sort_order": {
+                "type": "string",
+                "description": "Order.",
+                "enum": [
+                  "recency",
+                  "relevancy"
+                ],
+                "default": "recency"
+              },
+              "tweet_fields": {
+                "type": "array",
+                "description": "Extra fields.",
+                "items": {
+                  "type": "string",
+                  "description": "Field.",
+                  "enum": [
+                    "created_at",
+                    "public_metrics",
+                    "author_id",
+                    "lang",
+                    "entities"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "query"
+            ]
+          }
+        },
+        {
+          "name": "get_user_timeline",
+          "description": "Get user timeline.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "username": {
+                "type": "string",
+                "description": "Handle without @."
+              },
+              "max_results": {
+                "type": "integer",
+                "description": "Max.",
+                "default": 20
+              },
+              "exclude": {
+                "type": "array",
+                "description": "Exclude.",
+                "items": {
+                  "type": "string",
+                  "description": "Type.",
+                  "enum": [
+                    "retweets",
+                    "replies"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "username"
+            ]
+          }
+        },
+        {
+          "name": "get_post_metrics",
+          "description": "Get impressions, likes, reposts, replies, bookmarks and link clicks for posts you own.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "post_ids": {
+                "type": "array",
+                "description": "Post ids (max 100).",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": [
+              "post_ids"
+            ]
+          }
+        },
+        {
+          "name": "get_mentions",
+          "description": "Get recent posts mentioning a user.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "user_id": {
+                "type": "string",
+                "description": "User id."
+              },
+              "since_id": {
+                "type": "string",
+                "description": "Only newer than this post."
+              },
+              "max_results": {
+                "type": "integer",
+                "description": "Max.",
+                "default": 20
+              }
+            },
+            "required": [
+              "user_id"
+            ]
+          }
+        },
+        {
+          "name": "upload_media",
+          "description": "Upload an image, GIF or video and get a media_id for create_post.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "media_url": {
+                "type": "string",
+                "description": "Public URL of the file."
+              },
+              "media_base64": {
+                "type": "string",
+                "description": "Or base64 contents."
+              },
+              "media_category": {
+                "type": "string",
+                "description": "Category.",
+                "enum": [
+                  "tweet_image",
+                  "tweet_gif",
+                  "tweet_video"
+                ]
+              },
+              "alt_text": {
+                "type": "string",
+                "description": "Accessibility description."
+              }
+            }
+          }
+        },
+        {
+          "name": "get_followers",
+          "description": "List followers.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "user_id": {
+                "type": "string",
+                "description": "User id."
+              },
+              "max_results": {
+                "type": "integer",
+                "description": "Max.",
+                "default": 100
+              }
+            },
+            "required": [
+              "user_id"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "linkedin_pages",
+      "name": "LinkedIn Pages",
+      "server": "mcp://linkedin",
+      "summary": "Publish to LinkedIn company pages and member profiles and read page and post analytics.",
+      "tools": [
+        {
+          "name": "create_post",
+          "description": "Create a post on behalf of an organization page or member, optionally with an article link or images.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "author_urn": {
+                "type": "string",
+                "description": "urn:li:organization:{id} or urn:li:person:{id}."
+              },
+              "commentary": {
+                "type": "string",
+                "description": "Post text."
+              },
+              "visibility": {
+                "type": "string",
+                "description": "Visibility.",
+                "enum": [
+                  "PUBLIC",
+                  "CONNECTIONS",
+                  "LOGGED_IN"
+                ],
+                "default": "PUBLIC"
+              },
+              "article": {
+                "type": "object",
+                "description": "Link preview.",
+                "properties": {
+                  "source_url": {
+                    "type": "string",
+                    "description": "URL."
+                  },
+                  "title": {
+                    "type": "string",
+                    "description": "Title."
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "Description."
+                  }
+                }
+              },
+              "image_urns": {
+                "type": "array",
+                "description": "Uploaded image URNs.",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "lifecycle_state": {
+                "type": "string",
+                "description": "Publish or save as draft.",
+                "enum": [
+                  "PUBLISHED",
+                  "DRAFT"
+                ],
+                "default": "PUBLISHED"
+              }
+            },
+            "required": [
+              "author_urn",
+              "commentary"
+            ]
+          }
+        },
+        {
+          "name": "list_organization_posts",
+          "description": "List posts by an organization.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "organization_urn": {
+                "type": "string",
+                "description": "Organization URN."
+              },
+              "count": {
+                "type": "integer",
+                "description": "Max.",
+                "default": 20
+              },
+              "sort": {
+                "type": "string",
+                "description": "Sort.",
+                "enum": [
+                  "LAST_MODIFIED",
+                  "CREATED"
+                ],
+                "default": "LAST_MODIFIED"
+              }
+            },
+            "required": [
+              "organization_urn"
+            ]
+          }
+        },
+        {
+          "name": "get_share_statistics",
+          "description": "Impressions, clicks, CTR, reactions, comments, reposts and engagement rate for a page's posts, overall or per post, with optional daily or monthly breakdown.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "organization_urn": {
+                "type": "string",
+                "description": "Organization URN."
+              },
+              "share_urns": {
+                "type": "array",
+                "description": "Specific posts.",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "time_granularity": {
+                "type": "string",
+                "description": "Breakdown.",
+                "enum": [
+                  "DAY",
+                  "MONTH"
+                ]
+              },
+              "start": {
+                "type": "string",
+                "description": "From (YYYY-MM-DD)."
+              },
+              "end": {
+                "type": "string",
+                "description": "To (YYYY-MM-DD)."
+              }
+            },
+            "required": [
+              "organization_urn"
+            ]
+          }
+        },
+        {
+          "name": "get_follower_statistics",
+          "description": "Follower counts and follower demographics (seniority, industry, function, region) for a page.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "organization_urn": {
+                "type": "string",
+                "description": "Organization URN."
+              },
+              "start": {
+                "type": "string",
+                "description": "From (YYYY-MM-DD)."
+              },
+              "end": {
+                "type": "string",
+                "description": "To (YYYY-MM-DD)."
+              }
+            },
+            "required": [
+              "organization_urn"
+            ]
+          }
+        },
+        {
+          "name": "comment_on_post",
+          "description": "Comment on post.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "post_urn": {
+                "type": "string",
+                "description": "Post URN."
+              },
+              "actor_urn": {
+                "type": "string",
+                "description": "Commenting member or org."
+              },
+              "text": {
+                "type": "string",
+                "description": "Comment."
+              }
+            },
+            "required": [
+              "post_urn",
+              "text"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "instagram_graph",
+      "name": "Instagram Graph API",
+      "server": "mcp://instagram",
+      "summary": "Publish media and read insights, comments and hashtags for Instagram professional accounts.",
+      "tools": [
+        {
+          "name": "publish_media",
+          "description": "Publish a photo, carousel, Reel or story to an Instagram professional account. Creates the media container and publishes it once processing finishes.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "ig_user_id": {
+                "type": "string",
+                "description": "Instagram account id."
+              },
+              "media_type": {
+                "type": "string",
+                "description": "Media type.",
+                "enum": [
+                  "IMAGE",
+                  "CAROUSEL",
+                  "REELS",
+                  "STORIES"
+                ]
+              },
+              "image_url": {
+                "type": "string",
+                "description": "Public JPEG URL."
+              },
+              "video_url": {
+                "type": "string",
+                "description": "Public video URL."
+              },
+              "children": {
+                "type": "array",
+                "description": "Carousel item URLs (2-10).",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "caption": {
+                "type": "string",
+                "description": "Caption with hashtags."
+              },
+              "location_id": {
+                "type": "string",
+                "description": "Facebook Page location id."
+              },
+              "user_tags": {
+                "type": "array",
+                "description": "Tagged users.",
+                "items": {
+                  "type": "object",
+                  "description": "Tag.",
+                  "properties": {
+                    "username": {
+                      "type": "string",
+                      "description": "Username."
+                    },
+                    "x": {
+                      "type": "number",
+                      "description": "0-1."
+                    },
+                    "y": {
+                      "type": "number",
+                      "description": "0-1."
+                    }
+                  }
+                }
+              },
+              "share_to_feed": {
+                "type": "boolean",
+                "description": "Also share a Reel to the feed.",
+                "default": true
+              }
+            },
+            "required": [
+              "ig_user_id",
+              "media_type"
+            ]
+          }
+        },
+        {
+          "name": "list_media",
+          "description": "List the account's posts.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "ig_user_id": {
+                "type": "string",
+                "description": "Account id."
+              },
+              "limit": {
+                "type": "integer",
+                "description": "Max.",
+                "default": 25
+              },
+              "since": {
+                "type": "string",
+                "description": "Unix time."
+              },
+              "until": {
+                "type": "string",
+                "description": "Unix time."
+              }
+            },
+            "required": [
+              "ig_user_id"
+            ]
+          }
+        },
+        {
+          "name": "get_media_insights",
+          "description": "Get reach, views, likes, comments, saves and shares for a post or Reel.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "media_id": {
+                "type": "string",
+                "description": "Media id."
+              },
+              "metrics": {
+                "type": "array",
+                "description": "Metrics.",
+                "items": {
+                  "type": "string",
+                  "description": "Metric.",
+                  "enum": [
+                    "reach",
+                    "views",
+                    "likes",
+                    "comments",
+                    "saved",
+                    "shares",
+                    "total_interactions"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "media_id"
+            ]
+          }
+        },
+        {
+          "name": "get_account_insights",
+          "description": "Account-level reach, profile views, follower growth and audience demographics.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "ig_user_id": {
+                "type": "string",
+                "description": "Account id."
+              },
+              "metrics": {
+                "type": "array",
+                "description": "Metrics.",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "period": {
+                "type": "string",
+                "description": "Period.",
+                "enum": [
+                  "day",
+                  "week",
+                  "days_28"
+                ],
+                "default": "day"
+              },
+              "breakdown": {
+                "type": "string",
+                "description": "Demographic breakdown.",
+                "enum": [
+                  "age",
+                  "gender",
+                  "city",
+                  "country"
+                ]
+              },
+              "since": {
+                "type": "string",
+                "description": "Unix time."
+              },
+              "until": {
+                "type": "string",
+                "description": "Unix time."
+              }
+            },
+            "required": [
+              "ig_user_id"
+            ]
+          }
+        },
+        {
+          "name": "list_comments",
+          "description": "List comments",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "media_id": {
+                "type": "string",
+                "description": "Media id."
+              }
+            },
+            "required": [
+              "media_id"
+            ]
+          }
+        },
+        {
+          "name": "reply_to_comment",
+          "description": "Reply to a comment on your media.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "comment_id": {
+                "type": "string",
+                "description": "Comment id."
+              },
+              "message": {
+                "type": "string",
+                "description": "Reply text."
+              }
+            },
+            "required": [
+              "comment_id",
+              "message"
+            ]
+          }
+        },
+        {
+          "name": "hide_comment",
+          "description": "Hide or unhide comment.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "comment_id": {
+                "type": "string",
+                "description": "Comment id."
+              },
+              "hide": {
+                "type": "boolean",
+                "description": "Hide.",
+                "default": true
+              }
+            },
+            "required": [
+              "comment_id"
+            ]
+          }
+        },
+        {
+          "name": "search_hashtag",
+          "description": "Get top or recent public media for a hashtag.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "hashtag": {
+                "type": "string",
+                "description": "Hashtag without #."
+              },
+              "type": {
+                "type": "string",
+                "description": "Which media.",
+                "enum": [
+                  "top",
+                  "recent"
+                ],
+                "default": "top"
+              },
+              "ig_user_id": {
+                "type": "string",
+                "description": "Querying account id."
+              }
+            },
+            "required": [
+              "hashtag",
+              "ig_user_id"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "buffer_publish",
+      "name": "Buffer",
+      "server": "mcp://buffer",
+      "summary": "Schedule and queue posts across connected social channels and review post performance.",
+      "tools": [
+        {
+          "name": "list_channels",
+          "description": "List connected channels.",
+          "input_schema": {
+            "type": "object",
+            "properties": {}
+          }
+        },
+        {
+          "name": "schedule_post",
+          "description": "Schedule a post to one or more social channels at a specific time, or add it to each channel's queue.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "channel_ids": {
+                "type": "array",
+                "description": "Channels to post to.",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "text": {
+                "type": "string",
+                "description": "Post text."
+              },
+              "media": {
+                "type": "array",
+                "description": "Attachments.",
+                "items": {
+                  "type": "object",
+                  "description": "Media.",
+                  "properties": {
+                    "url": {
+                      "type": "string",
+                      "description": "Public URL."
+                    },
+                    "alt_text": {
+                      "type": "string",
+                      "description": "Alt text."
+                    },
+                    "type": {
+                      "type": "string",
+                      "description": "Type.",
+                      "enum": [
+                        "image",
+                        "video",
+                        "gif"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "url"
+                  ]
+                }
+              },
+              "scheduled_at": {
+                "type": "string",
+                "description": "Publish time (ISO 8601). Omit to add to the queue."
+              },
+              "share_now": {
+                "type": "boolean",
+                "description": "Publish immediately.",
+                "default": false
+              },
+              "link_url": {
+                "type": "string",
+                "description": "Link to attach."
+              },
+              "first_comment": {
+                "type": "string",
+                "description": "Auto-post as first comment (Instagram, LinkedIn)."
+              },
+              "tags": {
+                "type": "array",
+                "description": "Internal tags.",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": [
+              "channel_ids",
+              "text"
+            ]
+          }
+        },
+        {
+          "name": "list_scheduled_posts",
+          "description": "List queued, sent, draft or failed posts for a channel.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "channel_id": {
+                "type": "string",
+                "description": "Channel id."
+              },
+              "status": {
+                "type": "string",
+                "description": "Status.",
+                "enum": [
+                  "scheduled",
+                  "sent",
+                  "draft",
+                  "failed"
+                ],
+                "default": "scheduled"
+              },
+              "start_date": {
+                "type": "string",
+                "description": "From (YYYY-MM-DD)."
+              },
+              "end_date": {
+                "type": "string",
+                "description": "To (YYYY-MM-DD)."
+              }
+            }
+          }
+        },
+        {
+          "name": "update_scheduled_post",
+          "description": "Edit the text, media or time of a scheduled post.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "post_id": {
+                "type": "string",
+                "description": "Post id."
+              },
+              "text": {
+                "type": "string",
+                "description": "New text."
+              },
+              "scheduled_at": {
+                "type": "string",
+                "description": "New time (ISO 8601)."
+              },
+              "media": {
+                "type": "array",
+                "description": "Replace media.",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": [
+              "post_id"
+            ]
+          }
+        },
+        {
+          "name": "delete_scheduled_post",
+          "description": "Delete post.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "post_id": {
+                "type": "string",
+                "description": "Post id."
+              }
+            },
+            "required": [
+              "post_id"
+            ]
+          }
+        },
+        {
+          "name": "get_post_analytics",
+          "description": "Get clicks, likes, comments, shares and reach for sent posts.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "channel_id": {
+                "type": "string",
+                "description": "Channel id."
+              },
+              "post_ids": {
+                "type": "array",
+                "description": "Post ids.",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "start_date": {
+                "type": "string",
+                "description": "From (YYYY-MM-DD)."
+              },
+              "end_date": {
+                "type": "string",
+                "description": "To (YYYY-MM-DD)."
+              }
+            }
+          }
+        },
+        {
+          "name": "suggest_best_time",
+          "description": "Suggest the best times to post on a channel based on past engagement.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "channel_id": {
+                "type": "string",
+                "description": "Channel id."
+              }
+            },
+            "required": [
+              "channel_id"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "brandwatch",
+      "name": "Brandwatch Consumer Research",
+      "server": "mcp://brandwatch",
+      "summary": "Social listening: brand mentions, sentiment and trending topics across social, news and forums.",
+      "tools": [
+        {
+          "name": "search_mentions",
+          "description": "Search public mentions of a brand, keyword or hashtag across social networks, news, blogs and forums.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string",
+                "description": "Boolean query, e.g. '(acme OR \"acme corp\") AND NOT jobs'."
+              },
+              "sources": {
+                "type": "array",
+                "description": "Sources.",
+                "items": {
+                  "type": "string",
+                  "description": "Source.",
+                  "enum": [
+                    "x",
+                    "instagram",
+                    "reddit",
+                    "facebook",
+                    "news",
+                    "blogs",
+                    "forums",
+                    "youtube",
+                    "tiktok"
+                  ]
+                }
+              },
+              "sentiment": {
+                "type": "string",
+                "description": "Sentiment.",
+                "enum": [
+                  "positive",
+                  "negative",
+                  "neutral"
+                ]
+              },
+              "start_date": {
+                "type": "string",
+                "description": "From (YYYY-MM-DD)."
+              },
+              "end_date": {
+                "type": "string",
+                "description": "To (YYYY-MM-DD)."
+              },
+              "language": {
+                "type": "string",
+                "description": "ISO language code."
+              },
+              "limit": {
+                "type": "integer",
+                "description": "Max.",
+                "default": 50
+              }
+            },
+            "required": [
+              "query"
+            ]
+          }
+        },
+        {
+          "name": "get_sentiment_summary",
+          "description": "Sentiment over time.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "query_id": {
+                "type": "string",
+                "description": "Saved query id."
+              },
+              "start_date": {
+                "type": "string",
+                "description": "From (YYYY-MM-DD)."
+              },
+              "end_date": {
+                "type": "string",
+                "description": "To (YYYY-MM-DD)."
+              },
+              "interval": {
+                "type": "string",
+                "description": "Bucket.",
+                "enum": [
+                  "hour",
+                  "day",
+                  "week"
+                ],
+                "default": "day"
+              }
+            },
+            "required": [
+              "query_id"
+            ]
+          }
+        },
+        {
+          "name": "get_trending_topics",
+          "description": "Get trending topics, hashtags and emerging conversations for a saved query.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "query_id": {
+                "type": "string",
+                "description": "Saved query id."
+              },
+              "limit": {
+                "type": "integer",
+                "description": "Max topics.",
+                "default": 20
+              }
+            },
+            "required": [
+              "query_id"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

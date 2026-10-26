@@ -1,0 +1,69 @@
+{
+ "task_id": "crm_commerce-0042",
+ "mode": "cats",
+ "loaded": [
+  "hubspot.hubspot_create_deal",
+  "hubspot.hubspot_create_engagement",
+  "salesforce.salesforce_convert_lead",
+  "salesforce.salesforce_create_lead",
+  "salesforce.salesforce_create_opportunity",
+  "salesforce.salesforce_create_task",
+  "salesforce.salesforce_describe_object",
+  "salesforce.salesforce_search_all",
+  "salesforce.salesforce_update_opportunity"
+ ],
+ "order": [
+  "hubspot.hubspot_create_deal",
+  "hubspot.hubspot_create_engagement",
+  "salesforce.salesforce_convert_lead",
+  "salesforce.salesforce_create_lead",
+  "salesforce.salesforce_create_opportunity",
+  "salesforce.salesforce_create_task",
+  "salesforce.salesforce_describe_object",
+  "salesforce.salesforce_search_all",
+  "salesforce.salesforce_update_opportunity"
+ ],
+ "scores": {
+  "hubspot.hubspot_create_deal": 0.049468651966997484,
+  "hubspot.hubspot_create_engagement": 0.02615932414326634,
+  "salesforce.salesforce_convert_lead": 0.08705035560344745,
+  "salesforce.salesforce_create_lead": 0.14592238723854553,
+  "salesforce.salesforce_create_opportunity": 0.4357956351489659,
+  "salesforce.salesforce_create_task": 0.584743631687289,
+  "salesforce.salesforce_describe_object": 0.05596898573187712,
+  "salesforce.salesforce_search_all": 0.03679463597960458,
+  "salesforce.salesforce_update_opportunity": 0.1241543248064744
+ },
+ "router_tokens": 0,
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "salesforce.salesforce_create_opportunity",
+   "args": {
+    "Name": "Stark Industries - Renewal",
+    "AccountId": "001Ax00000PpT2",
+    "StageName": "Prospecting",
+    "CloseDate": "2027-03-31",
+    "Amount": 75000
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 9,
+   "tool_tokens": 2215,
+   "t": 1791321015.1416667
+  },
+  {
+   "type": "call",
+   "tool": "salesforce__salesforce_create_opportunity",
+   "valid": true,
+   "t": 1791321024.682282
+  }
+ ],
+ "done": true,
+ "t_done": 1791321029.398394,
+ "final": ""
+}

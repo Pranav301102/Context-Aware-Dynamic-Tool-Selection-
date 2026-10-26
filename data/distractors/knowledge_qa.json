@@ -1,0 +1,858 @@
+{
+  "branch": {
+    "id": "knowledge_qa",
+    "name": "Knowledge & Q&A",
+    "summary": "Internal knowledge and question answering: searching and maintaining a company wiki of verified answers, FAQ chatbot knowledge and performance, business glossary terms and definitions, and building forms and surveys and collecting their responses."
+  },
+  "toolkits": [
+    {
+      "id": "guru",
+      "name": "Guru",
+      "server": "mcp://guru",
+      "summary": "Company knowledge base of verified cards, with AI answers to employee questions.",
+      "tools": [
+        {
+          "name": "search_cards",
+          "description": "Search verified knowledge cards by keyword across collections the user can access.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string"
+              },
+              "collection_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "verification_state": {
+                "type": "string",
+                "enum": [
+                  "trusted",
+                  "needs_verification"
+                ]
+              },
+              "tags": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "max_results": {
+                "type": "integer",
+                "default": 20
+              }
+            },
+            "required": [
+              "query"
+            ]
+          }
+        },
+        {
+          "name": "get_card",
+          "description": "Get a card.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "card_id": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "card_id"
+            ]
+          }
+        },
+        {
+          "name": "create_card",
+          "description": "Create a knowledge card in a collection with a verifier and verification interval.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "title": {
+                "type": "string"
+              },
+              "content": {
+                "type": "string",
+                "description": "HTML or Markdown body."
+              },
+              "collection_id": {
+                "type": "string"
+              },
+              "folder_id": {
+                "type": "string"
+              },
+              "tags": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "verifier": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "user",
+                      "group"
+                    ]
+                  },
+                  "id": {
+                    "type": "string"
+                  }
+                }
+              },
+              "verification_interval_days": {
+                "type": "integer",
+                "enum": [
+                  7,
+                  14,
+                  30,
+                  90,
+                  180,
+                  365
+                ],
+                "default": 90
+              }
+            },
+            "required": [
+              "title",
+              "content",
+              "collection_id"
+            ]
+          }
+        },
+        {
+          "name": "update_card",
+          "description": "Edit a card's title, content or tags.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "card_id": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              },
+              "content": {
+                "type": "string"
+              },
+              "tags": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": [
+              "card_id"
+            ]
+          }
+        },
+        {
+          "name": "verify_card",
+          "description": "Mark a card as verified.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "card_id": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "card_id"
+            ]
+          }
+        },
+        {
+          "name": "ask_question",
+          "description": "Ask a natural-language question and get an AI-generated answer synthesized from company knowledge cards and connected sources, with citations.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "question": {
+                "type": "string"
+              },
+              "collection_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "include_sources": {
+                "type": "boolean",
+                "default": true
+              }
+            },
+            "required": [
+              "question"
+            ]
+          }
+        },
+        {
+          "name": "list_collections",
+          "description": "List collections.",
+          "input_schema": {
+            "type": "object",
+            "properties": {}
+          }
+        }
+      ]
+    },
+    {
+      "id": "ada_support",
+      "name": "Ada",
+      "server": "mcp://ada",
+      "summary": "AI customer service / FAQ bot: knowledge articles, bot answer testing, conversations and resolution metrics.",
+      "tools": [
+        {
+          "name": "list_knowledge_articles",
+          "description": "List articles in the bot's knowledge base.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "language": {
+                "type": "string"
+              },
+              "tag": {
+                "type": "string"
+              },
+              "updated_since": {
+                "type": "string"
+              },
+              "limit": {
+                "type": "integer"
+              }
+            }
+          }
+        },
+        {
+          "name": "upsert_knowledge_article",
+          "description": "Create or update an article the FAQ bot uses to answer customer questions.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "article_id": {
+                "type": "string",
+                "description": "Your external ID; existing articles with this ID are updated."
+              },
+              "title": {
+                "type": "string"
+              },
+              "content": {
+                "type": "string",
+                "description": "Markdown."
+              },
+              "url": {
+                "type": "string"
+              },
+              "language": {
+                "type": "string",
+                "default": "en"
+              },
+              "tags": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "enabled": {
+                "type": "boolean",
+                "default": true
+              }
+            },
+            "required": [
+              "article_id",
+              "title",
+              "content"
+            ]
+          }
+        },
+        {
+          "name": "test_bot_response",
+          "description": "Send a test question to the bot and return the answer it would give, with the articles it used.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "question": {
+                "type": "string"
+              },
+              "language": {
+                "type": "string"
+              },
+              "channel": {
+                "type": "string",
+                "enum": [
+                  "web_chat",
+                  "email",
+                  "sms",
+                  "voice"
+                ],
+                "default": "web_chat"
+              },
+              "metadata": {
+                "type": "object",
+                "description": "Customer attributes to simulate, e.g. plan or region.",
+                "additionalProperties": true
+              }
+            },
+            "required": [
+              "question"
+            ]
+          }
+        },
+        {
+          "name": "get_conversation",
+          "description": "Get a conversation transcript.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "conversation_id": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "conversation_id"
+            ]
+          }
+        },
+        {
+          "name": "get_resolution_metrics",
+          "description": "Automated resolution rate, containment, handoffs to human agents and CSAT for a date range.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "start_date": {
+                "type": "string"
+              },
+              "end_date": {
+                "type": "string"
+              },
+              "channel": {
+                "type": "string",
+                "enum": [
+                  "web_chat",
+                  "email",
+                  "sms",
+                  "voice"
+                ]
+              },
+              "group_by": {
+                "type": "string",
+                "enum": [
+                  "day",
+                  "week",
+                  "topic"
+                ],
+                "default": "day"
+              }
+            },
+            "required": [
+              "start_date",
+              "end_date"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "collibra",
+      "name": "Collibra Business Glossary",
+      "server": "mcp://collibra",
+      "summary": "Governed business glossary of terms, acronyms and definitions with stewardship workflows.",
+      "tools": [
+        {
+          "name": "search_glossary",
+          "description": "Search business glossary terms, acronyms and definitions.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string"
+              },
+              "domain_id": {
+                "type": "string"
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "candidate",
+                  "under_review",
+                  "accepted",
+                  "obsolete"
+                ]
+              },
+              "limit": {
+                "type": "integer",
+                "default": 20
+              }
+            },
+            "required": [
+              "query"
+            ]
+          }
+        },
+        {
+          "name": "get_term",
+          "description": "Get a term.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "term_id": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "term_id"
+            ]
+          }
+        },
+        {
+          "name": "create_term",
+          "description": "Propose a new business term with definition, synonyms, acronym, examples and steward.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "definition": {
+                "type": "string"
+              },
+              "domain_id": {
+                "type": "string"
+              },
+              "synonyms": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "acronym": {
+                "type": "string"
+              },
+              "examples": {
+                "type": "string"
+              },
+              "related_term_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "steward_user_id": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "name",
+              "definition",
+              "domain_id"
+            ]
+          }
+        },
+        {
+          "name": "propose_term_change",
+          "description": "Submit a change request for a term's definition, name, synonyms or acronym for steward approval.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "term_id": {
+                "type": "string"
+              },
+              "field": {
+                "type": "string",
+                "enum": [
+                  "definition",
+                  "name",
+                  "synonyms",
+                  "acronym",
+                  "examples"
+                ]
+              },
+              "new_value": {
+                "type": "string"
+              },
+              "rationale": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "term_id",
+              "field",
+              "new_value"
+            ]
+          }
+        },
+        {
+          "name": "list_domains",
+          "description": "List glossary domains.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "community_id": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "typeform",
+      "name": "Typeform",
+      "server": "mcp://typeform",
+      "summary": "Forms and surveys: build forms, collect and retrieve responses, insights and webhooks.",
+      "tools": [
+        {
+          "name": "create_form",
+          "description": "Create a form or survey with fields (short text, multiple choice, rating, opinion scale, email, date, etc.) and settings.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "title": {
+                "type": "string"
+              },
+              "fields": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "enum": [
+                        "short_text",
+                        "long_text",
+                        "multiple_choice",
+                        "dropdown",
+                        "rating",
+                        "opinion_scale",
+                        "email",
+                        "phone_number",
+                        "date",
+                        "yes_no",
+                        "number",
+                        "file_upload"
+                      ]
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "required": {
+                      "type": "boolean",
+                      "default": false
+                    },
+                    "properties": {
+                      "type": "object",
+                      "properties": {
+                        "choices": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "label": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        },
+                        "allow_multiple_selection": {
+                          "type": "boolean"
+                        },
+                        "steps": {
+                          "type": "integer",
+                          "description": "Scale steps for rating/opinion_scale."
+                        },
+                        "description": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "title"
+                  ]
+                }
+              },
+              "settings": {
+                "type": "object",
+                "properties": {
+                  "is_public": {
+                    "type": "boolean",
+                    "default": true
+                  },
+                  "language": {
+                    "type": "string",
+                    "default": "en"
+                  },
+                  "progress_bar": {
+                    "type": "string",
+                    "enum": [
+                      "percentage",
+                      "proportion"
+                    ]
+                  },
+                  "show_progress_bar": {
+                    "type": "boolean",
+                    "default": true
+                  }
+                }
+              },
+              "theme_id": {
+                "type": "string"
+              },
+              "workspace_id": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "title",
+              "fields"
+            ]
+          }
+        },
+        {
+          "name": "list_forms",
+          "description": "List forms.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "search": {
+                "type": "string"
+              },
+              "workspace_id": {
+                "type": "string"
+              },
+              "page": {
+                "type": "integer",
+                "default": 1
+              },
+              "page_size": {
+                "type": "integer",
+                "default": 10
+              }
+            }
+          }
+        },
+        {
+          "name": "get_form",
+          "description": "Get a form definition.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "form_id": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "form_id"
+            ]
+          }
+        },
+        {
+          "name": "list_responses",
+          "description": "Retrieve submitted responses for a form, filtered by date range, completion and search text.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "form_id": {
+                "type": "string"
+              },
+              "since": {
+                "type": "string"
+              },
+              "until": {
+                "type": "string"
+              },
+              "completed": {
+                "type": "boolean"
+              },
+              "query": {
+                "type": "string",
+                "description": "Search within answers."
+              },
+              "page_size": {
+                "type": "integer",
+                "default": 25,
+                "maximum": 1000
+              },
+              "sort": {
+                "type": "string",
+                "enum": [
+                  "submitted_at,desc",
+                  "submitted_at,asc"
+                ],
+                "default": "submitted_at,desc"
+              }
+            },
+            "required": [
+              "form_id"
+            ]
+          }
+        },
+        {
+          "name": "delete_responses",
+          "description": "Delete responses by ID.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "form_id": {
+                "type": "string"
+              },
+              "response_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": [
+              "form_id",
+              "response_ids"
+            ]
+          }
+        },
+        {
+          "name": "get_form_insights",
+          "description": "Views, starts, completion rate and average time.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "form_id": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "form_id"
+            ]
+          }
+        },
+        {
+          "name": "create_webhook",
+          "description": "Register a webhook that receives each new response.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "form_id": {
+                "type": "string"
+              },
+              "tag": {
+                "type": "string"
+              },
+              "url": {
+                "type": "string"
+              },
+              "enabled": {
+                "type": "boolean",
+                "default": true
+              },
+              "secret": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "form_id",
+              "tag",
+              "url"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "surveymonkey",
+      "name": "SurveyMonkey",
+      "server": "mcp://surveymonkey",
+      "summary": "Online surveys: list surveys, send survey invitations and summarize results.",
+      "tools": [
+        {
+          "name": "list_surveys",
+          "description": "List surveys.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "title": {
+                "type": "string"
+              },
+              "per_page": {
+                "type": "integer"
+              }
+            }
+          }
+        },
+        {
+          "name": "send_survey",
+          "description": "Send a survey to recipients by email via an email collector, with optional reminder.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "survey_id": {
+                "type": "string"
+              },
+              "recipients": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "email": {
+                      "type": "string"
+                    },
+                    "first_name": {
+                      "type": "string"
+                    },
+                    "last_name": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "email"
+                  ]
+                }
+              },
+              "subject": {
+                "type": "string"
+              },
+              "body": {
+                "type": "string"
+              },
+              "scheduled_date": {
+                "type": "string"
+              },
+              "reminder_after_days": {
+                "type": "integer"
+              }
+            },
+            "required": [
+              "survey_id",
+              "recipients"
+            ]
+          }
+        },
+        {
+          "name": "get_survey_summary",
+          "description": "Aggregated results per question (response counts, percentages, averages) and completion stats.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "survey_id": {
+                "type": "string"
+              },
+              "start_created_at": {
+                "type": "string"
+              },
+              "end_created_at": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "survey_id"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

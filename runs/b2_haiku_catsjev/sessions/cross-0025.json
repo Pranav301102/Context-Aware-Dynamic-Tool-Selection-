@@ -1,0 +1,89 @@
+{
+ "task_id": "cross-0025",
+ "mode": "cats",
+ "loaded": [
+  "pinecone.create_index_for_model",
+  "pinecone.describe_index_stats",
+  "pinecone.list_indexes",
+  "pinecone.search_records",
+  "pinecone.upsert_records",
+  "tavily.tavily_crawl",
+  "tavily.tavily_extract"
+ ],
+ "order": [
+  "pinecone.create_index_for_model",
+  "pinecone.describe_index_stats",
+  "pinecone.list_indexes",
+  "pinecone.search_records",
+  "pinecone.upsert_records",
+  "tavily.tavily_crawl",
+  "tavily.tavily_extract"
+ ],
+ "scores": {
+  "pinecone.create_index_for_model": 0.11969432921516325,
+  "pinecone.describe_index_stats": 0.4746158075734903,
+  "pinecone.list_indexes": 0.08225743660291414,
+  "pinecone.search_records": 0.06217934837077613,
+  "pinecone.upsert_records": 0.7938304443224059,
+  "tavily.tavily_crawl": 0.38114971061050074,
+  "tavily.tavily_extract": 0.04516908839978629
+ },
+ "router_tokens": 1454,
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "tavily.tavily_crawl",
+   "args": {
+    "url": "https://docs.pinecone.io",
+    "max_depth": 3,
+    "max_breadth": 20,
+    "limit": 100
+   }
+  },
+  {
+   "tool": "pinecone.upsert_records",
+   "args": {
+    "name": "docs-kb",
+    "namespace": "pages",
+    "records": [
+     {
+      "id": "page_1",
+      "chunk_text": "Pinecone documentation introduction",
+      "title": "Getting Started",
+      "url": "https://docs.pinecone.io"
+     },
+     {
+      "id": "page_2",
+      "chunk_text": "API reference and endpoints",
+      "title": "API Reference",
+      "url": "https://docs.pinecone.io/api"
+     }
+    ]
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 7,
+   "tool_tokens": 1737,
+   "t": 1791321880.3659904
+  },
+  {
+   "type": "call",
+   "tool": "tavily__tavily_crawl",
+   "valid": true,
+   "t": 1791321893.2340016
+  },
+  {
+   "type": "call",
+   "tool": "pinecone__upsert_records",
+   "valid": true,
+   "t": 1791321906.2911303
+  }
+ ],
+ "done": true,
+ "t_done": 1791321911.3737092,
+ "final": ""
+}

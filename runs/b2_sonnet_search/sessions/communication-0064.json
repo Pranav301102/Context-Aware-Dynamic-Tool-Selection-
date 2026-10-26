@@ -1,0 +1,69 @@
+{
+ "task_id": "communication-0064",
+ "mode": "search",
+ "loaded": [
+  "gmail.send_email",
+  "gmail.draft_email",
+  "mailchimp.send_campaign",
+  "gmail.delete_email",
+  "gmail.read_email"
+ ],
+ "order": [
+  "gmail.send_email",
+  "gmail.draft_email",
+  "mailchimp.send_campaign",
+  "gmail.delete_email",
+  "gmail.read_email"
+ ],
+ "scores": {
+  "gmail.send_email": 2.0,
+  "gmail.draft_email": 2.0,
+  "mailchimp.send_campaign": 2.0,
+  "gmail.delete_email": 2.0,
+  "gmail.read_email": 2.0
+ },
+ "router_tokens": 0,
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "gmail.send_email",
+   "args": {
+    "to": [
+     "board@company.com"
+    ],
+    "cc": [
+     "cfo@company.com"
+    ],
+    "subject": "Q3 update",
+    "body": "Dear Board,\n\nPlease find the Q3 numbers below.\n\nBest regards"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0
+  },
+  {
+   "type": "request_tools",
+   "capability": "send an email with cc recipients",
+   "added": [
+    "gmail.send_email",
+    "gmail.draft_email",
+    "mailchimp.send_campaign",
+    "gmail.delete_email",
+    "gmail.read_email"
+   ],
+   "tool_tokens": 829
+  },
+  {
+   "type": "call",
+   "tool": "gmail__send_email",
+   "valid": true
+  }
+ ],
+ "done": true,
+ "final": ""
+}

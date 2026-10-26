@@ -1,0 +1,38 @@
+{
+ "task_id": "search-0026",
+ "mode": "cats",
+ "loaded": [
+  "tavily.tavily_crawl",
+  "tavily.tavily_extract",
+  "tavily.tavily_map"
+ ],
+ "order": [
+  "tavily.tavily_crawl",
+  "tavily.tavily_extract",
+  "tavily.tavily_map"
+ ],
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "tavily.tavily_map",
+   "args": {
+    "url": "https://stripe.com/docs"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 3,
+   "tool_tokens": 1187
+  },
+  {
+   "type": "call",
+   "tool": "tavily__tavily_map",
+   "valid": true
+  }
+ ],
+ "done": true,
+ "final": ""
+}

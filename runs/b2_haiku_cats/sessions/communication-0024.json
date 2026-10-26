@@ -1,0 +1,53 @@
+{
+ "task_id": "communication-0024",
+ "mode": "cats",
+ "loaded": [
+  "gmail.delete_email",
+  "gmail.draft_email",
+  "gmail.read_email",
+  "gmail.search_emails",
+  "gmail.send_email"
+ ],
+ "order": [
+  "gmail.delete_email",
+  "gmail.draft_email",
+  "gmail.read_email",
+  "gmail.search_emails",
+  "gmail.send_email"
+ ],
+ "scores": {
+  "gmail.delete_email": 0.03556636459481324,
+  "gmail.draft_email": 0.04155489174265196,
+  "gmail.read_email": 0.051581075980326706,
+  "gmail.search_emails": 0.812911563998777,
+  "gmail.send_email": 0.04538771520618745
+ },
+ "router_tokens": 0,
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "gmail.search_emails",
+   "args": {
+    "query": "1099"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 5,
+   "tool_tokens": 857,
+   "t": 1791321295.2726796
+  },
+  {
+   "type": "call",
+   "tool": "gmail__search_emails",
+   "valid": true,
+   "t": 1791321306.495287
+  }
+ ],
+ "done": true,
+ "t_done": 1791321311.3479135,
+ "final": ""
+}

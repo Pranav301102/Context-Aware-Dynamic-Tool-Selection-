@@ -1,0 +1,137 @@
+{
+ "task_id": "cross-0012",
+ "mode": "search",
+ "loaded": [
+  "google_drive.gdrive_share_file",
+  "google_drive.gdrive_search",
+  "google_drive.gdrive_upload_file",
+  "google_drive.gdrive_read_file",
+  "notion.notion_search",
+  "slack.post_message",
+  "slack.get_channel_history",
+  "slack.list_channels",
+  "slack.add_reaction",
+  "slack.get_thread_replies"
+ ],
+ "order": [
+  "google_drive.gdrive_share_file",
+  "google_drive.gdrive_search",
+  "google_drive.gdrive_upload_file",
+  "google_drive.gdrive_read_file",
+  "notion.notion_search",
+  "slack.post_message",
+  "slack.get_channel_history",
+  "slack.list_channels",
+  "slack.add_reaction",
+  "slack.get_thread_replies"
+ ],
+ "scores": {
+  "google_drive.gdrive_share_file": 2.0,
+  "google_drive.gdrive_search": 2.0,
+  "google_drive.gdrive_upload_file": 2.0,
+  "google_drive.gdrive_read_file": 2.0,
+  "notion.notion_search": 2.0,
+  "slack.post_message": 2.0,
+  "slack.get_channel_history": 2.0,
+  "slack.list_channels": 2.0,
+  "slack.add_reaction": 2.0,
+  "slack.get_thread_replies": 2.0
+ },
+ "router_tokens": 0,
+ "escalations": 2,
+ "calls": [
+  {
+   "tool": "google_drive.gdrive_search",
+   "args": {
+    "query": "name contains 'Offsite Agenda'",
+    "pageSize": 10
+   }
+  },
+  {
+   "tool": "google_drive.gdrive_share_file",
+   "args": {
+    "file_id": "offsite_agenda_file_id",
+    "permission": {
+     "type": "group",
+     "role": "reader",
+     "emailAddress": "team@acme.com"
+    }
+   }
+  },
+  {
+   "tool": "slack.list_channels",
+   "args": {
+    "limit": 200
+   }
+  },
+  {
+   "tool": "slack.post_message",
+   "args": {
+    "channel_id": "offsite",
+    "text": "Offsite Agenda doc (shared with team@acme.com): https://docs.google.com/document/d/offsite_agenda_file_id"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0,
+   "t": 1791320714.5266523
+  },
+  {
+   "type": "request_tools",
+   "capability": "search Google Drive for a file by name and share it with an email address",
+   "added": [
+    "google_drive.gdrive_share_file",
+    "google_drive.gdrive_search",
+    "google_drive.gdrive_upload_file",
+    "google_drive.gdrive_read_file",
+    "notion.notion_search"
+   ],
+   "tool_tokens": 1236,
+   "t": 1791320724.2193472
+  },
+  {
+   "type": "call",
+   "tool": "google_drive__gdrive_search",
+   "valid": true,
+   "t": 1791320732.7820246
+  },
+  {
+   "type": "call",
+   "tool": "google_drive__gdrive_share_file",
+   "valid": true,
+   "t": 1791320744.956608
+  },
+  {
+   "type": "request_tools",
+   "capability": "post a message to a Slack channel",
+   "added": [
+    "slack.post_message",
+    "slack.get_channel_history",
+    "slack.list_channels",
+    "slack.add_reaction",
+    "slack.get_thread_replies"
+   ],
+   "tool_tokens": 1744,
+   "t": 1791320751.5670702
+  },
+  {
+   "type": "call",
+   "tool": "slack__list_channels",
+   "valid": true,
+   "t": 1791320759.755906
+  },
+  {
+   "type": "call",
+   "tool": "slack__post_message",
+   "valid": true,
+   "t": 1791320767.8898356
+  }
+ ],
+ "done": true,
+ "t_done": 1791320772.4155464,
+ "final": ""
+}

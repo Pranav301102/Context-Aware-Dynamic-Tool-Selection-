@@ -1,0 +1,80 @@
+{
+ "task_id": "files_docs-0047",
+ "mode": "search",
+ "loaded": [
+  "google_drive.gdrive_move_file",
+  "google_drive.gdrive_create_folder",
+  "google_drive.gdrive_upload_file",
+  "filesystem.move_file",
+  "google_drive.gdrive_share_file"
+ ],
+ "order": [
+  "google_drive.gdrive_move_file",
+  "google_drive.gdrive_create_folder",
+  "google_drive.gdrive_upload_file",
+  "filesystem.move_file",
+  "google_drive.gdrive_share_file"
+ ],
+ "scores": {
+  "google_drive.gdrive_move_file": 2.0,
+  "google_drive.gdrive_create_folder": 2.0,
+  "google_drive.gdrive_upload_file": 2.0,
+  "filesystem.move_file": 2.0,
+  "google_drive.gdrive_share_file": 2.0
+ },
+ "router_tokens": 0,
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "google_drive.gdrive_create_folder",
+   "args": {
+    "name": "Client X"
+   }
+  },
+  {
+   "tool": "google_drive.gdrive_move_file",
+   "args": {
+    "file_id": "1sOwXyZ",
+    "new_parent_id": "client_x_folder_id",
+    "remove_from_current": true
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0,
+   "t": 1791321002.3541782
+  },
+  {
+   "type": "request_tools",
+   "capability": "create a folder in Google Drive and move a file into a folder",
+   "added": [
+    "google_drive.gdrive_move_file",
+    "google_drive.gdrive_create_folder",
+    "google_drive.gdrive_upload_file",
+    "filesystem.move_file",
+    "google_drive.gdrive_share_file"
+   ],
+   "tool_tokens": 902,
+   "t": 1791321007.7335513
+  },
+  {
+   "type": "call",
+   "tool": "google_drive__gdrive_create_folder",
+   "valid": true,
+   "t": 1791321014.540928
+  },
+  {
+   "type": "call",
+   "tool": "google_drive__gdrive_move_file",
+   "valid": true,
+   "t": 1791321023.149385
+  }
+ ],
+ "done": true,
+ "t_done": 1791321028.4315813,
+ "final": ""
+}

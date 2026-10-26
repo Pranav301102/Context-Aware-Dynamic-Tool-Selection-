@@ -1,0 +1,74 @@
+{
+ "task_id": "media-0064",
+ "mode": "cats",
+ "loaded": [
+  "deepl.get_languages",
+  "deepl.translate_document",
+  "deepl.translate_text",
+  "elevenlabs.speech_to_text",
+  "ffmpeg_video.extract_audio",
+  "ffmpeg_video.probe_media",
+  "google_cloud_ai.translate_text",
+  "openai_media.transcribe_audio",
+  "openai_media.translate_audio"
+ ],
+ "order": [
+  "deepl.get_languages",
+  "deepl.translate_document",
+  "deepl.translate_text",
+  "elevenlabs.speech_to_text",
+  "ffmpeg_video.extract_audio",
+  "ffmpeg_video.probe_media",
+  "google_cloud_ai.translate_text",
+  "openai_media.transcribe_audio",
+  "openai_media.translate_audio"
+ ],
+ "scores": {
+  "deepl.get_languages": 0.29553754228864637,
+  "deepl.translate_document": 0.21422943498873784,
+  "deepl.translate_text": 0.4148308764811201,
+  "elevenlabs.speech_to_text": 0.2756302034123053,
+  "ffmpeg_video.extract_audio": 0.11240242972019339,
+  "ffmpeg_video.probe_media": 0.08989517933812355,
+  "google_cloud_ai.translate_text": 0.10315237372780807,
+  "openai_media.transcribe_audio": 0.8712484077821748,
+  "openai_media.translate_audio": 0.5394891044717698
+ },
+ "router_tokens": 0,
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "openai_media.transcribe_audio",
+   "args": {
+    "file": "lecture.mp3"
+   }
+  },
+  {
+   "tool": "deepl.translate_text",
+   "args": {
+    "text": "<transcript of lecture.mp3>",
+    "targetLangCode": "es"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 9,
+   "tool_tokens": 1786
+  },
+  {
+   "type": "call",
+   "tool": "openai_media__transcribe_audio",
+   "valid": true
+  },
+  {
+   "type": "call",
+   "tool": "deepl__translate_text",
+   "valid": true
+  }
+ ],
+ "done": true,
+ "final": ""
+}

@@ -1,0 +1,52 @@
+{
+ "task_id": "finance-0009",
+ "mode": "cats",
+ "loaded": [
+  "alpha_vantage.currency_exchange_rate",
+  "frankfurter.get_historical_rates",
+  "frankfurter.get_latest_rates",
+  "frankfurter.get_time_series"
+ ],
+ "order": [
+  "alpha_vantage.currency_exchange_rate",
+  "frankfurter.get_historical_rates",
+  "frankfurter.get_latest_rates",
+  "frankfurter.get_time_series"
+ ],
+ "scores": {
+  "alpha_vantage.currency_exchange_rate": 0.17191554114649443,
+  "frankfurter.get_historical_rates": 0.9167969286850123,
+  "frankfurter.get_latest_rates": 0.3572018161379228,
+  "frankfurter.get_time_series": 0.2293980967813587
+ },
+ "router_tokens": 0,
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "frankfurter.get_historical_rates",
+   "args": {
+    "date": "2024-03-15",
+    "base": "EUR",
+    "symbols": "CHF"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 4,
+   "tool_tokens": 600,
+   "t": 1791320783.2694187
+  },
+  {
+   "type": "call",
+   "tool": "frankfurter__get_historical_rates",
+   "valid": true,
+   "t": 1791320796.349931
+  }
+ ],
+ "done": true,
+ "t_done": 1791320799.7268877,
+ "final": ""
+}

@@ -1,0 +1,54 @@
+{
+ "task_id": "communication-0012",
+ "mode": "cats",
+ "loaded": [
+  "discord.add_reaction",
+  "discord.create_text_channel",
+  "discord.read_messages",
+  "discord.send_message",
+  "slack.post_message"
+ ],
+ "order": [
+  "discord.add_reaction",
+  "discord.create_text_channel",
+  "discord.read_messages",
+  "discord.send_message",
+  "slack.post_message"
+ ],
+ "scores": {
+  "discord.add_reaction": 0.10579613362802662,
+  "discord.create_text_channel": 0.040893046873447574,
+  "discord.read_messages": 0.19075497323727392,
+  "discord.send_message": 0.9170837964258818,
+  "slack.post_message": 0.10991940445287163
+ },
+ "router_tokens": 0,
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "discord.send_message",
+   "args": {
+    "channelId": "112233445566",
+    "message": "Announcing: Game night is this Friday at 8pm! See you there!"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 5,
+   "tool_tokens": 503,
+   "t": 1791321999.412903
+  },
+  {
+   "type": "call",
+   "tool": "discord__send_message",
+   "valid": true,
+   "t": 1791322011.6684804
+  }
+ ],
+ "done": true,
+ "t_done": 1791322016.9680502,
+ "final": ""
+}

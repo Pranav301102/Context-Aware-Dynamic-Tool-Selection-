@@ -1,0 +1,61 @@
+{
+ "task_id": "crm_commerce-0044",
+ "mode": "search",
+ "loaded": [
+  "salesforce.salesforce_query_records",
+  "salesforce.salesforce_search_all",
+  "salesforce.salesforce_create_task",
+  "salesforce.salesforce_describe_object",
+  "salesforce.salesforce_create_contact"
+ ],
+ "order": [
+  "salesforce.salesforce_query_records",
+  "salesforce.salesforce_search_all",
+  "salesforce.salesforce_create_task",
+  "salesforce.salesforce_describe_object",
+  "salesforce.salesforce_create_contact"
+ ],
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "salesforce.salesforce_query_records",
+   "args": {
+    "objectName": "Account",
+    "fields": [
+     "Id",
+     "Name",
+     "BillingState",
+     "AnnualRevenue"
+    ],
+    "whereClause": "BillingState = 'CA' AND AnnualRevenue > 10000000"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0
+  },
+  {
+   "type": "request_tools",
+   "capability": "run a SOQL query against Salesforce records",
+   "added": [
+    "salesforce.salesforce_query_records",
+    "salesforce.salesforce_search_all",
+    "salesforce.salesforce_create_task",
+    "salesforce.salesforce_describe_object",
+    "salesforce.salesforce_create_contact"
+   ],
+   "tool_tokens": 1257
+  },
+  {
+   "type": "call",
+   "tool": "salesforce__salesforce_query_records",
+   "valid": true
+  }
+ ],
+ "done": true,
+ "final": ""
+}

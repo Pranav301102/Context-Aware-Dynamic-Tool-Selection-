@@ -1,0 +1,47 @@
+{
+ "task_id": "productivity-0070",
+ "mode": "cats",
+ "loaded": [
+  "apple_mcp.notes",
+  "apple_mcp.reminders"
+ ],
+ "order": [
+  "apple_mcp.notes",
+  "apple_mcp.reminders"
+ ],
+ "scores": {
+  "apple_mcp.notes": 0.6803339575084147,
+  "apple_mcp.reminders": 0.06332448207304152
+ },
+ "router_tokens": 1482,
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "apple_mcp.reminders",
+   "args": {
+    "operation": "create",
+    "name": "Check Gift ideas note",
+    "notes": "Lego set for Sam, scarf for mum (see Apple Note 'Gift ideas')",
+    "dueDate": "2026-12-01T09:00:00"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 2,
+   "tool_tokens": 518,
+   "t": 1791321899.02835
+  },
+  {
+   "type": "call",
+   "tool": "apple_mcp__reminders",
+   "valid": true,
+   "t": 1791321911.535404
+  }
+ ],
+ "done": true,
+ "t_done": 1791321917.8358185,
+ "final": ""
+}

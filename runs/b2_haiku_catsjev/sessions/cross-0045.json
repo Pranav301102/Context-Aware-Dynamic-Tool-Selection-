@@ -1,0 +1,87 @@
+{
+ "task_id": "cross-0045",
+ "mode": "cats",
+ "loaded": [
+  "deepl.translate_document",
+  "deepl.translate_text",
+  "gmail.send_email",
+  "google_cloud_ai.ocr_pdf_document",
+  "google_cloud_ai.translate_text",
+  "google_drive.gdrive_search",
+  "office_docs.docx_search_and_replace",
+  "openai_media.translate_audio",
+  "pdf_tools.pdf_extract_tables",
+  "pdf_tools.pdf_extract_text",
+  "pdf_tools.pdf_get_metadata",
+  "tavily.tavily_extract"
+ ],
+ "order": [
+  "deepl.translate_document",
+  "deepl.translate_text",
+  "gmail.send_email",
+  "google_cloud_ai.ocr_pdf_document",
+  "google_cloud_ai.translate_text",
+  "google_drive.gdrive_search",
+  "office_docs.docx_search_and_replace",
+  "openai_media.translate_audio",
+  "pdf_tools.pdf_extract_tables",
+  "pdf_tools.pdf_extract_text",
+  "pdf_tools.pdf_get_metadata",
+  "tavily.tavily_extract"
+ ],
+ "scores": {
+  "deepl.translate_document": 0.3114140833447961,
+  "deepl.translate_text": 0.7604928469885531,
+  "gmail.send_email": 0.06749363992367713,
+  "google_cloud_ai.ocr_pdf_document": 0.10339860160952956,
+  "google_cloud_ai.translate_text": 0.28361477444910677,
+  "google_drive.gdrive_search": 0.07908212115661377,
+  "office_docs.docx_search_and_replace": 0.4475563032702404,
+  "openai_media.translate_audio": 0.39346669256944056,
+  "pdf_tools.pdf_extract_tables": 0.44187341225518223,
+  "pdf_tools.pdf_extract_text": 0.8970027136184248,
+  "pdf_tools.pdf_get_metadata": 0.0730380868127916,
+  "tavily.tavily_extract": 0.14964506852205642
+ },
+ "router_tokens": 1444,
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "pdf_tools.pdf_extract_text",
+   "args": {
+    "path": "/home/user/contracts/nda_acme.pdf"
+   }
+  },
+  {
+   "tool": "deepl.translate_text",
+   "args": {
+    "text": "Termination: Either party may terminate this Agreement with thirty (30) days written notice to the other party. Upon termination, all confidential information shall be returned or destroyed.",
+    "targetLangCode": "ja"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 12,
+   "tool_tokens": 2234,
+   "t": 1791321732.6763566
+  },
+  {
+   "type": "call",
+   "tool": "pdf_tools__pdf_extract_text",
+   "valid": true,
+   "t": 1791321748.4550295
+  },
+  {
+   "type": "call",
+   "tool": "deepl__translate_text",
+   "valid": true,
+   "t": 1791321761.6082447
+  }
+ ],
+ "done": true,
+ "t_done": 1791321766.6438327,
+ "final": ""
+}

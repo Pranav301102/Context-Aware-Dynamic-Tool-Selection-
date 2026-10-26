@@ -1,0 +1,1605 @@
+{
+ "branch": {
+  "id": "bfcl_c19",
+  "name": "area / calculate / circle",
+  "summary": "Functions about area, calculate, circle, radius, given, rectangle, triangle, height, circumference, length, perimeter, paint."
+ },
+ "toolkits": [
+  {
+   "id": "area_circle",
+   "name": "area_circle",
+   "server": "bfcl://area_circle",
+   "summary": "Calculate the area of a circle given the radius.",
+   "tools": [
+    {
+     "name": "calculate",
+     "description": "Calculate the area of a circle given the radius.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "radius": {
+        "type": "number",
+        "description": "The radius of the circle."
+       }
+      },
+      "required": [
+       "radius"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "area_rectangle",
+   "name": "area_rectangle",
+   "server": "bfcl://area_rectangle",
+   "summary": "Calculate the area of a rectangle given the length and breadth.",
+   "tools": [
+    {
+     "name": "calculate",
+     "description": "Calculate the area of a rectangle given the length and breadth.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "length": {
+        "type": "number",
+        "description": "The length of the rectangle."
+       },
+       "breadth": {
+        "type": "number",
+        "description": "The breadth of the rectangle."
+       }
+      },
+      "required": [
+       "length",
+       "breadth"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "circle",
+   "name": "circle",
+   "server": "bfcl://circle",
+   "summary": "Calculate the area of a circle with given radius Calculate the area of a circle based on the radius.",
+   "tools": [
+    {
+     "name": "area",
+     "description": "Calculate the area of a circle with given radius",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "radius": {
+        "type": "number",
+        "description": "Radius of the circle"
+       },
+       "isDiameter": {
+        "type": "boolean",
+        "description": "Whether the given length is the diameter of the circle, default is false",
+        "default": false
+       }
+      },
+      "required": [
+       "radius"
+      ]
+     }
+    },
+    {
+     "name": "calculate_area",
+     "description": "Calculate the area of a circle based on the radius.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "radius": {
+        "type": "integer",
+        "description": "The radius of the circle."
+       }
+      },
+      "required": [
+       "radius"
+      ]
+     }
+    },
+    {
+     "name": "calculate_circumference",
+     "description": "Calculate the circumference of a circle based on the diameter.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "diameter": {
+        "type": "integer",
+        "description": "The diameter of the circle."
+       }
+      },
+      "required": [
+       "diameter"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "circle_properties",
+   "name": "circle_properties",
+   "server": "bfcl://circle_properties",
+   "summary": "Retrieve the dimensions, such as area and circumference, of a circle if radius is given. Retrieve the dimensions, such as area and circumference, of a circle if radius is given.",
+   "tools": [
+    {
+     "name": "get",
+     "description": "Retrieve the dimensions, such as area and circumference, of a circle if radius is given.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "radius": {
+        "type": "number",
+        "description": "The length of radius of the circle."
+       },
+       "get_area": {
+        "type": "boolean",
+        "description": "A flag to determine whether to calculate the area of circle. Default is true.",
+        "default": true,
+        "optional": true
+       },
+       "get_circumference": {
+        "type": "boolean",
+        "description": "A flag to determine whether to calculate the circumference of circle. Default is true.",
+        "default": true,
+        "optional": true
+       }
+      },
+      "required": [
+       "radius"
+      ]
+     }
+    },
+    {
+     "name": "get_2",
+     "description": "Retrieve the dimensions, such as area and circumference, of a circle if radius is given.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "radius": {
+        "type": "number",
+        "description": "The length of radius of the circle."
+       },
+       "get_area": {
+        "type": "boolean",
+        "description": "A flag to determine whether to calculate the area of circle. Default is true."
+       },
+       "get_circumference": {
+        "type": "boolean",
+        "description": "A flag to determine whether to calculate the circumference of circle. Default is true."
+       }
+      },
+      "required": [
+       "radius"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "geometry",
+   "name": "geometry",
+   "server": "bfcl://geometry",
+   "summary": "Calculate the area of a circle given the radius. Calculate the area of a circle given the radius.",
+   "tools": [
+    {
+     "name": "area_circle",
+     "description": "Calculate the area of a circle given the radius.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "radius": {
+        "type": "number",
+        "description": "The radius of the circle."
+       },
+       "units": {
+        "type": "string",
+        "description": "The units in which the radius is measured (defaults to meters).",
+        "default": "meters"
+       }
+      },
+      "required": [
+       "radius"
+      ]
+     }
+    },
+    {
+     "name": "area_circle_2",
+     "description": "Calculate the area of a circle given the radius.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "radius": {
+        "type": "integer",
+        "description": "The radius of the circle."
+       },
+       "units": {
+        "type": "string",
+        "description": "The units in which the radius is measured (defaults to meters).",
+        "default": "meters"
+       }
+      },
+      "required": [
+       "radius"
+      ]
+     }
+    },
+    {
+     "name": "area_circle_3",
+     "description": "Calculate the area of a circle given the radius.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "radius": {
+        "type": "integer",
+        "description": "The radius of the circle."
+       },
+       "units": {
+        "type": "string",
+        "description": "The units in which the radius is measured (defaults to 'meters')."
+       }
+      },
+      "required": [
+       "radius"
+      ]
+     }
+    },
+    {
+     "name": "area_triangle",
+     "description": "Calculate the area of a triangle.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "base": {
+        "type": "number",
+        "description": "The length of the base of the triangle."
+       },
+       "height": {
+        "type": "number",
+        "description": "The height of the triangle from the base."
+       },
+       "unit": {
+        "type": "string",
+        "description": "The measurement unit for the area. Defaults to square meters."
+       }
+      },
+      "required": [
+       "base",
+       "height"
+      ]
+     }
+    },
+    {
+     "name": "area_triangle_2",
+     "description": "Calculate the area of a triangle.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "base": {
+        "type": "integer",
+        "description": "The length of the base of the triangle."
+       },
+       "height": {
+        "type": "integer",
+        "description": "The height of the triangle from the base."
+       },
+       "unit": {
+        "type": "string",
+        "description": "The measurement unit for the area. Defaults to square meters."
+       }
+      },
+      "required": [
+       "base",
+       "height"
+      ]
+     }
+    },
+    {
+     "name": "calculate_area_circle",
+     "description": "Calculate the area of a circle given its radius.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "radius": {
+        "type": "number",
+        "description": "The radius of the circle."
+       },
+       "unit": {
+        "type": "string",
+        "description": "The measurement unit of the radius (optional parameter, default is 'units')."
+       }
+      },
+      "required": [
+       "radius"
+      ]
+     }
+    },
+    {
+     "name": "calculate_area_circle_2",
+     "description": "Calculate the area of a circle given its radius.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "radius": {
+        "type": "integer",
+        "description": "The radius of the circle."
+       },
+       "unit": {
+        "type": "string",
+        "description": "The measurement unit of the radius (optional parameter, default is 'cm')."
+       }
+      },
+      "required": [
+       "radius"
+      ]
+     }
+    },
+    {
+     "name": "calculate_area_circle_3",
+     "description": "Calculate the area of a circle given its radius.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "radius": {
+        "type": "integer",
+        "description": "The radius of the circle."
+       },
+       "unit": {
+        "type": "string",
+        "description": "The measurement unit of the radius (optional parameter, default is 'units')."
+       }
+      },
+      "required": [
+       "radius"
+      ]
+     }
+    },
+    {
+     "name": "calculate_cone_volume",
+     "description": "Calculate the volume of a cone given the radius and height.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "radius": {
+        "type": "number",
+        "description": "Radius of the cone base."
+       },
+       "height": {
+        "type": "number",
+        "description": "Height of the cone."
+       },
+       "round_off": {
+        "type": "integer",
+        "description": "Number of decimal places to round off the answer.",
+        "default": 2
+       }
+      },
+      "required": [
+       "radius",
+       "height"
+      ]
+     }
+    },
+    {
+     "name": "calculate_cone_volume_2",
+     "description": "Calculate the volume of a cone given the radius and height.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "radius": {
+        "type": "integer",
+        "description": "Radius of the cone base."
+       },
+       "height": {
+        "type": "integer",
+        "description": "Height of the cone."
+       },
+       "round_off": {
+        "type": "integer",
+        "description": "Number of decimal places to round off the answer. Default 0"
+       }
+      },
+      "required": [
+       "radius",
+       "height"
+      ]
+     }
+    },
+    {
+     "name": "circumference",
+     "description": "Calculate the circumference of a circle given the radius.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "radius": {
+        "type": "integer",
+        "description": "The radius of the circle."
+       },
+       "units": {
+        "type": "string",
+        "description": "Units for the output circumference measurement. Default is 'cm'."
+       }
+      },
+      "required": [
+       "radius"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "geometry_circle",
+   "name": "geometry_circle",
+   "server": "bfcl://geometry_circle",
+   "summary": "Calculates the area and circumference of a circle given the radius.",
+   "tools": [
+    {
+     "name": "calculate",
+     "description": "Calculates the area and circumference of a circle given the radius.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "radius": {
+        "type": "integer",
+        "description": "The radius of the circle."
+       }
+      },
+      "required": [
+       "radius"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "geometry_rectangle",
+   "name": "geometry_rectangle",
+   "server": "bfcl://geometry_rectangle",
+   "summary": "Calculates the area and perimeter of a rectangle given the width and length.",
+   "tools": [
+    {
+     "name": "calculate",
+     "description": "Calculates the area and perimeter of a rectangle given the width and length.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "width": {
+        "type": "integer",
+        "description": "The width of the rectangle."
+       },
+       "length": {
+        "type": "integer",
+        "description": "The length of the rectangle."
+       }
+      },
+      "required": [
+       "width",
+       "length"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "geometry_square",
+   "name": "geometry_square",
+   "server": "bfcl://geometry_square",
+   "summary": "Calculates the area and perimeter of a square given the side length.",
+   "tools": [
+    {
+     "name": "calculate",
+     "description": "Calculates the area and perimeter of a square given the side length.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "side": {
+        "type": "integer",
+        "description": "The length of a side of the square."
+       }
+      },
+      "required": [
+       "side"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "mathematics",
+   "name": "mathematics",
+   "server": "bfcl://mathematics",
+   "summary": "Calculate the area under the curve for a given polynomial function within a specified interval. Calculate the area under the curve for a given polynomial function within a specified interval.",
+   "tools": [
+    {
+     "name": "calculate_area_under_curve",
+     "description": "Calculate the area under the curve for a given polynomial function within a specified interval.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "polynomial": {
+        "type": "array",
+        "items": {
+         "type": "number"
+        },
+        "description": "The coefficients of the polynomial, in decreasing order of exponent, where the first element is the coefficient for x^n, the second element is the coefficient for x^(n-1), and so on. The last element is the constant term."
+       },
+       "limits": {
+        "type": "array",
+        "items": {
+         "type": "number"
+        },
+        "description": "A list of two numbers specifying the lower and upper limit for the integration interval."
+       }
+      },
+      "required": [
+       "polynomial",
+       "limits"
+      ]
+     }
+    },
+    {
+     "name": "calculate_area_under_curve_2",
+     "description": "Calculate the area under the curve for a given polynomial function within a specified interval.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "polynomial": {
+        "type": "array",
+        "items": {
+         "type": "integer"
+        },
+        "description": "The coefficients of the polynomial, in decreasing order of exponent, where the first element is the coefficient for x^n, the second element is the coefficient for x^(n-1), and so on. The last element is the constant term."
+       },
+       "limits": {
+        "type": "array",
+        "items": {
+         "type": "integer"
+        },
+        "description": "A list of two numbers specifying the lower and upper limit for the integration interval."
+       }
+      },
+      "required": [
+       "polynomial",
+       "limits"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "paint_color",
+   "name": "paint_color",
+   "server": "bfcl://paint_color",
+   "summary": "Find the most popular paint color for a specific area in the home. Find the most popular paint color for a specific area in the home.",
+   "tools": [
+    {
+     "name": "trends",
+     "description": "Find the most popular paint color for a specific area in the home.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "room": {
+        "type": "string",
+        "description": "Type of the room e.g. Living room, Bathroom etc."
+       },
+       "period": {
+        "type": "string",
+        "enum": [
+         "Daily",
+         "Weekly",
+         "Monthly",
+         "Yearly"
+        ],
+        "description": "The period over which to check the paint color trend. Default 'Daily'"
+       }
+      },
+      "required": [
+       "room"
+      ]
+     }
+    },
+    {
+     "name": "trends_2",
+     "description": "Find the most popular paint color for a specific area in the home.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "room": {
+        "type": "string",
+        "description": "Type of the room e.g. Living room, Bathroom etc."
+       },
+       "period": {
+        "type": "string",
+        "enum": [
+         "Daily",
+         "Weekly",
+         "Monthly",
+         "Quarterly"
+        ],
+        "description": "The period over which to check the paint color trend. Default is 'Monthly' if not specified."
+       }
+      },
+      "required": [
+       "room"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "paint_requirement",
+   "name": "paint_requirement",
+   "server": "bfcl://paint_requirement",
+   "summary": "Calculate the amount of paint required to paint a given area.",
+   "tools": [
+    {
+     "name": "calculate",
+     "description": "Calculate the amount of paint required to paint a given area. Account for coverage efficiency of the paint and exclusions (like windows).",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "area": {
+        "type": "object",
+        "properties": {
+         "width": {
+          "type": "integer",
+          "description": "The width of the area to be painted in feet."
+         },
+         "height": {
+          "type": "integer",
+          "description": "The height of the area to be painted in feet."
+         }
+        },
+        "description": "The area to be painted."
+       },
+       "paint_coverage": {
+        "type": "integer",
+        "description": "Coverage area per gallon of the paint in square feet.",
+        "default": 350
+       },
+       "exclusion": {
+        "type": "object",
+        "properties": {
+         "type": {
+          "type": "string",
+          "description": "The type of the exclusion e.g window, door etc."
+         },
+         "area": {
+          "type": "integer",
+          "description": "The area of the exclusion in square feet."
+         }
+        },
+        "description": "Area not to be painted. Default to not use any exclusion if not specified."
+       }
+      },
+      "required": [
+       "area",
+       "paint_coverage"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "rectangle",
+   "name": "rectangle",
+   "server": "bfcl://rectangle",
+   "summary": "Calculate the area of a rectangle with given length and width Calculate the perimeter of a rectangle based on the length and breadth.",
+   "tools": [
+    {
+     "name": "area",
+     "description": "Calculate the area of a rectangle with given length and width",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "length": {
+        "type": "integer",
+        "description": "Length of the rectangle"
+       },
+       "width": {
+        "type": "integer",
+        "description": "Width of the rectangle"
+       }
+      },
+      "required": [
+       "length",
+       "width"
+      ]
+     }
+    },
+    {
+     "name": "calculate_perimeter",
+     "description": "Calculate the perimeter of a rectangle based on the length and breadth.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "length": {
+        "type": "integer",
+        "description": "The length of the rectangle."
+       },
+       "breadth": {
+        "type": "integer",
+        "description": "The breadth of the rectangle."
+       }
+      },
+      "required": [
+       "length",
+       "breadth"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "triangle",
+   "name": "triangle",
+   "server": "bfcl://triangle",
+   "summary": "Calculate the area of a triangle with given base and height",
+   "tools": [
+    {
+     "name": "area",
+     "description": "Calculate the area of a triangle with given base and height",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "base": {
+        "type": "number",
+        "description": "Base of the triangle"
+       },
+       "height": {
+        "type": "number",
+        "description": "Height of the triangle"
+       }
+      },
+      "required": [
+       "base",
+       "height"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "triangle_properties",
+   "name": "triangle_properties",
+   "server": "bfcl://triangle_properties",
+   "summary": "Retrieve the dimensions, such as area and perimeter, of a triangle if lengths of three sides are given. Retrieve the dimensions, such as area and perimeter, of a triangle if lengths of three sides are given.",
+   "tools": [
+    {
+     "name": "get",
+     "description": "Retrieve the dimensions, such as area and perimeter, of a triangle if lengths of three sides are given.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "side1": {
+        "type": "integer",
+        "description": "The length of first side of the triangle."
+       },
+       "side2": {
+        "type": "integer",
+        "description": "The length of second side of the triangle."
+       },
+       "side3": {
+        "type": "integer",
+        "description": "The length of third side of the triangle."
+       },
+       "get_area": {
+        "type": "boolean",
+        "description": "A flag to determine whether to calculate the area of triangle. Default is true.",
+        "default": true,
+        "optional": true
+       },
+       "get_perimeter": {
+        "type": "boolean",
+        "description": "A flag to determine whether to calculate the perimeter of triangle. Default is true.",
+        "default": true,
+        "optional": true
+       },
+       "get_angles": {
+        "type": "boolean",
+        "description": "A flag to determine whether to calculate the internal angles of triangle. Default is true.",
+        "default": true,
+        "optional": true
+       }
+      },
+      "required": [
+       "side1",
+       "side2",
+       "side3"
+      ]
+     }
+    },
+    {
+     "name": "get_2",
+     "description": "Retrieve the dimensions, such as area and perimeter, of a triangle if lengths of three sides are given.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "side1": {
+        "type": "number",
+        "description": "The length of first side of the triangle."
+       },
+       "side2": {
+        "type": "number",
+        "description": "The length of second side of the triangle."
+       },
+       "side3": {
+        "type": "number",
+        "description": "The length of third side of the triangle."
+       },
+       "get_area": {
+        "type": "boolean",
+        "description": "A flag to determine whether to calculate the area of triangle. Default is true."
+       },
+       "get_perimeter": {
+        "type": "boolean",
+        "description": "A flag to determine whether to calculate the perimeter of triangle. Default is true."
+       },
+       "get_angles": {
+        "type": "boolean",
+        "description": "A flag to determine whether to calculate the internal angles of triangle. Default is true."
+       }
+      },
+      "required": [
+       "side1",
+       "side2",
+       "side3"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "volume_cylinder",
+   "name": "volume_cylinder",
+   "server": "bfcl://volume_cylinder",
+   "summary": "Calculate the volume of a cylinder given the radius and the height.",
+   "tools": [
+    {
+     "name": "calculate",
+     "description": "Calculate the volume of a cylinder given the radius and the height.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "radius": {
+        "type": "number",
+        "description": "The radius of the cylinder."
+       },
+       "height": {
+        "type": "number",
+        "description": "The height of the cylinder."
+       }
+      },
+      "required": [
+       "radius",
+       "height"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "bfcl_c19_g0",
+   "name": "curve area integrate",
+   "server": "bfcl://bfcl_c19_g0",
+   "summary": "Functions for curve, area, integrate, calculate, mathematical, function.",
+   "tools": [
+    {
+     "name": "calculate_area_under_curve",
+     "description": "Calculate the area under a mathematical function within a given interval.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "function": {
+        "type": "string",
+        "description": "The mathematical function as a string."
+       },
+       "interval": {
+        "type": "array",
+        "items": {
+         "type": "number"
+        },
+        "description": "An array that defines the interval to calculate the area under the curve from the start to the end point."
+       },
+       "method": {
+        "type": "string",
+        "description": "The numerical method to approximate the area under the curve. The default value is 'trapezoidal'."
+       }
+      },
+      "required": [
+       "function",
+       "interval"
+      ]
+     }
+    },
+    {
+     "name": "integrate",
+     "description": "Calculate the area under a curve for a specified function between two x values.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "function": {
+        "type": "string",
+        "description": "The function to integrate, represented as a string. For example, 'x^3'"
+       },
+       "start_x": {
+        "type": "integer",
+        "description": "The starting x-value to integrate over."
+       },
+       "end_x": {
+        "type": "integer",
+        "description": "The ending x-value to integrate over."
+       },
+       "method": {
+        "type": "string",
+        "description": "The method of numerical integration to use. Choices are 'trapezoid' or 'simpson'. Default is 'trapezoid'."
+       }
+      },
+      "required": [
+       "function",
+       "start_x",
+       "end_x"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "bfcl_c19_g1",
+   "name": "circle circumference radius",
+   "server": "bfcl://bfcl_c19_g1",
+   "summary": "Functions for circle, circumference, radius, draw, calculate, dimensions.",
+   "tools": [
+    {
+     "name": "calculate_circle_dimensions",
+     "description": "Calculate the area and circumference of a circle based on the radius.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "radius": {
+        "type": "integer",
+        "description": "The radius of the circle."
+       }
+      },
+      "required": [
+       "radius"
+      ]
+     }
+    },
+    {
+     "name": "calculate_circumference",
+     "description": "Calculates the circumference of a circle with a given radius.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "radius": {
+        "type": "integer",
+        "description": "The radius of the circle in the unit given."
+       },
+       "unit": {
+        "type": "string",
+        "description": "The unit of measurement for the radius. Default is 'cm'."
+       }
+      },
+      "required": [
+       "radius"
+      ]
+     }
+    },
+    {
+     "name": "calculate_circumference_2",
+     "description": "Calculates the circumference of a circle with a given radius.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "radius": {
+        "type": "integer",
+        "description": "The radius of the circle in the unit given."
+       },
+       "unit": {
+        "type": "string",
+        "description": "The unit of measurement for the radius. Default is m."
+       }
+      },
+      "required": [
+       "radius"
+      ]
+     }
+    },
+    {
+     "name": "draw_circle",
+     "description": "Draw a circle based on the radius provided.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "radius": {
+        "type": "number",
+        "description": "The radius of the circle."
+       },
+       "unit": {
+        "type": "string",
+        "description": "The unit of measurement for the radius. e.g. 'm' for meters, 'cm' for centimeters"
+       }
+      },
+      "required": [
+       "radius",
+       "unit"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "bfcl_c19_g2",
+   "name": "area calculate height",
+   "server": "bfcl://bfcl_c19_g2",
+   "summary": "Functions for area, calculate, height, triangle, bmi, rectangle.",
+   "tools": [
+    {
+     "name": "calc_area_triangle",
+     "description": "Calculate the area of a triangle with the formula area = 0.5 * base * height.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "base": {
+        "type": "integer",
+        "description": "The length of the base of the triangle in meters."
+       },
+       "height": {
+        "type": "integer",
+        "description": "The perpendicular height of the triangle from the base to the opposite vertex in meters."
+       }
+      },
+      "required": [
+       "base",
+       "height"
+      ]
+     }
+    },
+    {
+     "name": "calculate_BMI",
+     "description": "Calculate the Body Mass Index (BMI) given a person's weight and height.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "weight_kg": {
+        "type": "integer",
+        "description": "The weight of the person in kilograms."
+       },
+       "height_m": {
+        "type": "number",
+        "description": "The height of the person in meters."
+       }
+      },
+      "required": [
+       "weight_kg",
+       "height_m"
+      ]
+     }
+    },
+    {
+     "name": "calculate_area",
+     "description": "Calculate the area of a right-angled triangle given the lengths of its base and height.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "base": {
+        "type": "integer",
+        "description": "The length of the base of the right-angled triangle."
+       },
+       "height": {
+        "type": "integer",
+        "description": "The height of the right-angled triangle."
+       },
+       "unit": {
+        "type": "string",
+        "description": "The unit of measure used. Defaults to cm.",
+        "default": "cm"
+       }
+      },
+      "required": [
+       "base",
+       "height"
+      ]
+     }
+    },
+    {
+     "name": "calculate_area_2",
+     "description": "Calculate the area of a right-angled triangle given the lengths of its base and height.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "base": {
+        "type": "integer",
+        "description": "The length of the base of the right-angled triangle."
+       },
+       "height": {
+        "type": "integer",
+        "description": "The height of the right-angled triangle."
+       },
+       "unit": {
+        "type": "string",
+        "description": "The unit of measure used. Defaults to 'cm'."
+       }
+      },
+      "required": [
+       "base",
+       "height"
+      ]
+     }
+    },
+    {
+     "name": "calculate_bmi",
+     "description": "Calculate body mass index for a person based on their weight and height.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "height": {
+        "type": "number",
+        "description": "The height of the person in feet."
+       },
+       "weight": {
+        "type": "integer",
+        "description": "The weight of the person in kilograms."
+       }
+      },
+      "required": [
+       "height",
+       "weight"
+      ]
+     }
+    },
+    {
+     "name": "calculate_bmi_2",
+     "description": "Calculate the Body Mass Index (BMI) for a person based on their weight and height.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "weight": {
+        "type": "integer",
+        "description": "The weight of the person in kilograms."
+       },
+       "height": {
+        "type": "integer",
+        "description": "The height of the person in centimeters."
+       },
+       "system": {
+        "type": "string",
+        "description": "The system of units to be used, 'metric' or 'imperial'. Default is 'metric'."
+       }
+      },
+      "required": [
+       "weight",
+       "height"
+      ]
+     }
+    },
+    {
+     "name": "calculate_bmi_3",
+     "description": "Calculate the Body Mass Index (BMI) of a person.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "weight": {
+        "type": "integer",
+        "description": "Weight of the person in kilograms."
+       },
+       "height": {
+        "type": "integer",
+        "description": "Height of the person in centimeters."
+       },
+       "unit": {
+        "type": "string",
+        "description": "Optional parameter to choose between 'imperial' and 'metric' systems. Default is 'metric'."
+       }
+      },
+      "required": [
+       "weight",
+       "height"
+      ]
+     }
+    },
+    {
+     "name": "calculate_bmi_4",
+     "description": "Calculate the Body Mass Index based on given weight and height.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "weight": {
+        "type": "integer",
+        "description": "The weight of a person in kilograms."
+       },
+       "height": {
+        "type": "integer",
+        "description": "The height of a person in centimeters."
+       },
+       "unit": {
+        "type": "string",
+        "description": "Optional. The measurement system to be used for the result. The default is 'metric'."
+       }
+      },
+      "required": [
+       "weight",
+       "height"
+      ]
+     }
+    },
+    {
+     "name": "calculate_bmi_5",
+     "description": "Calculate the Body Mass Index for a person based on their height and weight",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "height": {
+        "type": "number",
+        "description": "The height of the person in meters."
+       },
+       "weight": {
+        "type": "number",
+        "description": "The weight of the person in kilograms."
+       },
+       "unit": {
+        "type": "string",
+        "description": "The unit of measure. Defaults to metric units (kilograms/meters). Other option is imperial (pounds/inches)."
+       }
+      },
+      "required": [
+       "height",
+       "weight"
+      ]
+     }
+    },
+    {
+     "name": "calculate_bmi_6",
+     "description": "Calculates the Body Mass Index given person's weight and height.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "weight": {
+        "type": "number",
+        "description": "The weight of the person in kilograms."
+       },
+       "height": {
+        "type": "number",
+        "description": "The height of the person in meters."
+       },
+       "unit": {
+        "type": "string",
+        "description": "Unit for calculation, either metric or imperial. Default is metric"
+       }
+      },
+      "required": [
+       "weight",
+       "height"
+      ]
+     }
+    },
+    {
+     "name": "calculate_paint_needed",
+     "description": "Calculate the amount of paint needed to cover a surface area based on the coverage rate of a specific paint brand.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "coverage_rate": {
+        "type": "integer",
+        "description": "The area in square feet that one gallon of paint can cover."
+       },
+       "length": {
+        "type": "integer",
+        "description": "Length of the wall to be painted in feet."
+       },
+       "height": {
+        "type": "integer",
+        "description": "Height of the wall to be painted in feet."
+       }
+      },
+      "required": [
+       "coverage_rate",
+       "length",
+       "height"
+      ]
+     }
+    },
+    {
+     "name": "calculate_park_area",
+     "description": "Calculate the total area of a park based on the radius of its circular part.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "radius": {
+        "type": "number",
+        "description": "The radius of the circular part of the park."
+       },
+       "units": {
+        "type": "string",
+        "description": "The units of the radius."
+       },
+       "shape": {
+        "type": "string",
+        "description": "The shape of the park. Default is 'circle'."
+       }
+      },
+      "required": [
+       "radius",
+       "units"
+      ]
+     }
+    },
+    {
+     "name": "calculate_resistance",
+     "description": "Calculate the resistance of a wire using resistivity, length, and cross-sectional area.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "length": {
+        "type": "integer",
+        "description": "The length of the wire in meters."
+       },
+       "area": {
+        "type": "number",
+        "description": "The cross-sectional area of the wire in square meters."
+       },
+       "resistivity": {
+        "type": "string",
+        "description": "Resistivity of the material (Default: 'copper'). Allowed values: 'copper', 'aluminum'"
+       }
+      },
+      "required": [
+       "length",
+       "area"
+      ]
+     }
+    },
+    {
+     "name": "calculate_triangle_area",
+     "description": "Calculate the area of a triangle given its base and height.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "base": {
+        "type": "number",
+        "description": "The base of the triangle."
+       },
+       "height": {
+        "type": "number",
+        "description": "The height of the triangle."
+       },
+       "unit": {
+        "type": "string",
+        "description": "The unit of measure (defaults to 'units' if not specified)"
+       }
+      },
+      "required": [
+       "base",
+       "height"
+      ]
+     }
+    },
+    {
+     "name": "calculate_triangle_area_2",
+     "description": "Calculate the area of a triangle given its base and height.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "base": {
+        "type": "integer",
+        "description": "The base of the triangle."
+       },
+       "height": {
+        "type": "integer",
+        "description": "The height of the triangle."
+       },
+       "unit": {
+        "type": "string",
+        "description": "The unit of measure (defaults to 'units' if not specified)"
+       }
+      },
+      "required": [
+       "base",
+       "height"
+      ]
+     }
+    },
+    {
+     "name": "calculate_triangle_area_3",
+     "description": "Calculate the area of a triangle using its base and height.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "base": {
+        "type": "integer",
+        "description": "The length of the base of the triangle."
+       },
+       "height": {
+        "type": "integer",
+        "description": "The height of the triangle from the base."
+       }
+      },
+      "required": [
+       "base",
+       "height"
+      ]
+     }
+    },
+    {
+     "name": "determine_body_mass_index",
+     "description": "Calculate body mass index given weight and height.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "weight": {
+        "type": "number",
+        "description": "Weight of the individual in kilograms."
+       },
+       "height": {
+        "type": "number",
+        "description": "Height of the individual in meters."
+       }
+      },
+      "required": [
+       "weight",
+       "height"
+      ]
+     }
+    },
+    {
+     "name": "determine_body_mass_index_2",
+     "description": "Calculate the body mass index (BMI) given an individual's weight and height.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "weight",
+       "height"
+      ],
+      "properties": {
+       "weight": {
+        "type": "number",
+        "description": "Weight of the individual in kilograms (kg)."
+       },
+       "height": {
+        "type": "number",
+        "description": "Height of the individual in meters (m)."
+       }
+      }
+     }
+    },
+    {
+     "name": "determine_body_mass_index_3",
+     "description": "Calculates the Body Mass Index (BMI) using the individual's weight and height.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "weight",
+       "height"
+      ],
+      "properties": {
+       "weight": {
+        "type": "number",
+        "description": "Weight of the individual in kilograms."
+       },
+       "height": {
+        "type": "number",
+        "description": "Height of the individual in meters."
+       }
+      }
+     }
+    },
+    {
+     "name": "draw_rectangle",
+     "description": "Draw a rectangle given its width and height.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "width": {
+        "type": "integer",
+        "description": "The width of the rectangle."
+       },
+       "height": {
+        "type": "integer",
+        "description": "The height of the rectangle."
+       },
+       "color": {
+        "type": "string",
+        "description": "The color of the rectangle. Default is 'black'."
+       }
+      },
+      "required": [
+       "width",
+       "height"
+      ]
+     }
+    },
+    {
+     "name": "get_area_of_square",
+     "description": "Calculate the area of a square by squaring the length of one of its sides.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "size"
+      ],
+      "properties": {
+       "size": {
+        "type": "number",
+        "description": "The length of one side of the square in units."
+       }
+      }
+     }
+    },
+    {
+     "name": "get_area_of_square_2",
+     "description": "Calculates the area of a square by squaring the length of one of its sides.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "size"
+      ],
+      "properties": {
+       "size": {
+        "type": "number",
+        "description": "The length of one side of the square in units."
+       }
+      }
+     }
+    },
+    {
+     "name": "get_rectangle_property",
+     "description": "Get specific property of the rectangle (like length, width) based on perimeter and area.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "perimeter": {
+        "type": "integer",
+        "description": "Perimeter of the rectangle."
+       },
+       "area": {
+        "type": "integer",
+        "description": "Area of the rectangle."
+       },
+       "property": {
+        "type": "string",
+        "description": "Specific property required. It can be length, width or diagonal."
+       },
+       "tolerance": {
+        "type": "number",
+        "description": "Allowed error for calculations. (optional) Default 0.1"
+       }
+      },
+      "required": [
+       "perimeter",
+       "area",
+       "property"
+      ]
+     }
+    },
+    {
+     "name": "plant_biomass",
+     "description": "Calculate the biomass of a plant species in a given area.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "species_name": {
+        "type": "string",
+        "description": "The name of the plant species."
+       },
+       "area": {
+        "type": "number",
+        "description": "The area of the forest in square kilometers."
+       },
+       "density": {
+        "type": "number",
+        "description": "The density of the plant species in the area. Default is average global density."
+       }
+      },
+      "required": [
+       "species_name",
+       "area"
+      ]
+     }
+    }
+   ]
+  }
+ ]
+}

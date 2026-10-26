@@ -1,0 +1,90 @@
+{
+ "task_id": "cross-0080",
+ "mode": "cats",
+ "loaded": [
+  "confluence.confluence_create_page",
+  "confluence.confluence_get_page",
+  "confluence.confluence_search",
+  "sentry.find_releases",
+  "sentry.get_issue_details",
+  "sentry.search_events",
+  "sentry.search_issues"
+ ],
+ "order": [
+  "confluence.confluence_create_page",
+  "confluence.confluence_get_page",
+  "confluence.confluence_search",
+  "sentry.find_releases",
+  "sentry.get_issue_details",
+  "sentry.search_events",
+  "sentry.search_issues"
+ ],
+ "scores": {
+  "confluence.confluence_create_page": 0.3344504680019351,
+  "confluence.confluence_get_page": 0.18889359599813527,
+  "confluence.confluence_search": 0.2424131374658956,
+  "sentry.find_releases": 0.3277675990431045,
+  "sentry.get_issue_details": 0.5288961446771249,
+  "sentry.search_events": 0.051425723129843164,
+  "sentry.search_issues": 0.16871511095281663
+ },
+ "router_tokens": 1503,
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "sentry.search_issues",
+   "args": {
+    "organizationSlug": "acme",
+    "projectSlugOrId": "web-frontend",
+    "naturalLanguageQuery": "unresolved issues first seen or occurring today, sorted by most events",
+    "limit": 5
+   }
+  },
+  {
+   "tool": "sentry.get_issue_details",
+   "args": {
+    "organizationSlug": "acme",
+    "issueId": "<top issue id from search>"
+   }
+  },
+  {
+   "tool": "confluence.confluence_create_page",
+   "args": {
+    "space_key": "ENG",
+    "title": "Postmortem: <top Sentry issue title> (2026-10-06)",
+    "content": "## Summary\n\nSentry issue <issue id> in acme/web-frontend.\n\n## Impact\n\n_TBD_\n\n## Stack trace\n\n```\n<stack trace from Sentry>\n```\n\n## Timeline\n\n_TBD_\n\n## Root cause\n\n_TBD_\n\n## Action items\n\n_TBD_",
+    "content_format": "markdown"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 7,
+   "tool_tokens": 1903,
+   "t": 1791322101.8957214
+  },
+  {
+   "type": "call",
+   "tool": "sentry__search_issues",
+   "valid": true,
+   "t": 1791322115.5762281
+  },
+  {
+   "type": "call",
+   "tool": "sentry__get_issue_details",
+   "valid": true,
+   "t": 1791322125.6272454
+  },
+  {
+   "type": "call",
+   "tool": "confluence__confluence_create_page",
+   "valid": true,
+   "t": 1791322137.3008373
+  }
+ ],
+ "done": true,
+ "t_done": 1791322143.1191978,
+ "final": ""
+}

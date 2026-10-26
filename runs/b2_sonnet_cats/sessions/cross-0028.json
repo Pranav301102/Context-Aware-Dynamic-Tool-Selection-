@@ -1,0 +1,123 @@
+{
+ "task_id": "cross-0028",
+ "mode": "cats",
+ "loaded": [
+  "deepl.get_languages",
+  "deepl.translate_document",
+  "mongodb.collection_schema",
+  "mongodb.count",
+  "mongodb.delete_many",
+  "mongodb.find",
+  "mongodb.insert_many",
+  "mongodb.list_collections",
+  "mongodb.update_many",
+  "openai_media.translate_audio",
+  "deepl.translate_text",
+  "google_cloud_ai.translate_text",
+  "google_cloud_ai.detect_language",
+  "ffmpeg_video.burn_subtitles",
+  "openai_media.transcribe_audio"
+ ],
+ "order": [
+  "deepl.get_languages",
+  "deepl.translate_document",
+  "mongodb.collection_schema",
+  "mongodb.count",
+  "mongodb.delete_many",
+  "mongodb.find",
+  "mongodb.insert_many",
+  "mongodb.list_collections",
+  "mongodb.update_many",
+  "openai_media.translate_audio",
+  "deepl.translate_text",
+  "google_cloud_ai.translate_text",
+  "google_cloud_ai.detect_language",
+  "ffmpeg_video.burn_subtitles",
+  "openai_media.transcribe_audio"
+ ],
+ "scores": {
+  "deepl.get_languages": 0.08053488264174714,
+  "deepl.translate_document": 0.05015458973395016,
+  "mongodb.collection_schema": 0.19790930569350493,
+  "mongodb.count": 0.13088050808032603,
+  "mongodb.delete_many": 0.0658245190511935,
+  "mongodb.find": 0.04698574305833518,
+  "mongodb.insert_many": 0.5416314669042894,
+  "mongodb.list_collections": 0.33106680788215564,
+  "mongodb.update_many": 0.10228021213811335,
+  "openai_media.translate_audio": 0.12096646519811277,
+  "deepl.translate_text": 2.0,
+  "google_cloud_ai.translate_text": 2.0,
+  "google_cloud_ai.detect_language": 2.0,
+  "ffmpeg_video.burn_subtitles": 2.0,
+  "openai_media.transcribe_audio": 2.0
+ },
+ "router_tokens": 0,
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "mongodb.find",
+   "args": {
+    "database": "app",
+    "collection": "catalog",
+    "filter": {
+     "blurb.fr": {
+      "$exists": false
+     }
+    },
+    "projection": {
+     "name": 1,
+     "blurb": 1
+    },
+    "limit": 100
+   }
+  },
+  {
+   "tool": "google_cloud_ai.translate_text",
+   "args": {
+    "contents": [
+     "simulated result of mongodb.find (English-only product blurbs)"
+    ],
+    "targetLanguageCode": "fr",
+    "sourceLanguageCode": "en"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 10,
+   "tool_tokens": 1707,
+   "t": 1791321627.880324
+  },
+  {
+   "type": "call",
+   "tool": "mongodb__find",
+   "valid": true,
+   "t": 1791321644.0930307
+  },
+  {
+   "type": "request_tools",
+   "capability": "Translate text strings into another language (English to French)",
+   "added": [
+    "deepl.translate_text",
+    "google_cloud_ai.translate_text",
+    "google_cloud_ai.detect_language",
+    "ffmpeg_video.burn_subtitles",
+    "openai_media.transcribe_audio"
+   ],
+   "tool_tokens": 2773,
+   "t": 1791321655.896696
+  },
+  {
+   "type": "call",
+   "tool": "google_cloud_ai__translate_text",
+   "valid": true,
+   "t": 1791321669.4965165
+  }
+ ],
+ "done": true,
+ "t_done": 1791321676.3795552,
+ "final": ""
+}

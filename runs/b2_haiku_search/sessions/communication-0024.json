@@ -1,0 +1,67 @@
+{
+ "task_id": "communication-0024",
+ "mode": "search",
+ "loaded": [
+  "gmail.create_filter",
+  "gmail.search_emails",
+  "gmail.send_email",
+  "gmail.read_email",
+  "gmail.draft_email"
+ ],
+ "order": [
+  "gmail.create_filter",
+  "gmail.search_emails",
+  "gmail.send_email",
+  "gmail.read_email",
+  "gmail.draft_email"
+ ],
+ "scores": {
+  "gmail.create_filter": 2.0,
+  "gmail.search_emails": 2.0,
+  "gmail.send_email": 2.0,
+  "gmail.read_email": 2.0,
+  "gmail.draft_email": 2.0
+ },
+ "router_tokens": 0,
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "gmail.search_emails",
+   "args": {
+    "query": "subject:1099 accountant",
+    "maxResults": 10
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0,
+   "t": 1791321920.785582
+  },
+  {
+   "type": "request_tools",
+   "capability": "search and retrieve emails by sender and subject",
+   "added": [
+    "gmail.create_filter",
+    "gmail.search_emails",
+    "gmail.send_email",
+    "gmail.read_email",
+    "gmail.draft_email"
+   ],
+   "tool_tokens": 1181,
+   "t": 1791321936.3633137
+  },
+  {
+   "type": "call",
+   "tool": "gmail__search_emails",
+   "valid": true,
+   "t": 1791321950.1370387
+  }
+ ],
+ "done": true,
+ "t_done": 1791321955.9199436,
+ "final": ""
+}

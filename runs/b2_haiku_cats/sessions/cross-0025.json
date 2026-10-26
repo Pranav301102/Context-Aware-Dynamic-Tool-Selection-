@@ -1,0 +1,87 @@
+{
+ "task_id": "cross-0025",
+ "mode": "cats",
+ "loaded": [
+  "pinecone.create_index_for_model",
+  "pinecone.describe_index_stats",
+  "pinecone.list_indexes",
+  "pinecone.search_records",
+  "pinecone.upsert_records",
+  "tavily.tavily_crawl",
+  "tavily.tavily_extract",
+  "tavily.tavily_map"
+ ],
+ "order": [
+  "pinecone.create_index_for_model",
+  "pinecone.describe_index_stats",
+  "pinecone.list_indexes",
+  "pinecone.search_records",
+  "pinecone.upsert_records",
+  "tavily.tavily_crawl",
+  "tavily.tavily_extract",
+  "tavily.tavily_map"
+ ],
+ "scores": {
+  "pinecone.create_index_for_model": 0.10663575608667668,
+  "pinecone.describe_index_stats": 0.4814983049341801,
+  "pinecone.list_indexes": 0.07049497691382824,
+  "pinecone.search_records": 0.057900530590277374,
+  "pinecone.upsert_records": 0.7930420219155929,
+  "tavily.tavily_crawl": 0.5253996343752872,
+  "tavily.tavily_extract": 0.07659068264678881,
+  "tavily.tavily_map": 0.038031068186496576
+ },
+ "router_tokens": 0,
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "tavily.tavily_crawl",
+   "args": {
+    "url": "https://docs.pinecone.io",
+    "max_depth": 3,
+    "instructions": "crawl all documentation pages"
+   }
+  },
+  {
+   "tool": "pinecone.upsert_records",
+   "args": {
+    "name": "docs-kb",
+    "namespace": "documentation",
+    "records": [
+     {
+      "id": "doc1",
+      "chunk_text": "Pinecone documentation page 1"
+     },
+     {
+      "id": "doc2",
+      "chunk_text": "Pinecone documentation page 2"
+     }
+    ]
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 8,
+   "tool_tokens": 2145,
+   "t": 1791321256.5655363
+  },
+  {
+   "type": "call",
+   "tool": "tavily__tavily_crawl",
+   "valid": true,
+   "t": 1791321267.7040458
+  },
+  {
+   "type": "call",
+   "tool": "pinecone__upsert_records",
+   "valid": true,
+   "t": 1791321279.6552868
+  }
+ ],
+ "done": true,
+ "t_done": 1791321285.531238,
+ "final": ""
+}

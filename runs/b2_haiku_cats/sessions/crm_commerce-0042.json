@@ -1,0 +1,69 @@
+{
+ "task_id": "crm_commerce-0042",
+ "mode": "cats",
+ "loaded": [
+  "hubspot.hubspot_create_deal",
+  "hubspot.hubspot_create_engagement",
+  "salesforce.salesforce_convert_lead",
+  "salesforce.salesforce_create_lead",
+  "salesforce.salesforce_create_opportunity",
+  "salesforce.salesforce_create_task",
+  "salesforce.salesforce_describe_object",
+  "salesforce.salesforce_search_all",
+  "salesforce.salesforce_update_opportunity"
+ ],
+ "order": [
+  "hubspot.hubspot_create_deal",
+  "hubspot.hubspot_create_engagement",
+  "salesforce.salesforce_convert_lead",
+  "salesforce.salesforce_create_lead",
+  "salesforce.salesforce_create_opportunity",
+  "salesforce.salesforce_create_task",
+  "salesforce.salesforce_describe_object",
+  "salesforce.salesforce_search_all",
+  "salesforce.salesforce_update_opportunity"
+ ],
+ "scores": {
+  "hubspot.hubspot_create_deal": 0.049468641476721836,
+  "hubspot.hubspot_create_engagement": 0.026159317763600778,
+  "salesforce.salesforce_convert_lead": 0.08705033639236522,
+  "salesforce.salesforce_create_lead": 0.14592232869178973,
+  "salesforce.salesforce_create_opportunity": 0.43579551704779207,
+  "salesforce.salesforce_create_task": 0.5847436304268878,
+  "salesforce.salesforce_describe_object": 0.05596897995538086,
+  "salesforce.salesforce_search_all": 0.03679462796661239,
+  "salesforce.salesforce_update_opportunity": 0.12415429983297967
+ },
+ "router_tokens": 0,
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "salesforce.salesforce_create_opportunity",
+   "args": {
+    "Name": "Pepper Potts Renewal",
+    "AccountId": "001Ax00000PpT2",
+    "StageName": "Prospecting",
+    "CloseDate": "2026-03-31",
+    "Amount": 75000
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 9,
+   "tool_tokens": 2215,
+   "t": 1791321081.7599478
+  },
+  {
+   "type": "call",
+   "tool": "salesforce__salesforce_create_opportunity",
+   "valid": true,
+   "t": 1791321094.74728
+  }
+ ],
+ "done": true,
+ "t_done": 1791321099.7137346,
+ "final": ""
+}

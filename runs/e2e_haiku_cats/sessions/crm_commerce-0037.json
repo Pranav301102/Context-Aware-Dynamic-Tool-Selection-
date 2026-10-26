@@ -1,0 +1,69 @@
+{
+ "task_id": "crm_commerce-0037",
+ "mode": "cats",
+ "loaded": [
+  "hubspot.hubspot_create_company",
+  "hubspot.hubspot_create_contact",
+  "hubspot.hubspot_list_associations",
+  "mailchimp.add_or_update_member",
+  "mailchimp.create_campaign",
+  "mailchimp.get_campaign_report",
+  "mailchimp.list_audiences",
+  "mailchimp.send_campaign",
+  "mailchimp.set_campaign_content"
+ ],
+ "order": [
+  "hubspot.hubspot_create_company",
+  "hubspot.hubspot_create_contact",
+  "hubspot.hubspot_list_associations",
+  "mailchimp.add_or_update_member",
+  "mailchimp.create_campaign",
+  "mailchimp.get_campaign_report",
+  "mailchimp.list_audiences",
+  "mailchimp.send_campaign",
+  "mailchimp.set_campaign_content"
+ ],
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "hubspot.hubspot_create_contact",
+   "args": {
+    "firstname": "Omar",
+    "lastname": "Haddad",
+    "email": "omar@haddad.io"
+   }
+  },
+  {
+   "tool": "mailchimp.add_or_update_member",
+   "args": {
+    "list_id": "4ca5b2e1f0",
+    "email_address": "omar@haddad.io",
+    "status_if_new": "subscribed",
+    "merge_fields": {
+     "FNAME": "Omar",
+     "LNAME": "Haddad"
+    }
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 9,
+   "tool_tokens": 1422
+  },
+  {
+   "type": "call",
+   "tool": "hubspot__hubspot_create_contact",
+   "valid": true
+  },
+  {
+   "type": "call",
+   "tool": "mailchimp__add_or_update_member",
+   "valid": true
+  }
+ ],
+ "done": true,
+ "final": ""
+}

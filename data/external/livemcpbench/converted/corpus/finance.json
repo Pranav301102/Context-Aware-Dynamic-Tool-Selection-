@@ -1,0 +1,982 @@
+{
+ "branch": {
+  "id": "finance",
+  "name": "Finance",
+  "summary": "Finance MCP servers: Asset Price MCP Server (asset-price-mcp); Exchange Rate MCP Server; MCP Yahoo Finance; Yahoo Finance MCP Server; investor-agent: A Financial Analysis MCP Server; kospi-kosdaq-stock-server"
+ },
+ "toolkits": [
+  {
+   "id": "yahoo_finance",
+   "name": "MCP Yahoo Finance",
+   "server": "mcp://yahoo-finance",
+   "summary": "A Model Context Protocol (MCP) server for Yahoo Finance interaction. This server provides tools to get pricing, company information and more.",
+   "tools": [
+    {
+     "name": "get_current_stock_price",
+     "description": "Get the current stock price based on stock symbol.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "symbol": {
+        "type": "string",
+        "description": "Stock symbol in Yahoo Finance format."
+       }
+      },
+      "required": [
+       "symbol"
+      ]
+     }
+    },
+    {
+     "name": "get_stock_price_by_date",
+     "description": "Get the stock price for a given stock symbol on a specific date.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "symbol": {
+        "type": "string",
+        "description": "Stock symbol in Yahoo Finance format."
+       },
+       "date": {
+        "type": "string",
+        "description": "The date in YYYY-MM-DD format."
+       }
+      },
+      "required": [
+       "symbol",
+       "date"
+      ]
+     }
+    },
+    {
+     "name": "get_stock_price_date_range",
+     "description": "Get the stock prices for a given date range for a given stock symbol.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "symbol": {
+        "type": "string",
+        "description": "Stock symbol in Yahoo Finance format."
+       },
+       "start_date": {
+        "type": "string",
+        "description": "The start date in YYYY-MM-DD format."
+       },
+       "end_date": {
+        "type": "string",
+        "description": "The end date in YYYY-MM-DD format."
+       }
+      },
+      "required": [
+       "symbol",
+       "start_date",
+       "end_date"
+      ]
+     }
+    },
+    {
+     "name": "get_historical_stock_prices",
+     "description": "Get historical stock prices for a given stock symbol.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "symbol": {
+        "type": "string",
+        "description": "Stock symbol in Yahoo Finance format."
+       },
+       "period": {
+        "type": "string",
+        "description": "The period for historical data. Defaults to \"1mo\". Valid periods: \"1d\", \"5d\", \"1mo\", \"3mo\", \"6mo\", \"1y\", \"2y\", \"5y\", \"10y\", \"ytd\", \"max\""
+       },
+       "interval": {
+        "type": "string",
+        "description": "The interval beween data points. Defaults to \"1d\". Valid intervals: \"1d\", \"5d\", \"1wk\", \"1mo\", \"3mo\""
+       }
+      },
+      "required": [
+       "symbol"
+      ]
+     }
+    },
+    {
+     "name": "get_dividends",
+     "description": "Get dividends for a given stock symbol.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "symbol": {
+        "type": "string",
+        "description": "Stock symbol in Yahoo Finance format."
+       }
+      },
+      "required": [
+       "symbol"
+      ]
+     }
+    },
+    {
+     "name": "get_income_statement",
+     "description": "Get income statement for a given stock symbol.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "symbol": {
+        "type": "string",
+        "description": "Stock symbol in Yahoo Finance format."
+       },
+       "freq": {
+        "type": "string",
+        "description": "At what frequency to get cashflow statements. Defaults to \"yearly\". Valid freqencies: \"yearly\", \"quarterly\", \"trainling\""
+       }
+      },
+      "required": [
+       "symbol"
+      ]
+     }
+    },
+    {
+     "name": "get_cashflow",
+     "description": "Get cashflow for a given stock symbol.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "symbol": {
+        "type": "string",
+        "description": "Stock symbol in Yahoo Finance format."
+       },
+       "freq": {
+        "type": "string",
+        "description": "At what frequency to get cashflow statements. Defaults to \"yearly\". Valid freqencies: \"yearly\", \"quarterly\", \"trainling\""
+       }
+      },
+      "required": [
+       "symbol"
+      ]
+     }
+    },
+    {
+     "name": "get_earning_dates",
+     "description": "Get earning dates.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "symbol": {
+        "type": "string",
+        "description": "Stock symbol in Yahoo Finance format."
+       },
+       "limit": {
+        "type": "string",
+        "description": "max amount of upcoming and recent earnings dates to return. Default value 12 should return next 4 quarters and last 8 quarters. Increase if more history is needed."
+       }
+      },
+      "required": [
+       "symbol"
+      ]
+     }
+    },
+    {
+     "name": "get_news",
+     "description": "Get news for a given stock symbol.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "symbol": {
+        "type": "string",
+        "description": "Stock symbol in Yahoo Finance format."
+       }
+      },
+      "required": [
+       "symbol"
+      ]
+     }
+    },
+    {
+     "name": "get_recommendations",
+     "description": "Get analyst recommendations for a given symbol.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "symbol": {
+        "type": "string",
+        "description": "Stock symbol in Yahoo Finance format."
+       }
+      },
+      "required": [
+       "symbol"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "yfmcp",
+   "name": "Yahoo Finance MCP Server",
+   "server": "mcp://yfmcp",
+   "summary": "A simple MCP server for Yahoo Finance using yfinance. This server provides a set of tools to fetch stock data, news, and other financial information.",
+   "tools": [
+    {
+     "name": "get_ticker_info",
+     "description": "Retrieve stock data including company info, financials, trading metrics and governance data.",
+     "input_schema": {
+      "properties": {
+       "symbol": {
+        "description": "The stock symbol",
+        "title": "Symbol",
+        "type": "string"
+       }
+      },
+      "required": [
+       "symbol"
+      ],
+      "title": "get_ticker_infoArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "get_ticker_news",
+     "description": "Fetches recent news articles related to a specific stock symbol with title, content, and source details.",
+     "input_schema": {
+      "properties": {
+       "symbol": {
+        "description": "The stock symbol",
+        "title": "Symbol",
+        "type": "string"
+       }
+      },
+      "required": [
+       "symbol"
+      ],
+      "title": "get_ticker_newsArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "search",
+     "description": "Fetches and organizes search results from Yahoo Finance, including stock quotes and news articles.",
+     "input_schema": {
+      "properties": {
+       "query": {
+        "description": "The search query (ticker symbol or company name)",
+        "title": "Query",
+        "type": "string"
+       },
+       "search_type": {
+        "description": "Type of search results to retrieve",
+        "enum": [
+         "all",
+         "quotes",
+         "news"
+        ],
+        "title": "Search Type",
+        "type": "string"
+       }
+      },
+      "required": [
+       "query",
+       "search_type"
+      ],
+      "title": "searchArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "get_top",
+     "description": "Get top entities (ETFs, mutual funds, companies, growth companies, or performing companies) in a sector.",
+     "input_schema": {
+      "properties": {
+       "sector": {
+        "description": "The sector to get",
+        "enum": [
+         "basic-materials",
+         "communication-services",
+         "consumer-cyclical",
+         "consumer-defensive",
+         "energy",
+         "financial-services",
+         "healthcare",
+         "industrials",
+         "real-estate",
+         "technology",
+         "utilities"
+        ],
+        "title": "Sector",
+        "type": "string"
+       },
+       "top_type": {
+        "description": "Type of top companies to retrieve",
+        "enum": [
+         "top_etfs",
+         "top_mutual_funds",
+         "top_companies",
+         "top_growth_companies",
+         "top_performing_companies"
+        ],
+        "title": "Top Type",
+        "type": "string"
+       },
+       "top_n": {
+        "default": 10,
+        "description": "Number of top entities to retrieve (limit the results)",
+        "title": "Top N",
+        "type": "integer"
+       }
+      },
+      "required": [
+       "sector",
+       "top_type"
+      ],
+      "title": "get_topArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "get_price_history",
+     "description": "Fetch historical price data for a given stock symbol over a specified period and interval.",
+     "input_schema": {
+      "properties": {
+       "symbol": {
+        "description": "The stock symbol",
+        "title": "Symbol",
+        "type": "string"
+       },
+       "period": {
+        "default": "1mo",
+        "description": "Time period to retrieve data for (e.g. '1d', '1mo', '1y')",
+        "enum": [
+         "1d",
+         "5d",
+         "1mo",
+         "3mo",
+         "6mo",
+         "1y",
+         "2y",
+         "5y",
+         "10y",
+         "ytd",
+         "max"
+        ],
+        "title": "Period",
+        "type": "string"
+       },
+       "interval": {
+        "default": "1d",
+        "description": "Data interval frequency (e.g. '1d', '1h', '1m')",
+        "enum": [
+         "1m",
+         "2m",
+         "5m",
+         "15m",
+         "30m",
+         "60m",
+         "90m",
+         "1h",
+         "1d",
+         "5d",
+         "1wk",
+         "1mo",
+         "3mo"
+        ],
+        "title": "Interval",
+        "type": "string"
+       }
+      },
+      "required": [
+       "symbol"
+      ],
+      "title": "get_price_historyArguments",
+      "type": "object"
+     }
+    }
+   ]
+  },
+  {
+   "id": "kospi_kosdaq",
+   "name": "kospi-kosdaq-stock-server",
+   "server": "mcp://kospi-kosdaq",
+   "summary": "An MCP server that provides KOSPI/KOSDAQ stock data using FastMCP.",
+   "tools": [
+    {
+     "name": "load_all_tickers",
+     "description": "Loads all ticker symbols and names for KOSPI and KOSDAQ into memory.\n\nReturns:\n    Dict[str, str]: A dictionary mapping tickers to stock names.\n    Example: {\"005930\": \"\uc0bc\uc131\uc804\uc790\", \"035720\": \"\uce74\uce74\uc624\", ...}",
+     "input_schema": {
+      "properties": {},
+      "title": "load_all_tickersArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "get_stock_ohlcv",
+     "description": "Retrieves OHLCV (Open/High/Low/Close/Volume) data for a specific stock.\n\nArgs:\n    fromdate (str): Start date for retrieval (YYYYMMDD)\n    todate   (str): End date for retrieval (YYYYMMDD)\n    ticker   (str): Stock ticker symbol\n    adjusted (bool, optional): Whether to use adjusted prices (True: adjusted, False: unadjusted). Defaults to True.\n\nReturns:\n    DataFrame:\n        >> get_stock_ohlcv(\"20210118\", \"20210126\", \"005930\")\n                        Open     High     Low    Close   Volume\n        Date\n        2021-01-26  89500  94800  89500  93800  46415214\n        2021-01-25  87300  89400  86800  88700  25577517\n        2021-01-22  89000  89700  86800  86800  30861661\n        2021-01-21  87500  88600  86500  88100  25318011\n        2021-01-20  89000  89000  86500  87200  25211127\n        2021-01-19  84500  88000  83600  87000  39895044\n        2021-01-18  86600  87300  84100  85000  43227951",
+     "input_schema": {
+      "properties": {
+       "fromdate": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "integer"
+         }
+        ],
+        "title": "Fromdate"
+       },
+       "todate": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "integer"
+         }
+        ],
+        "title": "Todate"
+       },
+       "ticker": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "integer"
+         }
+        ],
+        "title": "Ticker"
+       },
+       "adjusted": {
+        "default": true,
+        "title": "Adjusted",
+        "type": "boolean"
+       }
+      },
+      "required": [
+       "fromdate",
+       "todate",
+       "ticker"
+      ],
+      "title": "get_stock_ohlcvArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "get_stock_market_cap",
+     "description": "Retrieves market capitalization data for a specific stock.\n\nArgs:\n    fromdate (str): Start date for retrieval (YYYYMMDD)\n    todate   (str): End date for retrieval (YYYYMMDD)\n    ticker   (str): Stock ticker symbol\n\nReturns:\n    DataFrame:\n        >> get_stock_market_cap(\"20150720\", \"20150724\", \"005930\")\n                          Market Cap  Volume      Trading Value  Listed Shares\n        Date\n        2015-07-24  181030885173000  196584  241383636000  147299337\n        2015-07-23  181767381858000  208965  259446564000  147299337\n        2015-07-22  184566069261000  268323  333813094000  147299337\n        2015-07-21  186039062631000  194055  244129106000  147299337\n        2015-07-20  187806654675000  128928  165366199000  147299337",
+     "input_schema": {
+      "properties": {
+       "fromdate": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "integer"
+         }
+        ],
+        "title": "Fromdate"
+       },
+       "todate": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "integer"
+         }
+        ],
+        "title": "Todate"
+       },
+       "ticker": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "integer"
+         }
+        ],
+        "title": "Ticker"
+       }
+      },
+      "required": [
+       "fromdate",
+       "todate",
+       "ticker"
+      ],
+      "title": "get_stock_market_capArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "get_stock_fundamental",
+     "description": "Retrieves fundamental data (PER/PBR/Dividend Yield) for a specific stock.\n\nArgs:\n    fromdate (str): Start date for retrieval (YYYYMMDD)\n    todate   (str): End date for retrieval (YYYYMMDD)\n    ticker   (str): Stock ticker symbol\n\nReturns:\n    DataFrame:\n        >> get_stock_fundamental(\"20210104\", \"20210108\", \"005930\")\n                          BPS        PER       PBR   EPS       DIV   DPS\n            Date\n            2021-01-08  37528  28.046875  2.369141  3166  1.589844  1416\n            2021-01-07  37528  26.187500  2.210938  3166  1.709961  1416\n            2021-01-06  37528  25.953125  2.189453  3166  1.719727  1416\n            2021-01-05  37528  26.500000  2.240234  3166  1.690430  1416\n            2021-01-04  37528  26.218750  2.210938  3166  1.709961  1416",
+     "input_schema": {
+      "properties": {
+       "fromdate": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "integer"
+         }
+        ],
+        "title": "Fromdate"
+       },
+       "todate": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "integer"
+         }
+        ],
+        "title": "Todate"
+       },
+       "ticker": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "integer"
+         }
+        ],
+        "title": "Ticker"
+       }
+      },
+      "required": [
+       "fromdate",
+       "todate",
+       "ticker"
+      ],
+      "title": "get_stock_fundamentalArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "get_stock_trading_volume",
+     "description": "Retrieves trading volume by investor type for a specific stock.\n\nArgs:\n    fromdate (str): Start date for retrieval (YYYYMMDD)\n    todate   (str): End date for retrieval (YYYYMMDD)\n    ticker   (str): Stock ticker symbol\n\nReturns:\n    DataFrame with columns:\n    - Volume (Sell/Buy/Net Buy)\n    - Trading Value (Sell/Buy/Net Buy)\n    Broken down by investor types (Financial Investment, Insurance, Trust, etc.)",
+     "input_schema": {
+      "properties": {
+       "fromdate": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "integer"
+         }
+        ],
+        "title": "Fromdate"
+       },
+       "todate": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "integer"
+         }
+        ],
+        "title": "Todate"
+       },
+       "ticker": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "integer"
+         }
+        ],
+        "title": "Ticker"
+       }
+      },
+      "required": [
+       "fromdate",
+       "todate",
+       "ticker"
+      ],
+      "title": "get_stock_trading_volumeArguments",
+      "type": "object"
+     }
+    }
+   ]
+  },
+  {
+   "id": "investor",
+   "name": "investor-agent: A Financial Analysis MCP Server",
+   "server": "mcp://investor",
+   "summary": "The investor-agent is a Model Context Protocol (MCP) server that provides comprehensive financial insights and analysis to Large Language Models. It leverages real-time market data, fundamental and technical analysis to deliver.",
+   "tools": [
+    {
+     "name": "get_cnn_fear_greed_index",
+     "description": "Max 30 days of historical data.",
+     "input_schema": {
+      "properties": {
+       "days": {
+        "default": 0,
+        "title": "Days",
+        "type": "integer"
+       },
+       "indicators": {
+        "anyOf": [
+         {
+          "items": {
+           "enum": [
+            "fear_and_greed",
+            "fear_and_greed_historical",
+            "put_call_options",
+            "market_volatility_vix",
+            "market_volatility_vix_50",
+            "junk_bond_demand",
+            "safe_haven_demand"
+           ],
+           "type": "string"
+          },
+          "type": "array"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Indicators"
+       }
+      },
+      "title": "get_cnn_fear_greed_indexArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "get_crypto_fear_greed_index",
+     "description": "Get historical Crypto Fear & Greed Index data.",
+     "input_schema": {
+      "properties": {
+       "days": {
+        "default": 7,
+        "title": "Days",
+        "type": "integer"
+       }
+      },
+      "title": "get_crypto_fear_greed_indexArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "get_ticker_data",
+     "description": "Returns:\n- info: Core financial metrics (P/E ratios, margins, growth rates, debt ratios, market cap, EPS, etc.)\n- calendar: Upcoming earnings dates and dividend dates\n- news: Recent news articles (headlines, dates, sources)\n- recommendations: Latest analyst recommendations (buy/sell/hold ratings)\n- upgrades_downgrades: Recent analyst rating changes",
+     "input_schema": {
+      "properties": {
+       "ticker": {
+        "title": "Ticker",
+        "type": "string"
+       },
+       "max_news": {
+        "default": 5,
+        "title": "Max News",
+        "type": "integer"
+       },
+       "max_recommendations": {
+        "default": 5,
+        "title": "Max Recommendations",
+        "type": "integer"
+       },
+       "max_upgrades": {
+        "default": 5,
+        "title": "Max Upgrades",
+        "type": "integer"
+       }
+      },
+      "required": [
+       "ticker"
+      ],
+      "title": "get_ticker_dataArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "get_options",
+     "description": "Get options data. Dates: YYYY-MM-DD. Type: C=calls, P=puts.",
+     "input_schema": {
+      "properties": {
+       "ticker_symbol": {
+        "title": "Ticker Symbol",
+        "type": "string"
+       },
+       "num_options": {
+        "default": 10,
+        "title": "Num Options",
+        "type": "integer"
+       },
+       "start_date": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Start Date"
+       },
+       "end_date": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "End Date"
+       },
+       "strike_lower": {
+        "anyOf": [
+         {
+          "type": "number"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Strike Lower"
+       },
+       "strike_upper": {
+        "anyOf": [
+         {
+          "type": "number"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Strike Upper"
+       },
+       "option_type": {
+        "anyOf": [
+         {
+          "enum": [
+           "C",
+           "P"
+          ],
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "default": null,
+        "title": "Option Type"
+       }
+      },
+      "required": [
+       "ticker_symbol"
+      ],
+      "title": "get_optionsArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "get_price_history",
+     "description": "Get historical OHLCV data: daily intervals for \u22641y periods, monthly intervals for \u22652y periods.",
+     "input_schema": {
+      "properties": {
+       "ticker": {
+        "title": "Ticker",
+        "type": "string"
+       },
+       "period": {
+        "default": "1mo",
+        "enum": [
+         "1d",
+         "5d",
+         "1mo",
+         "3mo",
+         "6mo",
+         "1y",
+         "2y",
+         "5y",
+         "10y",
+         "ytd",
+         "max"
+        ],
+        "title": "Period",
+        "type": "string"
+       }
+      },
+      "required": [
+       "ticker"
+      ],
+      "title": "get_price_historyArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "get_financial_statements",
+     "description": "",
+     "input_schema": {
+      "properties": {
+       "ticker": {
+        "title": "Ticker",
+        "type": "string"
+       },
+       "statement_type": {
+        "default": "income",
+        "enum": [
+         "income",
+         "balance",
+         "cash"
+        ],
+        "title": "Statement Type",
+        "type": "string"
+       },
+       "frequency": {
+        "default": "quarterly",
+        "enum": [
+         "quarterly",
+         "annual"
+        ],
+        "title": "Frequency",
+        "type": "string"
+       },
+       "max_periods": {
+        "default": 8,
+        "title": "Max Periods",
+        "type": "integer"
+       }
+      },
+      "required": [
+       "ticker"
+      ],
+      "title": "get_financial_statementsArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "get_institutional_holders",
+     "description": "Get major institutional and mutual fund holders.",
+     "input_schema": {
+      "properties": {
+       "ticker": {
+        "title": "Ticker",
+        "type": "string"
+       },
+       "top_n": {
+        "default": 20,
+        "title": "Top N",
+        "type": "integer"
+       }
+      },
+      "required": [
+       "ticker"
+      ],
+      "title": "get_institutional_holdersArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "get_earnings_history",
+     "description": "",
+     "input_schema": {
+      "properties": {
+       "ticker": {
+        "title": "Ticker",
+        "type": "string"
+       },
+       "max_entries": {
+        "default": 8,
+        "title": "Max Entries",
+        "type": "integer"
+       }
+      },
+      "required": [
+       "ticker"
+      ],
+      "title": "get_earnings_historyArguments",
+      "type": "object"
+     }
+    },
+    {
+     "name": "get_insider_trades",
+     "description": "",
+     "input_schema": {
+      "properties": {
+       "ticker": {
+        "title": "Ticker",
+        "type": "string"
+       },
+       "max_trades": {
+        "default": 20,
+        "title": "Max Trades",
+        "type": "integer"
+       }
+      },
+      "required": [
+       "ticker"
+      ],
+      "title": "get_insider_tradesArguments",
+      "type": "object"
+     }
+    }
+   ]
+  },
+  {
+   "id": "exchange_rate_mcp",
+   "name": "Exchange Rate MCP Server",
+   "server": "mcp://exchange-rate-mcp",
+   "summary": "This is a Model Context Protocol (MCP) server that provides access to exchange rate data from the Norges Bank API.",
+   "tools": [
+    {
+     "name": "exchange_rate",
+     "description": "Retrieves exchange rates using Norges Bank's API. Returns rate information including the base currency, target currency, date, and conversion rate.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "baseCurrency": {
+        "type": "string",
+        "description": "The base currency code (e.g., NOK, USD)"
+       },
+       "targetCurrency": {
+        "type": "string",
+        "description": "The target currency code (e.g., EUR, USD)"
+       },
+       "date": {
+        "type": "string",
+        "description": "Optional date in YYYY-MM-DD format. Defaults to latest available rate."
+       }
+      },
+      "required": [
+       "baseCurrency",
+       "targetCurrency"
+      ],
+      "additionalProperties": false,
+      "$schema": "http://json-schema.org/draft-07/schema#"
+     }
+    }
+   ]
+  },
+  {
+   "id": "asset_price_mcp",
+   "name": "Asset Price MCP Server (asset-price-mcp)",
+   "server": "mcp://Asset_Price_MCP",
+   "summary": "A Model Context Protocol server for retrieving and displaying current asset price information. This server provides tools to fetch real-time price information for various asset (including precious metals and cryptocurrencies), making it easy for large language models to access and display this data.",
+   "tools": [
+    {
+     "name": "get_asset_price",
+     "description": "Retrieves current pricing information for various assets including precious metals and cryptocurrencies",
+     "input_schema": {
+      "type": "object",
+      "properties": {},
+      "additionalProperties": false,
+      "$schema": "http://json-schema.org/draft-07/schema#"
+     }
+    }
+   ]
+  }
+ ]
+}

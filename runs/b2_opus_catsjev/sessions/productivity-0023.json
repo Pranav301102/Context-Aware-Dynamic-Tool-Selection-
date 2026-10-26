@@ -1,0 +1,72 @@
+{
+ "task_id": "productivity-0023",
+ "mode": "cats",
+ "loaded": [
+  "apple_mcp.calendar",
+  "discord.send_message",
+  "google_calendar.create_event",
+  "google_calendar.delete_event",
+  "google_calendar.list_events",
+  "google_calendar.respond_to_event",
+  "google_calendar.update_event",
+  "ms365_pim.delete_calendar_event",
+  "ms365_pim.update_calendar_event",
+  "slack.post_message"
+ ],
+ "order": [
+  "apple_mcp.calendar",
+  "discord.send_message",
+  "google_calendar.create_event",
+  "google_calendar.delete_event",
+  "google_calendar.list_events",
+  "google_calendar.respond_to_event",
+  "google_calendar.update_event",
+  "ms365_pim.delete_calendar_event",
+  "ms365_pim.update_calendar_event",
+  "slack.post_message"
+ ],
+ "scores": {
+  "apple_mcp.calendar": 0.03747543808820859,
+  "discord.send_message": 0.0,
+  "google_calendar.create_event": 0.2386822592890011,
+  "google_calendar.delete_event": 0.07689353108405345,
+  "google_calendar.list_events": 0.3156100134255049,
+  "google_calendar.respond_to_event": 0.7480346253324486,
+  "google_calendar.update_event": 0.29031298615648665,
+  "ms365_pim.delete_calendar_event": 0.08784208135856811,
+  "ms365_pim.update_calendar_event": 0.13172060226297663,
+  "slack.post_message": 0.0
+ },
+ "router_tokens": 1452,
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "google_calendar.respond_to_event",
+   "args": {
+    "calendarId": "primary",
+    "eventId": "3vq8xk1",
+    "response": "declined",
+    "comment": "Sorry, I can't make the design crit tomorrow - I'm out.",
+    "sendUpdates": "all"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 10,
+   "tool_tokens": 3508,
+   "t": 1791320845.8020413
+  },
+  {
+   "type": "call",
+   "tool": "google_calendar__respond_to_event",
+   "valid": true,
+   "t": 1791320857.5399375
+  }
+ ],
+ "done": true,
+ "t_done": 1791320859.6622007,
+ "final": ""
+}

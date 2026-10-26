@@ -1,0 +1,877 @@
+{
+  "branch": {
+    "id": "sports_fitness",
+    "name": "Sports & Fitness",
+    "summary": "Sports and personal fitness: workout and activity tracking, wearable recovery, sleep and heart-rate data, structured training plans, and live sports scores, fixtures, standings and team/player stats."
+  },
+  "toolkits": [
+    {
+      "id": "strava",
+      "name": "Strava",
+      "server": "mcp://strava",
+      "summary": "Athlete activity tracking: runs, rides and swims, activity streams, segments and athlete statistics.",
+      "tools": [
+        {
+          "name": "get_authenticated_athlete",
+          "description": "Get the current athlete's profile.",
+          "input_schema": {
+            "type": "object",
+            "properties": {}
+          }
+        },
+        {
+          "name": "list_activities",
+          "description": "List the authenticated athlete's activities (runs, rides, swims, etc.), newest first, optionally between two timestamps.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "before": {
+                "type": "integer",
+                "description": "Epoch seconds; only activities before this time."
+              },
+              "after": {
+                "type": "integer",
+                "description": "Epoch seconds; only activities after this time."
+              },
+              "page": {
+                "type": "integer",
+                "default": 1
+              },
+              "per_page": {
+                "type": "integer",
+                "default": 30
+              }
+            }
+          }
+        },
+        {
+          "name": "get_activity",
+          "description": "Get a detailed activity with splits, laps, segment efforts and gear.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "activity_id": {
+                "type": "integer"
+              },
+              "include_all_efforts": {
+                "type": "boolean",
+                "default": false
+              }
+            },
+            "required": [
+              "activity_id"
+            ]
+          }
+        },
+        {
+          "name": "create_manual_activity",
+          "description": "Create a manual activity (no GPS file), e.g. a treadmill run or gym session.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "sport_type": {
+                "type": "string",
+                "enum": [
+                  "Run",
+                  "TrailRun",
+                  "Ride",
+                  "VirtualRide",
+                  "Swim",
+                  "Walk",
+                  "Hike",
+                  "WeightTraining",
+                  "Yoga",
+                  "Rowing",
+                  "Workout"
+                ]
+              },
+              "start_date_local": {
+                "type": "string",
+                "description": "ISO 8601 local start time."
+              },
+              "elapsed_time": {
+                "type": "integer",
+                "description": "Duration in seconds."
+              },
+              "distance": {
+                "type": "number",
+                "description": "Meters."
+              },
+              "description": {
+                "type": "string"
+              },
+              "trainer": {
+                "type": "boolean",
+                "description": "Indoor trainer activity."
+              },
+              "commute": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "name",
+              "sport_type",
+              "start_date_local",
+              "elapsed_time"
+            ]
+          }
+        },
+        {
+          "name": "update_activity",
+          "description": "Update an activity's name, type, description, gear or visibility.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "activity_id": {
+                "type": "integer"
+              },
+              "name": {
+                "type": "string"
+              },
+              "sport_type": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "gear_id": {
+                "type": "string"
+              },
+              "hide_from_home": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "activity_id"
+            ]
+          }
+        },
+        {
+          "name": "get_activity_streams",
+          "description": "Get time-series data (heart rate, power, cadence, altitude, GPS, speed) recorded during an activity.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "activity_id": {
+                "type": "integer"
+              },
+              "keys": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "time",
+                    "distance",
+                    "latlng",
+                    "altitude",
+                    "velocity_smooth",
+                    "heartrate",
+                    "cadence",
+                    "watts",
+                    "temp",
+                    "grade_smooth"
+                  ]
+                }
+              },
+              "key_by_type": {
+                "type": "boolean",
+                "default": true
+              }
+            },
+            "required": [
+              "activity_id",
+              "keys"
+            ]
+          }
+        },
+        {
+          "name": "get_athlete_stats",
+          "description": "Year-to-date and all-time totals.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "athlete_id": {
+                "type": "integer"
+              }
+            },
+            "required": [
+              "athlete_id"
+            ]
+          }
+        },
+        {
+          "name": "explore_segments",
+          "description": "Find popular segments within a geographic bounding box.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "bounds": {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                },
+                "description": "[sw_lat, sw_lng, ne_lat, ne_lng]",
+                "minItems": 4,
+                "maxItems": 4
+              },
+              "activity_type": {
+                "type": "string",
+                "enum": [
+                  "running",
+                  "riding"
+                ],
+                "default": "riding"
+              },
+              "min_cat": {
+                "type": "integer",
+                "description": "Minimum climb category (rides)."
+              },
+              "max_cat": {
+                "type": "integer"
+              }
+            },
+            "required": [
+              "bounds"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "whoop",
+      "name": "WHOOP",
+      "server": "mcp://whoop",
+      "summary": "Wearable recovery, strain and sleep data from WHOOP straps.",
+      "tools": [
+        {
+          "name": "get_recovery",
+          "description": "Get daily recovery scores (0-100%), resting heart rate and heart rate variability (HRV) for a date range.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "start": {
+                "type": "string",
+                "description": "ISO 8601 start."
+              },
+              "end": {
+                "type": "string",
+                "description": "ISO 8601 end."
+              },
+              "limit": {
+                "type": "integer",
+                "default": 10,
+                "maximum": 25
+              }
+            }
+          }
+        },
+        {
+          "name": "get_sleep",
+          "description": "Sleep sessions with stages, efficiency, respiratory rate and sleep need.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "start": {
+                "type": "string"
+              },
+              "end": {
+                "type": "string"
+              },
+              "limit": {
+                "type": "integer"
+              }
+            }
+          }
+        },
+        {
+          "name": "get_cycles",
+          "description": "Physiological cycles with day strain.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "start": {
+                "type": "string"
+              },
+              "end": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        {
+          "name": "list_workouts",
+          "description": "Workouts recorded by the strap with strain, average and max heart rate and heart rate zone durations.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "start": {
+                "type": "string"
+              },
+              "end": {
+                "type": "string"
+              },
+              "limit": {
+                "type": "integer"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "garmin_connect",
+      "name": "Garmin Connect",
+      "server": "mcp://garmin-connect",
+      "summary": "Garmin wearable health data and workout delivery to Garmin devices.",
+      "tools": [
+        {
+          "name": "get_daily_summary",
+          "description": "Steps, calories, intensity minutes, stress and Body Battery for a day.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "date": {
+                "type": "string",
+                "description": "YYYY-MM-DD"
+              }
+            },
+            "required": [
+              "date"
+            ]
+          }
+        },
+        {
+          "name": "get_heart_rate_data",
+          "description": "Heart rate samples and resting HR for a day.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "date": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "date"
+            ]
+          }
+        },
+        {
+          "name": "send_workout_to_device",
+          "description": "Push a structured workout to the user's Garmin device; it appears after the next sync.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "workout": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "sport": {
+                    "type": "string",
+                    "enum": [
+                      "running",
+                      "cycling",
+                      "swimming",
+                      "strength",
+                      "cardio"
+                    ]
+                  },
+                  "steps": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "enum": [
+                            "warmup",
+                            "interval",
+                            "recovery",
+                            "rest",
+                            "cooldown"
+                          ]
+                        },
+                        "duration_type": {
+                          "type": "string",
+                          "enum": [
+                            "time",
+                            "distance",
+                            "lap_button"
+                          ]
+                        },
+                        "duration_value": {
+                          "type": "number",
+                          "description": "Seconds or meters."
+                        },
+                        "target_type": {
+                          "type": "string",
+                          "enum": [
+                            "no_target",
+                            "heart_rate_zone",
+                            "pace",
+                            "power",
+                            "cadence"
+                          ]
+                        },
+                        "target_low": {
+                          "type": "number"
+                        },
+                        "target_high": {
+                          "type": "number"
+                        }
+                      }
+                    }
+                  }
+                },
+                "required": [
+                  "name",
+                  "sport",
+                  "steps"
+                ]
+              },
+              "device_id": {
+                "type": "string"
+              },
+              "scheduled_date": {
+                "type": "string",
+                "description": "Optional YYYY-MM-DD to put it on the device calendar."
+              }
+            },
+            "required": [
+              "workout"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "sportradar",
+      "name": "Sportradar",
+      "server": "mcp://sportradar",
+      "summary": "Sports data feeds: live scores, schedules and fixtures, standings, box scores and team/player profiles across major leagues.",
+      "tools": [
+        {
+          "name": "get_live_scores",
+          "description": "Live scores and match status for in-progress games in a sport or competition.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "sport": {
+                "type": "string",
+                "enum": [
+                  "soccer",
+                  "basketball",
+                  "american_football",
+                  "baseball",
+                  "ice_hockey",
+                  "tennis",
+                  "cricket",
+                  "rugby"
+                ]
+              },
+              "competition_id": {
+                "type": "string",
+                "description": "e.g. sr:competition:17 (Premier League)."
+              }
+            },
+            "required": [
+              "sport"
+            ]
+          }
+        },
+        {
+          "name": "get_schedule",
+          "description": "Fixtures and results for a competition season, or all games on a date.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "sport": {
+                "type": "string",
+                "enum": [
+                  "soccer",
+                  "basketball",
+                  "american_football",
+                  "baseball",
+                  "ice_hockey",
+                  "tennis",
+                  "cricket",
+                  "rugby"
+                ]
+              },
+              "competition_id": {
+                "type": "string"
+              },
+              "season_id": {
+                "type": "string"
+              },
+              "date": {
+                "type": "string",
+                "description": "YYYY-MM-DD"
+              }
+            },
+            "required": [
+              "sport"
+            ]
+          }
+        },
+        {
+          "name": "get_standings",
+          "description": "League table / standings for a season.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "sport": {
+                "type": "string",
+                "enum": [
+                  "soccer",
+                  "basketball",
+                  "american_football",
+                  "baseball",
+                  "ice_hockey",
+                  "tennis",
+                  "cricket",
+                  "rugby"
+                ]
+              },
+              "season_id": {
+                "type": "string"
+              },
+              "standings_type": {
+                "type": "string",
+                "enum": [
+                  "total",
+                  "home",
+                  "away"
+                ],
+                "default": "total"
+              }
+            },
+            "required": [
+              "sport",
+              "season_id"
+            ]
+          }
+        },
+        {
+          "name": "get_match_summary",
+          "description": "Box score / match summary.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "sport": {
+                "type": "string",
+                "enum": [
+                  "soccer",
+                  "basketball",
+                  "american_football",
+                  "baseball",
+                  "ice_hockey",
+                  "tennis",
+                  "cricket",
+                  "rugby"
+                ]
+              },
+              "match_id": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "sport",
+              "match_id"
+            ]
+          }
+        },
+        {
+          "name": "get_team_profile",
+          "description": "Team roster, venue, manager/coach and recent form.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "sport": {
+                "type": "string",
+                "enum": [
+                  "soccer",
+                  "basketball",
+                  "american_football",
+                  "baseball",
+                  "ice_hockey",
+                  "tennis",
+                  "cricket",
+                  "rugby"
+                ]
+              },
+              "team_id": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "sport",
+              "team_id"
+            ]
+          }
+        },
+        {
+          "name": "get_player_profile",
+          "description": "Player bio and season statistics.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "sport": {
+                "type": "string",
+                "enum": [
+                  "soccer",
+                  "basketball",
+                  "american_football",
+                  "baseball",
+                  "ice_hockey",
+                  "tennis",
+                  "cricket",
+                  "rugby"
+                ]
+              },
+              "player_id": {
+                "type": "string"
+              },
+              "season_id": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "sport",
+              "player_id"
+            ]
+          }
+        },
+        {
+          "name": "search_teams",
+          "description": "Search teams by name across supported competitions.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string"
+              },
+              "sport": {
+                "type": "string",
+                "enum": [
+                  "soccer",
+                  "basketball",
+                  "american_football",
+                  "baseball",
+                  "ice_hockey",
+                  "tennis",
+                  "cricket",
+                  "rugby"
+                ]
+              }
+            },
+            "required": [
+              "query"
+            ]
+          }
+        },
+        {
+          "name": "get_head_to_head",
+          "description": "Recent head-to-head results between two teams.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "sport": {
+                "type": "string",
+                "enum": [
+                  "soccer",
+                  "basketball",
+                  "american_football",
+                  "baseball",
+                  "ice_hockey",
+                  "tennis",
+                  "cricket",
+                  "rugby"
+                ]
+              },
+              "team_a_id": {
+                "type": "string"
+              },
+              "team_b_id": {
+                "type": "string"
+              },
+              "limit": {
+                "type": "integer",
+                "default": 10
+              }
+            },
+            "required": [
+              "sport",
+              "team_a_id",
+              "team_b_id"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "trainingpeaks",
+      "name": "TrainingPeaks",
+      "server": "mcp://trainingpeaks",
+      "summary": "Endurance training planner: schedule structured workouts and track fitness, fatigue and form.",
+      "tools": [
+        {
+          "name": "schedule_workout",
+          "description": "Add a planned workout to an athlete's training calendar with structure (warmup, intervals, cooldown) and target TSS.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "athlete_id": {
+                "type": "string"
+              },
+              "workout_date": {
+                "type": "string",
+                "description": "YYYY-MM-DD"
+              },
+              "title": {
+                "type": "string"
+              },
+              "sport": {
+                "type": "string",
+                "enum": [
+                  "run",
+                  "bike",
+                  "swim",
+                  "strength",
+                  "rowing",
+                  "other"
+                ]
+              },
+              "planned_duration_minutes": {
+                "type": "integer"
+              },
+              "planned_tss": {
+                "type": "number",
+                "description": "Planned Training Stress Score."
+              },
+              "structure": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "step_type": {
+                      "type": "string",
+                      "enum": [
+                        "warmup",
+                        "active",
+                        "recovery",
+                        "cooldown",
+                        "repeat"
+                      ]
+                    },
+                    "duration_seconds": {
+                      "type": "integer"
+                    },
+                    "repeat_count": {
+                      "type": "integer"
+                    },
+                    "target": {
+                      "type": "object",
+                      "properties": {
+                        "metric": {
+                          "type": "string",
+                          "enum": [
+                            "heart_rate",
+                            "power",
+                            "pace"
+                          ]
+                        },
+                        "min": {
+                          "type": "number"
+                        },
+                        "max": {
+                          "type": "number"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "description": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "athlete_id",
+              "workout_date",
+              "title",
+              "sport"
+            ]
+          }
+        },
+        {
+          "name": "list_planned_workouts",
+          "description": "List planned and completed workouts in a date range.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "athlete_id": {
+                "type": "string"
+              },
+              "start_date": {
+                "type": "string"
+              },
+              "end_date": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "athlete_id",
+              "start_date",
+              "end_date"
+            ]
+          }
+        },
+        {
+          "name": "get_fitness_metrics",
+          "description": "Performance Management Chart values per day: fitness (CTL), fatigue (ATL) and form (TSB).",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "athlete_id": {
+                "type": "string"
+              },
+              "start_date": {
+                "type": "string"
+              },
+              "end_date": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "athlete_id"
+            ]
+          }
+        },
+        {
+          "name": "delete_workout",
+          "description": "Delete a planned workout.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "athlete_id": {
+                "type": "string"
+              },
+              "workout_id": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "athlete_id",
+              "workout_id"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

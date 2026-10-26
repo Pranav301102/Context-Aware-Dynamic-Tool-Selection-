@@ -1,0 +1,73 @@
+{
+ "task_id": "search-0045",
+ "mode": "cats",
+ "loaded": [
+  "amadeus_travel.airport_direct_destinations",
+  "amadeus_travel.get_hotel_offers",
+  "amadeus_travel.search_hotels_by_city",
+  "amadeus_travel.search_hotels_by_geocode",
+  "google_maps.maps_directions",
+  "google_maps.maps_distance_matrix",
+  "google_maps.maps_search_places",
+  "mapbox.category_search_tool",
+  "mapbox.directions_tool",
+  "nws_weather.get_forecast"
+ ],
+ "order": [
+  "amadeus_travel.airport_direct_destinations",
+  "amadeus_travel.get_hotel_offers",
+  "amadeus_travel.search_hotels_by_city",
+  "amadeus_travel.search_hotels_by_geocode",
+  "google_maps.maps_directions",
+  "google_maps.maps_distance_matrix",
+  "google_maps.maps_search_places",
+  "mapbox.category_search_tool",
+  "mapbox.directions_tool",
+  "nws_weather.get_forecast"
+ ],
+ "scores": {
+  "amadeus_travel.airport_direct_destinations": 0.08967990284829792,
+  "amadeus_travel.get_hotel_offers": 0.23749173434881463,
+  "amadeus_travel.search_hotels_by_city": 0.5744248001303828,
+  "amadeus_travel.search_hotels_by_geocode": 0.17318969715692248,
+  "google_maps.maps_directions": 0.07233555311421194,
+  "google_maps.maps_distance_matrix": 0.2250516638190587,
+  "google_maps.maps_search_places": 0.2475532734242036,
+  "mapbox.category_search_tool": 0.04207586454910534,
+  "mapbox.directions_tool": 0.041573149019458785,
+  "nws_weather.get_forecast": 0.04252571465064715
+ },
+ "router_tokens": 0,
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "mapbox.category_search_tool",
+   "args": {
+    "category": "bakery",
+    "proximity": {
+     "latitude": 38.7145,
+     "longitude": -9.1308
+    },
+    "limit": 10
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 10,
+   "tool_tokens": 2515,
+   "t": 1791321416.8828273
+  },
+  {
+   "type": "call",
+   "tool": "mapbox__category_search_tool",
+   "valid": true,
+   "t": 1791321428.276735
+  }
+ ],
+ "done": true,
+ "t_done": 1791321433.8934329,
+ "final": ""
+}

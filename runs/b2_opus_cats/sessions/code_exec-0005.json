@@ -1,0 +1,79 @@
+{
+ "task_id": "code_exec-0005",
+ "mode": "cats",
+ "loaded": [
+  "code_checker.collect_tests",
+  "code_checker.run_all_checks",
+  "code_checker.run_jest",
+  "code_checker.run_pytest_check",
+  "filesystem.read_multiple_files",
+  "github.list_workflow_runs",
+  "ms_teams.list_teams",
+  "package_manager.npm_install",
+  "package_manager.npm_run_script",
+  "package_manager.pip_install",
+  "package_manager.pip_list"
+ ],
+ "order": [
+  "code_checker.collect_tests",
+  "code_checker.run_all_checks",
+  "code_checker.run_jest",
+  "code_checker.run_pytest_check",
+  "filesystem.read_multiple_files",
+  "github.list_workflow_runs",
+  "ms_teams.list_teams",
+  "package_manager.npm_install",
+  "package_manager.npm_run_script",
+  "package_manager.pip_install",
+  "package_manager.pip_list"
+ ],
+ "scores": {
+  "code_checker.collect_tests": 0.19439062361592854,
+  "code_checker.run_all_checks": 0.19020155081076934,
+  "code_checker.run_jest": 0.9047288823251982,
+  "code_checker.run_pytest_check": 0.2520419893273121,
+  "filesystem.read_multiple_files": 0.3134483820534052,
+  "github.list_workflow_runs": 0.1032117132479977,
+  "ms_teams.list_teams": 0.07622240340265708,
+  "package_manager.npm_install": 0.7501887042344221,
+  "package_manager.npm_run_script": 0.20210891656948737,
+  "package_manager.pip_install": 0.0930028295614847,
+  "package_manager.pip_list": 0.3347059659233826
+ },
+ "router_tokens": 0,
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "package_manager.npm_install",
+   "args": {}
+  },
+  {
+   "tool": "code_checker.run_jest",
+   "args": {}
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 11,
+   "tool_tokens": 2439,
+   "t": 1791320973.112545
+  },
+  {
+   "type": "call",
+   "tool": "package_manager__npm_install",
+   "valid": true,
+   "t": 1791320982.7027898
+  },
+  {
+   "type": "call",
+   "tool": "code_checker__run_jest",
+   "valid": true,
+   "t": 1791320988.0738049
+  }
+ ],
+ "done": true,
+ "t_done": 1791320989.9344969,
+ "final": ""
+}

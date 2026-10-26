@@ -1,0 +1,985 @@
+{
+ "branch": {
+  "id": "bfcl_c09",
+  "name": "recipe / cooking / based",
+  "summary": "Functions about recipe, cooking, based, recipes, time, ingredients, calories, ingredient, food, search, preparation, dish."
+ },
+ "toolkits": [
+  {
+   "id": "hna_cookbook",
+   "name": "HNA_COOKBOOK",
+   "server": "bfcl://HNA_COOKBOOK",
+   "summary": "Search for cooking recipes based on a given keyword.",
+   "tools": [
+    {
+     "name": "search_recipe",
+     "description": "Search for cooking recipes based on a given keyword. The function returns a list of recipes that match the keyword criteria.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "keyword"
+      ],
+      "properties": {
+       "keyword": {
+        "type": "string",
+        "description": "The keyword to search for in recipes. It could be an ingredient, dish name, or cuisine type."
+       },
+       "max_results": {
+        "type": "integer",
+        "description": "The maximum number of recipe results to return. Defaults to 10.",
+        "default": 10
+       },
+       "include_instructions": {
+        "type": "boolean",
+        "description": "Whether to include cooking instructions in the search results. Defaults to false.",
+        "default": false
+       }
+      }
+     }
+    }
+   ]
+  },
+  {
+   "id": "cook_recipe",
+   "name": "cook_recipe",
+   "server": "bfcl://cook_recipe",
+   "summary": "Creates a detailed recipe based on a list of ingredients and cooking instructions.",
+   "tools": [
+    {
+     "name": "create",
+     "description": "Creates a detailed recipe based on a list of ingredients and cooking instructions.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "ingredients": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "A list of ingredients."
+       },
+       "instructions": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "A list of step-by-step cooking instructions."
+       },
+       "prep_time": {
+        "type": "number",
+        "description": "The preparation time in minutes, optional and default to 30."
+       }
+      },
+      "required": [
+       "ingredients",
+       "instructions"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "cookbook",
+   "name": "cookbook",
+   "server": "bfcl://cookbook",
+   "summary": "Searches for cooking recipes based on a provided keyword.",
+   "tools": [
+    {
+     "name": "search_recipe",
+     "description": "Searches for cooking recipes based on a provided keyword. Returns a list of recipes that contain the keyword in their title or ingredients list.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "keyword"
+      ],
+      "properties": {
+       "keyword": {
+        "type": "string",
+        "description": "The keyword to search for in the recipe titles or ingredients."
+       },
+       "cuisine": {
+        "type": "string",
+        "description": "The cuisine type to narrow down the search results.",
+        "enum": [
+         "Italian",
+         "Chinese",
+         "Indian",
+         "French",
+         "Mexican"
+        ],
+        "default": "Italian"
+       },
+       "max_results": {
+        "type": "integer",
+        "description": "The maximum number of recipe results to return.",
+        "default": 10
+       }
+      }
+     }
+    }
+   ]
+  },
+  {
+   "id": "prepare_food",
+   "name": "prepare_food",
+   "server": "bfcl://prepare_food",
+   "summary": "Retrieve a recipe based on specific ingredients and type of food.",
+   "tools": [
+    {
+     "name": "get_recipe",
+     "description": "Retrieve a recipe based on specific ingredients and type of food.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "ingredients": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "List of ingredients for the recipe."
+       },
+       "food_type": {
+        "type": "string",
+        "description": "The type of food for the recipe."
+       },
+       "serving_size": {
+        "type": "integer",
+        "description": "The number of servings the recipe should cater to. Default is 1."
+       }
+      },
+      "required": [
+       "ingredients",
+       "food_type"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "recipe",
+   "name": "recipe",
+   "server": "bfcl://recipe",
+   "summary": "Locate cooking recipes based on specific criteria such as main ingredient and number of ingredients Get the cooking temperature for a specific recipe.",
+   "tools": [
+    {
+     "name": "find",
+     "description": "Locate cooking recipes based on specific criteria such as main ingredient and number of ingredients",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "mainIngredient": {
+        "type": "string",
+        "description": "Main ingredient for the recipe."
+       },
+       "ingredientLimit": {
+        "type": "integer",
+        "description": "Max number of ingredients the recipe should use."
+       }
+      },
+      "required": [
+       "mainIngredient",
+       "ingredientLimit"
+      ]
+     }
+    },
+    {
+     "name": "getTemperature",
+     "description": "Get the cooking temperature for a specific recipe.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "dish_name": {
+        "type": "string",
+        "description": "The name of the dish."
+       },
+       "oven_type": {
+        "type": "string",
+        "description": "The type of oven. e.g. Conventional, Convection"
+       },
+       "pre_heating": {
+        "type": "boolean",
+        "description": "Is pre-heating needed or not.",
+        "default": "false"
+       }
+      },
+      "required": [
+       "dish_name",
+       "oven_type"
+      ]
+     }
+    },
+    {
+     "name": "unit_conversion",
+     "description": "Convert a value from one kitchen unit to another for cooking purposes.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "value": {
+        "type": "number",
+        "description": "The value to be converted."
+       },
+       "from_unit": {
+        "type": "string",
+        "description": "The unit to convert from. Supports 'teaspoon', 'tablespoon', 'cup', etc."
+       },
+       "to_unit": {
+        "type": "string",
+        "description": "The unit to convert to. Supports 'teaspoon', 'tablespoon', 'cup', etc."
+       },
+       "precision": {
+        "type": "integer",
+        "description": "The precision to round the output to, in case of a non-integer result. Optional, default is 0."
+       }
+      },
+      "required": [
+       "value",
+       "from_unit",
+       "to_unit"
+      ]
+     }
+    },
+    {
+     "name": "unit_conversion_2",
+     "description": "Convert a value from one kitchen unit to another for cooking purposes.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "value": {
+        "type": "integer",
+        "description": "The value to be converted."
+       },
+       "from_unit": {
+        "type": "string",
+        "description": "The unit to convert from. Supports 'teaspoon', 'tablespoon', 'cup', etc."
+       },
+       "to_unit": {
+        "type": "string",
+        "description": "The unit to convert to. Supports 'teaspoon', 'tablespoon', 'cup', etc."
+       },
+       "precision": {
+        "type": "integer",
+        "description": "The precision to round the output to, in case of a non-integer result. Optional, default is 0."
+       }
+      },
+      "required": [
+       "value",
+       "from_unit",
+       "to_unit"
+      ]
+     }
+    },
+    {
+     "name": "unit_conversion_3",
+     "description": "Convert a value from one kitchen unit to another for cooking purposes.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "value": {
+        "type": "integer",
+        "description": "The value to be converted."
+       },
+       "from_unit": {
+        "type": "string",
+        "description": "The unit to convert from. Supports 'teaspoon', 'tablespoon', 'cup', etc."
+       },
+       "to_unit": {
+        "type": "string",
+        "description": "The unit to convert to. Supports 'teaspoon', 'tablespoon', 'cup', etc."
+       },
+       "precision": {
+        "type": "integer",
+        "description": "The precision to round the output to, in case of a non-integer result. Optional, default is 1."
+       }
+      },
+      "required": [
+       "value",
+       "from_unit",
+       "to_unit"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "recipe_calculator",
+   "name": "recipe_calculator",
+   "server": "bfcl://recipe_calculator",
+   "summary": "Calculates the time to cook a recipe based on weight and per unit time.",
+   "tools": [
+    {
+     "name": "calculate_time",
+     "description": "Calculates the time to cook a recipe based on weight and per unit time.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "weight": {
+        "type": "number",
+        "description": "The weight of the item to be cooked."
+       },
+       "per_unit_time": {
+        "type": "integer",
+        "description": "The time required to cook per unit weight."
+       },
+       "unit_of_time": {
+        "type": "string",
+        "description": "Unit of time, such as minutes or hours. Default is minutes."
+       }
+      },
+      "required": [
+       "weight",
+       "per_unit_time"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "recipe_finder",
+   "name": "recipe_finder",
+   "server": "bfcl://recipe_finder",
+   "summary": "Find a recipe based on dietary preferences, number of servings, and preparation time.",
+   "tools": [
+    {
+     "name": "find",
+     "description": "Find a recipe based on dietary preferences, number of servings, and preparation time.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "servings": {
+        "type": "integer",
+        "description": "The number of people that the recipe should serve."
+       },
+       "diet": {
+        "type": "string",
+        "description": "Any dietary restrictions like 'vegan', 'vegetarian', 'gluten-free' etc."
+       },
+       "prep_time": {
+        "type": "integer",
+        "description": "The maximum amount of time (in minutes) the preparation should take. Default is 60 minutes."
+       }
+      },
+      "required": [
+       "servings",
+       "diet"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "recipe_info",
+   "name": "recipe_info",
+   "server": "bfcl://recipe_info",
+   "summary": "Retrieve the amount of calories from a specific recipe in a food website. Retrieve the amount of calories from a specific recipe in a food website.",
+   "tools": [
+    {
+     "name": "get_calories",
+     "description": "Retrieve the amount of calories from a specific recipe in a food website.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "website": {
+        "type": "string",
+        "description": "The food website that has the recipe."
+       },
+       "recipe": {
+        "type": "string",
+        "description": "Name of the recipe."
+       },
+       "optional_meal_time": {
+        "type": "string",
+        "description": "Specific meal time of the day for the recipe (optional, could be 'Breakfast', 'Lunch', 'Dinner') Default is ''"
+       }
+      },
+      "required": [
+       "website",
+       "recipe"
+      ]
+     }
+    },
+    {
+     "name": "get_calories_2",
+     "description": "Retrieve the amount of calories from a specific recipe in a food website.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "website": {
+        "type": "string",
+        "description": "The food website that has the recipe."
+       },
+       "recipe": {
+        "type": "string",
+        "description": "Name of the recipe."
+       },
+       "optional_meal_time": {
+        "type": "string",
+        "description": "Specific meal time of the day for the recipe (optional, could be 'Breakfast', 'Lunch', 'Dinner'). Default is 'Dinner'"
+       }
+      },
+      "required": [
+       "website",
+       "recipe"
+      ]
+     }
+    },
+    {
+     "name": "get_calories_3",
+     "description": "Retrieve the amount of calories from a specific recipe in a food website.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "website": {
+        "type": "string",
+        "description": "The food website that has the recipe."
+       },
+       "recipe": {
+        "type": "string",
+        "description": "Name of the recipe."
+       },
+       "optional_meal_time": {
+        "type": "string",
+        "description": "Specific meal time of the day for the recipe (optional, could be 'Breakfast', 'Lunch', 'Dinner'). Default is all if not specified."
+       }
+      },
+      "required": [
+       "website",
+       "recipe"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "recipe_search",
+   "name": "recipe_search",
+   "server": "bfcl://recipe_search",
+   "summary": "Locate recipes based on the type of dish.",
+   "tools": [
+    {
+     "name": "find",
+     "description": "Locate recipes based on the type of dish.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "dish": {
+        "type": "string",
+        "description": "The name of the dish to search for."
+       },
+       "diet": {
+        "type": "string",
+        "enum": [
+         "Vegan",
+         "Vegetarian",
+         "Paleo",
+         "Keto"
+        ],
+        "description": "Dietary preference.",
+        "default": "Keto"
+       }
+      },
+      "required": [
+       "dish"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "bfcl_c09_g0",
+   "name": "recipe cooking time",
+   "server": "bfcl://bfcl_c09_g0",
+   "summary": "Functions for recipe, cooking, time, based, fetch, preparation.",
+   "tools": [
+    {
+     "name": "fetch_recipe",
+     "description": "Retrieve a specific cooking recipe based on user query.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "query": {
+        "type": "string",
+        "description": "The user's query for a recipe."
+       },
+       "numberOfResults": {
+        "type": "integer",
+        "description": "Number of recipes the user wants to retrieve. Default is 1."
+       },
+       "includeIngredients": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "An array of ingredients to include in the search. Optional.",
+        "default": [
+         "flour"
+        ]
+       }
+      },
+      "required": [
+       "query",
+       "numberOfResults"
+      ]
+     }
+    },
+    {
+     "name": "find_recipe",
+     "description": "Find a recipe based on the dietary restrictions, recipe type, and time constraints.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "dietary_restrictions": {
+        "type": "string",
+        "description": "Dietary restrictions e.g. vegan, vegetarian, gluten free, dairy free."
+       },
+       "recipe_type": {
+        "type": "string",
+        "description": "Type of the recipe. E.g. dessert, main course, breakfast."
+       },
+       "time": {
+        "type": "integer",
+        "description": "Time limit in minutes to prep the meal."
+       }
+      },
+      "required": [
+       "dietary_restrictions",
+       "recipe_type",
+       "time"
+      ]
+     }
+    },
+    {
+     "name": "find_recipe_2",
+     "description": "Locate a recipe based on name and its calorie content",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "recipeName": {
+        "type": "string",
+        "description": "The recipe's name."
+       },
+       "maxCalories": {
+        "type": "integer",
+        "description": "The maximum calorie content of the recipe.",
+        "default": 1000
+       }
+      },
+      "required": [
+       "recipeName"
+      ]
+     }
+    },
+    {
+     "name": "get_cooking_recipe",
+     "description": "Retrieve the cooking recipe for a specified food item.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "dish_name": {
+        "type": "string",
+        "description": "Name of the food dish for which recipe is required."
+       },
+       "serving_size": {
+        "type": "integer",
+        "description": "Number of people for which the dish will be prepared."
+       }
+      },
+      "required": [
+       "dish_name",
+       "serving_size"
+      ]
+     }
+    },
+    {
+     "name": "get_cooking_time",
+     "description": "Calculate the optimal boiling time for a recipe ingredient based on its type and size.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "ingredient_type": {
+        "type": "string",
+        "description": "The type of ingredient to be cooked."
+       },
+       "ingredient_size": {
+        "type": "string",
+        "description": "The size of the ingredient."
+       },
+       "cooking_method": {
+        "type": "string",
+        "description": "The method of cooking to be used.",
+        "enum": [
+         "boiling",
+         "steaming",
+         "roasting",
+         "grilling"
+        ],
+        "default": "boiling"
+       }
+      },
+      "required": [
+       "ingredient_type",
+       "ingredient_size"
+      ]
+     }
+    },
+    {
+     "name": "get_recipe",
+     "description": "Fetch the recipe for a specific dish along with preparation steps.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "dish_name": {
+        "type": "string",
+        "description": "Name of the dish whose recipe needs to be fetched."
+       },
+       "diet_preference": {
+        "type": "string",
+        "description": "Preferred dietary consideration like vegan, vegetarian, gluten-free etc. Default is none.",
+        "default": "none"
+       }
+      },
+      "required": [
+       "dish_name"
+      ]
+     }
+    },
+    {
+     "name": "get_vegan_recipe",
+     "description": "Retrieve a vegan soup recipe based on the provided cooking time.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "dish_type": {
+        "type": "string",
+        "description": "The type of dish, e.g. soup, dessert, etc.",
+        "enum": [
+         "soup",
+         "main dish",
+         "dessert",
+         "salad"
+        ]
+       },
+       "cooking_time": {
+        "type": "integer",
+        "description": "The maximum cooking time for the recipe in minutes."
+       },
+       "ingredient_preference": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "Preferred ingredients to be included in the recipe, if any. Default to not use it if not provided."
+       }
+      },
+      "required": [
+       "dish_type",
+       "cooking_time"
+      ]
+     }
+    },
+    {
+     "name": "recipe_based_restaurants",
+     "description": "Search for the restaurants based on the specific dishes.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "recipe_name": {
+        "type": "string",
+        "description": "The name of the dish."
+       },
+       "location": {
+        "type": "string",
+        "description": "The city where to look for the restaurants."
+       },
+       "price_range": {
+        "type": "array",
+        "items": {
+         "type": "string",
+         "enum": [
+          "$",
+          "$$",
+          "$$$",
+          "$$$$"
+         ]
+        },
+        "description": "The desired price range.",
+        "default": [
+         "$$"
+        ]
+       },
+       "preferred_rating": {
+        "type": "integer",
+        "description": "The minimum restaurant rating.",
+        "default": 3
+       }
+      },
+      "required": [
+       "recipe_name",
+       "location"
+      ]
+     }
+    },
+    {
+     "name": "recipe_nutrition_info",
+     "description": "Provide detailed nutritional information for a specified recipe.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "recipe": {
+        "type": "string",
+        "description": "Name of the recipe to fetch nutrition info for."
+       }
+      },
+      "required": [
+       "recipe"
+      ]
+     }
+    },
+    {
+     "name": "recipe_prep_time",
+     "description": "Calculate the estimated preparation and cooking time for a specified recipe.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "recipe": {
+        "type": "string",
+        "description": "Name of the recipe to calculate time for."
+       }
+      },
+      "required": [
+       "recipe"
+      ]
+     }
+    },
+    {
+     "name": "recipe_search",
+     "description": "Search for a cooking recipe based on specific dietary needs and time constraint.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "diet": {
+        "type": "array",
+        "items": {
+         "type": "string",
+         "enum": [
+          "Gluten Free",
+          "Dairy Free",
+          "Vegan",
+          "Vegetarian"
+         ]
+        },
+        "description": "Specific dietary need."
+       },
+       "time_limit": {
+        "type": "integer",
+        "description": "The maximum time to prepare the recipe in minutes. Default is 60 minutes."
+       },
+       "dish": {
+        "type": "string",
+        "description": "The name of the dish to search for. Default is not use if not specified."
+       }
+      },
+      "required": [
+       "dish",
+       "diet"
+      ]
+     }
+    },
+    {
+     "name": "recipe_search_2",
+     "description": "Search for a recipe based on a particular ingredient or dietary requirement.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "ingredient": {
+        "type": "string",
+        "description": "The ingredient that you want to have in the recipe."
+       },
+       "dietary_requirements": {
+        "type": "array",
+        "items": {
+         "type": "string",
+         "enum": [
+          "gluten_free",
+          "dairy_free",
+          "vegetarian",
+          "vegan"
+         ]
+        },
+        "description": "Dietary requirements in the recipe."
+       },
+       "isHomemade": {
+        "type": "boolean",
+        "description": "If true, returns homemade recipe; otherwise, return not homemade recipe."
+       }
+      },
+      "required": [
+       "ingredient",
+       "dietary_requirements",
+       "isHomemade"
+      ]
+     }
+    },
+    {
+     "name": "recipe_search_3",
+     "description": "Search for a recipe given dietary restriction, ingredients, and number of servings.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "dietary_restriction": {
+        "type": "string",
+        "description": "The dietary restriction, e.g., 'Vegetarian'."
+       },
+       "ingredients": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "The list of ingredients."
+       },
+       "servings": {
+        "type": "integer",
+        "description": "The number of servings the recipe should make"
+       }
+      },
+      "required": [
+       "dietary_restriction",
+       "ingredients",
+       "servings"
+      ]
+     }
+    },
+    {
+     "name": "recipe_search_4",
+     "description": "Searches for recipes based on a list of ingredients and a maximum caloric value.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "ingredients": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "A list of ingredients you want to use in the recipe."
+       },
+       "calories": {
+        "type": "integer",
+        "description": "The maximum number of calories for the recipe."
+       },
+       "meal": {
+        "type": "string",
+        "description": "Type of the meal for the recipe, it's optional and could be breakfast, lunch or dinner. Default 'lunch'"
+       }
+      },
+      "required": [
+       "ingredients",
+       "calories"
+      ]
+     }
+    },
+    {
+     "name": "recipe_search_5",
+     "description": "Searches for recipes based on a list of ingredients and a maximum caloric value.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "ingredients": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "A list of ingredients you want to use in the recipe."
+       },
+       "calories": {
+        "type": "integer",
+        "description": "The maximum number of calories for the recipe."
+       },
+       "meal": {
+        "type": "string",
+        "description": "Type of the meal for the recipe, it's optional and could be breakfast, lunch or dinner. Default is all if not specified."
+       }
+      },
+      "required": [
+       "ingredients",
+       "calories"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "bfcl_c09_g1",
+   "name": "calories recipe ingredient",
+   "server": "bfcl://bfcl_c09_g1",
+   "summary": "Functions for calories, recipe, ingredient, replace, substitute, ingredients.",
+   "tools": [
+    {
+     "name": "get_calories_in_recipe",
+     "description": "Calculate the total calories in a given recipe based on the ingredients.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "ingredients": {
+        "type": "array",
+        "items": {
+         "type": "object",
+         "properties": {
+          "name": {
+           "type": "string",
+           "description": "The name of the ingredient."
+          },
+          "quantity": {
+           "type": "integer",
+           "description": "The quantity of the ingredient."
+          },
+          "unit": {
+           "type": "string",
+           "description": "The unit of the ingredient (e.g., 'cup', 'oz')."
+          }
+         },
+         "required": [
+          "name",
+          "quantity",
+          "unit"
+         ]
+        }
+       },
+       "servings": {
+        "type": "integer",
+        "description": "The number of servings the recipe makes (optional). Default: 1"
+       }
+      },
+      "required": [
+       "ingredients"
+      ]
+     }
+    },
+    {
+     "name": "ingredient_replace",
+     "description": "Replaces an ingredient in a recipe with a substitute, keeping the calories below a certain number.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "original_ingredient": {
+        "type": "string",
+        "description": "The ingredient in the recipe to replace."
+       },
+       "replacement_ingredient": {
+        "type": "string",
+        "description": "The substitute ingredient to replace the original one."
+       },
+       "calories": {
+        "type": "integer",
+        "description": "The maximum number of calories for the recipe after replacement."
+       }
+      },
+      "required": [
+       "original_ingredient",
+       "replacement_ingredient",
+       "calories"
+      ]
+     }
+    }
+   ]
+  }
+ ]
+}

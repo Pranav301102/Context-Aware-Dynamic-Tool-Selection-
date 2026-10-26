@@ -1,0 +1,87 @@
+{
+ "task_id": "media-0039",
+ "mode": "cats",
+ "loaded": [
+  "deepl.rephrase_text",
+  "deepl.translate_document",
+  "deepl.translate_text",
+  "elevenlabs.text_to_speech",
+  "ffmpeg_video.concatenate_videos",
+  "ffmpeg_video.convert_video",
+  "ffmpeg_video.extract_audio",
+  "google_cloud_ai.translate_text",
+  "openai_media.create_speech",
+  "openai_media.translate_audio",
+  "stripe.create_payment_link"
+ ],
+ "order": [
+  "deepl.rephrase_text",
+  "deepl.translate_document",
+  "deepl.translate_text",
+  "elevenlabs.text_to_speech",
+  "ffmpeg_video.concatenate_videos",
+  "ffmpeg_video.convert_video",
+  "ffmpeg_video.extract_audio",
+  "google_cloud_ai.translate_text",
+  "openai_media.create_speech",
+  "openai_media.translate_audio",
+  "stripe.create_payment_link"
+ ],
+ "scores": {
+  "deepl.rephrase_text": 0.1346571633882555,
+  "deepl.translate_document": 0.21563970836413238,
+  "deepl.translate_text": 0.8188730718055715,
+  "elevenlabs.text_to_speech": 0.37989026946689713,
+  "ffmpeg_video.concatenate_videos": 0.06010116943632169,
+  "ffmpeg_video.convert_video": 0.05218556000351613,
+  "ffmpeg_video.extract_audio": 0.3991457570470082,
+  "google_cloud_ai.translate_text": 0.33096587738702654,
+  "openai_media.create_speech": 0.20797167214628257,
+  "openai_media.translate_audio": 0.6778475979768419,
+  "stripe.create_payment_link": 0.046254507732483005
+ },
+ "router_tokens": 0,
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "deepl.translate_text",
+   "args": {
+    "text": "Thank you for joining our webinar today.",
+    "targetLangCode": "de"
+   }
+  },
+  {
+   "tool": "openai_media.create_speech",
+   "args": {
+    "input": "simulated result of deepl.translate_text",
+    "voice": "nova",
+    "response_format": "mp3",
+    "output_path": "/tmp/webinar_german.mp3"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 11,
+   "tool_tokens": 2628,
+   "t": 1791322017.1282194
+  },
+  {
+   "type": "call",
+   "tool": "deepl__translate_text",
+   "valid": true,
+   "t": 1791322030.5297356
+  },
+  {
+   "type": "call",
+   "tool": "openai_media__create_speech",
+   "valid": true,
+   "t": 1791322043.6047318
+  }
+ ],
+ "done": true,
+ "t_done": 1791322049.5765202,
+ "final": ""
+}

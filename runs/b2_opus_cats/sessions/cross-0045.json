@@ -1,0 +1,87 @@
+{
+ "task_id": "cross-0045",
+ "mode": "cats",
+ "loaded": [
+  "deepl.translate_document",
+  "deepl.translate_text",
+  "gmail.download_attachment",
+  "gmail.send_email",
+  "google_cloud_ai.ocr_pdf_document",
+  "google_cloud_ai.translate_text",
+  "google_drive.gdrive_search",
+  "office_docs.docx_search_and_replace",
+  "openai_media.translate_audio",
+  "pdf_tools.pdf_extract_tables",
+  "pdf_tools.pdf_extract_text",
+  "tavily.tavily_extract"
+ ],
+ "order": [
+  "deepl.translate_document",
+  "deepl.translate_text",
+  "gmail.download_attachment",
+  "gmail.send_email",
+  "google_cloud_ai.ocr_pdf_document",
+  "google_cloud_ai.translate_text",
+  "google_drive.gdrive_search",
+  "office_docs.docx_search_and_replace",
+  "openai_media.translate_audio",
+  "pdf_tools.pdf_extract_tables",
+  "pdf_tools.pdf_extract_text",
+  "tavily.tavily_extract"
+ ],
+ "scores": {
+  "deepl.translate_document": 0.4376648404255422,
+  "deepl.translate_text": 0.8333310970711972,
+  "gmail.download_attachment": 0.0914878733150096,
+  "gmail.send_email": 0.10151328058988407,
+  "google_cloud_ai.ocr_pdf_document": 0.1619590780658412,
+  "google_cloud_ai.translate_text": 0.3627129049504859,
+  "google_drive.gdrive_search": 0.0825003823679704,
+  "office_docs.docx_search_and_replace": 0.4492510331389254,
+  "openai_media.translate_audio": 0.4990988144832765,
+  "pdf_tools.pdf_extract_tables": 0.44070037858653427,
+  "pdf_tools.pdf_extract_text": 0.8977675621385425,
+  "tavily.tavily_extract": 0.21574736408358125
+ },
+ "router_tokens": 0,
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "pdf_tools.pdf_extract_text",
+   "args": {
+    "path": "~/contracts/nda_acme.pdf"
+   }
+  },
+  {
+   "tool": "deepl.translate_text",
+   "args": {
+    "text": "<termination clause text from nda_acme.pdf>",
+    "targetLangCode": "ja"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 12,
+   "tool_tokens": 2313,
+   "t": 1791321490.0648394
+  },
+  {
+   "type": "call",
+   "tool": "pdf_tools__pdf_extract_text",
+   "valid": true,
+   "t": 1791321500.9770055
+  },
+  {
+   "type": "call",
+   "tool": "deepl__translate_text",
+   "valid": true,
+   "t": 1791321507.5591419
+  }
+ ],
+ "done": true,
+ "t_done": 1791321508.5239146,
+ "final": ""
+}

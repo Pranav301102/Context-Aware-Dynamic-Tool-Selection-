@@ -1,0 +1,71 @@
+{
+ "task_id": "productivity-0023",
+ "mode": "cats",
+ "loaded": [
+  "discord.send_message",
+  "google_calendar.create_event",
+  "google_calendar.delete_event",
+  "google_calendar.list_events",
+  "google_calendar.respond_to_event",
+  "google_calendar.update_event",
+  "ms365_pim.delete_calendar_event",
+  "ms365_pim.update_calendar_event",
+  "pagerduty.manage_incidents",
+  "wikipedia.get_summary"
+ ],
+ "order": [
+  "discord.send_message",
+  "google_calendar.create_event",
+  "google_calendar.delete_event",
+  "google_calendar.list_events",
+  "google_calendar.respond_to_event",
+  "google_calendar.update_event",
+  "ms365_pim.delete_calendar_event",
+  "ms365_pim.update_calendar_event",
+  "pagerduty.manage_incidents",
+  "wikipedia.get_summary"
+ ],
+ "scores": {
+  "discord.send_message": 0.045426606581685985,
+  "google_calendar.create_event": 0.1936629931326236,
+  "google_calendar.delete_event": 0.04041850419708285,
+  "google_calendar.list_events": 0.2518218132184996,
+  "google_calendar.respond_to_event": 0.7173723480161134,
+  "google_calendar.update_event": 0.20601797905671065,
+  "ms365_pim.delete_calendar_event": 0.05133353819599758,
+  "ms365_pim.update_calendar_event": 0.07997105189455775,
+  "pagerduty.manage_incidents": 0.23272018727921012,
+  "wikipedia.get_summary": 0.04848997100036255
+ },
+ "router_tokens": 0,
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "google_calendar.respond_to_event",
+   "args": {
+    "calendarId": "primary",
+    "eventId": "3vq8xk1",
+    "response": "declined",
+    "comment": "I am out tomorrow and cannot attend the design crit"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 10,
+   "tool_tokens": 3266,
+   "t": 1791321444.3872375
+  },
+  {
+   "type": "call",
+   "tool": "google_calendar__respond_to_event",
+   "valid": true,
+   "t": 1791321455.7784064
+  }
+ ],
+ "done": true,
+ "t_done": 1791321460.4904404,
+ "final": ""
+}

@@ -1,0 +1,54 @@
+{
+ "task_id": "communication-0017",
+ "mode": "search",
+ "loaded": [
+  "slack.get_user_profile",
+  "slack.get_users",
+  "slack.search_messages",
+  "slack.list_channels",
+  "slack.get_channel_history"
+ ],
+ "order": [
+  "slack.get_user_profile",
+  "slack.get_users",
+  "slack.search_messages",
+  "slack.list_channels",
+  "slack.get_channel_history"
+ ],
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "slack.get_user_profile",
+   "args": {
+    "user_id": "U07QWERTY"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0
+  },
+  {
+   "type": "request_tools",
+   "capability": "get a Slack user's profile by user id",
+   "added": [
+    "slack.get_user_profile",
+    "slack.get_users",
+    "slack.search_messages",
+    "slack.list_channels",
+    "slack.get_channel_history"
+   ],
+   "tool_tokens": 730
+  },
+  {
+   "type": "call",
+   "tool": "slack__get_user_profile",
+   "valid": true
+  }
+ ],
+ "done": true,
+ "final": ""
+}

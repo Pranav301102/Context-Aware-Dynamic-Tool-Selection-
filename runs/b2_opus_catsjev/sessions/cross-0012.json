@@ -1,0 +1,116 @@
+{
+ "task_id": "cross-0012",
+ "mode": "cats",
+ "loaded": [
+  "aws.s3_put_object",
+  "google_calendar.get_freebusy",
+  "google_drive.gdrive_export_file",
+  "google_drive.gdrive_read_file",
+  "google_drive.gdrive_search",
+  "google_drive.gdrive_share_file",
+  "google_drive.gdrive_upload_file",
+  "ms_teams.create_online_meeting",
+  "notion.notion_search",
+  "slack.get_channel_history",
+  "slack.get_thread_replies",
+  "slack.list_channels",
+  "slack.post_message",
+  "slack.search_messages",
+  "stripe.create_customer",
+  "tavily.tavily_extract"
+ ],
+ "order": [
+  "aws.s3_put_object",
+  "google_calendar.get_freebusy",
+  "google_drive.gdrive_export_file",
+  "google_drive.gdrive_read_file",
+  "google_drive.gdrive_search",
+  "google_drive.gdrive_share_file",
+  "google_drive.gdrive_upload_file",
+  "ms_teams.create_online_meeting",
+  "notion.notion_search",
+  "slack.get_channel_history",
+  "slack.get_thread_replies",
+  "slack.list_channels",
+  "slack.post_message",
+  "slack.search_messages",
+  "stripe.create_customer",
+  "tavily.tavily_extract"
+ ],
+ "scores": {
+  "aws.s3_put_object": 0.046490850106696284,
+  "google_calendar.get_freebusy": 0.1520401642365705,
+  "google_drive.gdrive_export_file": 0.042383596790419094,
+  "google_drive.gdrive_read_file": 0.34171738647379074,
+  "google_drive.gdrive_search": 0.6395034383345105,
+  "google_drive.gdrive_share_file": 0.7726151439128389,
+  "google_drive.gdrive_upload_file": 0.11301031597101537,
+  "ms_teams.create_online_meeting": 0.21855674985750637,
+  "notion.notion_search": 0.29496350517334285,
+  "slack.get_channel_history": 0.08669499573373482,
+  "slack.get_thread_replies": 0.08714486923802539,
+  "slack.list_channels": 0.15262399735772264,
+  "slack.post_message": 0.49684711889920824,
+  "slack.search_messages": 0.44899703467313873,
+  "stripe.create_customer": 0.08098358102615935,
+  "tavily.tavily_extract": 0.04612177072904578
+ },
+ "router_tokens": 1459,
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "google_drive.gdrive_search",
+   "args": {
+    "query": "Offsite Agenda"
+   }
+  },
+  {
+   "tool": "google_drive.gdrive_share_file",
+   "args": {
+    "file_id": "<offsite_agenda_file_id>",
+    "permission": {
+     "type": "user",
+     "role": "reader",
+     "emailAddress": "team@acme.com"
+    }
+   }
+  },
+  {
+   "tool": "slack.post_message",
+   "args": {
+    "channel_id": "offsite",
+    "text": "Here is the Offsite Agenda: https://docs.google.com/document/d/<offsite_agenda_file_id>"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 16,
+   "tool_tokens": 3570,
+   "t": 1791320967.3099315
+  },
+  {
+   "type": "call",
+   "tool": "google_drive__gdrive_search",
+   "valid": true,
+   "t": 1791320981.9153583
+  },
+  {
+   "type": "call",
+   "tool": "google_drive__gdrive_share_file",
+   "valid": true,
+   "t": 1791320987.1716998
+  },
+  {
+   "type": "call",
+   "tool": "slack__post_message",
+   "valid": true,
+   "t": 1791320992.2879364
+  }
+ ],
+ "done": true,
+ "t_done": 1791320993.8716695,
+ "final": ""
+}

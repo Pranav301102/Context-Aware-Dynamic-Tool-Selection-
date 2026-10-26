@@ -1,0 +1,2004 @@
+{
+ "branch": {
+  "id": "bfcl_c00",
+  "name": "game / player / board",
+  "summary": "Functions about game, player, board, winner, score, specific, highest, players, video, based, retrieve, games."
+ },
+ "toolkits": [
+  {
+   "id": "amazongamestore",
+   "name": "AmazonGameStore",
+   "server": "bfcl://AmazonGameStore",
+   "summary": "Generate game recommendation from Amazon Game Store based on number of players and category. Generate game recommendation from Amazon Game Store based on number of players and category.",
+   "tools": [
+    {
+     "name": "recommend",
+     "description": "Generate game recommendation from Amazon Game Store based on number of players and category.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "numOfPlayers": {
+        "type": "integer",
+        "description": "The number of players who will play the game."
+       },
+       "category": {
+        "type": "string",
+        "description": "The preferred category of board game. E.g. strategy, family, party etc."
+       },
+       "priceRange": {
+        "type": "string",
+        "description": "The price range you are willing to pay for the board game. E.g. $10-$20, $20-$30 etc. This is an optional parameter. Default ''"
+       }
+      },
+      "required": [
+       "numOfPlayers",
+       "category"
+      ]
+     }
+    },
+    {
+     "name": "recommend_2",
+     "description": "Generate game recommendation from Amazon Game Store based on number of players and category.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "numOfPlayers": {
+        "type": "integer",
+        "description": "The number of players who will play the game."
+       },
+       "category": {
+        "type": "string",
+        "description": "The preferred category of board game. E.g. strategy, family, party etc."
+       },
+       "priceRange": {
+        "type": "string",
+        "description": "The price range you are willing to pay for the board game. E.g. $10-$20, $20-$30 etc. This is an optional parameter. Default to '$10-$20' if not specified."
+       }
+      },
+      "required": [
+       "numOfPlayers",
+       "category"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "boardgamegeek",
+   "name": "BoardGameGeek",
+   "server": "bfcl://BoardGameGeek",
+   "summary": "Generate game recommendation from BoardGameGeek store based on number of players and category. Generate game recommendation from BoardGameGeek store based on number of players and category.",
+   "tools": [
+    {
+     "name": "recommend",
+     "description": "Generate game recommendation from BoardGameGeek store based on number of players and category.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "numPlayers": {
+        "type": "integer",
+        "description": "The number of players who will play the game."
+       },
+       "category": {
+        "type": "string",
+        "description": "The preferred category of board game. E.g. strategy, family, party etc."
+       },
+       "difficulty": {
+        "type": "string",
+        "description": "Preferred difficulty level. E.g. beginner, intermediate, advanced etc. This is an optional parameter. Default 'beginner'"
+       }
+      },
+      "required": [
+       "numPlayers",
+       "category"
+      ]
+     }
+    },
+    {
+     "name": "recommend_2",
+     "description": "Generate game recommendation from BoardGameGeek store based on number of players and category.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "numPlayers": {
+        "type": "integer",
+        "description": "The number of players who will play the game."
+       },
+       "category": {
+        "type": "string",
+        "description": "The preferred category of board game. E.g. strategy, family, party etc."
+       },
+       "difficulty": {
+        "type": "string",
+        "description": "Preferred difficulty level. E.g. beginner, intermediate, advanced etc. This is an optional parameter. Default to 'beginner' if not specified."
+       }
+      },
+      "required": [
+       "numPlayers",
+       "category"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "blackjack",
+   "name": "blackjack",
+   "server": "bfcl://blackjack",
+   "summary": "Checks and determines the winner in a game of blackjack.",
+   "tools": [
+    {
+     "name": "check_winner",
+     "description": "Checks and determines the winner in a game of blackjack.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "player_cards": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "Cards held by the player."
+       },
+       "dealer_cards": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "Cards held by the dealer."
+       },
+       "ace_value": {
+        "type": "integer",
+        "description": "The value considered for the ace card, can be either 1 or 11.",
+        "default": 11
+       }
+      },
+      "required": [
+       "player_cards",
+       "dealer_cards"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "board_game",
+   "name": "board_game",
+   "server": "bfcl://board_game",
+   "summary": "Find top chess players in a location based on rating. Calculate the total possible moves for a specific board game based on the current state of the game.",
+   "tools": [
+    {
+     "name": "chess_get_top_players",
+     "description": "Find top chess players in a location based on rating.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The city you want to find the players from."
+       },
+       "minimum_rating": {
+        "type": "integer",
+        "description": "Minimum rating to filter the players."
+       },
+       "number_of_players": {
+        "type": "integer",
+        "default": 10,
+        "description": "Number of players you want to retrieve, default value is 10"
+       }
+      },
+      "required": [
+       "location",
+       "minimum_rating"
+      ]
+     }
+    },
+    {
+     "name": "possible_moves",
+     "description": "Calculate the total possible moves for a specific board game based on the current state of the game.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "game_name": {
+        "type": "string",
+        "description": "Name of the board game."
+       },
+       "current_state": {
+        "type": "string",
+        "description": "The current state of the board game, including pieces on the board and their positions."
+       },
+       "include_repetitions": {
+        "type": "boolean",
+        "description": "Include repetitive moves in the count or not. Default is false."
+       }
+      },
+      "required": [
+       "game_name",
+       "current_state"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "boardgame",
+   "name": "boardgame",
+   "server": "bfcl://boardgame",
+   "summary": "Calculate final scores for a board game given a list of player actions. Retrieve detailed information of a board game.",
+   "tools": [
+    {
+     "name": "calculate_score",
+     "description": "Calculate final scores for a board game given a list of player actions.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "player_actions": {
+        "type": "array",
+        "items": {
+         "type": "object",
+         "properties": {
+          "player_id": {
+           "type": "integer",
+           "description": "Unique identifier for each player."
+          },
+          "action": {
+           "type": "string",
+           "description": "Action performed by the player. Possible values are: 'buy property', 'sell property', 'pass go', 'pay fine'."
+          },
+          "property_id": {
+           "type": "integer",
+           "description": "Unique identifier for each property in the game."
+          }
+         },
+         "required": [
+          "player_id",
+          "action"
+         ]
+        },
+        "description": "A list of player actions."
+       },
+       "initial_scores": {
+        "type": "object",
+        "properties": {
+         "player_id": {
+          "type": "integer",
+          "description": "Unique identifier for each player."
+         },
+         "score": {
+          "type": "integer",
+          "description": "Initial score of the player. Defaults to 0 if not provided."
+         }
+        },
+        "description": "Initial scores for each player.",
+        "required": [
+         "player_id",
+         "score"
+        ]
+       }
+      },
+      "required": [
+       "player_actions"
+      ]
+     }
+    },
+    {
+     "name": "get_info",
+     "description": "Retrieve detailed information of a board game.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "name": {
+        "type": "string",
+        "description": "Name of the board game."
+       },
+       "parameters": {
+        "type": "array",
+        "items": {
+         "type": "string",
+         "enum": [
+          "player count",
+          "playing time",
+          "age",
+          "mechanics",
+          "rating"
+         ]
+        },
+        "description": "Game characteristics interested."
+       },
+       "language": {
+        "type": "string",
+        "description": "The preferred language for the game information, default is English"
+       }
+      },
+      "required": [
+       "name",
+       "parameters"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "card_games",
+   "name": "card_games",
+   "server": "bfcl://card_games",
+   "summary": "Determines the winner in a game of Poker based on the cards in each players' hands.",
+   "tools": [
+    {
+     "name": "poker_determine_winner",
+     "description": "Determines the winner in a game of Poker based on the cards in each players' hands.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "player1": {
+        "type": "string",
+        "description": "The first player's name."
+       },
+       "hand1": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "The list of cards (as strings) in first player's hand. E.g ['10\u2660', 'J\u2660']"
+       },
+       "player2": {
+        "type": "string",
+        "description": "The second player's name."
+       },
+       "hand2": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "The list of cards (as strings) in second player's hand. E.g ['9\u2665', '10\u2665']"
+       }
+      },
+      "required": [
+       "player1",
+       "hand1",
+       "player2",
+       "hand2"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "chess",
+   "name": "chess",
+   "server": "bfcl://chess",
+   "summary": "Makes moves in a chess game. Fetches the current chess rating of a given player",
+   "tools": [
+    {
+     "name": "play",
+     "description": "Makes moves in a chess game.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "moves": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "List of moves to play in the game."
+       }
+      },
+      "required": [
+       "moves"
+      ]
+     }
+    },
+    {
+     "name": "rating",
+     "description": "Fetches the current chess rating of a given player",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "player_name": {
+        "type": "string",
+        "description": "The full name of the chess player."
+       },
+       "variant": {
+        "type": "string",
+        "description": "The variant of chess for which rating is requested (e.g., 'classical', 'blitz', 'bullet'). Default is 'classical'."
+       }
+      },
+      "required": [
+       "player_name"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "game",
+   "name": "game",
+   "server": "bfcl://game",
+   "summary": "Analyse a given board position of the game and suggest the optimal next move Finds the best weapon in the inventory to use against a particular enemy type based on the player's level and the enemy's strength and weaknesses.",
+   "tools": [
+    {
+     "name": "board_analyser",
+     "description": "Analyse a given board position of the game and suggest the optimal next move",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "game": {
+        "type": "string",
+        "description": "The name of the game. In this case, chess"
+       },
+       "player": {
+        "type": "string",
+        "description": "The current player whose turn is to move."
+       },
+       "position": {
+        "type": "string",
+        "description": "The current state of the board in FEN (Forsyth\u2013Edwards Notation) format."
+       },
+       "difficulty": {
+        "type": "string",
+        "default": "medium",
+        "description": "The level of difficulty for the suggested move. Options include 'easy', 'medium', 'hard'."
+       }
+      },
+      "required": [
+       "game",
+       "player",
+       "position"
+      ]
+     }
+    },
+    {
+     "name": "find_best_weapon",
+     "description": "Finds the best weapon in the inventory to use against a particular enemy type based on the player's level and the enemy's strength and weaknesses.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "player_level": {
+        "type": "integer",
+        "description": "The player's current level."
+       },
+       "enemy_type": {
+        "type": "string",
+        "description": "The type of enemy the player is facing."
+       },
+       "inventory": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "List of weapons currently in player's inventory.",
+        "default": [
+         "knife"
+        ]
+       }
+      },
+      "required": [
+       "player_level",
+       "enemy_type"
+      ]
+     }
+    },
+    {
+     "name": "save_progress",
+     "description": "Save the current state of a player's game, given the stage, level and game mode.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "stage": {
+        "type": "integer",
+        "description": "The current stage in the game the player has reached."
+       },
+       "mode": {
+        "type": "string",
+        "enum": [
+         "easy",
+         "hard"
+        ],
+        "description": "The game mode. Available modes are easy or hard."
+       },
+       "level": {
+        "type": "string",
+        "default": "user",
+        "description": "The player's level."
+       }
+      },
+      "required": [
+       "stage",
+       "mode"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "game_functions",
+   "name": "game_functions",
+   "server": "bfcl://game_functions",
+   "summary": "Generate solution for a given jigsaw puzzle image.",
+   "tools": [
+    {
+     "name": "solve_jigsaw",
+     "description": "Generate solution for a given jigsaw puzzle image.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "puzzle_image": {
+        "type": "string",
+        "description": "The image file of the jigsaw puzzle."
+       },
+       "pieces_count": {
+        "type": "integer",
+        "description": "Number of pieces in the jigsaw puzzle."
+       },
+       "solve_method": {
+        "type": "string",
+        "default": "brute_force",
+        "enum": [
+         "brute_force",
+         "genetic_algorithm"
+        ],
+        "description": "Method to be used to solve the puzzle. Default is brute_force."
+       }
+      },
+      "required": [
+       "puzzle_image",
+       "pieces_count"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "game_list",
+   "name": "game_list",
+   "server": "bfcl://game_list",
+   "summary": "Get a list of video games based on release year, multiplayer functionality and ESRB rating",
+   "tools": [
+    {
+     "name": "get_games",
+     "description": "Get a list of video games based on release year, multiplayer functionality and ESRB rating",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "release_year": {
+        "type": "integer",
+        "description": "The year the game was released."
+       },
+       "multiplayer": {
+        "type": "boolean",
+        "description": "Whether the game has multiplayer functionality."
+       },
+       "ESRB_rating": {
+        "type": "string",
+        "description": "The ESRB rating of the game."
+       }
+      },
+      "required": [
+       "release_year",
+       "multiplayer",
+       "ESRB_rating"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "game_missions",
+   "name": "game_missions",
+   "server": "bfcl://game_missions",
+   "summary": "List all missions for a certain game. Retrieve a list of all available missions for a specific game, including mission details such as the mission's name and its objectives.",
+   "tools": [
+    {
+     "name": "list",
+     "description": "List all missions for a certain game.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "game": {
+        "type": "string",
+        "description": "The name of the game."
+       }
+      },
+      "required": [
+       "game"
+      ]
+     }
+    },
+    {
+     "name": "list_2",
+     "description": "Retrieve a list of all available missions for a specific game, including mission details such as the mission's name and its objectives.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "game"
+      ],
+      "properties": {
+       "game": {
+        "type": "string",
+        "description": "The exact title of the game for which missions are being listed."
+       },
+       "include_completed": {
+        "type": "boolean",
+        "description": "A flag indicating whether to include completed missions in the list.",
+        "default": false
+       },
+       "limit": {
+        "type": "integer",
+        "description": "The maximum number of missions to retrieve. Used for pagination.",
+        "default": 10
+       }
+      }
+     }
+    }
+   ]
+  },
+  {
+   "id": "game_of_life",
+   "name": "game_of_life",
+   "server": "bfcl://game_of_life",
+   "summary": "Runs a round of game of life based on provided board.",
+   "tools": [
+    {
+     "name": "play",
+     "description": "Runs a round of game of life based on provided board.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "rounds": {
+        "type": "integer",
+        "description": "Number of rounds to play."
+       },
+       "start_board": {
+        "type": "array",
+        "items": {
+         "type": "integer"
+        },
+        "description": "Starting board of game, leave empty for random starting point."
+       }
+      },
+      "required": [
+       "rounds",
+       "start_board"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "game_result",
+   "name": "game_result",
+   "server": "bfcl://game_result",
+   "summary": "Get the winner of a specific basketball game. Get the winner of a specific basketball game.",
+   "tools": [
+    {
+     "name": "get_winner",
+     "description": "Get the winner of a specific basketball game.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "teams": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "List of two teams who played the game."
+       },
+       "date": {
+        "type": "string",
+        "description": "The date of the game, formatted as YYYY-MM-DD."
+       },
+       "venue": {
+        "type": "string",
+        "optional": true,
+        "description": "Optional: The venue of the game. Default is ''"
+       }
+      },
+      "required": [
+       "teams",
+       "date"
+      ]
+     }
+    },
+    {
+     "name": "get_winner_2",
+     "description": "Get the winner of a specific basketball game.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "teams": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "List of two teams who played the game."
+       },
+       "date": {
+        "type": "string",
+        "description": "The date of the game, formatted as YYYY-MM-DD."
+       },
+       "venue": {
+        "type": "string",
+        "optional": true,
+        "description": "Optional: The venue of the game. Default is 'home'."
+       }
+      },
+      "required": [
+       "teams",
+       "date"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "game_rewards",
+   "name": "game_rewards",
+   "server": "bfcl://game_rewards",
+   "summary": "Retrieve information about different types of rewards that a player can receive when playing a specific game across various platforms. Retrieve information about different types of rewards that you can receive when playing a certain game.",
+   "tools": [
+    {
+     "name": "get",
+     "description": "Retrieve information about different types of rewards that a player can receive when playing a specific game across various platforms.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "game",
+       "platform"
+      ],
+      "properties": {
+       "game": {
+        "type": "string",
+        "description": "The exact name of the game for which reward information is being retrieved."
+       },
+       "platform": {
+        "type": "string",
+        "description": "The gaming platform for which reward information is being retrieved, such as 'Xbox', 'PlayStation', or 'PC'."
+       },
+       "mission": {
+        "type": "string",
+        "description": "The specific mission within the game for which rewards are being queried. If omitted, rewards for the entire game will be returned.",
+        "default": "All Missions"
+       },
+       "trophy": {
+        "type": "string",
+        "description": "The trophy level, such as 'bronze', 'silver', 'gold', or 'platinum', for which rewards information is sought. If omitted, rewards for all trophy levels will be returned.",
+        "enum": [
+         "bronze",
+         "silver",
+         "gold",
+         "platinum"
+        ],
+        "default": "all levels"
+       }
+      }
+     }
+    },
+    {
+     "name": "get_2",
+     "description": "Retrieve information about different types of rewards that you can receive when playing a certain game.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "game": {
+        "type": "string",
+        "description": "The name of the game."
+       },
+       "platform": {
+        "type": "string",
+        "description": "The gaming platform e.g. Xbox, Playstation, PC"
+       },
+       "mission": {
+        "type": "string",
+        "description": "The mission for which you want to know the rewards.",
+        "default": ""
+       },
+       "trophy": {
+        "type": "string",
+        "description": "The trophy level for which you want to know the rewards.",
+        "default": ""
+       }
+      },
+      "required": [
+       "game",
+       "platform"
+      ]
+     }
+    },
+    {
+     "name": "get_3",
+     "description": "Retrieve information about different types of rewards that you can receive when playing a certain game.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "game": {
+        "type": "string",
+        "description": "The name of the game."
+       },
+       "platform": {
+        "type": "string",
+        "description": "The gaming platform e.g. Xbox, Playstation, PC"
+       },
+       "mission": {
+        "type": "string",
+        "description": "The mission for which you want to know the rewards. Default to ''",
+        "optional": true
+       },
+       "trophy": {
+        "type": "string",
+        "description": "The trophy level for which you want to know the rewards. Default to ''",
+        "optional": true
+       }
+      },
+      "required": [
+       "game",
+       "platform"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "game_score",
+   "name": "game_score",
+   "server": "bfcl://game_score",
+   "summary": "Calculate the final game score based on the total points earned by each team. Retrieve the highest score achieved by any player in a specific game.",
+   "tools": [
+    {
+     "name": "calculate",
+     "description": "Calculate the final game score based on the total points earned by each team.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "team1_points": {
+        "type": "integer",
+        "description": "The total points earned by team 1."
+       },
+       "team2_points": {
+        "type": "integer",
+        "description": "The total points earned by team 2."
+       },
+       "game_rounds": {
+        "type": "integer",
+        "default": "3",
+        "description": "The total game rounds. Defaults to 3 if not provided."
+       }
+      },
+      "required": [
+       "team1_points",
+       "team2_points"
+      ]
+     }
+    },
+    {
+     "name": "highest",
+     "description": "Retrieve the highest score achieved by any player in a specific game.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "game": {
+        "type": "string",
+        "description": "The name of the online game."
+       },
+       "platform": {
+        "type": "string",
+        "description": "The platform where the game is played, e.g. PC, Xbox, Playstation"
+       },
+       "region": {
+        "type": "string",
+        "description": "The geographic region of the player. Defaults to 'Global'"
+       }
+      },
+      "required": [
+       "game",
+       "platform"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "game_scores",
+   "name": "game_scores",
+   "server": "bfcl://game_scores",
+   "summary": "Retrieve scores and rankings based on player\u2019s performance in a certain game. Retrieve scores and rankings based on player\u2019s performance in a certain game.",
+   "tools": [
+    {
+     "name": "get",
+     "description": "Retrieve scores and rankings based on player\u2019s performance in a certain game.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "game": {
+        "type": "string",
+        "description": "The name of the game."
+       },
+       "platform": {
+        "type": "string",
+        "description": "The gaming platform e.g. Xbox, Playstation, PC"
+       },
+       "level": {
+        "type": "integer",
+        "description": "The level of the game for which you want to retrieve the scores."
+       },
+       "player": {
+        "type": "string",
+        "description": "The name of the player for whom you want to retrieve scores.",
+        "default": ""
+       }
+      },
+      "required": [
+       "game",
+       "platform",
+       "level"
+      ]
+     }
+    },
+    {
+     "name": "get_2",
+     "description": "Retrieve scores and rankings based on player\u2019s performance in a certain game.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "game": {
+        "type": "string",
+        "description": "The name of the game."
+       },
+       "platform": {
+        "type": "string",
+        "description": "The gaming platform e.g. Xbox, Playstation, PC"
+       },
+       "level": {
+        "type": "integer",
+        "description": "The level of the game for which you want to retrieve the scores."
+       },
+       "player": {
+        "type": "string",
+        "description": "The name of the player for whom you want to retrieve scores. Default ''",
+        "optional": true
+       }
+      },
+      "required": [
+       "game",
+       "platform",
+       "level"
+      ]
+     }
+    },
+    {
+     "name": "get_3",
+     "description": "Retrieve scores and rankings for a player's performance at a specific level in a game on a given gaming platform.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "game",
+       "platform",
+       "level"
+      ],
+      "properties": {
+       "game": {
+        "type": "string",
+        "description": "The name of the game for which to retrieve scores."
+       },
+       "platform": {
+        "type": "string",
+        "description": "The gaming platform, such as 'Xbox', 'Playstation', or 'PC'.",
+        "enum": [
+         "Xbox",
+         "Playstation",
+         "PC"
+        ]
+       },
+       "level": {
+        "type": "integer",
+        "description": "The game level number for which scores are to be retrieved."
+       },
+       "player": {
+        "type": "string",
+        "description": "The name of the player whose scores are to be retrieved. If not provided, scores for all players are returned.",
+        "default": null
+       }
+      }
+     }
+    }
+   ]
+  },
+  {
+   "id": "game_stats",
+   "name": "game_stats",
+   "server": "bfcl://game_stats",
+   "summary": "Fetch player statistics for a specific video game for a given user.",
+   "tools": [
+    {
+     "name": "fetch_player_statistics",
+     "description": "Fetch player statistics for a specific video game for a given user.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "game": {
+        "type": "string",
+        "description": "The name of the video game."
+       },
+       "username": {
+        "type": "string",
+        "description": "The username of the player."
+       },
+       "platform": {
+        "type": "string",
+        "description": "The platform user is playing on.",
+        "default": "PC"
+       }
+      },
+      "required": [
+       "game",
+       "username"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "game_tracker",
+   "name": "game_tracker",
+   "server": "bfcl://game_tracker",
+   "summary": "Retrieves the highest score recorded in the specified game.",
+   "tools": [
+    {
+     "name": "high_score",
+     "description": "Retrieves the highest score recorded in the specified game.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "game_name": {
+        "type": "string",
+        "description": "The name of the game to get the high score for."
+       },
+       "username": {
+        "type": "string",
+        "description": "The username of the player. (optional) Default: 'john'"
+       },
+       "platform": {
+        "type": "string",
+        "description": "The platform where the game was played, i.e PC, Xbox, Playstation, Mobile."
+       }
+      },
+      "required": [
+       "game_name",
+       "platform"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "games",
+   "name": "games",
+   "server": "bfcl://games",
+   "summary": "Find the current price for a specific game on a specified gaming platform. Find reviews for a specific game.",
+   "tools": [
+    {
+     "name": "price_find",
+     "description": "Find the current price for a specific game on a specified gaming platform.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "game": {
+        "type": "string",
+        "description": "The name of the game."
+       },
+       "platform": {
+        "type": "string",
+        "description": "The gaming platform, e.g. Xbox, Playstation, PC."
+       }
+      },
+      "required": [
+       "game",
+       "platform"
+      ]
+     }
+    },
+    {
+     "name": "reviews_find",
+     "description": "Find reviews for a specific game.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "game": {
+        "type": "string",
+        "description": "The name of the game."
+       },
+       "region": {
+        "type": "string",
+        "description": "The region where the reviews are coming from (optional, default is 'global')"
+       }
+      },
+      "required": [
+       "game"
+      ]
+     }
+    },
+    {
+     "name": "update_find",
+     "description": "Find the latest updates or patches for a specific game on a specified gaming platform.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "game": {
+        "type": "string",
+        "description": "The name of the game."
+       },
+       "platform": {
+        "type": "string",
+        "description": "The gaming platform, e.g. Xbox, Playstation, PC."
+       },
+       "region": {
+        "type": "string",
+        "description": "The region of the update (optional, default is 'global')"
+       }
+      },
+      "required": [
+       "game",
+       "platform"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "gamespot",
+   "name": "gamespot",
+   "server": "bfcl://gamespot",
+   "summary": "Retrieve the average user score of a game from GameSpot.",
+   "tools": [
+    {
+     "name": "getAverageUserScore",
+     "description": "Retrieve the average user score of a game from GameSpot.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "game_name": {
+        "type": "string",
+        "description": "The name of the game."
+       },
+       "platform": {
+        "type": "string",
+        "description": "The platform the game was released on (e.g., Nintendo Switch, PS5, etc.)",
+        "default": "all platforms"
+       }
+      },
+      "required": [
+       "game_name",
+       "platform"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "sport_analysis",
+   "name": "sport_analysis",
+   "server": "bfcl://sport_analysis",
+   "summary": "Compares a team's average points per game in two different seasons. Analyzes the team's performance in their most recent game.",
+   "tools": [
+    {
+     "name": "compare_ppg",
+     "description": "Compares a team's average points per game in two different seasons.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "team": {
+        "type": "string",
+        "description": "The sports team that needs to be compared."
+       },
+       "seasons": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "The seasons that you want to compare the ppg."
+       }
+      },
+      "required": [
+       "team",
+       "seasons"
+      ]
+     }
+    },
+    {
+     "name": "last_game_performance",
+     "description": "Analyzes the team's performance in their most recent game.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "team": {
+        "type": "string",
+        "description": "The sports team that needs to be analyzed."
+       },
+       "details": {
+        "type": "array",
+        "items": {
+         "type": "string",
+         "enum": [
+          "field goal %",
+          "free throw %"
+         ]
+        },
+        "description": "Key performance indicators that you want for the analysis"
+       }
+      },
+      "required": [
+       "team",
+       "details"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "video_games",
+   "name": "video_games",
+   "server": "bfcl://video_games",
+   "summary": "Retrieves the number of active players for a specified video game and year. Retrieves the number of active players for a specified video game and year.",
+   "tools": [
+    {
+     "name": "get_player_count",
+     "description": "Retrieves the number of active players for a specified video game and year.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "game_title": {
+        "type": "string",
+        "description": "The title of the video game."
+       },
+       "year": {
+        "type": "integer",
+        "description": "The year in question."
+       },
+       "platform": {
+        "type": "string",
+        "optional": true,
+        "description": "The gaming platform (e.g. 'PC', 'Xbox', 'Playstation'). Default ''"
+       }
+      },
+      "required": [
+       "game_title",
+       "year"
+      ]
+     }
+    },
+    {
+     "name": "get_player_count_2",
+     "description": "Retrieves the number of active players for a specified video game and year.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "game_title": {
+        "type": "string",
+        "description": "The title of the video game."
+       },
+       "year": {
+        "type": "integer",
+        "description": "The year in question."
+       },
+       "platform": {
+        "type": "string",
+        "optional": true,
+        "description": "The gaming platform (e.g. 'PC', 'Xbox', 'Playstation'). Default is all if not specified."
+       }
+      },
+      "required": [
+       "game_title",
+       "year"
+      ]
+     }
+    },
+    {
+     "name": "get_sales",
+     "description": "Retrieves the sales figures for a specified video game and year.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "game_title": {
+        "type": "string",
+        "description": "The title of the video game."
+       },
+       "year": {
+        "type": "integer",
+        "description": "The year in question."
+       },
+       "platform": {
+        "type": "string",
+        "optional": true,
+        "description": "The gaming platform (e.g. 'PC', 'Xbox', 'Playstation'). Default ''"
+       }
+      },
+      "required": [
+       "game_title",
+       "year"
+      ]
+     }
+    },
+    {
+     "name": "get_sales_2",
+     "description": "Retrieves the sales figures for a specified video game and year.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "game_title": {
+        "type": "string",
+        "description": "The title of the video game."
+       },
+       "year": {
+        "type": "integer",
+        "description": "The year in question."
+       },
+       "platform": {
+        "type": "string",
+        "optional": true,
+        "description": "The gaming platform (e.g. 'PC', 'Xbox', 'Playstation'). Default is all if not specified."
+       }
+      },
+      "required": [
+       "game_title",
+       "year"
+      ]
+     }
+    },
+    {
+     "name": "on_sale",
+     "description": "Checks if a particular game is currently on sale in a specific gaming platform store and in a specific region.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "game_title": {
+        "type": "string",
+        "description": "The title of the video game"
+       },
+       "platform": {
+        "type": "string",
+        "description": "The gaming platform e.g. PlayStation, Xbox, Nintendo Switch"
+       },
+       "region": {
+        "type": "string",
+        "description": "The region e.g. United States, United Kingdom, Japan. Default United States",
+        "optional": "True"
+       }
+      },
+      "required": [
+       "game_title",
+       "platform"
+      ]
+     }
+    },
+    {
+     "name": "store_currency",
+     "description": "Fetches the currency used in a specific region in a gaming platform store.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "platform": {
+        "type": "string",
+        "description": "The gaming platform e.g. PlayStation, Xbox, Nintendo Switch"
+       },
+       "region": {
+        "type": "string",
+        "description": "The region e.g. United States, United Kingdom, Japan",
+        "default": "True"
+       }
+      },
+      "required": [
+       "platform"
+      ]
+     }
+    },
+    {
+     "name": "store_currency_2",
+     "description": "Fetches the currency used in a specific region in a gaming platform store.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "platform": {
+        "type": "string",
+        "description": "The gaming platform e.g. PlayStation, Xbox, Nintendo Switch"
+       },
+       "region": {
+        "type": "string",
+        "description": "The region e.g. United States, United Kingdom, Japan. Default United States",
+        "optional": "True"
+       }
+      },
+      "required": [
+       "platform"
+      ]
+     }
+    },
+    {
+     "name": "store_price",
+     "description": "Fetches the selling price of a specified game in a particular gaming platform store and in a specific region.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "game_title": {
+        "type": "string",
+        "description": "The title of the video game"
+       },
+       "platform": {
+        "type": "string",
+        "description": "The gaming platform e.g. PlayStation, Xbox, Nintendo Switch"
+       },
+       "region": {
+        "type": "string",
+        "description": "The region e.g. United States, United Kingdom, Japan. Default United States",
+        "optional": "True"
+       }
+      },
+      "required": [
+       "game_title",
+       "platform"
+      ]
+     }
+    },
+    {
+     "name": "store_price_2",
+     "description": "Fetches the selling price of a specified game in a particular gaming platform store and in a specific region.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "game_title": {
+        "type": "string",
+        "description": "The title of the video game"
+       },
+       "platform": {
+        "type": "string",
+        "description": "The gaming platform e.g. PlayStation, Xbox, Nintendo Switch"
+       },
+       "region": {
+        "type": "string",
+        "description": "The region e.g. United States, United Kingdom, Japan. Default to United States"
+       }
+      },
+      "required": [
+       "game_title",
+       "platform"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "bfcl_c00_g0",
+   "name": "game board search",
+   "server": "bfcl://bfcl_c00_g0",
+   "summary": "Functions for game, board, search, locate, stats, video.",
+   "tools": [
+    {
+     "name": "board_game_info",
+     "description": "Get the information about a board game from a database.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "game_name": {
+        "type": "string",
+        "description": "Name of the board game."
+       },
+       "info_required": {
+        "type": "array",
+        "items": {
+         "type": "string",
+         "enum": [
+          "average_review_rating",
+          "age_range",
+          "number_of_players",
+          "playing_time",
+          "genre"
+         ]
+        },
+        "description": "Array of information requested for the game."
+       }
+      },
+      "required": [
+       "game_name",
+       "info_required"
+      ]
+     }
+    },
+    {
+     "name": "board_game_search",
+     "description": "Locate a board game based on specific criteria.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "complexity": {
+        "type": "number",
+        "description": "The maximum complexity rating of the board game (lower is simpler)."
+       },
+       "player_count": {
+        "type": "integer",
+        "description": "The minimum player count for the board game."
+       }
+      },
+      "required": [
+       "complexity",
+       "player_count"
+      ]
+     }
+    },
+    {
+     "name": "card_game_search",
+     "description": "Locate a card game based on a specific theme.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "theme": {
+        "type": "string",
+        "description": "The theme for the card game."
+       }
+      },
+      "required": [
+       "theme"
+      ]
+     }
+    },
+    {
+     "name": "fetch_game_stats",
+     "description": "Fetch board game statistics like top players, winning scores and game histories",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "game_type": {
+        "type": "string",
+        "description": "The type of the board game."
+       },
+       "year": {
+        "type": "integer",
+        "description": "The year when the game was played."
+       },
+       "location": {
+        "type": "string",
+        "description": "The location where the game was played. This is an optional parameter.",
+        "default": "NY"
+       }
+      },
+      "required": [
+       "game_type",
+       "year"
+      ]
+     }
+    },
+    {
+     "name": "game_guide",
+     "description": "A video game guide which provides guidance and tips for completing levels, solving puzzles or defeating bosses.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "game_name": {
+        "type": "string",
+        "description": "The name of the game."
+       },
+       "level": {
+        "type": "integer",
+        "description": "The level number of the game."
+       },
+       "type": {
+        "type": "string",
+        "enum": [
+         "puzzle",
+         "boss",
+         "traps",
+         "missions"
+        ],
+        "description": "The type of help you're seeking. Defaults to all types."
+       }
+      },
+      "required": [
+       "game_name",
+       "level"
+      ]
+     }
+    },
+    {
+     "name": "game_valuation",
+     "description": "Get the current market value of a vintage video game.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "game_name": {
+        "type": "string",
+        "description": "The name of the game."
+       },
+       "release_year": {
+        "type": "integer",
+        "description": "The year the game was released."
+       },
+       "condition": {
+        "type": "string",
+        "enum": [
+         "New",
+         "Like New",
+         "Used",
+         "Fair",
+         "Poor"
+        ],
+        "description": "The condition of the game. Default is 'Used'."
+       }
+      },
+      "required": [
+       "game_name",
+       "release_year"
+      ]
+     }
+    },
+    {
+     "name": "get_game_item_stats",
+     "description": "Retrieve the statistics of a specific item in a specific video game.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "game": {
+        "type": "string",
+        "description": "The game to retrieve information from."
+       },
+       "item": {
+        "type": "string",
+        "description": "The name of the item in the game."
+       },
+       "stat": {
+        "type": "string",
+        "description": "Specific statistic required."
+       }
+      },
+      "required": [
+       "game",
+       "item",
+       "stat"
+      ]
+     }
+    },
+    {
+     "name": "get_game_results",
+     "description": "Retrieve game results between two teams on a specific date.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "team_1": {
+        "type": "string",
+        "description": "The first team's name."
+       },
+       "team_2": {
+        "type": "string",
+        "description": "The second team's name."
+       },
+       "date": {
+        "type": "string",
+        "description": "The date of the game in the format YYYY-MM-DD."
+       },
+       "venue": {
+        "type": "string",
+        "description": "The venue of the match.",
+        "default": "basketball"
+       }
+      },
+      "required": [
+       "team_1",
+       "team_2",
+       "date"
+      ]
+     }
+    },
+    {
+     "name": "multiplayer_game_finder",
+     "description": "Locate multiplayer games that match specific criteria such as rating, platform compatibility, genre, etc.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "platform": {
+        "type": "string",
+        "description": "The platform you want the game to be compatible with, e.g. Windows 10, PS5."
+       },
+       "rating": {
+        "type": "number",
+        "description": "Desired minimum game rating on a 5.0 scale."
+       },
+       "genre": {
+        "type": "string",
+        "description": "Desired game genre, e.g. Action, Adventure, Racing. Default is ''.",
+        "enum": [
+         "Action",
+         "Adventure",
+         "Racing",
+         "Strategy",
+         "Simulation"
+        ]
+       }
+      },
+      "required": [
+       "platform",
+       "rating"
+      ]
+     }
+    },
+    {
+     "name": "multiplayer_game_finder_2",
+     "description": "Locate multiplayer games that match specific criteria such as rating, platform compatibility, genre, etc.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "platform": {
+        "type": "string",
+        "description": "The platform you want the game to be compatible with, e.g. Windows 10, PS5."
+       },
+       "rating": {
+        "type": "number",
+        "description": "Desired minimum game rating on a 5.0 scale."
+       },
+       "genre": {
+        "type": "string",
+        "description": "Desired game genre, e.g. Action, Adventure, Racing. Default is 'Action'.",
+        "enum": [
+         "Action",
+         "Adventure",
+         "Racing",
+         "Strategy",
+         "Simulation"
+        ]
+       }
+      },
+      "required": [
+       "platform",
+       "rating"
+      ]
+     }
+    },
+    {
+     "name": "multiplayer_game_finder_3",
+     "description": "Locate multiplayer games that match specific criteria such as rating, platform compatibility, genre, etc.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "platform": {
+        "type": "string",
+        "description": "The platform you want the game to be compatible with, e.g. Windows 10, PS5."
+       },
+       "rating": {
+        "type": "integer",
+        "description": "Desired minimum game rating on a 5.0 scale."
+       },
+       "genre": {
+        "type": "string",
+        "description": "Desired game genre, e.g. Action, Adventure, Racing. Default is none if not provided.",
+        "enum": [
+         "Action",
+         "Adventure",
+         "Racing",
+         "Strategy",
+         "Simulation"
+        ]
+       }
+      },
+      "required": [
+       "platform",
+       "rating"
+      ]
+     }
+    },
+    {
+     "name": "poker_game_winner",
+     "description": "Identify the winner in a poker game based on the cards.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "players": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "Names of the players in a list."
+       },
+       "cards": {
+        "type": "object",
+        "description": "An object containing the player name as key and the cards as string values in a list, for example '7 of diamonds'."
+       },
+       "type": {
+        "type": "string",
+        "description": "Type of poker game. Defaults to 'Texas Holdem'"
+       }
+      },
+      "required": [
+       "players",
+       "cards"
+      ]
+     }
+    },
+    {
+     "name": "poker_game_winner_2",
+     "description": "Identify the winner in a poker game based on the cards.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "players": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "Names of the players in a list."
+       },
+       "cards": {
+        "type": "object",
+        "description": "An object containing the player name as key and the cards as values in a list."
+       },
+       "type": {
+        "type": "string",
+        "description": "Type of poker game. Defaults to 'Texas Holdem'"
+       }
+      },
+      "required": [
+       "players",
+       "cards"
+      ]
+     }
+    },
+    {
+     "name": "trivia_game_search",
+     "description": "Locate a trivia game based on play duration.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "duration": {
+        "type": "number",
+        "description": "The maximum playing duration for the trivia game in minutes."
+       }
+      },
+      "required": [
+       "duration"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "bfcl_c00_g1",
+   "name": "player highest game",
+   "server": "bfcl://bfcl_c00_g1",
+   "summary": "Functions for player, highest, game, season, score, collectables.",
+   "tools": [
+    {
+     "name": "get_collectables_in_season",
+     "description": "Retrieve a list of collectable items in a specific game during a specified season.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "game_name": {
+        "type": "string",
+        "description": "Name of the game."
+       },
+       "season": {
+        "type": "string",
+        "description": "The season for which to retrieve the collectable items."
+       },
+       "item_type": {
+        "type": "string",
+        "description": "The type of item to search for. Default is 'all'. Possible values: 'all', 'bug', 'fish', 'sea creatures', etc."
+       }
+      },
+      "required": [
+       "game_name",
+       "season"
+      ]
+     }
+    },
+    {
+     "name": "get_highest_card_holder",
+     "description": "Fetches the player with the highest number of a specified suit in a game of poker.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "game_id": {
+        "type": "string",
+        "description": "The ID of the game."
+       },
+       "suit": {
+        "type": "string",
+        "description": "The type of card suit to search for (hearts, diamonds, clubs, spades)."
+       }
+      },
+      "required": [
+       "game_id",
+       "suit"
+      ]
+     }
+    },
+    {
+     "name": "get_highest_scoring_player",
+     "description": "Retrieve the highest scoring player in a specific game and season.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "game": {
+        "type": "string",
+        "description": "The game in which you want to find the highest scoring player."
+       },
+       "season": {
+        "type": "string",
+        "description": "The season during which the high score was achieved."
+       },
+       "region": {
+        "type": "string",
+        "description": "The geographical region in which the game is being played (Optional). Default is 'all'"
+       }
+      },
+      "required": [
+       "game",
+       "season"
+      ]
+     }
+    },
+    {
+     "name": "get_highest_scoring_player_2",
+     "description": "Retrieve the highest scoring player in a specific game and season.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "game": {
+        "type": "string",
+        "description": "The game in which you want to find the highest scoring player."
+       },
+       "season": {
+        "type": "string",
+        "description": "The season during which the high score was achieved."
+       },
+       "region": {
+        "type": "string",
+        "description": "The geographical region in which the game is being played (Optional). Defaults to 'USA'"
+       }
+      },
+      "required": [
+       "game",
+       "season"
+      ]
+     }
+    },
+    {
+     "name": "get_highest_scoring_player_3",
+     "description": "Retrieve the highest scoring player in a specific game and season.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "game": {
+        "type": "string",
+        "description": "The game in which you want to find the highest scoring player."
+       },
+       "season": {
+        "type": "string",
+        "description": "The season during which the high score was achieved."
+       }
+      },
+      "required": [
+       "game",
+       "season"
+      ]
+     }
+    },
+    {
+     "name": "get_player_score",
+     "description": "Retrieve a player's score from a specific game",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "player": {
+        "type": "string",
+        "description": "The name of the player"
+       },
+       "game": {
+        "type": "string",
+        "description": "The game that the player is participating in"
+       }
+      },
+      "required": [
+       "player",
+       "game"
+      ]
+     }
+    }
+   ]
+  }
+ ]
+}

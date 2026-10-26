@@ -1,0 +1,68 @@
+{
+ "task_id": "communication-0048",
+ "mode": "search",
+ "loaded": [
+  "gmail.create_label",
+  "gmail.modify_email",
+  "gmail.list_email_labels",
+  "gmail.create_filter",
+  "gmail.read_email"
+ ],
+ "order": [
+  "gmail.create_label",
+  "gmail.modify_email",
+  "gmail.list_email_labels",
+  "gmail.create_filter",
+  "gmail.read_email"
+ ],
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "gmail.create_label",
+   "args": {
+    "name": "Vendors"
+   }
+  },
+  {
+   "tool": "gmail.modify_email",
+   "args": {
+    "messageId": "18a9bd2",
+    "addLabelIds": [
+     "Label_Vendors"
+    ]
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0
+  },
+  {
+   "type": "request_tools",
+   "capability": "create a new Gmail label and apply a label to an email message",
+   "added": [
+    "gmail.create_label",
+    "gmail.modify_email",
+    "gmail.list_email_labels",
+    "gmail.create_filter",
+    "gmail.read_email"
+   ],
+   "tool_tokens": 800
+  },
+  {
+   "type": "call",
+   "tool": "gmail__create_label",
+   "valid": true
+  },
+  {
+   "type": "call",
+   "tool": "gmail__modify_email",
+   "valid": true
+  }
+ ],
+ "done": true,
+ "final": ""
+}

@@ -1,0 +1,86 @@
+{
+ "task_id": "media-0039",
+ "mode": "cats",
+ "loaded": [
+  "deepl.rephrase_text",
+  "deepl.translate_document",
+  "deepl.translate_text",
+  "elevenlabs.text_to_speech",
+  "ffmpeg_video.concatenate_videos",
+  "ffmpeg_video.convert_video",
+  "ffmpeg_video.extract_audio",
+  "google_cloud_ai.translate_text",
+  "openai_media.create_speech",
+  "openai_media.translate_audio",
+  "stripe.create_payment_link"
+ ],
+ "order": [
+  "deepl.rephrase_text",
+  "deepl.translate_document",
+  "deepl.translate_text",
+  "elevenlabs.text_to_speech",
+  "ffmpeg_video.concatenate_videos",
+  "ffmpeg_video.convert_video",
+  "ffmpeg_video.extract_audio",
+  "google_cloud_ai.translate_text",
+  "openai_media.create_speech",
+  "openai_media.translate_audio",
+  "stripe.create_payment_link"
+ ],
+ "scores": {
+  "deepl.rephrase_text": 0.13465711025719945,
+  "deepl.translate_document": 0.21563969890132634,
+  "deepl.translate_text": 0.8188730433481141,
+  "elevenlabs.text_to_speech": 0.3798902052102004,
+  "ffmpeg_video.concatenate_videos": 0.060101151192319575,
+  "ffmpeg_video.convert_video": 0.052185552989049575,
+  "ffmpeg_video.extract_audio": 0.3991456906965991,
+  "google_cloud_ai.translate_text": 0.33096586452133486,
+  "openai_media.create_speech": 0.2079716041798573,
+  "openai_media.translate_audio": 0.6778475568247798,
+  "stripe.create_payment_link": 0.04625449959410592
+ },
+ "router_tokens": 0,
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "deepl.translate_text",
+   "args": {
+    "text": "Thank you for joining our webinar today.",
+    "targetLangCode": "de"
+   }
+  },
+  {
+   "tool": "elevenlabs.text_to_speech",
+   "args": {
+    "text": "Vielen Dank, dass Sie heute an unserem Webinar teilgenommen haben.",
+    "language": "de",
+    "output_format": "mp3_44100_128"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 11,
+   "tool_tokens": 2628,
+   "t": 1791320804.8100126
+  },
+  {
+   "type": "call",
+   "tool": "deepl__translate_text",
+   "valid": true,
+   "t": 1791320817.3114612
+  },
+  {
+   "type": "call",
+   "tool": "elevenlabs__text_to_speech",
+   "valid": true,
+   "t": 1791320822.2165625
+  }
+ ],
+ "done": true,
+ "t_done": 1791320824.160969,
+ "final": ""
+}

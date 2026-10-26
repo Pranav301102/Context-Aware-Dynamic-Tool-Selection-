@@ -1,0 +1,54 @@
+{
+ "task_id": "dev_platform-0020",
+ "mode": "cats",
+ "loaded": [
+  "circleci.find_flaky_tests",
+  "circleci.get_build_failure_logs",
+  "circleci.get_job_test_results",
+  "circleci.get_latest_pipeline_status",
+  "github.get_job_logs"
+ ],
+ "order": [
+  "circleci.find_flaky_tests",
+  "circleci.get_build_failure_logs",
+  "circleci.get_job_test_results",
+  "circleci.get_latest_pipeline_status",
+  "github.get_job_logs"
+ ],
+ "scores": {
+  "circleci.find_flaky_tests": 0.16084427805485726,
+  "circleci.get_build_failure_logs": 0.6709118950057298,
+  "circleci.get_job_test_results": 0.33445228634105656,
+  "circleci.get_latest_pipeline_status": 0.11850306459767851,
+  "github.get_job_logs": 0.05886090515999233
+ },
+ "router_tokens": 0,
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "circleci.get_build_failure_logs",
+   "args": {
+    "projectSlug": "gh/acme/checkout",
+    "branch": "main"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 5,
+   "tool_tokens": 1279,
+   "t": 1791321295.610383
+  },
+  {
+   "type": "call",
+   "tool": "circleci__get_build_failure_logs",
+   "valid": true,
+   "t": 1791321307.7650464
+  }
+ ],
+ "done": true,
+ "t_done": 1791321313.7920275,
+ "final": ""
+}

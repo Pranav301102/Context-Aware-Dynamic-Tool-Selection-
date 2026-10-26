@@ -1,0 +1,1661 @@
+{
+ "branch": {
+  "id": "bfcl_c25",
+  "name": "price / house / stock",
+  "summary": "Functions about price, house, stock, specific, average, based, range, activity, instrument, calculate, given, current."
+ },
+ "toolkits": [
+  {
+   "id": "art_auction",
+   "name": "art_auction",
+   "server": "bfcl://art_auction",
+   "summary": "Fetch the price of a specific artwork on the auction platform.",
+   "tools": [
+    {
+     "name": "fetch_artwork_price",
+     "description": "Fetch the price of a specific artwork on the auction platform.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "artwork_name": {
+        "type": "string",
+        "description": "The name of the artwork to be searched."
+       },
+       "artist": {
+        "type": "string",
+        "description": "The artist's name to ensure the precise artwork is fetched."
+       },
+       "platform": {
+        "type": "string",
+        "description": "The platform where the artwork's price should be fetched from.",
+        "default": "all"
+       }
+      },
+      "required": [
+       "artwork_name",
+       "artist"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "dynamic_pricing",
+   "name": "dynamic_pricing",
+   "server": "bfcl://dynamic_pricing",
+   "summary": "Calculate the dynamic price for a product based on the IP address of the customer while ensuring the price does not fall below a minimum floor value.",
+   "tools": [
+    {
+     "name": "calculate",
+     "description": "Calculate the dynamic price for a product based on the IP address of the customer while ensuring the price does not fall below a minimum floor value.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "ip_address",
+       "base_price"
+      ],
+      "properties": {
+       "ip_address": {
+        "type": "string",
+        "description": "The IP address of the customer, used to determine the geographical location for pricing adjustments."
+       },
+       "base_price": {
+        "type": "number",
+        "description": "The base price of the product before dynamic adjustments."
+       },
+       "price_floor": {
+        "type": "number",
+        "description": "The minimum allowable price for the product after dynamic adjustments.",
+        "default": 10.0
+       },
+       "pricing_factor": {
+        "type": "number",
+        "description": "A multiplier based on the customer's location, used to adjust the base price dynamically.",
+        "default": 1.0
+       }
+      }
+     }
+    }
+   ]
+  },
+  {
+   "id": "grocery_delivery",
+   "name": "grocery_delivery",
+   "server": "bfcl://grocery_delivery",
+   "summary": "Order grocery items from a specific location with optional delivery price limit Order grocery items from a specific location with optional delivery price limit",
+   "tools": [
+    {
+     "name": "order",
+     "description": "Order grocery items from a specific location with optional delivery price limit",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The location of the grocery store"
+       },
+       "items": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "List of items to order"
+       },
+       "max_delivery_cost": {
+        "type": "number",
+        "description": "The maximum delivery cost. It is optional",
+        "default": 10.0
+       }
+      },
+      "required": [
+       "location",
+       "items"
+      ]
+     }
+    },
+    {
+     "name": "order_2",
+     "description": "Order grocery items from a specific location with optional delivery price limit",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The location of the grocery store"
+       },
+       "items": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "List of items to order"
+       },
+       "max_delivery_cost": {
+        "type": "number",
+        "description": "The maximum delivery cost. It is optional. Default 1000000"
+       }
+      },
+      "required": [
+       "location",
+       "items"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "guitar_price",
+   "name": "guitar_price",
+   "server": "bfcl://guitar_price",
+   "summary": "Retrieve the price of a specific used guitar model based on its condition and location.",
+   "tools": [
+    {
+     "name": "find",
+     "description": "Retrieve the price of a specific used guitar model based on its condition and location.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "model": {
+        "type": "string",
+        "description": "The model of the guitar."
+       },
+       "condition": {
+        "type": "string",
+        "enum": [
+         "Poor",
+         "Good",
+         "Excellent"
+        ],
+        "description": "The condition of the guitar."
+       },
+       "location": {
+        "type": "string",
+        "description": "The location where the guitar is being sold."
+       }
+      },
+      "required": [
+       "model",
+       "condition",
+       "location"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "instrument_price",
+   "name": "instrument_price",
+   "server": "bfcl://instrument_price",
+   "summary": "Retrieve the current retail price of a specific musical instrument.",
+   "tools": [
+    {
+     "name": "get",
+     "description": "Retrieve the current retail price of a specific musical instrument.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "brand": {
+        "type": "string",
+        "description": "The brand of the instrument."
+       },
+       "model": {
+        "type": "string",
+        "description": "The specific model of the instrument."
+       },
+       "finish": {
+        "type": "string",
+        "description": "The color or type of finish on the instrument."
+       }
+      },
+      "required": [
+       "brand",
+       "model",
+       "finish"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "ml",
+   "name": "ml",
+   "server": "bfcl://ml",
+   "summary": "Predict house price using Machine Learning model given the house size and location",
+   "tools": [
+    {
+     "name": "predict_house_price",
+     "description": "Predict house price using Machine Learning model given the house size and location",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "Location of the house"
+       },
+       "size": {
+        "type": "integer",
+        "description": "Size of the house in square feet"
+       }
+      },
+      "required": [
+       "location",
+       "size"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "sculpture_price",
+   "name": "sculpture_price",
+   "server": "bfcl://sculpture_price",
+   "summary": "Calculate the estimated price to commission a sculpture based on the material and size.",
+   "tools": [
+    {
+     "name": "calculate",
+     "description": "Calculate the estimated price to commission a sculpture based on the material and size.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "material": {
+        "type": "string",
+        "description": "The material used for the sculpture."
+       },
+       "size": {
+        "type": "integer",
+        "description": "The size of the sculpture in feet."
+       },
+       "complexity": {
+        "type": "string",
+        "enum": [
+         "low",
+         "medium",
+         "high"
+        ],
+        "description": "The complexity level of the sculpture. Default is 'medium'.",
+        "default": "medium"
+       }
+      },
+      "required": [
+       "material",
+       "size"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "stock_price",
+   "name": "stock_price",
+   "server": "bfcl://stock_price",
+   "summary": "Retrieve the current stock price for a specified ticker symbol from the stock market. Retrieve the latest stock price for a given ticker and exchange.",
+   "tools": [
+    {
+     "name": "get",
+     "description": "Retrieve the current stock price for a specified ticker symbol from the stock market.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "ticker"
+      ],
+      "properties": {
+       "ticker": {
+        "type": "string",
+        "description": "The stock ticker symbol for which the price is being requested, such as 'AAPL' for Apple Inc."
+       },
+       "exchange": {
+        "type": "string",
+        "description": "The stock exchange where the ticker is listed, such as 'NASDAQ' or 'NYSE'.",
+        "enum": [
+         "NASDAQ",
+         "NYSE",
+         "AMEX"
+        ],
+        "default": "NASDAQ"
+       },
+       "date": {
+        "type": "string",
+        "description": "The date for which the stock price is requested, in the format 'YYYY-MM-DD'. If not provided, the latest available price is returned.",
+        "default": null
+       }
+      }
+     }
+    },
+    {
+     "name": "get_2",
+     "description": "Retrieve the latest stock price for a given ticker and exchange.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "ticker",
+       "exchange"
+      ],
+      "properties": {
+       "ticker": {
+        "type": "string",
+        "description": "The unique stock symbol to identify a publicly traded company on a stock exchange."
+       },
+       "exchange": {
+        "type": "string",
+        "description": "The stock exchange where the ticker is listed, such as 'NYSE' or 'NASDAQ'.",
+        "enum": [
+         "NYSE",
+         "NASDAQ",
+         "LSE",
+         "JPX",
+         "SSE"
+        ]
+       }
+      }
+     }
+    },
+    {
+     "name": "get_3",
+     "description": "Retrieve the latest trade price for a specified stock ticker on a given exchange.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "ticker",
+       "exchange"
+      ],
+      "properties": {
+       "ticker": {
+        "type": "string",
+        "description": "The unique stock ticker symbol used to identify the publicly traded shares of a particular stock on an exchange."
+       },
+       "exchange": {
+        "type": "string",
+        "description": "The stock exchange where the ticker is listed, such as 'NYSE' or 'NASDAQ'.",
+        "enum": [
+         "NYSE",
+         "NASDAQ",
+         "LSE",
+         "TSX"
+        ]
+       }
+      }
+     }
+    },
+    {
+     "name": "get_4",
+     "description": "Retrieves the current stock price for a given ticker symbol from a specified exchange.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "ticker",
+       "exchange"
+      ],
+      "properties": {
+       "ticker": {
+        "type": "string",
+        "description": "The unique ticker or stock symbol used to represent a public company on a stock exchange."
+       },
+       "exchange": {
+        "type": "string",
+        "description": "The stock exchange where the ticker is listed, such as 'NYSE' or 'NASDAQ'.",
+        "enum": [
+         "NYSE",
+         "NASDAQ",
+         "AMEX",
+         "TSX",
+         "LSE"
+        ]
+       },
+       "date": {
+        "type": "string",
+        "description": "The date for which to retrieve the stock price, in the format 'YYYY-MM-DD'. Defaults to the most recent trading day if not specified.",
+        "default": null
+       }
+      }
+     }
+    },
+    {
+     "name": "get_5",
+     "description": "Retrieves the current stock price for a specified ticker symbol from a given stock exchange.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "ticker",
+       "exchange"
+      ],
+      "properties": {
+       "ticker": {
+        "type": "string",
+        "description": "The unique ticker or stock symbol used to identify the publicly traded shares of a particular stock on a particular stock market."
+       },
+       "exchange": {
+        "type": "string",
+        "description": "The stock exchange where the stock is listed, such as 'NYSE' for New York Stock Exchange or 'NASDAQ'.",
+        "enum": [
+         "NYSE",
+         "NASDAQ",
+         "LSE",
+         "TSX",
+         "HKSE"
+        ]
+       }
+      }
+     }
+    }
+   ]
+  },
+  {
+   "id": "walmart",
+   "name": "walmart",
+   "server": "bfcl://walmart",
+   "summary": "Calculate total price for given items and their quantities at Walmart. Calculate total price for given items and their quantities at Walmart.",
+   "tools": [
+    {
+     "name": "check_price",
+     "description": "Calculate total price for given items and their quantities at Walmart.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "items": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "List of items to be priced."
+       },
+       "quantities": {
+        "type": "array",
+        "items": {
+         "type": "integer"
+        },
+        "description": "Quantity of each item corresponding to the items list."
+       },
+       "store_location": {
+        "type": "string",
+        "description": "The store location for specific pricing (optional). Default is 'San Francisco, CA'."
+       }
+      },
+      "required": [
+       "items",
+       "quantities"
+      ]
+     }
+    },
+    {
+     "name": "check_price_2",
+     "description": "Calculate total price for given items and their quantities at Walmart.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "items": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "List of items to be priced."
+       },
+       "quantities": {
+        "type": "array",
+        "items": {
+         "type": "integer"
+        },
+        "description": "Quantity of each item corresponding to the items list."
+       },
+       "store_location": {
+        "type": "string",
+        "description": "The store location for specific pricing (optional). Default is 'USA'."
+       }
+      },
+      "required": [
+       "items",
+       "quantities"
+      ]
+     }
+    },
+    {
+     "name": "check_price_3",
+     "description": "Calculate total price for given items and their quantities at Walmart.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "items": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "List of items to be priced."
+       },
+       "quantities": {
+        "type": "array",
+        "items": {
+         "type": "integer"
+        },
+        "description": "Quantity of each item corresponding to the items list."
+       },
+       "store_location": {
+        "type": "string",
+        "description": "The store location for specific pricing (optional). Default to all if not specified."
+       }
+      },
+      "required": [
+       "items",
+       "quantities"
+      ]
+     }
+    },
+    {
+     "name": "purchase",
+     "description": "Retrieve information of items from Walmart including stock availability.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "loc": {
+        "type": "string",
+        "description": "Location of the nearest Walmart."
+       },
+       "product_list": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "Items to be purchased listed in an array."
+       },
+       "pack_size": {
+        "type": "array",
+        "items": {
+         "type": "integer"
+        },
+        "description": "Size of the product pack if applicable. The size of the array should be equal to product_list. Default is 1."
+       }
+      },
+      "required": [
+       "loc",
+       "product_list"
+      ]
+     }
+    },
+    {
+     "name": "purchase_2",
+     "description": "Retrieve information of items from Walmart including stock availability.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "loc": {
+        "type": "string",
+        "description": "Location of the nearest Walmart."
+       },
+       "product_list": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "Items to be purchased listed in an array."
+       },
+       "pack_size": {
+        "type": "array",
+        "items": {
+         "type": "integer"
+        },
+        "description": "Size of the product pack if applicable. The size of the array should be equal to product_list. Default is an empty array"
+       }
+      },
+      "required": [
+       "loc",
+       "product_list"
+      ]
+     }
+    },
+    {
+     "name": "purchase_3",
+     "description": "Retrieve information of items from Walmart including stock availability.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "loc": {
+        "type": "string",
+        "description": "Location of the nearest Walmart."
+       },
+       "product_list": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "Items to be purchased listed in an array."
+       },
+       "pack_size": {
+        "type": "array",
+        "items": {
+         "type": "integer"
+        },
+        "description": "Size of the product pack if applicable. The size of the array should be equal to product_list. Default is empty array."
+       }
+      },
+      "required": [
+       "loc",
+       "product_list"
+      ]
+     }
+    },
+    {
+     "name": "purchase_4",
+     "description": "Retrieve information of items from Walmart including stock availability.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "loc": {
+        "type": "string",
+        "description": "Location of the nearest Walmart."
+       },
+       "product_list": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "Items to be purchased listed in an array."
+       },
+       "pack_size": {
+        "type": "array",
+        "items": {
+         "type": "integer"
+        },
+        "description": "Size of the product pack if applicable. The size of the array should be equal to product_list. Default is not use it if not specified."
+       }
+      },
+      "required": [
+       "loc",
+       "product_list"
+      ]
+     }
+    },
+    {
+     "name": "vegan_products",
+     "description": "Get available vegan products at specified Walmart store",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "City and state where the Walmart store is located, e.g. Denver, CO"
+       },
+       "categories": {
+        "type": "array",
+        "items": {
+         "type": "string",
+         "enum": [
+          "vegan",
+          "gluten-free"
+         ]
+        },
+        "description": "Product categories to search within. Default empty array"
+       }
+      },
+      "required": [
+       "location"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "whole_foods",
+   "name": "whole_foods",
+   "server": "bfcl://whole_foods",
+   "summary": "Check the price of items at a specific Whole Foods location. Get top brands based on a specific product from Whole Foods",
+   "tools": [
+    {
+     "name": "check_price",
+     "description": "Check the price of items at a specific Whole Foods location.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "Location of the Whole Foods store."
+       },
+       "items": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "List of items for which the price needs to be checked."
+       }
+      },
+      "required": [
+       "location",
+       "items"
+      ]
+     }
+    },
+    {
+     "name": "find_top_brands",
+     "description": "Get top brands based on a specific product from Whole Foods",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "product": {
+        "type": "string",
+        "description": "The product for which the top brands should be fetched."
+       },
+       "number": {
+        "type": "integer",
+        "description": "Number of top brands to be fetched. Default is 5"
+       },
+       "organic": {
+        "type": "boolean",
+        "description": "If the product should be organic. Default is false"
+       }
+      },
+      "required": [
+       "product"
+      ]
+     }
+    },
+    {
+     "name": "order",
+     "description": "Order food from Whole Foods",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "Location of Whole Foods."
+       },
+       "items": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "List of items to order."
+       },
+       "size": {
+        "type": "string",
+        "description": "Size of the order.",
+        "enum": [
+         "small",
+         "medium",
+         "large"
+        ]
+       }
+      },
+      "required": [
+       "location",
+       "items",
+       "size"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "bfcl_c25_g0",
+   "name": "house price predict",
+   "server": "bfcl://bfcl_c25_g0",
+   "summary": "Functions for house, price, predict, area, trends, forecast.",
+   "tools": [
+    {
+     "name": "house_price_forecast",
+     "description": "Predict the house prices for a specific location and time frame.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The city that you want to get the house price prediction for."
+       },
+       "months": {
+        "type": "integer",
+        "description": "Number of future months for the prediction."
+       },
+       "features": {
+        "type": "array",
+        "items": {
+         "type": "string",
+         "enum": [
+          "SqFt",
+          "Bedrooms",
+          "Bathrooms",
+          "Location"
+         ]
+        },
+        "description": "Additional features considered for prediction. Not required. Default empty array",
+        "optional": true
+       }
+      },
+      "required": [
+       "location",
+       "months"
+      ]
+     }
+    },
+    {
+     "name": "house_price_trends",
+     "description": "Find the average house price in a specific area.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "City and state, e.g. New York, NY."
+       },
+       "period": {
+        "type": "string",
+        "enum": [
+         "Daily",
+         "Weekly",
+         "Monthly",
+         "Yearly"
+        ],
+        "description": "The period over which to check the price trend. Default 'Yearly'"
+       }
+      },
+      "required": [
+       "location"
+      ]
+     }
+    },
+    {
+     "name": "house_price_trends_2",
+     "description": "Find the average house price in a specific area.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "City and state, e.g. New York, NY."
+       },
+       "period": {
+        "type": "string",
+        "enum": [
+         "Quarterly",
+         "Yearly"
+        ],
+        "description": "The period over which to check the price trend. Default is 'Yearly' if not specified."
+       }
+      },
+      "required": [
+       "location"
+      ]
+     }
+    },
+    {
+     "name": "predict_house_price",
+     "description": "Predict house price based on area, number of rooms and year of construction.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "area": {
+        "type": "integer",
+        "description": "Area of the house in square feet."
+       },
+       "rooms": {
+        "type": "integer",
+        "description": "Number of rooms in the house."
+       },
+       "year": {
+        "type": "integer",
+        "description": "Year when the house was constructed."
+       },
+       "location": {
+        "type": "string",
+        "description": "The location or city of the house."
+       }
+      },
+      "required": [
+       "area",
+       "rooms",
+       "year",
+       "location"
+      ]
+     }
+    },
+    {
+     "name": "predict_house_price_2",
+     "description": "Predict the price of a house in a given area based on number of bedrooms, bathrooms and area.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "bedrooms": {
+        "type": "integer",
+        "description": "The number of bedrooms in the house."
+       },
+       "bathrooms": {
+        "type": "integer",
+        "description": "The number of bathrooms in the house."
+       },
+       "area": {
+        "type": "integer",
+        "description": "The area of the house in square feet."
+       },
+       "location": {
+        "type": "string",
+        "description": "The location of the house in the format of city name."
+       }
+      },
+      "required": [
+       "bedrooms",
+       "bathrooms",
+       "area",
+       "location"
+      ]
+     }
+    },
+    {
+     "name": "predict_house_price_3",
+     "description": "Predict the price of a house in a given area based on number of bedrooms, bathrooms and area.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "bedrooms": {
+        "type": "integer",
+        "description": "The number of bedrooms in the house."
+       },
+       "bathrooms": {
+        "type": "integer",
+        "description": "The number of bathrooms in the house."
+       },
+       "area": {
+        "type": "integer",
+        "description": "The area of the house in square feet."
+       },
+       "location": {
+        "type": "string",
+        "description": "The location of the house."
+       }
+      },
+      "required": [
+       "bedrooms",
+       "bathrooms",
+       "area",
+       "location"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "bfcl_c25_g1",
+   "name": "price stock closing",
+   "server": "bfcl://bfcl_c25_g1",
+   "summary": "Functions for price, stock, closing, cryptocurrency, company, shopping.",
+   "tools": [
+    {
+     "name": "avg_closing_price",
+     "description": "Calculate the average closing price of a specific company over a given period of time",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "company": {
+        "type": "string",
+        "description": "Name of the company to get data for"
+       },
+       "days": {
+        "type": "integer",
+        "description": "Number of past days to calculate average closing price for"
+       },
+       "data_source": {
+        "type": "string",
+        "description": "Source to fetch the stock data. default is 'yahoo finance'"
+       }
+      },
+      "required": [
+       "company",
+       "days"
+      ]
+     }
+    },
+    {
+     "name": "cryptocurrency_price",
+     "description": "Get the current price of a specific cryptocurrency.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "currency": {
+        "type": "string",
+        "description": "The symbol of the cryptocurrency."
+       },
+       "vs_currency": {
+        "type": "string",
+        "description": "The target currency to represent the price."
+       },
+       "include_market_cap": {
+        "type": "boolean",
+        "default": "false",
+        "description": "Optional field to include market capitalization."
+       }
+      },
+      "required": [
+       "currency",
+       "vs_currency"
+      ]
+     }
+    },
+    {
+     "name": "get_metal_price",
+     "description": "Retrieve the current price for a specified metal and measure.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "metal": {
+        "type": "string",
+        "description": "The metal whose price needs to be fetched."
+       },
+       "measure": {
+        "type": "string",
+        "description": "The measure unit for price, like 'ounce' or 'kg'."
+       }
+      },
+      "required": [
+       "metal",
+       "measure"
+      ]
+     }
+    },
+    {
+     "name": "get_shopping",
+     "description": "Get the current price of a given item at a specified location.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "item_name",
+       "location"
+      ],
+      "properties": {
+       "item_name": {
+        "type": "string",
+        "description": "The name of the item for which the price is being queried."
+       },
+       "location": {
+        "type": "string",
+        "description": "The location where the item is being sold, in the format of 'City, State', such as 'Berkeley, CA' or 'New York, NY'."
+       },
+       "currency": {
+        "type": "string",
+        "description": "The currency in which the price should be provided.",
+        "enum": [
+         "USD",
+         "EUR",
+         "GBP",
+         "JPY",
+         "CNY"
+        ],
+        "default": "USD"
+       }
+      }
+     }
+    },
+    {
+     "name": "get_stock_price",
+     "description": "Get the closing stock price for a specific company on a specified date.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "company_name": {
+        "type": "string",
+        "description": "Name of the company."
+       },
+       "date": {
+        "type": "string",
+        "description": "Date of when to get the stock price. Format: yyyy-mm-dd."
+       },
+       "exchange": {
+        "type": "string",
+        "description": "Name of the stock exchange market where the company's stock is listed. Default is 'NASDAQ'"
+       }
+      },
+      "required": [
+       "company_name",
+       "date"
+      ]
+     }
+    },
+    {
+     "name": "get_stock_price_2",
+     "description": "Retrieve the stock price for a specific company and time frame.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "company": {
+        "type": "string",
+        "description": "The ticker symbol of the company."
+       },
+       "days": {
+        "type": "integer",
+        "description": "Number of past days for which the stock price is required."
+       },
+       "exchange": {
+        "type": "string",
+        "description": "The stock exchange where the company is listed, default is NYSE"
+       }
+      },
+      "required": [
+       "company",
+       "days"
+      ]
+     }
+    },
+    {
+     "name": "get_stock_price_3",
+     "description": "Retrieves the current stock price of the specified companies",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "company_names": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "The list of companies for which to retrieve the stock price."
+       }
+      },
+      "required": [
+       "company_names"
+      ]
+     }
+    },
+    {
+     "name": "search_products",
+     "description": "Search for products based on various criteria such as color, size, category, price range, and brand, to find specific Stock Keeping Units (SKUs) or general Stock Production Units (SPUs).",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "category"
+      ],
+      "properties": {
+       "color": {
+        "type": "string",
+        "description": "The color of the product. This is an optional parameter that can be used to refine SKU searches.",
+        "default": null
+       },
+       "size": {
+        "type": "string",
+        "description": "The size of the product. This is an optional parameter that can be used to refine SKU searches.",
+        "default": null
+       },
+       "category": {
+        "type": "string",
+        "description": "The category of the product, such as 'electronics', 'clothing', 'shoes' or 'furniture'. This parameter is required for both SPU and SKU level searches."
+       },
+       "price_min": {
+        "type": "number",
+        "description": "The minimum price of the product search. Enter a float value representing the lowest price in dollars.",
+        "default": 0.0
+       },
+       "price_max": {
+        "type": "number",
+        "description": "The maximum price of the product search. Enter a float value representing the highest price in dollars.",
+        "default": null
+       },
+       "brand": {
+        "type": "string",
+        "description": "The brand of the product. This is an optional parameter for searching within a specific brand.",
+        "default": null
+       }
+      }
+     }
+    },
+    {
+     "name": "search_products_2",
+     "description": "Search for products based on various criteria such as color, size, category, price range, and brand, to find specific Stock Keeping Units (SKUs) or general Stock Production Units (SPUs).",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "category"
+      ],
+      "properties": {
+       "color": {
+        "type": "string",
+        "description": "The color of the product. This is an optional parameter that can be used to refine SKU searches.",
+        "default": null
+       },
+       "size": {
+        "type": "string",
+        "description": "The size of the product. This is an optional parameter that can be used to refine SKU searches.",
+        "default": null
+       },
+       "category": {
+        "type": "string",
+        "description": "The category of the product, such as 'electronics', 'clothing', or 'furniture'. This parameter is required for both SPU and SKU level searches."
+       },
+       "price_min": {
+        "type": "number",
+        "description": "The minimum price of the product search. Enter a float value representing the lowest price in dollars.",
+        "default": 0.0
+       },
+       "price_max": {
+        "type": "number",
+        "description": "The maximum price of the product search. Enter a float value representing the highest price in dollars.",
+        "default": null
+       },
+       "brand": {
+        "type": "string",
+        "description": "The brand of the product. This is an optional parameter for searching within a specific brand.",
+        "default": null
+       }
+      }
+     }
+    },
+    {
+     "name": "stock_price",
+     "description": "Get stock price data for a given company over a specified number of days.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "company": {
+        "type": "string",
+        "description": "The company name."
+       },
+       "days": {
+        "type": "integer",
+        "description": "The number of previous days to retrieve data for."
+       },
+       "data_type": {
+        "type": "string",
+        "description": "The type of price data to retrieve (e.g., 'Open', 'Close', 'High', 'Low'). Default is 'Close'."
+       }
+      },
+      "required": [
+       "company",
+       "days"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "bfcl_c25_g2",
+   "name": "price activity range",
+   "server": "bfcl://bfcl_c25_g2",
+   "summary": "Functions for price, activity, range, average, getiteminfo, lowest.",
+   "tools": [
+    {
+     "name": "average_price",
+     "description": "Returns the average price for a particular product within a given city.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "city": {
+        "type": "string",
+        "description": "The city where the product will be searched."
+       },
+       "product": {
+        "type": "string",
+        "description": "The product for which the average price will be searched."
+       }
+      },
+      "required": [
+       "city",
+       "product"
+      ]
+     }
+    },
+    {
+     "name": "calculateFinalPrice",
+     "description": "Calculate the final price of a product after a certain discount has been applied and then sales tax added. Price should be positive and the rates can range from 0-1",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "price": {
+        "type": "number",
+        "description": "Original price of the product."
+       },
+       "discount_rate": {
+        "type": "number",
+        "description": "The discount rate in percentage, must be from 0 to 1."
+       },
+       "sales_tax": {
+        "type": "number",
+        "description": "The sales tax in percentage, must be from 0 to 1."
+       }
+      },
+      "required": [
+       "price",
+       "discount_rate",
+       "sales_tax"
+      ]
+     }
+    },
+    {
+     "name": "calculate_capital_gains",
+     "description": "Calculate the capital gains or losses based on purchase price, sale price, and number of shares.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "purchase_price": {
+        "type": "number",
+        "description": "The price at which the shares were bought."
+       },
+       "sale_price": {
+        "type": "number",
+        "description": "The price at which the shares were sold."
+       },
+       "shares": {
+        "type": "integer",
+        "description": "The number of shares sold."
+       },
+       "tax_rate": {
+        "type": "number",
+        "description": "The capital gains tax rate. Default is 0.15."
+       }
+      },
+      "required": [
+       "purchase_price",
+       "sale_price",
+       "shares"
+      ]
+     }
+    },
+    {
+     "name": "calculate_dynamic_pricing",
+     "description": "Calculates the price for a service based on the geolocation of the customer, ensuring a minimum price threshold is met.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "geolocation",
+       "base_price",
+       "minimum_price"
+      ],
+      "properties": {
+       "geolocation": {
+        "type": "string",
+        "description": "The geolocation of the customer in the format of 'Latitude, Longitude', such as '34.0522, -118.2437'."
+       },
+       "base_price": {
+        "type": "number",
+        "description": "The base price for the service before location-based adjustments."
+       },
+       "minimum_price": {
+        "type": "number",
+        "description": "The minimum price to charge regardless of the customer's location."
+       },
+       "location_multiplier": {
+        "type": "number",
+        "description": "Multiplier applied to the base price based on customer's geolocation. A higher multiplier indicates a more expensive area.",
+        "default": 1.0
+       }
+      }
+     }
+    },
+    {
+     "name": "calculate_dynamic_pricing_2",
+     "description": "Calculates the price for a service based on the geolocation of the customer, ensuring a minimum price threshold is met.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "geolocation",
+       "base_price",
+       "minimum_price"
+      ],
+      "properties": {
+       "geolocation": {
+        "type": "string",
+        "description": "The geolocation of the customer in the format of 'Latitude, Longitude', such as '36.2522, -105.3437'."
+       },
+       "base_price": {
+        "type": "number",
+        "description": "The base price for the service before location-based adjustments."
+       },
+       "minimum_price": {
+        "type": "number",
+        "description": "The minimum price to charge regardless of the customer's location."
+       },
+       "location_multiplier": {
+        "type": "number",
+        "description": "Multiplier applied to the base price based on customer's geolocation. A higher multiplier indicates a more expensive area.",
+        "default": 1.0
+       }
+      }
+     }
+    },
+    {
+     "name": "find_hotel",
+     "description": "Search for hotels based on specific criteria like price range and pet policy.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The city where you want to book the hotel."
+       },
+       "max_price_per_night": {
+        "type": "number",
+        "description": "The maximum amount you are willing to pay per night."
+       },
+       "pet_friendly": {
+        "type": "boolean",
+        "description": "Whether the hotel should allow pets. Defaults to false."
+       }
+      },
+      "required": [
+       "location",
+       "max_price_per_night"
+      ]
+     }
+    },
+    {
+     "name": "finish",
+     "description": "Find an activity within a specified price range, where the price is represented as a normalized factor.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "price"
+      ],
+      "properties": {
+       "price": {
+        "type": "number",
+        "description": "A normalized factor representing the cost of the activity, ranging from 0.0 (free) to 1.0 (most expensive)."
+       }
+      }
+     }
+    },
+    {
+     "name": "finish_2",
+     "description": "Retrieves an array of advice slip objects that match the provided search term. Each slip object contains advice related to the search query.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "query"
+      ],
+      "properties": {
+       "query": {
+        "type": "string",
+        "description": "The search term used to find relevant advice slips."
+       }
+      }
+     }
+    },
+    {
+     "name": "finish_3",
+     "description": "Translate a given text from one language to another using the NLLB (Neural Language Learning Bridges) model.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "input_text",
+       "tgt_lang",
+       "src_lang"
+      ],
+      "properties": {
+       "input_text": {
+        "type": "string",
+        "description": "The text you want to translate."
+       },
+       "tgt_lang": {
+        "type": "string",
+        "description": "The target language code, following the BCP 47 standard, such as 'en' for English, 'zh' for Chinese.",
+        "enum": [
+         "en",
+         "zh",
+         "jp",
+         "ko",
+         "da"
+        ]
+       },
+       "src_lang": {
+        "type": "string",
+        "description": "The source language code, following the BCP 47 standard, such as 'en' for English, 'zh' for Chinese."
+       },
+       "max_length": {
+        "type": "integer",
+        "description": "The maximum number of characters for the translated text. Excess text will be truncated.",
+        "default": 500
+       },
+       "access_token": {
+        "type": "string",
+        "description": "The access token required to authenticate with the Hugging Face API for translation.",
+        "default": "example_token"
+       }
+      }
+     }
+    },
+    {
+     "name": "getItemInfo",
+     "description": "Retrieves the name and price of an item based on its unique identifier.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "itemId"
+      ],
+      "properties": {
+       "itemId": {
+        "type": "integer",
+        "description": "The unique identifier of the item."
+       }
+      }
+     }
+    },
+    {
+     "name": "get_activity_by_price",
+     "description": "Retrieve details of an activity based on its price range.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "price"
+      ],
+      "properties": {
+       "price": {
+        "type": "object",
+        "properties": {
+         "min_price": {
+          "type": "number",
+          "description": "The minimum price of the activity in USD."
+         },
+         "max_price": {
+          "type": "number",
+          "description": "The maximum price of the activity in USD."
+         }
+        },
+        "description": "The price range to find activities within. Both min_price and max_price are in USD."
+       },
+       "sort_order": {
+        "type": "string",
+        "description": "The order in which results should be sorted, based on price.",
+        "enum": [
+         "asc",
+         "desc"
+        ],
+        "default": "asc"
+       }
+      }
+     }
+    },
+    {
+     "name": "get_activity_by_price_range",
+     "description": "Retrieves activities that fall within a specified price range. The price range is inclusive and is defined by a minimum and maximum price factor, where a factor of 0 indicates that the activity is free.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "minprice",
+       "maxprice"
+      ],
+      "properties": {
+       "minprice": {
+        "type": "number",
+        "description": "The minimum price factor for the event, ranging from 0.0 (free) to 1.0 (full price)."
+       },
+       "maxprice": {
+        "type": "number",
+        "description": "The maximum price factor for the event, ranging from 0.0 (free) to 1.0 (full price)."
+       }
+      }
+     }
+    },
+    {
+     "name": "get_artwork_price",
+     "description": "Retrieves the price of a sculpture based on size and material.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "museum_location": {
+        "type": "string",
+        "description": "Location of the museum housing the sculpture."
+       },
+       "sculpture_material": {
+        "type": "string",
+        "description": "Material of the sculpture."
+       },
+       "sculpture_size": {
+        "type": "array",
+        "items": {
+         "type": "integer"
+        },
+        "description": "Dimensions of the sculpture."
+       }
+      },
+      "required": [
+       "museum_location",
+       "sculpture_material",
+       "sculpture_size"
+      ]
+     }
+    },
+    {
+     "name": "get_instrument_details",
+     "description": "Retrieve the average price and ratings of an instrument from a particular manufacturer.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "instrument": {
+        "type": "string",
+        "description": "The name of the instrument."
+       },
+       "manufacturer": {
+        "type": "string",
+        "description": "The manufacturer of the instrument."
+       },
+       "features": {
+        "type": "array",
+        "items": {
+         "type": "string",
+         "enum": [
+          "price",
+          "rating"
+         ]
+        },
+        "description": "The features to retrieve about the instrument. Default is 'price'"
+       }
+      },
+      "required": [
+       "instrument",
+       "manufacturer"
+      ]
+     }
+    },
+    {
+     "name": "lowest_price",
+     "description": "Returns the lowest price for a particular product within a given city.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "city": {
+        "type": "string",
+        "description": "The city where the product will be searched."
+       },
+       "product": {
+        "type": "string",
+        "description": "The product for which the lowest price will be searched."
+       }
+      },
+      "required": [
+       "city",
+       "product"
+      ]
+     }
+    }
+   ]
+  }
+ ]
+}

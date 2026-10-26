@@ -1,0 +1,86 @@
+{
+ "task_id": "productivity-0007",
+ "mode": "search",
+ "loaded": [
+  "ms365_pim.create_calendar_event",
+  "ms365_pim.delete_calendar_event",
+  "ms365_pim.get_calendar_view",
+  "ms365_pim.update_calendar_event",
+  "google_calendar.create_event"
+ ],
+ "order": [
+  "ms365_pim.create_calendar_event",
+  "ms365_pim.delete_calendar_event",
+  "ms365_pim.get_calendar_view",
+  "ms365_pim.update_calendar_event",
+  "google_calendar.create_event"
+ ],
+ "scores": {
+  "ms365_pim.create_calendar_event": 2.0,
+  "ms365_pim.delete_calendar_event": 2.0,
+  "ms365_pim.get_calendar_view": 2.0,
+  "ms365_pim.update_calendar_event": 2.0,
+  "google_calendar.create_event": 2.0
+ },
+ "router_tokens": 0,
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "ms365_pim.create_calendar_event",
+   "args": {
+    "body": {
+     "subject": "1:1 with Sam",
+     "start": {
+      "dateTime": "2026-10-08T10:00:00",
+      "timeZone": "Eastern Standard Time"
+     },
+     "end": {
+      "dateTime": "2026-10-08T10:30:00",
+      "timeZone": "Eastern Standard Time"
+     },
+     "attendees": [
+      {
+       "emailAddress": {
+        "address": "sam@contoso.com"
+       },
+       "type": "required"
+      }
+     ],
+     "isOnlineMeeting": true,
+     "onlineMeetingProvider": "teamsForBusiness"
+    }
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0,
+   "t": 1791321713.922022
+  },
+  {
+   "type": "request_tools",
+   "capability": "create Outlook calendar events with Teams meeting details",
+   "added": [
+    "ms365_pim.create_calendar_event",
+    "ms365_pim.delete_calendar_event",
+    "ms365_pim.get_calendar_view",
+    "ms365_pim.update_calendar_event",
+    "google_calendar.create_event"
+   ],
+   "tool_tokens": 2972,
+   "t": 1791321728.6032193
+  },
+  {
+   "type": "call",
+   "tool": "ms365_pim__create_calendar_event",
+   "valid": true,
+   "t": 1791321745.348337
+  }
+ ],
+ "done": true,
+ "t_done": 1791321751.047851,
+ "final": ""
+}

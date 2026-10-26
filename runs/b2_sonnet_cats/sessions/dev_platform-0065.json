@@ -1,0 +1,57 @@
+{
+ "task_id": "dev_platform-0065",
+ "mode": "cats",
+ "loaded": [
+  "jira.add_comment",
+  "linear.create_comment",
+  "linear.create_issue",
+  "linear.list_cycles",
+  "linear.list_issues",
+  "linear.update_issue"
+ ],
+ "order": [
+  "jira.add_comment",
+  "linear.create_comment",
+  "linear.create_issue",
+  "linear.list_cycles",
+  "linear.list_issues",
+  "linear.update_issue"
+ ],
+ "scores": {
+  "jira.add_comment": 0.057613296783943564,
+  "linear.create_comment": 0.5965529478048527,
+  "linear.create_issue": 0.09939257295723794,
+  "linear.list_cycles": 0.029677228098437994,
+  "linear.list_issues": 0.5334220436607782,
+  "linear.update_issue": 0.03497240656651039
+ },
+ "router_tokens": 0,
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "linear.create_comment",
+   "args": {
+    "issueId": "ENG-77",
+    "body": "blocked on infra"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 6,
+   "tool_tokens": 1071,
+   "t": 1791320764.03555
+  },
+  {
+   "type": "call",
+   "tool": "linear__create_comment",
+   "valid": true,
+   "t": 1791320773.4936483
+  }
+ ],
+ "done": true,
+ "t_done": 1791320779.345589,
+ "final": ""
+}

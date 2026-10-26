@@ -1,0 +1,1402 @@
+{
+ "branch": {
+  "id": "bfcl_c11",
+  "name": "integers / sum / gcd",
+  "summary": "Functions about integers, sum, gcd, common, greatest, divisor, calculate, lcm, numbers, calculates, multiple, numeric."
+ },
+ "toolkits": [
+  {
+   "id": "math",
+   "name": "math",
+   "server": "bfcl://math",
+   "summary": "Calculates the area of a circle given its radius. Calculate the definite integral of a function within specified bounds.",
+   "tools": [
+    {
+     "name": "circle_area",
+     "description": "Calculates the area of a circle given its radius.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "radius": {
+        "type": "number",
+        "description": "The radius of the circle."
+       }
+      },
+      "required": [
+       "radius"
+      ]
+     }
+    },
+    {
+     "name": "definite_integral",
+     "description": "Calculate the definite integral of a function within specified bounds.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "function": {
+        "type": "string",
+        "description": "The function to integrate, given in terms of x."
+       },
+       "lower_limit": {
+        "type": "number",
+        "description": "The lower limit of the integral."
+       },
+       "upper_limit": {
+        "type": "number",
+        "description": "The upper limit of the integral."
+       }
+      },
+      "required": [
+       "function",
+       "lower_limit",
+       "upper_limit"
+      ]
+     }
+    },
+    {
+     "name": "factorial",
+     "description": "Calculate the factorial of a given number.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "number": {
+        "type": "number",
+        "description": "The number for which factorial needs to be calculated."
+       }
+      },
+      "required": [
+       "number"
+      ]
+     }
+    },
+    {
+     "name": "factorial_2",
+     "description": "Calculate the factorial of a given number.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "number": {
+        "type": "integer",
+        "description": "The number for which factorial needs to be calculated."
+       }
+      },
+      "required": [
+       "number"
+      ]
+     }
+    },
+    {
+     "name": "factorial_3",
+     "description": "Calculate the factorial of a given number.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "number": {
+        "type": "integer",
+        "description": "The number to compute factorial."
+       }
+      },
+      "required": [
+       "number"
+      ]
+     }
+    },
+    {
+     "name": "factorial_4",
+     "description": "Calculate the factorial of a given positive integer.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "number": {
+        "type": "integer",
+        "description": "The number for which factorial needs to be calculated."
+       }
+      },
+      "required": [
+       "number"
+      ]
+     }
+    },
+    {
+     "name": "gaussian_integral",
+     "description": "Perform Gaussian integration over the range of the function.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "function": {
+        "type": "string",
+        "description": "The function to integrate, given in terms of x."
+       },
+       "lower_limit": {
+        "type": "number",
+        "description": "The lower limit of the integral."
+       },
+       "upper_limit": {
+        "type": "number",
+        "description": "The upper limit of the integral."
+       }
+      },
+      "required": [
+       "function",
+       "lower_limit",
+       "upper_limit"
+      ]
+     }
+    },
+    {
+     "name": "gcd",
+     "description": "Calculate the greatest common divisor (gcd) of the two integers.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "num1": {
+        "type": "integer",
+        "description": "The first number."
+       },
+       "num2": {
+        "type": "integer",
+        "description": "The second number."
+       }
+      },
+      "required": [
+       "num1",
+       "num2"
+      ]
+     }
+    },
+    {
+     "name": "gcd_2",
+     "description": "Calculate the greatest common divisor of two integers.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "num1": {
+        "type": "integer",
+        "description": "First number."
+       },
+       "num2": {
+        "type": "integer",
+        "description": "Second number."
+       }
+      },
+      "required": [
+       "num1",
+       "num2"
+      ]
+     }
+    },
+    {
+     "name": "gcd_3",
+     "description": "Calculates the greatest common divisor of two numbers.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "num1": {
+        "type": "integer",
+        "description": "The first number."
+       },
+       "num2": {
+        "type": "integer",
+        "description": "The second number."
+       }
+      },
+      "required": [
+       "num1",
+       "num2"
+      ]
+     }
+    },
+    {
+     "name": "gcd_4",
+     "description": "Compute the greatest common divisor of two numbers",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "num1": {
+        "type": "integer",
+        "description": "The first number."
+       },
+       "num2": {
+        "type": "integer",
+        "description": "The second number."
+       }
+      },
+      "required": [
+       "num1",
+       "num2"
+      ]
+     }
+    },
+    {
+     "name": "hcf",
+     "description": "Calculate the highest common factor of two numbers.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "number1": {
+        "type": "integer",
+        "description": "First number."
+       },
+       "number2": {
+        "type": "integer",
+        "description": "Second number."
+       }
+      },
+      "required": [
+       "number1",
+       "number2"
+      ]
+     }
+    },
+    {
+     "name": "hypot",
+     "description": "Calculate the Euclidean norm, sqrt(sum(squares)), the length of the vector from the origin to point (x, y) which is the hypotenuse of the right triangle.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "x": {
+        "type": "integer",
+        "description": "The x-coordinate value."
+       },
+       "y": {
+        "type": "integer",
+        "description": "The y-coordinate value."
+       },
+       "z": {
+        "type": "integer",
+        "description": "Optional. The z-coordinate value. Default is 0."
+       }
+      },
+      "required": [
+       "x",
+       "y"
+      ]
+     }
+    },
+    {
+     "name": "lcm",
+     "description": "Calculates the least common multiple of two numbers.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "num1": {
+        "type": "integer",
+        "description": "The first number."
+       },
+       "num2": {
+        "type": "integer",
+        "description": "The second number."
+       }
+      },
+      "required": [
+       "num1",
+       "num2"
+      ]
+     }
+    },
+    {
+     "name": "power",
+     "description": "Calculate the power of one number raised to another.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "base": {
+        "type": "number",
+        "description": "The base number."
+       },
+       "exponent": {
+        "type": "number",
+        "description": "The exponent."
+       },
+       "mod": {
+        "type": "integer",
+        "description": "The modulus. Default is None. Calculates pow(base, exponent) % mod when provided."
+       }
+      },
+      "required": [
+       "base",
+       "exponent"
+      ]
+     }
+    },
+    {
+     "name": "power_2",
+     "description": "Calculate the power of one number raised to another.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "base": {
+        "type": "integer",
+        "description": "The base number."
+       },
+       "exponent": {
+        "type": "integer",
+        "description": "The exponent."
+       },
+       "mod": {
+        "type": "integer",
+        "description": "The modulus. Default is 1. Calculates pow(base, exponent) % mod when provided."
+       }
+      },
+      "required": [
+       "base",
+       "exponent"
+      ]
+     }
+    },
+    {
+     "name": "power_3",
+     "description": "Calculate the power of one number raised to another.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "base": {
+        "type": "integer",
+        "description": "The base number."
+       },
+       "exponent": {
+        "type": "integer",
+        "description": "The exponent."
+       },
+       "mod": {
+        "type": "number",
+        "description": "The modulus. Default is None. Calculates pow(base, exponent) % mod when provided."
+       }
+      },
+      "required": [
+       "base",
+       "exponent"
+      ]
+     }
+    },
+    {
+     "name": "pythagoras",
+     "description": "Calculates the hypotenuse of a right triangle based on the lengths of the other two sides.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "a": {
+        "type": "integer",
+        "description": "Length of one of the sides of a right triangle."
+       },
+       "b": {
+        "type": "integer",
+        "description": "Length of the other side of a right triangle."
+       }
+      },
+      "required": [
+       "a",
+       "b"
+      ]
+     }
+    },
+    {
+     "name": "roots_cubic",
+     "description": "Calculate the roots of a cubic equation.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "a": {
+        "type": "number",
+        "description": "Coefficient of the third-degree term."
+       },
+       "b": {
+        "type": "number",
+        "description": "Coefficient of the second-degree term."
+       },
+       "c": {
+        "type": "number",
+        "description": "Coefficient of the first-degree term."
+       },
+       "d": {
+        "type": "number",
+        "description": "Constant term."
+       }
+      },
+      "required": [
+       "a",
+       "b",
+       "c",
+       "d"
+      ]
+     }
+    },
+    {
+     "name": "roots_polynomial",
+     "description": "Calculate the roots of a polynomial equation.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "coefficients": {
+        "type": "array",
+        "items": {
+         "type": "number"
+        },
+        "description": "Array of coefficients of the polynomial equation starting from highest degree term."
+       },
+       "degree": {
+        "type": "number",
+        "description": "Degree of the polynomial equation.",
+        "default": 4
+       }
+      },
+      "required": [
+       "coefficients"
+      ]
+     }
+    },
+    {
+     "name": "roots_polynomial_2",
+     "description": "Calculate the roots of a polynomial equation.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "coefficients": {
+        "type": "array",
+        "items": {
+         "type": "number"
+        },
+        "description": "Array of coefficients of the polynomial equation starting from highest degree term."
+       },
+       "degree": {
+        "type": "integer",
+        "description": "Degree of the polynomial equation. Default 0"
+       }
+      },
+      "required": [
+       "coefficients"
+      ]
+     }
+    },
+    {
+     "name": "sqrt",
+     "description": "Calculates the square root of a number.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "num": {
+        "type": "number",
+        "description": "The number."
+       },
+       "accuracy": {
+        "type": "number",
+        "description": "The number of decimal places in the result.",
+        "default": 2.0
+       }
+      },
+      "required": [
+       "num"
+      ]
+     }
+    },
+    {
+     "name": "sqrt_2",
+     "description": "Calculates the square root of a number.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "num": {
+        "type": "number",
+        "description": "The number."
+       },
+       "accuracy": {
+        "type": "integer",
+        "description": "The number of decimal places in the result. Default to 0",
+        "optional": true
+       }
+      },
+      "required": [
+       "num"
+      ]
+     }
+    },
+    {
+     "name": "sum",
+     "description": "Compute the sum of all numbers in a list.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "numbers": {
+        "type": "array",
+        "items": {
+         "type": "number"
+        },
+        "description": "The list of numbers to be added up."
+       },
+       "decimal_places": {
+        "type": "integer",
+        "description": "The number of decimal places to round to. Default is 2."
+       }
+      },
+      "required": [
+       "numbers"
+      ]
+     }
+    },
+    {
+     "name": "triangle_area_base_height",
+     "description": "Calculates the area of a triangle using the formula (1/2)base*height.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "base": {
+        "type": "number",
+        "description": "The base length of the triangle."
+       },
+       "height": {
+        "type": "number",
+        "description": "The height of the triangle."
+       }
+      },
+      "required": [
+       "base",
+       "height"
+      ]
+     }
+    },
+    {
+     "name": "triangle_area_heron",
+     "description": "Calculates the area of a triangle using Heron's formula, given the lengths of its three sides.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "side1": {
+        "type": "number",
+        "description": "Length of the first side of the triangle."
+       },
+       "side2": {
+        "type": "number",
+        "description": "Length of the second side of the triangle."
+       },
+       "side3": {
+        "type": "number",
+        "description": "Length of the third side of the triangle."
+       }
+      },
+      "required": [
+       "side1",
+       "side2",
+       "side3"
+      ]
+     }
+    },
+    {
+     "name": "triangle_area_heron_2",
+     "description": "Calculates the area of a triangle using Heron's formula, given the lengths of its three sides.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "side1": {
+        "type": "integer",
+        "description": "Length of the first side of the triangle."
+       },
+       "side2": {
+        "type": "integer",
+        "description": "Length of the second side of the triangle."
+       },
+       "side3": {
+        "type": "integer",
+        "description": "Length of the third side of the triangle."
+       }
+      },
+      "required": [
+       "side1",
+       "side2",
+       "side3"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "math_toolkit",
+   "name": "math_toolkit",
+   "server": "bfcl://math_toolkit",
+   "summary": "Find the product of the first n prime numbers. Find the sum of all multiples of specified numbers within a specified range.",
+   "tools": [
+    {
+     "name": "product_of_primes",
+     "description": "Find the product of the first n prime numbers.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "count": {
+        "type": "integer",
+        "description": "The number of prime numbers to multiply together."
+       }
+      },
+      "required": [
+       "count"
+      ]
+     }
+    },
+    {
+     "name": "sum_of_multiples",
+     "description": "Find the sum of all multiples of specified numbers within a specified range.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "lower_limit": {
+        "type": "integer",
+        "description": "The start of the range (inclusive)."
+       },
+       "upper_limit": {
+        "type": "integer",
+        "description": "The end of the range (inclusive)."
+       },
+       "multiples": {
+        "type": "array",
+        "items": {
+         "type": "integer"
+        },
+        "description": "The numbers to find multiples of."
+       }
+      },
+      "required": [
+       "lower_limit",
+       "upper_limit",
+       "multiples"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "number_theory",
+   "name": "number_theory",
+   "server": "bfcl://number_theory",
+   "summary": "Compute the greatest common divisor of two given integers.",
+   "tools": [
+    {
+     "name": "gcd",
+     "description": "Compute the greatest common divisor of two given integers.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "number1": {
+        "type": "integer",
+        "description": "The first integer."
+       },
+       "number2": {
+        "type": "integer",
+        "description": "The second integer."
+       }
+      },
+      "required": [
+       "number1",
+       "number2"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "bfcl_c11_g0",
+   "name": "gcd integers common",
+   "server": "bfcl://bfcl_c11_g0",
+   "summary": "Functions for gcd, integers, common, lcm, greatest, divisor.",
+   "tools": [
+    {
+     "name": "calculate_gcd",
+     "description": "Calculate the greatest common divisor (gcd) between two integers.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "num1": {
+        "type": "integer",
+        "description": "First number to calculate gcd for."
+       },
+       "num2": {
+        "type": "integer",
+        "description": "Second number to calculate gcd for."
+       },
+       "algorithm": {
+        "type": "string",
+        "description": "The specific algorithm to use in the calculation. Supported values: 'euclidean', 'binary'",
+        "default": "euclidean"
+       }
+      },
+      "required": [
+       "num1",
+       "num2"
+      ]
+     }
+    },
+    {
+     "name": "calculate_gcd_2",
+     "description": "Calculate the greatest common divisor (gcd) between two integers.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "num1": {
+        "type": "integer",
+        "description": "First number to calculate gcd for."
+       },
+       "num2": {
+        "type": "integer",
+        "description": "Second number to calculate gcd for."
+       },
+       "algorithm": {
+        "type": "string",
+        "description": "The specific algorithm to use in the calculation. Supported values: 'euclidean', 'binary'. Default 'euclidean'",
+        "enum": [
+         "euclidean",
+         "binary"
+        ]
+       }
+      },
+      "required": [
+       "num1",
+       "num2"
+      ]
+     }
+    },
+    {
+     "name": "calculate_lcm",
+     "description": "Calculate the least common multiple (lcm) between two integers.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "num1": {
+        "type": "integer",
+        "description": "First number to calculate lcm for."
+       },
+       "num2": {
+        "type": "integer",
+        "description": "Second number to calculate lcm for."
+       },
+       "method": {
+        "type": "string",
+        "description": "The specific method to use in the calculation. Supported values: 'standard', 'reduced'",
+        "default": "standard"
+       }
+      },
+      "required": [
+       "num1",
+       "num2"
+      ]
+     }
+    },
+    {
+     "name": "calculate_lcm_2",
+     "description": "Calculate the least common multiple (lcm) between two integers.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "num1": {
+        "type": "integer",
+        "description": "First number to calculate lcm for."
+       },
+       "num2": {
+        "type": "integer",
+        "description": "Second number to calculate lcm for."
+       },
+       "method": {
+        "type": "string",
+        "description": "The specific method to use in the calculation. Supported values: 'standard', 'reduced'. Default 'standard'"
+       }
+      },
+      "required": [
+       "num1",
+       "num2"
+      ]
+     }
+    },
+    {
+     "name": "gcd",
+     "description": "Calculate the greatest common divisor of two integers.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "num1": {
+        "type": "integer",
+        "description": "The first integer."
+       },
+       "num2": {
+        "type": "integer",
+        "description": "The second integer."
+       }
+      },
+      "required": [
+       "num1",
+       "num2"
+      ]
+     }
+    },
+    {
+     "name": "lcm",
+     "description": "Calculate the least common multiple of two integers.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "num1": {
+        "type": "integer",
+        "description": "The first integer."
+       },
+       "num2": {
+        "type": "integer",
+        "description": "The second integer."
+       }
+      },
+      "required": [
+       "num1",
+       "num2"
+      ]
+     }
+    },
+    {
+     "name": "math_gcd",
+     "description": "Calculates the greatest common divisor (GCD) of two non-negative integers.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "a": {
+        "type": "integer",
+        "description": "The first and larger non-negative integer for which to calculate the GCD."
+       },
+       "b": {
+        "type": "integer",
+        "description": "The second non-negative integer for which to calculate the GCD."
+       }
+      },
+      "required": [
+       "a",
+       "b"
+      ]
+     }
+    },
+    {
+     "name": "math_gcd_2",
+     "description": "Calculates the greatest common divisor (GCD) of two non-negative integers.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "a",
+       "b"
+      ],
+      "properties": {
+       "a": {
+        "type": "integer",
+        "description": "The first non-negative integer for which the GCD is to be computed."
+       },
+       "b": {
+        "type": "integer",
+        "description": "The second non-negative integer for which the GCD is to be computed."
+       }
+      }
+     }
+    },
+    {
+     "name": "math_gcd_3",
+     "description": "Calculates the greatest common divisor (GCD) of two positive integers using the Euclidean algorithm.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "a",
+       "b"
+      ],
+      "properties": {
+       "a": {
+        "type": "integer",
+        "description": "The first and larger positive integer for which to calculate the GCD."
+       },
+       "b": {
+        "type": "integer",
+        "description": "The second positive integer for which to calculate the GCD."
+       }
+      }
+     }
+    }
+   ]
+  },
+  {
+   "id": "bfcl_c11_g1",
+   "name": "sum integers calculates",
+   "server": "bfcl://bfcl_c11_g1",
+   "summary": "Functions for sum, integers, calculates, numbers, numeric, result.",
+   "tools": [
+    {
+     "name": "add",
+     "description": "Calculate the sum of two integers.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "a",
+       "b"
+      ],
+      "properties": {
+       "a": {
+        "type": "integer",
+        "description": "The first integer to be added."
+       },
+       "b": {
+        "type": "integer",
+        "description": "The second integer to be added."
+       }
+      }
+     }
+    },
+    {
+     "name": "add_2",
+     "description": "Calculates the sum of two integers and returns the result.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "a",
+       "b"
+      ],
+      "properties": {
+       "a": {
+        "type": "integer",
+        "description": "The first integer to be added."
+       },
+       "b": {
+        "type": "integer",
+        "description": "The second integer to be added."
+       }
+      }
+     }
+    },
+    {
+     "name": "add_3",
+     "description": "Calculates the sum of two integers.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "a",
+       "b"
+      ],
+      "properties": {
+       "a": {
+        "type": "integer",
+        "description": "The first integer to be added."
+       },
+       "b": {
+        "type": "integer",
+        "description": "The second integer to be added."
+       }
+      }
+     }
+    },
+    {
+     "name": "add_4",
+     "description": "Performs addition of two integers and returns the result.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "a",
+       "b"
+      ],
+      "properties": {
+       "a": {
+        "type": "integer",
+        "description": "The first integer to add."
+       },
+       "b": {
+        "type": "integer",
+        "description": "The second integer to add."
+       }
+      }
+     }
+    },
+    {
+     "name": "add_5",
+     "description": "Performs the addition of two integers and returns the result.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "a",
+       "b"
+      ],
+      "properties": {
+       "a": {
+        "type": "integer",
+        "description": "The first integer to be added."
+       },
+       "b": {
+        "type": "integer",
+        "description": "The second integer to be added."
+       }
+      }
+     }
+    },
+    {
+     "name": "calculate_sum",
+     "description": "Calculates the sum of two numbers and returns the result. The function accepts both integers and floating-point numbers.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "number1",
+       "number2"
+      ],
+      "properties": {
+       "number1": {
+        "type": "number",
+        "description": "The first number to be added. Can be an integer or a float."
+       },
+       "number2": {
+        "type": "number",
+        "description": "The second number to be added. Can be an integer or a float."
+       }
+      }
+     }
+    },
+    {
+     "name": "calculate_sum_2",
+     "description": "Calculates the sum of two numbers and returns the result.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "a",
+       "b"
+      ],
+      "properties": {
+       "a": {
+        "type": "number",
+        "description": "The first number to be added. Can be an integer or a floating-point number."
+       },
+       "b": {
+        "type": "number",
+        "description": "The second number to be added. Can be an integer or a floating-point number."
+       }
+      }
+     }
+    },
+    {
+     "name": "calculate_sum_3",
+     "description": "Calculates the sum of two numeric values.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "number1",
+       "number2"
+      ],
+      "properties": {
+       "number1": {
+        "type": "number",
+        "description": "The first number to be added. Can be an integer or a float."
+       },
+       "number2": {
+        "type": "number",
+        "description": "The second number to be added. Can be an integer or a float."
+       }
+      }
+     }
+    },
+    {
+     "name": "multiply",
+     "description": "Calculates the product of two integers.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "a",
+       "b"
+      ],
+      "properties": {
+       "a": {
+        "type": "integer",
+        "description": "The first integer to multiply."
+       },
+       "b": {
+        "type": "integer",
+        "description": "The second integer to multiply."
+       }
+      }
+     }
+    },
+    {
+     "name": "multiply_2",
+     "description": "Multiplies two given integers and returns the product.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "a",
+       "b"
+      ],
+      "properties": {
+       "a": {
+        "type": "integer",
+        "description": "The first integer to multiply. This is the smaller value."
+       },
+       "b": {
+        "type": "integer",
+        "description": "The second integer to multiply. This is the larger value."
+       }
+      }
+     }
+    },
+    {
+     "name": "multiply_3",
+     "description": "Multiplies two given integers and returns the product.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "a",
+       "b"
+      ],
+      "properties": {
+       "a": {
+        "type": "integer",
+        "description": "The first integer to multiply."
+       },
+       "b": {
+        "type": "integer",
+        "description": "The second integer to multiply."
+       }
+      }
+     }
+    },
+    {
+     "name": "multiply_4",
+     "description": "Multiplies two integers and returns the product.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "a",
+       "b"
+      ],
+      "properties": {
+       "a": {
+        "type": "integer",
+        "description": "The first integer to be multiplied."
+       },
+       "b": {
+        "type": "integer",
+        "description": "The second integer to be multiplied."
+       }
+      }
+     }
+    },
+    {
+     "name": "multiply_5",
+     "description": "Multiplies two integers and returns the product.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "a",
+       "b"
+      ],
+      "properties": {
+       "a": {
+        "type": "integer",
+        "description": "The first integer to multiply."
+       },
+       "b": {
+        "type": "integer",
+        "description": "The second integer to multiply."
+       }
+      }
+     }
+    },
+    {
+     "name": "multiply_6",
+     "description": "Multiplies two integers and returns the result.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "a": {
+        "type": "integer",
+        "description": "The first integer to be multiplied."
+       },
+       "b": {
+        "type": "integer",
+        "description": "The second integer to be multiplied."
+       }
+      },
+      "required": [
+       "a",
+       "b"
+      ]
+     }
+    },
+    {
+     "name": "multiply_7",
+     "description": "Performs multiplication of two integers and returns the product.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "a": {
+        "type": "integer",
+        "description": "The first integer to be multiplied."
+       },
+       "b": {
+        "type": "integer",
+        "description": "The second integer to be multiplied."
+       }
+      },
+      "required": [
+       "a",
+       "b"
+      ]
+     }
+    },
+    {
+     "name": "sort_array",
+     "description": "Sorts an array of integers in ascending order.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "array"
+      ],
+      "properties": {
+       "array": {
+        "type": "array",
+        "items": {
+         "type": "integer"
+        },
+        "description": "An array of integers to be sorted."
+       },
+       "reverse": {
+        "type": "boolean",
+        "description": "Determines if the array should be sorted in descending order. Defaults to false (ascending order).",
+        "default": false
+       }
+      }
+     }
+    },
+    {
+     "name": "sort_array_2",
+     "description": "Sorts an array of integers in ascending order.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "array"
+      ],
+      "properties": {
+       "array": {
+        "type": "array",
+        "items": {
+         "type": "integer"
+        },
+        "description": "The array of integers to be sorted."
+       },
+       "reverse": {
+        "type": "boolean",
+        "description": "Determines if the array should be sorted in descending order. Defaults to false indicating ascending order.",
+        "default": false
+       }
+      }
+     }
+    },
+    {
+     "name": "sort_array_3",
+     "description": "Sorts an array of integers in ascending order.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "array"
+      ],
+      "properties": {
+       "array": {
+        "type": "array",
+        "items": {
+         "type": "integer"
+        },
+        "description": "The array of integers to sort."
+       }
+      }
+     }
+    },
+    {
+     "name": "sum",
+     "description": "Calculate the sum of two numeric values.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "a",
+       "b"
+      ],
+      "properties": {
+       "a": {
+        "type": "number",
+        "description": "The first operand in the summation; a floating-point number."
+       },
+       "b": {
+        "type": "number",
+        "description": "The second operand in the summation; a floating-point number."
+       }
+      }
+     }
+    },
+    {
+     "name": "sum_2",
+     "description": "Calculates the sum of two integers.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "a",
+       "b"
+      ],
+      "properties": {
+       "a": {
+        "type": "integer",
+        "description": "The first integer to be added."
+       },
+       "b": {
+        "type": "integer",
+        "description": "The second integer to be added."
+       }
+      }
+     }
+    },
+    {
+     "name": "sum_elements",
+     "description": "Add all elements of a numeric list",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "elements": {
+        "type": "array",
+        "items": {
+         "type": "integer"
+        },
+        "description": "The list of numeric elements to add."
+       }
+      },
+      "required": [
+       "elements"
+      ]
+     }
+    },
+    {
+     "name": "sum_elements_2",
+     "description": "Calculate the sum of all numerical elements provided in a list.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "elements"
+      ],
+      "properties": {
+       "elements": {
+        "type": "array",
+        "items": {
+         "type": "integer"
+        },
+        "description": "A list of integers whose sum is to be calculated."
+       }
+      }
+     }
+    },
+    {
+     "name": "sum_numbers",
+     "description": "Calculates the sum of all the numbers provided in the list.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "numbers_list"
+      ],
+      "properties": {
+       "numbers_list": {
+        "type": "array",
+        "items": {
+         "type": "number"
+        },
+        "description": "A list of floating-point numbers to be summed."
+       }
+      }
+     }
+    }
+   ]
+  }
+ ]
+}

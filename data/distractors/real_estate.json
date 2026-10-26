@@ -1,0 +1,924 @@
+{
+  "branch": {
+    "id": "real_estate",
+    "name": "Real Estate",
+    "summary": "Real estate: searching homes for sale or rent, property records and home value estimates, comparable sales, scheduling showings, and rental property management (leases, tenants, rent payments, maintenance)."
+  },
+  "toolkits": [
+    {
+      "id": "zillow_listings",
+      "name": "Zillow Listings",
+      "server": "mcp://zillow",
+      "summary": "Search for-sale and rental listings, open houses and local housing market trends.",
+      "tools": [
+        {
+          "name": "search_listings",
+          "description": "Search active for-sale or for-rent home listings in an area with price, size and type filters.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "location": {
+                "type": "string",
+                "description": "City, ZIP code, neighborhood or address."
+              },
+              "listing_type": {
+                "type": "string",
+                "description": "Listing type.",
+                "enum": [
+                  "for_sale",
+                  "for_rent",
+                  "sold"
+                ],
+                "default": "for_sale"
+              },
+              "min_price": {
+                "type": "number",
+                "description": "Minimum price (or monthly rent)."
+              },
+              "max_price": {
+                "type": "number",
+                "description": "Maximum price (or monthly rent)."
+              },
+              "min_beds": {
+                "type": "integer",
+                "description": "Minimum bedrooms."
+              },
+              "min_baths": {
+                "type": "number",
+                "description": "Minimum bathrooms."
+              },
+              "home_types": {
+                "type": "array",
+                "description": "Home types.",
+                "items": {
+                  "type": "string",
+                  "description": "Type.",
+                  "enum": [
+                    "single_family",
+                    "condo",
+                    "townhouse",
+                    "multi_family",
+                    "land",
+                    "manufactured"
+                  ]
+                }
+              },
+              "min_sqft": {
+                "type": "integer",
+                "description": "Minimum living area."
+              },
+              "max_hoa": {
+                "type": "number",
+                "description": "Maximum monthly HOA fee."
+              },
+              "keywords": {
+                "type": "string",
+                "description": "Keywords, e.g. 'pool', 'garage'."
+              },
+              "sort": {
+                "type": "string",
+                "description": "Sort.",
+                "enum": [
+                  "newest",
+                  "price_low",
+                  "price_high",
+                  "beds",
+                  "sqft"
+                ],
+                "default": "newest"
+              },
+              "limit": {
+                "type": "integer",
+                "description": "Max results.",
+                "default": 25
+              }
+            },
+            "required": [
+              "location"
+            ]
+          }
+        },
+        {
+          "name": "get_listing",
+          "description": "Get full listing details by zpid: price history, description, features, HOA, nearby schools and listing agent.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "zpid": {
+                "type": "string",
+                "description": "Zillow property id."
+              }
+            },
+            "required": [
+              "zpid"
+            ]
+          }
+        },
+        {
+          "name": "get_listing_photos",
+          "description": "Get photos.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "zpid": {
+                "type": "string",
+                "description": "Zillow property id."
+              }
+            },
+            "required": [
+              "zpid"
+            ]
+          }
+        },
+        {
+          "name": "list_open_houses",
+          "description": "List upcoming open houses in an area.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "location": {
+                "type": "string",
+                "description": "City or ZIP."
+              },
+              "start_date": {
+                "type": "string",
+                "description": "From (YYYY-MM-DD)."
+              },
+              "end_date": {
+                "type": "string",
+                "description": "To (YYYY-MM-DD)."
+              }
+            },
+            "required": [
+              "location"
+            ]
+          }
+        },
+        {
+          "name": "get_market_trends",
+          "description": "Median list and sale price, inventory, days on market and rent trends for a ZIP code, city or metro.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "region": {
+                "type": "string",
+                "description": "Region name or ZIP."
+              },
+              "region_type": {
+                "type": "string",
+                "description": "Region type.",
+                "enum": [
+                  "zip",
+                  "city",
+                  "metro",
+                  "county"
+                ]
+              },
+              "months": {
+                "type": "integer",
+                "description": "Months of history.",
+                "default": 12
+              }
+            },
+            "required": [
+              "region"
+            ]
+          }
+        },
+        {
+          "name": "save_search_alert",
+          "description": "Save a search and receive email alerts when new matching listings appear.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Alert name."
+              },
+              "criteria": {
+                "type": "object",
+                "description": "Search criteria (same fields as search_listings).",
+                "properties": {
+                  "location": {
+                    "type": "string",
+                    "description": "Location."
+                  },
+                  "min_price": {
+                    "type": "number",
+                    "description": "Min price."
+                  },
+                  "max_price": {
+                    "type": "number",
+                    "description": "Max price."
+                  },
+                  "min_beds": {
+                    "type": "integer",
+                    "description": "Min beds."
+                  },
+                  "home_types": {
+                    "type": "array",
+                    "description": "Home types.",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "required": [
+                  "location"
+                ]
+              },
+              "frequency": {
+                "type": "string",
+                "description": "Alert frequency.",
+                "enum": [
+                  "instant",
+                  "daily",
+                  "weekly"
+                ],
+                "default": "daily"
+              }
+            },
+            "required": [
+              "criteria"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "attom_property",
+      "name": "ATTOM Property Data",
+      "server": "mcp://attom",
+      "summary": "Property records: building characteristics, automated home valuations, sales history, comparables and tax assessments.",
+      "tools": [
+        {
+          "name": "get_property_detail",
+          "description": "Look up a property by address or APN and return parcel, building characteristics, lot size, year built and owner.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "address1": {
+                "type": "string",
+                "description": "Street address, e.g. '4529 Winona Ct'."
+              },
+              "address2": {
+                "type": "string",
+                "description": "City, state and ZIP."
+              },
+              "apn": {
+                "type": "string",
+                "description": "Assessor parcel number."
+              },
+              "fips": {
+                "type": "string",
+                "description": "County FIPS code (with apn)."
+              }
+            }
+          }
+        },
+        {
+          "name": "get_valuation",
+          "description": "Automated valuation model (AVM) estimate of a home's current market value, with value range and confidence score.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "address1": {
+                "type": "string",
+                "description": "Street address, e.g. '4529 Winona Ct'."
+              },
+              "address2": {
+                "type": "string",
+                "description": "City, state and ZIP."
+              },
+              "attom_id": {
+                "type": "string",
+                "description": "ATTOM property id."
+              }
+            }
+          }
+        },
+        {
+          "name": "get_sales_history",
+          "description": "Sales history",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "address1": {
+                "type": "string",
+                "description": "Street address, e.g. '4529 Winona Ct'."
+              },
+              "address2": {
+                "type": "string",
+                "description": "City, state and ZIP."
+              },
+              "attom_id": {
+                "type": "string",
+                "description": "ATTOM property id."
+              }
+            }
+          }
+        },
+        {
+          "name": "get_comparable_sales",
+          "description": "Find recently sold comparable properties near a subject property.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "attom_id": {
+                "type": "string",
+                "description": "Subject property id."
+              },
+              "radius_miles": {
+                "type": "number",
+                "description": "Search radius.",
+                "default": 0.5
+              },
+              "sold_within_months": {
+                "type": "integer",
+                "description": "Sold within the last N months.",
+                "default": 6
+              },
+              "sqft_range_pct": {
+                "type": "integer",
+                "description": "Allowed living-area difference in percent.",
+                "default": 20
+              },
+              "max_results": {
+                "type": "integer",
+                "description": "Max comps.",
+                "default": 10
+              }
+            },
+            "required": [
+              "attom_id"
+            ]
+          }
+        },
+        {
+          "name": "get_tax_assessment",
+          "description": "Assessed value, annual tax amount and exemptions for a parcel.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "attom_id": {
+                "type": "string",
+                "description": "ATTOM property id."
+              },
+              "year": {
+                "type": "integer",
+                "description": "Tax year."
+              }
+            },
+            "required": [
+              "attom_id"
+            ]
+          }
+        },
+        {
+          "name": "get_rental_estimate",
+          "description": "Estimate monthly market rent for a property.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "attom_id": {
+                "type": "string",
+                "description": "ATTOM property id."
+              },
+              "bedrooms": {
+                "type": "integer",
+                "description": "Bedrooms."
+              },
+              "bathrooms": {
+                "type": "number",
+                "description": "Bathrooms."
+              }
+            },
+            "required": [
+              "attom_id"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "buildium_pm",
+      "name": "Buildium Property Management",
+      "server": "mcp://buildium",
+      "summary": "Manage rental properties, units, tenants, leases, rent payments and maintenance work orders.",
+      "tools": [
+        {
+          "name": "list_properties",
+          "description": "List rental properties.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "description": "Property type.",
+                "enum": [
+                  "residential",
+                  "association",
+                  "commercial"
+                ]
+              },
+              "status": {
+                "type": "string",
+                "description": "Status.",
+                "enum": [
+                  "active",
+                  "inactive"
+                ],
+                "default": "active"
+              },
+              "city": {
+                "type": "string",
+                "description": "City."
+              },
+              "state": {
+                "type": "string",
+                "description": "State."
+              }
+            }
+          }
+        },
+        {
+          "name": "list_units",
+          "description": "List units",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "property_id": {
+                "type": "string",
+                "description": "Property id."
+              },
+              "vacant_only": {
+                "type": "boolean",
+                "description": "Only vacant units.",
+                "default": false
+              }
+            }
+          }
+        },
+        {
+          "name": "list_tenants",
+          "description": "Search tenants by name, email, property, unit or lease status.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Name contains."
+              },
+              "email": {
+                "type": "string",
+                "description": "Email."
+              },
+              "property_id": {
+                "type": "string",
+                "description": "Property id."
+              },
+              "unit_id": {
+                "type": "string",
+                "description": "Unit id."
+              },
+              "lease_status": {
+                "type": "string",
+                "description": "Lease status.",
+                "enum": [
+                  "active",
+                  "past",
+                  "future"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "name": "get_tenant",
+          "description": "Get tenant.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "tenant_id": {
+                "type": "string",
+                "description": "Tenant id."
+              }
+            },
+            "required": [
+              "tenant_id"
+            ]
+          }
+        },
+        {
+          "name": "create_lease",
+          "description": "Create a lease for a unit with tenants, term dates, rent schedule and security deposit.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "unit_id": {
+                "type": "string",
+                "description": "Unit id."
+              },
+              "lease_type": {
+                "type": "string",
+                "description": "Lease type.",
+                "enum": [
+                  "fixed",
+                  "fixed_with_rollover",
+                  "at_will"
+                ],
+                "default": "fixed"
+              },
+              "start_date": {
+                "type": "string",
+                "description": "Lease start (YYYY-MM-DD)."
+              },
+              "end_date": {
+                "type": "string",
+                "description": "Lease end (YYYY-MM-DD); omit for at-will."
+              },
+              "tenants": {
+                "type": "array",
+                "description": "Tenants on the lease.",
+                "items": {
+                  "type": "object",
+                  "description": "Tenant.",
+                  "properties": {
+                    "first_name": {
+                      "type": "string",
+                      "description": "First name."
+                    },
+                    "last_name": {
+                      "type": "string",
+                      "description": "Last name."
+                    },
+                    "email": {
+                      "type": "string",
+                      "description": "Email."
+                    },
+                    "phone": {
+                      "type": "string",
+                      "description": "Phone."
+                    }
+                  },
+                  "required": [
+                    "first_name",
+                    "last_name"
+                  ]
+                }
+              },
+              "rent": {
+                "type": "object",
+                "description": "Rent schedule.",
+                "properties": {
+                  "amount": {
+                    "type": "number",
+                    "description": "Rent amount."
+                  },
+                  "due_day": {
+                    "type": "integer",
+                    "description": "Day of month rent is due.",
+                    "default": 1
+                  },
+                  "frequency": {
+                    "type": "string",
+                    "description": "Frequency.",
+                    "enum": [
+                      "monthly",
+                      "weekly",
+                      "quarterly"
+                    ],
+                    "default": "monthly"
+                  }
+                },
+                "required": [
+                  "amount"
+                ]
+              },
+              "security_deposit": {
+                "type": "number",
+                "description": "Security deposit amount."
+              },
+              "send_welcome_email": {
+                "type": "boolean",
+                "description": "Invite tenants to the resident portal.",
+                "default": true
+              }
+            },
+            "required": [
+              "unit_id",
+              "start_date",
+              "tenants",
+              "rent"
+            ]
+          }
+        },
+        {
+          "name": "renew_lease",
+          "description": "Renew an expiring lease with a new term and rent amount.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "lease_id": {
+                "type": "string",
+                "description": "Lease id."
+              },
+              "new_end_date": {
+                "type": "string",
+                "description": "New end date (YYYY-MM-DD)."
+              },
+              "new_rent_amount": {
+                "type": "number",
+                "description": "New rent."
+              },
+              "effective_date": {
+                "type": "string",
+                "description": "Rent change effective (YYYY-MM-DD)."
+              }
+            },
+            "required": [
+              "lease_id",
+              "new_end_date"
+            ]
+          }
+        },
+        {
+          "name": "list_leases",
+          "description": "List leases, e.g. those expiring in the next 60 days.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "property_id": {
+                "type": "string",
+                "description": "Property id."
+              },
+              "status": {
+                "type": "string",
+                "description": "Lease status.",
+                "enum": [
+                  "active",
+                  "past",
+                  "future"
+                ]
+              },
+              "expiring_within_days": {
+                "type": "integer",
+                "description": "Only leases ending within N days."
+              }
+            }
+          }
+        },
+        {
+          "name": "record_payment",
+          "description": "Record a rent payment received from a tenant on the lease ledger.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "lease_id": {
+                "type": "string",
+                "description": "Lease id."
+              },
+              "amount": {
+                "type": "number",
+                "description": "Amount received."
+              },
+              "date": {
+                "type": "string",
+                "description": "Payment date (YYYY-MM-DD)."
+              },
+              "payment_method": {
+                "type": "string",
+                "description": "Method.",
+                "enum": [
+                  "check",
+                  "cash",
+                  "ach",
+                  "credit_card",
+                  "money_order"
+                ]
+              },
+              "memo": {
+                "type": "string",
+                "description": "Memo / reference number."
+              }
+            },
+            "required": [
+              "lease_id",
+              "amount",
+              "date"
+            ]
+          }
+        },
+        {
+          "name": "list_outstanding_balances",
+          "description": "List tenants with past-due rent balances.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "property_id": {
+                "type": "string",
+                "description": "Property id."
+              },
+              "min_balance": {
+                "type": "number",
+                "description": "Minimum balance owed."
+              },
+              "days_past_due": {
+                "type": "integer",
+                "description": "Minimum days past due."
+              }
+            }
+          }
+        },
+        {
+          "name": "create_maintenance_request",
+          "description": "Open a maintenance request / work order for a unit.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "unit_id": {
+                "type": "string",
+                "description": "Unit id."
+              },
+              "title": {
+                "type": "string",
+                "description": "Short title, e.g. 'Leaking kitchen faucet'."
+              },
+              "description": {
+                "type": "string",
+                "description": "Details."
+              },
+              "priority": {
+                "type": "string",
+                "description": "Priority.",
+                "enum": [
+                  "low",
+                  "normal",
+                  "high",
+                  "emergency"
+                ],
+                "default": "normal"
+              },
+              "category": {
+                "type": "string",
+                "description": "Category.",
+                "enum": [
+                  "plumbing",
+                  "electrical",
+                  "hvac",
+                  "appliance",
+                  "pest",
+                  "general"
+                ]
+              },
+              "requested_by_tenant_id": {
+                "type": "string",
+                "description": "Tenant who reported it."
+              },
+              "entry_permission": {
+                "type": "boolean",
+                "description": "Tenant permits entry without being home.",
+                "default": false
+              },
+              "vendor_id": {
+                "type": "string",
+                "description": "Assign to a vendor."
+              }
+            },
+            "required": [
+              "unit_id",
+              "title"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "showingtime",
+      "name": "ShowingTime",
+      "server": "mcp://showingtime",
+      "summary": "Schedule and manage property showings between buyer's agents and listing agents.",
+      "tools": [
+        {
+          "name": "schedule_showing",
+          "description": "Request a showing appointment at a listing; the listing agent or seller confirms it.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "listing_id": {
+                "type": "string",
+                "description": "MLS number."
+              },
+              "start_time": {
+                "type": "string",
+                "description": "Requested start (ISO 8601)."
+              },
+              "duration_minutes": {
+                "type": "integer",
+                "description": "Length.",
+                "default": 30
+              },
+              "buyer_agent": {
+                "type": "object",
+                "description": "Requesting agent.",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Name."
+                  },
+                  "email": {
+                    "type": "string",
+                    "description": "Email."
+                  },
+                  "phone": {
+                    "type": "string",
+                    "description": "Phone."
+                  }
+                }
+              },
+              "notes": {
+                "type": "string",
+                "description": "Notes for the listing agent."
+              }
+            },
+            "required": [
+              "listing_id",
+              "start_time"
+            ]
+          }
+        },
+        {
+          "name": "list_showings",
+          "description": "List showings.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "listing_id": {
+                "type": "string",
+                "description": "MLS number."
+              },
+              "agent_email": {
+                "type": "string",
+                "description": "Agent."
+              },
+              "start_date": {
+                "type": "string",
+                "description": "From (YYYY-MM-DD)."
+              },
+              "end_date": {
+                "type": "string",
+                "description": "To (YYYY-MM-DD)."
+              },
+              "status": {
+                "type": "string",
+                "description": "Status.",
+                "enum": [
+                  "requested",
+                  "confirmed",
+                  "cancelled",
+                  "completed"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "name": "cancel_showing",
+          "description": "Cancel a showing.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "showing_id": {
+                "type": "string",
+                "description": "Showing id."
+              },
+              "reason": {
+                "type": "string",
+                "description": "Reason."
+              }
+            },
+            "required": [
+              "showing_id"
+            ]
+          }
+        },
+        {
+          "name": "get_showing_feedback",
+          "description": "Get feedback buyer's agents left after showings of a listing.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "listing_id": {
+                "type": "string",
+                "description": "MLS number."
+              }
+            },
+            "required": [
+              "listing_id"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

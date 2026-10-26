@@ -1,0 +1,57 @@
+{
+ "task_id": "dev_platform-0064",
+ "mode": "search",
+ "loaded": [
+  "github.get_job_logs",
+  "github.list_workflow_runs",
+  "github.rerun_failed_jobs",
+  "circleci.rerun_workflow",
+  "gitlab.get_pipeline_job_output"
+ ],
+ "order": [
+  "github.get_job_logs",
+  "github.list_workflow_runs",
+  "github.rerun_failed_jobs",
+  "circleci.rerun_workflow",
+  "gitlab.get_pipeline_job_output"
+ ],
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "github.get_job_logs",
+   "args": {
+    "owner": "acme",
+    "repo": "web",
+    "job_id": 55601,
+    "return_content": true
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0
+  },
+  {
+   "type": "request_tools",
+   "capability": "get the logs of a GitHub Actions workflow job by job id",
+   "added": [
+    "github.get_job_logs",
+    "github.list_workflow_runs",
+    "github.rerun_failed_jobs",
+    "circleci.rerun_workflow",
+    "gitlab.get_pipeline_job_output"
+   ],
+   "tool_tokens": 1088
+  },
+  {
+   "type": "call",
+   "tool": "github__get_job_logs",
+   "valid": true
+  }
+ ],
+ "done": true,
+ "final": ""
+}

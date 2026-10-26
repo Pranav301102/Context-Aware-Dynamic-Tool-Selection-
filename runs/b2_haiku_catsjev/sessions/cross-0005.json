@@ -1,0 +1,83 @@
+{
+ "task_id": "cross-0005",
+ "mode": "cats",
+ "loaded": [
+  "circleci.get_job_test_results",
+  "code_checker.collect_tests",
+  "code_checker.run_all_checks",
+  "code_checker.run_jest",
+  "code_checker.run_pytest_check",
+  "github.create_issue",
+  "github.get_job_logs",
+  "github.list_workflow_runs",
+  "github.rerun_failed_jobs",
+  "gitlab.create_issue"
+ ],
+ "order": [
+  "circleci.get_job_test_results",
+  "code_checker.collect_tests",
+  "code_checker.run_all_checks",
+  "code_checker.run_jest",
+  "code_checker.run_pytest_check",
+  "github.create_issue",
+  "github.get_job_logs",
+  "github.list_workflow_runs",
+  "github.rerun_failed_jobs",
+  "gitlab.create_issue"
+ ],
+ "scores": {
+  "circleci.get_job_test_results": 0.0714958644189149,
+  "code_checker.collect_tests": 0.31748968591737275,
+  "code_checker.run_all_checks": 0.14684260090025308,
+  "code_checker.run_jest": 0.05853228222949739,
+  "code_checker.run_pytest_check": 0.8711923638883325,
+  "github.create_issue": 0.1318640407951562,
+  "github.get_job_logs": 0.036708192235596335,
+  "github.list_workflow_runs": 0.2769712904604599,
+  "github.rerun_failed_jobs": 0.07322405061477082,
+  "gitlab.create_issue": 0.04334628109080884
+ },
+ "router_tokens": 1448,
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "code_checker.run_pytest_check",
+   "args": {
+    "test_path": "tests"
+   }
+  },
+  {
+   "tool": "github.create_issue",
+   "args": {
+    "owner": "acme",
+    "repo": "api",
+    "title": "Failing pytest tests",
+    "body": "The following tests failed in the pytest suite:\n\n- Test failures detected\n\nPlease review the failing tests and fix accordingly."
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 10,
+   "tool_tokens": 2648,
+   "t": 1791321732.4787295
+  },
+  {
+   "type": "call",
+   "tool": "code_checker__run_pytest_check",
+   "valid": true,
+   "t": 1791321747.4700544
+  },
+  {
+   "type": "call",
+   "tool": "github__create_issue",
+   "valid": true,
+   "t": 1791321761.458489
+  }
+ ],
+ "done": true,
+ "t_done": 1791321766.666707,
+ "final": ""
+}

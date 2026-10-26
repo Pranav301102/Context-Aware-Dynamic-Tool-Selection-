@@ -1,0 +1,55 @@
+{
+ "task_id": "travel_geo-0030",
+ "mode": "cats",
+ "loaded": [
+  "mapbox.search_and_geocode_tool",
+  "nws_weather.get_forecast",
+  "openweathermap.get_air_pollution",
+  "openweathermap.get_current_weather",
+  "openweathermap.get_forecast"
+ ],
+ "order": [
+  "mapbox.search_and_geocode_tool",
+  "nws_weather.get_forecast",
+  "openweathermap.get_air_pollution",
+  "openweathermap.get_current_weather",
+  "openweathermap.get_forecast"
+ ],
+ "scores": {
+  "mapbox.search_and_geocode_tool": 0.045901243970694124,
+  "nws_weather.get_forecast": 0.09976800727953236,
+  "openweathermap.get_air_pollution": 0.2714406178917943,
+  "openweathermap.get_current_weather": 0.13145747124517387,
+  "openweathermap.get_forecast": 0.5314391427542771
+ },
+ "router_tokens": 1440,
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "openweathermap.get_forecast",
+   "args": {
+    "location": "Leeds,GB",
+    "units": "metric",
+    "cnt": 16
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 5,
+   "tool_tokens": 1232,
+   "t": 1791322283.7997055
+  },
+  {
+   "type": "call",
+   "tool": "openweathermap__get_forecast",
+   "valid": true,
+   "t": 1791322293.5209801
+  }
+ ],
+ "done": true,
+ "t_done": 1791322298.728762,
+ "final": ""
+}

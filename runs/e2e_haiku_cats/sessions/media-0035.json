@@ -1,0 +1,43 @@
+{
+ "task_id": "media-0035",
+ "mode": "cats",
+ "loaded": [
+  "ffmpeg_video.burn_subtitles",
+  "ffmpeg_video.convert_video",
+  "ffmpeg_video.extract_thumbnail",
+  "ffmpeg_video.trim_video"
+ ],
+ "order": [
+  "ffmpeg_video.burn_subtitles",
+  "ffmpeg_video.convert_video",
+  "ffmpeg_video.extract_thumbnail",
+  "ffmpeg_video.trim_video"
+ ],
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "ffmpeg_video.extract_thumbnail",
+   "args": {
+    "input_path": "promo_trimmed.mp4",
+    "timestamp": "00:00:15",
+    "output_path": "promo_cover.jpg",
+    "format": "jpg"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 4,
+   "tool_tokens": 1069
+  },
+  {
+   "type": "call",
+   "tool": "ffmpeg_video__extract_thumbnail",
+   "valid": true
+  }
+ ],
+ "done": true,
+ "final": ""
+}

@@ -1,0 +1,81 @@
+{
+ "task_id": "search-0024",
+ "mode": "search",
+ "loaded": [
+  "exa.linkedin_search_exa",
+  "brave_search.brave_video_search",
+  "wikipedia.search_wikipedia",
+  "brave_search.brave_summarizer",
+  "brave_search.brave_web_search"
+ ],
+ "order": [
+  "exa.linkedin_search_exa",
+  "brave_search.brave_video_search",
+  "wikipedia.search_wikipedia",
+  "brave_search.brave_summarizer",
+  "brave_search.brave_web_search"
+ ],
+ "scores": {
+  "exa.linkedin_search_exa": 2.0,
+  "brave_search.brave_video_search": 2.0,
+  "wikipedia.search_wikipedia": 2.0,
+  "brave_search.brave_summarizer": 2.0,
+  "brave_search.brave_web_search": 2.0
+ },
+ "router_tokens": 0,
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "exa.linkedin_search_exa",
+   "args": {
+    "query": "CTO Supabase",
+    "searchType": "profiles",
+    "numResults": 5
+   }
+  },
+  {
+   "tool": "brave_search.brave_video_search",
+   "args": {
+    "query": "Supabase CTO conference talk",
+    "count": 10
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0,
+   "t": 1791322185.6989493
+  },
+  {
+   "type": "request_tools",
+   "capability": "search LinkedIn for people and search for videos",
+   "added": [
+    "exa.linkedin_search_exa",
+    "brave_search.brave_video_search",
+    "wikipedia.search_wikipedia",
+    "brave_search.brave_summarizer",
+    "brave_search.brave_web_search"
+   ],
+   "tool_tokens": 1302,
+   "t": 1791322199.0473485
+  },
+  {
+   "type": "call",
+   "tool": "exa__linkedin_search_exa",
+   "valid": true,
+   "t": 1791322212.8476377
+  },
+  {
+   "type": "call",
+   "tool": "brave_search__brave_video_search",
+   "valid": true,
+   "t": 1791322225.7218413
+  }
+ ],
+ "done": true,
+ "t_done": 1791322231.2234166,
+ "final": ""
+}

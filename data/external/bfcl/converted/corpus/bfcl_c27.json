@@ -1,0 +1,2171 @@
+{
+ "branch": {
+  "id": "bfcl_c27",
+  "name": "restaurant / restaurants / locate",
+  "summary": "Functions about restaurant, restaurants, locate, nearby, cuisine, criteria, based, food, location, preferences, order, specifying."
+ },
+ "toolkits": [
+  {
+   "id": "restaurant",
+   "name": "restaurant",
+   "server": "bfcl://restaurant",
+   "summary": "Locate restaurants based on specific criteria such as cuisine and price range Locate restaurants based on specific criteria such as cuisine and price range",
+   "tools": [
+    {
+     "name": "find",
+     "description": "Locate restaurants based on specific criteria such as cuisine and price range",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "cuisine": {
+        "type": "string",
+        "description": "The type of cuisine preferred."
+       },
+       "price": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "Price range of the restaurant in format ['low', 'mid', 'high']. Default ['low', 'mid', 'high']"
+       }
+      },
+      "required": [
+       "cuisine"
+      ]
+     }
+    },
+    {
+     "name": "find_2",
+     "description": "Locate restaurants based on specific criteria such as cuisine and price range",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "cuisine": {
+        "type": "string",
+        "description": "The type of cuisine preferred."
+       },
+       "price": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "Price range of the restaurant in format ['low', 'mid', 'high']. Default is 'mid' if not specified."
+       }
+      },
+      "required": [
+       "cuisine"
+      ]
+     }
+    },
+    {
+     "name": "find_group",
+     "description": "Find restaurants suitable for groups based on specified criteria such as location and cuisine.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The city and state, e.g. Seattle, WA"
+       },
+       "cuisine": {
+        "type": "array",
+        "items": {
+         "type": "string",
+         "enum": [
+          "Seafood",
+          "Italian",
+          "Indian",
+          "Chinese"
+         ]
+        },
+        "description": "Preferred cuisine at the restaurant. Default empty array"
+       },
+       "group_size": {
+        "type": "integer",
+        "description": "Size of the group that the restaurant should accommodate."
+       }
+      },
+      "required": [
+       "location",
+       "group_size"
+      ]
+     }
+    },
+    {
+     "name": "find_group_2",
+     "description": "Find restaurants suitable for groups based on specified criteria such as location and cuisine.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The city and state, e.g. Seattle, WA"
+       },
+       "cuisine": {
+        "type": "array",
+        "items": {
+         "type": "string",
+         "enum": [
+          "Seafood",
+          "Italian",
+          "Indian",
+          "Chinese"
+         ]
+        },
+        "description": "Preferred cuisine at the restaurant. Default is all if not specified."
+       },
+       "group_size": {
+        "type": "integer",
+        "description": "Size of the group that the restaurant should accommodate."
+       }
+      },
+      "required": [
+       "location",
+       "group_size"
+      ]
+     }
+    },
+    {
+     "name": "find_nearby",
+     "description": "Locate nearby restaurants based on specific criteria like cuisine type.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The city and state, e.g. Seattle, WA"
+       },
+       "cuisine": {
+        "type": "string",
+        "description": "Preferred type of cuisine in restaurant."
+       },
+       "max_distance": {
+        "type": "number",
+        "description": "Maximum distance (in miles) within which to search for restaurants. Default is 5."
+       }
+      },
+      "required": [
+       "location",
+       "cuisine"
+      ]
+     }
+    },
+    {
+     "name": "find_nearby_2",
+     "description": "Locate nearby restaurants based on specific criteria like cuisine type.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The city and state, e.g. Seattle, WA"
+       },
+       "cuisine": {
+        "type": "string",
+        "description": "Preferred type of cuisine in restaurant."
+       },
+       "max_distance": {
+        "type": "integer",
+        "description": "Maximum distance (in miles) within which to search for restaurants. Default is 5."
+       }
+      },
+      "required": [
+       "location",
+       "cuisine"
+      ]
+     }
+    },
+    {
+     "name": "find_nearby_3",
+     "description": "Locate nearby restaurants based on specific criteria.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The city and state, e.g. Boston, MA."
+       },
+       "amenities": {
+        "type": "array",
+        "items": {
+         "type": "string",
+         "enum": [
+          "Delivery",
+          "Outdoor Seating",
+          "Vegetarian Options"
+         ]
+        },
+        "description": "Preferred amenities in restaurant. Default empty array []"
+       }
+      },
+      "required": [
+       "location"
+      ]
+     }
+    },
+    {
+     "name": "find_nearby_4",
+     "description": "Locate nearby restaurants based on specific dietary preferences.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The city and state, e.g. Los Angeles, CA"
+       },
+       "dietary_preference": {
+        "type": "array",
+        "items": {
+         "type": "string",
+         "enum": [
+          "Vegan",
+          "Vegetarian",
+          "Gluten-free",
+          "Dairy-free",
+          "Nut-free"
+         ]
+        },
+        "description": "Dietary preference.",
+        "default": [
+         "Vegan"
+        ]
+       }
+      },
+      "required": [
+       "location"
+      ]
+     }
+    },
+    {
+     "name": "find_nearby_5",
+     "description": "Locate nearby restaurants based on specific dietary preferences.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The city and state, e.g. Los Angeles, CA"
+       },
+       "dietary_preference": {
+        "type": "array",
+        "items": {
+         "type": "string",
+         "enum": [
+          "Vegan",
+          "Vegetarian",
+          "Gluten-free",
+          "Dairy-free",
+          "Nut-free"
+         ]
+        },
+        "description": "Dietary preference. Default is empty array."
+       }
+      },
+      "required": [
+       "location"
+      ]
+     }
+    },
+    {
+     "name": "find_nearby_6",
+     "description": "Locate nearby restaurants based on specific dietary preferences.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The city and state, e.g. Los Angeles, CA"
+       },
+       "dietary_preference": {
+        "type": "array",
+        "items": {
+         "type": "string",
+         "enum": [
+          "Vegan",
+          "Vegetarian",
+          "Gluten-free",
+          "Dairy-free",
+          "Nut-free"
+         ]
+        },
+        "description": "Dietary preference. Default is empty list."
+       }
+      },
+      "required": [
+       "location"
+      ]
+     }
+    },
+    {
+     "name": "search",
+     "description": "Find a restaurant in a specified location based on the cuisine and ratings.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The city and state, e.g. New York, NY"
+       },
+       "cuisine": {
+        "type": "string",
+        "description": "The type of cuisine."
+       },
+       "rating": {
+        "type": "number",
+        "description": "The minimum rating. Default 1.0"
+       }
+      },
+      "required": [
+       "location",
+       "cuisine"
+      ],
+      "optional": [
+       "rating"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "restaurant_search",
+   "name": "restaurant_search",
+   "server": "bfcl://restaurant_search",
+   "summary": "Locate the closest sushi restaurant based on certain criteria, such as the presence of a patio. Locate the closest sushi restaurant based on certain criteria, such as the presence of a patio.",
+   "tools": [
+    {
+     "name": "find_closest",
+     "description": "Locate the closest sushi restaurant based on certain criteria, such as the presence of a patio.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The city, for instance Boston, MA"
+       },
+       "cuisine": {
+        "type": "string",
+        "description": "Type of food like Sushi."
+       },
+       "amenities": {
+        "type": "array",
+        "items": {
+         "type": "string",
+         "enum": [
+          "Patio",
+          "Wi-Fi",
+          "Happy Hour",
+          "Wheelchair Accessible"
+         ]
+        },
+        "description": "Preferred amenities in the restaurant. Default 'Wi-Fi'."
+       }
+      },
+      "required": [
+       "location",
+       "cuisine"
+      ]
+     }
+    },
+    {
+     "name": "find_closest_2",
+     "description": "Locate the closest sushi restaurant based on certain criteria, such as the presence of a patio.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The city, for instance Boston, MA"
+       },
+       "cuisine": {
+        "type": "string",
+        "description": "Type of food like Sushi."
+       },
+       "amenities": {
+        "type": "array",
+        "items": {
+         "type": "string",
+         "enum": [
+          "Patio",
+          "Wi-Fi",
+          "Happy Hour",
+          "Wheelchair Accessible"
+         ]
+        },
+        "description": "Preferred amenities in the restaurant. Default is empty array."
+       }
+      },
+      "required": [
+       "location",
+       "cuisine"
+      ]
+     }
+    },
+    {
+     "name": "find_closest_3",
+     "description": "Locate the closest sushi restaurant based on certain criteria, such as the presence of a patio.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The city, for instance Boston, MA"
+       },
+       "cuisine": {
+        "type": "string",
+        "description": "Type of food like Sushi."
+       },
+       "amenities": {
+        "type": "array",
+        "items": {
+         "type": "string",
+         "enum": [
+          "Patio",
+          "Wi-Fi",
+          "Happy Hour",
+          "Wheelchair Accessible"
+         ]
+        },
+        "description": "Preferred amenities in the restaurant. Default is none if not specified."
+       }
+      },
+      "required": [
+       "location",
+       "cuisine"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "uber",
+   "name": "uber",
+   "server": "bfcl://uber",
+   "summary": "Order food on Uber Eats by specifying the restaurant and the items with their respective quantities. Place an order for food delivery from a specified restaurant on Uber Eats, including the items to order and their quantities.",
+   "tools": [
+    {
+     "name": "eat_order",
+     "description": "Order food on Uber Eats by specifying the restaurant and the items with their respective quantities.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "restaurant",
+       "items",
+       "quantities"
+      ],
+      "properties": {
+       "restaurant": {
+        "type": "string",
+        "description": "The name of the restaurant from which to order food."
+       },
+       "items": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "A list of names of selected food items to be ordered."
+       },
+       "quantities": {
+        "type": "array",
+        "items": {
+         "type": "integer"
+        },
+        "description": "A list of quantities corresponding to each item in the order, indexed in the same order as the items."
+       },
+       "notes": {
+        "type": "string",
+        "description": "Special instructions or notes for the restaurant regarding the order.",
+        "default": ""
+       },
+       "delivery_option": {
+        "type": "string",
+        "description": "The preferred delivery option for the order.",
+        "enum": [
+         "standard",
+         "express"
+        ],
+        "default": "standard"
+       }
+      }
+     }
+    },
+    {
+     "name": "eat_order_2",
+     "description": "Place an order for food delivery from a specified restaurant on Uber Eats, including the items to order and their quantities.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "restaurant_id",
+       "items"
+      ],
+      "properties": {
+       "restaurant_id": {
+        "type": "string",
+        "description": "The unique identifier of the chosen restaurant."
+       },
+       "items": {
+        "type": "array",
+        "items": {
+         "type": "object",
+         "properties": {
+          "item_id": {
+           "type": "string",
+           "description": "The unique identifier of the selected item."
+          },
+          "quantity": {
+           "type": "integer",
+           "description": "The number of units of the item to order."
+          }
+         },
+         "description": "An array of items selected for the order, each with details such as item identifier and quantity."
+        },
+        "description": "An array of items selected for the order, each with details such as item identifier and quantity."
+       },
+       "delivery_instructions": {
+        "type": "string",
+        "description": "Special instructions for the delivery person, such as gate codes or drop-off preferences.",
+        "default": ""
+       }
+      }
+     }
+    },
+    {
+     "name": "eat_order_3",
+     "description": "Place an order for food delivery from a specified restaurant on Uber Eats, including the items to order and their quantities.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "restaurant_id",
+       "items"
+      ],
+      "properties": {
+       "restaurant_id": {
+        "type": "string",
+        "description": "The unique identifier of the chosen restaurant."
+       },
+       "items": {
+        "type": "array",
+        "items": {
+         "type": "object",
+         "properties": {
+          "item_id": {
+           "type": "string",
+           "description": "The unique identifier of the selected item."
+          },
+          "quantity": {
+           "type": "integer",
+           "description": "The number of units of the item to order."
+          }
+         }
+        },
+        "description": "An array of items selected for the order, each with details such as item identifier and quantity."
+       },
+       "delivery_instructions": {
+        "type": "string",
+        "description": "Special instructions for the delivery person, such as gate codes or drop-off preferences.",
+        "default": ""
+       }
+      }
+     }
+    },
+    {
+     "name": "eat_order_4",
+     "description": "Place an order for food delivery on Uber Eats by specifying the restaurant and the items with their respective quantities.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "restaurant",
+       "items",
+       "quantities"
+      ],
+      "properties": {
+       "restaurant": {
+        "type": "string",
+        "description": "The name of the restaurant from which to order food."
+       },
+       "items": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "A list of food item names selected for the order."
+       },
+       "quantities": {
+        "type": "array",
+        "items": {
+         "type": "integer"
+        },
+        "description": "A list of quantities for each food item, corresponding by index to the items array."
+       }
+      }
+     }
+    },
+    {
+     "name": "eat_order_5",
+     "description": "Place an order for food from a specific restaurant on Uber Eats, including the desired items and their respective quantities.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "restaurant_id",
+       "items"
+      ],
+      "properties": {
+       "restaurant_id": {
+        "type": "string",
+        "description": "The unique identifier for the chosen restaurant."
+       },
+       "items": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "A list of item identifiers and their quantities in the format: item_id:quantity. Example: ['item123:2', 'item456:1']."
+       },
+       "notes": {
+        "type": "string",
+        "description": "Additional instructions for the restaurant, such as dietary restrictions or preferences.",
+        "default": ""
+       },
+       "payment_method_id": {
+        "type": "string",
+        "description": "The unique identifier for the payment method to be used. Use 'default_card' if you want to use the default card on file.",
+        "default": "default_card"
+       },
+       "delivery_address": {
+        "type": "string",
+        "description": "The delivery address in the format of 'Street, City, Postal Code'. For example: '123 Main St, Anytown, 12345'. If 'current_location' is provided, the current location of the user will be used.",
+        "default": "current_location"
+       }
+      }
+     }
+    },
+    {
+     "name": "eat_order_6",
+     "description": "Place an order for food from selected restaurants with specified items and their quantities.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "restaurants",
+       "items",
+       "quantities"
+      ],
+      "properties": {
+       "restaurants": {
+        "type": "string",
+        "description": "The name of the restaurant from which the user wants to order food. Use the exact name as registered on Uber Eats."
+       },
+       "items": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "A list of item names that the user wants to order from the restaurant."
+       },
+       "quantities": {
+        "type": "array",
+        "items": {
+         "type": "integer"
+        },
+        "description": "A list of integers, each representing the quantity of the corresponding item in the order. The quantities should align with the items list by index."
+       }
+      }
+     }
+    },
+    {
+     "name": "eat_order_7",
+     "description": "Place an order for food on Uber Eats, specifying the chosen restaurant and the items with their respective quantities.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "restaurant_id",
+       "items"
+      ],
+      "properties": {
+       "restaurant_id": {
+        "type": "string",
+        "description": "The unique identifier of the chosen restaurant."
+       },
+       "items": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "A list of item identifiers to order, each associated with a quantity. For example, 2 orders of item 'x' and 4 of item 'y'."
+       },
+       "delivery_instructions": {
+        "type": "string",
+        "description": "Special instructions for the delivery person. Leave blank if there are no special instructions.",
+        "default": ""
+       }
+      }
+     }
+    },
+    {
+     "name": "eat_order_8",
+     "description": "Place an order for food on Uber Eats, specifying the restaurant, items, and their respective quantities.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "restaurants",
+       "items",
+       "quantities"
+      ],
+      "properties": {
+       "restaurants": {
+        "type": "string",
+        "description": "The name of the restaurant from which to order food."
+       },
+       "items": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "A list of food item names selected from the restaurant's menu."
+       },
+       "quantities": {
+        "type": "array",
+        "items": {
+         "type": "integer"
+        },
+        "description": "An array of integers representing the quantity for each corresponding item in the 'items' list. Must have the same number of elements as 'items'."
+       }
+      }
+     }
+    },
+    {
+     "name": "eat_order_9",
+     "description": "Place an order for food on Uber Eats, specifying the restaurant, items, and their respective quantities.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "restaurant",
+       "items",
+       "quantities"
+      ],
+      "properties": {
+       "restaurant": {
+        "type": "string",
+        "description": "The name of the restaurant from which to order food."
+       },
+       "items": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "An array of item names selected from the restaurant's menu."
+       },
+       "quantities": {
+        "type": "array",
+        "items": {
+         "type": "integer"
+        },
+        "description": "An array of integers representing the quantity for each item in the same order as the 'items' array. Each quantity corresponds to the respective item by index."
+       }
+      }
+     }
+    },
+    {
+     "name": "eat_order_10",
+     "description": "Place an order for food through Uber Eats by specifying the restaurant and the items with their corresponding quantities.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "restaurant",
+       "items",
+       "quantities"
+      ],
+      "properties": {
+       "restaurant": {
+        "type": "string",
+        "description": "The name of the restaurant from which to order food."
+       },
+       "items": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "A list of names of the selected items from the menu."
+       },
+       "quantities": {
+        "type": "array",
+        "items": {
+         "type": "integer"
+        },
+        "description": "A list of quantities for each item ordered, corresponding by index to the items listed in the 'items' parameter."
+       }
+      }
+     }
+    },
+    {
+     "name": "eat_order_11",
+     "description": "Place an order on Uber Eats, specifying the restaurant and the quantities of selected items.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "restaurant",
+       "items"
+      ],
+      "properties": {
+       "restaurant": {
+        "type": "string",
+        "description": "The name of the restaurant from which to order food, formatted as 'Restaurant Name, Location', such as 'Pizzeria Uno, Chicago, IL'."
+       },
+       "items": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "List of selected item names."
+       },
+       "quantities": {
+        "type": "array",
+        "items": {
+         "type": "integer"
+        },
+        "description": "List of quantities corresponding to each selected item, aligned by index with the 'items' array. If not specified, a default quantity of 1 is assumed for each item.",
+        "default": []
+       }
+      }
+     }
+    },
+    {
+     "name": "eat_order_12",
+     "description": "Places an order for food from Uber Eats, specifying the chosen restaurant, items to order, and their quantities.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "restaurant_id",
+       "items"
+      ],
+      "properties": {
+       "restaurant_id": {
+        "type": "string",
+        "description": "The unique identifier of the chosen restaurant."
+       },
+       "items": {
+        "type": "array",
+        "items": {
+         "type": "object",
+         "properties": {
+          "item": {
+           "type": "string",
+           "description": "The unique identifier of the item to order."
+          },
+          "quantity": {
+           "type": "integer",
+           "description": "The number of this item to order."
+          }
+         }
+        },
+        "description": "A list of items to order, each with an item identifier and quantity."
+       }
+      }
+     }
+    },
+    {
+     "name": "eat_reviews",
+     "description": "Submit a review for a food item ordered through Uber Eats, including textual feedback and a star rating.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "star_rating"
+      ],
+      "properties": {
+       "reviews": {
+        "type": "string",
+        "description": "Textual feedback on the food item. Optional and can be left empty if no comments.",
+        "default": ""
+       },
+       "star_rating": {
+        "type": "integer",
+        "description": "The star rating for the food item, on a scale from 1 to 5.",
+        "enum": [
+         1,
+         2,
+         3,
+         4,
+         5
+        ]
+       }
+      }
+     }
+    },
+    {
+     "name": "ride",
+     "description": "Find a suitable Uber ride for customers based on their location, preferred ride type, and maximum wait time.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "loc",
+       "type",
+       "time"
+      ],
+      "properties": {
+       "loc": {
+        "type": "string",
+        "description": "The starting location of the Uber ride in the format of 'Street Address, City, State'. For example: '123 Main St, Anytown, CA'."
+       },
+       "type": {
+        "type": "string",
+        "description": "The type of Uber ride the user is requesting.",
+        "enum": [
+         "plus",
+         "comfort",
+         "black"
+        ]
+       },
+       "time": {
+        "type": "integer",
+        "description": "The maximum amount of time the customer is willing to wait for the ride, measured in minutes."
+       }
+      }
+     }
+    },
+    {
+     "name": "ride_2",
+     "description": "Find a suitable Uber ride for customers based on their location, selected ride type, and maximum wait time.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "loc",
+       "type",
+       "time"
+      ],
+      "properties": {
+       "loc": {
+        "type": "string",
+        "description": "The starting location for the Uber ride, in the format of 'Address, City, State'."
+       },
+       "type": {
+        "type": "string",
+        "description": "The type of Uber ride the user is requesting.",
+        "enum": [
+         "plus",
+         "comfort",
+         "black"
+        ]
+       },
+       "time": {
+        "type": "integer",
+        "description": "The maximum amount of time, in minutes, the customer is willing to wait for the ride."
+       }
+      }
+     }
+    },
+    {
+     "name": "ride_3",
+     "description": "Find a suitable Uber ride for customers based on their starting location, preferred type of ride, and maximum wait time.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "loc",
+       "type",
+       "time"
+      ],
+      "properties": {
+       "loc": {
+        "type": "string",
+        "description": "Location of the starting point for the Uber ride, in the format of 'City, State', such as 'Berkeley, CA' or 'New York, NY'."
+       },
+       "type": {
+        "type": "string",
+        "description": "Type of Uber ride the user is requesting.",
+        "enum": [
+         "plus",
+         "comfort",
+         "black"
+        ]
+       },
+       "time": {
+        "type": "integer",
+        "description": "The maximum amount of time the customer is willing to wait for the ride, in minutes."
+       }
+      }
+     }
+    },
+    {
+     "name": "ride_4",
+     "description": "Find a suitable ride for customers based on their location, desired type of ride, and maximum wait time.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "loc",
+       "type",
+       "time"
+      ],
+      "properties": {
+       "loc": {
+        "type": "string",
+        "description": "The starting location for the Uber ride in the format of 'Street, City, State'. For example, '50 Memorial Drive, Cambridge, MA'."
+       },
+       "type": {
+        "type": "string",
+        "description": "The type of Uber ride the user is ordering.",
+        "enum": [
+         "plus",
+         "comfort",
+         "black"
+        ]
+       },
+       "time": {
+        "type": "integer",
+        "description": "The maximum amount of time the customer is willing to wait for the ride, in minutes."
+       }
+      }
+     }
+    },
+    {
+     "name": "ride_5",
+     "description": "Finds a suitable Uber ride for customers based on their location, desired ride type, and maximum wait time.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "loc",
+       "type",
+       "time"
+      ],
+      "properties": {
+       "loc": {
+        "type": "string",
+        "description": "The starting location for the Uber ride, in the format of 'Street Address, City, State (abbr), Country'."
+       },
+       "type": {
+        "type": "string",
+        "description": "The type of Uber ride the user is requesting.",
+        "enum": [
+         "plus",
+         "comfort",
+         "black"
+        ]
+       },
+       "time": {
+        "type": "integer",
+        "description": "The maximum amount of time the customer is willing to wait for the ride, specified in seconds."
+       }
+      }
+     }
+    },
+    {
+     "name": "ride_6",
+     "description": "Finds a suitable Uber ride for customers based on their location, desired ride type, and maximum wait time.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "loc",
+       "type",
+       "time"
+      ],
+      "properties": {
+       "loc": {
+        "type": "string",
+        "description": "The starting location for the Uber ride, in the format of 'Street Address, City, State, Country'."
+       },
+       "type": {
+        "type": "string",
+        "description": "The type of Uber ride the user is requesting.",
+        "enum": [
+         "plus",
+         "comfort",
+         "black"
+        ]
+       },
+       "time": {
+        "type": "integer",
+        "description": "The maximum amount of time the customer is willing to wait for the ride, specified in seconds."
+       }
+      }
+     }
+    },
+    {
+     "name": "ride_7",
+     "description": "Finds a suitable Uber ride for customers based on their location, preferred ride type, and maximum wait time.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "loc",
+       "type",
+       "time"
+      ],
+      "properties": {
+       "loc": {
+        "type": "string",
+        "description": "The starting location for the Uber ride, in the format of 'Street Address, City, State'."
+       },
+       "type": {
+        "type": "string",
+        "description": "The type of Uber ride the user is ordering.",
+        "enum": [
+         "plus",
+         "comfort",
+         "black"
+        ]
+       },
+       "time": {
+        "type": "integer",
+        "description": "The maximum amount of time, in minutes, the customer is willing to wait for the ride."
+       }
+      }
+     }
+    },
+    {
+     "name": "ride_8",
+     "description": "Finds a suitable Uber ride for the customer based on the starting location, the desired ride type, and the maximum wait time the customer is willing to accept.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "loc",
+       "type",
+       "time"
+      ],
+      "properties": {
+       "loc": {
+        "type": "string",
+        "description": "The starting location for the Uber ride, in the format of 'Street Address, City, State', such as '123 Main St, Springfield, IL'."
+       },
+       "type": {
+        "type": "string",
+        "description": "The type of Uber ride the user is ordering.",
+        "enum": [
+         "plus",
+         "comfort",
+         "black"
+        ]
+       },
+       "time": {
+        "type": "integer",
+        "description": "The maximum amount of time the customer is willing to wait for the ride, in minutes."
+       }
+      }
+     }
+    },
+    {
+     "name": "ride_9",
+     "description": "Finds a suitable Uber ride option for customers based on their location, selected ride type, and maximum wait time.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "loc",
+       "type",
+       "time"
+      ],
+      "properties": {
+       "loc": {
+        "type": "string",
+        "description": "The starting location of the Uber ride, in the format of 'City, State', such as 'San Francisco, CA'."
+       },
+       "type": {
+        "type": "string",
+        "description": "The type of Uber ride the user is ordering.",
+        "enum": [
+         "plus",
+         "comfort",
+         "black"
+        ]
+       },
+       "time": {
+        "type": "integer",
+        "description": "The maximum amount of time the customer is willing to wait for the ride, in minutes."
+       }
+      }
+     }
+    },
+    {
+     "name": "ride_10",
+     "description": "Initiates an Uber carpool ride from a specified location and provides options for ride type, along with an estimated wait time for the customer.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "loc",
+       "type"
+      ],
+      "properties": {
+       "loc": {
+        "type": "string",
+        "description": "The starting location for the Uber ride in the format of 'Street Address, City, State'. For example, '1 Market St, San Francisco, CA'."
+       },
+       "type": {
+        "type": "string",
+        "description": "The type of Uber ride the user is requesting.",
+        "enum": [
+         "plus",
+         "comfort",
+         "black"
+        ]
+       },
+       "time": {
+        "type": "integer",
+        "description": "The maximum time the customer is willing to wait for the ride, in minutes.",
+        "default": 10
+       }
+      }
+     }
+    },
+    {
+     "name": "ride_11",
+     "description": "T\u00ecm chuy\u1ebfn \u0111i ph\u00f9 h\u1ee3p cho kh\u00e1ch h\u00e0ng d\u1ef1a tr\u00ean v\u1ecb tr\u00ed, lo\u1ea1i chuy\u1ebfn \u0111i v\u00e0 kho\u1ea3ng th\u1eddi gian kh\u00e1ch h\u00e0ng s\u1eb5n s\u00e0ng ch\u1edd \u0111\u1ee3i l\u00e0m th\u00f4ng s\u1ed1",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "loc",
+       "type",
+       "time"
+      ],
+      "properties": {
+       "loc": {
+        "type": "string",
+        "description": "The starting location for the Uber ride, in the format of 'Street Address, City, State'. Example: '123 Main St, San Francisco, CA'."
+       },
+       "type": {
+        "type": "string",
+        "description": "The type of Uber ride requested by the user.",
+        "enum": [
+         "plus",
+         "comfort",
+         "black"
+        ]
+       },
+       "time": {
+        "type": "integer",
+        "description": "The maximum amount of time the customer is willing to wait for the ride, in minutes."
+       }
+      }
+     }
+    },
+    {
+     "name": "ride_12",
+     "description": "T\u00ecm chuy\u1ebfn \u0111i ph\u00f9 h\u1ee3p cho kh\u00e1ch h\u00e0ng d\u1ef1a tr\u00ean v\u1ecb tr\u00ed, lo\u1ea1i chuy\u1ebfn \u0111i v\u00e0 kho\u1ea3ng th\u1eddi gian kh\u00e1ch h\u00e0ng s\u1eb5n s\u00e0ng ch\u1edd \u0111\u1ee3i l\u00e0m th\u00f4ng s\u1ed1'",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "loc",
+       "type",
+       "time"
+      ],
+      "properties": {
+       "loc": {
+        "type": "string",
+        "description": "The starting location of the Uber ride in the format of 'Address, City, State'. For example, '123 Main St, Springfield, IL'."
+       },
+       "type": {
+        "type": "string",
+        "description": "The type of Uber ride the user is requesting.",
+        "enum": [
+         "plus",
+         "comfort",
+         "black"
+        ]
+       },
+       "time": {
+        "type": "integer",
+        "description": "The maximum amount of time the customer is willing to wait for the ride, in minutes."
+       }
+      }
+     }
+    },
+    {
+     "name": "ride2",
+     "description": "T\u00ecm th\u1eddi ti\u1ebft \u1edf \u0111\u1ecba \u0111i\u1ec3m",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "loc",
+       "type"
+      ],
+      "properties": {
+       "loc": {
+        "type": "string",
+        "description": "The location of the starting place of the Uber ride, in the format of 'City, State', such as 'Berkeley, CA' and 'New York, NY'."
+       },
+       "type": {
+        "type": "string",
+        "description": "The type of Uber ride the user is ordering.",
+        "enum": [
+         "plus",
+         "comfort",
+         "black"
+        ]
+       },
+       "time": {
+        "type": "integer",
+        "description": "The maximum amount of time in minutes the customer is willing to wait for the ride.",
+        "default": 10
+       }
+      }
+     }
+    }
+   ]
+  },
+  {
+   "id": "vegan_restaurant",
+   "name": "vegan_restaurant",
+   "server": "bfcl://vegan_restaurant",
+   "summary": "Locate nearby vegan restaurants based on specific criteria like operating hours. Locate nearby vegan restaurants based on specific criteria like operating hours.",
+   "tools": [
+    {
+     "name": "find_nearby",
+     "description": "Locate nearby vegan restaurants based on specific criteria like operating hours.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The city and state, e.g. New York, NY"
+       },
+       "operating_hours": {
+        "type": "integer",
+        "description": "Preferred latest closing time of the restaurant. E.g. if 11 is given, then restaurants that close at or after 11 PM will be considered. This is in 24 hour format.",
+        "default": 21
+       }
+      },
+      "required": [
+       "location"
+      ]
+     }
+    },
+    {
+     "name": "find_nearby_2",
+     "description": "Locate nearby vegan restaurants based on specific criteria like operating hours.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The city and state, e.g. New York, NY"
+       },
+       "operating_hours": {
+        "type": "integer",
+        "description": "Preferred latest closing time of the restaurant. E.g. if 11 is given, then restaurants that close at or after 11 PM will be considered. This is in 24 hour format. Default is 24"
+       }
+      },
+      "required": [
+       "location"
+      ]
+     }
+    },
+    {
+     "name": "find_nearby_3",
+     "description": "Locate nearby vegan restaurants based on specific criteria like operating hours.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The city and state, e.g. New York, NY"
+       },
+       "operating_hours": {
+        "type": "integer",
+        "description": "Preferred latest closing time of the restaurant. E.g. if 11 is given, then restaurants that close at or after 11 PM will be considered. This is in 24 hour format. Default is 9."
+       }
+      },
+      "required": [
+       "location"
+      ]
+     }
+    },
+    {
+     "name": "find_nearby_4",
+     "description": "Locate nearby vegan restaurants based on specific criteria like operating hours.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The city and state, e.g. New York, NY, you should format it as City, State."
+       },
+       "operating_hours": {
+        "type": "integer",
+        "description": "Preferred latest closing time of the restaurant. E.g. if 11 is given, then restaurants that close at or after 11 PM will be considered. This is in 24 hour format. Default is 24."
+       }
+      },
+      "required": [
+       "location"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "bfcl_c27_g0",
+   "name": "restaurant restaurants cuisine",
+   "server": "bfcl://bfcl_c27_g0",
+   "summary": "Functions for restaurant, restaurants, cuisine, food, locate, nearby.",
+   "tools": [
+    {
+     "name": "Restaurants_2_ReserveRestaurant",
+     "description": "Make a table reservation at a restaurant by specifying the restaurant name, location, reservation time, number of seats, and date.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "restaurant_name",
+       "location",
+       "time",
+       "date"
+      ],
+      "properties": {
+       "restaurant_name": {
+        "type": "string",
+        "description": "The full name of the restaurant where the reservation is to be made."
+       },
+       "location": {
+        "type": "string",
+        "description": "The location of the restaurant in the format of 'City, State', such as 'San Francisco, CA'."
+       },
+       "time": {
+        "type": "string",
+        "description": "The reservation time in 24-hour format, e.g., '18:30' for 6:30 PM."
+       },
+       "number_of_seats": {
+        "type": "integer",
+        "description": "The number of seats to reserve at the restaurant.",
+        "default": 2
+       },
+       "date": {
+        "type": "string",
+        "description": "The reservation date in ISO 8601 format, e.g., 'YYYY-MM-DD'."
+       }
+      }
+     }
+    },
+    {
+     "name": "Restaurants_2_ReserveRestaurant_2",
+     "description": "Make a table reservation at a restaurant specifying the restaurant name, location, reservation date and time, and the number of seats.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "restaurant_name",
+       "location",
+       "date",
+       "time"
+      ],
+      "properties": {
+       "restaurant_name": {
+        "type": "string",
+        "description": "The name of the restaurant where the reservation is to be made."
+       },
+       "location": {
+        "type": "string",
+        "description": "The city and state where the restaurant is located, in the format of 'City, State', such as 'Berkeley, CA' or 'New York, NY'."
+       },
+       "date": {
+        "type": "string",
+        "description": "The tentative date for the reservation in ISO format (YYYY-MM-DD), such as '2023-03-01'."
+       },
+       "time": {
+        "type": "string",
+        "description": "The tentative time for the reservation in 24-hour format, such as '18:00' for 6 PM."
+       },
+       "number_of_seats": {
+        "type": "integer",
+        "description": "The number of seats to reserve at the restaurant. Valid options range from 1 to 6.",
+        "default": 2
+       }
+      }
+     }
+    },
+    {
+     "name": "Restaurants_2_ReserveRestaurant_3",
+     "description": "Make a table reservation at a restaurant specifying the restaurant name, location, reservation date and time, and the number of seats.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "restaurant_name",
+       "location",
+       "date",
+       "time"
+      ],
+      "properties": {
+       "restaurant_name": {
+        "type": "string",
+        "description": "The name of the restaurant where the reservation is to be made."
+       },
+       "location": {
+        "type": "string",
+        "description": "The location for which to get the weather, in the format of 'City, State' or 'Location, State', such as 'San Francisco, CA' or 'Yosemite National Park, CA' if State exists. 'City, Country' if State for the city doesn't exist."
+       },
+       "date": {
+        "type": "string",
+        "description": "The tentative date for the reservation in ISO format (YYYY-MM-DD), such as '2023-03-01'."
+       },
+       "time": {
+        "type": "string",
+        "description": "The tentative time for the reservation in 24-hour format, such as '18:00' for 6 PM."
+       },
+       "number_of_seats": {
+        "type": "integer",
+        "description": "The number of seats to reserve at the restaurant. Valid options range from 1 to 6.",
+        "default": 2
+       }
+      }
+     }
+    },
+    {
+     "name": "Restaurants_2_ReserveRestaurant_4",
+     "description": "Make a table reservation at a restaurant specifying the restaurant name, location, reservation date and time, and the number of seats.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "restaurant_name",
+       "location",
+       "date",
+       "time"
+      ],
+      "properties": {
+       "restaurant_name": {
+        "type": "string",
+        "description": "The name of the restaurant where the reservation is to be made."
+       },
+       "location": {
+        "type": "string",
+        "description": "The location for which to get the weather, in the format of 'City, State' or 'Location, State', such as 'Yosemite National Park, CA' if State exists. 'City, Country' if State for the city doesn't exist."
+       },
+       "date": {
+        "type": "string",
+        "description": "The tentative date for the reservation in ISO format (YYYY-MM-DD), such as '2023-03-01'."
+       },
+       "time": {
+        "type": "string",
+        "description": "The tentative time for the reservation in 24-hour format, such as '18:00' for 6 PM."
+       },
+       "number_of_seats": {
+        "type": "integer",
+        "description": "The number of seats to reserve at the restaurant. Valid options range from 1 to 6.",
+        "default": 2
+       }
+      }
+     }
+    },
+    {
+     "name": "Restaurants_2_ReserveRestaurant_5",
+     "description": "Make a table reservation at a restaurant. The function allows specifying the restaurant name, location, reservation time, number of seats, and date.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "restaurant_name",
+       "location",
+       "time"
+      ],
+      "properties": {
+       "restaurant_name": {
+        "type": "string",
+        "description": "The name of the restaurant for the reservation."
+       },
+       "location": {
+        "type": "string",
+        "description": "The location of the restaurant, in the format of 'City, State', such as 'Berkeley, CA' or 'New York, NY'."
+       },
+       "time": {
+        "type": "string",
+        "description": "The tentative time of the reservation, in 24-hour format 'HH:MM'."
+       },
+       "number_of_seats": {
+        "type": "integer",
+        "description": "The number of seats to reserve at the restaurant.",
+        "enum": [
+         1,
+         2,
+         3,
+         4,
+         5,
+         6
+        ],
+        "default": 2
+       },
+       "date": {
+        "type": "string",
+        "description": "The tentative date of the restaurant reservation, in the format 'YYYY-MM-DD'. If not specified, the default value represents the current date.",
+        "default": null
+       }
+      }
+     }
+    },
+    {
+     "name": "Restaurants_2_ReserveRestaurant_6",
+     "description": "Make a table reservation at a specified restaurant for a certain number of guests on a given date and time.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "restaurant_name",
+       "location",
+       "time",
+       "number_of_seats"
+      ],
+      "properties": {
+       "restaurant_name": {
+        "type": "string",
+        "description": "The name of the restaurant where the reservation is to be made."
+       },
+       "location": {
+        "type": "string",
+        "description": "The location of the restaurant in the format of 'City, State', such as 'Berkeley, CA' or 'New York, NY'."
+       },
+       "time": {
+        "type": "string",
+        "description": "The tentative time for the reservation in 24-hour format (e.g., '18:30' for 6:30 PM)."
+       },
+       "number_of_seats": {
+        "type": "integer",
+        "description": "The number of seats to reserve at the restaurant. Must be a positive integer."
+       },
+       "date": {
+        "type": "string",
+        "description": "The tentative date for the reservation in ISO format (YYYY-MM-DD). Defaults to today's date if not provided.",
+        "default": null
+       }
+      }
+     }
+    },
+    {
+     "name": "Restaurants_2_ReserveRestaurant_7",
+     "description": "Make a table reservation at a specified restaurant for a given number of guests at a particular date and time.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "restaurant_name",
+       "location",
+       "time",
+       "date"
+      ],
+      "properties": {
+       "restaurant_name": {
+        "type": "string",
+        "description": "The full name of the restaurant where the reservation is to be made."
+       },
+       "location": {
+        "type": "string",
+        "description": "The location of the restaurant, in the format of 'City, State', such as 'New York, NY' or 'San Francisco, CA'."
+       },
+       "time": {
+        "type": "string",
+        "description": "The desired time for the reservation, in 24-hour format 'HH:MM', such as '19:00' for 7 PM."
+       },
+       "number_of_guests": {
+        "type": "integer",
+        "description": "The number of guests for the reservation.",
+        "default": 2
+       },
+       "date": {
+        "type": "string",
+        "description": "The date for which the reservation is made, in ISO 8601 format 'YYYY-MM-DD', such as '2023-04-15'."
+       }
+      }
+     }
+    },
+    {
+     "name": "Restaurants_2_ReserveRestaurant_8",
+     "description": "Make a table reservation at a specified restaurant on a given date and time for a certain number of guests.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "restaurant_name",
+       "location",
+       "time",
+       "date"
+      ],
+      "properties": {
+       "restaurant_name": {
+        "type": "string",
+        "description": "The name of the restaurant where the table reservation will be made."
+       },
+       "location": {
+        "type": "string",
+        "description": "The city where the restaurant is located, in the format of 'City, State' (e.g., 'New York, NY')."
+       },
+       "time": {
+        "type": "string",
+        "description": "The tentative time for the restaurant reservation, in 24-hour format 'HH:MM' (e.g., '19:00' for 7 PM)."
+       },
+       "number_of_seats": {
+        "type": "integer",
+        "description": "The number of seats to reserve at the restaurant.",
+        "default": 2
+       },
+       "date": {
+        "type": "string",
+        "description": "The tentative date for the restaurant reservation in ISO format 'YYYY-MM-DD' (e.g., '2021-08-15')."
+       }
+      }
+     }
+    },
+    {
+     "name": "Restaurants_2_ReserveRestaurant_9",
+     "description": "This function makes a reservation for a specified number of seats at a restaurant, given the restaurant's name, location, time, and date of the reservation.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "restaurant_name",
+       "location",
+       "time",
+       "date"
+      ],
+      "properties": {
+       "restaurant_name": {
+        "type": "string",
+        "description": "The full name of the restaurant where the reservation is to be made."
+       },
+       "location": {
+        "type": "string",
+        "description": "The city and state where the restaurant is located, in the format of 'City, State' (e.g., 'San Francisco, CA')."
+       },
+       "time": {
+        "type": "string",
+        "description": "The desired time for the reservation in 24-hour format (e.g., '18:30' for 6:30 PM)."
+       },
+       "date": {
+        "type": "string",
+        "description": "The date of the restaurant reservation in ISO 8601 format (e.g., '2023-04-15')."
+       },
+       "number_of_seats": {
+        "type": "integer",
+        "description": "The number of seats to reserve at the restaurant. Must be a positive integer.",
+        "default": 2
+       }
+      }
+     }
+    },
+    {
+     "name": "Restaurants_2_ReserveRestaurant_10",
+     "description": "This function makes a table reservation at a specified restaurant by providing the restaurant's name, location, desired reservation time, number of seats, and date.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "restaurant_name",
+       "location",
+       "time",
+       "date"
+      ],
+      "properties": {
+       "restaurant_name": {
+        "type": "string",
+        "description": "The full name of the restaurant where the reservation will be made."
+       },
+       "location": {
+        "type": "string",
+        "description": "The city where the restaurant is located, in the format of 'City, State'; for example, 'San Francisco, CA'."
+       },
+       "time": {
+        "type": "string",
+        "description": "The desired time for the reservation in 24-hour format (e.g., '18:30' for 6:30 PM)."
+       },
+       "number_of_seats": {
+        "type": "integer",
+        "description": "The number of seats to reserve at the restaurant. Must be a positive integer.",
+        "default": 2
+       },
+       "date": {
+        "type": "string",
+        "description": "The date for the reservation in ISO 8601 format (YYYY-MM-DD)."
+       }
+      }
+     }
+    },
+    {
+     "name": "find_restaurant",
+     "description": "Locate nearby restaurants based on user defined criteria",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The location where user wants to search for a restaurant."
+       },
+       "type": {
+        "type": "string",
+        "description": "The type of the cuisine/restaurant."
+       },
+       "diet_option": {
+        "type": "string",
+        "description": "Special dietary preferences."
+       }
+      },
+      "required": [
+       "location",
+       "type",
+       "diet_option"
+      ]
+     }
+    },
+    {
+     "name": "find_restaurants",
+     "description": "Locate nearby restaurants based on location and food preferences.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The specific location or area."
+       },
+       "food_type": {
+        "type": "string",
+        "description": "The type of food preferred."
+       },
+       "number": {
+        "type": "integer",
+        "description": "Number of results to return."
+       },
+       "dietary_requirements": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "Special dietary requirements, e.g. vegan, gluten-free.",
+        "default": "None"
+       }
+      },
+      "required": [
+       "location",
+       "food_type",
+       "number"
+      ]
+     }
+    },
+    {
+     "name": "find_restaurants_2",
+     "description": "Locate nearby restaurants based on location and food preferences.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The specific location or area."
+       },
+       "food_type": {
+        "type": "string",
+        "description": "The type of food preferred."
+       },
+       "number": {
+        "type": "integer",
+        "description": "Number of results to return."
+       },
+       "dietary_requirements": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "Special dietary requirements, e.g. vegan, gluten-free. Default is all if not specified."
+       }
+      },
+      "required": [
+       "location",
+       "food_type",
+       "number"
+      ]
+     }
+    },
+    {
+     "name": "find_restaurants_3",
+     "description": "Locate nearby restaurants based on location and food preferences.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The specific location or area. The location should be in the format of District, City."
+       },
+       "food_type": {
+        "type": "string",
+        "description": "The type of food preferred."
+       },
+       "number": {
+        "type": "integer",
+        "description": "Number of results to return."
+       },
+       "dietary_requirements": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "Special dietary requirements, e.g. vegan, gluten-free. Default is empty list."
+       }
+      },
+      "required": [
+       "location",
+       "food_type",
+       "number"
+      ]
+     }
+    },
+    {
+     "name": "get_restaurant",
+     "description": "Retrieve highest rated restaurant given cuisine, location, and a condition.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "cuisine": {
+        "type": "string",
+        "description": "Cuisine of the restaurant."
+       },
+       "location": {
+        "type": "string",
+        "description": "City where restaurant is located."
+       },
+       "condition": {
+        "type": "string",
+        "description": "Condition to be met by the restaurant (e.g., operating days, amenities, etc.)"
+       }
+      },
+      "required": [
+       "cuisine",
+       "location",
+       "condition"
+      ]
+     }
+    },
+    {
+     "name": "order_food",
+     "description": "Places an order for food on Uber Eats by specifying the restaurant, items, and their quantities.",
+     "input_schema": {
+      "type": "object",
+      "required": [
+       "restaurant",
+       "items",
+       "quantities"
+      ],
+      "properties": {
+       "restaurant": {
+        "type": "string",
+        "description": "The name of the restaurant from which to order food."
+       },
+       "items": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "A list of names of selected items to order."
+       },
+       "quantities": {
+        "type": "array",
+        "items": {
+         "type": "integer"
+        },
+        "description": "An array of integers representing the quantity for each selected item, corresponding by index to the 'items' array."
+       }
+      }
+     }
+    },
+    {
+     "name": "restaurant_finder",
+     "description": "Find restaurants based on specified cuisine and location.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "cuisine": {
+        "type": "string",
+        "description": "The cuisine the user wants to search."
+       },
+       "location": {
+        "type": "string",
+        "description": "The location in which the user wants to search for restaurants."
+       },
+       "rating": {
+        "type": "integer",
+        "default": 3,
+        "description": "Minimum acceptable restaurant rating."
+       }
+      },
+      "required": [
+       "cuisine",
+       "location"
+      ]
+     }
+    },
+    {
+     "name": "restaurant_finder_2",
+     "description": "Locate restaurants based on certain criteria such as cuisine, city, and dietary preferences.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "city": {
+        "type": "string",
+        "description": "City where you are looking for the restaurant."
+       },
+       "cuisine": {
+        "type": "string",
+        "description": "Type of cuisine you are interested in."
+       },
+       "diet": {
+        "type": "string",
+        "description": "Dietary preferences. e.g. 'Vegetarian', 'Gluten-free', etc. Default 'Vegetarian'."
+       }
+      },
+      "required": [
+       "city",
+       "cuisine"
+      ]
+     }
+    },
+    {
+     "name": "restaurant_finder_3",
+     "description": "Search for restaurants based on location, cuisine type and other preferences.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "City and state, e.g. New York, NY."
+       },
+       "cuisine": {
+        "type": "string",
+        "description": "Type of cuisine the user is interested in, e.g. Italian, Japanese etc."
+       },
+       "preferences": {
+        "type": "array",
+        "items": {
+         "type": "string",
+         "enum": [
+          "Vegetarian",
+          "Delivery",
+          "Vegan",
+          "Takeout"
+         ]
+        },
+        "description": "Extra features in the restaurant. default is ['Delivery']."
+       }
+      },
+      "required": [
+       "location",
+       "cuisine"
+      ]
+     }
+    },
+    {
+     "name": "restaurant_info",
+     "description": "Get restaurant information for a specific area.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "Location for which to find restaurants."
+       },
+       "food_type": {
+        "type": "string",
+        "description": "Type of cuisine for which to find restaurants. Default 'any'",
+        "enum": [
+         "Italian",
+         "Chinese",
+         "Mexican",
+         "American"
+        ]
+       }
+      },
+      "required": [
+       "location"
+      ]
+     }
+    },
+    {
+     "name": "restaurant_info_2",
+     "description": "Get restaurant information for a specific area.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "Location for which to find restaurants."
+       },
+       "food_type": {
+        "type": "string",
+        "description": "Type of cuisine for which to find restaurants. Default is 'all' if not specified.",
+        "enum": [
+         "Italian",
+         "Chinese",
+         "Mexican",
+         "American"
+        ]
+       }
+      },
+      "required": [
+       "location"
+      ]
+     }
+    },
+    {
+     "name": "restaurant_search",
+     "description": "Locates top rated restaurants based on specific criteria such as type of cuisine, ratings, and facilities.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "location": {
+        "type": "string",
+        "description": "The city and state, e.g. New York City, NY"
+       },
+       "cuisine": {
+        "type": "string",
+        "description": "Preferred type of cuisine e.g., Italian, Indian, American, etc."
+       },
+       "rating": {
+        "type": "integer",
+        "description": "Minimum average customer rating out of 5"
+       },
+       "accepts_credit_cards": {
+        "type": "boolean",
+        "description": "If the restaurant should accept credit cards."
+       }
+      },
+      "required": [
+       "location",
+       "cuisine",
+       "rating",
+       "accepts_credit_cards"
+      ]
+     }
+    },
+    {
+     "name": "restaurant_search_2",
+     "description": "Searches for restaurants based on a list of preferred ingredients and maximum calorie count.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "ingredients": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "A list of ingredients you prefer in the restaurant's dishes."
+       },
+       "calories": {
+        "type": "integer",
+        "description": "The maximum calorie count you prefer for the restaurant's dishes."
+       },
+       "meal": {
+        "type": "string",
+        "description": "Type of the meal for the restaurant's dishes, it's optional and could be breakfast, lunch or dinner. Default 'lunch'"
+       }
+      },
+      "required": [
+       "ingredients",
+       "calories"
+      ]
+     }
+    },
+    {
+     "name": "restaurant_search_3",
+     "description": "Searches for restaurants based on a list of preferred ingredients and maximum calorie count.",
+     "input_schema": {
+      "type": "object",
+      "properties": {
+       "ingredients": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "A list of ingredients you prefer in the restaurant's dishes."
+       },
+       "calories": {
+        "type": "integer",
+        "description": "The maximum calorie count you prefer for the restaurant's dishes."
+       },
+       "meal": {
+        "type": "string",
+        "description": "Type of the meal for the restaurant's dishes, it's optional and could be breakfast, lunch or dinner. Default is all if not specified."
+       }
+      },
+      "required": [
+       "ingredients",
+       "calories"
+      ]
+     }
+    }
+   ]
+  }
+ ]
+}

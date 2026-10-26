@@ -1,0 +1,56 @@
+{
+ "task_id": "productivity-0029",
+ "mode": "search",
+ "loaded": [
+  "ms365_pim.create_todo_task",
+  "apple_mcp.reminders",
+  "todoist.find_tasks_by_date",
+  "todoist.update_tasks",
+  "salesforce.salesforce_create_task"
+ ],
+ "order": [
+  "ms365_pim.create_todo_task",
+  "apple_mcp.reminders",
+  "todoist.find_tasks_by_date",
+  "todoist.update_tasks",
+  "salesforce.salesforce_create_task"
+ ],
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "apple_mcp.reminders",
+   "args": {
+    "operation": "create",
+    "name": "Grab the dry cleaning on the way home",
+    "dueDate": "2026-10-07T17:00:00"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0
+  },
+  {
+   "type": "request_tools",
+   "capability": "create a personal reminder or to-do task with a due date and time",
+   "added": [
+    "ms365_pim.create_todo_task",
+    "apple_mcp.reminders",
+    "todoist.find_tasks_by_date",
+    "todoist.update_tasks",
+    "salesforce.salesforce_create_task"
+   ],
+   "tool_tokens": 1621
+  },
+  {
+   "type": "call",
+   "tool": "apple_mcp__reminders",
+   "valid": true
+  }
+ ],
+ "done": true,
+ "final": ""
+}

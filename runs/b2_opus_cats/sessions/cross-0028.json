@@ -1,0 +1,125 @@
+{
+ "task_id": "cross-0028",
+ "mode": "cats",
+ "loaded": [
+  "deepl.get_languages",
+  "deepl.translate_document",
+  "mongodb.collection_schema",
+  "mongodb.count",
+  "mongodb.delete_many",
+  "mongodb.find",
+  "mongodb.insert_many",
+  "mongodb.list_collections",
+  "mongodb.update_many",
+  "openai_media.translate_audio",
+  "deepl.translate_text",
+  "google_cloud_ai.translate_text",
+  "ffmpeg_video.burn_subtitles",
+  "openai_media.transcribe_audio",
+  "elevenlabs.speech_to_text"
+ ],
+ "order": [
+  "deepl.get_languages",
+  "deepl.translate_document",
+  "mongodb.collection_schema",
+  "mongodb.count",
+  "mongodb.delete_many",
+  "mongodb.find",
+  "mongodb.insert_many",
+  "mongodb.list_collections",
+  "mongodb.update_many",
+  "openai_media.translate_audio",
+  "deepl.translate_text",
+  "google_cloud_ai.translate_text",
+  "ffmpeg_video.burn_subtitles",
+  "openai_media.transcribe_audio",
+  "elevenlabs.speech_to_text"
+ ],
+ "scores": {
+  "deepl.get_languages": 0.08053488146085427,
+  "deepl.translate_document": 0.05015459988884083,
+  "mongodb.collection_schema": 0.19790930760647477,
+  "mongodb.count": 0.1308805075146603,
+  "mongodb.delete_many": 0.0658245188043828,
+  "mongodb.find": 0.046985743138040256,
+  "mongodb.insert_many": 0.5416314665533123,
+  "mongodb.list_collections": 0.33106681067123794,
+  "mongodb.update_many": 0.10228021157028787,
+  "openai_media.translate_audio": 0.12096646446316406,
+  "deepl.translate_text": 2.0,
+  "google_cloud_ai.translate_text": 2.0,
+  "ffmpeg_video.burn_subtitles": 2.0,
+  "openai_media.transcribe_audio": 2.0,
+  "elevenlabs.speech_to_text": 2.0
+ },
+ "router_tokens": 0,
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "mongodb.find",
+   "args": {
+    "database": "app",
+    "collection": "catalog",
+    "filter": {
+     "blurb.fr": {
+      "$exists": false
+     }
+    },
+    "projection": {
+     "_id": 1,
+     "name": 1,
+     "blurb.en": 1
+    },
+    "limit": 100
+   }
+  },
+  {
+   "tool": "google_cloud_ai.translate_text",
+   "args": {
+    "contents": [
+     "<English-only blurb 1>",
+     "<English-only blurb 2>"
+    ],
+    "sourceLanguageCode": "en",
+    "targetLanguageCode": "fr"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 10,
+   "tool_tokens": 1707,
+   "t": 1791321751.683705
+  },
+  {
+   "type": "call",
+   "tool": "mongodb__find",
+   "valid": true,
+   "t": 1791321767.1020765
+  },
+  {
+   "type": "request_tools",
+   "capability": "translate a piece of plain text (not a file) into French",
+   "added": [
+    "deepl.translate_text",
+    "google_cloud_ai.translate_text",
+    "ffmpeg_video.burn_subtitles",
+    "openai_media.transcribe_audio",
+    "elevenlabs.speech_to_text"
+   ],
+   "tool_tokens": 3061,
+   "t": 1791321777.9903352
+  },
+  {
+   "type": "call",
+   "tool": "google_cloud_ai__translate_text",
+   "valid": true,
+   "t": 1791321791.7884018
+  }
+ ],
+ "done": true,
+ "t_done": 1791321794.1411326,
+ "final": ""
+}

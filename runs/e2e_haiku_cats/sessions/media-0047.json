@@ -1,0 +1,35 @@
+{
+ "task_id": "media-0047",
+ "mode": "cats",
+ "loaded": [
+  "stability_ai.remove_background"
+ ],
+ "order": [
+  "stability_ai.remove_background"
+ ],
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "stability_ai.remove_background",
+   "args": {
+    "imageFileUri": "file:///product_shot.png",
+    "outputImageFileName": "product_shot_no_bg.png"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 1,
+   "tool_tokens": 87
+  },
+  {
+   "type": "call",
+   "tool": "stability_ai__remove_background",
+   "valid": true
+  }
+ ],
+ "done": true,
+ "final": ""
+}

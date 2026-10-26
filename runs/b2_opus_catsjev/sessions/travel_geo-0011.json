@@ -1,0 +1,63 @@
+{
+ "task_id": "travel_geo-0011",
+ "mode": "cats",
+ "loaded": [
+  "mapbox.category_search_tool",
+  "transitland.get_stop_departures",
+  "transitland.search_stops"
+ ],
+ "order": [
+  "mapbox.category_search_tool",
+  "transitland.get_stop_departures",
+  "transitland.search_stops"
+ ],
+ "scores": {
+  "mapbox.category_search_tool": 0.3449864512538375,
+  "transitland.get_stop_departures": 0.896518015421853,
+  "transitland.search_stops": 0.22278250657718
+ },
+ "router_tokens": 0,
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "transitland.search_stops",
+   "args": {
+    "lat": 52.5219,
+    "lon": 13.4132,
+    "radius": 500,
+    "served_by_route_type": 0,
+    "limit": 5
+   }
+  },
+  {
+   "tool": "transitland.get_stop_departures",
+   "args": {
+    "stop_key": "<nearest_tram_stop_onestop_id>"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 3,
+   "tool_tokens": 889,
+   "t": 1791321087.6647232
+  },
+  {
+   "type": "call",
+   "tool": "transitland__search_stops",
+   "valid": true,
+   "t": 1791321099.9981365
+  },
+  {
+   "type": "call",
+   "tool": "transitland__get_stop_departures",
+   "valid": true,
+   "t": 1791321107.8636153
+  }
+ ],
+ "done": true,
+ "t_done": 1791321111.1408653,
+ "final": ""
+}

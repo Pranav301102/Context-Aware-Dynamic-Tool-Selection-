@@ -1,0 +1,1050 @@
+{
+  "branch": {
+    "id": "government_civic",
+    "name": "Government & Civic",
+    "summary": "Government and civic services: building and business permits and inspections, public records requests, municipal open data, business tax information-return filing, and voter, election and elected-official information."
+  },
+  "toolkits": [
+    {
+      "id": "accela",
+      "name": "Accela Civic Platform",
+      "server": "mcp://accela-civic",
+      "summary": "Municipal permitting and licensing: search permit records, apply for permits, pay fees and schedule inspections.",
+      "tools": [
+        {
+          "name": "search_permits",
+          "description": "Search building, zoning and business permit records by address, parcel number, permit type, status or date range.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "address": {
+                "type": "string"
+              },
+              "parcel_number": {
+                "type": "string"
+              },
+              "record_type": {
+                "type": "string",
+                "enum": [
+                  "building",
+                  "electrical",
+                  "plumbing",
+                  "mechanical",
+                  "zoning",
+                  "business_license",
+                  "code_enforcement"
+                ]
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "submitted",
+                  "in_review",
+                  "approved",
+                  "issued",
+                  "expired",
+                  "closed"
+                ]
+              },
+              "opened_after": {
+                "type": "string",
+                "description": "YYYY-MM-DD"
+              },
+              "opened_before": {
+                "type": "string",
+                "description": "YYYY-MM-DD"
+              },
+              "limit": {
+                "type": "integer",
+                "default": 25
+              }
+            }
+          }
+        },
+        {
+          "name": "get_permit",
+          "description": "Get a permit record by ID.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "record_id": {
+                "type": "string"
+              },
+              "expand": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "fees",
+                    "inspections",
+                    "documents",
+                    "contacts",
+                    "conditions",
+                    "workflow"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "record_id"
+            ]
+          }
+        },
+        {
+          "name": "submit_permit_application",
+          "description": "Submit a new permit application for a property with project description, valuation, applicant and contractor details and supporting documents.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "record_type": {
+                "type": "string",
+                "enum": [
+                  "building",
+                  "electrical",
+                  "plumbing",
+                  "mechanical",
+                  "zoning",
+                  "business_license",
+                  "demolition",
+                  "sign"
+                ]
+              },
+              "address": {
+                "type": "object",
+                "properties": {
+                  "line1": {
+                    "type": "string",
+                    "description": "Street address."
+                  },
+                  "line2": {
+                    "type": "string",
+                    "description": "Apartment, suite or unit."
+                  },
+                  "city": {
+                    "type": "string"
+                  },
+                  "state": {
+                    "type": "string",
+                    "description": "State or region code."
+                  },
+                  "postal_code": {
+                    "type": "string"
+                  },
+                  "country": {
+                    "type": "string",
+                    "description": "ISO 3166-1 alpha-2 country code.",
+                    "default": "US"
+                  }
+                },
+                "description": "Project address.",
+                "required": [
+                  "line1",
+                  "city",
+                  "postal_code"
+                ]
+              },
+              "parcel_number": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string",
+                "description": "Scope of work."
+              },
+              "valuation": {
+                "type": "number",
+                "description": "Estimated project value in USD."
+              },
+              "applicant": {
+                "type": "object",
+                "properties": {
+                  "first_name": {
+                    "type": "string"
+                  },
+                  "last_name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "phone": {
+                    "type": "string"
+                  },
+                  "business_name": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "first_name",
+                  "last_name",
+                  "email"
+                ]
+              },
+              "contractor_license_number": {
+                "type": "string"
+              },
+              "documents": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "url": {
+                      "type": "string"
+                    },
+                    "document_type": {
+                      "type": "string",
+                      "enum": [
+                        "site_plan",
+                        "floor_plan",
+                        "structural_calcs",
+                        "photo",
+                        "other"
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "required": [
+              "record_type",
+              "address",
+              "description",
+              "applicant"
+            ]
+          }
+        },
+        {
+          "name": "schedule_inspection",
+          "description": "Request an inspection for an issued permit. Available slots depend on inspection type and jurisdiction.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "record_id": {
+                "type": "string"
+              },
+              "inspection_type": {
+                "type": "string",
+                "description": "e.g. Footing, Framing, Final Electrical."
+              },
+              "requested_date": {
+                "type": "string",
+                "description": "YYYY-MM-DD"
+              },
+              "time_window": {
+                "type": "string",
+                "enum": [
+                  "AM",
+                  "PM",
+                  "ANY"
+                ],
+                "default": "ANY"
+              },
+              "contact_phone": {
+                "type": "string"
+              },
+              "comments": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "record_id",
+              "inspection_type",
+              "requested_date"
+            ]
+          }
+        },
+        {
+          "name": "get_inspection_results",
+          "description": "Inspection outcomes and inspector comments for a record.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "record_id": {
+                "type": "string"
+              },
+              "inspection_id": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "record_id"
+            ]
+          }
+        },
+        {
+          "name": "list_fees",
+          "description": "List assessed fees and balance due for a record.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "record_id": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "record_id"
+            ]
+          }
+        },
+        {
+          "name": "pay_fees",
+          "description": "Pay outstanding fees on a record.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "record_id": {
+                "type": "string"
+              },
+              "fee_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "payment_method": {
+                "type": "string",
+                "enum": [
+                  "card",
+                  "ach",
+                  "escrow"
+                ]
+              },
+              "amount": {
+                "type": "number",
+                "description": "Amount in USD."
+              }
+            },
+            "required": [
+              "record_id",
+              "payment_method"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "govqa",
+      "name": "GovQA Public Records",
+      "server": "mcp://govqa",
+      "summary": "Public records (FOIA / open records act) request portal for government agencies.",
+      "tools": [
+        {
+          "name": "submit_records_request",
+          "description": "Submit a public records (FOIA/open records) request to an agency's records portal.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "agency_id": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string",
+                "description": "Describe the records sought as specifically as possible."
+              },
+              "date_range": {
+                "type": "object",
+                "properties": {
+                  "from": {
+                    "type": "string"
+                  },
+                  "to": {
+                    "type": "string"
+                  }
+                }
+              },
+              "preferred_format": {
+                "type": "string",
+                "enum": [
+                  "electronic",
+                  "paper",
+                  "inspection"
+                ],
+                "default": "electronic"
+              },
+              "requester": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "phone": {
+                    "type": "string"
+                  },
+                  "organization": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name",
+                  "email"
+                ]
+              },
+              "expedite": {
+                "type": "boolean",
+                "description": "Request expedited processing.",
+                "default": false
+              },
+              "fee_waiver_requested": {
+                "type": "boolean",
+                "default": false
+              }
+            },
+            "required": [
+              "agency_id",
+              "description",
+              "requester"
+            ]
+          }
+        },
+        {
+          "name": "get_request_status",
+          "description": "Status, due date and fees for a records request.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "reference_number": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "reference_number"
+            ]
+          }
+        },
+        {
+          "name": "list_my_requests",
+          "description": "List records requests submitted by the current user.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "status": {
+                "type": "string",
+                "enum": [
+                  "open",
+                  "awaiting_payment",
+                  "fulfilled",
+                  "closed",
+                  "denied"
+                ]
+              },
+              "limit": {
+                "type": "integer"
+              }
+            }
+          }
+        },
+        {
+          "name": "download_released_documents",
+          "description": "Download documents released for a request.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "reference_number": {
+                "type": "string"
+              },
+              "document_id": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "reference_number"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "socrata",
+      "name": "Socrata Open Data",
+      "server": "mcp://socrata",
+      "summary": "Query city, county and state open data portals (crime, 311, budgets, inspections) via the Socrata SODA API.",
+      "tools": [
+        {
+          "name": "search_datasets",
+          "description": "Search the open data catalog of a city, county or state portal for datasets by keyword and category.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string"
+              },
+              "domain": {
+                "type": "string",
+                "description": "Portal domain, e.g. data.cityofchicago.org."
+              },
+              "categories": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "only": {
+                "type": "string",
+                "enum": [
+                  "dataset",
+                  "map",
+                  "chart",
+                  "filter"
+                ]
+              },
+              "limit": {
+                "type": "integer",
+                "default": 20
+              }
+            },
+            "required": [
+              "query"
+            ]
+          }
+        },
+        {
+          "name": "query_dataset",
+          "description": "Run a SoQL query against a dataset and return rows. Supports $select, $where, $order, $group and $limit clauses.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "domain": {
+                "type": "string"
+              },
+              "dataset_id": {
+                "type": "string",
+                "description": "Four-by-four dataset id, e.g. ijzp-q8t2."
+              },
+              "select": {
+                "type": "string"
+              },
+              "where": {
+                "type": "string"
+              },
+              "order": {
+                "type": "string"
+              },
+              "group": {
+                "type": "string"
+              },
+              "limit": {
+                "type": "integer",
+                "default": 1000
+              },
+              "offset": {
+                "type": "integer"
+              }
+            },
+            "required": [
+              "domain",
+              "dataset_id"
+            ]
+          }
+        },
+        {
+          "name": "get_dataset_metadata",
+          "description": "Column names, types and update frequency for a dataset.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "domain": {
+                "type": "string"
+              },
+              "dataset_id": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "domain",
+              "dataset_id"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "taxbandits",
+      "name": "TaxBandits",
+      "server": "mcp://taxbandits",
+      "summary": "IRS-authorized e-file provider for information returns and payroll tax forms (1099, W-2, 941, ACA).",
+      "tools": [
+        {
+          "name": "create_business",
+          "description": "Register a payer business (EIN, address, contact) that returns will be filed under.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "business_name": {
+                "type": "string"
+              },
+              "ein": {
+                "type": "string",
+                "description": "9-digit EIN."
+              },
+              "business_type": {
+                "type": "string",
+                "enum": [
+                  "ESTE",
+                  "PART",
+                  "CORP",
+                  "EORG",
+                  "SPRO"
+                ],
+                "description": "Estate, partnership, corporation, exempt org or sole proprietor."
+              },
+              "address": {
+                "type": "object",
+                "properties": {
+                  "line1": {
+                    "type": "string",
+                    "description": "Street address."
+                  },
+                  "line2": {
+                    "type": "string",
+                    "description": "Apartment, suite or unit."
+                  },
+                  "city": {
+                    "type": "string"
+                  },
+                  "state": {
+                    "type": "string",
+                    "description": "State or region code."
+                  },
+                  "postal_code": {
+                    "type": "string"
+                  },
+                  "country": {
+                    "type": "string",
+                    "description": "ISO 3166-1 alpha-2 country code.",
+                    "default": "US"
+                  }
+                },
+                "description": "Postal address.",
+                "required": [
+                  "line1",
+                  "city",
+                  "postal_code"
+                ]
+              },
+              "contact": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "phone": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "required": [
+              "business_name",
+              "ein",
+              "address"
+            ]
+          }
+        },
+        {
+          "name": "create_form_1099_nec",
+          "description": "Create Form 1099-NEC returns for contractors paid $600 or more, with optional state filing and postal mailing of recipient copies.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "business_id": {
+                "type": "string"
+              },
+              "tax_year": {
+                "type": "integer"
+              },
+              "recipients": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "tin": {
+                      "type": "string"
+                    },
+                    "tin_type": {
+                      "type": "string",
+                      "enum": [
+                        "SSN",
+                        "EIN"
+                      ]
+                    },
+                    "address": {
+                      "type": "object",
+                      "properties": {
+                        "line1": {
+                          "type": "string",
+                          "description": "Street address."
+                        },
+                        "line2": {
+                          "type": "string",
+                          "description": "Apartment, suite or unit."
+                        },
+                        "city": {
+                          "type": "string"
+                        },
+                        "state": {
+                          "type": "string",
+                          "description": "State or region code."
+                        },
+                        "postal_code": {
+                          "type": "string"
+                        },
+                        "country": {
+                          "type": "string",
+                          "description": "ISO 3166-1 alpha-2 country code.",
+                          "default": "US"
+                        }
+                      },
+                      "description": "Postal address.",
+                      "required": [
+                        "line1",
+                        "city",
+                        "postal_code"
+                      ]
+                    },
+                    "nec_amount": {
+                      "type": "number",
+                      "description": "Box 1 nonemployee compensation."
+                    },
+                    "federal_tax_withheld": {
+                      "type": "number"
+                    },
+                    "state": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "state_tax_withheld": {
+                          "type": "number"
+                        },
+                        "state_income": {
+                          "type": "number"
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "name",
+                    "tin",
+                    "nec_amount"
+                  ]
+                }
+              },
+              "is_federal_filing": {
+                "type": "boolean",
+                "default": true
+              },
+              "is_state_filing": {
+                "type": "boolean",
+                "default": false
+              },
+              "is_postal_mailing": {
+                "type": "boolean",
+                "description": "Mail recipient copies.",
+                "default": false
+              },
+              "is_online_access": {
+                "type": "boolean",
+                "description": "Give recipients online access to their copy.",
+                "default": false
+              }
+            },
+            "required": [
+              "business_id",
+              "tax_year",
+              "recipients"
+            ]
+          }
+        },
+        {
+          "name": "validate_tin",
+          "description": "TIN matching against IRS records.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "tin": {
+                "type": "string"
+              },
+              "tin_type": {
+                "type": "string",
+                "enum": [
+                  "SSN",
+                  "EIN"
+                ]
+              },
+              "name": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "tin",
+              "name"
+            ]
+          }
+        },
+        {
+          "name": "transmit_returns",
+          "description": "Transmit one or more created returns to the IRS. Returns move to TRANSMITTED and later ACCEPTED or REJECTED.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "submission_id": {
+                "type": "string"
+              },
+              "record_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": [
+              "submission_id"
+            ]
+          }
+        },
+        {
+          "name": "get_filing_status",
+          "description": "Get the IRS and state filing status for returns in a submission, including rejection errors.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "submission_id": {
+                "type": "string"
+              },
+              "record_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": [
+              "submission_id"
+            ]
+          }
+        },
+        {
+          "name": "list_returns",
+          "description": "List returns.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "form_type": {
+                "type": "string",
+                "enum": [
+                  "1099-NEC",
+                  "1099-MISC",
+                  "1099-INT",
+                  "W-2",
+                  "941",
+                  "1095-C"
+                ]
+              },
+              "tax_year": {
+                "type": "integer"
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "CREATED",
+                  "TRANSMITTED",
+                  "ACCEPTED",
+                  "REJECTED"
+                ]
+              },
+              "page": {
+                "type": "integer"
+              }
+            }
+          }
+        },
+        {
+          "name": "get_return_pdf",
+          "description": "Download the PDF of a filed form.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "record_id": {
+                "type": "string"
+              },
+              "copy": {
+                "type": "string",
+                "enum": [
+                  "copy_a",
+                  "copy_b",
+                  "copy_1",
+                  "copy_2",
+                  "copy_c"
+                ],
+                "default": "copy_b"
+              }
+            },
+            "required": [
+              "record_id"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "google_civic",
+      "name": "Google Civic Information",
+      "server": "mcp://google-civic",
+      "summary": "Election and civic information: polling places, ballot contests, voter registration and elected representatives by address.",
+      "tools": [
+        {
+          "name": "list_elections",
+          "description": "List upcoming elections.",
+          "input_schema": {
+            "type": "object",
+            "properties": {}
+          }
+        },
+        {
+          "name": "get_voter_info",
+          "description": "Look up polling places, early vote sites, ballot drop-off locations, contests and candidates for a residential address in an upcoming election.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "address": {
+                "type": "string",
+                "description": "Registered voting address."
+              },
+              "election_id": {
+                "type": "string",
+                "description": "From list_elections. Defaults to the next election for the address."
+              },
+              "official_only": {
+                "type": "boolean",
+                "description": "Only return official state data.",
+                "default": false
+              },
+              "return_all_available_data": {
+                "type": "boolean",
+                "default": false
+              }
+            },
+            "required": [
+              "address"
+            ]
+          }
+        },
+        {
+          "name": "get_representatives_by_address",
+          "description": "Find elected officials (federal, state, county, city, school board) for an address, with offices, party, phone, website and social accounts.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "address": {
+                "type": "string"
+              },
+              "levels": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "country",
+                    "administrativeArea1",
+                    "administrativeArea2",
+                    "locality",
+                    "subLocality1",
+                    "special",
+                    "regional"
+                  ]
+                }
+              },
+              "roles": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "headOfGovernment",
+                    "headOfState",
+                    "legislatorUpperBody",
+                    "legislatorLowerBody",
+                    "executiveCouncil",
+                    "judge",
+                    "schoolBoard"
+                  ]
+                }
+              },
+              "include_offices": {
+                "type": "boolean",
+                "default": true
+              }
+            },
+            "required": [
+              "address"
+            ]
+          }
+        },
+        {
+          "name": "search_divisions",
+          "description": "Search Open Civic Data division IDs (ocd-id) by name.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "query"
+            ]
+          }
+        },
+        {
+          "name": "check_voter_registration",
+          "description": "Check whether a person is registered to vote in a state using name, date of birth and residential address.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "first_name": {
+                "type": "string"
+              },
+              "last_name": {
+                "type": "string"
+              },
+              "date_of_birth": {
+                "type": "string",
+                "description": "YYYY-MM-DD"
+              },
+              "street_address": {
+                "type": "string"
+              },
+              "city": {
+                "type": "string"
+              },
+              "state": {
+                "type": "string",
+                "description": "Two-letter state code."
+              },
+              "zip": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "first_name",
+              "last_name",
+              "date_of_birth",
+              "state",
+              "zip"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

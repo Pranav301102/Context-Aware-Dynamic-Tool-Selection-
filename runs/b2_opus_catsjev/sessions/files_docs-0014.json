@@ -1,0 +1,59 @@
+{
+ "task_id": "files_docs-0014",
+ "mode": "cats",
+ "loaded": [
+  "confluence.confluence_create_page",
+  "confluence.confluence_get_page",
+  "confluence.confluence_get_page_children",
+  "confluence.confluence_search",
+  "confluence.confluence_update_page",
+  "notion.notion_create_pages"
+ ],
+ "order": [
+  "confluence.confluence_create_page",
+  "confluence.confluence_get_page",
+  "confluence.confluence_get_page_children",
+  "confluence.confluence_search",
+  "confluence.confluence_update_page",
+  "notion.notion_create_pages"
+ ],
+ "scores": {
+  "confluence.confluence_create_page": 0.9180230518914521,
+  "confluence.confluence_get_page": 0.395639916192704,
+  "confluence.confluence_get_page_children": 0.038267434913530136,
+  "confluence.confluence_search": 0.13116141327304034,
+  "confluence.confluence_update_page": 0.06913915402498387,
+  "notion.notion_create_pages": 0.09548658300582225
+ },
+ "router_tokens": 0,
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "confluence.confluence_create_page",
+   "args": {
+    "space_key": "ENG",
+    "title": "Postmortem: 2026-10-02 checkout outage",
+    "content": "## Summary\n\n_TBD_\n\n## Impact\n\n_TBD_\n\n## Timeline\n\n| Time (UTC) | Event |\n|---|---|\n| | |\n",
+    "content_format": "markdown"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 6,
+   "tool_tokens": 1471,
+   "t": 1791321924.8047261
+  },
+  {
+   "type": "call",
+   "tool": "confluence__confluence_create_page",
+   "valid": true,
+   "t": 1791321939.857856
+  }
+ ],
+ "done": true,
+ "t_done": 1791321946.0019495,
+ "final": ""
+}

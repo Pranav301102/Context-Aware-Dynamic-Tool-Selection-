@@ -1,0 +1,70 @@
+{
+ "task_id": "travel_geo-0014",
+ "mode": "search",
+ "loaded": [
+  "mapbox.directions_tool",
+  "transitland.search_routes",
+  "transitland.get_route",
+  "transitland.search_stops",
+  "mapbox.matrix_tool"
+ ],
+ "order": [
+  "mapbox.directions_tool",
+  "transitland.search_routes",
+  "transitland.get_route",
+  "transitland.search_stops",
+  "mapbox.matrix_tool"
+ ],
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "mapbox.directions_tool",
+   "args": {
+    "coordinates": [
+     {
+      "longitude": 4.1453,
+      "latitude": 51.9496
+     },
+     {
+      "longitude": 6.7623,
+      "latitude": 51.4344
+     }
+    ],
+    "routing_profile": "mapbox/driving",
+    "exclude": [
+     "ferry"
+    ],
+    "max_height": 4.1,
+    "max_weight": 38,
+    "steps": true
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0
+  },
+  {
+   "type": "request_tools",
+   "capability": "calculate a truck route between two places with vehicle height and weight restrictions and avoiding ferries",
+   "added": [
+    "mapbox.directions_tool",
+    "transitland.search_routes",
+    "transitland.get_route",
+    "transitland.search_stops",
+    "mapbox.matrix_tool"
+   ],
+   "tool_tokens": 1461
+  },
+  {
+   "type": "call",
+   "tool": "mapbox__directions_tool",
+   "valid": true
+  }
+ ],
+ "done": true,
+ "final": ""
+}

@@ -1,0 +1,69 @@
+{
+ "task_id": "dev_platform-0047",
+ "mode": "cats",
+ "loaded": [
+  "jira.add_comment",
+  "jira.create_issue",
+  "jira.search_issues",
+  "jira.transition_issue",
+  "jira.update_issue"
+ ],
+ "order": [
+  "jira.add_comment",
+  "jira.create_issue",
+  "jira.search_issues",
+  "jira.transition_issue",
+  "jira.update_issue"
+ ],
+ "scores": {
+  "jira.add_comment": 0.12529831134160999,
+  "jira.create_issue": 0.8190184446706964,
+  "jira.search_issues": 0.19569883531550084,
+  "jira.transition_issue": 0.23573463883509838,
+  "jira.update_issue": 0.052115059197158246
+ },
+ "router_tokens": 0,
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "jira.create_issue",
+   "args": {
+    "project_key": "PAY",
+    "summary": "Refund rounding error",
+    "issue_type": "Bug",
+    "description": "There is a rounding error occurring in refund calculations that needs to be fixed."
+   }
+  },
+  {
+   "tool": "jira.search_issues",
+   "args": {
+    "jql": "project = PAY AND summary ~ \"Refund rounding error\"",
+    "limit": 1
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 5,
+   "tool_tokens": 1209,
+   "t": 1791321626.854875
+  },
+  {
+   "type": "call",
+   "tool": "jira__create_issue",
+   "valid": true,
+   "t": 1791321644.1276085
+  },
+  {
+   "type": "call",
+   "tool": "jira__search_issues",
+   "valid": true,
+   "t": 1791321657.9596765
+  }
+ ],
+ "done": true,
+ "t_done": 1791321670.7474906,
+ "final": ""
+}

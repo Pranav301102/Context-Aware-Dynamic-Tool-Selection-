@@ -1,0 +1,59 @@
+{
+ "task_id": "media-0035",
+ "mode": "search",
+ "loaded": [
+  "ffmpeg_video.extract_thumbnail",
+  "ffmpeg_video.extract_frames",
+  "ffmpeg_video.trim_video",
+  "google_cloud_ai.ocr_image",
+  "ffmpeg_video.concatenate_videos"
+ ],
+ "order": [
+  "ffmpeg_video.extract_thumbnail",
+  "ffmpeg_video.extract_frames",
+  "ffmpeg_video.trim_video",
+  "google_cloud_ai.ocr_image",
+  "ffmpeg_video.concatenate_videos"
+ ],
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "ffmpeg_video.extract_thumbnail",
+   "args": {
+    "input_path": "promo_trimmed.mp4",
+    "timestamp": "00:00:15",
+    "width": 1280,
+    "height": 720,
+    "format": "jpg",
+    "output_path": "promo_cover.jpg"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0
+  },
+  {
+   "type": "request_tools",
+   "capability": "extract a still frame image from a video at a given timestamp",
+   "added": [
+    "ffmpeg_video.extract_thumbnail",
+    "ffmpeg_video.extract_frames",
+    "ffmpeg_video.trim_video",
+    "google_cloud_ai.ocr_image",
+    "ffmpeg_video.concatenate_videos"
+   ],
+   "tool_tokens": 946
+  },
+  {
+   "type": "call",
+   "tool": "ffmpeg_video__extract_thumbnail",
+   "valid": true
+  }
+ ],
+ "done": true,
+ "final": ""
+}

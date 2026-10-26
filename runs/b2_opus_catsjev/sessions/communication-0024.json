@@ -1,0 +1,54 @@
+{
+ "task_id": "communication-0024",
+ "mode": "cats",
+ "loaded": [
+  "gmail.delete_email",
+  "gmail.draft_email",
+  "gmail.read_email",
+  "gmail.search_emails",
+  "gmail.send_email"
+ ],
+ "order": [
+  "gmail.delete_email",
+  "gmail.draft_email",
+  "gmail.read_email",
+  "gmail.search_emails",
+  "gmail.send_email"
+ ],
+ "scores": {
+  "gmail.delete_email": 0.05061220953183219,
+  "gmail.draft_email": 0.05561116016236869,
+  "gmail.read_email": 0.0714896613887377,
+  "gmail.search_emails": 0.8278008404847509,
+  "gmail.send_email": 0.0623832729849878
+ },
+ "router_tokens": 0,
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "gmail.search_emails",
+   "args": {
+    "query": "1099 accountant",
+    "maxResults": 10
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 5,
+   "tool_tokens": 857,
+   "t": 1791321643.0934718
+  },
+  {
+   "type": "call",
+   "tool": "gmail__search_emails",
+   "valid": true,
+   "t": 1791321658.0328054
+  }
+ ],
+ "done": true,
+ "t_done": 1791321665.5611746,
+ "final": ""
+}

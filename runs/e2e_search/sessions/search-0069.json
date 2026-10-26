@@ -1,0 +1,60 @@
+{
+ "task_id": "search-0069",
+ "mode": "search",
+ "loaded": [
+  "semantic_scholar.paper_citations",
+  "semantic_scholar.paper_references",
+  "semantic_scholar.author_papers",
+  "semantic_scholar.paper_relevance_search",
+  "semantic_scholar.paper_title_search"
+ ],
+ "order": [
+  "semantic_scholar.paper_citations",
+  "semantic_scholar.paper_references",
+  "semantic_scholar.author_papers",
+  "semantic_scholar.paper_relevance_search",
+  "semantic_scholar.paper_title_search"
+ ],
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "semantic_scholar.paper_citations",
+   "args": {
+    "paper_id": "0f9cfd3c",
+    "fields": [
+     "title",
+     "authors",
+     "year",
+     "venue"
+    ]
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0
+  },
+  {
+   "type": "request_tools",
+   "capability": "get the papers that cite a given Semantic Scholar paper",
+   "added": [
+    "semantic_scholar.paper_citations",
+    "semantic_scholar.paper_references",
+    "semantic_scholar.author_papers",
+    "semantic_scholar.paper_relevance_search",
+    "semantic_scholar.paper_title_search"
+   ],
+   "tool_tokens": 1433
+  },
+  {
+   "type": "call",
+   "tool": "semantic_scholar__paper_citations",
+   "valid": true
+  }
+ ],
+ "done": true,
+ "final": ""
+}

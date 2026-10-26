@@ -1,0 +1,38 @@
+{
+ "task_id": "communication-0004",
+ "mode": "cats",
+ "loaded": [
+  "ms_teams.list_channels",
+  "slack.get_channel_history",
+  "slack.get_users",
+  "slack.list_channels"
+ ],
+ "order": [
+  "ms_teams.list_channels",
+  "slack.get_channel_history",
+  "slack.get_users",
+  "slack.list_channels"
+ ],
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "slack.list_channels",
+   "args": {}
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 4,
+   "tool_tokens": 381
+  },
+  {
+   "type": "call",
+   "tool": "slack__list_channels",
+   "valid": true
+  }
+ ],
+ "done": true,
+ "final": ""
+}

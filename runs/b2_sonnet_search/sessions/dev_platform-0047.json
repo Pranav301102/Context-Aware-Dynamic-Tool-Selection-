@@ -1,0 +1,96 @@
+{
+ "task_id": "dev_platform-0047",
+ "mode": "search",
+ "loaded": [
+  "jira.transition_issue",
+  "jira.get_issue",
+  "jira.create_issue",
+  "jira.update_issue",
+  "jira.add_comment"
+ ],
+ "order": [
+  "jira.transition_issue",
+  "jira.get_issue",
+  "jira.create_issue",
+  "jira.update_issue",
+  "jira.add_comment"
+ ],
+ "scores": {
+  "jira.transition_issue": 2.0,
+  "jira.get_issue": 2.0,
+  "jira.create_issue": 2.0,
+  "jira.update_issue": 2.0,
+  "jira.add_comment": 2.0
+ },
+ "router_tokens": 0,
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "jira.create_issue",
+   "args": {
+    "project_key": "PAY",
+    "summary": "Refund rounding error",
+    "issue_type": "Bug",
+    "description": "Refund amounts are being calculated with a rounding error."
+   }
+  },
+  {
+   "tool": "jira.get_issue",
+   "args": {
+    "issue_key": "PAY-312",
+    "fields": "status",
+    "expand": "transitions"
+   }
+  },
+  {
+   "tool": "jira.transition_issue",
+   "args": {
+    "issue_key": "PAY-312",
+    "transition_id": "21"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0,
+   "t": 1791322100.9719431
+  },
+  {
+   "type": "request_tools",
+   "capability": "create a Jira issue and transition it to a new status",
+   "added": [
+    "jira.transition_issue",
+    "jira.get_issue",
+    "jira.create_issue",
+    "jira.update_issue",
+    "jira.add_comment"
+   ],
+   "tool_tokens": 1146,
+   "t": 1791322111.6735833
+  },
+  {
+   "type": "call",
+   "tool": "jira__create_issue",
+   "valid": true,
+   "t": 1791322122.3804388
+  },
+  {
+   "type": "call",
+   "tool": "jira__get_issue",
+   "valid": true,
+   "t": 1791322132.9263237
+  },
+  {
+   "type": "call",
+   "tool": "jira__transition_issue",
+   "valid": true,
+   "t": 1791322143.521933
+  }
+ ],
+ "done": true,
+ "t_done": 1791322150.188778,
+ "final": ""
+}

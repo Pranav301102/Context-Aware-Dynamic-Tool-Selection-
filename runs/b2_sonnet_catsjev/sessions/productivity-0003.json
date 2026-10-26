@@ -1,0 +1,69 @@
+{
+ "task_id": "productivity-0003",
+ "mode": "cats",
+ "loaded": [
+  "apple_mcp.calendar",
+  "google_calendar.create_event",
+  "google_calendar.delete_event",
+  "google_calendar.list_calendars",
+  "google_calendar.list_events",
+  "google_calendar.respond_to_event",
+  "google_calendar.search_events",
+  "google_calendar.update_event",
+  "ms365_pim.create_calendar_event",
+  "ms365_pim.delete_calendar_event"
+ ],
+ "order": [
+  "apple_mcp.calendar",
+  "google_calendar.create_event",
+  "google_calendar.delete_event",
+  "google_calendar.list_calendars",
+  "google_calendar.list_events",
+  "google_calendar.respond_to_event",
+  "google_calendar.search_events",
+  "google_calendar.update_event",
+  "ms365_pim.create_calendar_event",
+  "ms365_pim.delete_calendar_event"
+ ],
+ "scores": {
+  "apple_mcp.calendar": 0.4135167676190788,
+  "google_calendar.create_event": 0.19222211024598435,
+  "google_calendar.delete_event": 0.5798219191622255,
+  "google_calendar.list_calendars": 0.2880013895175828,
+  "google_calendar.list_events": 0.36267739589779835,
+  "google_calendar.respond_to_event": 0.15522513270179092,
+  "google_calendar.search_events": 0.7543387243817541,
+  "google_calendar.update_event": 0.10741390925471073,
+  "ms365_pim.create_calendar_event": 0.06161160030015296,
+  "ms365_pim.delete_calendar_event": 0.08774786523972188
+ },
+ "router_tokens": 1436,
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "google_calendar.search_events",
+   "args": {
+    "calendarId": "primary",
+    "query": "offsite"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 10,
+   "tool_tokens": 3511,
+   "t": 1791321121.5929227
+  },
+  {
+   "type": "call",
+   "tool": "google_calendar__search_events",
+   "valid": true,
+   "t": 1791321134.022986
+  }
+ ],
+ "done": true,
+ "t_done": 1791321139.330469,
+ "final": ""
+}

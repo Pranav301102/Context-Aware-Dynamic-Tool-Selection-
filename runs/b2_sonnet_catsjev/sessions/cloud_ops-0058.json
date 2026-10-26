@@ -1,0 +1,66 @@
+{
+ "task_id": "cloud_ops-0058",
+ "mode": "cats",
+ "loaded": [
+  "datadog.list_incidents",
+  "pagerduty.add_note_to_incident",
+  "pagerduty.create_incident",
+  "pagerduty.get_incident",
+  "pagerduty.list_incidents",
+  "pagerduty.manage_incidents"
+ ],
+ "order": [
+  "datadog.list_incidents",
+  "pagerduty.add_note_to_incident",
+  "pagerduty.create_incident",
+  "pagerduty.get_incident",
+  "pagerduty.list_incidents",
+  "pagerduty.manage_incidents"
+ ],
+ "scores": {
+  "datadog.list_incidents": 0.24993947579258924,
+  "pagerduty.add_note_to_incident": 0.8059013333940589,
+  "pagerduty.create_incident": 0.10220559499325144,
+  "pagerduty.get_incident": 0.7215218122301708,
+  "pagerduty.list_incidents": 0.34140400816738964,
+  "pagerduty.manage_incidents": 0.25584985426418194
+ },
+ "router_tokens": 1457,
+ "escalations": 0,
+ "calls": [
+  {
+   "tool": "pagerduty.list_incidents",
+   "args": {
+    "query_model": {
+     "statuses": [
+      "triggered",
+      "acknowledged",
+      "resolved"
+     ],
+     "since": "2026-10-05T18:00:00Z",
+     "until": "2026-10-06T08:00:00Z",
+     "request_scope": "all",
+     "limit": 100
+    }
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 6,
+   "tool_tokens": 1226,
+   "t": 1791321420.6638722
+  },
+  {
+   "type": "call",
+   "tool": "pagerduty__list_incidents",
+   "valid": true,
+   "t": 1791321431.778498
+  }
+ ],
+ "done": true,
+ "t_done": 1791321452.32237,
+ "final": ""
+}

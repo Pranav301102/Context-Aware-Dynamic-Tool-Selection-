@@ -1,0 +1,69 @@
+{
+ "task_id": "communication-0060",
+ "mode": "search",
+ "loaded": [
+  "ms_teams.get_channel_messages",
+  "ms_teams.reply_to_channel_message",
+  "ms_teams.send_channel_message",
+  "ms_teams.list_channels",
+  "ms_teams.list_teams"
+ ],
+ "order": [
+  "ms_teams.get_channel_messages",
+  "ms_teams.reply_to_channel_message",
+  "ms_teams.send_channel_message",
+  "ms_teams.list_channels",
+  "ms_teams.list_teams"
+ ],
+ "scores": {
+  "ms_teams.get_channel_messages": 2.0,
+  "ms_teams.reply_to_channel_message": 2.0,
+  "ms_teams.send_channel_message": 2.0,
+  "ms_teams.list_channels": 2.0,
+  "ms_teams.list_teams": 2.0
+ },
+ "router_tokens": 0,
+ "escalations": 1,
+ "calls": [
+  {
+   "tool": "ms_teams.reply_to_channel_message",
+   "args": {
+    "team_id": "ops-team-id",
+    "channel_id": "general-channel-id",
+    "message_id": "1699887766554",
+    "content": "it's me this weekend"
+   }
+  }
+ ],
+ "invalid": [],
+ "events": [
+  {
+   "type": "show",
+   "n_tools": 0,
+   "tool_tokens": 0,
+   "t": 1791322043.2424872
+  },
+  {
+   "type": "request_tools",
+   "capability": "send messages and replies in Microsoft Teams channels",
+   "added": [
+    "ms_teams.get_channel_messages",
+    "ms_teams.reply_to_channel_message",
+    "ms_teams.send_channel_message",
+    "ms_teams.list_channels",
+    "ms_teams.list_teams"
+   ],
+   "tool_tokens": 770,
+   "t": 1791322056.9738076
+  },
+  {
+   "type": "call",
+   "tool": "ms_teams__reply_to_channel_message",
+   "valid": true,
+   "t": 1791322070.8662999
+  }
+ ],
+ "done": true,
+ "t_done": 1791322076.2741742,
+ "final": ""
+}
