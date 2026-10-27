@@ -1,0 +1,24 @@
+{
+ "session_len": 5,
+ "n_sessions": 40,
+ "policies": {
+  "static": {
+   "usd_per_session": 0.16410507000000002,
+   "cache_read_share": 0.9919810230322224,
+   "tool_tokens_per_turn": 96774.0,
+   "full_cover": 1.0
+  },
+  "canonical": {
+   "usd_per_session": 0.044622172499999994,
+   "cache_read_share": 0.24298419841397811,
+   "tool_tokens_per_turn": 2323.985,
+   "full_cover": 0.925
+  },
+  "sticky": {
+   "usd_per_session": 0.0663938775,
+   "cache_read_share": 0.45954233804264427,
+   "tool_tokens_per_turn": 5277.505,
+   "full_cover": 0.92
+  }
+ }
+}

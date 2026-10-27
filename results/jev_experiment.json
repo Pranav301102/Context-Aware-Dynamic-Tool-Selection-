@@ -1,0 +1,730 @@
+[
+ {
+  "strategy": "improved CATS (no Jev)",
+  "n": 386,
+  "slot_recall": 0.9559585492227979,
+  "slot_recall_ci": [
+   0.9378238341968912,
+   0.9723661485319517
+  ],
+  "full_cover": 0.9300518134715026,
+  "full_cover_ci": [
+   0.9041450777202072,
+   0.9533678756476683
+  ],
+  "precision": 0.12935681546432842,
+  "k_mean": 10.637305699481866,
+  "tool_tokens": 2258.5751295336786,
+  "token_pct_static": 2.333865634916071,
+  "router_tokens": 0.0,
+  "router_call_rate": 0.0,
+  "latency_p50_ms": 6.647871500035762,
+  "latency_p95_ms": 20.885022749951077,
+  "branch_cover": 0.9870466321243523,
+  "branches_mean": 3.577720207253886,
+  "fallback_rate": 0.0,
+  "by_kind": {
+   "contextual": {
+    "n": 60,
+    "slot_recall": 0.9833333333333333,
+    "full_cover": 0.9833333333333333,
+    "k_mean": 10.2
+   },
+   "cross": {
+    "n": 50,
+    "slot_recall": 0.9,
+    "full_cover": 0.78,
+    "k_mean": 11.92
+   },
+   "literal": {
+    "n": 84,
+    "slot_recall": 1.0,
+    "full_cover": 1.0,
+    "k_mean": 10.0
+   },
+   "multi": {
+    "n": 60,
+    "slot_recall": 0.9333333333333333,
+    "full_cover": 0.8666666666666667,
+    "k_mean": 12.0
+   },
+   "paraphrase": {
+    "n": 132,
+    "slot_recall": 0.946969696969697,
+    "full_cover": 0.946969696969697,
+    "k_mean": 10.136363636363637
+   }
+  },
+  "routing_usd_per_1k_requests": 0.0,
+  "calibration": {
+   "n": 191,
+   "n_branch": 96,
+   "n_tool": 95,
+   "branch_threshold": 0.9998873735396959,
+   "lambda": 0.0,
+   "tool_target_feasible": false,
+   "min_achievable_alpha_tool": 0.0625,
+   "alpha_branch": 0.03,
+   "alpha_tool": 0.05,
+   "method": "lac",
+   "k_max": 10,
+   "k_min": 1,
+   "t_low": 0.0,
+   "max_branches": null,
+   "budget": 8000,
+   "order": "canonical",
+   "reranker": "logreg",
+   "calibration": "joint",
+   "k_escalation": 5,
+   "bypass_tokens": 0,
+   "llm_router": null,
+   "decompose": true,
+   "k_per_extra_part": 3,
+   "dedupe": true,
+   "split_calibration": true,
+   "jev": null,
+   "jev_cascade": true,
+   "jev_gate_tau": 0.9,
+   "jev_steps": true,
+   "jev_repair": 0.5,
+   "jev_repair_k": 2
+  }
+ },
+ {
+  "strategy": "+ Jev prior, always called",
+  "n": 386,
+  "slot_recall": 0.9576856649395509,
+  "slot_recall_ci": [
+   0.940403713298791,
+   0.9736614853195165
+  ],
+  "full_cover": 0.9352331606217616,
+  "full_cover_ci": [
+   0.9093264248704663,
+   0.9585492227979274
+  ],
+  "precision": 0.22652996830457975,
+  "k_mean": 7.7979274611398965,
+  "tool_tokens": 1677.1476683937824,
+  "token_pct_static": 1.7330560567856887,
+  "router_tokens": 1454.0362694300518,
+  "router_call_rate": 1.0,
+  "latency_p50_ms": 32.98898100001679,
+  "latency_p95_ms": 96.15354899995054,
+  "branch_cover": 0.9922279792746114,
+  "branches_mean": 1.3756476683937824,
+  "fallback_rate": 0.0,
+  "by_kind": {
+   "contextual": {
+    "n": 60,
+    "slot_recall": 0.9833333333333333,
+    "full_cover": 0.9833333333333333,
+    "k_mean": 8.0
+   },
+   "cross": {
+    "n": 50,
+    "slot_recall": 0.8833333333333334,
+    "full_cover": 0.76,
+    "k_mean": 10.94
+   },
+   "literal": {
+    "n": 84,
+    "slot_recall": 1.0,
+    "full_cover": 1.0,
+    "k_mean": 5.190476190476191
+   },
+   "multi": {
+    "n": 60,
+    "slot_recall": 0.9583333333333334,
+    "full_cover": 0.9166666666666666,
+    "k_mean": 10.633333333333333
+   },
+   "paraphrase": {
+    "n": 132,
+    "slot_recall": 0.946969696969697,
+    "full_cover": 0.946969696969697,
+    "k_mean": 6.886363636363637
+   }
+  },
+  "routing_usd_per_1k_requests": 0.06106952331606218,
+  "calibration": {
+   "n": 191,
+   "n_branch": 96,
+   "n_tool": 95,
+   "branch_threshold": 0.9984157723307963,
+   "lambda": 0.015075376884422065,
+   "tool_target_feasible": true,
+   "min_achievable_alpha_tool": 0.04687499999999999,
+   "alpha_branch": 0.03,
+   "alpha_tool": 0.05,
+   "method": "lac",
+   "k_max": 10,
+   "k_min": 1,
+   "t_low": 0.0,
+   "max_branches": null,
+   "budget": 8000,
+   "order": "canonical",
+   "reranker": "logreg",
+   "calibration": "joint",
+   "k_escalation": 5,
+   "bypass_tokens": 0,
+   "llm_router": null,
+   "decompose": true,
+   "k_per_extra_part": 3,
+   "dedupe": true,
+   "split_calibration": true,
+   "jev": "/home/user/Context-Aware-Dynamic-Tool-Selection-/runs/jev",
+   "jev_cascade": false,
+   "jev_gate_tau": 0.9,
+   "jev_steps": false,
+   "jev_repair": null,
+   "jev_repair_k": 2
+  }
+ },
+ {
+  "strategy": "+ Jev prior, cascade-gated",
+  "n": 386,
+  "slot_recall": 0.9576856649395509,
+  "slot_recall_ci": [
+   0.940403713298791,
+   0.9736614853195165
+  ],
+  "full_cover": 0.9352331606217616,
+  "full_cover_ci": [
+   0.9093264248704663,
+   0.9585492227979274
+  ],
+  "precision": 0.22652996830457975,
+  "k_mean": 7.7979274611398965,
+  "tool_tokens": 1677.1476683937824,
+  "token_pct_static": 1.7330560567856887,
+  "router_tokens": 969.8056994818653,
+  "router_call_rate": 0.6658031088082902,
+  "latency_p50_ms": 11.873429000047508,
+  "latency_p95_ms": 44.288030500013065,
+  "branch_cover": 0.9870466321243523,
+  "branches_mean": 1.3704663212435233,
+  "fallback_rate": 0.0,
+  "by_kind": {
+   "contextual": {
+    "n": 60,
+    "slot_recall": 0.9833333333333333,
+    "full_cover": 0.9833333333333333,
+    "k_mean": 8.0
+   },
+   "cross": {
+    "n": 50,
+    "slot_recall": 0.8833333333333334,
+    "full_cover": 0.76,
+    "k_mean": 10.94
+   },
+   "literal": {
+    "n": 84,
+    "slot_recall": 1.0,
+    "full_cover": 1.0,
+    "k_mean": 5.190476190476191
+   },
+   "multi": {
+    "n": 60,
+    "slot_recall": 0.9583333333333334,
+    "full_cover": 0.9166666666666666,
+    "k_mean": 10.633333333333333
+   },
+   "paraphrase": {
+    "n": 132,
+    "slot_recall": 0.946969696969697,
+    "full_cover": 0.946969696969697,
+    "k_mean": 6.886363636363637
+   }
+  },
+  "routing_usd_per_1k_requests": 0.04073183937823835,
+  "calibration": {
+   "n": 191,
+   "n_branch": 96,
+   "n_tool": 95,
+   "branch_threshold": 0.9984157723307963,
+   "lambda": 0.015075376884422065,
+   "tool_target_feasible": true,
+   "min_achievable_alpha_tool": 0.04687499999999999,
+   "alpha_branch": 0.03,
+   "alpha_tool": 0.05,
+   "method": "lac",
+   "k_max": 10,
+   "k_min": 1,
+   "t_low": 0.0,
+   "max_branches": null,
+   "budget": 8000,
+   "order": "canonical",
+   "reranker": "logreg",
+   "calibration": "joint",
+   "k_escalation": 5,
+   "bypass_tokens": 0,
+   "llm_router": null,
+   "decompose": true,
+   "k_per_extra_part": 3,
+   "dedupe": true,
+   "split_calibration": true,
+   "jev": "/home/user/Context-Aware-Dynamic-Tool-Selection-/runs/jev",
+   "jev_cascade": true,
+   "jev_gate_tau": 0.9,
+   "jev_steps": false,
+   "jev_repair": null,
+   "jev_repair_k": 2
+  }
+ },
+ {
+  "strategy": "+ cascade + Jev step count",
+  "n": 386,
+  "slot_recall": 0.9589810017271156,
+  "slot_recall_ci": [
+   0.9421308290155439,
+   0.9749568221070812
+  ],
+  "full_cover": 0.9378238341968912,
+  "full_cover_ci": [
+   0.9145077720207254,
+   0.961139896373057
+  ],
+  "precision": 0.22398055312563084,
+  "k_mean": 8.033678756476684,
+  "tool_tokens": 1725.4015544041451,
+  "token_pct_static": 1.7829185053879608,
+  "router_tokens": 969.8056994818653,
+  "router_call_rate": 0.6658031088082902,
+  "latency_p50_ms": 21.938430500085815,
+  "latency_p95_ms": 80.40331749998586,
+  "branch_cover": 0.9870466321243523,
+  "branches_mean": 1.3704663212435233,
+  "fallback_rate": 0.0,
+  "by_kind": {
+   "contextual": {
+    "n": 60,
+    "slot_recall": 0.9833333333333333,
+    "full_cover": 0.9833333333333333,
+    "k_mean": 8.05
+   },
+   "cross": {
+    "n": 50,
+    "slot_recall": 0.8933333333333334,
+    "full_cover": 0.78,
+    "k_mean": 11.92
+   },
+   "literal": {
+    "n": 84,
+    "slot_recall": 1.0,
+    "full_cover": 1.0,
+    "k_mean": 5.190476190476191
+   },
+   "multi": {
+    "n": 60,
+    "slot_recall": 0.9583333333333334,
+    "full_cover": 0.9166666666666666,
+    "k_mean": 10.933333333333334
+   },
+   "paraphrase": {
+    "n": 132,
+    "slot_recall": 0.946969696969697,
+    "full_cover": 0.946969696969697,
+    "k_mean": 7.045454545454546
+   }
+  },
+  "routing_usd_per_1k_requests": 0.04073183937823835,
+  "calibration": {
+   "n": 191,
+   "n_branch": 96,
+   "n_tool": 95,
+   "branch_threshold": 0.9984157723307963,
+   "lambda": 0.015075376884422065,
+   "tool_target_feasible": true,
+   "min_achievable_alpha_tool": 0.04687499999999999,
+   "alpha_branch": 0.03,
+   "alpha_tool": 0.05,
+   "method": "lac",
+   "k_max": 10,
+   "k_min": 1,
+   "t_low": 0.0,
+   "max_branches": null,
+   "budget": 8000,
+   "order": "canonical",
+   "reranker": "logreg",
+   "calibration": "joint",
+   "k_escalation": 5,
+   "bypass_tokens": 0,
+   "llm_router": null,
+   "decompose": true,
+   "k_per_extra_part": 3,
+   "dedupe": true,
+   "split_calibration": true,
+   "jev": "/home/user/Context-Aware-Dynamic-Tool-Selection-/runs/jev",
+   "jev_cascade": true,
+   "jev_gate_tau": 0.9,
+   "jev_steps": true,
+   "jev_repair": null,
+   "jev_repair_k": 2
+  }
+ },
+ {
+  "strategy": "+ cascade + steps + branch repair (CATS-Jev)",
+  "n": 386,
+  "slot_recall": 0.96286701208981,
+  "slot_recall_ci": [
+   0.9464594127806564,
+   0.977979274611399
+  ],
+  "full_cover": 0.9430051813471503,
+  "full_cover_ci": [
+   0.9196891191709845,
+   0.9637305699481865
+  ],
+  "precision": 0.22124152473893408,
+  "k_mean": 8.075129533678757,
+  "tool_tokens": 1733.2461139896373,
+  "token_pct_static": 1.7910245665050915,
+  "router_tokens": 969.8056994818653,
+  "router_call_rate": 0.6658031088082902,
+  "latency_p50_ms": 67.11844350002139,
+  "latency_p95_ms": 216.91129975005197,
+  "branch_cover": 0.9870466321243523,
+  "branches_mean": 1.3704663212435233,
+  "fallback_rate": 0.0,
+  "by_kind": {
+   "contextual": {
+    "n": 60,
+    "slot_recall": 0.9833333333333333,
+    "full_cover": 0.9833333333333333,
+    "k_mean": 8.05
+   },
+   "cross": {
+    "n": 50,
+    "slot_recall": 0.9033333333333334,
+    "full_cover": 0.8,
+    "k_mean": 12.04
+   },
+   "literal": {
+    "n": 84,
+    "slot_recall": 1.0,
+    "full_cover": 1.0,
+    "k_mean": 5.214285714285714
+   },
+   "multi": {
+    "n": 60,
+    "slot_recall": 0.9583333333333334,
+    "full_cover": 0.9166666666666666,
+    "k_mean": 10.933333333333334
+   },
+   "paraphrase": {
+    "n": 132,
+    "slot_recall": 0.9545454545454546,
+    "full_cover": 0.9545454545454546,
+    "k_mean": 7.106060606060606
+   }
+  },
+  "routing_usd_per_1k_requests": 0.04073183937823835,
+  "calibration": {
+   "n": 191,
+   "n_branch": 96,
+   "n_tool": 95,
+   "branch_threshold": 0.9984157723307963,
+   "lambda": 0.015075376884422065,
+   "tool_target_feasible": true,
+   "min_achievable_alpha_tool": 0.04687499999999999,
+   "alpha_branch": 0.03,
+   "alpha_tool": 0.05,
+   "method": "lac",
+   "k_max": 10,
+   "k_min": 1,
+   "t_low": 0.0,
+   "max_branches": null,
+   "budget": 8000,
+   "order": "canonical",
+   "reranker": "logreg",
+   "calibration": "joint",
+   "k_escalation": 5,
+   "bypass_tokens": 0,
+   "llm_router": null,
+   "decompose": true,
+   "k_per_extra_part": 3,
+   "dedupe": true,
+   "split_calibration": true,
+   "jev": "/home/user/Context-Aware-Dynamic-Tool-Selection-/runs/jev",
+   "jev_cascade": true,
+   "jev_gate_tau": 0.9,
+   "jev_steps": true,
+   "jev_repair": 0.5,
+   "jev_repair_k": 2
+  }
+ },
+ {
+  "strategy": "CATS-Jev, Jev always called",
+  "n": 386,
+  "slot_recall": 0.9641623488773747,
+  "slot_recall_ci": [
+   0.9477547495682211,
+   0.9792746113989638
+  ],
+  "full_cover": 0.9455958549222798,
+  "full_cover_ci": [
+   0.9222797927461139,
+   0.9663860103626939
+  ],
+  "precision": 0.22015764891412562,
+  "k_mean": 8.106217616580311,
+  "tool_tokens": 1741.1191709844559,
+  "token_pct_static": 1.7991600750040877,
+  "router_tokens": 1454.0362694300518,
+  "router_call_rate": 1.0,
+  "latency_p50_ms": 89.33841750001648,
+  "latency_p95_ms": 268.2829522498764,
+  "branch_cover": 0.9922279792746114,
+  "branches_mean": 1.3756476683937824,
+  "fallback_rate": 0.0,
+  "by_kind": {
+   "contextual": {
+    "n": 60,
+    "slot_recall": 0.9833333333333333,
+    "full_cover": 0.9833333333333333,
+    "k_mean": 8.05
+   },
+   "cross": {
+    "n": 50,
+    "slot_recall": 0.9133333333333334,
+    "full_cover": 0.82,
+    "k_mean": 12.22
+   },
+   "literal": {
+    "n": 84,
+    "slot_recall": 1.0,
+    "full_cover": 1.0,
+    "k_mean": 5.214285714285714
+   },
+   "multi": {
+    "n": 60,
+    "slot_recall": 0.9583333333333334,
+    "full_cover": 0.9166666666666666,
+    "k_mean": 10.983333333333333
+   },
+   "paraphrase": {
+    "n": 132,
+    "slot_recall": 0.9545454545454546,
+    "full_cover": 0.9545454545454546,
+    "k_mean": 7.106060606060606
+   }
+  },
+  "routing_usd_per_1k_requests": 0.06106952331606218,
+  "calibration": {
+   "n": 191,
+   "n_branch": 96,
+   "n_tool": 95,
+   "branch_threshold": 0.9984157723307963,
+   "lambda": 0.015075376884422065,
+   "tool_target_feasible": true,
+   "min_achievable_alpha_tool": 0.04687499999999999,
+   "alpha_branch": 0.03,
+   "alpha_tool": 0.05,
+   "method": "lac",
+   "k_max": 10,
+   "k_min": 1,
+   "t_low": 0.0,
+   "max_branches": null,
+   "budget": 8000,
+   "order": "canonical",
+   "reranker": "logreg",
+   "calibration": "joint",
+   "k_escalation": 5,
+   "bypass_tokens": 0,
+   "llm_router": null,
+   "decompose": true,
+   "k_per_extra_part": 3,
+   "dedupe": true,
+   "split_calibration": true,
+   "jev": "/home/user/Context-Aware-Dynamic-Tool-Selection-/runs/jev",
+   "jev_cascade": false,
+   "jev_gate_tau": 0.9,
+   "jev_steps": true,
+   "jev_repair": 0.5,
+   "jev_repair_k": 2
+  }
+ },
+ {
+  "strategy": "CATS-Jev with keyword 'Jev' (heuristic)",
+  "n": 386,
+  "slot_recall": 0.9598445595854922,
+  "slot_recall_ci": [
+   0.9434369602763386,
+   0.9749568221070812
+  ],
+  "full_cover": 0.9352331606217616,
+  "full_cover_ci": [
+   0.9119170984455959,
+   0.9585492227979274
+  ],
+  "precision": 0.12260028251913348,
+  "k_mean": 11.463730569948186,
+  "tool_tokens": 2436.8056994818653,
+  "token_pct_static": 2.5180375922064453,
+  "router_tokens": 969.8056994818653,
+  "router_call_rate": 0.6658031088082902,
+  "latency_p50_ms": 95.23871450005572,
+  "latency_p95_ms": 281.0635972500677,
+  "branch_cover": 0.9818652849740933,
+  "branches_mean": 2.9637305699481864,
+  "fallback_rate": 0.0,
+  "by_kind": {
+   "contextual": {
+    "n": 60,
+    "slot_recall": 1.0,
+    "full_cover": 1.0,
+    "k_mean": 11.483333333333333
+   },
+   "cross": {
+    "n": 50,
+    "slot_recall": 0.91,
+    "full_cover": 0.8,
+    "k_mean": 13.18
+   },
+   "literal": {
+    "n": 84,
+    "slot_recall": 1.0,
+    "full_cover": 1.0,
+    "k_mean": 10.369047619047619
+   },
+   "multi": {
+    "n": 60,
+    "slot_recall": 0.9333333333333333,
+    "full_cover": 0.8666666666666667,
+    "k_mean": 12.683333333333334
+   },
+   "paraphrase": {
+    "n": 132,
+    "slot_recall": 0.946969696969697,
+    "full_cover": 0.946969696969697,
+    "k_mean": 10.946969696969697
+   }
+  },
+  "routing_usd_per_1k_requests": 0.04073183937823835,
+  "calibration": {
+   "n": 191,
+   "n_branch": 96,
+   "n_tool": 95,
+   "branch_threshold": 0.9997962857572008,
+   "lambda": 0.0,
+   "tool_target_feasible": false,
+   "min_achievable_alpha_tool": 0.05208333333333333,
+   "alpha_branch": 0.03,
+   "alpha_tool": 0.05,
+   "method": "lac",
+   "k_max": 10,
+   "k_min": 1,
+   "t_low": 0.0,
+   "max_branches": null,
+   "budget": 8000,
+   "order": "canonical",
+   "reranker": "logreg",
+   "calibration": "joint",
+   "k_escalation": 5,
+   "bypass_tokens": 0,
+   "llm_router": null,
+   "decompose": true,
+   "k_per_extra_part": 3,
+   "dedupe": true,
+   "split_calibration": true,
+   "jev": "/home/user/Context-Aware-Dynamic-Tool-Selection-/runs/jev_keyword",
+   "jev_cascade": true,
+   "jev_gate_tau": 0.9,
+   "jev_steps": true,
+   "jev_repair": 0.5,
+   "jev_repair_k": 2
+  }
+ },
+ {
+  "strategy": "LLM router prior, always called",
+  "n": 386,
+  "slot_recall": 0.9615716753022452,
+  "slot_recall_ci": [
+   0.9455958549222798,
+   0.9766839378238342
+  ],
+  "full_cover": 0.9378238341968912,
+  "full_cover_ci": [
+   0.9119170984455959,
+   0.961139896373057
+  ],
+  "precision": 0.22999076341045252,
+  "k_mean": 7.696891191709844,
+  "tool_tokens": 1660.2487046632125,
+  "token_pct_static": 1.7155937593395048,
+  "router_tokens": 1071.9870466321242,
+  "router_call_rate": 1.0,
+  "latency_p50_ms": 66.85991850008577,
+  "latency_p95_ms": 233.26332274996275,
+  "branch_cover": 0.9818652849740933,
+  "branches_mean": 1.2461139896373057,
+  "fallback_rate": 0.0,
+  "by_kind": {
+   "contextual": {
+    "n": 60,
+    "slot_recall": 1.0,
+    "full_cover": 1.0,
+    "k_mean": 7.933333333333334
+   },
+   "cross": {
+    "n": 50,
+    "slot_recall": 0.8733333333333334,
+    "full_cover": 0.74,
+    "k_mean": 10.82
+   },
+   "literal": {
+    "n": 84,
+    "slot_recall": 1.0,
+    "full_cover": 1.0,
+    "k_mean": 5.190476190476191
+   },
+   "multi": {
+    "n": 60,
+    "slot_recall": 0.9583333333333334,
+    "full_cover": 0.9166666666666666,
+    "k_mean": 10.55
+   },
+   "paraphrase": {
+    "n": 132,
+    "slot_recall": 0.9545454545454546,
+    "full_cover": 0.9545454545454546,
+    "k_mean": 6.704545454545454
+   }
+  },
+  "routing_usd_per_1k_requests": 3.2159611398963723,
+  "calibration": {
+   "n": 191,
+   "n_branch": 96,
+   "n_tool": 95,
+   "branch_threshold": 0.9960008530785229,
+   "lambda": 0.015075376884422065,
+   "tool_target_feasible": true,
+   "min_achievable_alpha_tool": 0.04687499999999999,
+   "alpha_branch": 0.03,
+   "alpha_tool": 0.05,
+   "method": "lac",
+   "k_max": 10,
+   "k_min": 1,
+   "t_low": 0.0,
+   "max_branches": null,
+   "budget": 8000,
+   "order": "canonical",
+   "reranker": "logreg",
+   "calibration": "joint",
+   "k_escalation": 5,
+   "bypass_tokens": 0,
+   "llm_router": "/home/user/Context-Aware-Dynamic-Tool-Selection-/runs/llm_router",
+   "decompose": true,
+   "k_per_extra_part": 3,
+   "dedupe": true,
+   "split_calibration": true,
+   "jev": null,
+   "jev_cascade": true,
+   "jev_gate_tau": 0.9,
+   "jev_steps": true,
+   "jev_repair": 0.5,
+   "jev_repair_k": 2
+  }
+ }
+]

@@ -1,0 +1,83 @@
+{
+ "config": {
+  "alpha_branch": 0.03,
+  "alpha_tool": 0.05,
+  "method": "lac",
+  "k_max": 10,
+  "k_min": 1,
+  "t_low": 0.0,
+  "max_branches": null,
+  "budget": 8000,
+  "order": "canonical",
+  "reranker": "logreg",
+  "calibration": "joint",
+  "k_escalation": 5,
+  "bypass_tokens": 0,
+  "llm_router": null,
+  "decompose": true,
+  "k_per_extra_part": 3,
+  "dedupe": true,
+  "split_calibration": true
+ },
+ "rows": [
+  {
+   "seed": 0,
+   "branch_cover": 0.9870466321243523,
+   "slot_miss": 0.04404145077720212,
+   "full_cover": 0.9300518134715026,
+   "k_mean": 10.637305699481866,
+   "branches_mean": 3.577720207253886,
+   "token_pct_static": 2.333865634916071,
+   "lambda": 0.0,
+   "t_branch": 0.9998873735710355
+  },
+  {
+   "seed": 1,
+   "branch_cover": 0.9715025906735751,
+   "slot_miss": 0.061744386873920476,
+   "full_cover": 0.9119170984455959,
+   "k_mean": 6.246113989637306,
+   "branches_mean": 2.1917098445595853,
+   "token_pct_static": 1.3862140850361147,
+   "lambda": 0.035175879396984966,
+   "t_branch": 0.9976320652769901
+  },
+  {
+   "seed": 2,
+   "branch_cover": 0.9792746113989638,
+   "slot_miss": 0.04749568221070821,
+   "full_cover": 0.927461139896373,
+   "k_mean": 7.020725388601036,
+   "branches_mean": 2.1139896373056994,
+   "token_pct_static": 1.5208234216123009,
+   "lambda": 0.025125628140703515,
+   "t_branch": 0.9971119279765104
+  },
+  {
+   "seed": 3,
+   "branch_cover": 0.9922279792746114,
+   "slot_miss": 0.06908462867012077,
+   "full_cover": 0.8989637305699482,
+   "k_mean": 5.632124352331606,
+   "branches_mean": 2.639896373056995,
+   "token_pct_static": 1.2042881598716566,
+   "lambda": 0.04020100502512558,
+   "t_branch": 0.9995462345249561
+  },
+  {
+   "seed": 4,
+   "branch_cover": 0.9896373056994818,
+   "slot_miss": 0.03540587219343683,
+   "full_cover": 0.9481865284974094,
+   "k_mean": 10.528497409326425,
+   "branches_mean": 3.7487046632124352,
+   "token_pct_static": 2.3050500332434174,
+   "lambda": 0.0,
+   "t_branch": 0.9995609289589079
+  }
+ ],
+ "branch_cover_mean": 0.9839378238341968,
+ "branch_target": 0.97,
+ "slot_miss_mean": 0.051554404145077684,
+ "slot_miss_target": 0.05
+}

@@ -1,0 +1,921 @@
+{
+ "generated_by": "scripts/corpus_stats.py",
+ "corpus": {
+  "branches": 12,
+  "toolkits": 70,
+  "tools": 477,
+  "static_tokens": 96774,
+  "tokenizer": "hf:tokenizer.json",
+  "per_branch": {
+   "cloud_ops": {
+    "toolkits": 6,
+    "tools": 44,
+    "tokens": 9637,
+    "median_token_cost": 199.0
+   },
+   "code_exec": {
+    "toolkits": 6,
+    "tools": 40,
+    "tokens": 6648,
+    "median_token_cost": 153.5
+   },
+   "communication": {
+    "toolkits": 5,
+    "tools": 37,
+    "tokens": 5799,
+    "median_token_cost": 111.0
+   },
+   "crm_commerce": {
+    "toolkits": 5,
+    "tools": 42,
+    "tokens": 8353,
+    "median_token_cost": 193.5
+   },
+   "database": {
+    "toolkits": 6,
+    "tools": 43,
+    "tokens": 5621,
+    "median_token_cost": 107.0
+   },
+   "dev_platform": {
+    "toolkits": 6,
+    "tools": 44,
+    "tokens": 10625,
+    "median_token_cost": 235.5
+   },
+   "files_docs": {
+    "toolkits": 6,
+    "tools": 38,
+    "tokens": 7167,
+    "median_token_cost": 176.5
+   },
+   "finance": {
+    "toolkits": 6,
+    "tools": 44,
+    "tokens": 8834,
+    "median_token_cost": 153.0
+   },
+   "media": {
+    "toolkits": 6,
+    "tools": 38,
+    "tokens": 7845,
+    "median_token_cost": 171.5
+   },
+   "productivity": {
+    "toolkits": 6,
+    "tools": 36,
+    "tokens": 9939,
+    "median_token_cost": 210.5
+   },
+   "search": {
+    "toolkits": 6,
+    "tools": 34,
+    "tokens": 7856,
+    "median_token_cost": 183.0
+   },
+   "travel_geo": {
+    "toolkits": 6,
+    "tools": 37,
+    "tokens": 8450,
+    "median_token_cost": 175.0
+   }
+  },
+  "tools_per_toolkit": {
+   "n": 70,
+   "min": 1.0,
+   "p10": 4.0,
+   "p25": 5.0,
+   "median": 7.0,
+   "mean": 6.81,
+   "p75": 8.0,
+   "p90": 10.0,
+   "p99": 13.620000000000005,
+   "max": 15.0,
+   "sum": 477.0
+  },
+  "token_cost": {
+   "n": 477,
+   "min": 35.0,
+   "p10": 69.0,
+   "p25": 104.0,
+   "median": 171.0,
+   "mean": 202.88,
+   "p75": 256.0,
+   "p90": 375.80000000000007,
+   "p99": 666.6400000000001,
+   "max": 989.0,
+   "sum": 96774.0
+  },
+  "token_cost_share": {
+   "under_100": 0.22851153039832284,
+   "over_500": 0.033542976939203356,
+   "top_10pct_tools_token_share": 0.2470498274329882
+  },
+  "description": {
+   "words": {
+    "n": 477,
+    "min": 2.0,
+    "p10": 5.0,
+    "p25": 7.0,
+    "median": 12.0,
+    "mean": 17.9,
+    "p75": 23.0,
+    "p90": 38.0,
+    "p99": 83.24000000000001,
+    "max": 108.0,
+    "sum": 8539.0
+   },
+   "sentences": {
+    "n": 477,
+    "min": 1.0,
+    "p10": 1.0,
+    "p25": 1.0,
+    "median": 1.0,
+    "mean": 1.56,
+    "p75": 2.0,
+    "p90": 3.0,
+    "p99": 5.240000000000009,
+    "max": 6.0,
+    "sum": 744.0
+   },
+   "terse_share_under_10_words": 0.40041928721174,
+   "very_terse_share_under_5_words": 0.0880503144654088,
+   "over_40_words_share": 0.09433962264150944
+  },
+  "schema": {
+   "params_per_tool": {
+    "n": 477,
+    "min": 0.0,
+    "p10": 1.0,
+    "p25": 2.0,
+    "median": 3.0,
+    "mean": 4.24,
+    "p75": 6.0,
+    "p90": 9.0,
+    "p99": 13.240000000000009,
+    "max": 15.0,
+    "sum": 2022.0
+   },
+   "no_params_share": 0.029350104821802937,
+   "required_per_tool": {
+    "n": 477,
+    "min": 0.0,
+    "p10": 0.0,
+    "p25": 1.0,
+    "median": 1.0,
+    "mean": 1.32,
+    "p75": 2.0,
+    "p90": 3.0,
+    "p99": 4.0,
+    "max": 5.0,
+    "sum": 630.0
+   },
+   "param_description_share": 0.7230464886251237,
+   "tools_with_enum_share": 0.34591194968553457,
+   "tools_with_array_share": 0.24737945492662475,
+   "tools_with_nested_object_share": 0.20125786163522014
+  },
+  "shared_tool_names": {
+   "names_in_2plus_toolkits": 18,
+   "tools_with_shared_name": 42,
+   "examples": {
+    "create_issue": [
+     "github",
+     "gitlab",
+     "jira",
+     "linear"
+    ],
+    "update_issue": [
+     "github",
+     "jira",
+     "linear",
+     "sentry"
+    ],
+    "list_issues": [
+     "github",
+     "gitlab",
+     "linear"
+    ],
+    "search_issues": [
+     "github",
+     "jira",
+     "sentry"
+    ],
+    "list_incidents": [
+     "datadog",
+     "pagerduty"
+    ],
+    "list_channels": [
+     "ms_teams",
+     "slack"
+    ],
+    "add_reaction": [
+     "discord",
+     "slack"
+    ],
+    "search": [
+     "coingecko",
+     "zendesk"
+    ]
+   }
+  }
+ },
+ "tasks": {
+  "total": 960,
+  "by_file": {
+   "cloud_ops": 70,
+   "code_exec": 70,
+   "communication": 70,
+   "crm_commerce": 70,
+   "cross": 120,
+   "database": 70,
+   "dev_platform": 70,
+   "files_docs": 70,
+   "finance": 70,
+   "media": 70,
+   "productivity": 70,
+   "search": 70,
+   "travel_geo": 70
+  },
+  "by_kind": {
+   "literal": 216,
+   "paraphrase": 312,
+   "multi": 168,
+   "contextual": 144,
+   "cross": 120
+  },
+  "by_branch_kind": {
+   "cloud_ops": {
+    "literal": 18,
+    "paraphrase": 26,
+    "multi": 14,
+    "contextual": 12
+   },
+   "code_exec": {
+    "paraphrase": 26,
+    "multi": 14,
+    "literal": 18,
+    "contextual": 12
+   },
+   "communication": {
+    "literal": 18,
+    "paraphrase": 26,
+    "multi": 14,
+    "contextual": 12
+   },
+   "crm_commerce": {
+    "literal": 18,
+    "multi": 14,
+    "paraphrase": 26,
+    "contextual": 12
+   },
+   "database": {
+    "contextual": 12,
+    "paraphrase": 26,
+    "literal": 18,
+    "multi": 14
+   },
+   "dev_platform": {
+    "literal": 18,
+    "paraphrase": 26,
+    "multi": 14,
+    "contextual": 12
+   },
+   "files_docs": {
+    "literal": 18,
+    "paraphrase": 26,
+    "multi": 14,
+    "contextual": 12
+   },
+   "finance": {
+    "literal": 18,
+    "paraphrase": 26,
+    "multi": 14,
+    "contextual": 12
+   },
+   "media": {
+    "paraphrase": 26,
+    "literal": 18,
+    "multi": 14,
+    "contextual": 12
+   },
+   "multi-branch": {
+    "cross": 120
+   },
+   "productivity": {
+    "literal": 18,
+    "paraphrase": 26,
+    "multi": 14,
+    "contextual": 12
+   },
+   "search": {
+    "multi": 14,
+    "paraphrase": 26,
+    "contextual": 12,
+    "literal": 18
+   },
+   "travel_geo": {
+    "multi": 14,
+    "paraphrase": 26,
+    "contextual": 12,
+    "literal": 18
+   }
+  },
+  "difficulty": {
+   "definition": "hardest gold slot's best BM25 rank over plain tool documents (query + history); easy <= 3, medium <= 20, hard otherwise",
+   "by_tier": {
+    "easy": 477,
+    "hard": 219,
+    "medium": 264
+   },
+   "bm25_rank": {
+    "n": 960,
+    "min": 1.0,
+    "p10": 1.0,
+    "p25": 1.0,
+    "median": 4.0,
+    "mean": 64.76,
+    "p75": 16.0,
+    "p90": 477.0,
+    "p99": 477.0,
+    "max": 477.0,
+    "sum": 62167.0
+   },
+   "by_kind_tier": {
+    "contextual": {
+     "easy": 92,
+     "medium": 37,
+     "hard": 15
+    },
+    "cross": {
+     "easy": 15,
+     "medium": 54,
+     "hard": 51
+    },
+    "literal": {
+     "easy": 212,
+     "medium": 4
+    },
+    "multi": {
+     "hard": 37,
+     "easy": 54,
+     "medium": 77
+    },
+    "paraphrase": {
+     "hard": 116,
+     "medium": 92,
+     "easy": 104
+    }
+   },
+   "by_branch_tier": {
+    "cloud_ops": {
+     "easy": 42,
+     "hard": 15,
+     "medium": 13
+    },
+    "code_exec": {
+     "medium": 23,
+     "hard": 11,
+     "easy": 36
+    },
+    "communication": {
+     "easy": 41,
+     "hard": 4,
+     "medium": 25
+    },
+    "crm_commerce": {
+     "easy": 42,
+     "medium": 14,
+     "hard": 14
+    },
+    "database": {
+     "easy": 38,
+     "medium": 22,
+     "hard": 10
+    },
+    "dev_platform": {
+     "easy": 42,
+     "medium": 21,
+     "hard": 7
+    },
+    "files_docs": {
+     "easy": 34,
+     "medium": 16,
+     "hard": 20
+    },
+    "finance": {
+     "easy": 40,
+     "hard": 19,
+     "medium": 11
+    },
+    "media": {
+     "hard": 19,
+     "easy": 32,
+     "medium": 19
+    },
+    "multi-branch": {
+     "easy": 15,
+     "medium": 54,
+     "hard": 51
+    },
+    "productivity": {
+     "easy": 41,
+     "hard": 6,
+     "medium": 23
+    },
+    "search": {
+     "easy": 32,
+     "hard": 23,
+     "medium": 15
+    },
+    "travel_geo": {
+     "easy": 42,
+     "hard": 20,
+     "medium": 8
+    }
+   }
+  },
+  "slots_per_task": {
+   "1": 672,
+   "2": 255,
+   "3": 33
+  },
+  "tools_per_slot": {
+   "n": 1281,
+   "min": 1.0,
+   "p10": 1.0,
+   "p25": 1.0,
+   "median": 1.0,
+   "mean": 1.17,
+   "p75": 1.0,
+   "p90": 2.0,
+   "p99": 3.0,
+   "max": 5.0,
+   "sum": 1494.0
+  },
+  "slots_with_2plus_equivalent_tools_share": 0.13114754098360656,
+  "branches_per_task": {
+   "1": 840,
+   "2": 118,
+   "3": 2
+  },
+  "history": {
+   "tasks_with_history": 164,
+   "turns": {
+    "n": 164,
+    "min": 2.0,
+    "p10": 2.0,
+    "p25": 2.0,
+    "median": 2.0,
+    "mean": 2.01,
+    "p75": 2.0,
+    "p90": 2.0,
+    "p99": 2.0,
+    "max": 4.0,
+    "sum": 330.0
+   }
+  },
+  "query_words": {
+   "n": 960,
+   "min": 2.0,
+   "p10": 6.900000000000006,
+   "p25": 9.0,
+   "median": 13.0,
+   "mean": 13.03,
+   "p75": 16.0,
+   "p90": 20.0,
+   "p99": 26.0,
+   "max": 37.0,
+   "sum": 12513.0
+  },
+  "vendor_named_share": 0.4552083333333333,
+  "gold_coverage": {
+   "tools_used_as_gold": 469,
+   "share_of_tools": 0.9832285115303984,
+   "never_gold_by_branch": {
+    "cloud_ops": 3,
+    "crm_commerce": 2,
+    "files_docs": 1,
+    "travel_geo": 2
+   },
+   "gold_uses_per_tool": {
+    "n": 469,
+    "min": 1.0,
+    "p10": 1.0,
+    "p25": 2.0,
+    "median": 3.0,
+    "mean": 3.19,
+    "p75": 4.0,
+    "p90": 6.0,
+    "p99": 12.319999999999993,
+    "max": 17.0,
+    "sum": 1494.0
+   }
+  },
+  "splits": {
+   "seed": 0,
+   "fractions": [
+    0.4,
+    0.2,
+    0.4
+   ],
+   "stratified_by": "first branch x kind",
+   "train": {
+    "total": 383,
+    "contextual": 60,
+    "cross": 47,
+    "literal": 84,
+    "multi": 72,
+    "paraphrase": 120
+   },
+   "calibration": {
+    "total": 191,
+    "contextual": 24,
+    "cross": 23,
+    "literal": 48,
+    "multi": 36,
+    "paraphrase": 60
+   },
+   "test": {
+    "total": 386,
+    "contextual": 60,
+    "cross": 50,
+    "literal": 84,
+    "multi": 60,
+    "paraphrase": 132
+   }
+  }
+ },
+ "distractors": {
+  "branches": 24,
+  "toolkits": 105,
+  "tools": 684,
+  "static_tokens": 102453,
+  "tokenizer": "hf:tokenizer.json",
+  "per_branch": {
+   "agriculture": {
+    "toolkits": 4,
+    "tools": 26,
+    "tokens": 3182,
+    "median_token_cost": 103.0
+   },
+   "analytics_bi": {
+    "toolkits": 4,
+    "tools": 28,
+    "tokens": 4303,
+    "median_token_cost": 136.5
+   },
+   "automotive": {
+    "toolkits": 4,
+    "tools": 29,
+    "tokens": 3206,
+    "median_token_cost": 98.0
+   },
+   "design_creative": {
+    "toolkits": 4,
+    "tools": 28,
+    "tokens": 3701,
+    "median_token_cost": 108.5
+   },
+   "education": {
+    "toolkits": 4,
+    "tools": 27,
+    "tokens": 5096,
+    "median_token_cost": 174.0
+   },
+   "energy_utilities": {
+    "toolkits": 5,
+    "tools": 26,
+    "tokens": 2911,
+    "median_token_cost": 95.0
+   },
+   "food_delivery": {
+    "toolkits": 5,
+    "tools": 30,
+    "tokens": 4725,
+    "median_token_cost": 127.5
+   },
+   "gaming": {
+    "toolkits": 4,
+    "tools": 29,
+    "tokens": 3895,
+    "median_token_cost": 126.0
+   },
+   "government_civic": {
+    "toolkits": 5,
+    "tools": 26,
+    "tokens": 4089,
+    "median_token_cost": 114.0
+   },
+   "healthcare": {
+    "toolkits": 4,
+    "tools": 31,
+    "tokens": 6129,
+    "median_token_cost": 189.0
+   },
+   "hr_recruiting": {
+    "toolkits": 4,
+    "tools": 29,
+    "tokens": 4651,
+    "median_token_cost": 127.0
+   },
+   "insurance": {
+    "toolkits": 4,
+    "tools": 26,
+    "tokens": 4415,
+    "median_token_cost": 149.0
+   },
+   "iot_smart_home": {
+    "toolkits": 5,
+    "tools": 32,
+    "tokens": 3611,
+    "median_token_cost": 106.5
+   },
+   "knowledge_qa": {
+    "toolkits": 5,
+    "tools": 27,
+    "tokens": 3037,
+    "median_token_cost": 96.0
+   },
+   "legal": {
+    "toolkits": 4,
+    "tools": 31,
+    "tokens": 5695,
+    "median_token_cost": 140.0
+   },
+   "logistics": {
+    "toolkits": 5,
+    "tools": 27,
+    "tokens": 4955,
+    "median_token_cost": 131.0
+   },
+   "marketing_ads": {
+    "toolkits": 3,
+    "tools": 31,
+    "tokens": 6705,
+    "median_token_cost": 163.0
+   },
+   "music_audio": {
+    "toolkits": 4,
+    "tools": 26,
+    "tokens": 3067,
+    "median_token_cost": 88.0
+   },
+   "nonprofit_events": {
+    "toolkits": 4,
+    "tools": 26,
+    "tokens": 3694,
+    "median_token_cost": 115.5
+   },
+   "real_estate": {
+    "toolkits": 4,
+    "tools": 26,
+    "tokens": 4066,
+    "median_token_cost": 126.5
+   },
+   "research_science": {
+    "toolkits": 5,
+    "tools": 30,
+    "tokens": 4412,
+    "median_token_cost": 115.5
+   },
+   "security": {
+    "toolkits": 5,
+    "tools": 35,
+    "tokens": 4915,
+    "median_token_cost": 124.0
+   },
+   "social_media": {
+    "toolkits": 5,
+    "tools": 31,
+    "tokens": 4637,
+    "median_token_cost": 127.0
+   },
+   "sports_fitness": {
+    "toolkits": 5,
+    "tools": 27,
+    "tokens": 3356,
+    "median_token_cost": 111.0
+   }
+  },
+  "tools_per_toolkit": {
+   "n": 105,
+   "min": 3.0,
+   "p10": 4.0,
+   "p25": 5.0,
+   "median": 6.0,
+   "mean": 6.51,
+   "p75": 8.0,
+   "p90": 9.0,
+   "p99": 12.959999999999994,
+   "max": 13.0,
+   "sum": 684.0
+  },
+  "token_cost": {
+   "n": 684,
+   "min": 34.0,
+   "p10": 63.0,
+   "p25": 85.0,
+   "median": 123.5,
+   "mean": 149.79,
+   "p75": 185.0,
+   "p90": 265.70000000000005,
+   "p99": 513.3799999999994,
+   "max": 936.0,
+   "sum": 102453.0
+  },
+  "token_cost_share": {
+   "under_100": 0.36257309941520466,
+   "over_500": 0.013157894736842105,
+   "top_10pct_tools_token_share": 0.252535308873337
+  },
+  "description": {
+   "words": {
+    "n": 684,
+    "min": 2.0,
+    "p10": 3.0,
+    "p25": 6.0,
+    "median": 10.0,
+    "mean": 10.45,
+    "p75": 14.0,
+    "p90": 18.0,
+    "p99": 26.16999999999996,
+    "max": 32.0,
+    "sum": 7149.0
+   },
+   "sentences": {
+    "n": 684,
+    "min": 1.0,
+    "p10": 1.0,
+    "p25": 1.0,
+    "median": 1.0,
+    "mean": 1.12,
+    "p75": 1.0,
+    "p90": 2.0,
+    "p99": 3.0,
+    "max": 3.0,
+    "sum": 763.0
+   },
+   "terse_share_under_10_words": 0.44298245614035087,
+   "very_terse_share_under_5_words": 0.18859649122807018,
+   "over_40_words_share": 0.0
+  },
+  "schema": {
+   "params_per_tool": {
+    "n": 684,
+    "min": 0.0,
+    "p10": 1.0,
+    "p25": 2.0,
+    "median": 3.0,
+    "mean": 3.58,
+    "p75": 5.0,
+    "p90": 7.0,
+    "p99": 11.0,
+    "max": 14.0,
+    "sum": 2447.0
+   },
+   "no_params_share": 0.021929824561403508,
+   "required_per_tool": {
+    "n": 684,
+    "min": 0.0,
+    "p10": 0.0,
+    "p25": 1.0,
+    "median": 1.0,
+    "mean": 1.37,
+    "p75": 2.0,
+    "p90": 3.0,
+    "p99": 5.0,
+    "max": 6.0,
+    "sum": 936.0
+   },
+   "param_description_share": 0.6346546791990192,
+   "tools_with_enum_share": 0.35964912280701755,
+   "tools_with_array_share": 0.24415204678362573,
+   "tools_with_nested_object_share": 0.15497076023391812
+  },
+  "shared_tool_names": {
+   "names_in_2plus_toolkits": 16,
+   "tools_with_shared_name": 35,
+   "examples": {
+    "list_orders": [
+     "shipbob",
+     "ticket_tailor",
+     "toast_pos",
+     "ubereats_merchant"
+    ],
+    "list_devices": [
+     "arable",
+     "google_nest",
+     "smartthings"
+    ],
+    "create_card": [
+     "guru",
+     "metabase"
+    ],
+    "list_events": [
+     "mixpanel",
+     "ticket_tailor"
+    ],
+    "list_vehicles": [
+     "samsara_fleet",
+     "smartcar"
+    ],
+    "reschedule_appointment": [
+     "athena_scheduling",
+     "xtime_service"
+    ],
+    "cancel_appointment": [
+     "athena_scheduling",
+     "xtime_service"
+    ],
+    "list_comments": [
+     "figma",
+     "instagram_graph"
+    ]
+   }
+  }
+ },
+ "enrichment": {
+  "tools_covered": 477,
+  "tools_total": 477,
+  "requests": 2862,
+  "per_tool": {
+   "6": 477
+  },
+  "words": {
+   "n": 2862,
+   "min": 2.0,
+   "p10": 5.0,
+   "p25": 8.0,
+   "median": 11.0,
+   "mean": 13.33,
+   "p75": 15.0,
+   "p90": 27.0,
+   "p99": 35.0,
+   "max": 45.0,
+   "sum": 38154.0
+  },
+  "terse_share_under_6_words": 0.11285814116002796,
+  "median_words_by_position": {
+   "1": 11.0,
+   "2": 12.0,
+   "3": 5.0,
+   "4": 11.0,
+   "5": 12.0,
+   "6": 28.0
+  },
+  "vendor_named_share": 0.20090845562543674,
+  "exact_duplicates": 0,
+  "leakage_audit": {
+   "requests": 2862,
+   "tools": 477,
+   "task_texts": 1228,
+   "ngram": 8,
+   "flagged": 8,
+   "flagged_share": 0.002795248078266946,
+   "flagged_tools": 7,
+   "examples": [
+    {
+     "tool_id": "postgres.list_schemas",
+     "request": "List all schemas in the Postgres database.",
+     "shared": "list all schemas in the postgres database"
+    },
+    {
+     "tool_id": "sqlite.list_tables",
+     "request": "List all tables in the SQLite database.",
+     "shared": "list all tables in the sqlite database"
+    },
+    {
+     "tool_id": "github.rerun_failed_jobs",
+     "request": "Re-run the failed jobs in GitHub Actions run 123456789 for acme/api.",
+     "shared": "re run the failed jobs in github actions"
+    },
+    {
+     "tool_id": "notion.notion_fetch",
+     "request": "Fetch the Notion page https://www.notion.so/acme/Hiring-Plan-1a2b3c4d5e6f and show its properties",
+     "shared": "the notion page https www notion so acme"
+    },
+    {
+     "tool_id": "quickbooks.get_profit_and_loss",
+     "request": "how much did we bring in versus spend this year so far?",
+     "shared": "how much did we bring in versus spend"
+    },
+    {
+     "tool_id": "quickbooks.get_profit_and_loss",
+     "request": "Run the QuickBooks profit and loss report for Q3 2026.",
+     "shared": "run the quickbooks profit and loss report for"
+    },
+    {
+     "tool_id": "stability_ai.remove_background",
+     "request": "Use Stability AI to remove the background from product_shot.png.",
+     "shared": "remove the background from product shot png"
+    },
+    {
+     "tool_id": "ms365_pim.create_todo_task",
+     "request": "Create a Microsoft To Do task 'Submit expense report' in my 'Work' list due Oct 9 with high importance",
+     "shared": "create a microsoft to do task submit expense"
+    }
+   ]
+  }
+ }
+}

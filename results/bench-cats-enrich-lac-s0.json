@@ -1,0 +1,103 @@
+{
+ "registry": {
+  "branches": 12,
+  "toolkits": 70,
+  "tools": 477,
+  "tool_tokens": 96774,
+  "tokenizer": "hf:tokenizer.json"
+ },
+ "embedder": "wordllama:l2_supercat",
+ "calibration": {
+  "n": 191,
+  "n_branch": 96,
+  "n_tool": 95,
+  "branch_threshold": 0.999887373544122,
+  "lambda": 0.0,
+  "tool_target_feasible": false,
+  "min_achievable_alpha_tool": 0.0625,
+  "alpha_branch": 0.03,
+  "alpha_tool": 0.05,
+  "method": "lac",
+  "k_max": 10,
+  "k_min": 1,
+  "t_low": 0.0,
+  "max_branches": null,
+  "budget": 8000,
+  "order": "canonical",
+  "reranker": "logreg",
+  "calibration": "joint",
+  "k_escalation": 5,
+  "bypass_tokens": 0,
+  "llm_router": null,
+  "decompose": true,
+  "k_per_extra_part": 3,
+  "dedupe": true,
+  "split_calibration": true,
+  "jev": null,
+  "jev_cascade": true,
+  "jev_gate_tau": 0.9,
+  "jev_steps": true,
+  "jev_repair": 0.5,
+  "jev_repair_k": 2
+ },
+ "summaries": [
+  {
+   "strategy": "CATS",
+   "n": 386,
+   "slot_recall": 0.9559585492227979,
+   "slot_recall_ci": [
+    0.9378238341968912,
+    0.9723661485319517
+   ],
+   "full_cover": 0.9300518134715026,
+   "full_cover_ci": [
+    0.9041450777202072,
+    0.9533678756476683
+   ],
+   "precision": 0.12935681546432842,
+   "k_mean": 10.637305699481866,
+   "tool_tokens": 2258.5751295336786,
+   "token_pct_static": 2.333865634916071,
+   "router_tokens": 0.0,
+   "router_call_rate": 0.0,
+   "latency_p50_ms": 19.765593000101944,
+   "latency_p95_ms": 67.99754650000978,
+   "branch_cover": 0.9870466321243523,
+   "branches_mean": 3.577720207253886,
+   "fallback_rate": 0.0,
+   "by_kind": {
+    "contextual": {
+     "n": 60,
+     "slot_recall": 0.9833333333333333,
+     "full_cover": 0.9833333333333333,
+     "k_mean": 10.2
+    },
+    "cross": {
+     "n": 50,
+     "slot_recall": 0.9,
+     "full_cover": 0.78,
+     "k_mean": 11.92
+    },
+    "literal": {
+     "n": 84,
+     "slot_recall": 1.0,
+     "full_cover": 1.0,
+     "k_mean": 10.0
+    },
+    "multi": {
+     "n": 60,
+     "slot_recall": 0.9333333333333333,
+     "full_cover": 0.8666666666666667,
+     "k_mean": 12.0
+    },
+    "paraphrase": {
+     "n": 132,
+     "slot_recall": 0.946969696969697,
+     "full_cover": 0.946969696969697,
+     "k_mean": 10.136363636363637
+    }
+   }
+  }
+ ],
+ "paired_full_cover_vs_cats": {}
+}

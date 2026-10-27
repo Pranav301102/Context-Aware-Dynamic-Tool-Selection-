@@ -1,0 +1,245 @@
+{
+ "schema_version": 1,
+ "name": "bench-cats-enrich-lac-s0",
+ "experiment": "bench",
+ "status": "ok",
+ "error": null,
+ "created_at": "2026-10-06T21:38:48+00:00",
+ "finished_at": "2026-10-06T21:39:24+00:00",
+ "duration_s": 35.315,
+ "seed": 0,
+ "config": {
+  "hydra": {
+   "strategy": {
+    "name": "cats",
+    "baselines": [
+     "CATS"
+    ],
+    "k": 5,
+    "cats": {
+     "k_max": 10,
+     "k_min": 1,
+     "k_per_extra_part": 3,
+     "decompose": true,
+     "dedupe": true,
+     "reranker": "logreg",
+     "budget": 8000,
+     "order": "canonical",
+     "bypass_tokens": 0
+    }
+   },
+   "data": {
+    "enrich": true,
+    "enrich_dir": "data/enrichment",
+    "jev": false,
+    "jev_dir": "runs/jev",
+    "llm_router": false,
+    "llm_router_dir": "runs/llm_router",
+    "embedder": null,
+    "corpus_dir": null,
+    "tasks_dir": null
+   },
+   "calibration": {
+    "method": "lac",
+    "alpha_branch": 0.03,
+    "alpha_tool": 0.05,
+    "mode": "joint",
+    "split": true
+   },
+   "experiment": {
+    "kind": "bench"
+   },
+   "seed": 0,
+   "name": null,
+   "results_dir": null,
+   "manifest": true,
+   "metrics": {
+    "enabled": true,
+    "root": null
+   }
+  },
+  "cats": {
+   "alpha_branch": 0.03,
+   "alpha_tool": 0.05,
+   "method": "lac",
+   "k_max": 10,
+   "k_min": 1,
+   "t_low": 0.0,
+   "max_branches": null,
+   "budget": 8000,
+   "order": "canonical",
+   "reranker": "logreg",
+   "calibration": "joint",
+   "k_escalation": 5,
+   "bypass_tokens": 0,
+   "llm_router": null,
+   "decompose": true,
+   "k_per_extra_part": 3,
+   "dedupe": true,
+   "split_calibration": true,
+   "jev": null,
+   "jev_cascade": true,
+   "jev_gate_tau": 0.9,
+   "jev_steps": true,
+   "jev_repair": 0.5,
+   "jev_repair_k": 2
+  }
+ },
+ "git": {
+  "available": true,
+  "rev": "011471f45158cc2b5be7f4eb7dbd326949a67db4",
+  "short": "011471f45158",
+  "branch": "claude/vigilant-fermat-fl0jiy",
+  "source": "git rev-parse"
+ },
+ "python": {
+  "version": "3.13.16",
+  "implementation": "CPython",
+  "executable": "/usr/bin/python3"
+ },
+ "platform": {
+  "system": "Linux",
+  "release": "6.18.44-fc-v70",
+  "machine": "x86_64",
+  "cpu_count": 4
+ },
+ "packages": {
+  "cats": "0.1.0",
+  "numpy": "2.5.3",
+  "scipy": "1.18.1",
+  "scikit-learn": "1.9.1",
+  "pydantic": "2.13.5",
+  "tokenizers": "0.23.2",
+  "tiktoken": "0.14.0",
+  "wordllama": "0.4.0.post1",
+  "sentence-transformers": null,
+  "anthropic": null,
+  "httpx": "0.28.1",
+  "mcp": "2.2.0",
+  "fastapi": "0.142.2",
+  "uvicorn": "0.53.0",
+  "opentelemetry-sdk": "1.45.1",
+  "langfuse": "4.17.0",
+  "pyarrow": "25.0.1",
+  "hydra-core": "1.3.7",
+  "omegaconf": "2.3.1",
+  "psycopg": "3.3.6",
+  "qdrant-client": "1.19.1",
+  "faiss-cpu": "1.15.1",
+  "langgraph": "1.2.14"
+ },
+ "tokenizer": "hf:tokenizer.json",
+ "embedder": "wordllama:l2_supercat",
+ "models": {},
+ "data": {
+  "data/corpus/cloud_ops.json": "6838bd9b6eea7021ed92bf71e38e8a00e97247605a5abd370cb572f8f6987d16",
+  "data/corpus/code_exec.json": "39e04f2ed38a186f06b5ebd9d59c2c85add027993b1c4f7d5165057fd3cf9b47",
+  "data/corpus/communication.json": "baa13b83a6dd72ca806199d2e1eecd47d36fa8aabba1a2067e9522273d5330f4",
+  "data/corpus/crm_commerce.json": "617acc6c7a4b2e164eb1fee412caa36d8fc7c675dc25ec0d852ede239c141694",
+  "data/corpus/database.json": "f29181bdde4f339fda26ccb0eac7c942d7462972684a8f5a9e7f006e357869fe",
+  "data/corpus/dev_platform.json": "18b68361f801a1d8e9a6b8b2ad52cdd8c8f56585dcdf026ac30bcd797f8f5216",
+  "data/corpus/files_docs.json": "864c54be87045c0279c651fe38d76aebfcd22396d9d8be17d3dfbde29c3b84fb",
+  "data/corpus/finance.json": "f7ccaa22908941ae37624eb425bdce16d565da54a18e9bdc5fdb832cb3c492d9",
+  "data/corpus/media.json": "2fea7e013ad049a7b5b2f38c6495469f8453cf6a57dceccc57209ada6b85bada",
+  "data/corpus/productivity.json": "fc88e9dcff3b1710cdf27fb60b292b839f61d62c653497fba65fde5f6224abd0",
+  "data/corpus/search.json": "1888ccac51509c82910819153ca61de5dbca5d6e7cd94219e5c81e8fc70367c6",
+  "data/corpus/travel_geo.json": "7d4fb2349671d453bd514668bd2a6c7bc632a1faad3729109f0d651e3fd901b2",
+  "data/enrichment/cloud_ops.json": "77b8a55a982bd154e6f663ab7677dbdb6425115e8bd244da98131cd9391aaae1",
+  "data/enrichment/code_exec.json": "5712b680f99db804353d625205287ee596207231b0ee5dc7553d6cc9d88453ac",
+  "data/enrichment/communication.json": "a21eb0a94d2248329883a77eb69202a2ee79c5fc05f17d163ece8228620b9c2b",
+  "data/enrichment/crm_commerce.json": "95ab1238d01ae2a1ae85154e112ccb3c9ff86fe9739364b8e72b3d8062d25979",
+  "data/enrichment/database.json": "641b4e3dc25ad42b7a08f50706dd69a023b496f3eb7582eb91a4f62a0dcad8de",
+  "data/enrichment/dev_platform.json": "a7cc56f5c570057ae635231da1f649b29fac00140de3b5be4aeaf5f68501843b",
+  "data/enrichment/files_docs.json": "e6f924a67b9f7f0e662fe6a85cc75977c55783a6c7096a1fa0c4606b4bd11696",
+  "data/enrichment/finance.json": "8e7b235acadd60494d253b49904b69be3f242c32591ce20f5ab043461309361c",
+  "data/enrichment/media.json": "303e14fc53e8fca00ab3f23221708a0b06ab3d40e65930ec2a8b0a79a79f744a",
+  "data/enrichment/productivity.json": "bd68e4e514e5da9c21834d3d74cdad04a6740ad6cc70e04b9bd99f6a87a51ad1",
+  "data/enrichment/search.json": "27765d66a939a8d9226a55d102ffb7cad1bf6c233b383caf14b2ecc3bb4c88ca",
+  "data/enrichment/travel_geo.json": "596d77e49703a6e11903dfb7f56978d236ab573c266ca6b9f9a097ef383f4cce",
+  "data/tasks/cloud_ops.jsonl": "f42d737dc99391f916049d507541a62f41eef6062172e55b9326a4ab2797e21a",
+  "data/tasks/code_exec.jsonl": "14a3c4a164a4baf88950ebdea8b2e1ae6df78413a20f502ab8ef037ed9bfb25b",
+  "data/tasks/communication.jsonl": "b27268c3a49f049e85d6476cc27dbf3a2f00f05ddbf4a40792b4a5a0e3dffb3c",
+  "data/tasks/crm_commerce.jsonl": "feac59dd54b1cfa0907204aa0d5d96e0624e7cbb4e756abdd92831ca2b0dd54c",
+  "data/tasks/cross.jsonl": "6a0a2eda8d7bc9a3f6dc6b39076ce4ddafbe1b7bb2ac5d334c7065509e62bd62",
+  "data/tasks/database.jsonl": "a7e8ff24b430f11dcf1a49f7c89063df882744149020ea534912fb0ddd9206ee",
+  "data/tasks/dev_platform.jsonl": "492469d5dbf78ad5a7c0f51be1b38409a251b2898672ced982146ef917f150dc",
+  "data/tasks/files_docs.jsonl": "adc51446c59abb0e947e55f827924782bc58c68a29b296c36d213a5149f7e875",
+  "data/tasks/finance.jsonl": "863a826dba12f100554c70e812c91a05df702097cf8946c69e8c6dca04dfc8f4",
+  "data/tasks/media.jsonl": "a782dbba0b846420b4e8ad20956827519242f8ceba7b9de2cda3777bfe08bd4b",
+  "data/tasks/productivity.jsonl": "d1a0eb3e0755e5fc6d7b0bfe2af358d603fdc46ea2ff98aa062aa68f8a1eefac",
+  "data/tasks/search.jsonl": "17f84445c6f610b5709432a4344c14f6a16a4db8921933a9d595c798c7348db9",
+  "data/tasks/travel_geo.jsonl": "6ff94a261519feacb9282a677aa84f9a15d732637d11189cac77b0e1f899b351"
+ },
+ "data_digest": "f7b482d47056cf8c1be167d5acfa5b39b2123ef38d33c4d91ef37bdaa2885245",
+ "outputs": {
+  "results/bench-cats-enrich-lac-s0.json": "4954c4e0a395fd3d61ca0704845ec6ac090312d1939d426f438ba9e0df840bfe",
+  "results/parquet/records/20261006T213924-bench-cats-enrich-lac-s0-079490.parquet": "b2ab3e82c7bd037c344c1e26314618f82d2fc6ee28063ccb248a5ad3d314499d"
+ },
+ "system": {
+  "registry": {
+   "branches": 12,
+   "toolkits": 70,
+   "tools": 477,
+   "tool_tokens": 96774,
+   "tokenizer": "hf:tokenizer.json"
+  },
+  "registry_version": 70,
+  "embedder": "wordllama:l2_supercat",
+  "split": {
+   "train": 383,
+   "calib": 191,
+   "test": 386
+  },
+  "calibration": {
+   "n": 191,
+   "n_branch": 96,
+   "n_tool": 95,
+   "branch_threshold": 0.999887373544122,
+   "lambda": 0.0,
+   "tool_target_feasible": false,
+   "min_achievable_alpha_tool": 0.0625,
+   "alpha_branch": 0.03,
+   "alpha_tool": 0.05,
+   "method": "lac",
+   "k_max": 10,
+   "k_min": 1,
+   "t_low": 0.0,
+   "max_branches": null,
+   "budget": 8000,
+   "order": "canonical",
+   "reranker": "logreg",
+   "calibration": "joint",
+   "k_escalation": 5,
+   "bypass_tokens": 0,
+   "llm_router": null,
+   "decompose": true,
+   "k_per_extra_part": 3,
+   "dedupe": true,
+   "split_calibration": true,
+   "jev": null,
+   "jev_cascade": true,
+   "jev_gate_tau": 0.9,
+   "jev_steps": true,
+   "jev_repair": 0.5,
+   "jev_repair_k": 2
+  }
+ },
+ "command": [
+  "/home/user/Context-Aware-Dynamic-Tool-Selection-/src/cats/runner.py",
+  "experiment=bench",
+  "strategy=cats",
+  "data.enrich=true"
+ ],
+ "cwd": "/home/user/Context-Aware-Dynamic-Tool-Selection-",
+ "env": {},
+ "notes": {
+  "hydra_output_dir": "/home/user/Context-Aware-Dynamic-Tool-Selection-/results/hydra/runs/2026-10-06_21-38-48",
+  "hydra_mode": "RunMode.RUN",
+  "hydra_overrides": [
+   "experiment=bench",
+   "strategy=cats",
+   "data.enrich=true"
+  ],
+  "hydra_job_num": null
+ }
+}

@@ -1,0 +1,83 @@
+{
+ "config": {
+  "alpha_branch": 0.03,
+  "alpha_tool": 0.05,
+  "method": "lac",
+  "k_max": 10,
+  "k_min": 1,
+  "t_low": 0.0,
+  "max_branches": null,
+  "budget": 8000,
+  "order": "canonical",
+  "reranker": "logreg",
+  "calibration": "independent",
+  "k_escalation": 5,
+  "bypass_tokens": 0,
+  "llm_router": null,
+  "decompose": true,
+  "k_per_extra_part": 3,
+  "dedupe": true,
+  "split_calibration": true
+ },
+ "rows": [
+  {
+   "seed": 0,
+   "branch_cover": 0.9870466321243523,
+   "slot_miss": 0.04620034542314344,
+   "full_cover": 0.9300518134715026,
+   "k_mean": 8.080310880829016,
+   "branches_mean": 3.577720207253886,
+   "token_pct_static": 1.768473226065623,
+   "lambda": 0.015075376884422065,
+   "t_branch": 0.9998873735581197
+  },
+  {
+   "seed": 1,
+   "branch_cover": 0.9715025906735751,
+   "slot_miss": 0.0893782383419689,
+   "full_cover": 0.8730569948186528,
+   "k_mean": 4.246113989637306,
+   "branches_mean": 2.1917098445595853,
+   "token_pct_static": 0.9595750625007295,
+   "lambda": 0.07035175879396982,
+   "t_branch": 0.9976320654350125
+  },
+  {
+   "seed": 2,
+   "branch_cover": 0.9792746113989638,
+   "slot_miss": 0.06303972366148547,
+   "full_cover": 0.9119170984455959,
+   "k_mean": 5.05699481865285,
+   "branches_mean": 2.1139896373056994,
+   "token_pct_static": 1.0900430263727539,
+   "lambda": 0.06030150753768848,
+   "t_branch": 0.9971119281391785
+  },
+  {
+   "seed": 3,
+   "branch_cover": 0.9922279792746114,
+   "slot_miss": 0.1113989637305699,
+   "full_cover": 0.844559585492228,
+   "k_mean": 3.7072538860103625,
+   "branches_mean": 2.639896373056995,
+   "token_pct_static": 0.7826391300450994,
+   "lambda": 0.085427135678392,
+   "t_branch": 0.9995462345575223
+  },
+  {
+   "seed": 4,
+   "branch_cover": 0.9896373056994818,
+   "slot_miss": 0.06260794473229692,
+   "full_cover": 0.9145077720207254,
+   "k_mean": 5.3264248704663215,
+   "branches_mean": 3.7487046632124352,
+   "token_pct_static": 1.1595388475751045,
+   "lambda": 0.045226130653266305,
+   "t_branch": 0.9995609286892435
+  }
+ ],
+ "branch_cover_mean": 0.9839378238341968,
+ "branch_target": 0.97,
+ "slot_miss_mean": 0.07452504317789292,
+ "slot_miss_target": 0.05
+}

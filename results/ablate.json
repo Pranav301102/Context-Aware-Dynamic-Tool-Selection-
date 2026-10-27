@@ -1,0 +1,538 @@
+[
+ {
+  "strategy": "CATS (aps, joint)",
+  "n": 336,
+  "slot_recall": 0.8392857142857143,
+  "slot_recall_ci": [
+   0.802046130952381,
+   0.8764880952380952
+  ],
+  "full_cover": 0.8244047619047619,
+  "full_cover_ci": [
+   0.7827380952380952,
+   0.8630952380952381
+  ],
+  "precision": 0.10803571428571428,
+  "k_mean": 10.0,
+  "tool_tokens": 2224.5863095238096,
+  "token_pct_static": 2.298743783995505,
+  "latency_p50_ms": 2.189973499980624,
+  "latency_p95_ms": 3.054506499836407,
+  "branch_cover": 1.0,
+  "branches_mean": 9.455357142857142,
+  "fallback_rate": 0.0,
+  "by_kind": {
+   "contextual": {
+    "n": 60,
+    "slot_recall": 0.8833333333333333,
+    "full_cover": 0.8833333333333333,
+    "k_mean": 10.0
+   },
+   "literal": {
+    "n": 84,
+    "slot_recall": 1.0,
+    "full_cover": 1.0,
+    "k_mean": 10.0
+   },
+   "multi": {
+    "n": 60,
+    "slot_recall": 0.9,
+    "full_cover": 0.8166666666666667,
+    "k_mean": 10.0
+   },
+   "paraphrase": {
+    "n": 132,
+    "slot_recall": 0.6893939393939394,
+    "full_cover": 0.6893939393939394,
+    "k_mean": 10.0
+   }
+  },
+  "calibration": {
+   "n": 168,
+   "branch_threshold": 0.9999033178038695,
+   "lambda": 0.0,
+   "alpha_branch": 0.03,
+   "alpha_tool": 0.05,
+   "method": "aps",
+   "k_max": 10,
+   "k_min": 1,
+   "t_low": 0.0,
+   "max_branches": null,
+   "budget": 8000,
+   "order": "canonical",
+   "reranker": "logreg",
+   "calibration": "joint",
+   "k_escalation": 5,
+   "bypass_tokens": 0
+  }
+ },
+ {
+  "strategy": "CATS lac",
+  "n": 336,
+  "slot_recall": 0.8422619047619048,
+  "slot_recall_ci": [
+   0.8050223214285714,
+   0.8794642857142857
+  ],
+  "full_cover": 0.8273809523809523,
+  "full_cover_ci": [
+   0.7857142857142857,
+   0.8690476190476191
+  ],
+  "precision": 0.10892857142857143,
+  "k_mean": 10.0,
+  "tool_tokens": 2230.4583333333335,
+  "token_pct_static": 2.3048115540675527,
+  "latency_p50_ms": 2.019647499992061,
+  "latency_p95_ms": 3.477121499884106,
+  "branch_cover": 0.9910714285714286,
+  "branches_mean": 3.6011904761904763,
+  "fallback_rate": 0.0,
+  "by_kind": {
+   "contextual": {
+    "n": 60,
+    "slot_recall": 0.8833333333333333,
+    "full_cover": 0.8833333333333333,
+    "k_mean": 10.0
+   },
+   "literal": {
+    "n": 84,
+    "slot_recall": 1.0,
+    "full_cover": 1.0,
+    "k_mean": 10.0
+   },
+   "multi": {
+    "n": 60,
+    "slot_recall": 0.9166666666666666,
+    "full_cover": 0.8333333333333334,
+    "k_mean": 10.0
+   },
+   "paraphrase": {
+    "n": 132,
+    "slot_recall": 0.6893939393939394,
+    "full_cover": 0.6893939393939394,
+    "k_mean": 10.0
+   }
+  },
+  "calibration": {
+   "n": 168,
+   "branch_threshold": 0.9949897103139994,
+   "lambda": 0.0,
+   "alpha_branch": 0.03,
+   "alpha_tool": 0.05,
+   "method": "lac",
+   "k_max": 10,
+   "k_min": 1,
+   "t_low": 0.0,
+   "max_branches": null,
+   "budget": 8000,
+   "order": "canonical",
+   "reranker": "logreg",
+   "calibration": "joint",
+   "k_escalation": 5,
+   "bypass_tokens": 0
+  }
+ },
+ {
+  "strategy": "CATS independent-calib",
+  "n": 336,
+  "slot_recall": 0.8392857142857143,
+  "slot_recall_ci": [
+   0.802046130952381,
+   0.8764880952380952
+  ],
+  "full_cover": 0.8244047619047619,
+  "full_cover_ci": [
+   0.7827380952380952,
+   0.8630952380952381
+  ],
+  "precision": 0.10803571428571428,
+  "k_mean": 10.0,
+  "tool_tokens": 2224.5863095238096,
+  "token_pct_static": 2.298743783995505,
+  "latency_p50_ms": 2.2713480000220443,
+  "latency_p95_ms": 3.1659530001206804,
+  "branch_cover": 1.0,
+  "branches_mean": 9.455357142857142,
+  "fallback_rate": 0.0,
+  "by_kind": {
+   "contextual": {
+    "n": 60,
+    "slot_recall": 0.8833333333333333,
+    "full_cover": 0.8833333333333333,
+    "k_mean": 10.0
+   },
+   "literal": {
+    "n": 84,
+    "slot_recall": 1.0,
+    "full_cover": 1.0,
+    "k_mean": 10.0
+   },
+   "multi": {
+    "n": 60,
+    "slot_recall": 0.9,
+    "full_cover": 0.8166666666666667,
+    "k_mean": 10.0
+   },
+   "paraphrase": {
+    "n": 132,
+    "slot_recall": 0.6893939393939394,
+    "full_cover": 0.6893939393939394,
+    "k_mean": 10.0
+   }
+  },
+  "calibration": {
+   "n": 168,
+   "branch_threshold": 0.9999033178038695,
+   "lambda": 0.0,
+   "alpha_branch": 0.03,
+   "alpha_tool": 0.05,
+   "method": "aps",
+   "k_max": 10,
+   "k_min": 1,
+   "t_low": 0.0,
+   "max_branches": null,
+   "budget": 8000,
+   "order": "canonical",
+   "reranker": "logreg",
+   "calibration": "independent",
+   "k_escalation": 5,
+   "bypass_tokens": 0
+  }
+ },
+ {
+  "strategy": "CATS gbt-reranker",
+  "n": 336,
+  "slot_recall": 0.7872023809523809,
+  "slot_recall_ci": [
+   0.7440476190476191,
+   0.8274181547619045
+  ],
+  "full_cover": 0.7708333333333334,
+  "full_cover_ci": [
+   0.7261904761904762,
+   0.8125
+  ],
+  "precision": 0.10089285714285716,
+  "k_mean": 10.0,
+  "tool_tokens": 2239.6458333333335,
+  "token_pct_static": 2.3143053230550907,
+  "latency_p50_ms": 3.0295210000303996,
+  "latency_p95_ms": 4.45079124995118,
+  "branch_cover": 1.0,
+  "branches_mean": 9.455357142857142,
+  "fallback_rate": 0.0,
+  "by_kind": {
+   "contextual": {
+    "n": 60,
+    "slot_recall": 0.8166666666666667,
+    "full_cover": 0.8166666666666667,
+    "k_mean": 10.0
+   },
+   "literal": {
+    "n": 84,
+    "slot_recall": 1.0,
+    "full_cover": 1.0,
+    "k_mean": 10.0
+   },
+   "multi": {
+    "n": 60,
+    "slot_recall": 0.8583333333333333,
+    "full_cover": 0.7666666666666667,
+    "k_mean": 10.0
+   },
+   "paraphrase": {
+    "n": 132,
+    "slot_recall": 0.6060606060606061,
+    "full_cover": 0.6060606060606061,
+    "k_mean": 10.0
+   }
+  },
+  "calibration": {
+   "n": 168,
+   "branch_threshold": 0.9999033178038695,
+   "lambda": 0.0,
+   "alpha_branch": 0.03,
+   "alpha_tool": 0.05,
+   "method": "aps",
+   "k_max": 10,
+   "k_min": 1,
+   "t_low": 0.0,
+   "max_branches": null,
+   "budget": 8000,
+   "order": "canonical",
+   "reranker": "gbt",
+   "calibration": "joint",
+   "k_escalation": 5,
+   "bypass_tokens": 0
+  }
+ },
+ {
+  "strategy": "CATS k_max=5",
+  "n": 336,
+  "slot_recall": 0.7624007936507937,
+  "slot_recall_ci": [
+   0.7182415674603174,
+   0.8060515873015874
+  ],
+  "full_cover": 0.7321428571428571,
+  "full_cover_ci": [
+   0.6845238095238095,
+   0.7797619047619048
+  ],
+  "precision": 0.19166666666666665,
+  "k_mean": 5.0,
+  "tool_tokens": 1063.4940476190477,
+  "token_pct_static": 1.0989460470984433,
+  "latency_p50_ms": 2.102568999930554,
+  "latency_p95_ms": 2.9195772501111605,
+  "branch_cover": 1.0,
+  "branches_mean": 9.455357142857142,
+  "fallback_rate": 0.0,
+  "by_kind": {
+   "contextual": {
+    "n": 60,
+    "slot_recall": 0.8166666666666667,
+    "full_cover": 0.8166666666666667,
+    "k_mean": 5.0
+   },
+   "literal": {
+    "n": 84,
+    "slot_recall": 1.0,
+    "full_cover": 1.0,
+    "k_mean": 5.0
+   },
+   "multi": {
+    "n": 60,
+    "slot_recall": 0.8027777777777778,
+    "full_cover": 0.6333333333333333,
+    "k_mean": 5.0
+   },
+   "paraphrase": {
+    "n": 132,
+    "slot_recall": 0.5681818181818182,
+    "full_cover": 0.5681818181818182,
+    "k_mean": 5.0
+   }
+  },
+  "calibration": {
+   "n": 168,
+   "branch_threshold": 0.9999033178038695,
+   "lambda": 0.0,
+   "alpha_branch": 0.03,
+   "alpha_tool": 0.05,
+   "method": "aps",
+   "k_max": 5,
+   "k_min": 1,
+   "t_low": 0.0,
+   "max_branches": null,
+   "budget": 8000,
+   "order": "canonical",
+   "reranker": "logreg",
+   "calibration": "joint",
+   "k_escalation": 5,
+   "bypass_tokens": 0
+  }
+ },
+ {
+  "strategy": "CATS k_max=20",
+  "n": 336,
+  "slot_recall": 0.8883928571428571,
+  "slot_recall_ci": [
+   0.8556547619047619,
+   0.9211309523809523
+  ],
+  "full_cover": 0.875,
+  "full_cover_ci": [
+   0.8392857142857143,
+   0.9107142857142857
+  ],
+  "precision": 0.05808823529411764,
+  "k_mean": 19.991071428571427,
+  "tool_tokens": 4573.821428571428,
+  "token_pct_static": 4.726291595440333,
+  "latency_p50_ms": 2.8163819999917905,
+  "latency_p95_ms": 3.8808162499890386,
+  "branch_cover": 1.0,
+  "branches_mean": 9.455357142857142,
+  "fallback_rate": 0.0,
+  "by_kind": {
+   "contextual": {
+    "n": 60,
+    "slot_recall": 0.95,
+    "full_cover": 0.95,
+    "k_mean": 19.95
+   },
+   "literal": {
+    "n": 84,
+    "slot_recall": 1.0,
+    "full_cover": 1.0,
+    "k_mean": 20.0
+   },
+   "multi": {
+    "n": 60,
+    "slot_recall": 0.925,
+    "full_cover": 0.85,
+    "k_mean": 20.0
+   },
+   "paraphrase": {
+    "n": 132,
+    "slot_recall": 0.7727272727272727,
+    "full_cover": 0.7727272727272727,
+    "k_mean": 20.0
+   }
+  },
+  "calibration": {
+   "n": 168,
+   "branch_threshold": 0.9999033178038695,
+   "lambda": 0.0,
+   "alpha_branch": 0.03,
+   "alpha_tool": 0.05,
+   "method": "aps",
+   "k_max": 20,
+   "k_min": 1,
+   "t_low": 0.0,
+   "max_branches": null,
+   "budget": 8000,
+   "order": "canonical",
+   "reranker": "logreg",
+   "calibration": "joint",
+   "k_escalation": 5,
+   "bypass_tokens": 0
+  }
+ },
+ {
+  "strategy": "CATS alpha_tool=0.10",
+  "n": 336,
+  "slot_recall": 0.8392857142857143,
+  "slot_recall_ci": [
+   0.802046130952381,
+   0.8764880952380952
+  ],
+  "full_cover": 0.8244047619047619,
+  "full_cover_ci": [
+   0.7827380952380952,
+   0.8630952380952381
+  ],
+  "precision": 0.10803571428571428,
+  "k_mean": 10.0,
+  "tool_tokens": 2224.5863095238096,
+  "token_pct_static": 2.298743783995505,
+  "latency_p50_ms": 2.341091000062079,
+  "latency_p95_ms": 3.6125167499676536,
+  "branch_cover": 1.0,
+  "branches_mean": 9.455357142857142,
+  "fallback_rate": 0.0,
+  "by_kind": {
+   "contextual": {
+    "n": 60,
+    "slot_recall": 0.8833333333333333,
+    "full_cover": 0.8833333333333333,
+    "k_mean": 10.0
+   },
+   "literal": {
+    "n": 84,
+    "slot_recall": 1.0,
+    "full_cover": 1.0,
+    "k_mean": 10.0
+   },
+   "multi": {
+    "n": 60,
+    "slot_recall": 0.9,
+    "full_cover": 0.8166666666666667,
+    "k_mean": 10.0
+   },
+   "paraphrase": {
+    "n": 132,
+    "slot_recall": 0.6893939393939394,
+    "full_cover": 0.6893939393939394,
+    "k_mean": 10.0
+   }
+  },
+  "calibration": {
+   "n": 168,
+   "branch_threshold": 0.9999033178038695,
+   "lambda": 0.0,
+   "alpha_branch": 0.03,
+   "alpha_tool": 0.1,
+   "method": "aps",
+   "k_max": 10,
+   "k_min": 1,
+   "t_low": 0.0,
+   "max_branches": null,
+   "budget": 8000,
+   "order": "canonical",
+   "reranker": "logreg",
+   "calibration": "joint",
+   "k_escalation": 5,
+   "bypass_tokens": 0
+  }
+ },
+ {
+  "strategy": "CATS alpha_tool=0.20",
+  "n": 336,
+  "slot_recall": 0.7693452380952381,
+  "slot_recall_ci": [
+   0.7261904761904762,
+   0.8110119047619048
+  ],
+  "full_cover": 0.7440476190476191,
+  "full_cover_ci": [
+   0.6964285714285714,
+   0.7886904761904762
+  ],
+  "precision": 0.2319798752834467,
+  "k_mean": 5.3601190476190474,
+  "tool_tokens": 1148.8690476190477,
+  "token_pct_static": 1.1871670568737962,
+  "latency_p50_ms": 2.680201999964993,
+  "latency_p95_ms": 3.629757249996146,
+  "branch_cover": 1.0,
+  "branches_mean": 9.455357142857142,
+  "fallback_rate": 0.0,
+  "by_kind": {
+   "contextual": {
+    "n": 60,
+    "slot_recall": 0.8166666666666667,
+    "full_cover": 0.8166666666666667,
+    "k_mean": 5.633333333333334
+   },
+   "literal": {
+    "n": 84,
+    "slot_recall": 1.0,
+    "full_cover": 1.0,
+    "k_mean": 4.476190476190476
+   },
+   "multi": {
+    "n": 60,
+    "slot_recall": 0.825,
+    "full_cover": 0.6833333333333333,
+    "k_mean": 6.283333333333333
+   },
+   "paraphrase": {
+    "n": 132,
+    "slot_recall": 0.5757575757575758,
+    "full_cover": 0.5757575757575758,
+    "k_mean": 5.378787878787879
+   }
+  },
+  "calibration": {
+   "n": 168,
+   "branch_threshold": 0.9999033178038695,
+   "lambda": 0.04020100502512558,
+   "alpha_branch": 0.03,
+   "alpha_tool": 0.2,
+   "method": "aps",
+   "k_max": 10,
+   "k_min": 1,
+   "t_low": 0.0,
+   "max_branches": null,
+   "budget": 8000,
+   "order": "canonical",
+   "reranker": "logreg",
+   "calibration": "joint",
+   "k_escalation": 5,
+   "bypass_tokens": 0
+  }
+ }
+]
